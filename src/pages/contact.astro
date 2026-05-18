@@ -11,7 +11,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <!-- Colonne gauche : infos -->
       <div>
-        <!-- Image atmosphérique — arrosage en serre -->
         <div class="w-full aspect-[4/3] overflow-hidden mb-10" data-reveal>
           <img
             src="/images/arrosage-serre.jpg"
@@ -59,18 +58,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <!-- Colonne droite : formulaire -->
       <div class="bg-cream-dark p-8 md:p-10" data-reveal data-delay="1">
-        <form name="contact" method="POST" class="space-y-6">
+
+        <!-- État succès (masqué par défaut) -->
+        <div id="form-success" class="hidden text-center py-10">
+          <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-6">
+            <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+            </svg>
+          </div>
+          <h2 class="font-display text-2xl font-light text-brun mb-3">Message envoyé !</h2>
+          <p class="font-body text-sm text-brun-mid leading-relaxed">
+            Merci pour votre message. Je vous réponds personnellement sous 48h.
+          </p>
+        </div>
+
+        <!-- Formulaire -->
+        <form id="contact-form" class="space-y-6" novalidate>
 
           <!-- Type de demande — dropdown custom -->
           <div>
             <label class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
-              Je souhaite…
+              Je souhaite… <span class="text-ocre">*</span>
             </label>
             <div id="type-dropdown" class="relative">
-              <!-- Champ caché pour la valeur soumise -->
-              <input type="hidden" name="type" id="type-value" required />
-
-              <!-- Bouton principal -->
+              <input type="hidden" name="type" id="type-value" />
               <button
                 type="button"
                 id="type-trigger"
@@ -83,8 +94,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                 </svg>
               </button>
-
-              <!-- Liste déroulante -->
               <ul
                 id="type-list"
                 role="listbox"
@@ -107,55 +116,75 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
           </div>
 
+          <!-- Prénom -->
           <div>
             <label for="prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
-              Prénom
+              Prénom <span class="text-ocre">*</span>
             </label>
             <input
               type="text"
               id="prenom"
               name="prenom"
-              required
               autocomplete="given-name"
               placeholder="Votre prénom"
               class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200"
             />
           </div>
 
+          <!-- Nom de l'entreprise -->
+          <div>
+            <label for="societe" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
+              Nom de votre entreprise
+            </label>
+            <input
+              type="text"
+              id="societe"
+              name="societe"
+              autocomplete="organization"
+              placeholder="Menuiserie Martin, Ferme des Collines…"
+              class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200"
+            />
+          </div>
+
+          <!-- Email -->
           <div>
             <label for="email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
-              Email
+              Email <span class="text-ocre">*</span>
             </label>
             <input
               type="email"
               id="email"
               name="email"
-              required
               autocomplete="email"
               placeholder="votre@email.com"
               class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200"
             />
           </div>
 
+          <!-- Description du projet -->
           <div>
             <label for="projet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
-              Votre projet
+              Décrivez votre projet <span class="text-ocre">*</span>
             </label>
             <textarea
               id="projet"
               name="projet"
-              required
               rows="6"
-              placeholder="Décrivez votre activité, ce que vous cherchez, vos contraintes de budget ou de délai… Rien n'est trop petit pour en parler."
+              placeholder="Votre activité, ce que vous cherchez, vos contraintes de budget ou de délai… Plus c'est précis, mieux je peux vous répondre."
               class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"
             ></textarea>
           </div>
 
+          <!-- Message d'erreur -->
+          <p id="form-error" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
+
+          <!-- Bouton envoi -->
           <button
             type="submit"
-            class="w-full bg-brun text-cream font-body font-medium text-sm py-4 hover:bg-ocre transition-colors duration-200 cursor-pointer"
+            id="submit-btn"
+            class="w-full bg-brun text-cream font-body font-medium text-sm py-4 hover:bg-ocre transition-colors duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Envoyer →
+            <span id="submit-label">Envoyer →</span>
           </button>
 
           <p class="font-body text-xs text-brun-mid/55 text-center">
@@ -168,24 +197,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </section>
 
 <script>
-  const trigger  = document.getElementById('type-trigger');
-  const list     = document.getElementById('type-list');
-  const labelEl  = document.getElementById('type-label');
-  const valueEl  = document.getElementById('type-value');
-  const arrow    = document.getElementById('type-arrow');
-  const options  = document.querySelectorAll('.type-option');
+  /* ── Dropdown type de demande ── */
+  const trigger  = document.getElementById('type-trigger') as HTMLButtonElement;
+  const list     = document.getElementById('type-list')    as HTMLUListElement;
+  const labelEl  = document.getElementById('type-label')   as HTMLSpanElement;
+  const valueEl  = document.getElementById('type-value')   as HTMLInputElement;
+  const arrow    = document.getElementById('type-arrow')   as SVGElement;
+  const options  = document.querySelectorAll<HTMLLIElement>('.type-option');
 
   function openList() {
     list.style.maxHeight = list.scrollHeight + 'px';
     trigger.setAttribute('aria-expanded', 'true');
-    trigger.classList.add('border-ocre');
+    trigger.style.borderColor = '#C97B45';
     arrow.style.transform = 'rotate(180deg)';
   }
-
   function closeList() {
     list.style.maxHeight = '0';
     trigger.setAttribute('aria-expanded', 'false');
-    trigger.classList.remove('border-ocre');
+    trigger.style.borderColor = '';
     arrow.style.transform = '';
   }
 
@@ -195,21 +224,73 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   options.forEach(opt => {
     opt.addEventListener('click', () => {
-      const val = opt.dataset.value;
-      valueEl.value = val;
-      labelEl.textContent = opt.textContent.trim();
-      labelEl.classList.remove('text-brun-mid/50');
-      labelEl.classList.add('text-brun');
-      options.forEach(o => o.classList.remove('bg-ocre/10', 'font-medium'));
-      opt.classList.add('bg-ocre/10', 'font-medium');
+      valueEl.value = opt.dataset.value ?? '';
+      labelEl.textContent = opt.textContent?.trim() ?? '';
+      labelEl.style.color = '#3D2E1F';
+      options.forEach(o => { o.style.background = ''; o.style.fontWeight = ''; });
+      opt.style.background = 'rgba(201,123,69,0.08)';
+      opt.style.fontWeight = '500';
       closeList();
     });
   });
 
-  // Fermer si clic à l'extérieur
   document.addEventListener('click', e => {
-    if (!document.getElementById('type-dropdown').contains(e.target)) closeList();
+    if (!document.getElementById('type-dropdown')!.contains(e.target as Node)) closeList();
   });
+
+  /* ── Envoi du formulaire via fetch ── */
+  const form       = document.getElementById('contact-form')  as HTMLFormElement;
+  const submitBtn  = document.getElementById('submit-btn')    as HTMLButtonElement;
+  const submitLbl  = document.getElementById('submit-label')  as HTMLSpanElement;
+  const errorEl    = document.getElementById('form-error')    as HTMLParagraphElement;
+  const successEl  = document.getElementById('form-success')  as HTMLDivElement;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Validation manuelle
+    const type   = valueEl.value;
+    const prenom = (document.getElementById('prenom')  as HTMLInputElement).value.trim();
+    const email  = (document.getElementById('email')   as HTMLInputElement).value.trim();
+    const projet = (document.getElementById('projet')  as HTMLTextAreaElement).value.trim();
+
+    if (!type)   { showError('Veuillez sélectionner un type de demande.'); return; }
+    if (!prenom) { showError('Veuillez indiquer votre prénom.'); return; }
+    if (!email)  { showError('Veuillez indiquer votre adresse email.'); return; }
+    if (!projet) { showError('Veuillez décrire votre projet.'); return; }
+
+    // Envoi
+    submitBtn.disabled = true;
+    submitLbl.textContent = 'Envoi en cours…';
+    hideError();
+
+    try {
+      const formData = new FormData(form);
+      const res = await fetch('/api/contact', { method: 'POST', body: formData });
+      const json = await res.json();
+
+      if (res.ok && json.success) {
+        form.classList.add('hidden');
+        successEl.classList.remove('hidden');
+      } else {
+        showError(json.error ?? 'Une erreur est survenue. Veuillez réessayer.');
+        submitBtn.disabled = false;
+        submitLbl.textContent = 'Envoyer →';
+      }
+    } catch {
+      showError('Erreur réseau. Veuillez vérifier votre connexion et réessayer.');
+      submitBtn.disabled = false;
+      submitLbl.textContent = 'Envoyer →';
+    }
+  });
+
+  function showError(msg: string) {
+    errorEl.textContent = msg;
+    errorEl.classList.remove('hidden');
+  }
+  function hideError() {
+    errorEl.classList.add('hidden');
+  }
 </script>
 
 </BaseLayout>
