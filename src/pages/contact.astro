@@ -60,6 +60,33 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <!-- Colonne droite : formulaire -->
       <div class="bg-cream-dark p-8 md:p-10" data-reveal data-delay="1">
         <form name="contact" method="POST" class="space-y-6">
+
+          <!-- Type de demande -->
+          <div>
+            <p class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Je souhaite…</p>
+            <div class="flex flex-col sm:flex-row gap-3">
+              {[
+                { value: 'message', label: 'Envoyer un message' },
+                { value: 'appel',   label: 'Réserver un appel'  },
+                { value: 'devis',   label: 'Demander un devis'  },
+              ].map(({ value, label }) => (
+                <label class="contact-radio flex-1 flex items-center gap-3 px-4 py-3 border border-cream-dark bg-cream cursor-pointer transition-colors duration-150 hover:border-ocre/60 has-[:checked]:border-ocre has-[:checked]:bg-ocre/5">
+                  <input
+                    type="radio"
+                    name="type"
+                    value={value}
+                    class="sr-only"
+                    required
+                  />
+                  <span class="radio-dot w-4 h-4 rounded-full border-2 border-brun-mid/40 flex-shrink-0 flex items-center justify-center transition-colors duration-150">
+                    <span class="radio-fill w-2 h-2 rounded-full bg-ocre scale-0 transition-transform duration-150"></span>
+                  </span>
+                  <span class="font-body text-sm text-brun">{label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
           <div>
             <label for="prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
               Prénom
@@ -119,5 +146,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     </div>
   </section>
+
+<style>
+  /* Point radio — état coché */
+  .contact-radio input:checked ~ .radio-dot {
+    border-color: #C97B45;
+  }
+  .contact-radio input:checked ~ .radio-dot .radio-fill {
+    transform: scale(1);
+  }
+</style>
 
 </BaseLayout>
