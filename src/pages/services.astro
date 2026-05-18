@@ -5,36 +5,36 @@ import Button from '../components/Button.astro';
 const prestations = [
   {
     title: 'Site vitrine',
-    desc: "Présenter votre activité, vos produits ou services avec élégance. Jusqu'à 5–7 pages, responsive, optimisé SEO.",
+    desc: "Présentez votre activité, vos produits ou services avec clarté et élégance. Jusqu'à 5–7 pages, responsive, rapide, optimisé pour le référencement Google.",
   },
   {
     title: 'Site avec blog',
-    desc: "Un vitrine + un espace de publication pour partager votre expertise, vos actualités, vos recettes, votre quotidien d'artisan.",
+    desc: "Un site vitrine enrichi d'un espace de publication : partagez votre expertise, vos actualités, vos recettes ou votre quotidien d'artisan. Idéal pour le SEO long terme.",
   },
   {
     title: 'Petite boutique en ligne',
-    desc: "Vendre vos créations ou productions directement depuis votre site. Catalogue produits, panier, paiement sécurisé.",
+    desc: "Vendez vos créations ou productions directement depuis votre site. Catalogue produits, panier, paiement sécurisé — sans commission plateforme.",
   },
   {
     title: 'Refonte de site existant',
-    desc: "Votre site actuel ne vous ressemble plus ou est trop lent ? On repart sur des bases saines, en gardant ce qui fonctionne.",
+    desc: "Votre site actuel ne vous ressemble plus, est trop lent ou n'attire pas les bons clients ? On repart sur des bases saines, en conservant ce qui fonctionne.",
   },
   {
     title: 'Accompagnement & maintenance',
-    desc: "Mises à jour, évolutions, support : je reste disponible après la livraison. Pas d'abandon après remise des clés.",
+    desc: "Mises à jour, petites évolutions, support technique : je reste disponible après la livraison. Pas d'abandon après remise des clés.",
   },
 ];
 
 const etapes = [
-  { num: '01', title: 'Écoute',            desc: "On se parle. Vous m'expliquez votre activité, vos objectifs, vos contraintes. Je pose des questions." },
-  { num: '02', title: 'Devis',             desc: "Je vous envoie un devis clair et détaillé. Pas de ligne floue, pas de surprise à la fin." },
-  { num: '03', title: 'Conception',        desc: "On conçoit ensemble, par itérations. Vous validez chaque étape avant que je continue." },
-  { num: '04', title: 'Livraison & maintien', desc: "Mise en ligne, formation pour gérer votre site, et je reste disponible après." },
+  { num: '01', title: 'Écoute',            desc: "On se parle — par téléphone ou visio. Vous m'expliquez votre activité, vos objectifs, vos contraintes. Je pose les bonnes questions." },
+  { num: '02', title: 'Devis',             desc: "Je vous envoie un devis clair et détaillé sous 48h. Chaque ligne est expliquée. Aucune surprise à la fin." },
+  { num: '03', title: 'Conception',        desc: "On construit ensemble, par étapes. Vous validez chaque page avant que je continue — rien n'avance sans votre accord." },
+  { num: '04', title: 'Livraison & suivi', desc: "Mise en ligne, transmission des accès, prise en main. Et je reste disponible après — pas de disparition après livraison." },
 ];
 ---
 <BaseLayout
-  title="Mes prestations — Caelestis"
-  description="Sites vitrine, boutiques, blogs, refontes — Caelestis propose des sites web sur devis, adaptés à votre projet réel. À partir de 600€. Drôme, France."
+  title="Prestations web sur mesure — Caelestis, Drôme"
+  description="Site vitrine, boutique en ligne, blog ou refonte : Caelestis crée des sites web sur devis pour artisans et PME engagées. À partir de 600 €. Drôme, France."
 >
 
   <!-- En-tête de page -->
@@ -49,8 +49,8 @@ const etapes = [
         Mes prestations.
       </h1>
       <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed" data-reveal data-delay="2">
-        Chaque projet est unique. Je vous propose un accompagnement sur mesure, adapté à vos besoins réels
-        et à votre budget — pas une offre standardisée qui ne vous ressemble pas.
+        Chaque projet est différent. Je vous propose un accompagnement personnalisé, calé sur vos vrais besoins
+        et votre budget — pas un forfait standard qui ne vous correspond pas.
       </p>
     </div>
   </section>
@@ -65,7 +65,7 @@ const etapes = [
           De 600€ à 2 500€
         </p>
         <p class="font-body text-base text-brun-mid mt-3 max-w-lg">
-          Sur devis uniquement — en fonction de votre projet et de vos besoins réels. Aucune surprise.
+          Sur devis uniquement, selon votre projet et vos besoins réels. Devis détaillé, aucune ligne floue, aucune surprise.
         </p>
       </div>
 
@@ -111,10 +111,10 @@ const etapes = [
   <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark text-center" data-reveal>
     <div class="max-w-xl mx-auto">
       <h2 class="font-display text-3xl md:text-4xl font-light text-brun mb-6">
-        Un projet en tête ?
+        Un projet en tête ?<br><em>Parlons-en.</em>
       </h2>
       <p class="font-body text-base text-brun-mid mb-8">
-        Contactez-moi pour en parler. Je vous réponds sous 48h.
+        Décrivez-moi votre activité en quelques lignes. Je vous réponds personnellement sous 48h avec un premier retour concret.
       </p>
       <Button href="/contact" variant="primary">Me contacter →</Button>
     </div>
