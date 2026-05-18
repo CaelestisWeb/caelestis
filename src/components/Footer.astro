@@ -1,0 +1,50 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="bg-brun text-cream">
+  <div class="max-w-6xl mx-auto px-6 md:px-10 py-16">
+    <div class="grid md:grid-cols-[1fr_auto_auto] gap-10 mb-12">
+
+      <div>
+        <a href="/" class="font-display text-xl font-semibold tracking-tight block mb-3">
+          Caelestis<span class="text-ocre">.</span>
+        </a>
+        <p class="font-body text-sm leading-relaxed max-w-xs" style="color: rgba(250,246,240,0.55)">
+          Sites web simples, beaux et durables pour artisans, producteurs et petites entreprises engagées.
+        </p>
+      </div>
+
+      <div>
+        <p class="font-body text-xs tracking-widest uppercase mb-4" style="color: rgba(250,246,240,0.4)">Navigation</p>
+        <nav class="flex flex-col gap-2">
+          {[
+            { href: '/services',  label: 'Services'  },
+            { href: '/a-propos',  label: 'À propos'  },
+            { href: '/portfolio', label: 'Portfolio' },
+            { href: '/contact',   label: 'Contact'   },
+          ].map(({ href, label }) => (
+            <a href={href} class="font-body text-sm hover:text-cream transition-colors" style="color: rgba(250,246,240,0.65)">{label}</a>
+          ))}
+        </nav>
+      </div>
+
+      <div>
+        <p class="font-body text-xs tracking-widest uppercase mb-4" style="color: rgba(250,246,240,0.4)">Contact</p>
+        <div class="flex flex-col gap-2">
+          <a href="mailto:caelestis-pro@hotmail.com" class="font-body text-sm hover:text-cream transition-colors" style="color: rgba(250,246,240,0.65)">
+            caelestis-pro@hotmail.com
+          </a>
+          <a href="tel:+33782687399" class="font-body text-sm hover:text-cream transition-colors" style="color: rgba(250,246,240,0.65)">
+            07 82 68 73 99
+          </a>
+          <p class="font-body text-sm" style="color: rgba(250,246,240,0.65)">Drôme, France</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t pt-8 flex flex-col md:flex-row justify-between gap-3" style="border-color: rgba(250,246,240,0.1)">
+      <p class="font-body text-xs" style="color: rgba(250,246,240,0.35)">© {year} Caelestis — Tous droits réservés</p>
+      <p class="font-body text-xs" style="color: rgba(250,246,240,0.35)">Drôme, France</p>
+    </div>
+  </div>
+</footer>

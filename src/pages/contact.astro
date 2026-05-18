@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Contact — Caelestis"
+  description="Décrivez-moi votre projet en quelques lignes. Je vous réponds sous 48h avec une vraie réponse, pas un template. Caelestis, Drôme."
+>
+
+  <section class="pt-20 pb-28 px-6 md:px-10 lg:px-20">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.3fr] gap-16 md:gap-24 items-start">
+
+      <!-- Colonne gauche : infos -->
+      <div>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6" data-reveal>Contact</p>
+        <h1
+          class="font-display font-light text-brun leading-[1.05] tracking-tight mb-6"
+          style="font-size: clamp(2.6rem, 5vw, 4rem);"
+          data-reveal data-delay="1"
+        >
+          On en parle ?
+        </h1>
+        <p class="font-body text-base text-brun-mid leading-relaxed mb-12" data-reveal data-delay="2">
+          Décrivez-moi votre projet en quelques lignes. Je vous réponds sous 48h,
+          avec une vraie réponse — pas un template.
+        </p>
+
+        <div class="space-y-6" data-reveal data-delay="3">
+          <div>
+            <p class="font-body text-xs tracking-widest uppercase text-sauge mb-1">Email</p>
+            <a href="mailto:caelestis-pro@hotmail.com" class="font-body text-sm text-brun hover:text-ocre transition-colors">
+              caelestis-pro@hotmail.com
+            </a>
+          </div>
+          <div>
+            <p class="font-body text-xs tracking-widest uppercase text-sauge mb-1">Téléphone</p>
+            <a href="tel:+33782687399" class="font-body text-sm text-brun hover:text-ocre transition-colors">
+              07 82 68 73 99
+            </a>
+          </div>
+          <div>
+            <p class="font-body text-xs tracking-widest uppercase text-sauge mb-1">Localisation</p>
+            <p class="font-body text-sm text-brun">Drôme, France</p>
+          </div>
+          <div>
+            <p class="font-body text-xs tracking-widest uppercase text-sauge mb-1">Disponibilité</p>
+            <p class="font-body text-sm text-brun">Lun–Ven · 9h à 18h</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonne droite : formulaire -->
+      <div class="bg-cream-dark p-8 md:p-10" data-reveal data-delay="1">
+        <form name="contact" method="POST" class="space-y-6">
+          <div>
+            <label for="prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
+              Prénom
+            </label>
+            <input
+              type="text"
+              id="prenom"
+              name="prenom"
+              required
+              autocomplete="given-name"
+              placeholder="Votre prénom"
+              class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200"
+            />
+          </div>
+
+          <div>
+            <label for="email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              autocomplete="email"
+              placeholder="votre@email.com"
+              class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200"
+            />
+          </div>
+
+          <div>
+            <label for="projet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
+              Votre projet
+            </label>
+            <textarea
+              id="projet"
+              name="projet"
+              required
+              rows="6"
+              placeholder="Décrivez votre activité, ce que vous cherchez, vos contraintes de budget ou de délai…"
+              class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-brun text-cream font-body font-medium text-sm py-4 hover:bg-ocre transition-colors duration-200 cursor-pointer"
+          >
+            Envoyer →
+          </button>
+
+          <p class="font-body text-xs text-brun-mid/55 text-center">
+            Je réponds sous 48h. Aucun démarchage, aucune newsletter.
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>
