@@ -67,7 +67,7 @@ const { title, description } = Astro.props;
     );
     document.querySelectorAll('[data-img-reveal]').forEach((el) => imgObs.observe(el));
 
-    /* ── 3. Split text reveal (data-split) ── */
+    /* ── 3. Split text reveal (data-split + data-split-hero) ── */
     const splitObs = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -79,7 +79,7 @@ const { title, description } = Astro.props;
       },
       { threshold: 0.1 }
     );
-    document.querySelectorAll('[data-split]').forEach((el) => splitObs.observe(el));
+    document.querySelectorAll('[data-split], [data-split-hero]').forEach((el) => splitObs.observe(el));
 
     /* ── 4. Parallax (data-parallax) ── */
     const parallaxEls = Array.from(

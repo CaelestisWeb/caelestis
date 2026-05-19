@@ -86,6 +86,11 @@
   transform: translateY(0);
 }
 
+/* ── Split text avec délai hero (+1.5s) ── */
+[data-split-hero] .sl:nth-child(1) > * { transition-delay: 1.54s; }
+[data-split-hero] .sl:nth-child(2) > * { transition-delay: 1.64s; }
+[data-split-hero] .sl:nth-child(3) > * { transition-delay: 1.74s; }
+
 /* ── Parallax (img scale de sécurité pour éviter les bords blancs) ── */
 [data-parallax] {
   will-change: transform;
