@@ -3,8 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 ---
 <BaseLayout
-  title="Caelestis · Agence web Drôme — Sites pour artisans et PME"
-  description="Je crée des sites web sur mesure pour artisans, maraîchers et entreprises engagées. Basé dans la Drôme. Humain, durable, sans jargon. Devis gratuit sous 48h."
+  title="Caelestis · Agence web Drôme — Sites web pour pros de la nature et de l'environnement"
+  description="Caelestis crée des sites internet sur mesure pour paysagistes, maraîchers et professionnels de l'environnement. Basé dans la Drôme. Devis gratuit sous 24h."
 >
 
   <!-- ─── HERO ─── -->
@@ -22,22 +22,23 @@ import Button from '../components/Button.astro';
           data-split
         >
           <span class="sl"><span>Des sites web</span></span>
-          <span class="sl"><em>qui ont du sens,</em></span>
-          <span class="sl"><span>pour ceux qui en</span></span>
-          <span class="sl"><span>donnent à leur métier.</span></span>
+          <span class="sl"><em>au service</em></span>
+          <span class="sl"><span>du vivant.</span></span>
         </h1>
 
         <p class="font-body text-lg leading-relaxed max-w-[520px] mb-10 text-brun-mid" data-reveal data-delay="2">
-          Je crée des sites web pour les artisans, maraîchers et entreprises qui font les choses bien.
-          Des sites clairs, solides, à votre image — qui attirent les bons clients et durent dans le temps.
+          Caelestis crée des sites internet sur mesure pour les paysagistes, maraîchers,
+          éco-constructeurs et professionnels de la nature. Votre expertise mérite
+          une présence digitale à la hauteur.
         </p>
 
-        <div data-reveal data-delay="3">
-          <Button href="/contact" variant="primary">Parlons de votre projet →</Button>
+        <div class="flex flex-wrap gap-4" data-reveal data-delay="3">
+          <Button href="/contact" variant="primary">Réserver un appel →</Button>
+          <Button href="/services" variant="outline">Voir mes prestations</Button>
         </div>
       </div>
 
-      <!-- Photo atmosphérique hero — jardin urbain paysagé -->
+      <!-- Photo atmosphérique hero -->
       <div class="hidden lg:block">
         <div class="aspect-[3/4] overflow-hidden" data-img-reveal>
           <img
@@ -65,35 +66,35 @@ import Button from '../components/Button.astro';
       <div class="max-w-lg mb-16" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Pour qui ?</p>
         <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1]">
-          Pour celles et ceux<br>qui font les choses<br><em>avec soin.</em>
+          Pour ceux qui<br>cultivent quelque<br><em>chose de réel.</em>
         </h2>
         <p class="font-body text-base text-brun-mid mt-5 leading-relaxed">
           Vous mettez du cœur dans ce que vous faites.<br>Votre site devrait en faire autant.
         </p>
       </div>
 
-      <!-- Disposition organique — pas une grille -->
+      <!-- Disposition organique -->
       <div class="space-y-3" data-reveal data-delay="1">
         <div class="flex items-baseline gap-5">
           <span class="font-display text-5xl font-light select-none" style="color: rgba(61,46,31,0.12)">—</span>
           <div>
-            <h3 class="font-display text-3xl md:text-4xl font-light text-brun">Artisans</h3>
-            <p class="font-body text-sm text-brun-mid mt-1">Menuisiers, céramistes, boulangers, couturiers, ébénistes…</p>
+            <h3 class="font-display text-3xl md:text-4xl font-light text-brun">Paysagistes & espaces verts</h3>
+            <p class="font-body text-sm text-brun-mid mt-1">Jardiniers, architectes paysagistes, entretien de parcs…</p>
           </div>
         </div>
 
         <div class="flex items-baseline gap-5 ml-16 md:ml-36">
           <span class="font-display text-5xl font-light select-none" style="color: rgba(61,46,31,0.12)">—</span>
           <div>
-            <h3 class="font-display text-3xl md:text-4xl font-light text-brun">Producteurs locaux</h3>
-            <p class="font-body text-sm text-brun-mid mt-1">Maraîchers, AMAP, domaines agricoles, vignerons…</p>
+            <h3 class="font-display text-3xl md:text-4xl font-light text-brun">Agriculteurs & maraîchers</h3>
+            <p class="font-body text-sm text-brun-mid mt-1">Circuits courts, AMAP, domaines bio, vignerons…</p>
           </div>
         </div>
 
         <div class="flex items-baseline gap-5 ml-6 md:ml-14">
           <span class="font-display text-5xl font-light select-none" style="color: rgba(61,46,31,0.12)">—</span>
           <div>
-            <h3 class="font-display text-3xl md:text-4xl font-light text-brun">PME engagées</h3>
+            <h3 class="font-display text-3xl md:text-4xl font-light text-brun">Pros de l'environnement</h3>
             <p class="font-body text-sm text-brun-mid mt-1">Éco-construction, bureaux d'études, énergies renouvelables…</p>
           </div>
         </div>
@@ -101,13 +102,13 @@ import Button from '../components/Button.astro';
         <div class="flex items-baseline gap-5 ml-24 md:ml-52">
           <span class="font-display text-5xl font-light select-none" style="color: rgba(61,46,31,0.12)">—</span>
           <div>
-            <h3 class="font-display text-3xl md:text-4xl font-light text-ocre italic">Créateurs</h3>
-            <p class="font-body text-sm text-brun-mid mt-1">Fait-main, collections, marques indépendantes…</p>
+            <h3 class="font-display text-3xl md:text-4xl font-light text-ocre italic">Artisans & créateurs</h3>
+            <p class="font-body text-sm text-brun-mid mt-1">Fait-main, ateliers, marques indépendantes engagées…</p>
           </div>
         </div>
       </div>
 
-      <!-- Bande photographique décalée — après les typologies -->
+      <!-- Bande photographique décalée -->
       <div class="mt-16 grid grid-cols-2 gap-3 max-w-2xl">
         <div class="aspect-[4/3] overflow-hidden" data-img-reveal>
           <img
@@ -130,7 +131,7 @@ import Button from '../components/Button.astro';
   </section>
 
 
-  <!-- ─── MA FAÇON DE TRAVAILLER ─── -->
+  <!-- ─── MES VALEURS ─── -->
   <section class="py-24 px-6 md:px-10 lg:px-20 bg-brun text-cream">
     <div class="max-w-6xl mx-auto">
 
@@ -141,21 +142,20 @@ import Button from '../components/Button.astro';
         </h2>
       </div>
 
-      <!-- 2 colonnes décalées : colonne droite démarre plus bas -->
       <div class="grid md:grid-cols-2 gap-x-16">
         <div class="border-t py-10" style="border-color: rgba(250,246,240,0.15)" data-reveal>
           <span class="font-display text-6xl font-light block mb-4" style="color: rgba(250,246,240,0.1)">01</span>
           <h3 class="font-display text-2xl font-light mb-3">Humain avant tout</h3>
           <p class="font-body text-sm leading-relaxed" style="color: rgba(250,246,240,0.6)">
-            Je prends le temps de vous comprendre, vraiment. Pas de template copié-collé — chaque site naît d'un échange honnête sur votre activité, vos clients, ce qui vous rend unique.
+            Je prends le temps de comprendre votre métier, vraiment. Pas de template copié-collé — chaque site naît d'un échange honnête sur votre activité, vos clients, ce qui vous rend unique.
           </p>
         </div>
 
         <div class="border-t py-10 md:mt-28" style="border-color: rgba(250,246,240,0.15)" data-reveal data-delay="1">
           <span class="font-display text-6xl font-light block mb-4" style="color: rgba(250,246,240,0.1)">02</span>
-          <h3 class="font-display text-2xl font-light mb-3">Ancré dans le local</h3>
+          <h3 class="font-display text-2xl font-light mb-3">Ancré dans le vivant</h3>
           <p class="font-body text-sm leading-relaxed" style="color: rgba(250,246,240,0.6)">
-            Je crois aux circuits courts, à l'économie de proximité, aux gens qui font de belles choses près de chez eux. Caelestis est né de cette conviction.
+            Je crois aux circuits courts, à l'économie de proximité, aux gens qui font de belles choses près de chez eux. C'est pour eux que Caelestis existe.
           </p>
         </div>
 
@@ -163,7 +163,7 @@ import Button from '../components/Button.astro';
           <span class="font-display text-6xl font-light block mb-4" style="color: rgba(250,246,240,0.1)">03</span>
           <h3 class="font-display text-2xl font-light mb-3">Sites qui durent</h3>
           <p class="font-body text-sm leading-relaxed" style="color: rgba(250,246,240,0.6)">
-            Code propre, rapide, accessible. Pas de technologie superflue, pas de dépendance fragile. Un site qui tourne bien dans cinq ans, sans frais cachés ni mauvaise surprise.
+            Code propre, rapide, accessible. Pas de technologie superflue, pas de dépendance fragile. Un site encore performant dans cinq ans — sans frais cachés, sans surprise.
           </p>
         </div>
 
@@ -171,9 +171,18 @@ import Button from '../components/Button.astro';
           <span class="font-display text-6xl font-light block mb-4" style="color: rgba(250,246,240,0.1)">04</span>
           <h3 class="font-display text-2xl font-light mb-3">Tarif juste et transparent</h3>
           <p class="font-body text-sm leading-relaxed" style="color: rgba(250,246,240,0.6)">
-            Pas de grille tarifaire opaque, pas de forfait gonflé. On discute de votre projet, je vous envoie un devis détaillé, et on avance dans votre budget réel — sans mauvaise surprise.
+            Pas de grille opaque, pas de forfait gonflé. On discute de votre projet, je vous envoie un devis détaillé ligne par ligne, et on avance dans votre budget réel.
           </p>
         </div>
+      </div>
+
+      <!-- Mention caritative -->
+      <div class="mt-16 border-t pt-10 flex items-start gap-4" style="border-color: rgba(250,246,240,0.15)" data-reveal>
+        <span class="text-xl flex-shrink-0">🌿</span>
+        <p class="font-body text-sm leading-relaxed" style="color: rgba(250,246,240,0.5)">
+          <strong style="color: rgba(250,246,240,0.8)">2% de chaque projet reversé à une association.</strong>
+          Parce qu'entreprendre localement, c'est aussi prendre soin de ce qui nous entoure.
+        </p>
       </div>
     </div>
   </section>
@@ -186,17 +195,23 @@ import Button from '../components/Button.astro';
       <div data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Ce que je fais</p>
         <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-6">
-          Des sites faits<br>pour durer.
+          Des sites faits<br>pour votre terrain.
         </h2>
         <p class="font-body text-base text-brun-mid leading-relaxed mb-8">
-          Site vitrine, boutique en ligne, blog, refonte — je m'adapte à votre projet, pas l'inverse.
+          Site vitrine, boutique, blog, refonte — je m'adapte à votre projet, pas l'inverse.
           Chaque devis est sur mesure, selon vos vrais besoins et votre budget.
         </p>
         <Button href="/services" variant="outline">Voir mes prestations →</Button>
       </div>
 
       <div class="space-y-0" data-reveal data-delay="1">
-        {['Sites vitrine', 'Sites avec blog', 'Petites boutiques en ligne', 'Refonte de site existant', 'Accompagnement & maintenance'].map((service) => (
+        {[
+          'Création de site vitrine',
+          'Site avec blog & actualités',
+          'Petite boutique en ligne',
+          'Refonte de site existant',
+          'Entretien & accompagnement',
+        ].map((service) => (
           <div class="flex items-center gap-4 py-4 border-b border-cream-dark">
             <span class="w-1.5 h-1.5 rounded-full bg-ocre flex-shrink-0"></span>
             <span class="font-body text-base text-brun">{service}</span>
@@ -211,7 +226,6 @@ import Button from '../components/Button.astro';
   <section class="py-24 px-6 md:px-10 lg:px-20 bg-sauge-pale">
     <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.3fr] gap-16 items-center">
 
-      <!-- Bureau en forêt — illustre Célestin au travail dans la nature -->
       <div class="aspect-[4/5] overflow-hidden" data-img-reveal>
         <img
           src="/images/bureau-nature.jpg"
@@ -227,13 +241,120 @@ import Button from '../components/Button.astro';
           Salut, je suis<br><em>Célestin.</em>
         </h2>
         <p class="font-body text-base text-brun-mid leading-relaxed mb-4">
-          22 ans, Drôme, la nature chevillée au corps depuis l'enfance. J'ai créé Caelestis pour mettre
-          mes compétences au service des artisans et entreprises locales qui méritent mieux que les sites génériques.
+          22 ans, Drôme, la nature chevillée au corps depuis l'enfance. J'ai créé Caelestis
+          pour mettre mes compétences au service des professionnels de l'environnement —
+          ceux qui méritent bien mieux que les sites génériques.
         </p>
         <p class="font-body text-base text-brun-mid leading-relaxed mb-8">
-          Travailler simplement, honnêtement, en restant humain — c'est tout ce que je cherche.
+          Travailler simplement, honnêtement, en restant humain. C'est tout ce que je cherche.
         </p>
         <Button href="/a-propos" variant="outline">En savoir plus →</Button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── TÉMOIGNAGES ─── -->
+  <section class="py-24 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="mb-16" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Témoignages</p>
+        <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1]">
+          La confiance<br><em>de mes clients.</em>
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        {[
+          {
+            quote: "Caelestis a compris notre métier dès le premier échange. Le site est professionnel, élégant, et nos clients nous contactent désormais directement. Un vrai investissement qui a porté ses fruits en quelques semaines.",
+            name: "Philippe Morel",
+            role: "Gérant — Morel Paysages",
+            delay: "0",
+          },
+          {
+            quote: "Nous cherchions une agence qui comprenne le monde agricole. Caelestis a créé un site qui reflète nos valeurs et notre qualité. L'accompagnement a été remarquable du début à la fin.",
+            name: "Claire Fontaine",
+            role: "Directrice — Domaine des Chênes Bio",
+            delay: "1",
+          },
+          {
+            quote: "Un travail impeccable. Le design est sobre, moderne et parfaitement aligné avec notre image. Le site nous a permis de doubler nos demandes en trois mois. Je recommande sans hésiter.",
+            name: "Lucas Bernard",
+            role: "Fondateur — Verde Solutions",
+            delay: "2",
+          },
+        ].map(({ quote, name, role, delay }) => (
+          <div class="bg-cream-dark p-8 flex flex-col justify-between" data-reveal data-delay={delay}>
+            <div>
+              <p class="font-body text-xs tracking-widest uppercase text-sauge mb-6">✦</p>
+              <p class="font-display text-base font-light text-brun leading-relaxed italic mb-8">
+                "{quote}"
+              </p>
+            </div>
+            <div class="border-t border-cream pt-5">
+              <p class="font-body text-sm font-medium text-brun">{name}</p>
+              <p class="font-body text-xs text-brun-mid mt-1">{role}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── FAQ ─── -->
+  <section class="py-24 px-6 md:px-10 lg:px-20 bg-brun text-cream">
+    <div class="max-w-4xl mx-auto">
+
+      <div class="mb-16" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">FAQ</p>
+        <h2 class="font-display text-4xl md:text-5xl font-light leading-[1.1]">
+          Questions<br><em>fréquentes.</em>
+        </h2>
+      </div>
+
+      <div id="faq-list" data-reveal data-delay="1">
+        {[
+          {
+            q: "Quels sont les délais de création d'un site internet ?",
+            a: "La création d'un site complet prend généralement entre 2 et 4 semaines selon la complexité du projet. Je travaille en étapes claires avec des validations régulières pour garantir un résultat qui vous correspond parfaitement.",
+          },
+          {
+            q: "Comment se passe l'accompagnement ?",
+            a: "Je vous accompagne de A à Z : prise de brief détaillée, proposition de design, phases de validation, mise en ligne et formation. Après le lancement, je reste disponible pour toute question ou ajustement.",
+          },
+          {
+            q: "Les sites sont-ils adaptés aux mobiles ?",
+            a: "Absolument. Tous mes sites sont conçus en responsive design — ils s'adaptent parfaitement à tous les écrans : ordinateurs, tablettes et smartphones. Aujourd'hui, plus de 60 % des visites viennent du mobile.",
+          },
+          {
+            q: "Quels sont les tarifs exacts ?",
+            a: "La création d'un site démarre à partir de 600 €. Le prix final est défini ensemble lors d'un échange, selon vos besoins et la complexité du projet. Devis détaillé, aucune ligne floue, aucune surprise.",
+          },
+          {
+            q: "Puis-je modifier mon site après la livraison ?",
+            a: "Oui, absolument. Après la livraison, toute modification ou évolution (design, contenu, nouvelles pages…) reste possible à tout moment. Je vous propose un devis simple et transparent selon votre demande.",
+          },
+          {
+            q: "Travaillez-vous uniquement dans la Drôme ?",
+            a: "Je suis basé dans la Drôme, mais je travaille avec des clients partout en France. Tout se passe très bien à distance — appels, échanges de fichiers, validations en ligne. La localisation n'est pas un frein.",
+          },
+        ].map(({ q, a }, i) => (
+          <div class="faq-item border-t" style="border-color: rgba(250,246,240,0.15)">
+            <button
+              class="faq-trigger w-full flex items-center justify-between gap-6 py-6 text-left"
+              aria-expanded="false"
+            >
+              <span class="font-display text-lg font-light">{q}</span>
+              <span class="faq-icon font-body text-xl font-light flex-shrink-0" style="color: rgba(250,246,240,0.4)">+</span>
+            </button>
+            <div class="faq-body overflow-hidden max-h-0 transition-[max-height] duration-300 ease-out">
+              <p class="font-body text-sm leading-relaxed pb-6" style="color: rgba(250,246,240,0.6)">{a}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -242,14 +363,56 @@ import Button from '../components/Button.astro';
   <!-- ─── CTA FINAL ─── -->
   <section class="py-28 px-6 md:px-10 lg:px-20 text-center" data-reveal>
     <div class="max-w-2xl mx-auto">
-      <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-6">
-        Votre projet mérite<br><em>une vraie réponse.</em>
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6">Passons à l'action</p>
+      <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-4">
+        À la hauteur<br><em>de votre terrain.</em>
       </h2>
-      <p class="font-body text-base text-brun-mid mb-10">
-        Décrivez-moi votre activité en quelques lignes. Je vous réponds personnellement sous 48h — pas un formulaire automatique.
+      <p class="font-body text-base text-brun-mid mb-10 max-w-md mx-auto">
+        Décrivez-moi votre activité en quelques lignes.
+        Je vous réponds personnellement sous 24h.
       </p>
-      <Button href="/contact" variant="primary">Parlons-en →</Button>
+      <Button href="/contact" variant="primary">Réserver un appel →</Button>
     </div>
   </section>
 
 </BaseLayout>
+
+<script>
+  /* ── Accordéon FAQ ── */
+  document.querySelectorAll<HTMLButtonElement>('.faq-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const item   = trigger.parentElement!;
+      const body   = item.querySelector<HTMLElement>('.faq-body')!;
+      const icon   = trigger.querySelector<HTMLElement>('.faq-icon')!;
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+      /* Ferme tous les autres */
+      document.querySelectorAll<HTMLButtonElement>('.faq-trigger').forEach((t) => {
+        if (t !== trigger) {
+          t.setAttribute('aria-expanded', 'false');
+          const b = t.parentElement!.querySelector<HTMLElement>('.faq-body')!;
+          const ic = t.querySelector<HTMLElement>('.faq-icon')!;
+          b.style.maxHeight = '0';
+          ic.textContent    = '+';
+          ic.style.color    = 'rgba(250,246,240,0.4)';
+          ic.style.transform = '';
+        }
+      });
+
+      /* Toggle courant */
+      if (isOpen) {
+        trigger.setAttribute('aria-expanded', 'false');
+        body.style.maxHeight = '0';
+        icon.textContent     = '+';
+        icon.style.color     = 'rgba(250,246,240,0.4)';
+        icon.style.transform = '';
+      } else {
+        trigger.setAttribute('aria-expanded', 'true');
+        body.style.maxHeight = body.scrollHeight + 'px';
+        icon.textContent     = '–';
+        icon.style.color     = '#C97B45';
+        icon.style.transform = '';
+      }
+    });
+  });
+</script>

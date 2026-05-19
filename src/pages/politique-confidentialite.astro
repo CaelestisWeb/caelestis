@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const year = new Date().getFullYear();
+---
+<BaseLayout
+  title="Politique de confidentialité — Caelestis"
+  description="Politique de confidentialité et protection des données personnelles de Caelestis, agence web dans la Drôme. RGPD."
+>
+
+  <section class="pt-20 pb-28 px-6 md:px-10 lg:px-20">
+    <div class="max-w-3xl mx-auto">
+
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6" data-reveal>Légal</p>
+      <h1
+        class="font-display font-light text-brun leading-[1.05] tracking-tight mb-12"
+        style="font-size: clamp(2.2rem, 4vw, 3.5rem);"
+        data-reveal data-delay="1"
+      >
+        Politique de<br>confidentialité.
+      </h1>
+
+      <p class="font-body text-sm text-brun-mid leading-relaxed mb-12" data-reveal data-delay="2">
+        Conformément au Règlement Général sur la Protection des Données (RGPD – UE 2016/679)
+        et à la loi Informatique et Libertés modifiée.
+      </p>
+
+      <div class="space-y-12">
+
+        {[
+          {
+            num: '1',
+            title: 'Responsable du traitement',
+            content: `
+              <p>
+                Le responsable du traitement des données collectées sur ce site est Célestin,
+                fondateur de Caelestis — joignable à l'adresse
+                <a href="mailto:caelestis-pro@hotmail.com">caelestis-pro@hotmail.com</a>.
+              </p>
+            `,
+          },
+          {
+            num: '2',
+            title: 'Données collectées',
+            content: `
+              <p>Les données suivantes peuvent être collectées :</p>
+              <ul>
+                <li>Via le formulaire de contact : prénom, email, nom d'entreprise, description du projet</li>
+                <li>Données de navigation anonymes : pages visitées, durée de session (si analytics activé)</li>
+              </ul>
+              <p>Aucune donnée sensible n'est collectée.</p>
+            `,
+          },
+          {
+            num: '3',
+            title: 'Finalités du traitement',
+            content: `
+              <p>Les données collectées sont utilisées exclusivement pour :</p>
+              <ul>
+                <li>Répondre à vos demandes de contact ou de devis</li>
+                <li>Améliorer l'expérience utilisateur du site</li>
+              </ul>
+              <p>Vos données ne sont jamais vendues ni transmises à des tiers à des fins commerciales.</p>
+            `,
+          },
+          {
+            num: '4',
+            title: 'Base légale du traitement',
+            content: `
+              <p>
+                Le traitement des données est fondé sur votre consentement lors de l'envoi
+                du formulaire de contact (article 6(1)(a) du RGPD), ainsi que sur l'intérêt
+                légitime de Caelestis pour la bonne gestion des demandes clients.
+              </p>
+            `,
+          },
+          {
+            num: '5',
+            title: 'Durée de conservation',
+            content: `
+              <p>
+                Les données issues des formulaires sont conservées pendant 3 ans à compter
+                du dernier contact, sauf opposition de votre part.
+              </p>
+            `,
+          },
+          {
+            num: '6',
+            title: 'Vos droits',
+            content: `
+              <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+              <ul>
+                <li><strong>Accès</strong> — consulter vos données personnelles</li>
+                <li><strong>Rectification</strong> — corriger des données inexactes</li>
+                <li><strong>Effacement</strong> — demander la suppression de vos données</li>
+                <li><strong>Opposition</strong> — vous opposer à un traitement</li>
+                <li><strong>Portabilité</strong> — recevoir vos données dans un format lisible</li>
+              </ul>
+              <p>
+                Pour exercer ces droits, écrivez à :
+                <a href="mailto:caelestis-pro@hotmail.com">caelestis-pro@hotmail.com</a>.
+                Vous pouvez également introduire une réclamation auprès de la CNIL (cnil.fr).
+              </p>
+            `,
+          },
+          {
+            num: '7',
+            title: 'Sécurité des données',
+            content: `
+              <p>
+                Caelestis met en œuvre des mesures techniques et organisationnelles appropriées
+                pour protéger vos données contre tout accès non autorisé, perte ou altération.
+                Les transmissions de formulaires sont effectuées via HTTPS.
+              </p>
+            `,
+          },
+          {
+            num: '8',
+            title: 'Cookies',
+            content: `
+              <p>
+                Ce site n'utilise pas de cookies publicitaires ou de tracking tiers.
+                Des cookies techniques strictement nécessaires au fonctionnement du site
+                peuvent être déposés (session, préférences). Vous pouvez les désactiver
+                dans les paramètres de votre navigateur.
+              </p>
+            `,
+          },
+        ].map(({ num, title, content }) => (
+          <div class="border-t border-cream-dark pt-8" data-reveal>
+            <div class="flex items-baseline gap-4 mb-4">
+              <span class="font-display text-2xl font-light text-ocre">{num}.</span>
+              <h2 class="font-display text-xl font-light text-brun">{title}</h2>
+            </div>
+            <div
+              class="font-body text-sm text-brun-mid leading-relaxed space-y-3 [&_ul]:mt-3 [&_ul]:space-y-2 [&_ul]:list-none [&_strong]:text-brun [&_a]:text-ocre [&_a:hover]:underline"
+              set:html={content}
+            />
+          </div>
+        ))}
+
+      </div>
+
+      <p class="font-body text-xs text-brun-mid/50 mt-16 pt-8 border-t border-cream-dark">
+        Dernière mise à jour : mai {year}
+      </p>
+
+    </div>
+  </section>
+
+</BaseLayout>

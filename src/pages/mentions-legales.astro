@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const year = new Date().getFullYear();
+---
+<BaseLayout
+  title="Mentions légales — Caelestis"
+  description="Mentions légales de Caelestis, agence web basée dans la Drôme. Informations sur l'éditeur, l'hébergeur et la propriété intellectuelle."
+>
+
+  <section class="pt-20 pb-28 px-6 md:px-10 lg:px-20">
+    <div class="max-w-3xl mx-auto">
+
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6" data-reveal>Légal</p>
+      <h1
+        class="font-display font-light text-brun leading-[1.05] tracking-tight mb-12"
+        style="font-size: clamp(2.2rem, 4vw, 3.5rem);"
+        data-reveal data-delay="1"
+      >
+        Mentions légales.
+      </h1>
+
+      <p class="font-body text-sm text-brun-mid leading-relaxed mb-12" data-reveal data-delay="2">
+        Conformément aux dispositions de la loi n°2004-575 du 21 juin 2004 pour la
+        Confiance en l'Économie Numérique (LCEN).
+      </p>
+
+      <div class="space-y-12">
+
+        {[
+          {
+            num: '1',
+            title: 'Éditeur du site',
+            content: `
+              <p>Le site caelestis.fr est édité par :</p>
+              <ul>
+                <li><strong>Raison sociale :</strong> Caelestis</li>
+                <li><strong>Forme juridique :</strong> Entreprise individuelle</li>
+                <li><strong>Responsable de publication :</strong> Célestin</li>
+                <li><strong>Email :</strong> caelestis-pro@hotmail.com</li>
+                <li><strong>Téléphone :</strong> 07 82 68 73 99</li>
+                <li><strong>Localisation :</strong> Drôme, France</li>
+              </ul>
+            `,
+          },
+          {
+            num: '2',
+            title: 'Hébergeur du site',
+            content: `
+              <p>Le site est hébergé par :</p>
+              <ul>
+                <li><strong>Société :</strong> Vercel Inc.</li>
+                <li><strong>Adresse :</strong> 340 S Lemon Ave #4133, Walnut, CA 91789, USA</li>
+                <li><strong>Site web :</strong> vercel.com</li>
+              </ul>
+            `,
+          },
+          {
+            num: '3',
+            title: 'Propriété intellectuelle',
+            content: `
+              <p>
+                L'ensemble du contenu de ce site (textes, images, graphismes, logo, icônes, etc.)
+                est la propriété exclusive de Caelestis, sauf mention contraire.
+                Toute reproduction, distribution, modification, adaptation, retransmission ou
+                publication de ces éléments est strictement interdite sans l'accord exprès écrit de Caelestis.
+              </p>
+            `,
+          },
+          {
+            num: '4',
+            title: 'Liens hypertextes',
+            content: `
+              <p>
+                Ce site peut contenir des liens vers d'autres sites internet. Caelestis n'exerce
+                aucun contrôle sur ces sites tiers et décline toute responsabilité quant à leur contenu.
+                La présence de ces liens ne constitue pas une validation ou un cautionnement de leur contenu.
+              </p>
+            `,
+          },
+          {
+            num: '5',
+            title: 'Limitation de responsabilité',
+            content: `
+              <p>
+                Caelestis s'efforce de fournir sur ce site des informations aussi précises que possible.
+                Toutefois, des inexactitudes ou omissions peuvent survenir. La responsabilité de Caelestis
+                ne pourra être engagée pour tout dommage résultant de l'utilisation du site.
+              </p>
+            `,
+          },
+          {
+            num: '6',
+            title: 'Données personnelles',
+            content: `
+              <p>
+                Les informations collectées via le formulaire de contact sont utilisées uniquement
+                pour répondre à votre demande. Elles ne sont ni vendues, ni transmises à des tiers.
+                Pour en savoir plus, consultez notre <a href="/politique-confidentialite">Politique de confidentialité</a>.
+              </p>
+            `,
+          },
+          {
+            num: '7',
+            title: 'Droit applicable',
+            content: `
+              <p>
+                Le présent site et les présentes mentions légales sont soumis au droit français.
+                En cas de litige, les tribunaux français seront seuls compétents.
+              </p>
+            `,
+          },
+        ].map(({ num, title, content }) => (
+          <div class="border-t border-cream-dark pt-8" data-reveal>
+            <div class="flex items-baseline gap-4 mb-4">
+              <span class="font-display text-2xl font-light text-ocre">{num}.</span>
+              <h2 class="font-display text-xl font-light text-brun">{title}</h2>
+            </div>
+            <div
+              class="font-body text-sm text-brun-mid leading-relaxed space-y-3 [&_ul]:mt-3 [&_ul]:space-y-2 [&_ul]:list-none [&_strong]:text-brun [&_a]:text-ocre [&_a:hover]:underline"
+              set:html={content}
+            />
+          </div>
+        ))}
+
+      </div>
+
+      <p class="font-body text-xs text-brun-mid/50 mt-16 pt-8 border-t border-cream-dark">
+        Dernière mise à jour : mai {year}
+      </p>
+
+    </div>
+  </section>
+
+</BaseLayout>
