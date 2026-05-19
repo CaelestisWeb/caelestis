@@ -43,7 +43,7 @@
   img, svg { display: block; max-width: 100%; }
 }
 
-/* Scroll reveal */
+/* ── Scroll reveal ── */
 [data-reveal] {
   opacity: 0;
   transform: translateY(22px);
@@ -56,3 +56,58 @@
 [data-reveal][data-delay="1"] { transition-delay: 0.12s; }
 [data-reveal][data-delay="2"] { transition-delay: 0.24s; }
 [data-reveal][data-delay="3"] { transition-delay: 0.36s; }
+
+/* ── Image reveal (clip-path — volet latéral) ── */
+[data-img-reveal] {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.15s cubic-bezier(0.77, 0, 0.175, 1);
+}
+[data-img-reveal].revealed {
+  clip-path: inset(0 0% 0 0);
+}
+
+/* ── Split text (H1 ligne par ligne) ── */
+[data-split] .sl {
+  display: block;
+  overflow: hidden;
+  line-height: 1.08;
+}
+[data-split] .sl > * {
+  display: block;
+  transform: translateY(108%);
+  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-split] .sl:nth-child(1) > * { transition-delay: 0.04s; }
+[data-split] .sl:nth-child(2) > * { transition-delay: 0.14s; }
+[data-split] .sl:nth-child(3) > * { transition-delay: 0.24s; }
+[data-split] .sl:nth-child(4) > * { transition-delay: 0.34s; }
+[data-split] .sl:nth-child(5) > * { transition-delay: 0.44s; }
+[data-split].revealed .sl > * {
+  transform: translateY(0);
+}
+
+/* ── Parallax (img scale de sécurité pour éviter les bords blancs) ── */
+[data-parallax] {
+  will-change: transform;
+  transform: scale(1.1) translateY(0px);
+}
+
+/* ── Boutons magnétiques ── */
+.btn-magnetic {
+  will-change: transform;
+}
+
+/* ── Page transition (View Transitions API) ── */
+::view-transition-old(root) {
+  animation: 280ms cubic-bezier(0.4, 0, 1, 1) both vt-fade-out;
+}
+::view-transition-new(root) {
+  animation: 360ms cubic-bezier(0, 0, 0.2, 1) 60ms both vt-slide-in;
+}
+@keyframes vt-fade-out {
+  to { opacity: 0; }
+}
+@keyframes vt-slide-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

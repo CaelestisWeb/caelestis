@@ -19,12 +19,12 @@ import Button from '../components/Button.astro';
         <h1
           class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-8"
           style="font-size: clamp(2.8rem, 6vw, 5.2rem);"
-          data-reveal data-delay="1"
+          data-split
         >
-          Des sites web<br>
-          <em>qui ont du sens,</em><br>
-          pour ceux qui en<br>
-          donnent à leur métier.
+          <span class="sl"><span>Des sites web</span></span>
+          <span class="sl"><em>qui ont du sens,</em></span>
+          <span class="sl"><span>pour ceux qui en</span></span>
+          <span class="sl"><span>donnent à leur métier.</span></span>
         </h1>
 
         <p class="font-body text-lg leading-relaxed max-w-[520px] mb-10 text-brun-mid" data-reveal data-delay="2">
@@ -38,12 +38,13 @@ import Button from '../components/Button.astro';
       </div>
 
       <!-- Photo atmosphérique hero — jardin urbain paysagé -->
-      <div class="hidden lg:block" data-reveal data-delay="2">
-        <div class="aspect-[3/4] overflow-hidden">
+      <div class="hidden lg:block">
+        <div class="aspect-[3/4] overflow-hidden" data-img-reveal>
           <img
             src="/images/jardin-urbain.jpg"
             alt="Allée de jardin paysagé avec bancs en bois et végétation luxuriante"
             class="w-full h-full object-cover"
+            data-parallax
           />
         </div>
       </div>
@@ -107,19 +108,21 @@ import Button from '../components/Button.astro';
       </div>
 
       <!-- Bande photographique décalée — après les typologies -->
-      <div class="mt-16 grid grid-cols-2 gap-3 max-w-2xl" data-reveal data-delay="2">
-        <div class="aspect-[4/3] overflow-hidden">
+      <div class="mt-16 grid grid-cols-2 gap-3 max-w-2xl">
+        <div class="aspect-[4/3] overflow-hidden" data-img-reveal>
           <img
             src="/images/jardin-collectif.jpg"
             alt="Jardin collectif avec potagers surélevés et maraîchers au travail"
             class="w-full h-full object-cover"
+            data-parallax
           />
         </div>
-        <div class="aspect-[4/3] overflow-hidden mt-10">
+        <div class="aspect-[4/3] overflow-hidden mt-10" data-img-reveal style="transition-delay: 0.18s;">
           <img
             src="/images/arrosage-serre.jpg"
             alt="Arrosage de plants de légumes en serre — maraîchage"
             class="w-full h-full object-cover"
+            data-parallax
           />
         </div>
       </div>
@@ -209,11 +212,12 @@ import Button from '../components/Button.astro';
     <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.3fr] gap-16 items-center">
 
       <!-- Bureau en forêt — illustre Célestin au travail dans la nature -->
-      <div class="aspect-[4/5] overflow-hidden" data-reveal>
+      <div class="aspect-[4/5] overflow-hidden" data-img-reveal>
         <img
           src="/images/bureau-nature.jpg"
           alt="Bureau en bois sur une terrasse avec vue sur une gorge boisée — travailler dans la nature"
           class="w-full h-full object-cover"
+          data-parallax
         />
       </div>
 
