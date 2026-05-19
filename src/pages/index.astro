@@ -8,17 +8,17 @@ import Button from '../components/Button.astro';
 >
 
   <!-- ─── HERO ─── -->
-  <section class="min-h-[92vh] flex flex-col justify-center px-6 md:px-10 lg:px-20 pt-16 pb-20 relative overflow-hidden">
-    <div class="max-w-6xl mx-auto w-full">
+  <section class="min-h-[100vh] flex flex-col justify-center px-6 md:px-10 lg:px-20 pt-20 pb-16 relative overflow-hidden">
+    <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-[1fr_42%] gap-12 lg:gap-20 items-center">
 
-      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-10" data-reveal>
-        Agence web · Drôme, France
-      </p>
+      <!-- Colonne gauche : texte -->
+      <div>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-10" data-reveal>
+          Agence web · Drôme, France
+        </p>
 
-      <!-- H1 + image côte à côte -->
-      <div class="grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-14 items-end mb-10">
         <h1
-          class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em]"
+          class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-10"
           style="font-size: clamp(2.8rem, 6vw, 5.2rem);"
           data-split
         >
@@ -27,29 +27,28 @@ import Button from '../components/Button.astro';
           <span class="sl"><span>du vivant.</span></span>
         </h1>
 
-        <!-- Photo directement à droite du titre -->
-        <div class="hidden lg:block flex-shrink-0 w-[260px]">
-          <div class="aspect-[3/4] overflow-hidden">
-            <img
-              src="/images/jardin-aerien.jpg"
-              alt="Vue aérienne d'un jardin collectif urbain avec parcelles maraîchères et arbres — éco-quartier"
-              class="w-full h-full object-cover object-center"
-              data-parallax
-            />
-          </div>
+        <p class="font-body text-lg leading-relaxed max-w-[480px] mb-10 text-brun-mid" data-reveal data-delay="2">
+          Caelestis crée des sites internet sur mesure pour les paysagistes, maraîchers,
+          éco-constructeurs et professionnels de la nature. Votre expertise mérite
+          une présence digitale à la hauteur.
+        </p>
+
+        <div class="flex flex-wrap gap-4" data-reveal data-delay="3">
+          <Button href="/contact" variant="primary">Réserver un appel →</Button>
+          <Button href="/services" variant="outline">Voir mes prestations</Button>
         </div>
       </div>
 
-      <!-- Paragraphe + CTA sous le titre -->
-      <p class="font-body text-lg leading-relaxed max-w-[520px] mb-10 text-brun-mid" data-reveal data-delay="2">
-        Caelestis crée des sites internet sur mesure pour les paysagistes, maraîchers,
-        éco-constructeurs et professionnels de la nature. Votre expertise mérite
-        une présence digitale à la hauteur.
-      </p>
-
-      <div class="flex flex-wrap gap-4" data-reveal data-delay="3">
-        <Button href="/contact" variant="primary">Réserver un appel →</Button>
-        <Button href="/services" variant="outline">Voir mes prestations</Button>
+      <!-- Colonne droite : photo grande et centrée -->
+      <div class="hidden lg:flex items-center justify-center h-full">
+        <div class="w-full overflow-hidden" style="height: min(72vh, 620px);">
+          <img
+            src="/images/jardin-aerien.jpg"
+            alt="Vue aérienne d'un jardin collectif urbain avec parcelles maraîchères et arbres — éco-quartier"
+            class="w-full h-full object-cover object-center"
+            data-parallax
+          />
+        </div>
       </div>
 
     </div>
