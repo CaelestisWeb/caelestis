@@ -5,7 +5,8 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'hybrid',   // Pages statiques par défaut, sauf les endpoints API
+  // output: 'static' est le défaut dans Astro 6 — il gère désormais
+  // le mode hybride nativement (pages statiques + endpoints SSR via prerender:false)
   adapter: vercel(),
   vite: {
     plugins: [tailwindcss()]
