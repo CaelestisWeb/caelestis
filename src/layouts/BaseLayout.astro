@@ -127,6 +127,13 @@ const { title, description } = Astro.props;
     });
   }
 
-  /* Lance au chargement initial ET après chaque transition de page */
+  /* Lance au chargement initial */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnimations);
+  } else {
+    initAnimations();
+  }
+
+  /* Relance après chaque transition de page (View Transitions) */
   document.addEventListener('astro:page-load', initAnimations);
 </script>
