@@ -497,6 +497,21 @@ const breadcrumbContact = {
 <style is:global>
   /* Radio dot visible quand coché */
   label:has(input[type="radio"]:checked) .radio-dot { opacity: 1; }
+
+  /* ── Champ invalide — bordure rouge ── */
+  input.field-error,
+  textarea.field-error {
+    border-color: #b94a2c !important;
+    background-color: rgba(185, 74, 44, 0.04) !important;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+  fieldset.field-error {
+    border: 1px solid #b94a2c;
+    border-radius: 4px;
+    padding: 6px 8px 8px;
+    background-color: rgba(185, 74, 44, 0.03);
+    transition: border-color 0.2s ease;
+  }
 </style>
 
 <script>
@@ -544,22 +559,39 @@ const breadcrumbContact = {
       e.preventDefault();
       if (!submitBtn || !submitLbl) return;
 
+      /* ── Marque un champ invalide en rouge et efface dès la prochaine saisie ── */
+      function markInvalid(name: string) {
+        const el = form!.querySelector(`[name="${name}"]`) as HTMLElement | null;
+        if (!el) return;
+        const target = el.closest('fieldset') ?? el;
+        target.classList.add('field-error');
+        const clear = () => target.classList.remove('field-error');
+        el.addEventListener('input',  clear, { once: true });
+        el.addEventListener('change', clear, { once: true });
+      }
+
       /* Validation côté client */
-      const prenom  = (form.querySelector('[name="prenom"]') as HTMLInputElement)?.value.trim();
-      const email   = (form.querySelector('[name="email"]')  as HTMLInputElement)?.value.trim();
-      const projet  = (form.querySelector('[name="projet"]') as HTMLTextAreaElement)?.value.trim();
-      const societe = (form.querySelector('[name="societe"]') as HTMLInputElement)?.value.trim() ?? '';
+      const prenom  = (form.querySelector('[name="prenom"]')    as HTMLInputElement)?.value.trim();
+      const email   = (form.querySelector('[name="email"]')     as HTMLInputElement)?.value.trim();
+      const projet  = (form.querySelector('[name="projet"]')    as HTMLTextAreaElement)?.value.trim();
+      const societe = (form.querySelector('[name="societe"]')   as HTMLInputElement)?.value.trim() ?? '';
+      const tel     = (form.querySelector('[name="telephone"]') as HTMLInputElement)?.value.trim() ?? '';
+      const creneau = (form.querySelector('[name="creneau"]:checked') as HTMLInputElement | null)?.value ?? '';
 
       const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
-      if (!prenom)                      { showErr('Veuillez indiquer votre prénom.');          return; }
-      if (prenom.length > 100)          { showErr('Prénom trop long (100 caractères max).');   return; }
-      if (!email)                       { showErr('Veuillez indiquer votre adresse email.');   return; }
-      if (!emailRegex.test(email) || /[,;\r\n]/.test(email)) {
-                                          showErr('Adresse email invalide.');                  return; }
-      if (email.length > 254)           { showErr('Email trop long.');                         return; }
-      if (societe.length > 200)         { showErr('Nom d\'entreprise trop long.');             return; }
-      if (projet && projet.length > 5000) { showErr('Message trop long (5000 caractères max).'); return; }
+      if (!prenom)                      { markInvalid('prenom');    showErr('Veuillez indiquer votre prénom.');        return; }
+      if (prenom.length > 100)          {                           showErr('Prénom trop long (100 caractères max).'); return; }
+      if (form.querySelector('[name="telephone"]') && !tel)
+                                        { markInvalid('telephone'); showErr('Veuillez indiquer votre téléphone.');     return; }
+      if (!email)                       { markInvalid('email');     showErr('Veuillez indiquer votre adresse email.'); return; }
+      if (!emailRegex.test(email) || /[,;\r\n]/.test(email))
+                                        { markInvalid('email');     showErr('Adresse email invalide.');                return; }
+      if (email.length > 254)           {                           showErr('Email trop long.');                       return; }
+      if (form.querySelector('[name="creneau"]') && !creneau)
+                                        { markInvalid('creneau');   showErr('Veuillez choisir un moment préféré.');    return; }
+      if (societe.length > 200)         {                           showErr('Nom d\'entreprise trop long.');           return; }
+      if (projet && projet.length > 5000) {                         showErr('Message trop long (5000 caractères max).'); return; }
 
       /* Mémorise le label d'origine AVANT de l'écraser */
       const originalLabel = submitLbl.textContent ?? '→';
