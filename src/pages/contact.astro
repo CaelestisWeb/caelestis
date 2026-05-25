@@ -2,10 +2,20 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import imgBureau from '../assets/images/bureau-jardin.jpg';
+
+const breadcrumbContact = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://caelestis.fr/contact' },
+  ],
+};
 ---
 <BaseLayout
   title="Contactez Caelestis — Devis gratuit sous 48h"
   description="Parlez-moi de votre activité. Devis gratuit sous 48h. Création de site web et SEO en Drôme et partout en France."
+  schema={breadcrumbContact}
 >
 
   <!-- ─── INTRO ÉDITORIALE ─── -->

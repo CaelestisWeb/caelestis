@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Ne pas indexer l'API ni les pages légales peu utiles au crawl
+Disallow: /api/
+Disallow: /cgv
+
+# Éviter le crawl des assets statiques
+Disallow: /_astro/
+
+Sitemap: https://caelestis.fr/sitemap-index.xml

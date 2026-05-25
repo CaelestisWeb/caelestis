@@ -4,6 +4,41 @@ import Button from '../components/Button.astro';
 import { Image } from 'astro:assets';
 import imgRiviere from '../assets/images/riviere-montagne.jpg';
 
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Célestin Fruleux',
+  jobTitle: 'Développeur web & consultant SEO',
+  description: 'Fondateur de Caelestis, j\'aide des indépendants et petites structures à avoir une présence en ligne claire, soignée et efficace.',
+  url: 'https://caelestis.fr/a-propos',
+  email: 'contact@caelestis.fr',
+  telephone: '+33782687399',
+  image: 'https://caelestis.fr/og-image.jpg',
+  address: {
+    '@type': 'PostalAddress',
+    addressRegion: 'Drôme',
+    addressCountry: 'FR',
+  },
+  worksFor: {
+    '@type': 'LocalBusiness',
+    name: 'Caelestis',
+    url: 'https://caelestis.fr',
+  },
+  knowsAbout: ['Création de site web', 'Développement Astro', 'Tailwind CSS', 'Référencement naturel', 'SEO local', 'UX Design'],
+  sameAs: [
+    'https://caelestis.fr',
+  ],
+};
+
+const breadcrumbApropos = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'À propos', item: 'https://caelestis.fr/a-propos' },
+  ],
+};
+
 const valeurs = [
   { label: "Faire les choses proprement",      detail: "Prendre le temps, soigner les détails et construire quelque chose qui tient dans le temps." },
   { label: "Mettre en valeur de vrais projets", detail: "J'aime travailler avec des gens passionnés par ce qu'ils font et leur donner une présence en ligne à la hauteur de leur travail." },
@@ -14,6 +49,7 @@ const valeurs = [
 <BaseLayout
   title="Qui je suis — Célestin, fondateur de Caelestis"
   description="Célestin, 22 ans, basé dans la Drôme. J'aide des indépendants et petites structures à avoir une présence en ligne claire, soignée et efficace."
+  schema={[personSchema, breadcrumbApropos]}
 >
 
   <section class="pt-20 pb-28 px-6 md:px-10 lg:px-20">
@@ -89,7 +125,7 @@ const valeurs = [
 
           <!-- Valeurs -->
           <div class="mt-12 pt-10 border-t border-cream-dark" data-reveal data-delay="3">
-            <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-8">Ce qui compte pour moi</p>
+            <h2 class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-8">Ce qui compte pour moi</h2>
             <div class="space-y-6">
               {valeurs.map(({ label, detail }) => (
                 <div class="flex items-start gap-4">

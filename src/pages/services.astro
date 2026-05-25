@@ -2,6 +2,89 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 
+const servicesSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Prestations Caelestis',
+  description: 'Sites web sur mesure et référencement naturel pour artisans, indépendants et petites entreprises.',
+  url: 'https://caelestis.fr/services',
+  numberOfItems: 5,
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      item: {
+        '@type': 'Service',
+        name: 'Site vitrine',
+        description: "Votre activité présentée clairement, visible sur Google, lisible sur tout type d'écran.",
+        provider: { '@type': 'LocalBusiness', name: 'Caelestis', url: 'https://caelestis.fr' },
+        areaServed: { '@type': 'Country', name: 'France' },
+        offers: {
+          '@type': 'Offer',
+          priceSpecification: {
+            '@type': 'PriceSpecification',
+            minPrice: '600',
+            priceCurrency: 'EUR',
+          },
+        },
+      },
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      item: {
+        '@type': 'Service',
+        name: 'Boutique en ligne',
+        description: 'Catalogue en ligne, paiement sécurisé, connecté à votre logiciel de gestion.',
+        provider: { '@type': 'LocalBusiness', name: 'Caelestis', url: 'https://caelestis.fr' },
+        areaServed: { '@type': 'Country', name: 'France' },
+      },
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      item: {
+        '@type': 'Service',
+        name: 'Référencement naturel (SEO)',
+        description: "Apparaître en tête des résultats quand vos clients vous cherchent. Référencement local et national.",
+        provider: { '@type': 'LocalBusiness', name: 'Caelestis', url: 'https://caelestis.fr' },
+        areaServed: { '@type': 'Country', name: 'France' },
+      },
+    },
+    {
+      '@type': 'ListItem',
+      position: 4,
+      item: {
+        '@type': 'Service',
+        name: 'Refonte de site existant',
+        description: 'Votre site date ou ne vous ressemble plus ? On repart proprement sur de bonnes bases.',
+        provider: { '@type': 'LocalBusiness', name: 'Caelestis', url: 'https://caelestis.fr' },
+        areaServed: { '@type': 'Country', name: 'France' },
+      },
+    },
+    {
+      '@type': 'ListItem',
+      position: 5,
+      item: {
+        '@type': 'Service',
+        name: 'Maintenance & accompagnement',
+        description: 'Évolutions, mises à jour, nouvelles pages — forfait mensuel ou à la tâche.',
+        provider: { '@type': 'LocalBusiness', name: 'Caelestis', url: 'https://caelestis.fr' },
+        areaServed: { '@type': 'Country', name: 'France' },
+      },
+    },
+  ],
+};
+
+const breadcrumbServices = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Prestations', item: 'https://caelestis.fr/services' },
+  ],
+};
+
 const prestations = [
   {
     title: 'Site vitrine',
@@ -36,6 +119,7 @@ const etapes = [
 <BaseLayout
   title="Prestations web · Site vitrine, SEO, boutique — Caelestis"
   description="Site vitrine, boutique, blog, référencement local... Je crée des sites adaptés à votre activité, visibles sur Google. Soigné, efficace, à partir de 600 €."
+  schema={[servicesSchema, breadcrumbServices]}
 >
 
   <!-- En-tête de page -->

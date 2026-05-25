@@ -11,14 +11,25 @@ const localBusiness = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'Caelestis',
+  alternateName: 'CaelestisWeb',
   description: 'Création de site web soigné et référencement naturel pour artisans, praticiens et indépendants.',
   url: 'https://caelestis.fr',
   email: 'contact@caelestis.fr',
   telephone: '+33782687399',
+  image: 'https://caelestis.fr/og-image.jpg',
+  logo: 'https://caelestis.fr/favicon.svg',
   address: {
     '@type': 'PostalAddress',
+    streetAddress: '60 rue François 1er',
+    postalCode: '75008',
+    addressLocality: 'Paris',
     addressRegion: 'Drôme',
     addressCountry: 'FR',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: '44.7308',
+    longitude: '5.0197',
   },
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
@@ -27,8 +38,37 @@ const localBusiness = {
     closes: '18:00',
   },
   priceRange: '€€',
+  currenciesAccepted: 'EUR',
+  paymentAccepted: 'Virement bancaire, Carte bancaire',
   areaServed: { '@type': 'Country', name: 'France' },
-  serviceType: ['Création de site web', 'Référencement naturel', 'SEO local'],
+  knowsAbout: ['Création de site web', 'Référencement naturel', 'SEO', 'Développement Astro', 'Tailwind CSS'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Prestations Caelestis',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Création de site vitrine',
+          description: 'Site web soigné, visible sur Google, adapté à votre activité.',
+        },
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          minPrice: '600',
+          priceCurrency: 'EUR',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Référencement naturel (SEO)',
+          description: 'Audit, stratégie et optimisation pour apparaître sur Google.',
+        },
+      },
+    ],
+  },
 };
 
 const faqSchema = {
