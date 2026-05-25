@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import imgBureau from '../assets/images/bureau-jardin.jpg';
 ---
 <BaseLayout
   title="Contactez Caelestis — Devis gratuit sous 48h"
@@ -44,11 +46,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
         <!-- Image -->
         <div class="img-zoom img-editorial aspect-[3/4] overflow-hidden mb-12" data-reveal>
-          <img
-            src="/images/bureau-jardin.jpg"
+          <Image
+            src={imgBureau}
             alt="Bureau en bois sous une pergola dans un jardin verdoyant"
             class="w-full h-full object-cover"
             data-parallax
+            loading="lazy"
+            widths={[480, 768]}
+            sizes="(max-width: 1024px) 100vw, 35vw"
           />
         </div>
 

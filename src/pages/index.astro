@@ -1,6 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
+import { Image } from 'astro:assets';
+import imgHero      from '../assets/images/atelier-botanique.jpg';
+import imgMosaique1 from '../assets/images/jardin-communautaire.jpg';
+import imgMosaique2 from '../assets/images/bougies-artisan.jpg';
+import imgMosaique3 from '../assets/images/yoga-soleil.jpg';
 
 const localBusiness = {
   '@context': 'https://schema.org',
@@ -166,11 +171,15 @@ const faqSchema = {
       <!-- Colonne droite : photo éditoriale -->
       <div class="hidden lg:flex items-center justify-center h-full">
         <div class="img-zoom img-editorial w-full" style="height: min(72vh, 620px);">
-          <img
-            src="/images/atelier-botanique.jpg"
+          <Image
+            src={imgHero}
             alt="Atelier botanique artisanal — encres naturelles, fleurs séchées et tampons botaniques"
             class="w-full h-full object-cover object-center"
             data-parallax
+            loading="eager"
+            fetchpriority="high"
+            widths={[480, 768, 1024]}
+            sizes="(max-width: 1024px) 0px, 50vw"
           />
         </div>
       </div>
@@ -308,30 +317,39 @@ const faqSchema = {
 
           <!-- Grande image en haut -->
           <div class="img-zoom aspect-[4/3] overflow-hidden mb-3">
-            <img
-              src="/images/jardin-communautaire.jpg"
+            <Image
+              src={imgMosaique1}
               alt="Jardin partagé urbain avec parcelles maraîchères"
               class="w-full h-full object-cover"
               data-parallax
+              loading="lazy"
+              widths={[480, 768]}
+              sizes="(max-width: 768px) 100vw, 40vw"
             />
           </div>
 
           <!-- Deux images côte à côte, décalées -->
           <div class="grid grid-cols-2 gap-3">
             <div class="img-zoom overflow-hidden" style="aspect-ratio: 3/4">
-              <img
-                src="/images/bougies-artisan.jpg"
+              <Image
+                src={imgMosaique2}
                 alt="Atelier de bougies artisanales en cire d'abeille"
                 class="w-full h-full object-cover"
                 data-parallax
+                loading="lazy"
+                widths={[320, 480]}
+                sizes="(max-width: 768px) 50vw, 20vw"
               />
             </div>
             <div class="img-zoom overflow-hidden mt-8" style="aspect-ratio: 3/4">
-              <img
-                src="/images/yoga-soleil.jpg"
+              <Image
+                src={imgMosaique3}
                 alt="Posture de yoga au coucher du soleil face à la mer"
                 class="w-full h-full object-cover"
                 data-parallax
+                loading="lazy"
+                widths={[320, 480]}
+                sizes="(max-width: 768px) 50vw, 20vw"
               />
             </div>
           </div>

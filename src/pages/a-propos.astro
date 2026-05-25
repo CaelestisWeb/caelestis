@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
+import { Image } from 'astro:assets';
+import imgRiviere from '../assets/images/riviere-montagne.jpg';
 
 const valeurs = [
   { label: "Faire les choses proprement",      detail: "Prendre le temps, soigner les détails et construire quelque chose qui tient dans le temps." },
@@ -23,11 +25,15 @@ const valeurs = [
         <div data-reveal>
           <!-- Rivière de montagne — évoque la Drôme, la nature, le calme -->
           <div class="img-zoom img-editorial aspect-[3/4] mb-4 overflow-hidden">
-            <img
-              src="/images/riviere-montagne.jpg"
+            <Image
+              src={imgRiviere}
               alt="Table au bord d'une rivière turquoise en montagne — paysage de la Drôme"
               class="w-full h-full object-cover"
               data-parallax
+              loading="eager"
+              fetchpriority="high"
+              widths={[480, 768]}
+              sizes="(max-width: 1024px) 100vw, 35vw"
             />
           </div>
           <p class="font-body text-xs text-brun-mid/50 text-center">Drôme, France</p>

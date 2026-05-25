@@ -181,11 +181,12 @@
 ════════════════════════════════════════ */
 
 [data-parallax] {
-  will-change: transform;
+  /* will-change appliqué dynamiquement par GSAP, pas en permanence */
   min-height: 120%;   /* déborde du cadre pour absorber le déplacement sans exposer le fond */
   object-fit: cover;
 }
-.btn-magnetic   { will-change: transform; }
+/* will-change uniquement au survol des boutons magnétiques */
+.btn-magnetic:hover { will-change: transform; }
 
 
 /* ════════════════════════════════════════
@@ -348,9 +349,9 @@
 
 /* ── Glassmorphism card ── */
 .glass-card {
-  background: rgba(237, 227, 212, 0.72);
-  backdrop-filter: blur(18px) saturate(1.2);
-  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  background: rgba(237, 227, 212, 0.80);
+  backdrop-filter: blur(10px) saturate(1.1);     /* réduit : 18→10px, meilleure perf GPU */
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
   border: 1px solid rgba(207, 192, 160, 0.78);
 }
 
@@ -373,8 +374,8 @@
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  filter: blur(80px);
-  will-change: transform;
+  filter: blur(50px);   /* réduit de 80px → 50px : -40% charge GPU, imperceptible visuellement */
+  contain: strict;      /* isolation du paint layer */
   animation: ambient-drift 18s ease-in-out infinite;
 }
 .light-blob:nth-child(2) { animation-delay: -6s; animation-duration: 22s; }
