@@ -181,7 +181,7 @@ const breadcrumbContact = {
 
               <div>
                 <label for="msg-message" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Message <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
-                <textarea id="msg-message" name="message" rows="5" placeholder="Votre message…" aria-required="true"
+                <textarea id="msg-message" name="projet" rows="5" placeholder="Votre message…" aria-required="true"
                   class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
               </div>
 
@@ -287,7 +287,7 @@ const breadcrumbContact = {
 
               <div>
                 <label for="appel-sujet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Sujet de l'appel <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
-                <textarea id="appel-sujet" name="sujet" rows="3" placeholder="En quelques mots, ce que vous souhaitez aborder…" aria-required="true"
+                <textarea id="appel-sujet" name="projet" rows="3" placeholder="En quelques mots, ce que vous souhaitez aborder…" aria-required="true"
                   class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
               </div>
 
@@ -555,12 +555,12 @@ const breadcrumbContact = {
       if (societe.length > 200)         { showErr('Nom d\'entreprise trop long.');             return; }
       if (projet && projet.length > 5000) { showErr('Message trop long (5000 caractères max).'); return; }
 
+      /* Mémorise le label d'origine AVANT de l'écraser */
+      const originalLabel = submitLbl.textContent ?? '→';
+
       submitBtn.disabled    = true;
       submitLbl.textContent = 'Envoi en cours…';
       hideErr();
-
-      /* Mémorise le label d'origine avant de le changer */
-      const originalLabel = submitLbl.textContent ?? '→';
 
       try {
         const res  = await fetch('/api/contact', { method: 'POST', body: new FormData(form) });
@@ -569,6 +569,10 @@ const breadcrumbContact = {
         if (res.ok && json.success) {
           form.classList.add('hidden');
           successEl?.classList.remove('hidden');
+          /* Met à jour previousFocus vers l'onglet actif AVANT que le formulaire soit masqué,
+             car le submitBtn sera display:none et ne pourra pas recevoir le focus au retour */
+          const activeTab = document.querySelector<HTMLButtonElement>('[role="tab"][aria-selected="true"]');
+          if (activeTab) previousFocus = activeTab;
           showPopup(prenom, popupMsg);
         } else {
           showErr(json.error ?? 'Une erreur est survenue. Veuillez réessayer.');

@@ -281,11 +281,12 @@ export const POST: APIRoute = async ({ request }) => {
     const data = await request.formData();
 
     /* ── 4. Extraction et nettoyage des champs ── */
-    const type    = data.get('type')?.toString().trim()    ?? '';
-    const prenom  = data.get('prenom')?.toString().trim()  ?? '';
-    const email   = data.get('email')?.toString().trim()   ?? '';
-    const societe = data.get('societe')?.toString().trim() ?? '';
-    const projet  = data.get('projet')?.toString().trim()  ?? '';
+    const type    = data.get('formType')?.toString().trim()  ?? '';
+    const prenom  = data.get('prenom')?.toString().trim()    ?? '';
+    const email   = data.get('email')?.toString().trim()     ?? '';
+    const societe = data.get('societe')?.toString().trim()   ?? '';
+    /* 'projet' est le nom unifié côté formulaire HTML pour les 3 types de demande */
+    const projet  = data.get('projet')?.toString().trim()    ?? '';
 
     /* ── 5. Validation longueurs (DoS) ── */
     const fields: [string, string, number][] = [

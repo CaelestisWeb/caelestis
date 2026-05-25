@@ -312,6 +312,9 @@
         if (done) return;
         done = true;
 
+        /* Libère l'AudioContext pour éviter la fuite de ressource audio */
+        ctx?.close().catch(() => {});
+
         gsap.to([m0, m3, tagline, skipBtn].filter(Boolean), {
           opacity: 0,
           y: -26,
