@@ -159,6 +159,15 @@
   }
   #m-skip:hover { color: rgba(237, 227, 212, 0.55); }
   #m-skip:focus, #m-skip:focus-visible { outline: none; }
+
+  /* ── Mobile : "Passer" en haut à droite pour ne pas gêner la tagline ── */
+  @media (max-width: 639px) {
+    #m-skip {
+      top: 1.2rem;
+      bottom: auto;
+      right: 1.2rem;
+    }
+  }
 </style>
 
 <script>
