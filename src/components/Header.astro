@@ -152,19 +152,22 @@ const current = Astro.url.pathname;
 </style>
 
 <script>
-  const toggle = document.getElementById('menu-toggle');
-  const menu   = document.getElementById('mobile-menu');
-  const header = document.getElementById('header');
+  /* ── Menu mobile ── */
+  function bindMenuToggle() {
+    const toggle = document.getElementById('menu-toggle');
+    const menu   = document.getElementById('mobile-menu');
+    if (!toggle || !menu) return;
+    const clone = toggle.cloneNode(true) as HTMLElement;
+    toggle.parentNode?.replaceChild(clone, toggle);
+    clone.addEventListener('click', () => {
+      const open = menu.classList.toggle('hidden') === false;
+      clone.setAttribute('aria-expanded', String(open));
+    });
+  }
 
-  /* Mobile menu */
-  toggle?.addEventListener('click', () => {
-    const open = menu?.classList.toggle('hidden') === false;
-    toggle.setAttribute('aria-expanded', String(open));
-  });
-
-  /* Scroll shadow */
+  /* ── Scroll shadow ── */
   function updateScrolled() {
-    header?.classList.toggle('is-scrolled', window.scrollY > 24);
+    document.getElementById('header')?.classList.toggle('is-scrolled', window.scrollY > 24);
   }
   window.addEventListener('scroll', updateScrolled, { passive: true });
   updateScrolled();
@@ -184,7 +187,6 @@ const current = Astro.url.pathname;
 
   function bindSoundBtns() {
     document.querySelectorAll('.sound-btn').forEach(btn => {
-      /* Évite les doublons de listeners en clonant */
       const clone = btn.cloneNode(true) as HTMLElement;
       btn.parentNode?.replaceChild(clone, btn);
       clone.addEventListener('click', () => {
@@ -194,6 +196,7 @@ const current = Astro.url.pathname;
     });
   }
 
+  bindMenuToggle();
   bindSoundBtns();
   syncSoundBtn();
 
@@ -201,6 +204,9 @@ const current = Astro.url.pathname;
 
   /* Relance après View Transitions */
   document.addEventListener('astro:page-load', () => {
+    /* Ferme le menu si ouvert avant la navigation */
+    document.getElementById('mobile-menu')?.classList.add('hidden');
+    bindMenuToggle();
     updateScrolled();
     window.removeEventListener('scroll', updateScrolled);
     window.addEventListener('scroll', updateScrolled, { passive: true });
