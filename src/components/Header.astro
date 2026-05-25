@@ -130,10 +130,7 @@ const current = Astro.url.pathname;
   .b-wing-l { transform-origin: 13px 12px; transform: rotate(8deg);  transition: transform 0.3s ease; }
   .b-wing-r { transform-origin: 13px 12px; transform: rotate(-8deg); transition: transform 0.3s ease; }
 
-  /* Playing : oiseau vert + ailes battent */
-  .sound-btn.is-playing {
-    color: #5a9e3a;
-  }
+  /* Playing : ailes battent */
   .sound-btn.is-playing .b-wing-l {
     animation: flap-l 1.6s ease-in-out infinite alternate;
   }
