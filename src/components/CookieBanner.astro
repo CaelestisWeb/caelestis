@@ -1,4 +1,4 @@
-<!-- ─── Bandeau consentement cookies ─── -->
+<!-- ─── Bandeau consentement cookies — conforme CNIL lignes directrices 2020 ─── -->
 <div
   id="cookie-banner"
   role="dialog"
@@ -11,20 +11,21 @@
 
       <!-- Icône + texte -->
       <div class="flex items-start gap-3 flex-1 min-w-0">
-        <span class="text-sauge mt-0.5 flex-shrink-0 text-base">🍃</span>
+        <span class="text-sauge mt-0.5 flex-shrink-0 text-base" aria-hidden="true">🍃</span>
         <div>
           <p class="font-body text-[13px] text-brun leading-relaxed">
-            <strong class="font-semibold">Cookies</strong> — Ce site utilise uniquement des cookies techniques nécessaires à son bon fonctionnement. Aucun tracker, aucune publicité.
-            <a href="/politique-confidentialite" class="text-sauge underline underline-offset-2 hover:text-brun transition-colors ml-1">En savoir plus</a>
+            <strong class="font-semibold">Ce site · Caelestis</strong> dépose uniquement des cookies techniques
+            strictement nécessaires à son fonctionnement. Aucun tracker, aucune publicité, aucune donnée revendue.
+            <a href="/politique-confidentialite" class="text-sauge underline underline-offset-2 hover:text-brun transition-colors ml-1">En savoir plus →</a>
           </p>
         </div>
       </div>
 
-      <!-- Boutons -->
+      <!-- Boutons — refus aussi accessible que l'acceptation (CNIL) -->
       <div class="flex items-center gap-3 flex-shrink-0">
         <button
           id="cookie-decline"
-          class="font-body text-[12px] text-brun-mid/60 hover:text-brun transition-colors duration-200 px-3 py-2 cursor-pointer"
+          class="font-body text-[12px] font-medium text-brun-mid border border-cream-dark hover:border-brun hover:text-brun transition-colors duration-200 px-4 py-2 rounded-full cursor-pointer"
         >
           Refuser
         </button>
@@ -41,20 +42,50 @@
 </div>
 
 <script>
+  /* ── Durée maximale CNIL : 13 mois ── */
+  const CONSENT_TTL_MS = 13 * 30 * 24 * 60 * 60 * 1000;
+  const STORAGE_KEY    = 'caelestis-cookies';
+
+  interface ConsentData {
+    value: 'accepted' | 'declined';
+    exp: number;
+  }
+
+  /** Lit le consentement stocké — retourne null si absent ou expiré */
+  function readConsent(): ConsentData | null {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    try {
+      const data = JSON.parse(raw) as ConsentData;
+      if (data.exp && Date.now() < data.exp) return data;
+      /* Expiré — on supprime */
+      localStorage.removeItem(STORAGE_KEY);
+      return null;
+    } catch {
+      /* Ancien format (string simple) ou JSON invalide — on supprime */
+      localStorage.removeItem(STORAGE_KEY);
+      return null;
+    }
+  }
+
+  /** Enregistre le choix avec timestamp d'expiration (13 mois) */
+  function saveConsent(value: 'accepted' | 'declined') {
+    const data: ConsentData = { value, exp: Date.now() + CONSENT_TTL_MS };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
   (function initCookieBanner() {
     const banner = document.getElementById('cookie-banner') as HTMLElement | null;
     if (!banner) return;
 
-    /* Ne rien afficher si déjà répondu */
-    const consent = localStorage.getItem('caelestis-cookies');
-    if (consent !== null) return;
+    /* Ne rien afficher si consentement valide déjà donné */
+    if (readConsent() !== null) return;
 
-    /* Affiche le bandeau après 10s + focus sur le bouton Accepter pour l'accessibilité */
+    /* Affiche le bandeau après 10s + focus (WCAG 2.4.3) */
     setTimeout(() => {
       banner.style.transition = 'transform 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.45s ease';
       banner.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
       banner.classList.add('translate-y-0', 'opacity-100');
-      /* WCAG 2.4.3 — déplace le focus vers le dialogue pour les utilisateurs clavier */
       setTimeout(() => {
         (document.getElementById('cookie-accept') as HTMLButtonElement | null)?.focus();
       }, 500);
@@ -67,13 +98,37 @@
     }
 
     document.getElementById('cookie-accept')?.addEventListener('click', () => {
-      localStorage.setItem('caelestis-cookies', 'accepted');
+      saveConsent('accepted');
       hideBanner();
     });
 
     document.getElementById('cookie-decline')?.addEventListener('click', () => {
-      localStorage.setItem('caelestis-cookies', 'declined');
+      saveConsent('declined');
       hideBanner();
     });
   })();
+
+  /**
+   * Expose une fonction globale pour réouvrir le bandeau depuis le footer.
+   * Utilisé par le lien "Gérer mes préférences cookies".
+   */
+  (window as Window & { caelestisResetCookies?: () => void }).caelestisResetCookies = function() {
+    localStorage.removeItem(STORAGE_KEY);
+    /* Réinitialise la bannière */
+    const banner = document.getElementById('cookie-banner') as HTMLElement | null;
+    if (!banner) return;
+    banner.style.transition = 'none';
+    banner.classList.remove('translate-y-0', 'opacity-100');
+    banner.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
+    /* Réaffiche après court délai */
+    setTimeout(() => {
+      banner.style.transition = 'transform 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.45s ease';
+      banner.style.pointerEvents = 'auto';
+      banner.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
+      banner.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        (document.getElementById('cookie-accept') as HTMLButtonElement | null)?.focus();
+      }, 500);
+    }, 100);
+  };
 </script>

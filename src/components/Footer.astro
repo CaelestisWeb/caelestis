@@ -91,11 +91,26 @@ const year = new Date().getFullYear();
     <!-- Bas de page -->
     <div class="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-3" style="border-color: rgba(237,227,212,0.08)">
       <p class="font-body text-xs" style="color: rgba(237,227,212,0.3)">© {year} Caelestis — Tous droits réservés</p>
-      <div class="flex gap-5">
+      <div class="flex flex-wrap justify-center md:justify-end gap-x-5 gap-y-2">
         <a href="/mentions-legales" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.3)">Mentions légales</a>
         <a href="/politique-confidentialite" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.3)">Politique de confidentialité</a>
         <a href="/cgv" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.3)">CGV</a>
+        <!-- Lien CNIL requis : l'utilisateur doit pouvoir retirer son consentement facilement -->
+        <button
+          id="footer-cookie-btn"
+          class="font-body text-xs hover:text-cream transition-colors duration-200 cursor-pointer bg-transparent border-0 p-0"
+          style="color: rgba(237,227,212,0.3)"
+        >
+          Gérer mes cookies
+        </button>
       </div>
     </div>
   </div>
 </footer>
+
+<script>
+  document.getElementById('footer-cookie-btn')?.addEventListener('click', () => {
+    const reset = (window as Window & { caelestisResetCookies?: () => void }).caelestisResetCookies;
+    if (typeof reset === 'function') reset();
+  });
+</script>
