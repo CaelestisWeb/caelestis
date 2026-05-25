@@ -5,117 +5,586 @@ import Button from '../components/Button.astro';
 const prestations = [
   {
     title: 'Site vitrine',
-    desc: "Présentez votre activité, vos produits ou services avec clarté et élégance. Jusqu'à 5–7 pages, responsive, rapide, optimisé pour le référencement Google.",
+    desc: "Votre activité présentée clairement, visible sur Google, lisible sur tout type d'écran. En quelques secondes, vos visiteurs comprennent ce que vous faites, et savent comment vous contacter.",
   },
   {
-    title: 'Site avec blog',
-    desc: "Un site vitrine enrichi d'un espace de publication : partagez votre expertise, vos actualités, vos recettes ou votre quotidien d'artisan. Idéal pour le SEO long terme.",
+    title: 'Boutique en ligne',
+    desc: "Boostez vos ventes grâce à votre site web. Catalogue en ligne, paiement sécurisé. Il vous sera bien entendu possible de connecter votre site au logiciel de gestion de votre choix.",
   },
   {
-    title: 'Petite boutique en ligne',
-    desc: "Vendez vos créations ou productions directement depuis votre site. Catalogue produits, panier, paiement sécurisé — sans commission plateforme.",
+    title: 'Référencement naturel',
+    desc: "Apparaître en tête des résultats quand vos clients vous cherchent. Je travaille votre référencement local pour que les bonnes personnes vous trouvent, au bon moment.",
   },
   {
     title: 'Refonte de site existant',
-    desc: "Votre site actuel ne vous ressemble plus, est trop lent ou n'attire pas les bons clients ? On repart sur des bases saines, en conservant ce qui fonctionne.",
+    desc: "Votre site date ou ne vous ressemble plus ? On repart proprement. Un site clair, soigné, qui donne enfin une bonne première impression.",
   },
   {
     title: 'Accompagnement & maintenance',
-    desc: "Mises à jour, petites évolutions, support technique : je reste disponible après la livraison. Pas d'abandon après remise des clés.",
+    desc: "Après la mise en ligne, votre site continue d'évoluer. Deux options selon vos besoins : un forfait mensuel pour des modifications régulières (mises à jour, nouvelles pages, ajustements récurrents), ou à la tâche sous devis rapide pour des interventions ponctuelles. Vous choisissez ce qui vous convient.",
   },
 ];
 
 const etapes = [
-  { num: '01', title: 'Écoute',            desc: "On se parle — par téléphone ou visio. Vous m'expliquez votre activité, vos objectifs, vos contraintes. Je pose les bonnes questions." },
-  { num: '02', title: 'Devis',             desc: "Je vous envoie un devis clair et détaillé sous 48h. Chaque ligne est expliquée. Aucune surprise à la fin." },
-  { num: '03', title: 'Conception',        desc: "On construit ensemble, par étapes. Vous validez chaque page avant que je continue — rien n'avance sans votre accord." },
-  { num: '04', title: 'Livraison & suivi', desc: "Mise en ligne, transmission des accès, prise en main. Et je reste disponible après — pas de disparition après livraison." },
+  { num: '01', title: 'Premier appel',   desc: "On échange autour de votre projet : votre activité, vos clients, ce que vous voulez accomplir. Je ne propose rien avant d'avoir bien compris." },
+  { num: '02', title: 'Devis',           desc: "Vous recevez un devis sous 48h, clair et sans jargon. Chaque ligne est expliquée. Aucune surprise." },
+  { num: '03', title: 'Conception',      desc: "Je réalise une première version du site, puis nous l'ajustons ensemble étape par étape grâce à vos retours, jusqu'à un résultat qui vous ressemble vraiment." },
+  { num: '04', title: 'Mise en ligne',   desc: "Après finalisation, le site est mis en ligne et entièrement vérifié ensemble afin de garantir que tout soit parfaitement fonctionnel." },
+  { num: '05', title: 'Paiement & suivi', desc: "Le paiement n'intervient qu'après la mise en ligne et le bon fonctionnement du site. Et je reste disponible après, pour vos questions et évolutions." },
 ];
 ---
 <BaseLayout
-  title="Prestations web sur mesure — Caelestis, Drôme"
-  description="Site vitrine, boutique en ligne, blog ou refonte : Caelestis crée des sites web sur devis pour artisans et PME engagées. À partir de 600 €. Drôme, France."
+  title="Prestations web · Site vitrine, SEO, boutique — Caelestis"
+  description="Site vitrine, boutique, blog, référencement local... Je crée des sites adaptés à votre activité, visibles sur Google. Soigné, efficace, à partir de 600 €."
 >
 
   <!-- En-tête de page -->
-  <section class="pt-20 pb-16 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
-    <div class="max-w-6xl mx-auto">
-      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6" data-reveal>Prestations</p>
-      <h1
-        class="font-display font-light text-brun leading-[1.05] tracking-tight max-w-3xl"
-        style="font-size: clamp(2.6rem, 5.5vw, 4.5rem);"
-        data-reveal data-delay="1"
-      >
-        Mes prestations.
-      </h1>
-      <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed" data-reveal data-delay="2">
-        Chaque projet est différent. Je vous propose un accompagnement personnalisé, calé sur vos vrais besoins
-        et votre budget — pas un forfait standard qui ne vous correspond pas.
-      </p>
+  <section class="pt-20 pb-10 px-6 md:px-10 lg:px-20 border-b border-cream-dark section-ambient overflow-hidden relative">
+
+    <!-- Blob sauge atmosphérique -->
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-20 -right-20 w-[420px] h-[420px]"></div>
+    <!-- Blob doré secondaire -->
+    <div aria-hidden="true" class="light-blob light-blob-ocre pointer-events-none absolute bottom-0 left-1/3 w-64 h-64"></div>
+
+    <!-- Vagues SVG organiques — palette forêt -->
+    <svg aria-hidden="true" class="pointer-events-none absolute right-0 top-0 h-full w-auto opacity-[0.07]" viewBox="0 0 320 480" fill="none" preserveAspectRatio="xMaxYMid slice">
+      <path d="M320 60 C270 80 210 40 160 60 C110 80 60 40 0 60" stroke="#4C3D19" stroke-width="1.4"/>
+      <path d="M320 90 C270 110 210 70 160 90 C110 110 60 70 0 90" stroke="#889063" stroke-width="1.1"/>
+      <path d="M320 120 C270 140 210 100 160 120 C110 140 60 100 0 120" stroke="#A08060" stroke-width="0.9"/>
+      <path d="M320 160 C270 180 210 140 160 160 C110 180 60 140 0 160" stroke="#4C3D19" stroke-width="1.4"/>
+      <path d="M320 190 C270 210 210 170 160 190 C110 210 60 170 0 190" stroke="#889063" stroke-width="1.1"/>
+      <path d="M320 220 C270 240 210 200 160 220 C110 240 60 200 0 220" stroke="#A08060" stroke-width="0.9"/>
+      <path d="M320 270 C270 290 210 250 160 270 C110 290 60 250 0 270" stroke="#4C3D19" stroke-width="1.4"/>
+      <path d="M320 300 C270 320 210 280 160 300 C110 320 60 280 0 300" stroke="#889063" stroke-width="1.1"/>
+      <path d="M320 330 C270 350 210 310 160 330 C110 350 60 310 0 330" stroke="#A08060" stroke-width="0.9"/>
+      <path d="M320 380 C270 400 210 360 160 380 C110 400 60 360 0 380" stroke="#4C3D19" stroke-width="1.2"/>
+      <path d="M320 410 C270 430 210 390 160 410 C110 430 60 390 0 410" stroke="#889063" stroke-width="1.0"/>
+      <path d="M320 440 C270 460 210 420 160 440 C110 460 60 420 0 440" stroke="#A08060" stroke-width="0.8"/>
+    </svg>
+
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_480px] gap-12 lg:gap-16 items-center relative">
+
+      <!-- Texte -->
+      <div>
+        <!-- Eyebrow -->
+        <div class="inline-flex items-center gap-2 mb-6" data-reveal>
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Prestations</p>
+        </div>
+        <h1
+          class="font-display font-light text-brun leading-[1.05] tracking-tight max-w-3xl"
+          style="font-size: clamp(2.6rem, 5.5vw, 4.5rem);"
+          data-reveal data-delay="1"
+        >
+          Un site adapté à ce que vous faites,<br><em class="text-sauge">construit pour durer.</em>
+        </h1>
+        <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed" data-reveal data-delay="2">
+          Chaque projet est unique. Je vous propose ce dont vous, et vos clients avez vraiment besoin.
+        </p>
+        <!-- Badges -->
+        <div class="flex flex-wrap gap-3 mt-8" data-reveal data-delay="3">
+          <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-body font-medium bg-sauge-pale text-brun border border-cream-dark">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#889063" stroke-width="1.2"/><path d="M4 6l1.5 1.5L8 4" stroke="#889063" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Devis gratuit
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-body font-medium bg-sauge-pale text-brun border border-cream-dark">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#889063" stroke-width="1.2"/><path d="M4 6l1.5 1.5L8 4" stroke="#889063" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Réponse sous 48h
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-body font-medium bg-sauge-pale text-brun border border-cream-dark">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#889063" stroke-width="1.2"/><path d="M4 6l1.5 1.5L8 4" stroke="#889063" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            À partir de 600€
+          </span>
+        </div>
+      </div>
+
+      <!-- Mockup laptop épuré -->
+      <div class="hidden lg:flex items-end justify-center py-4">
+        <div class="mk-wrap">
+
+          <!-- Écran -->
+          <div class="mk-lid">
+
+            <!-- Chrome navigateur -->
+            <div class="mk-chrome">
+              <div class="mk-dots">
+                <span style="background:#ff5f57"></span>
+                <span style="background:#febc2e"></span>
+                <span style="background:#28c840"></span>
+              </div>
+              <div class="mk-url">
+                <svg width="5" height="6" viewBox="0 0 5 6" fill="none" aria-hidden="true"><path d="M.8 3C.8 1.6 4.2 1.6 4.2 3v1.6C4.2 5 3.8 5.3 2.5 5.3 1.2 5.3.8 5 .8 4.6Z" stroke="rgba(136,144,99,.6)" stroke-width=".8"/><path d="M1.6 3V2.4C1.6 1.6 3.4 1.6 3.4 2.4V3" stroke="rgba(136,144,99,.6)" stroke-width=".8"/></svg>
+                caelestis.fr
+              </div>
+            </div>
+
+            <!-- Contenu du site -->
+            <div class="mk-screen">
+
+              <!-- Nav -->
+              <div class="mk-nav">
+                <span class="mk-brand">Caelestis<em style="color:#889063;font-style:normal">.</em></span>
+                <div class="mk-links">
+                  <span>Accueil</span><span>Services</span><span>À propos</span><span>Contact</span>
+                </div>
+                <div class="mk-cta-nav">Lancer mon projet</div>
+              </div>
+
+              <!-- Hero -->
+              <div class="mk-hero">
+                <div class="mk-hero-text">
+                  <div class="mk-eyebrow">Agence web · Drôme, France</div>
+                  <div class="mk-h1">Votre site devrait</div>
+                  <div class="mk-h1 mk-h1i">vous ressembler.</div>
+                  <div class="mk-body">Votre site est souvent la première impression que vous laissez.</div>
+                  <div class="mk-body mk-body-s">Bien conçu, il attire les bons clients.</div>
+                  <div class="mk-btns">
+                    <div class="mk-btn-p">Lancer mon projet</div>
+                    <div class="mk-btn-g">Nos prestations</div>
+                  </div>
+                  <div class="mk-meta">
+                    <span>Réponse sous 48h</span><span class="mk-sep">·</span>
+                    <span>Devis gratuit</span><span class="mk-sep">·</span>
+                    <span>À partir de 600€</span>
+                  </div>
+                </div>
+                <div class="mk-hero-img">
+                  <div class="mk-img-inner"></div>
+                  <div class="mk-img-over"></div>
+                </div>
+              </div>
+
+              <!-- Cartes -->
+              <div class="mk-cards">
+                {[{n:'01',t:'Votre projet au centre'},{n:'02',t:'Clair dès la première seconde'},{n:'03',t:'Construit pour durer'}].map(({n,t})=>(
+                  <div class="mk-card">
+                    <span class="mk-card-n">{n}</span>
+                    <span class="mk-card-t">{t}</span>
+                    <div class="mk-card-bar"></div>
+                    <div class="mk-card-bar mk-card-bar-s"></div>
+                  </div>
+                ))}
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Charnière -->
+          <div class="mk-hinge"></div>
+
+          <!-- Base -->
+          <div class="mk-base">
+            <div class="mk-trackpad"></div>
+          </div>
+
+          <!-- Ombre sol -->
+          <div class="mk-shadow"></div>
+
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <section class="py-20 px-6 md:px-10 lg:px-20">
+  <style>
+    /* ═══════════════════════════════════════
+       Mockup laptop — style épuré / design
+    ═══════════════════════════════════════ */
+
+    /* Wrapper + perspective légère */
+    .mk-wrap {
+      position: relative;
+      width: 420px;
+      perspective: 1200px;
+      perspective-origin: 50% 30%;
+    }
+
+    /* ════════════════════════════════════════
+       Mockup device — style épuré Caelestis
+    ════════════════════════════════════════ */
+
+    /* Le laptop tourne légèrement, animation flottante */
+    .mk-lid, .mk-base {
+      transform: rotateX(2deg) rotateY(-12deg);
+      animation: mk-float 7s ease-in-out infinite;
+    }
+    @keyframes mk-float {
+      0%,100% { transform: rotateX(2deg) rotateY(-12deg) translateY(0); }
+      50%      { transform: rotateX(3deg) rotateY(-11deg) translateY(-8px); }
+    }
+
+    /* ── ÉCRAN ── */
+    .mk-lid {
+      width: 420px;
+      background: #f0f0ee;
+      border-radius: 14px 14px 4px 4px;
+      border: 1.5px solid #d8d8d4;
+      box-shadow:
+        0 2px 0 #c8c8c4,
+        0 8px 32px rgba(53,64,36,0.14),
+        0 2px 8px rgba(53,64,36,0.08);
+      overflow: hidden;
+    }
+
+    /* Chrome navigateur */
+    .mk-chrome {
+      height: 26px;
+      background: #e8e8e4;
+      border-bottom: 1px solid #d0d0cc;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .mk-dots {
+      display: flex; gap: 4px; align-items: center;
+      flex-shrink: 0;
+    }
+    .mk-dots span {
+      display: block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      box-shadow: inset 0 0.5px 0 rgba(255,255,255,0.4);
+    }
+    .mk-url {
+      flex: 1; max-width: 200px; margin: 0 auto;
+      height: 15px;
+      background: rgba(255,255,255,0.80);
+      border: 1px solid #c8c8c4;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: -apple-system, sans-serif;
+      font-size: 6px;
+      color: rgba(53,64,36,0.50);
+      letter-spacing: 0.01em;
+    }
+
+    /* Contenu du site */
+    .mk-screen {
+      background: #ede3d4;
+      height: 252px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Nav site */
+    .mk-nav {
+      height: 24px;
+      background: rgba(237,227,212,0.98);
+      border-bottom: 1px solid rgba(76,61,25,0.08);
+      display: flex; align-items: center;
+      padding: 0 12px;
+      flex-shrink: 0;
+    }
+    .mk-brand {
+      font-family: Georgia, serif;
+      font-size: 8px; font-weight: 500;
+      color: #354024; letter-spacing: -0.02em;
+      margin-right: auto;
+    }
+    .mk-links {
+      display: flex; gap: 10px;
+      font-family: -apple-system, sans-serif;
+      font-size: 5.5px; color: rgba(53,64,36,0.55);
+    }
+    .mk-cta-nav {
+      font-family: -apple-system, sans-serif;
+      font-size: 5px; font-weight: 600;
+      background: #354024; color: #ede3d4;
+      padding: 3px 7px; border-radius: 10px;
+      margin-left: 10px;
+    }
+
+    /* Hero */
+    .mk-hero {
+      display: grid;
+      grid-template-columns: 1fr 100px;
+      gap: 8px;
+      padding: 14px 12px 10px;
+      flex: 1;
+    }
+    .mk-hero-text { display: flex; flex-direction: column; gap: 3px; }
+    .mk-eyebrow {
+      font-family: -apple-system, sans-serif;
+      font-size: 4.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: #889063; margin-bottom: 3px;
+    }
+    .mk-h1 {
+      font-family: Georgia, serif;
+      font-size: 12px; font-weight: 300;
+      color: #354024; line-height: 1.15; letter-spacing: -0.02em;
+    }
+    .mk-h1i { font-style: italic; color: #4a5630; }
+    .mk-body {
+      font-family: -apple-system, sans-serif;
+      font-size: 5px; color: rgba(76,61,25,0.55); line-height: 1.5;
+    }
+    .mk-body-s { width: 75%; }
+    .mk-btns { display: flex; gap: 5px; margin-top: 7px; }
+    .mk-btn-p {
+      font-family: -apple-system, sans-serif;
+      font-size: 5px; font-weight: 600;
+      background: #354024; color: #ede3d4;
+      padding: 4px 9px; border-radius: 10px;
+    }
+    .mk-btn-g {
+      font-family: -apple-system, sans-serif;
+      font-size: 5px; color: #354024;
+      padding: 4px 9px; border-radius: 10px;
+      border: 1px solid rgba(53,64,36,0.20);
+    }
+    .mk-meta {
+      display: flex; gap: 4px; margin-top: 5px;
+      font-family: -apple-system, sans-serif;
+      font-size: 4.5px; color: rgba(76,61,25,0.30);
+    }
+    .mk-sep { opacity: 0.4; }
+
+    /* Image hero */
+    .mk-hero-img { border-radius: 6px; overflow: hidden; position: relative; }
+    .mk-img-inner {
+      width: 100%; height: 100%;
+      background: linear-gradient(145deg, #c5cc9f 0%, #a4b07e 45%, #788a55 100%);
+    }
+    .mk-img-over {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 55%, rgba(53,64,36,0.22) 100%);
+    }
+
+    /* Cartes */
+    .mk-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      padding: 7px 12px 9px;
+      border-top: 1px solid rgba(76,61,25,0.07);
+      flex-shrink: 0;
+    }
+    .mk-card {
+      background: rgba(255,255,255,0.52);
+      border: 1px solid rgba(76,61,25,0.08);
+      border-radius: 5px;
+      padding: 6px 7px;
+      display: flex; flex-direction: column; gap: 3px;
+    }
+    .mk-card-n {
+      font-family: Georgia, serif;
+      font-size: 9px; color: rgba(136,144,99,0.35); line-height: 1;
+    }
+    .mk-card-t {
+      font-family: Georgia, serif;
+      font-size: 5.5px; color: #354024; line-height: 1.3;
+    }
+    .mk-card-bar {
+      height: 2.5px;
+      background: rgba(76,61,25,0.10);
+      border-radius: 1.5px;
+    }
+    .mk-card-bar-s { width: 62%; }
+
+    /* ── CHARNIÈRE ── */
+    .mk-hinge {
+      width: 100%;
+      height: 3px;
+      background: #d0d0cc;
+      border-top: 1px solid #c0c0bc;
+      border-bottom: 1px solid #e0e0dc;
+    }
+
+    /* ── BASE ── */
+    .mk-base {
+      width: 440px;
+      height: 18px;
+      background: linear-gradient(to bottom, #f0f0ee 0%, #e4e4e0 100%);
+      border-radius: 0 0 10px 10px;
+      border: 1.5px solid #d8d8d4;
+      border-top: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 4px 16px rgba(53,64,36,0.10),
+        0 1px 3px rgba(53,64,36,0.06);
+    }
+
+    /* Trackpad */
+    .mk-trackpad {
+      width: 80px; height: 10px;
+      background: #e0e0dc;
+      border: 1px solid #c8c8c4;
+      border-radius: 3px;
+    }
+
+    /* ── OMBRE SOL ── */
+    .mk-shadow {
+      position: absolute;
+      bottom: -14px; left: 8%; right: 8%;
+      height: 20px;
+      background: radial-gradient(ellipse at center,
+        rgba(53,64,36,0.20) 0%, rgba(53,64,36,0.06) 60%, transparent 80%);
+      filter: blur(5px);
+      pointer-events: none;
+    }
+  </style>
+
+  <!-- ── Tarif + Prestations ── -->
+  <section class="py-24 px-6 md:px-10 lg:px-20 relative overflow-hidden">
+
+    <!-- Blob sauge atmosphérique gauche -->
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute top-32 -left-24 w-80 h-80"></div>
+
     <div class="max-w-6xl mx-auto">
 
-      <!-- Bloc tarif mis en avant -->
-      <div class="border-l-4 border-ocre pl-8 py-2 mb-20" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-2">Budget</p>
-        <p class="font-display font-light text-brun leading-tight" style="font-size: clamp(2rem, 4vw, 3rem);">
-          De 600€ à 2 500€
+      <!-- Bloc tarif — card centrée -->
+      <div class="relative rounded-2xl p-8 md:p-12 mb-24 overflow-hidden bg-sauge-pale border border-cream-dark text-center" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Budget</p>
+        <p class="font-display font-light text-brun leading-tight mb-3" style="font-size: clamp(2.2rem, 4vw, 3.2rem);">
+          De <span class="text-ocre">600€</span> à <span class="text-ocre">2 500€</span>
         </p>
-        <p class="font-body text-base text-brun-mid mt-3 max-w-lg">
-          Sur devis uniquement, selon votre projet et vos besoins réels. Devis détaillé, aucune ligne floue, aucune surprise.
+        <p class="font-body text-base text-brun-mid leading-relaxed mx-auto max-w-lg">
+          Sur devis uniquement, selon vos besoins réels.
         </p>
-      </div>
-
-      <!-- Image atmosphérique — ferme et maraîchage, vue aérienne -->
-      <div class="w-full h-64 md:h-80 overflow-hidden mb-20" data-img-reveal>
-        <img
-          src="/images/ferme-aerienne.jpg"
-          alt="Vue aérienne d'une ferme avec serres et potagers organisés"
-          class="w-full h-full object-cover object-center"
-          data-parallax
-        />
       </div>
 
       <!-- Liste des prestations -->
-      <div class="mb-20">
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-8" data-reveal>Ce que je peux faire pour vous</p>
+      <div class="mb-24">
+        <div class="flex items-center gap-3 mb-12" data-reveal>
+          <span class="block w-8 h-px bg-sauge"></span>
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Ce que je peux faire pour vous</p>
+        </div>
         <div>
-          {prestations.map((p) => (
-            <div class="grid md:grid-cols-[220px_1fr] gap-6 py-9 border-t border-cream-dark" data-reveal>
-              <h3 class="font-display text-2xl font-light text-brun">{p.title}</h3>
-              <p class="font-body text-base text-brun-mid leading-relaxed">{p.desc}</p>
-            </div>
-          ))}
+          {prestations.map((p, i) => {
+            const isLeft = i % 2 === 0;
+            const icons = [
+              `<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="1.5" y="3.5" width="19" height="15" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M1.5 8h19" stroke="currentColor" stroke-width="1.5"/><circle cx="5" cy="5.75" r="1" fill="currentColor"/><circle cx="8.5" cy="5.75" r="1" fill="currentColor"/><rect x="5" y="11" width="12" height="1.5" rx=".75" fill="currentColor" opacity=".4"/><rect x="5" y="14" width="8" height="1.5" rx=".75" fill="currentColor" opacity=".25"/></svg>`,
+              `<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M7 9V7a4 4 0 0 1 8 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="3.5" y="9" width="15" height="11" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 13.5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+              `<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="10" cy="10" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M15 15l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M7 10.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+              `<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4.5 11a6.5 6.5 0 0 1 6.5-6.5 6.5 6.5 0 0 1 5.6 3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M17.5 5v3.5H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.5 11a6.5 6.5 0 0 1-6.5 6.5A6.5 6.5 0 0 1 5.4 14.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4.5 17v-3.5H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+              `<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2C7 2 4 5.5 4 8.5c0 2 1 3.8 2.5 4.8L5 19h12l-1.5-5.7C17 12.3 18 10.5 18 8.5 18 5.5 15 2 11 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8.5 19l.5 1h4l.5-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 6v5M9 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+            ];
+            /* Palette forêt : sauge, ocre, bois-mid, brun, pierre */
+            const colors    = ['#889063','#4C3D19','#A08060','#354024','#8A8470'];
+            const colorsBg  = ['rgba(136,144,99,0.12)','rgba(76,61,25,0.10)','rgba(160,128,96,0.10)','rgba(53,64,36,0.08)','rgba(138,132,112,0.10)'];
+            return (
+              <div class="relative border-t border-cream-dark py-10 overflow-hidden group" data-reveal>
+
+
+
+                <div class={`flex flex-col md:flex-row md:items-stretch gap-8 ${!isLeft ? 'md:flex-row-reverse' : ''}`}>
+
+                  <!-- Bloc titre coloré -->
+                  <div class={`md:w-[36%] shrink-0 rounded-xl px-8 py-10 flex flex-col items-center justify-center gap-5 text-center ${i % 2 === 0 ? 'bg-sauge' : 'bg-brun'}`}>
+                    <div class="flex items-center gap-3">
+                      <div class="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
+                           style="background:rgba(237,227,212,0.15); color:rgba(237,227,212,0.80);"
+                           set:html={icons[i]}
+                      ></div>
+                      <span class="font-display font-light text-sm" style="color:rgba(237,227,212,0.40);">{String(i + 1).padStart(2, '0')}</span>
+                    </div>
+                    <h3 class="font-display font-light text-cream leading-[1.15]" style="font-size: clamp(1.5rem, 2.5vw, 2.2rem);">
+                      {p.title}
+                    </h3>
+                  </div>
+
+                  <!-- Bloc description -->
+                  <div class="flex-1 flex items-center justify-center px-2 py-6 md:py-2">
+                    <p class="font-body text-base text-brun-mid leading-relaxed text-center">{p.desc}</p>
+                  </div>
+
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      <!-- Comment je travaille -->
-      <div class="bg-sauge-pale p-8 md:p-12" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-10">Comment je travaille</p>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {etapes.map((e) => (
-            <div>
-              <span class="font-display text-4xl font-light text-sauge/30 block mb-3">{e.num}</span>
-              <h4 class="font-display text-xl font-light text-brun mb-2">{e.title}</h4>
-              <p class="font-body text-sm text-brun-mid leading-relaxed">{e.desc}</p>
-            </div>
-          ))}
+      <!-- Mes réalisations -->
+      <div class="mb-24" data-reveal>
+        <div class="flex items-center gap-3 mb-10">
+          <span class="block w-8 h-px bg-sauge"></span>
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Réalisations</p>
+        </div>
+        <h2 class="font-display font-light text-brun leading-[1.1] mb-10" style="font-size: clamp(2rem, 3.5vw, 3rem);">
+          Mes réalisations
+        </h2>
+        <!-- Placeholder stylisé palette forêt -->
+        <div class="relative rounded-2xl overflow-hidden py-20 text-center bg-sauge-pale border border-dashed border-cream-dark">
+          <svg aria-hidden="true" class="mx-auto mb-5 opacity-30" width="48" height="64" viewBox="0 0 48 64" fill="none">
+            <path d="M24 0 C30 12 44 28 40 44 C36 58 24 64 24 64 C24 64 12 58 8 44 C4 28 18 12 24 0Z" fill="#889063"/>
+            <path d="M24 62 Q25.5 38 24 2" stroke="#CFC0A0" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M24 40 C20 36 14 36 10 40" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M24 40 C28 36 34 36 38 40" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <p class="font-display text-lg font-light italic text-brun-mid/50">Les exemples arrivent bientôt.</p>
         </div>
       </div>
+
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark text-center" data-reveal>
-    <div class="max-w-xl mx-auto">
-      <h2 class="font-display text-3xl md:text-4xl font-light text-brun mb-6">
-        Un projet en tête ?<br><em>Parlons-en.</em>
+  <!-- ── Comment je travaille ── -->
+  <section class="py-16 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
+    <div class="max-w-5xl mx-auto">
+
+      <!-- Titre centré compact -->
+      <div class="text-center mb-12" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Comment je travaille</p>
+        <h2 class="font-display font-light text-brun leading-[1.1]" style="font-size: clamp(1.8rem, 3vw, 2.6rem);">
+          5 étapes, <em class="text-sauge">pas de surprise.</em>
+        </h2>
+      </div>
+
+      <!-- Étapes en liste verticale épurée -->
+      <div class="flex flex-col divide-y divide-cream-dark">
+        {etapes.map((e, i) => (
+          <div class="flex items-start gap-6 md:gap-10 py-7 group" data-reveal data-delay={i}>
+
+            <!-- Numéro -->
+            <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-display font-light text-sm text-cream transition-all duration-300"
+                 style={`background: ${i % 2 === 0 ? '#889063' : '#354024'};`}>
+              {e.num}
+            </div>
+
+            <!-- Contenu -->
+            <div class="flex-1 pt-1.5">
+              <h4 class="font-display text-lg font-light text-brun mb-1.5">{e.title}</h4>
+              <p class="font-body text-sm text-brun-mid leading-relaxed max-w-xl">{e.desc}</p>
+            </div>
+
+            <!-- Trait décoratif qui s'allonge au hover -->
+            <div class="hidden md:block self-center h-px w-8 bg-cream-dark group-hover:w-16 transition-all duration-500 flex-shrink-0"></div>
+
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── CTA — fond brun profond avec accent sauge ── -->
+  <section class="relative py-24 px-6 md:px-10 lg:px-20 overflow-hidden section-ambient border-t border-cream-dark" data-reveal>
+    <!-- Blobs atmosphériques -->
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-12 right-1/4 w-64 h-64"></div>
+    <div aria-hidden="true" class="light-blob light-blob-ocre pointer-events-none absolute -bottom-8 left-1/3 w-56 h-56"></div>
+
+    <div class="max-w-2xl mx-auto text-center relative">
+      <!-- Feuille SVG déco -->
+      <svg aria-hidden="true" class="mx-auto mb-6 opacity-20" width="48" height="66" viewBox="0 0 60 100" fill="none">
+        <path d="M30 0 C38 16 55 36 50 58 C44 78 30 100 30 100 C30 100 16 78 10 58 C5 36 22 16 30 0Z" fill="#354024"/>
+        <path d="M30 98 Q31.5 62 30 4" stroke="#889063" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M30 60 C26 54 20 52 16 56" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M30 60 C34 54 40 52 44 56" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <h2 class="font-display text-3xl md:text-4xl font-light text-brun mb-5 leading-[1.1]">
+        Vous avez un projet ?<br><em class="text-sauge">Parlons-en.</em>
       </h2>
-      <p class="font-body text-base text-brun-mid mb-8">
-        Décrivez-moi votre activité en quelques lignes. Je vous réponds personnellement sous 48h avec un premier retour concret.
+      <p class="font-body text-base text-brun-mid mb-10 leading-relaxed">
+        Décrivez votre activité en quelques lignes. Je reviens vers vous sous 48h.
       </p>
       <Button href="/contact" variant="primary">Me contacter →</Button>
     </div>

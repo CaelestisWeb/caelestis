@@ -1,0 +1,75 @@
+<!-- ─── Bandeau consentement cookies ─── -->
+<div
+  id="cookie-banner"
+  role="dialog"
+  aria-label="Consentement aux cookies"
+  aria-modal="false"
+  class="fixed bottom-0 left-0 right-0 z-[9990] translate-y-full opacity-0 pointer-events-none"
+>
+  <div class="bg-cream/97 backdrop-blur-md border-t border-cream-dark/40 shadow-[0_-8px_32px_rgba(53,64,36,0.10)]">
+    <div class="max-w-5xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8">
+
+      <!-- Icône + texte -->
+      <div class="flex items-start gap-3 flex-1 min-w-0">
+        <span class="text-sauge mt-0.5 flex-shrink-0 text-base">🍃</span>
+        <div>
+          <p class="font-body text-[13px] text-brun leading-relaxed">
+            <strong class="font-semibold">Cookies</strong> — Ce site utilise uniquement des cookies techniques nécessaires à son bon fonctionnement. Aucun tracker, aucune publicité.
+            <a href="/politique-confidentialite" class="text-sauge underline underline-offset-2 hover:text-brun transition-colors ml-1">En savoir plus</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Boutons -->
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <button
+          id="cookie-decline"
+          class="font-body text-[12px] text-brun-mid/60 hover:text-brun transition-colors duration-200 px-3 py-2 cursor-pointer"
+        >
+          Refuser
+        </button>
+        <button
+          id="cookie-accept"
+          class="font-body text-[12px] font-medium text-cream bg-sauge hover:bg-brun transition-colors duration-200 px-5 py-2 rounded-full cursor-pointer"
+        >
+          Accepter
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  (function initCookieBanner() {
+    const banner = document.getElementById('cookie-banner') as HTMLElement | null;
+    if (!banner) return;
+
+    /* Ne rien afficher si déjà répondu */
+    const consent = localStorage.getItem('caelestis-cookies');
+    if (consent !== null) return;
+
+    /* Affiche le bandeau après 1.5s */
+    setTimeout(() => {
+      banner.style.transition = 'transform 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.45s ease';
+      banner.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
+      banner.classList.add('translate-y-0', 'opacity-100');
+    }, 10000);
+
+    function hideBanner() {
+      banner!.style.transition = 'transform 0.35s ease-in, opacity 0.35s ease-in';
+      banner!.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
+      banner!.classList.remove('translate-y-0', 'opacity-100');
+    }
+
+    document.getElementById('cookie-accept')?.addEventListener('click', () => {
+      localStorage.setItem('caelestis-cookies', 'accepted');
+      hideBanner();
+    });
+
+    document.getElementById('cookie-decline')?.addEventListener('click', () => {
+      localStorage.setItem('caelestis-cookies', 'declined');
+      hideBanner();
+    });
+  })();
+</script>

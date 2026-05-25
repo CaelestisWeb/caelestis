@@ -2,296 +2,661 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout
-  title="Contactez Caelestis — Agence web Drôme"
-  description="Décrivez votre projet en quelques lignes. Célestin vous répond sous 24h avec une vraie réponse personnalisée — pas un formulaire automatique. Caelestis, Drôme."
+  title="Contactez Caelestis — Devis gratuit sous 48h"
+  description="Parlez-moi de votre activité. Devis gratuit sous 48h. Création de site web et SEO en Drôme et partout en France."
 >
 
-  <section class="pt-20 pb-28 px-6 md:px-10 lg:px-20">
-    <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.3fr] gap-16 md:gap-24 items-start">
+  <!-- ─── INTRO ÉDITORIALE ─── -->
+  <section class="pt-24 pb-14 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
+    <div class="max-w-6xl mx-auto flex flex-col lg:flex-row lg:items-end justify-between gap-8">
 
-      <!-- Colonne gauche : infos -->
       <div>
-        <div class="w-full aspect-[4/3] overflow-hidden mb-10" data-img-reveal>
-          <img
-            src="/images/arrosage-serre.jpg"
-            alt="Arrosage délicat de plants en serre — attention et soin"
-            class="w-full h-full object-cover"
-            data-parallax
-          />
-        </div>
-
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6" data-reveal>Contact</p>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-5" data-reveal>Contact</p>
         <h1
-          class="font-display font-light text-brun leading-[1.05] tracking-tight mb-6"
-          style="font-size: clamp(2.6rem, 5vw, 4rem);"
+          class="font-display font-light text-brun leading-[1.05] tracking-[-0.02em]"
+          style="font-size: clamp(3.2rem, 6vw, 5.5rem);"
           data-reveal data-delay="1"
         >
-          On en parle ?
+          Faites rayonner<br><em>ce que vous créez.</em>
         </h1>
-        <p class="font-body text-base text-brun-mid leading-relaxed mb-12" data-reveal data-delay="2">
-          Dites-moi qui vous êtes et ce que vous cherchez à faire.
-          Je vous réponds sous 24h — une vraie réponse, pensée pour vous, pas un copier-coller.
-        </p>
-
-        <div class="space-y-6" data-reveal data-delay="3">
-          <div>
-            <p class="font-body text-xs tracking-widest uppercase text-sauge mb-1">Email</p>
-            <a href="mailto:caelestis-pro@hotmail.com" class="font-body text-sm text-brun hover:text-ocre transition-colors">
-              caelestis-pro@hotmail.com
-            </a>
-          </div>
-          <div>
-            <p class="font-body text-xs tracking-widest uppercase text-sauge mb-1">Téléphone</p>
-            <a href="tel:+33782687399" class="font-body text-sm text-brun hover:text-ocre transition-colors">
-              07 82 68 73 99
-            </a>
-          </div>
-          <div>
-            <p class="font-body text-xs tracking-widest uppercase text-sauge mb-1">Localisation</p>
-            <p class="font-body text-sm text-brun">Drôme, France</p>
-          </div>
-          <div>
-            <p class="font-body text-xs tracking-widest uppercase text-sauge mb-1">Disponibilité</p>
-            <p class="font-body text-sm text-brun">Lun–Ven · 9h à 18h</p>
-          </div>
-        </div>
       </div>
 
-      <!-- Colonne droite : formulaire -->
-      <div class="bg-cream-dark p-8 md:p-10" data-reveal data-delay="1">
-
-        <!-- État succès (masqué par défaut) -->
-        <div id="form-success" class="hidden text-center py-10">
-          <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-6">
-            <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
-            </svg>
-          </div>
-          <h2 class="font-display text-2xl font-light text-brun mb-3">Message envoyé !</h2>
-          <p class="font-body text-sm text-brun-mid leading-relaxed">
-            Merci pour votre message. Je vous réponds personnellement sous 24h.
-          </p>
-        </div>
-
-        <!-- Formulaire -->
-        <form id="contact-form" class="space-y-6" novalidate>
-
-          <!-- Type de demande — dropdown custom -->
-          <div>
-            <label class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
-              Je souhaite… <span class="text-ocre">*</span>
-            </label>
-            <div id="type-dropdown" class="relative">
-              <input type="hidden" name="type" id="type-value" />
-              <button
-                type="button"
-                id="type-trigger"
-                aria-haspopup="listbox"
-                aria-expanded="false"
-                class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-left flex items-center justify-between transition-colors duration-200 focus:outline-none focus:border-ocre"
-              >
-                <span id="type-label" class="text-brun-mid/50">Choisir…</span>
-                <svg id="type-arrow" class="w-4 h-4 text-brun-mid/50 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </button>
-              <ul
-                id="type-list"
-                role="listbox"
-                class="absolute z-10 w-full bg-cream border border-ocre border-t-0 overflow-hidden max-h-0 transition-[max-height] duration-200 ease-out"
-              >
-                {[
-                  { value: 'message', label: 'Envoyer un message' },
-                  { value: 'appel',   label: 'Réserver un appel'  },
-                  { value: 'devis',   label: 'Demander un devis'  },
-                ].map(({ value, label }) => (
-                  <li
-                    role="option"
-                    data-value={value}
-                    class="type-option px-4 py-3 font-body text-sm text-brun cursor-pointer border-b border-cream-dark last:border-b-0 hover:bg-ocre/8 transition-colors duration-150"
-                  >
-                    {label}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <!-- Prénom -->
-          <div>
-            <label for="prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
-              Prénom <span class="text-ocre">*</span>
-            </label>
-            <input
-              type="text"
-              id="prenom"
-              name="prenom"
-              autocomplete="given-name"
-              placeholder="Votre prénom"
-              class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200"
-            />
-          </div>
-
-          <!-- Nom de l'entreprise -->
-          <div>
-            <label for="societe" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
-              Nom de votre entreprise
-            </label>
-            <input
-              type="text"
-              id="societe"
-              name="societe"
-              autocomplete="organization"
-              placeholder="Menuiserie Martin, Ferme des Collines…"
-              class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200"
-            />
-          </div>
-
-          <!-- Email -->
-          <div>
-            <label for="email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
-              Email <span class="text-ocre">*</span>
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              autocomplete="email"
-              placeholder="votre@email.com"
-              class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200"
-            />
-          </div>
-
-          <!-- Description du projet -->
-          <div>
-            <label for="projet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">
-              Décrivez votre projet <span class="text-ocre">*</span>
-            </label>
-            <textarea
-              id="projet"
-              name="projet"
-              rows="6"
-              placeholder="Votre activité, ce que vous cherchez, vos contraintes de budget ou de délai… Plus c'est précis, mieux je peux vous répondre."
-              class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"
-            ></textarea>
-          </div>
-
-          <!-- Message d'erreur -->
-          <p id="form-error" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
-
-          <!-- Bouton envoi -->
-          <button
-            type="submit"
-            id="submit-btn"
-            class="w-full bg-brun text-cream font-body font-medium text-sm py-4 hover:bg-ocre transition-colors duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <span id="submit-label">Envoyer →</span>
-          </button>
-
-          <p class="font-body text-xs text-brun-mid/55 text-center">
-            Réponse personnelle sous 24h. Aucun démarchage, aucune newsletter, aucune revente de données.
-          </p>
-        </form>
+      <div class="lg:text-right" data-reveal data-delay="2">
+        <p class="font-body text-base text-brun-mid leading-relaxed mb-3">
+          Parlez-moi de votre activité en quelques lignes.<br>Je reviens vers vous sous 48h.
+        </p>
+        <span class="inline-flex items-center gap-2 font-body text-xs tracking-widest uppercase text-sauge border border-sauge/30 px-4 py-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-sauge animate-pulse"></span>
+          Disponible
+        </span>
       </div>
 
     </div>
   </section>
 
-<script>
-  /* ── Dropdown type de demande ── */
-  const trigger  = document.getElementById('type-trigger') as HTMLButtonElement;
-  const list     = document.getElementById('type-list')    as HTMLUListElement;
-  const labelEl  = document.getElementById('type-label')   as HTMLSpanElement;
-  const valueEl  = document.getElementById('type-value')   as HTMLInputElement;
-  const arrow    = document.getElementById('type-arrow')   as SVGElement;
-  const options  = document.querySelectorAll<HTMLLIElement>('.type-option');
 
-  function openList() {
-    list.style.maxHeight = list.scrollHeight + 'px';
-    trigger.setAttribute('aria-expanded', 'true');
-    trigger.style.borderColor = '#C97B45';
-    arrow.style.transform = 'rotate(180deg)';
-  }
-  function closeList() {
-    list.style.maxHeight = '0';
-    trigger.setAttribute('aria-expanded', 'false');
-    trigger.style.borderColor = '';
-    arrow.style.transform = '';
-  }
+  <!-- ─── CONTENU ─── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.45fr] gap-16 items-start">
 
-  trigger.addEventListener('click', () => {
-    trigger.getAttribute('aria-expanded') === 'true' ? closeList() : openList();
-  });
+      <!-- ── Colonne gauche ── -->
+      <div>
 
-  options.forEach(opt => {
-    opt.addEventListener('click', () => {
-      valueEl.value = opt.dataset.value ?? '';
-      labelEl.textContent = opt.textContent?.trim() ?? '';
-      labelEl.style.color = '#3D2E1F';
-      options.forEach(o => { o.style.background = ''; o.style.fontWeight = ''; });
-      opt.style.background = 'rgba(201,123,69,0.08)';
-      opt.style.fontWeight = '500';
-      closeList();
-    });
-  });
+        <!-- Image -->
+        <div class="img-zoom img-editorial aspect-[3/4] overflow-hidden mb-12" data-reveal>
+          <img
+            src="/images/bureau-jardin.jpg"
+            alt="Bureau en bois sous une pergola dans un jardin verdoyant"
+            class="w-full h-full object-cover"
+            data-parallax
+          />
+        </div>
 
-  document.addEventListener('click', e => {
-    if (!document.getElementById('type-dropdown')!.contains(e.target as Node)) closeList();
-  });
+        <!-- Infos contact -->
+        <div data-reveal data-delay="1">
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6">Me joindre</p>
+          <div class="space-y-0">
+            {[
+              { label: 'Email',        value: 'contact@caelestis.fr', href: 'mailto:contact@caelestis.fr' },
+              { label: 'Téléphone',    value: '07 82 68 73 99',            href: 'tel:+33782687399'                },
+              { label: 'Localisation', value: 'Drôme, France',             href: null                              },
+              { label: 'Horaires',     value: 'Lun–Ven · 9h–18h',         href: null                              },
+            ].map(({ label, value, href }) => (
+              <div class="flex items-baseline justify-between gap-4 border-b border-cream-dark py-4">
+                <span class="font-body text-xs tracking-widest uppercase text-sauge flex-shrink-0">{label}</span>
+                {href
+                  ? <a href={href} class="font-display text-base font-light text-brun hover:text-ocre transition-colors text-right">{value}</a>
+                  : <span class="font-display text-base font-light text-brun text-right">{value}</span>
+                }
+              </div>
+            ))}
+          </div>
+        </div>
 
-  /* ── Envoi du formulaire via fetch ── */
-  const form       = document.getElementById('contact-form')  as HTMLFormElement;
-  const submitBtn  = document.getElementById('submit-btn')    as HTMLButtonElement;
-  const submitLbl  = document.getElementById('submit-label')  as HTMLSpanElement;
-  const errorEl    = document.getElementById('form-error')    as HTMLParagraphElement;
-  const successEl  = document.getElementById('form-success')  as HTMLDivElement;
+      </div>
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+      <!-- ── Colonne droite : sélecteur + formulaires ── -->
+      <div data-reveal data-delay="1">
 
-    // Validation manuelle
-    const type   = valueEl.value;
-    const prenom = (document.getElementById('prenom')  as HTMLInputElement).value.trim();
-    const email  = (document.getElementById('email')   as HTMLInputElement).value.trim();
-    const projet = (document.getElementById('projet')  as HTMLTextAreaElement).value.trim();
+        <!-- Sélecteur -->
+        <div class="flex flex-col sm:flex-row gap-3 mb-8">
+          {[
+            { id: 'message', label: 'Rédiger un message', icon: '✉' },
+            { id: 'appel',   label: 'Réserver un appel',  icon: '☎' },
+            { id: 'devis',   label: 'Obtenir un devis',   icon: '◈'  },
+          ].map(({ id, label, icon }) => (
+            <button
+              type="button"
+              data-tab={id}
+              class={`tab-btn flex-1 flex items-center gap-2.5 px-4 py-3.5 border font-body text-sm transition-all duration-200 text-left ${id === 'message' ? 'border-sauge bg-sauge text-cream' : 'border-cream-dark text-brun-mid hover:border-sauge/40'}`}
+            >
+              <span class="text-base leading-none">{icon}</span>
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
 
-    if (!type)   { showError('Veuillez sélectionner un type de demande.'); return; }
-    if (!prenom) { showError('Veuillez indiquer votre prénom.'); return; }
-    if (!email)  { showError('Veuillez indiquer votre adresse email.'); return; }
-    if (!projet) { showError('Veuillez décrire votre projet.'); return; }
+        <!-- Wrapper commun -->
+        <div class="bg-cream-dark p-8 md:p-10">
 
-    // Envoi
-    submitBtn.disabled = true;
-    submitLbl.textContent = 'Envoi en cours…';
-    hideError();
+          <!-- ══ FORMULAIRE 1 — Message ══ -->
+          <div id="panel-message" class="tab-panel">
+            <div class="mb-7 pb-7 border-b border-cream flex items-end justify-between gap-6">
+              <div>
+                <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-1.5">Message</p>
+                <p class="font-display text-2xl font-light text-brun">Une question, une idée,<br><em>un premier contact.</em></p>
+              </div>
+              <div id="plant-message" aria-hidden="true" class="flex-shrink-0" style="width:50px;height:78px">
+                <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full overflow-visible">
+                  <ellipse cx="40" cy="125" rx="18" ry="4.5" fill="rgba(78,100,64,0.12)"/>
+                  <rect id="msg-stem" x="38" y="18" width="4" height="103" rx="2" fill="rgba(78,100,64,0.45)"/>
+                  <ellipse id="msg-leaf-l" cx="26" cy="89" rx="16" ry="7" fill="rgba(78,100,64,0.28)" transform="rotate(-35 26 89)"/>
+                  <ellipse id="msg-leaf-r" cx="54" cy="66" rx="16" ry="7" fill="rgba(78,100,64,0.22)" transform="rotate(35 54 66)"/>
+                  <g id="msg-flower">
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(0   40 18)"/>
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(72  40 18)"/>
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(144 40 18)"/>
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(216 40 18)"/>
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(288 40 18)"/>
+                    <circle cx="40" cy="18" r="5" fill="rgba(168,92,44,0.55)"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
 
-    try {
-      const formData = new FormData(form);
-      const res = await fetch('/api/contact', { method: 'POST', body: formData });
-      const json = await res.json();
+            <div id="success-message" class="hidden text-center py-12">
+              <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-5">
+                <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <p class="font-display text-xl font-light text-brun">Message envoyé !</p>
+              <p class="font-body text-sm text-brun-mid mt-2">Je vous réponds sous 48h.</p>
+            </div>
 
-      if (res.ok && json.success) {
-        form.classList.add('hidden');
-        successEl.classList.remove('hidden');
-      } else {
-        showError(json.error ?? 'Une erreur est survenue. Veuillez réessayer.');
-        submitBtn.disabled = false;
-        submitLbl.textContent = 'Envoyer →';
-      }
-    } catch {
-      showError('Erreur réseau. Veuillez vérifier votre connexion et réessayer.');
-      submitBtn.disabled = false;
-      submitLbl.textContent = 'Envoyer →';
-    }
-  });
+            <form id="form-message" class="space-y-5" novalidate>
+              <input type="hidden" name="formType" value="message" />
 
-  function showError(msg: string) {
-    errorEl.textContent = msg;
-    errorEl.classList.remove('hidden');
-  }
-  function hideError() {
-    errorEl.classList.add('hidden');
-  }
-</script>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label for="msg-prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Prénom <span class="text-ocre">*</span></label>
+                  <input type="text" id="msg-prenom" name="prenom" autocomplete="given-name" placeholder="Votre prénom"
+                    class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                </div>
+                <div>
+                  <label for="msg-nom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Nom</label>
+                  <input type="text" id="msg-nom" name="nom" autocomplete="family-name" placeholder="Votre nom"
+                    class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                </div>
+              </div>
+
+              <div>
+                <label for="msg-email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Email <span class="text-ocre">*</span></label>
+                <input type="email" id="msg-email" name="email" autocomplete="email" placeholder="votre@email.com"
+                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+              </div>
+
+              <div>
+                <label for="msg-sujet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Sujet</label>
+                <input type="text" id="msg-sujet" name="sujet" placeholder="En quelques mots…"
+                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+              </div>
+
+              <div>
+                <label for="msg-message" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Message <span class="text-ocre">*</span></label>
+                <textarea id="msg-message" name="message" rows="5" placeholder="Votre message…"
+                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
+              </div>
+
+              <p id="error-message" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
+
+              <p class="font-display text-sm font-light italic text-brun-mid/70 text-center border-t border-cream pt-5">
+                Il n'y a pas de mauvaise question ! Nous aurons le plaisir de vous répondre :)
+              </p>
+
+              <button type="submit" class="submit-btn w-full bg-brun text-cream font-body font-medium text-sm py-4 rounded-full hover:bg-ocre transition-colors duration-200 cursor-pointer disabled:opacity-50">
+                <span class="submit-label">Envoyer le message →</span>
+              </button>
+
+              <p class="font-body text-xs text-brun-mid/50 text-center">Réponse sous 48h</p>
+            </form>
+          </div>
+
+          <!-- ══ FORMULAIRE 2 — Appel ══ -->
+          <div id="panel-appel" class="tab-panel hidden">
+            <div class="mb-7 pb-7 border-b border-cream flex items-end justify-between gap-6">
+              <div>
+                <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-1.5">Appel</p>
+                <p class="font-display text-2xl font-light text-brun">Parlons-en<br><em>directement.</em></p>
+              </div>
+              <div id="plant-appel" aria-hidden="true" class="flex-shrink-0" style="width:50px;height:78px">
+                <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full overflow-visible">
+                  <ellipse cx="40" cy="125" rx="18" ry="4.5" fill="rgba(78,100,64,0.12)"/>
+                  <rect id="appel-stem" x="38" y="18" width="4" height="103" rx="2" fill="rgba(78,100,64,0.45)"/>
+                  <ellipse id="appel-leaf-l" cx="26" cy="89" rx="16" ry="7" fill="rgba(78,100,64,0.28)" transform="rotate(-35 26 89)"/>
+                  <ellipse id="appel-leaf-r" cx="54" cy="66" rx="16" ry="7" fill="rgba(78,100,64,0.22)" transform="rotate(35 54 66)"/>
+                  <g id="appel-flower">
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(0   40 18)"/>
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(72  40 18)"/>
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(144 40 18)"/>
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(216 40 18)"/>
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(288 40 18)"/>
+                    <circle cx="40" cy="18" r="5" fill="rgba(168,92,44,0.55)"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+
+            <div id="success-appel" class="hidden text-center py-12">
+              <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-5">
+                <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <p class="font-display text-xl font-light text-brun">Demande reçue !</p>
+              <p class="font-body text-sm text-brun-mid mt-2">Je vous confirme le créneau sous 48h.</p>
+            </div>
+
+            <form id="form-appel" class="space-y-5" novalidate>
+              <input type="hidden" name="formType" value="appel" />
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label for="appel-prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Prénom <span class="text-ocre">*</span></label>
+                  <input type="text" id="appel-prenom" name="prenom" autocomplete="given-name" placeholder="Votre prénom"
+                    class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                </div>
+                <div>
+                  <label for="appel-tel" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Téléphone <span class="text-ocre">*</span></label>
+                  <input type="tel" id="appel-tel" name="telephone" autocomplete="tel" placeholder="06 00 00 00 00"
+                    class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                </div>
+              </div>
+
+              <div>
+                <label for="appel-email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Email <span class="text-ocre">*</span></label>
+                <input type="email" id="appel-email" name="email" autocomplete="email" placeholder="votre@email.com"
+                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+              </div>
+
+              <!-- Créneau horaire -->
+              <div>
+                <p class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Moment préféré <span class="text-ocre">*</span></p>
+                <div class="flex gap-3">
+                  {['Matin (9h–12h)', 'Après-midi (14h–18h)', 'Indifférent'].map((slot) => (
+                    <label class="slot-label flex-1 flex items-center justify-center text-center px-3 py-2.5 border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
+                      <input type="radio" name="creneau" value={slot} class="sr-only" />
+                      {slot}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Jours disponibles -->
+              <div>
+                <p class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Jours disponibles</p>
+                <div class="flex gap-2 flex-wrap">
+                  {['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'].map((jour) => (
+                    <label class="flex items-center justify-center w-12 h-10 border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
+                      <input type="checkbox" name="jours" value={jour} class="sr-only" />
+                      {jour}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label for="appel-sujet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Sujet de l'appel <span class="text-ocre">*</span></label>
+                <textarea id="appel-sujet" name="sujet" rows="3" placeholder="En quelques mots, ce que vous souhaitez aborder…"
+                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
+              </div>
+
+              <p id="error-appel" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
+
+              <p class="font-display text-sm font-light italic text-brun-mid/70 text-center border-t border-cream pt-5">
+                10 minutes suffisent pour faire connaissance et poser les bases d'une future collaboration.
+              </p>
+
+              <button type="submit" class="submit-btn w-full bg-brun text-cream font-body font-medium text-sm py-4 rounded-full hover:bg-ocre transition-colors duration-200 cursor-pointer disabled:opacity-50">
+                <span class="submit-label">Réserver mon créneau →</span>
+              </button>
+
+              <p class="font-body text-xs text-brun-mid/50 text-center">Appel de 10 à 20 min · Gratuit</p>
+            </form>
+          </div>
+
+          <!-- ══ FORMULAIRE 3 — Devis ══ -->
+          <div id="panel-devis" class="tab-panel hidden">
+            <div class="mb-7 pb-7 border-b border-cream flex items-end justify-between gap-6">
+              <div>
+                <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-1.5">Devis</p>
+                <p class="font-display text-2xl font-light text-brun">Votre projet,<br><em>chiffré sous 48h.</em></p>
+              </div>
+              <!-- Plante germinale -->
+              <div id="form-plant" aria-hidden="true" class="flex-shrink-0" style="width:50px;height:78px">
+                <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full overflow-visible">
+                  <ellipse cx="40" cy="125" rx="18" ry="4.5" fill="rgba(78,100,64,0.12)"/>
+                  <rect id="fp-stem" x="38" y="18" width="4" height="103" rx="2" fill="rgba(78,100,64,0.45)"/>
+                  <ellipse id="fp-leaf-l" cx="26" cy="89" rx="16" ry="7" fill="rgba(78,100,64,0.28)" transform="rotate(-35 26 89)"/>
+                  <ellipse id="fp-leaf-r" cx="54" cy="66" rx="16" ry="7" fill="rgba(78,100,64,0.22)" transform="rotate(35 54 66)"/>
+                  <g id="fp-flower">
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(0   40 18)"/>
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(72  40 18)"/>
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(144 40 18)"/>
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(216 40 18)"/>
+                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(288 40 18)"/>
+                    <circle cx="40" cy="18" r="5" fill="rgba(168,92,44,0.55)"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+
+            <div id="success-devis" class="hidden text-center py-12">
+              <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-5">
+                <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <p class="font-display text-xl font-light text-brun">Demande envoyée !</p>
+              <p class="font-body text-sm text-brun-mid mt-2">Votre devis vous parvient sous 48h.</p>
+            </div>
+
+            <form id="form-devis" class="space-y-5" novalidate>
+              <input type="hidden" name="formType" value="devis" />
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label for="devis-prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Prénom <span class="text-ocre">*</span></label>
+                  <input type="text" id="devis-prenom" name="prenom" autocomplete="given-name" placeholder="Votre prénom"
+                    class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                </div>
+                <div>
+                  <label for="devis-societe" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Entreprise</label>
+                  <input type="text" id="devis-societe" name="societe" autocomplete="organization" placeholder="Ferme des Collines…"
+                    class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                </div>
+              </div>
+
+              <div>
+                <label for="devis-email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Email <span class="text-ocre">*</span></label>
+                <input type="email" id="devis-email" name="email" autocomplete="email" placeholder="votre@email.com"
+                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+              </div>
+
+              <!-- Type de projet -->
+              <div>
+                <p class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Type de projet <span class="text-ocre">*</span></p>
+                <div class="grid grid-cols-2 gap-2">
+                  {[
+                    { value: 'vitrine',  label: 'Site vitrine'      },
+                    { value: 'boutique', label: 'Boutique en ligne' },
+                    { value: 'refonte',  label: 'Refonte de site'   },
+                    { value: 'autre',    label: 'Autre'             },
+                  ].map(({ value, label }) => (
+                    <label class="flex items-center gap-2.5 px-3 py-2.5 border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
+                      <input type="radio" name="typeProjet" value={value} class="sr-only" />
+                      <span class="w-3.5 h-3.5 rounded-full border border-current flex-shrink-0 flex items-center justify-center">
+                        <span class="radio-dot w-1.5 h-1.5 rounded-full bg-ocre opacity-0 transition-opacity duration-150"></span>
+                      </span>
+                      {label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Délai -->
+              <div>
+                <p class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Délai souhaité</p>
+                <div class="flex gap-2 flex-wrap">
+                  {['Le plus vite possible', '1 à 3 mois', '3 à 6 mois', 'Pas de contrainte'].map((d) => (
+                    <label class="px-3 py-2 border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
+                      <input type="radio" name="delai" value={d} class="sr-only" />
+                      {d}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label for="devis-projet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Votre projet <span class="text-ocre">*</span></label>
+                <textarea id="devis-projet" name="projet" rows="4" placeholder="Votre activité, vos objectifs, ce que vous souhaitez accomplir…"
+                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
+              </div>
+
+              <p id="error-devis" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
+
+              <p class="font-display text-sm font-light italic text-brun-mid/70 text-center border-t border-cream pt-5">
+                Chaque devis est proposé dans une fourchette indicative, puis précisé et ajusté après discussion afin de correspondre parfaitement à votre projet.
+              </p>
+
+              <button type="submit" class="submit-btn w-full bg-brun text-cream font-body font-medium text-sm py-4 rounded-full hover:bg-ocre transition-colors duration-200 cursor-pointer disabled:opacity-50">
+                <span class="submit-label">Demander mon devis →</span>
+              </button>
+
+              <p class="font-body text-xs text-brun-mid/50 text-center">Devis gratuit sous 48h · Aucune revente de données</p>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ─── BANDEAU CONFIANCE ─── -->
+  <section class="border-t border-cream-dark py-12 px-6 md:px-10 lg:px-20" data-reveal>
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+      {[
+        { num: '24h',    label: 'Pour vous répondre'   },
+        { num: '100%',   label: 'Suivi personnalisé'   },
+        { num: '0',      label: 'Frais cachés'         },
+        { num: '2%',     label: 'Reversés à une asso.' },
+      ].map(({ num, label }) => (
+        <div class="text-center">
+          <p class="font-display text-3xl font-light text-ocre mb-1">{num}</p>
+          <p class="font-body text-xs tracking-widest uppercase text-brun-mid">{label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ─── POPUP REMERCIEMENT ─── -->
+  <div
+    id="thanks-popup"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="thanks-title"
+    class="fixed inset-0 z-[99999] items-center justify-center px-6"
+    style="display:none"
+  >
+    <div id="thanks-backdrop" class="absolute inset-0 bg-encre/60 backdrop-blur-sm"></div>
+    <div
+      id="thanks-card"
+      class="relative bg-cream rounded-sm shadow-2xl max-w-md w-full px-10 py-12 text-center"
+      style="box-shadow: 0 32px 80px rgba(14,32,24,0.35)"
+    >
+      <button id="thanks-close" aria-label="Fermer"
+        class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-brun-mid/40 hover:text-brun transition-colors duration-200 cursor-pointer">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="w-14 h-14 rounded-full bg-sauge/12 flex items-center justify-center mx-auto mb-7">
+        <svg class="w-7 h-7 text-sauge" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+        </svg>
+      </div>
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Reçu 5 sur 5</p>
+      <h2 id="thanks-title" class="font-display text-3xl font-light text-brun mb-4 tracking-[-0.02em]">Envoyé !</h2>
+      <p id="thanks-body" class="font-body text-sm text-brun-mid leading-relaxed mb-8">Je vous réponds sous 48h.</p>
+      <div class="w-full h-px bg-cream-dark overflow-hidden rounded-full mb-6">
+        <div id="thanks-progress" class="h-full bg-sauge/50 rounded-full" style="width:100%"></div>
+      </div>
+      <button id="thanks-cta" class="font-body text-sm font-medium text-brun-mid/60 hover:text-brun transition-colors duration-200 cursor-pointer">Fermer</button>
+    </div>
+  </div>
 
 </BaseLayout>
+
+<style is:global>
+  /* Radio dot visible quand coché */
+  label:has(input[type="radio"]:checked) .radio-dot { opacity: 1; }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  /* ══════════════════════════════════════════
+     ONGLETS
+  ══════════════════════════════════════════ */
+  const tabBtns   = document.querySelectorAll<HTMLButtonElement>('.tab-btn');
+  const tabPanels = document.querySelectorAll<HTMLElement>('.tab-panel');
+
+  function activateTab(id: string) {
+    tabBtns.forEach(btn => {
+      const active = btn.dataset.tab === id;
+      btn.classList.toggle('border-sauge',      active);
+      btn.classList.toggle('bg-sauge',          active);
+      btn.classList.toggle('text-cream',        active);
+      btn.classList.toggle('border-cream-dark', !active);
+      btn.classList.toggle('text-brun-mid',     !active);
+    });
+    tabPanels.forEach(panel => {
+      panel.classList.toggle('hidden', panel.id !== `panel-${id}`);
+    });
+  }
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => activateTab(btn.dataset.tab ?? 'message'));
+  });
+
+  /* ══════════════════════════════════════════
+     ENVOI GÉNÉRIQUE
+  ══════════════════════════════════════════ */
+  function bindForm(formId: string, errorId: string, successId: string, popupMsg: string) {
+    const form      = document.getElementById(formId)   as HTMLFormElement   | null;
+    const errorEl   = document.getElementById(errorId)  as HTMLElement       | null;
+    const successEl = document.getElementById(successId) as HTMLElement      | null;
+    if (!form) return;
+
+    const submitBtn = form.querySelector<HTMLButtonElement>('.submit-btn');
+    const submitLbl = form.querySelector<HTMLElement>('.submit-label');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!submitBtn || !submitLbl) return;
+
+      /* Validation minimale */
+      const prenom = (form.querySelector('[name="prenom"]') as HTMLInputElement)?.value.trim();
+      const email  = (form.querySelector('[name="email"]')  as HTMLInputElement)?.value.trim();
+      if (!prenom) { showErr('Veuillez indiquer votre prénom.');           return; }
+      if (!email)  { showErr('Veuillez indiquer votre adresse email.');    return; }
+
+      submitBtn.disabled    = true;
+      submitLbl.textContent = 'Envoi en cours…';
+      hideErr();
+
+      try {
+        const res  = await fetch('/api/contact', { method: 'POST', body: new FormData(form) });
+        const json = await res.json();
+
+        if (res.ok && json.success) {
+          form.classList.add('hidden');
+          successEl?.classList.remove('hidden');
+          showPopup(prenom, popupMsg);
+        } else {
+          showErr(json.error ?? 'Une erreur est survenue. Veuillez réessayer.');
+          submitBtn.disabled    = false;
+          submitLbl.textContent = submitLbl.textContent.replace('Envoi en cours…', '') || '→';
+        }
+      } catch {
+        showErr('Erreur réseau. Vérifiez votre connexion.');
+        submitBtn.disabled    = false;
+      }
+
+      function showErr(msg: string) { if (errorEl) { errorEl.textContent = msg; errorEl.classList.remove('hidden'); } }
+      function hideErr()            { errorEl?.classList.add('hidden'); }
+    });
+  }
+
+  bindForm('form-message', 'error-message', 'success-message', 'Je vous réponds sous 48h.');
+  bindForm('form-appel',   'error-appel',   'success-appel',   'Je vous confirme le créneau sous 48h.');
+  bindForm('form-devis',   'error-devis',   'success-devis',   'Votre devis vous parvient sous 48h.');
+
+  /* ══════════════════════════════════════════
+     POPUP
+  ══════════════════════════════════════════ */
+  const popup       = document.getElementById('thanks-popup')    as HTMLElement | null;
+  const popupCard   = document.getElementById('thanks-card')     as HTMLElement | null;
+  const popupBg     = document.getElementById('thanks-backdrop') as HTMLElement | null;
+  const closeBtn    = document.getElementById('thanks-close')    as HTMLButtonElement | null;
+  const ctaBtn      = document.getElementById('thanks-cta')      as HTMLButtonElement | null;
+  const thanksBody  = document.getElementById('thanks-body')     as HTMLElement | null;
+  const progressBar = document.getElementById('thanks-progress') as HTMLElement | null;
+
+  let autoCloseTimer: ReturnType<typeof setTimeout> | null = null;
+  let progressAnim:   ReturnType<typeof requestAnimationFrame> | null = null;
+
+  function showPopup(prenom: string, msg: string) {
+    if (!popup || !popupCard) return;
+    if (thanksBody) thanksBody.textContent = `Merci ${prenom} — ${msg}`;
+    popup.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    gsap.fromTo(popup,     { opacity: 0 }, { opacity: 1, duration: 0.28, ease: 'power2.out' });
+    gsap.fromTo(popupCard, { opacity: 0, y: 28, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.42, delay: 0.06, ease: 'power3.out' });
+
+    if (progressBar) {
+      const DURATION = 6000;
+      const start    = performance.now();
+      const tick = (now: number) => {
+        const pct = Math.max(0, 100 - ((now - start) / DURATION) * 100);
+        progressBar.style.width = pct + '%';
+        if (now - start < DURATION) progressAnim = requestAnimationFrame(tick);
+      };
+      progressAnim    = requestAnimationFrame(tick);
+      autoCloseTimer  = setTimeout(closePopup, DURATION);
+    }
+  }
+
+  function closePopup() {
+    if (!popup || !popupCard) return;
+    if (autoCloseTimer) { clearTimeout(autoCloseTimer); autoCloseTimer = null; }
+    if (progressAnim)   { cancelAnimationFrame(progressAnim); progressAnim = null; }
+    gsap.to(popupCard, { opacity: 0, y: 14, scale: 0.97, duration: 0.26, ease: 'power2.in' });
+    gsap.to(popup, { opacity: 0, duration: 0.32, delay: 0.10, ease: 'power2.in',
+      onComplete: () => { popup.style.display = 'none'; document.body.style.overflow = ''; } });
+  }
+
+  closeBtn?.addEventListener('click',   closePopup);
+  ctaBtn?.addEventListener('click',     closePopup);
+  popupBg?.addEventListener('click',    closePopup);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && popup?.style.display !== 'none') closePopup();
+  });
+
+  /* ══════════════════════════════════════════
+     PLANTE GERMINALE — 3 formulaires
+  ══════════════════════════════════════════ */
+  const SPRING = 'elastic.out(1, 0.48)';
+  const EASE   = 'power2.inOut';
+
+  function initPlant(prefix: string) {
+    const stem   = document.getElementById(`${prefix}-stem`)   as SVGRectElement    | null;
+    const leafL  = document.getElementById(`${prefix}-leaf-l`) as SVGEllipseElement | null;
+    const leafR  = document.getElementById(`${prefix}-leaf-r`) as SVGEllipseElement | null;
+    const flower = document.getElementById(`${prefix}-flower`) as SVGGElement        | null;
+    if (!stem || !leafL || !leafR || !flower) return null;
+
+    gsap.set(stem,   { scaleY: 0, transformOrigin: '50% 100%' });
+    gsap.set(leafL,  { scale: 0,  svgOrigin: '38 89' });
+    gsap.set(leafR,  { scale: 0,  svgOrigin: '42 66' });
+    gsap.set(flower, { scale: 0,  opacity: 0, svgOrigin: '40 18' });
+
+    const state = [false, false, false, false];
+
+    return function update(stage: number, active: boolean) {
+      if (state[stage] === active) return;
+      state[stage] = active;
+      if (stage === 0) active
+        ? gsap.to(stem,   { scaleY: 1, duration: 1.1, ease: EASE,   transformOrigin: '50% 100%' })
+        : gsap.to(stem,   { scaleY: 0, duration: 0.6, ease: EASE,   transformOrigin: '50% 100%' });
+      if (stage === 1) active
+        ? gsap.to(leafL,  { scale: 1, duration: 0.75, ease: SPRING, svgOrigin: '38 89' })
+        : gsap.to(leafL,  { scale: 0, duration: 0.35, ease: 'power2.in', svgOrigin: '38 89' });
+      if (stage === 2) active
+        ? gsap.to(leafR,  { scale: 1, duration: 0.75, ease: SPRING, svgOrigin: '42 66' })
+        : gsap.to(leafR,  { scale: 0, duration: 0.35, ease: 'power2.in', svgOrigin: '42 66' });
+      if (stage === 3) active
+        ? gsap.to(flower, { scale: 1, opacity: 1, duration: 0.9,  ease: SPRING,      svgOrigin: '40 18' })
+        : gsap.to(flower, { scale: 0, opacity: 0, duration: 0.35, ease: 'power2.in', svgOrigin: '40 18' });
+    };
+  }
+
+  /* ── Plante formulaire Message ── */
+  const updateMsg = initPlant('msg');
+  if (updateMsg) {
+    const inp = (id: string) => document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | null;
+    inp('msg-sujet')  ?.addEventListener('input', (e) => updateMsg(0, (e.target as HTMLInputElement).value.trim().length > 0));
+    inp('msg-prenom') ?.addEventListener('input', (e) => updateMsg(1, (e.target as HTMLInputElement).value.trim().length > 0));
+    inp('msg-email')  ?.addEventListener('input', (e) => updateMsg(2, (e.target as HTMLInputElement).value.trim().length > 2));
+    inp('msg-message')?.addEventListener('input', (e) => updateMsg(3, (e.target as HTMLTextAreaElement).value.trim().length > 8));
+  }
+
+  /* ── Plante formulaire Appel ── */
+  const updateAppel = initPlant('appel');
+  if (updateAppel) {
+    const inp = (id: string) => document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | null;
+    document.querySelectorAll<HTMLInputElement>('[name="creneau"]').forEach(r =>
+      r.addEventListener('change', () => updateAppel(0, true)));
+    inp('appel-prenom')?.addEventListener('input', (e) => updateAppel(1, (e.target as HTMLInputElement).value.trim().length > 0));
+    inp('appel-tel')   ?.addEventListener('input', (e) => updateAppel(2, (e.target as HTMLInputElement).value.trim().length > 5));
+    inp('appel-sujet') ?.addEventListener('input', (e) => updateAppel(3, (e.target as HTMLTextAreaElement).value.trim().length > 8));
+  }
+
+  /* ── Plante formulaire Devis ── */
+  const updateDevis = initPlant('fp');
+  if (updateDevis) {
+    const inp = (id: string) => document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | null;
+    document.querySelectorAll<HTMLInputElement>('[name="typeProjet"]').forEach(r =>
+      r.addEventListener('change', () => updateDevis(0, true)));
+    inp('devis-prenom')?.addEventListener('input', (e) => updateDevis(1, (e.target as HTMLInputElement).value.trim().length > 0));
+    inp('devis-email') ?.addEventListener('input', (e) => updateDevis(2, (e.target as HTMLInputElement).value.trim().length > 2));
+    inp('devis-projet')?.addEventListener('input', (e) => updateDevis(3, (e.target as HTMLTextAreaElement).value.trim().length > 8));
+  }
+</script>

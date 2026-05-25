@@ -1,0 +1,388 @@
+---
+/*
+  Manifeste plein écran.
+
+  COMPORTEMENT :
+  — Joue à chaque NOUVEAU chargement de page (refresh / nouvel onglet /
+    URL directe vers n'importe quelle page du site).
+  — Ne rejoue PAS sur les navigations View Transitions internes
+    (window.__caelestisIntro persiste dans la même fenêtre).
+  — m0 + m1 : apparaissent ensemble, reveal GSAP (pas de typewriter).
+  — m3 "Caelestis." : typewriter lettre par lettre, inchangé.
+  — Bouton "Passer →" disponible dès l'apparition.
+*/
+---
+
+<div id="manifesto" role="status" aria-live="polite">
+
+  <!-- Première phrase -->
+  <div id="m-duo">
+    <p id="m0" class="m-line"></p>
+  </div>
+
+  <!-- Caelestis. — reveal typewriter conservé -->
+  <p id="m3" class="m-line m-big"></p>
+
+  <div id="m-bloom" aria-hidden="true"></div>
+  <button id="m-skip" aria-label="Passer l'introduction">Passer →</button>
+
+  <!-- Tagline bas centré — visible tout au long de l'intro -->
+  <p id="m-tagline" aria-hidden="true">Agence de création de site web</p>
+</div>
+
+<style is:global>
+  /* ── Overlay ── */
+  #manifesto {
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    background: #2A1E0C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ── Groupe m0 + m1 — colonne centrée ── */
+  #m-duo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.1rem;
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+  }
+
+  /* ── Lignes typographiques ── */
+  .m-line {
+    width: 100%;
+    max-width: 700px;
+    padding: 0 2rem;
+    text-align: center;
+    opacity: 0;
+    font-family: 'Lora', serif;
+    font-weight: 300;
+    font-style: normal;
+    color: rgba(237, 227, 212, 0.88);
+    line-height: 1.42;
+    letter-spacing: -0.01em;
+    font-size: clamp(1.3rem, 3vw, 2.1rem);
+  }
+
+  /* m3 "Caelestis." — position absolute pour rester centré seul */
+  #m3 {
+    position: absolute;
+  }
+
+  /* ── Dernière phrase — "Caelestis." ── */
+  .m-big {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    letter-spacing: -0.04em;
+    color: rgba(237, 227, 212, 0.96);
+  }
+
+  /* ── Curseur clignotant style terminal (Caelestis uniquement) ── */
+  .m-cursor {
+    display: inline;
+    margin-left: 1px;
+    color: rgba(136, 144, 99, 0.90);
+    animation: m-blink 0.70s step-end infinite;
+    font-style: normal;
+    font-weight: 300;
+  }
+  @keyframes m-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  /* ── Bloom de lumière ── */
+  #m-bloom {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transform-origin: center;
+    background: radial-gradient(
+      ellipse 60% 50% at 50% 50%,
+      rgba(237, 227, 212, 0.96) 0%,
+      rgba(136, 144,  99, 0.38) 38%,
+      rgba(207, 187, 153, 0.10) 62%,
+      transparent 80%
+    );
+  }
+
+  /* ── Point final mousse ── */
+  .m-dot {
+    color: #889063;
+    font-style: normal;
+  }
+
+  /* ── Tagline bas centré ── */
+  #m-tagline {
+    position: absolute;
+    bottom: 2.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.30em;
+    text-transform: uppercase;
+    color: rgba(237, 227, 212, 0.52);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ── Bouton Passer ── */
+  #m-skip {
+    position: absolute;
+    bottom: 2rem;
+    right: 2.5rem;
+    background: none;
+    border: none;
+    padding: 0.5rem 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(237, 227, 212, 0.22);
+    cursor: pointer;
+    transition: color 0.25s ease;
+    pointer-events: none;
+    opacity: 0;
+  }
+  #m-skip:hover { color: rgba(237, 227, 212, 0.55); }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  const overlay = document.getElementById('manifesto');
+  if (overlay) {
+
+    const WIN = window as any;
+
+    if (WIN.__caelestisIntro) {
+      overlay.remove();
+
+    } else {
+      WIN.__caelestisIntro = true;
+
+      overlay.style.opacity       = '1';
+      overlay.style.pointerEvents = 'auto';
+
+      const skipBtn = document.getElementById('m-skip') as HTMLButtonElement | null;
+      if (skipBtn) {
+        skipBtn.style.opacity       = '1';
+        skipBtn.style.pointerEvents = 'auto';
+      }
+
+      document.body.style.overflow = 'hidden';
+
+
+      /* ══════════════════════════════════════════════════════
+         AUDIO — Sons de clavier mécanique (Caelestis uniquement)
+      ══════════════════════════════════════════════════════ */
+
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      let ctx: AudioContext | null = null;
+
+      if (AudioCtx) {
+        ctx = new AudioCtx();
+        ctx.resume().catch(() => {});
+
+        const unlock = () => {
+          ctx?.resume();
+          window.removeEventListener('mousemove',  unlock);
+          window.removeEventListener('touchstart', unlock);
+          window.removeEventListener('keydown',    unlock);
+        };
+        window.addEventListener('mousemove',  unlock, { passive: true, once: true });
+        window.addEventListener('touchstart', unlock, { passive: true, once: true });
+        window.addEventListener('keydown',    unlock, { once: true });
+      }
+
+      function playKey(vol = 0.07, freq = 3400) {
+        if (!ctx || ctx.state !== 'running') return;
+
+        const now = ctx.currentTime;
+        const v   = vol * (0.78 + Math.random() * 0.44);
+        const f   = freq + (Math.random() - 0.5) * 1400;
+
+        const n   = Math.floor(ctx.sampleRate * 0.022);
+        const buf = ctx.createBuffer(1, n, ctx.sampleRate);
+        const d   = buf.getChannelData(0);
+        for (let i = 0; i < n; i++) {
+          d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2.8);
+        }
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+
+        const hp = ctx.createBiquadFilter();
+        hp.type = 'highpass';
+        hp.frequency.value = f;
+
+        const g1 = ctx.createGain();
+        g1.gain.setValueAtTime(v, now);
+        g1.gain.exponentialRampToValueAtTime(0.001, now + 0.022);
+
+        src.connect(hp); hp.connect(g1); g1.connect(ctx.destination);
+        src.start(now);
+
+        const osc = ctx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(115 + Math.random() * 55, now);
+        osc.frequency.exponentialRampToValueAtTime(38, now + 0.040);
+
+        const g2 = ctx.createGain();
+        g2.gain.setValueAtTime(v * 0.30, now);
+        g2.gain.exponentialRampToValueAtTime(0.0001, now + 0.040);
+
+        osc.connect(g2); g2.connect(ctx.destination);
+        osc.start(now); osc.stop(now + 0.040);
+      }
+
+
+      /* ══════════════════════════════════════════════════════
+         TYPEWRITER — Caelestis uniquement
+      ══════════════════════════════════════════════════════ */
+
+      const wait = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+
+      async function typeBrand(el: HTMLElement): Promise<void> {
+        el.innerHTML = '';
+        el.style.opacity = '1';
+
+        const cur = document.createElement('span');
+        cur.className   = 'm-cursor';
+        cur.textContent = '|';
+        el.appendChild(cur);
+
+        for (const ch of [...'Caelestis']) {
+          await wait(88 + Math.random() * 33);
+          el.insertBefore(document.createTextNode(ch), cur);
+          playKey(0.07, 2800);
+        }
+
+        await wait(250);
+
+        const dot = document.createElement('em');
+        dot.className   = 'm-dot';
+        dot.textContent = '.';
+        el.insertBefore(dot, cur);
+        playKey(0.13, 2000);
+      }
+
+      const removeCursor = (el: HTMLElement) =>
+        el.querySelector('.m-cursor')?.remove();
+
+
+      /* ══════════════════════════════════════════════════════
+         FIN
+      ══════════════════════════════════════════════════════ */
+
+      const bloom = document.getElementById('m-bloom') as HTMLElement | null;
+
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+
+        gsap.to([m0, m3, tagline, skipBtn].filter(Boolean), {
+          opacity: 0,
+          y: -26,
+          duration: 0.44,
+          ease: 'power3.in',
+          stagger: 0.05,
+        });
+
+        if (bloom) {
+          gsap.fromTo(bloom,
+            { opacity: 0, scale: 0.08 },
+            { opacity: 1, scale: 2.4, duration: 0.95, delay: 0.26, ease: 'power2.out' }
+          );
+          gsap.to(bloom, { opacity: 0, duration: 0.55, delay: 1.0, ease: 'power1.in' });
+        }
+
+        gsap.to(overlay, {
+          backgroundColor: '#EDE3D4',
+          duration: 0.80,
+          delay: 0.30,
+          ease: 'power1.inOut',
+        });
+
+        gsap.to(overlay, {
+          opacity: 0,
+          filter: 'blur(6px)',
+          scale: 1.04,
+          duration: 0.88,
+          delay: 0.95,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            overlay.remove();
+            document.body.style.overflow = '';
+            window.dispatchEvent(new CustomEvent('caelestis:intro-done'));
+          },
+        });
+      };
+
+      skipBtn?.addEventListener('click', finish, { once: true });
+
+
+      /* ══════════════════════════════════════════════════════
+         SÉQUENCE
+      ══════════════════════════════════════════════════════ */
+
+      const m0      = document.getElementById('m0')         as HTMLElement;
+      const m3      = document.getElementById('m3')         as HTMLElement;
+      const tagline = document.getElementById('m-tagline')  as HTMLElement | null;
+
+      /* Première ligne */
+      m0.textContent = 'Pour ceux qui créent quelque chose de beau.';
+
+      (async () => {
+        /* ── Tagline — apparaît dès le début, reste tout le long ── */
+        if (tagline) {
+          gsap.to(tagline, { opacity: 1, duration: 1.4, delay: 0.15, ease: 'power2.out' });
+        }
+
+        /* ── m0 + m1 apparaissent ensemble, reveal éditorial ── */
+        await wait(400);
+
+        gsap.fromTo(m0,
+          { opacity: 0, y: 28 },
+          { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }
+        );
+
+        /* Pause — phrase lisible */
+        await wait(2200);
+
+        /* Fondu sortie */
+        await new Promise<void>(resolve =>
+          gsap.to(m0, {
+            opacity: 0,
+            y: -18,
+            duration: 0.5,
+            ease: 'power2.in',
+            onComplete: resolve,
+          })
+        );
+
+        await wait(220);
+
+        /* ── Caelestis. — typewriter conservé ── */
+        await typeBrand(m3);
+        removeCursor(m3);
+        await wait(1600);
+
+        finish();
+      })();
+    }
+  }
+</script>

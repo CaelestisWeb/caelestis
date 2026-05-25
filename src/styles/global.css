@@ -1,20 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
-
 @import "tailwindcss";
 
+/* ════════════════════════════════════════
+   PALETTE CAELESTIS — FORÊT VIVANTE
+   Vert forêt profond comme ton dominant.
+   Terracotta-corail chaud et vif.
+   Fond blanc-sauge aéré, lumineux.
+   Or naturel pour la chaleur.
+════════════════════════════════════════ */
+
 @theme {
-  --color-cream:       #FAF6F0;
-  --color-cream-dark:  #F0E8DA;
-  --color-ocre:        #C97B45;
-  --color-ocre-dark:   #B86A3D;
-  --color-brun:        #3D2E1F;
-  --color-brun-mid:    #6B5344;
-  --color-sauge:       #7A8B5C;
-  --color-sauge-pale:  #EBF0E3;
+  /* ── Fond : parchemin chaud — éditorial & respirant ── */
+  --color-cream:       #EDE3D4;   /* bone — fond principal, chaleureux */
+  --color-cream-dark:  #CFC0A0;   /* parchemin — séparateurs organiques */
+
+  /* ── Action : café noir — éléments forts & CTA ── */
+  --color-ocre:        #4C3D19;   /* café — boutons, actions, hiérarchie */
+  --color-ocre-dark:   #362A10;   /* café profond — hover premium */
+
+  /* ── Ton doré naturel — tan chaud ── */
+  --color-golden:      #CFBB99;   /* tan — highlights, détails chaleureux */
+
+  /* ── Forêt mature : kombu deep green ── */
+  --color-brun:        #354024;   /* kombu — texte, sections sombres */
+  --color-brun-mid:    #6B6040;   /* olive chaud — texte secondaire lisible */
+
+  /* ── Végétaux maturés : mousse & lin ── */
+  --color-sauge:       #889063;   /* mousse — labels, accents végétaux */
+  --color-sauge-pale:  #D8CDB0;   /* lin-mousse — fonds sections douces */
+
+  /* ── Bois & matières organiques ── */
+  --color-bois:        #4C3D19;   /* café — accords profonds & dramatiques */
+  --color-bois-mid:    #A08060;   /* tan moyen — touches de chaleur */
+  --color-bois-pale:   #CFBB99;   /* tan clair — détails discrets */
+
+  /* ── Pierre chaude & encre ── */
+  --color-pierre:      #8A8470;   /* pierre chaude — gris-beige naturel */
+  --color-encre:       #2A1E0C;   /* encre brûlée — profondeur absolue */
 
   --font-display: 'Lora', serif;
   --font-body:    'DM Sans', sans-serif;
 }
+
+
+/* ════════════════════════════════════════
+   BASE
+════════════════════════════════════════ */
 
 @layer base {
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,96 +53,396 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+
+  /* Sélection — mousse dorée */
+  ::selection {
+    background: rgba(136, 144, 99, 0.22);
+    color: #354024;
   }
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background-color: #FAF6F0;
-    color: #3D2E1F;
+    background-color: #EDE3D4;
+    color: #1C3828;
     line-height: 1.65;
     font-size: 17px;
+    font-optical-sizing: auto;
+    hanging-punctuation: first last;
   }
 
+  /* ── Grain texture papier — couche naturelle fixe ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9990;
+    opacity: 0.028;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 155px 155px;
+    mix-blend-mode: multiply;
+  }
+
+  /* ── Titres — rendu éditorial premium ── */
   h1, h2, h3, h4 {
     font-family: 'Lora', serif;
     line-height: 1.08;
     letter-spacing: -0.02em;
+    text-wrap: balance;
+    font-feature-settings: "kern" 1, "liga" 1, "onum" 1;
   }
 
   a { color: inherit; text-decoration: none; }
   img, svg { display: block; max-width: 100%; }
+
+  /* Ancrage du fil botanique & éléments absolus de page */
+  main { position: relative; }
+
+  /* ── Scrollbar — parchemin minimaliste ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(76, 61, 25, 0.20);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(76, 61, 25, 0.48);
+  }
+
+  /* Focus accessible */
+  :focus-visible {
+    outline: 2px solid #889063;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 }
 
-/* ── Scroll reveal ── */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.75s ease, transform 0.75s ease;
-}
-[data-reveal].revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-[data-reveal][data-delay="1"] { transition-delay: 0.12s; }
-[data-reveal][data-delay="2"] { transition-delay: 0.24s; }
-[data-reveal][data-delay="3"] { transition-delay: 0.36s; }
 
-/* ── Image reveal (clip-path — volet latéral) ── */
-[data-img-reveal] {
-  clip-path: inset(0 100% 0 0);
-  transition: clip-path 1.15s cubic-bezier(0.77, 0, 0.175, 1);
-}
-[data-img-reveal].revealed {
-  clip-path: inset(0 0% 0 0);
+/* ════════════════════════════════════════
+   KEYFRAMES
+════════════════════════════════════════ */
+
+@keyframes breathe {
+  0%, 100% { transform: translateY(0px); opacity: 0.38; }
+  50%       { transform: translateY(-5px); opacity: 0.58; }
 }
 
-/* ── Split text (H1 ligne par ligne) ── */
-[data-split] .sl {
-  display: block;
-  overflow: hidden;
-  line-height: 1.08;
-}
-[data-split] .sl > * {
-  display: block;
-  transform: translateY(108%);
-  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
-}
-[data-split] .sl:nth-child(1) > * { transition-delay: 0.04s; }
-[data-split] .sl:nth-child(2) > * { transition-delay: 0.14s; }
-[data-split] .sl:nth-child(3) > * { transition-delay: 0.24s; }
-[data-split] .sl:nth-child(4) > * { transition-delay: 0.34s; }
-[data-split] .sl:nth-child(5) > * { transition-delay: 0.44s; }
-[data-split].revealed .sl > * {
-  transform: translateY(0);
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-7px) scale(1.008); }
 }
 
-/* ── Split text avec délai hero (+1.5s) ── */
-[data-split-hero] .sl:nth-child(1) > * { transition-delay: 1.54s; }
-[data-split-hero] .sl:nth-child(2) > * { transition-delay: 1.64s; }
-[data-split-hero] .sl:nth-child(3) > * { transition-delay: 1.74s; }
-
-/* ── Parallax (img scale de sécurité pour éviter les bords blancs) ── */
-[data-parallax] {
-  will-change: transform;
-  transform: scale(1.1) translateY(0px);
+@keyframes ambient-drift {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.8; }
+  33%       { transform: scale(1.06) translate(2%, 1%); opacity: 1; }
+  66%       { transform: scale(0.96) translate(-1%, 2%); opacity: 0.7; }
 }
 
-/* ── Boutons magnétiques ── */
-.btn-magnetic {
-  will-change: transform;
-}
-
-/* ── Page transition (View Transitions API) ── */
-::view-transition-old(root) {
-  animation: 280ms cubic-bezier(0.4, 0, 1, 1) both vt-fade-out;
-}
-::view-transition-new(root) {
-  animation: 360ms cubic-bezier(0, 0, 0.2, 1) 60ms both vt-slide-in;
-}
 @keyframes vt-fade-out {
   to { opacity: 0; }
 }
 @keyframes vt-slide-in {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ════════════════════════════════════════
+   SCROLL REVEAL
+════════════════════════════════════════ */
+
+[data-reveal] { opacity: 0; }
+
+
+/* ════════════════════════════════════════
+   SPLIT TEXT
+════════════════════════════════════════ */
+
+[data-split] .sl,
+[data-split-hero] .sl {
+  display: block;
+  overflow: hidden;
+  line-height: 1.08;
+}
+[data-split] .sl > *,
+[data-split-hero] .sl > * {
+  display: block;
+  transform: translateY(108%);
+}
+
+
+/* ════════════════════════════════════════
+   PARALLAX & MAGNETIC
+════════════════════════════════════════ */
+
+[data-parallax] {
+  will-change: transform;
+  min-height: 120%;   /* déborde du cadre pour absorber le déplacement sans exposer le fond */
+  object-fit: cover;
+}
+.btn-magnetic   { will-change: transform; }
+
+
+/* ════════════════════════════════════════
+   IMAGE ZOOM PREMIUM
+════════════════════════════════════════ */
+
+.img-zoom {
+  overflow: hidden;
+  position: relative;
+}
+.img-zoom img {
+  transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: center;
+}
+.img-zoom:hover img {
+  transform: scale(1.055);
+}
+
+/* Vignette éditoriale — lumière naturelle sur les images clés */
+.img-editorial::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(to right,  rgba(46, 32, 22, 0.08) 0%, transparent 42%),
+    linear-gradient(to top,    rgba(46, 32, 22, 0.10) 0%, transparent 52%),
+    linear-gradient(to bottom, rgba(46, 32, 22, 0.04) 0%, transparent 28%);
+  transition: opacity 0.6s ease;
+}
+
+
+/* ════════════════════════════════════════
+   CARD LIFT — profondeur naturelle
+════════════════════════════════════════ */
+
+.card-lift {
+  transition:
+    transform 0.42s cubic-bezier(0.34, 1.2, 0.64, 1),
+    box-shadow 0.42s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 32px 64px rgba(46, 32, 22, 0.13),
+    0  6px 18px rgba(46, 32, 22, 0.07);
+}
+
+
+/* ════════════════════════════════════════
+   NAV LINK — soulignement animé
+════════════════════════════════════════ */
+
+.nav-link { position: relative; }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1.5px;
+  background: #889063;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.34s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 2px;
+}
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+
+/* ════════════════════════════════════════
+   HEADER — glassmorphism premium
+════════════════════════════════════════ */
+
+#header {
+  transition:
+    box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    background-color 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    border-color 0.5s ease;
+}
+#header.is-scrolled {
+  border-bottom-color: transparent;
+  box-shadow:
+    0 1px 0 rgba(76, 61, 25, 0.07),
+    0 8px 36px rgba(76, 61, 25, 0.09),
+    inset 0 -1px 0 rgba(207, 192, 160, 0.55);
+  background-color: rgba(237, 227, 212, 0.92);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+}
+
+
+/* ════════════════════════════════════════
+   BOUTON PRIMARY — anneau terracotta
+════════════════════════════════════════ */
+
+.btn-primary-pulse { position: relative; }
+.btn-primary-pulse::before {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border-radius: inherit;
+  border: 1.5px solid rgba(76, 61, 25, 0.22);
+  opacity: 0;
+  transform: scale(0.93);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+  pointer-events: none;
+}
+.btn-primary-pulse:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* ════════════════════════════════════════
+   UTILITAIRES ATMOSPHÉRIQUES
+════════════════════════════════════════ */
+
+/* ── Lumière organique — sections claires ── */
+.section-ambient {
+  position: relative;
+  isolation: isolate;
+}
+.section-ambient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 85% 65% at 8% 60%,  rgba(136, 144, 99, 0.09)  0%, transparent 58%),
+    radial-gradient(ellipse 60% 45% at 92% 15%,  rgba(76, 61, 25, 0.05)   0%, transparent 58%),
+    radial-gradient(ellipse 40% 35% at 48% 88%,  rgba(207, 187, 153, 0.11) 0%, transparent 50%),
+    radial-gradient(ellipse 30% 25% at 75% 50%,  rgba(160, 128, 96, 0.06)  0%, transparent 50%);
+}
+
+/* ── Profondeur organique — sections sombres (bg-brun) ── */
+.section-dark-depth {
+  position: relative;
+  isolation: isolate;
+}
+.section-dark-depth::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 90% 60% at 8% 25%,  rgba(136, 144, 99, 0.16)  0%, transparent 50%),
+    radial-gradient(ellipse 65% 50% at 92% 80%,  rgba(207, 187, 153, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(237, 227, 212, 0.04) 0%, transparent 40%);
+}
+/* Contenu au-dessus du dégradé */
+.section-dark-depth > * { position: relative; z-index: 1; }
+
+/* ── Glassmorphism card ── */
+.glass-card {
+  background: rgba(237, 227, 212, 0.72);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  border: 1px solid rgba(207, 192, 160, 0.78);
+}
+
+/* ── Séparateur en fondu ── */
+.sep-fade {
+  display: block;
+  height: 1px;
+  border: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(76, 61, 25, 0.10) 20%,
+    rgba(76, 61, 25, 0.10) 80%,
+    transparent 100%
+  );
+}
+
+/* ── Blobs lumineux atmosphériques ── */
+.light-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  will-change: transform;
+  animation: ambient-drift 18s ease-in-out infinite;
+}
+.light-blob:nth-child(2) { animation-delay: -6s; animation-duration: 22s; }
+.light-blob:nth-child(3) { animation-delay: -12s; animation-duration: 16s; }
+
+.light-blob-sauge {
+  /* Mousse — halo végétal subtil */
+  background: radial-gradient(ellipse, rgba(136, 144, 99, 0.18) 0%, rgba(136, 144, 99, 0.05) 55%, transparent 70%);
+}
+.light-blob-ocre {
+  /* Tan doré — chaleur atmosphérique */
+  background: radial-gradient(ellipse, rgba(207, 187, 153, 0.28) 0%, rgba(207, 187, 153, 0.07) 55%, transparent 70%);
+}
+.light-blob-cream {
+  /* Bone clair — lumière naturelle diffuse */
+  background: radial-gradient(ellipse, rgba(237, 227, 212, 0.80) 0%, rgba(237, 227, 212, 0.22) 55%, transparent 70%);
+}
+.light-blob-bois {
+  /* Café — profondeur chaude */
+  background: radial-gradient(ellipse, rgba(76, 61, 25, 0.10) 0%, rgba(76, 61, 25, 0.03) 55%, transparent 70%);
+}
+
+
+/* ════════════════════════════════════════
+   PAGE TRANSITIONS
+════════════════════════════════════════ */
+
+::view-transition-old(root) {
+  animation: 260ms cubic-bezier(0.4, 0, 1, 1) both vt-fade-out;
+}
+::view-transition-new(root) {
+  animation: 380ms cubic-bezier(0, 0, 0.2, 1) 40ms both vt-slide-in;
+}
+
+
+/* ════════════════════════════════════════
+   ACCESSIBILITÉ — mouvement réduit
+   Pour les utilisateurs qui préfèrent
+   pas ou peu d'animations (vestibulaire,
+   épilepsie, préférence personnelle).
+════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Stoppe toutes les animations CSS */
+  *,
+  *::before,
+  *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
+    scroll-behavior:           auto   !important;
+  }
+
+  /* Blobs — immobiles */
+  .light-blob { animation: none; }
+
+  /* Split text — visible d'emblée */
+  [data-split] .sl > *,
+  [data-split-hero] .sl > * {
+    transform: translateY(0);
+  }
+
+  /* Parallax — annule le will-change */
+  [data-parallax] { will-change: auto; }
+
+  /* Transitions de page Astro — désactivées */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
 }

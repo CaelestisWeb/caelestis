@@ -1,0 +1,228 @@
+---
+/* Curseur artisanal Caelestis
+   — point collé à la souris  (quickTo 60ms, ease none)
+   — anneau follower          (quickTo 520ms, power3.out)
+   — transition:persist       → survit aux navigations View Transitions
+   — délégation document      → pas de re-binding après navigation
+   — désactivé sur tactile    (pointer: coarse)
+*/
+---
+
+<div id="cur-dot" aria-hidden="true" transition:persist>
+  <svg id="cur-leaf-svg" viewBox="0 0 12 22" fill="none" aria-hidden="true">
+    <!-- Corps : pointe acérée en haut, ventre large, base arrondie -->
+    <path d="M6 0 C8 4 12 9 10 14 C8.5 18 6 22 6 22 C6 22 3.5 18 2 14 C0 9 4 4 6 0Z"
+          fill="#354024"/>
+    <!-- Nervure -->
+    <path d="M6 21 Q6.4 13 6 1" stroke="rgba(237,227,212,0.35)" stroke-width="0.8" stroke-linecap="round"/>
+  </svg>
+</div>
+<div id="cur-ring" aria-hidden="true" transition:persist></div>
+
+<style is:global>
+  /* ── Masquer le curseur natif sur desktop ── */
+  @media (pointer: fine) {
+    html { cursor: none !important; }
+    * { cursor: none !important; }
+
+    /* ── Base commune ── */
+    #cur-dot,
+    #cur-ring {
+      position: fixed;
+      inset: 0 auto auto 0;
+      pointer-events: none;
+      z-index: 99999;
+      border-radius: 50%;
+      will-change: transform;
+      opacity: 0;
+    }
+
+    /* ── Feuille centrale — suit la souris en temps réel ── */
+    #cur-dot {
+      width: 13px;
+      height: 22px;
+      background: transparent;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition:
+        width   .22s cubic-bezier(.34, 1.2, .64, 1),
+        height  .22s cubic-bezier(.34, 1.2, .64, 1),
+        opacity .18s ease;
+    }
+    #cur-dot svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-25deg);
+      transform-origin: top center;
+      transition: transform .3s cubic-bezier(.34, 1.2, .64, 1);
+    }
+
+    /* ── Anneau follower — lag naturel ── */
+    #cur-ring {
+      width: 22px;
+      height: 22px;
+      border: 1.5px solid rgba(136, 144, 99, .40);
+      background: transparent;
+      transition:
+        width       .42s cubic-bezier(.34, 1.2, .64, 1),
+        height      .42s cubic-bezier(.34, 1.2, .64, 1),
+        border-color .30s ease,
+        background  .30s ease,
+        opacity     .28s ease;
+    }
+
+    /* ══ États contextuels ══ */
+
+    /* Lien / bouton — anneau magnétique légèrement plus visible */
+    #cur-dot.s-link  { width: 14px; height: 24px; }
+    #cur-dot.s-link svg { transform: rotate(-13deg); }
+    #cur-ring.s-link {
+      width: 36px;
+      height: 36px;
+      border-color: rgba(136, 144, 99, .50);
+      background: rgba(136, 144, 99, .06);
+    }
+
+    /* Image — feuille invisible, anneau fin et serré */
+    #cur-dot.s-img  { opacity: 0; }
+    #cur-ring.s-img {
+      width: 16px;
+      height: 16px;
+      border-color: rgba(237, 227, 212, .55);
+      background: transparent;
+    }
+
+    /* Champ texte — feuille cachée, trait vertical */
+    #cur-dot.s-text {
+      width: 2px;
+      height: 22px;
+      background: rgba(136, 144, 99, .70);
+      border-radius: 1px;
+    }
+    #cur-dot.s-text svg { opacity: 0; }
+    #cur-ring.s-text { opacity: 0; }
+
+    /* Clic — feuille se rétracte */
+    #cur-dot.s-click  { width: 9px; height: 15px; }
+    #cur-ring.s-click { width: 16px; height: 16px; }
+  }
+
+  /* ── Tactile : éléments masqués ── */
+  @media (pointer: coarse) {
+    #cur-dot, #cur-ring { display: none !important; }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  function initCursor() {
+    /* Sécurité : sortie si écran tactile */
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+
+    const dot  = document.getElementById('cur-dot')  as HTMLElement | null;
+    const ring = document.getElementById('cur-ring') as HTMLElement | null;
+    if (!dot || !ring) return;
+
+    /* ── Hotspot : pointe de la feuille sur le curseur, anneau centré ── */
+    gsap.set(dot,  { xPercent: -50, yPercent: 0 });   /* top = pointe → aligne sur clic */
+    gsap.set(ring, { xPercent: -50, yPercent: -50 }); /* anneau centré sur curseur */
+
+    /* ── quickTo : tracking haute cadence sans recréer de tween ── */
+    const mX = gsap.quickTo(dot,  'x', { duration: 0.06, ease: 'none' });
+    const mY = gsap.quickTo(dot,  'y', { duration: 0.06, ease: 'none' });
+    const fX = gsap.quickTo(ring, 'x', { duration: 0.28, ease: 'power3.out' });
+    const fY = gsap.quickTo(ring, 'y', { duration: 0.28, ease: 'power3.out' });
+
+    let visible = false;
+    let magneticEl: HTMLElement | null = null;
+
+    /* ── Mouvement ── */
+    document.addEventListener('mousemove', (e) => {
+      mX(e.clientX); mY(e.clientY);
+
+      if (magneticEl) {
+        /* Anneau attiré vers le centre de l'élément magnétique */
+        const rect = magneticEl.getBoundingClientRect();
+        const cx = rect.left + rect.width  / 2;
+        const cy = rect.top  + rect.height / 2;
+        const pull = 0.52; /* force d'attraction : 0 = pas d'attraction, 1 = snap total */
+        fX(e.clientX + (cx - e.clientX) * pull);
+        fY(e.clientY + (cy - e.clientY) * pull);
+      } else {
+        fX(e.clientX); fY(e.clientY);
+      }
+
+      if (!visible) {
+        gsap.to([dot, ring], { opacity: 1, duration: 0.5, ease: 'power2.out' });
+        visible = true;
+      }
+    }, { passive: true });
+
+    /* ── Quitte / entre dans la fenêtre ── */
+    document.addEventListener('mouseleave', () => {
+      gsap.to([dot, ring], { opacity: 0, duration: 0.26, ease: 'power2.in' });
+      visible = false;
+    });
+    document.addEventListener('mouseenter', () => {
+      gsap.to([dot, ring], { opacity: 1, duration: 0.26 });
+      visible = true;
+    });
+
+    /* ── Clic ── */
+    document.addEventListener('mousedown', () => {
+      dot.classList.add('s-click');
+      ring.classList.add('s-click');
+    });
+    document.addEventListener('mouseup', () => {
+      dot.classList.remove('s-click');
+      ring.classList.remove('s-click');
+    });
+
+    /* ── Délégation : un seul listener, couvre tout le DOM y compris
+          après navigation View Transitions ── */
+    document.addEventListener('mouseover', (e) => {
+      const t = e.target as HTMLElement;
+
+      /* Priorité : image > lien > texte > défaut */
+      if (t.closest('.img-zoom, [data-cursor-img]')) {
+        magneticEl = null;
+        dot.className = 's-img';  ring.className = 's-img';
+      } else if (t.closest('a, button, [role="button"], label, summary')) {
+        magneticEl = t.closest<HTMLElement>('a, button, [role="button"], label, summary');
+        dot.className = 's-link'; ring.className = 's-link';
+      } else if (t.closest('input, textarea, select')) {
+        magneticEl = null;
+        dot.className = 's-text'; ring.className = 's-text';
+      } else {
+        magneticEl = null;
+        dot.className = '';       ring.className = '';
+      }
+    });
+
+    /* ── Relâchement magnétique à la sortie de l'élément ──
+          On vérifie que la destination (relatedTarget) est bien HORS de l'élément
+          pour ne pas couper l'attraction quand on survole un enfant (SVG, span…) */
+    document.addEventListener('mouseout', (e) => {
+      if (!magneticEl) return;
+      const related = e.relatedTarget as HTMLElement | null;
+      /* Si la souris va vers un enfant du même élément magnétique, on ne coupe pas */
+      if (related && magneticEl.contains(related)) return;
+      /* Si la souris quitte vraiment l'élément (ou va sur un autre élément) */
+      const t = e.target as HTMLElement;
+      if (magneticEl.contains(t) || magneticEl === t) {
+        magneticEl = null;
+      }
+    });
+  }
+
+  /*
+    Appelé une seule fois : les listeners sont sur `document`
+    qui persiste entre navigations.
+    Les éléments #cur-dot / #cur-ring ont transition:persist
+    donc ne sont jamais re-créés par Astro.
+  */
+  initCursor();
+</script>

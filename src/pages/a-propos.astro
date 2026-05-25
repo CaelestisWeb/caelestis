@@ -3,15 +3,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 
 const valeurs = [
-  { label: "La nature",      detail: "Mon environnement, ma boussole, ma source d'inspiration au quotidien." },
-  { label: "Le local",       detail: "Les circuits courts, l'économie de proximité, les gens qui font de belles choses près de chez eux." },
-  { label: "Le travail bien fait", detail: "Des sites solides, pensés pour durer — pas juste pour impressionner lors de la livraison." },
-  { label: "L'honnêteté",   detail: "Un devis clair, un discours sans jargon, et une relation de confiance du premier appel à la mise en ligne." },
+  { label: "Faire les choses proprement",      detail: "Prendre le temps, soigner les détails et construire quelque chose qui tient dans le temps." },
+  { label: "Mettre en valeur de vrais projets", detail: "J'aime travailler avec des gens passionnés par ce qu'ils font et leur donner une présence en ligne à la hauteur de leur travail." },
+  { label: "Être honnête du début à la fin",   detail: "Des échanges simples, des prix clairs et un accompagnement sérieux pendant tout le projet." },
+  { label: "Créer des sites qui ont du sens",  detail: "Pas juste quelque chose de joli, mais un site utile, clair et pensé pour les personnes qui vont le visiter." },
 ];
 ---
 <BaseLayout
-  title="À propos — Célestin, fondateur de Caelestis · Agence web Drôme"
-  description="Célestin, 22 ans, Drôme. J'ai fondé Caelestis pour créer des sites web premium pour les professionnels de la nature et de l'environnement. Humain, engagé, sans jargon."
+  title="Qui je suis — Célestin, fondateur de Caelestis"
+  description="Célestin, 22 ans, basé dans la Drôme. J'aide des indépendants et petites structures à avoir une présence en ligne claire, soignée et efficace."
 >
 
   <section class="pt-20 pb-28 px-6 md:px-10 lg:px-20">
@@ -22,7 +22,7 @@ const valeurs = [
         <!-- Colonne gauche : placeholder photo + petites infos -->
         <div data-reveal>
           <!-- Rivière de montagne — évoque la Drôme, la nature, le calme -->
-          <div class="aspect-[3/4] overflow-hidden mb-4" data-img-reveal>
+          <div class="img-zoom img-editorial aspect-[3/4] mb-4 overflow-hidden">
             <img
               src="/images/riviere-montagne.jpg"
               alt="Table au bord d'une rivière turquoise en montagne — paysage de la Drôme"
@@ -34,21 +34,21 @@ const valeurs = [
 
           <!-- Petites stats discrètes -->
           <div class="mt-10 space-y-4">
-            <div class="flex justify-between items-baseline border-b border-cream-dark pb-3">
-              <span class="font-body text-xs tracking-widest uppercase text-sauge">Âge</span>
+            <div class="flex justify-between items-baseline border-b border-bois-pale/40 pb-3">
+              <span class="font-body text-xs tracking-widest uppercase text-bois-mid">Âge</span>
               <span class="font-display text-xl font-light text-brun">22 ans</span>
             </div>
-            <div class="flex justify-between items-baseline border-b border-cream-dark pb-3">
-              <span class="font-body text-xs tracking-widest uppercase text-sauge">Basé à</span>
+            <div class="flex justify-between items-baseline border-b border-bois-pale/40 pb-3">
+              <span class="font-body text-xs tracking-widest uppercase text-bois-mid">Basé à</span>
               <span class="font-display text-xl font-light text-brun">Drôme</span>
             </div>
-            <div class="flex justify-between items-baseline border-b border-cream-dark pb-3">
-              <span class="font-body text-xs tracking-widest uppercase text-sauge">Spécialité</span>
+            <div class="flex justify-between items-baseline border-b border-bois-pale/40 pb-3">
+              <span class="font-body text-xs tracking-widest uppercase text-bois-mid">Spécialité</span>
               <span class="font-display text-xl font-light text-brun">Web & SEO</span>
             </div>
-            <div class="flex justify-between items-baseline border-b border-cream-dark pb-3">
-              <span class="font-body text-xs tracking-widest uppercase text-sauge">Réponse</span>
-              <span class="font-display text-xl font-light text-brun">sous 24h</span>
+            <div class="flex justify-between items-baseline border-b border-bois-pale/40 pb-3">
+              <span class="font-body text-xs tracking-widest uppercase text-bois-mid">Réponse</span>
+              <span class="font-display text-xl font-light text-brun">Sous 48h</span>
             </div>
           </div>
         </div>
@@ -66,32 +66,28 @@ const valeurs = [
 
           <div class="space-y-6 font-body text-base text-brun-mid leading-relaxed" data-reveal data-delay="2">
             <p>
-              J'ai 22 ans, je vis dans la Drôme, et la nature fait partie de moi depuis
-              toujours. Grandir entouré de forêts, de jardins et de gens qui travaillent
-              la terre — ça forge une façon de voir les choses : lentement, avec soin,
-              en pensant à ce qui dure.
+              Avec le temps, je me suis rendu compte d'une chose : beaucoup de petites structures font un travail remarquable, apportent une vraie valeur autour d'elles, mais restent pourtant peu visibles.
             </p>
             <p>
-              C'est avec cette même philosophie que j'ai fondé Caelestis. Pas pour faire
-              des sites à la chaîne, mais pour accompagner des professionnels de la nature
-              et de l'environnement qui méritent une présence digitale à la hauteur de leur
-              savoir-faire. Des gens qui exercent un vrai métier, avec passion —
-              et dont le site devrait le montrer.
+              Pas parce que leur activité manque de qualité.<br>
+              Souvent, c'est simplement parce qu'elle est mal représentée en ligne, ou presque absente du web.
             </p>
             <p>
-              Mon engagement : un suivi personnalisé du premier appel à la mise en ligne,
-              un devis transparent sans surprise, et un site qui vous ressemble vraiment —
-              pas une copie de ce que l'algorithme fait à tout le monde.
+              Un bon site ne change pas ce que vous faites.<br>
+              Il permet surtout de le rendre visible, compréhensible et crédible aux yeux des autres.
+            </p>
+            <p>
+              C'est ce qui m'a donné envie de créer Caelestis : aider ce genre de projets nourrissants, à prendre la place qu'ils méritent réellement.
             </p>
           </div>
 
           <!-- Valeurs -->
           <div class="mt-12 pt-10 border-t border-cream-dark" data-reveal data-delay="3">
-            <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-8">Ce qui me motive</p>
+            <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-8">Ce qui compte pour moi</p>
             <div class="space-y-6">
               {valeurs.map(({ label, detail }) => (
                 <div class="flex items-start gap-4">
-                  <span class="w-1.5 h-1.5 rounded-full bg-ocre mt-[0.5rem] flex-shrink-0"></span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-bois-mid mt-[0.5rem] flex-shrink-0"></span>
                   <div>
                     <p class="font-display text-base font-light text-brun mb-1">{label}</p>
                     <p class="font-body text-sm text-brun-mid leading-relaxed">{detail}</p>

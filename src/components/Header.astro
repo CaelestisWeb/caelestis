@@ -1,41 +1,46 @@
 ---
 const nav = [
-  { href: '/services',  label: 'Services'  },
-  { href: '/a-propos',  label: 'À propos'  },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/contact',   label: 'Contact'   },
+  { href: '/',         label: 'Accueil'  },
+  { href: '/services', label: 'Services' },
+  { href: '/a-propos', label: 'À propos' },
+  { href: '/contact',  label: 'Contact'  },
 ];
 const current = Astro.url.pathname;
 ---
-<header id="header" class="sticky top-0 z-50 bg-cream/90 backdrop-blur-sm border-b border-cream-dark">
-  <div class="max-w-6xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+<header id="header" class="sticky top-0 z-50 bg-cream/80 backdrop-blur-md border-b border-cream-dark/60">
+  <div class="w-full px-6 md:px-10 lg:px-16 h-16 grid md:grid-cols-[auto_1fr_auto] flex items-center md:items-stretch gap-0">
 
-    <a href="/" class="font-display text-xl font-semibold text-brun tracking-tight">
-      Caelestis<span class="text-ocre">.</span>
+    <!-- Logo — extrême gauche -->
+    <a href="/" class="font-display text-xl font-medium text-brun tracking-[-0.02em] hover:text-ocre transition-colors duration-300 flex items-center">
+      Caelestis<em class="text-ocre not-italic">.</em>
     </a>
 
-    <!-- Desktop nav -->
-    <nav class="hidden md:flex items-center gap-8">
+    <!-- Desktop nav — parfaitement centré -->
+    <nav class="hidden md:flex items-center justify-center gap-9">
       {nav.map(({ href, label }) => (
         <a
           href={href}
-          class={`font-body text-sm font-medium transition-colors hover:text-ocre ${
-            current.startsWith(href) ? 'text-ocre' : 'text-brun-mid'
+          class={`nav-link font-body text-sm font-medium transition-colors hover:text-ocre ${
+            (href === '/' ? current === '/' : current.startsWith(href)) ? 'text-ocre is-active' : 'text-brun-mid'
           }`}
         >
           {label}
         </a>
       ))}
-      <a
-        href="/contact"
-        class="font-body text-sm font-medium bg-brun text-cream px-5 py-2 hover:bg-ocre transition-colors duration-200"
-      >
-        Parler de mon projet
-      </a>
     </nav>
 
+    <!-- CTA — extrême droite -->
+    <div class="hidden md:flex items-center">
+      <a
+        href="/contact"
+        class="font-body text-sm font-medium bg-brun text-cream px-5 py-2 rounded-full hover:bg-ocre transition-colors duration-200"
+      >
+        Lancer mon projet
+      </a>
+    </div>
+
     <!-- Mobile toggle -->
-    <button id="menu-toggle" class="md:hidden text-brun" aria-label="Ouvrir le menu" aria-expanded="false">
+    <button id="menu-toggle" class="md:hidden text-brun ml-auto" aria-label="Ouvrir le menu" aria-expanded="false">
       <svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
         <line x1="0" y1="1"  x2="22" y2="1"  stroke="currentColor" stroke-width="1.5"/>
         <line x1="0" y1="8"  x2="22" y2="8"  stroke="currentColor" stroke-width="1.5"/>
@@ -52,19 +57,143 @@ const current = Astro.url.pathname;
       ))}
       <a
         href="/contact"
-        class="font-body text-base font-medium bg-brun text-cream px-5 py-3 text-center mt-2 hover:bg-ocre transition-colors duration-200"
+        class="font-body text-base font-medium bg-brun text-cream px-5 py-3 rounded-full text-center mt-2 hover:bg-ocre transition-colors duration-200"
       >
-        Parler de mon projet
+        Lancer mon projet
       </a>
     </nav>
   </div>
 </header>
 
+<style is:global>
+  /* ── Bouton son forêt ── */
+  .sound-btn {
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    color: rgba(136, 112, 64, 0.52);
+    transition: color 0.25s ease, opacity 0.25s ease;
+    display: flex;
+    align-items: center;
+    line-height: 0;
+    border-radius: 6px;
+  }
+  .sound-btn:hover { color: #889063; }
+
+  /* ── Wrapper relatif pour positionner les notes ── */
+  .bird-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* ── Notes de musique flottantes ── */
+  .b-notes {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3px;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .b-note-1, .b-note-2, .b-note-3 {
+    font-size: 9px;
+    line-height: 1;
+    color: #889063;
+    opacity: 0;
+    display: block;
+  }
+  .sound-btn.is-playing .b-note-1 { animation: note-float 2.4s ease-out infinite; }
+  .sound-btn.is-playing .b-note-2 { animation: note-float 2.4s ease-out 0.8s infinite; }
+  .sound-btn.is-playing .b-note-3 { animation: note-float 2.4s ease-out 1.6s infinite; }
+  @keyframes note-float {
+    0%   { opacity: 0;   transform: translateY(0px)   scale(0.8); }
+    15%  { opacity: 0.9; transform: translateY(-4px)  scale(1);   }
+    100% { opacity: 0;   transform: translateY(-20px) scale(0.9); }
+  }
+
+  /* Ailes au repos : légère inclinaison basse */
+  .b-wing-l { transform-origin: 13px 12px; transform: rotate(8deg);  transition: transform 0.3s ease; }
+  .b-wing-r { transform-origin: 13px 12px; transform: rotate(-8deg); transition: transform 0.3s ease; }
+
+  /* Playing : ailes battent */
+  .sound-btn.is-playing .b-wing-l {
+    animation: flap-l 1.6s ease-in-out infinite alternate;
+  }
+  .sound-btn.is-playing .b-wing-r {
+    animation: flap-r 1.6s ease-in-out infinite alternate;
+  }
+  @keyframes flap-l {
+    from { transform: rotate(8deg);  }
+    to   { transform: rotate(-22deg); }
+  }
+  @keyframes flap-r {
+    from { transform: rotate(-8deg); }
+    to   { transform: rotate(22deg); }
+  }
+
+  /* Muted : ligne apparaît, oiseau assombri */
+  .sound-btn.is-muted { color: rgba(136, 112, 64, 0.30); }
+  .sound-btn.is-muted .b-mute-line { opacity: 1 !important; }
+</style>
+
 <script>
   const toggle = document.getElementById('menu-toggle');
   const menu   = document.getElementById('mobile-menu');
+  const header = document.getElementById('header');
+
+  /* Mobile menu */
   toggle?.addEventListener('click', () => {
     const open = menu?.classList.toggle('hidden') === false;
     toggle.setAttribute('aria-expanded', String(open));
+  });
+
+  /* Scroll shadow */
+  function updateScrolled() {
+    header?.classList.toggle('is-scrolled', window.scrollY > 24);
+  }
+  window.addEventListener('scroll', updateScrolled, { passive: true });
+  updateScrolled();
+
+  /* ── Son forêt — sync bouton ── */
+  function syncSoundBtn() {
+    const btns = document.querySelectorAll<HTMLElement>('.sound-btn');
+    const ambient = (window as any).__caelestisAmbient;
+    const playing = ambient?.playing ?? false;
+    const initialized = ambient !== undefined;
+    btns.forEach(btn => {
+      btn.classList.toggle('is-playing', playing);
+      btn.classList.toggle('is-muted', !playing && initialized);
+      btn.setAttribute('aria-label', playing ? 'Couper le son de la forêt' : 'Activer le son de la forêt');
+    });
+  }
+
+  function bindSoundBtns() {
+    document.querySelectorAll('.sound-btn').forEach(btn => {
+      /* Évite les doublons de listeners en clonant */
+      const clone = btn.cloneNode(true) as HTMLElement;
+      btn.parentNode?.replaceChild(clone, btn);
+      clone.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('caelestis:sound-toggle'));
+        setTimeout(syncSoundBtn, 50);
+      });
+    });
+  }
+
+  bindSoundBtns();
+  syncSoundBtn();
+
+  window.addEventListener('caelestis:sound-state', syncSoundBtn);
+
+  /* Relance après View Transitions */
+  document.addEventListener('astro:page-load', () => {
+    updateScrolled();
+    window.removeEventListener('scroll', updateScrolled);
+    window.addEventListener('scroll', updateScrolled, { passive: true });
+    bindSoundBtns();
+    syncSoundBtn();
   });
 </script>

@@ -1,0 +1,96 @@
+<script>
+  (() => {
+    const WIN = window as any;
+
+    if (WIN.__caelestisAmbientInit) return;
+    WIN.__caelestisAmbientInit = true;
+
+    WIN.__caelestisAmbient = undefined;
+
+    const TARGET_VOLUME = 0.03; /* volume cible — discret */
+
+    let ambientEl: HTMLAudioElement | null = null;
+    let fadeInterval: ReturnType<typeof setInterval> | null = null;
+    let running = false;
+
+    /* ── Crée l'élément audio une seule fois ── */
+    function getAudio(): HTMLAudioElement {
+      if (ambientEl) return ambientEl;
+      ambientEl = new Audio('/sounds/forest-ambient.mp3');
+      ambientEl.loop    = true;
+      ambientEl.preload = 'none'; /* chargé à la demande uniquement */
+      ambientEl.volume  = 0;
+      return ambientEl;
+    }
+
+    /* ── Fade volume HTML5 natif ── */
+    function fadeTo(target: number, durationMs: number, onDone?: () => void) {
+      const el = getAudio();
+      if (fadeInterval) clearInterval(fadeInterval);
+
+      const steps    = 40;
+      const interval = durationMs / steps;
+      const start    = el.volume;
+      const delta    = (target - start) / steps;
+      let   step     = 0;
+
+      fadeInterval = setInterval(() => {
+        step++;
+        el.volume = Math.min(1, Math.max(0, start + delta * step));
+        if (step >= steps) {
+          clearInterval(fadeInterval!);
+          fadeInterval = null;
+          el.volume = target;
+          onDone?.();
+        }
+      }, interval);
+    }
+
+    /* ── Démarrage ── */
+    function startAmbient() {
+      if (running) return;
+      running = true;
+      WIN.__caelestisAmbient = { playing: true };
+
+      const el = getAudio();
+      el.volume = 0;
+      el.play().catch(() => {});
+      fadeTo(TARGET_VOLUME, 3000);
+
+      window.dispatchEvent(new CustomEvent('caelestis:sound-state'));
+    }
+
+    /* ── Arrêt / mute ── */
+    function stopAmbient() {
+      if (!running) return;
+      running = false;
+      WIN.__caelestisAmbient = { playing: false };
+
+      fadeTo(0, 2500, () => { ambientEl?.pause(); });
+      window.dispatchEvent(new CustomEvent('caelestis:sound-state'));
+    }
+
+    /* ── Reprise ── */
+    function resumeAmbient() {
+      if (running) return;
+      running = true;
+      WIN.__caelestisAmbient = { playing: true };
+
+      const el = getAudio();
+      el.play().catch(() => {});
+      fadeTo(TARGET_VOLUME, 2000);
+
+      window.dispatchEvent(new CustomEvent('caelestis:sound-state'));
+    }
+
+    /* ── Événements ── */
+    window.addEventListener('caelestis:audio-enable', () => startAmbient());
+    window.addEventListener('caelestis:sound-toggle', () => {
+      if (WIN.__caelestisAmbient === undefined) return;
+      WIN.__caelestisAmbient.playing ? stopAmbient() : resumeAmbient();
+    });
+    document.addEventListener('astro:page-load', () => {
+      window.dispatchEvent(new CustomEvent('caelestis:sound-state'));
+    });
+  })();
+</script>

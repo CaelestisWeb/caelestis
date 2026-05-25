@@ -8,7 +8,8 @@ export default defineConfig({
   // output: 'static' est le défaut dans Astro 6 — il gère désormais
   // le mode hybride nativement (pages statiques + endpoints SSR via prerender:false)
   adapter: vercel(),
+  compressHTML: true,
   vite: {
-    plugins: [tailwindcss()]
-  }
+    plugins: [tailwindcss()],
+  },
 });

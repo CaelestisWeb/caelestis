@@ -1,49 +1,174 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
+
+const localBusiness = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Caelestis',
+  description: 'Création de site web soigné et référencement naturel pour artisans, praticiens et indépendants.',
+  url: 'https://caelestis.fr',
+  email: 'contact@caelestis.fr',
+  telephone: '+33782687399',
+  address: {
+    '@type': 'PostalAddress',
+    addressRegion: 'Drôme',
+    addressCountry: 'FR',
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '09:00',
+    closes: '18:00',
+  },
+  priceRange: '€€',
+  areaServed: { '@type': 'Country', name: 'France' },
+  serviceType: ['Création de site web', 'Référencement naturel', 'SEO local'],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Combien de temps faut-il pour créer mon site ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Entre 2 et 4 semaines en général, selon ce dont vous avez besoin. On avance par étapes — à chaque phase, je vous montre où j\'en suis et on valide ensemble avant de continuer.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Comment ça se passe concrètement ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Un premier appel pour parler de votre projet. Ensuite un devis sous 48h. On construit le site ensemble, par étapes, avec vos retours à chaque fois. Mise en ligne, transmission des accès. Et je reste disponible après.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Est-ce que mon site sera visible sur Google ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Oui. Chaque site est construit sur de bonnes bases : structure claire, chargement rapide, balisage propre et référencement pensé dès le départ. Votre site sera lisible par Google, optimisé pour les recherches locales et relié à la fiche Google de votre entreprise afin de renforcer votre visibilité. Et si vous souhaitez aller plus loin, un travail de référencement plus avancé peut également être mis en place.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Combien ça coûte ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Les sites démarrent à partir de 600 €. Le prix final dépend surtout de la complexité du projet : nombre de pages, fonctionnalités souhaitées, réservation, boutique en ligne, rédaction, référencement, identité visuelle etc.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Est-ce que je peux modifier mon site après ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Oui. Un site n'est pas figé : il peut évoluer avec votre activité. Nouveaux contenus, nouvelles fonctionnalités, pages supplémentaires ou modifications plus importantes, tout peut être ajusté au fil du temps. Je vous propose simplement un devis adapté selon l'ampleur des changements à réaliser.",
+      },
+    },
+  ],
+};
 ---
 <BaseLayout
-  title="Caelestis · Agence web Drôme — Sites web pour pros de la nature et de l'environnement"
-  description="Caelestis crée des sites internet sur mesure pour paysagistes, maraîchers et professionnels de l'environnement. Basé dans la Drôme. Devis gratuit sous 24h."
+  title="Caelestis — Création de site web soigné · Drôme & toute la France"
+  description="Création de site web soigné et visible sur Google. Pour artisans, praticiens et indépendants. Basé dans la Drôme, disponible partout en France. Devis gratuit sous 48h."
+  schema={[localBusiness, faqSchema]}
 >
+
+  <!-- ─── FIL BOTANIQUE ─── -->
+  <div class="vine-wrap" aria-hidden="true">
+    <svg
+      id="vine"
+      class="vine-svg"
+      viewBox="0 0 50 1000"
+      preserveAspectRatio="none"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        id="vine-path"
+        d="M 25,0
+           C 48,38 2,90 18,148
+           C 48,208 2,255 30,312
+           C 50,368 1,418 15,474
+           C 47,532 2,582 30,638
+           C 50,692 1,742 18,796
+           C 48,848 3,894 25,944
+           C 41,968 9,992 25,1000"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        vector-effect="non-scaling-stroke"
+      />
+    </svg>
+  </div>
 
   <!-- ─── HERO ─── -->
   <section class="min-h-[100vh] flex flex-col justify-center px-6 md:px-10 lg:px-20 pt-20 pb-16 relative overflow-hidden">
-    <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-[1fr_42%] gap-12 lg:gap-20 items-center">
 
-      <!-- Colonne gauche : texte -->
-      <div>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-10" data-reveal style="transition-delay: 1.5s;">
-          Agence web · Drôme, France
-        </p>
+    <!-- Lumière ambiante organique -->
+    <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
+      <div class="light-blob light-blob-sauge absolute w-[600px] h-[600px]"
+           style="top: -8%; left: -12%; opacity: 0.7;"></div>
+      <div class="light-blob light-blob-ocre absolute w-[420px] h-[420px]"
+           style="bottom: 5%; right: -8%; opacity: 0.55;"></div>
+      <div class="light-blob light-blob-cream absolute w-[300px] h-[300px]"
+           style="top: 40%; left: 38%; opacity: 0.4;"></div>
+      <div class="light-blob light-blob-bois absolute w-[280px] h-[280px]"
+           style="top: 65%; left: 8%; opacity: 0.5;"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-[1fr_42%] gap-12 lg:gap-24 items-center relative z-10">
+
+      <!-- Colonne gauche : texte centré -->
+      <div class="text-center lg:pl-8">
+
+        <!-- Eyebrow -->
+        <div class="mb-10" data-reveal>
+          <p class="font-body text-sm tracking-[0.22em] uppercase text-sauge">
+            Agence web · Drôme, France
+          </p>
+          <p class="font-body text-sm tracking-[0.18em] uppercase mt-1.5" style="color: rgba(136,144,99,0.55)">
+            Création de site internet
+          </p>
+        </div>
 
         <h1
           class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-10"
           style="font-size: clamp(2.8rem, 6vw, 5.2rem);"
-          data-split-hero
+          data-split
         >
-          <span class="sl"><span>Des sites web</span></span>
-          <span class="sl"><em>au service</em></span>
-          <span class="sl"><span>du vivant.</span></span>
+          <span class="sl"><span>Votre projet,</span></span>
+          <span class="sl"><em>mis en <span class="text-sauge">valeur.</span></em></span>
         </h1>
 
-        <p class="font-body text-lg leading-relaxed max-w-[480px] mb-10 text-brun-mid" data-reveal style="transition-delay: 1.84s;">
-          Caelestis crée des sites internet sur mesure pour les paysagistes, maraîchers,
-          éco-constructeurs et professionnels de la nature. Votre expertise mérite
-          une présence digitale à la hauteur.
+        <p class="font-body text-lg leading-relaxed max-w-[460px] mb-10 text-brun-mid mx-auto" data-reveal data-delay="2">
+          Votre site est souvent la première impression que vous laissez.
+          Bien conçu, il attire les bons clients, rend votre message évident
+          et installe une confiance immédiate.
         </p>
 
-        <div data-reveal style="transition-delay: 2s;">
-          <Button href="/contact" variant="primary">Réserver un appel →</Button>
+        <div data-reveal data-delay="4">
+          <Button href="/contact" variant="primary">Lancer mon projet →</Button>
+          <div class="flex items-center justify-center gap-4 mt-6">
+            <span class="font-body text-xs text-brun-mid/40 tracking-wide">Réponse sous 48h</span>
+            <span class="text-brun-mid/20">·</span>
+            <span class="font-body text-xs text-brun-mid/40 tracking-wide">Devis gratuit</span>
+            <span class="text-brun-mid/20">·</span>
+            <span class="font-body text-xs text-brun-mid/40 tracking-wide">À partir de 600€</span>
+          </div>
         </div>
       </div>
 
-      <!-- Colonne droite : photo grande et centrée -->
+      <!-- Colonne droite : photo éditoriale -->
       <div class="hidden lg:flex items-center justify-center h-full">
-        <div class="w-full overflow-hidden" style="height: min(72vh, 620px);">
+        <div class="img-zoom img-editorial w-full" style="height: min(72vh, 620px);">
           <img
-            src="/images/jardin-aerien.jpg"
-            alt="Vue aérienne d'un jardin collectif urbain avec parcelles maraîchères et arbres — éco-quartier"
+            src="/images/atelier-botanique.jpg"
+            alt="Atelier botanique artisanal — encres naturelles, fleurs séchées et tampons botaniques"
             class="w-full h-full object-cover object-center"
             data-parallax
           />
@@ -52,307 +177,296 @@ import Button from '../components/Button.astro';
 
     </div>
 
-    <!-- Scroll indicator -->
-    <div class="absolute bottom-8 left-6 md:left-10 lg:left-20 flex items-center gap-3 opacity-35" aria-hidden="true">
-      <div class="w-8 h-px bg-brun"></div>
-      <span class="font-body text-xs tracking-widest uppercase text-brun">Découvrir</span>
+    <!-- Badge disponibilité — coin haut droit -->
+    <span class="absolute top-6 right-6 md:right-10 lg:right-20 inline-flex items-center gap-1.5 font-body text-[10px] tracking-widest uppercase text-sauge/70 border border-sauge/20 px-3 py-1.5 rounded-full z-20 bg-cream/60 backdrop-blur-sm" data-reveal>
+      <span class="w-1.5 h-1.5 rounded-full bg-sauge animate-pulse"></span>
+      Disponible
+    </span>
+
+    <!-- Scroll indicator — respiration GSAP -->
+    <div class="scroll-indicator absolute bottom-8 left-6 md:left-10 lg:left-20 flex items-center gap-3" aria-hidden="true">
+      <div class="w-8 h-px bg-brun opacity-40"></div>
+      <span class="font-body text-xs tracking-widest uppercase text-brun opacity-40">Découvrir</span>
     </div>
   </section>
 
 
+  <!-- ─── BARRE MOTS-CLÉS ─── -->
+  <div class="caelestis-bar">
+    <ul class="caelestis-bar-inner" aria-label="Mots-clés Caelestis">
+      <li><em>savoir-faire</em></li>
+      <li aria-hidden="true" class="sep">✦</li>
+      <li><span>passion</span></li>
+      <li aria-hidden="true" class="sep">✦</li>
+      <li><em>bâtir</em></li>
+      <li aria-hidden="true" class="sep">✦</li>
+      <li><span>expertise</span></li>
+      <li aria-hidden="true" class="sep">✦</li>
+      <li><em>clarté</em></li>
+      <li aria-hidden="true" class="sep">✦</li>
+      <li><span>présence</span></li>
+      <li aria-hidden="true" class="sep">✦</li>
+      <li><em>visibilité</em></li>
+      <li aria-hidden="true" class="sep">✦</li>
+      <li><span>confiance</span></li>
+      <li aria-hidden="true" class="sep">✦</li>
+      <li><em>transmettre</em></li>
+      <li aria-hidden="true" class="sep">✦</li>
+      <li><span>durer</span></li>
+    </ul>
+  </div>
+
+  <style is:global>
+    .caelestis-bar {
+      width: 100%;
+      padding: 18px 40px;
+      background: linear-gradient(
+        135deg,
+        rgba(76, 61, 25, 0.04)   0%,
+        rgba(207, 192, 160, 0.28) 40%,
+        rgba(237, 227, 212, 0.55) 60%,
+        rgba(76, 61, 25, 0.04)   100%
+      );
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-top:    1px solid rgba(76, 61, 25, 0.10);
+      border-bottom: 1px solid rgba(76, 61, 25, 0.10);
+    }
+    .caelestis-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      list-style: none;
+      margin: 0; padding: 0;
+      width: 100%;
+    }
+    .caelestis-bar-inner li span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: #4C3D19; opacity: 0.75;
+      white-space: nowrap;
+      transition: opacity 0.3s ease, color 0.3s ease;
+    }
+    .caelestis-bar-inner li em {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 12px; font-weight: 400;
+      letter-spacing: 0.04em;
+      color: #354024; opacity: 0.80;
+      white-space: nowrap;
+      transition: opacity 0.3s ease, color 0.3s ease;
+    }
+    .caelestis-bar-inner li:hover span,
+    .caelestis-bar-inner li:hover em { opacity: 1; color: #889063; }
+    .caelestis-bar-inner li.sep { color: #A08060; font-size: 7px; opacity: 0.35; flex-shrink: 0; }
+
+  </style>
+
+
   <!-- ─── POUR QUI ─── -->
-  <section class="py-24 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
+  <section class="py-24 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
     <div class="max-w-6xl mx-auto">
+      <div class="grid lg:grid-cols-[1fr_480px] gap-16 lg:gap-20 items-start">
 
-      <div class="max-w-lg mb-16" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Pour qui ?</p>
-        <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1]">
-          Pour ceux qui<br>cultivent quelque<br><em>chose de réel.</em>
-        </h2>
-        <p class="font-body text-base text-brun-mid mt-5 leading-relaxed">
-          Vous mettez du cœur dans ce que vous faites.<br>Votre site devrait en faire autant.
+        <!-- Colonne gauche : texte + liste -->
+        <div class="lg:pt-4">
+          <div class="mb-12" data-reveal>
+            <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1]">
+              Votre site devrait<br><em>vous ressembler.</em>
+            </h2>
+            <p class="font-body text-base text-brun-mid mt-5 leading-relaxed">
+              Donnez à votre activité la présence qu'elle mérite.
+            </p>
+          </div>
+
+          <!-- Liste éditoriale numérotée -->
+          <div class="divide-y" style="border-color: rgba(76,61,25,0.08)" data-reveal data-delay="1">
+            {[
+              { num: '01', label: 'Artisans & créateurs',      italic: true  },
+              { num: '02', label: 'Agriculteurs & maraîchers', italic: false },
+              { num: '03', label: 'Praticiens bien-être',      italic: true  },
+              { num: '04', label: "Pros de l'environnement",   italic: false },
+              { num: '05', label: 'Paysagistes & espaces verts', italic: false },
+            ].map(({ num, label, italic }) => (
+              <div class="group flex items-center justify-between py-4 cursor-default">
+                <div class="flex items-center gap-5">
+                  <span class="font-body text-xs tabular-nums select-none" style="color: rgba(136,144,99,0.45)">{num}</span>
+                  <h3
+                    class={`font-display font-light text-brun transition-colors duration-300 group-hover:text-ocre ${italic ? 'italic' : ''}`}
+                    style="font-size: clamp(1.15rem, 2vw, 1.45rem);"
+                  >
+                    {label}
+                  </h3>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Colonne droite : mosaïque éditoriale -->
+        <div class="relative" data-reveal data-delay="2">
+
+          <!-- Grande image en haut -->
+          <div class="img-zoom aspect-[4/3] overflow-hidden mb-3">
+            <img
+              src="/images/jardin-communautaire.jpg"
+              alt="Jardin partagé urbain avec parcelles maraîchères"
+              class="w-full h-full object-cover"
+              data-parallax
+            />
+          </div>
+
+          <!-- Deux images côte à côte, décalées -->
+          <div class="grid grid-cols-2 gap-3">
+            <div class="img-zoom overflow-hidden" style="aspect-ratio: 3/4">
+              <img
+                src="/images/bougies-artisan.jpg"
+                alt="Atelier de bougies artisanales en cire d'abeille"
+                class="w-full h-full object-cover"
+                data-parallax
+              />
+            </div>
+            <div class="img-zoom overflow-hidden mt-8" style="aspect-ratio: 3/4">
+              <img
+                src="/images/yoga-soleil.jpg"
+                alt="Posture de yoga au coucher du soleil face à la mer"
+                class="w-full h-full object-cover"
+                data-parallax
+              />
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── BANDEAU 2% ─── -->
+  <section class="py-8 px-6 border-t border-cream-dark" data-reveal>
+    <div class="max-w-xl mx-auto flex flex-col items-center gap-2 text-center">
+      <div class="flex items-center gap-4 justify-center">
+        <p class="font-display text-lg md:text-xl font-light text-brun whitespace-nowrap">
+          <em>2 % de chaque projet reversé à une association environnementale.</em>
         </p>
+        <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:32px;height:52px;flex-shrink:0;overflow:visible">
+          <ellipse cx="40" cy="125" rx="18" ry="4.5" fill="rgba(78,100,64,0.12)"/>
+          <rect x="38" y="18" width="4" height="103" rx="2" fill="rgba(78,100,64,0.45)"/>
+          <ellipse cx="26" cy="89" rx="16" ry="7" fill="rgba(78,100,64,0.28)" transform="rotate(-35 26 89)"/>
+          <ellipse cx="54" cy="66" rx="16" ry="7" fill="rgba(78,100,64,0.22)" transform="rotate(35 54 66)"/>
+          <g>
+            <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(0   40 18)"/>
+            <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(72  40 18)"/>
+            <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(144 40 18)"/>
+            <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(216 40 18)"/>
+            <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(288 40 18)"/>
+            <circle cx="40" cy="18" r="5" fill="rgba(168,92,44,0.55)"/>
+          </g>
+        </svg>
       </div>
-
-      <!-- Disposition organique -->
-      <div class="space-y-3" data-reveal data-delay="1">
-        <div class="flex items-baseline gap-5">
-          <span class="font-display text-5xl font-light select-none" style="color: rgba(61,46,31,0.12)">—</span>
-          <div>
-            <h3 class="font-display text-3xl md:text-4xl font-light text-ocre italic">Artisans & créateurs</h3>
-            <p class="font-body text-sm text-brun-mid mt-1">Fait-main, ateliers, marques indépendantes engagées…</p>
-          </div>
-        </div>
-
-        <div class="flex items-baseline gap-5 ml-16 md:ml-36">
-          <span class="font-display text-5xl font-light select-none" style="color: rgba(61,46,31,0.12)">—</span>
-          <div>
-            <h3 class="font-display text-3xl md:text-4xl font-light text-brun">Agriculteurs & maraîchers</h3>
-            <p class="font-body text-sm text-brun-mid mt-1">Circuits courts, AMAP, domaines bio, vignerons…</p>
-          </div>
-        </div>
-
-        <div class="flex items-baseline gap-5 ml-6 md:ml-14">
-          <span class="font-display text-5xl font-light select-none" style="color: rgba(61,46,31,0.12)">—</span>
-          <div>
-            <h3 class="font-display text-3xl md:text-4xl font-light text-brun">Pros de l'environnement</h3>
-            <p class="font-body text-sm text-brun-mid mt-1">Éco-construction, bureaux d'études, énergies renouvelables…</p>
-          </div>
-        </div>
-
-        <div class="flex items-baseline gap-5 ml-24 md:ml-52">
-          <span class="font-display text-5xl font-light select-none" style="color: rgba(61,46,31,0.12)">—</span>
-          <div>
-            <h3 class="font-display text-3xl md:text-4xl font-light text-brun">Paysagistes & espaces verts</h3>
-            <p class="font-body text-sm text-brun-mid mt-1">Jardiniers, architectes paysagistes, entretien de parcs…</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bande photographique décalée -->
-      <div class="mt-16 grid grid-cols-2 gap-3 max-w-2xl">
-        <div class="aspect-[4/3] overflow-hidden" data-img-reveal>
-          <img
-            src="/images/jardin-collectif.jpg"
-            alt="Jardin collectif avec potagers surélevés et maraîchers au travail"
-            class="w-full h-full object-cover"
-            data-parallax
-          />
-        </div>
-        <div class="aspect-[4/3] overflow-hidden mt-10" data-img-reveal style="transition-delay: 0.18s;">
-          <img
-            src="/images/arrosage-serre.jpg"
-            alt="Arrosage de plants de légumes en serre — maraîchage"
-            class="w-full h-full object-cover"
-            data-parallax
-          />
-        </div>
-      </div>
+      <p class="font-body text-sm text-brun-mid">
+        Parce que construire quelque chose de beau ne s'arrête pas à soi.
+      </p>
     </div>
   </section>
 
 
   <!-- ─── MES VALEURS ─── -->
-  <section class="py-24 px-6 md:px-10 lg:px-20 bg-brun text-cream">
+  <section class="py-16 px-6 md:px-10 lg:px-20 bg-brun text-cream section-dark-depth">
     <div class="max-w-6xl mx-auto">
 
       <div class="mb-16" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Mes valeurs</p>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Ma façon de travailler</p>
         <h2 class="font-display text-4xl md:text-5xl font-light leading-[1.1]">
-          Une autre façon<br><em>de faire du web.</em>
+          Ce qu'on<br><em>bâtit ensemble.</em>
         </h2>
       </div>
 
       <div class="grid md:grid-cols-2 gap-x-16">
-        <div class="border-t py-10" style="border-color: rgba(250,246,240,0.15)" data-reveal>
-          <span class="font-display text-6xl font-light block mb-4" style="color: rgba(250,246,240,0.1)">01</span>
-          <h3 class="font-display text-2xl font-light mb-3">Humain avant tout</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(250,246,240,0.6)">
-            Je prends le temps de comprendre votre métier, vraiment. Pas de template copié-collé — chaque site naît d'un échange honnête sur votre activité, vos clients, ce qui vous rend unique.
+
+        <div class="card-lift border-t py-10 px-4 -mx-4 rounded-sm" style="border-color: rgba(237,227,212,0.15)" data-reveal>
+          <span class="font-display text-6xl font-light block mb-4" style="color: rgba(237,227,212,0.1)">01</span>
+          <h3 class="font-display text-2xl font-light mb-3">Votre projet au centre</h3>
+          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
+            Chaque projet fonctionne différemment. Avant de concevoir le site, je cherche à comprendre votre activité, votre manière de travailler et ce que vos visiteurs doivent ressentir en arrivant dessus. Le but n'est pas de suivre un modèle, mais de créer une présence cohérente avec ce que vous faites réellement.
           </p>
         </div>
 
-        <div class="border-t py-10 md:mt-28" style="border-color: rgba(250,246,240,0.15)" data-reveal data-delay="1">
-          <span class="font-display text-6xl font-light block mb-4" style="color: rgba(250,246,240,0.1)">02</span>
-          <h3 class="font-display text-2xl font-light mb-3">Ancré dans le vivant</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(250,246,240,0.6)">
-            Je crois aux circuits courts, à l'économie de proximité, aux gens qui font de belles choses près de chez eux. C'est pour eux que Caelestis existe.
+        <div class="card-lift border-t py-10 md:mt-28 px-4 -mx-4 rounded-sm" style="border-color: rgba(237,227,212,0.15)" data-reveal data-delay="1">
+          <span class="font-display text-6xl font-light block mb-4" style="color: rgba(237,227,212,0.1)">02</span>
+          <h3 class="font-display text-2xl font-light mb-3">Clair dès la première seconde</h3>
+          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
+            En quelques secondes, vos visiteurs doivent comprendre ce que vous faites et pourquoi vous choisir. C'est la différence entre un site qui travaille pour vous et un site qui ne fonctionne pas.
           </p>
         </div>
 
-        <div class="border-t py-10" style="border-color: rgba(250,246,240,0.15)" data-reveal data-delay="1">
-          <span class="font-display text-6xl font-light block mb-4" style="color: rgba(250,246,240,0.1)">03</span>
-          <h3 class="font-display text-2xl font-light mb-3">Sites qui durent</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(250,246,240,0.6)">
-            Code propre, rapide, accessible. Pas de technologie superflue, pas de dépendance fragile. Un site encore performant dans cinq ans — sans frais cachés, sans surprise.
+        <div class="card-lift border-t py-10 px-4 -mx-4 rounded-sm" style="border-color: rgba(237,227,212,0.15)" data-reveal data-delay="1">
+          <span class="font-display text-6xl font-light block mb-4" style="color: rgba(237,227,212,0.1)">03</span>
+          <h3 class="font-display text-2xl font-light mb-3">Construit pour durer</h3>
+          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
+            Un site rapide, bien affiché sur tout type d'écran (ordinateur, mobile et tablette), et bien positionné dans votre niche sur Google.
           </p>
         </div>
 
-        <div class="border-t py-10" style="border-color: rgba(250,246,240,0.15)" data-reveal data-delay="2">
-          <span class="font-display text-6xl font-light block mb-4" style="color: rgba(250,246,240,0.1)">04</span>
-          <h3 class="font-display text-2xl font-light mb-3">Tarif juste et transparent</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(250,246,240,0.6)">
-            Pas de grille opaque, pas de forfait gonflé. On discute de votre projet, je vous envoie un devis détaillé ligne par ligne, et on avance dans votre budget réel.
+        <div class="card-lift border-t py-10 px-4 -mx-4 rounded-sm" style="border-color: rgba(237,227,212,0.15)" data-reveal data-delay="2">
+          <span class="font-display text-6xl font-light block mb-4" style="color: rgba(237,227,212,0.1)">04</span>
+          <h3 class="font-display text-2xl font-light mb-3">Prix clairs, zéro surprise</h3>
+          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
+            Devis sous 48h. Chaque ligne expliquée simplement. Vous savez exactement ce que vous investissez. Chaque devis est proposé dans une fourchette indicative, puis précisé et ajusté après discussion afin de correspondre parfaitement à votre projet.
           </p>
         </div>
-      </div>
 
-      <!-- Mention caritative -->
-      <div class="mt-16 border-t pt-10 flex items-start gap-4" style="border-color: rgba(250,246,240,0.15)" data-reveal>
-        <span class="text-xl flex-shrink-0">🌿</span>
-        <p class="font-body text-sm leading-relaxed" style="color: rgba(250,246,240,0.5)">
-          <strong style="color: rgba(250,246,240,0.8)">2% de chaque projet reversé à une association.</strong>
-          Parce qu'entreprendre localement, c'est aussi prendre soin de ce qui nous entoure.
-        </p>
       </div>
     </div>
   </section>
 
 
-  <!-- ─── APERÇU SERVICES ─── -->
-  <section class="py-24 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
-    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-end">
-
-      <div data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Ce que je fais</p>
-        <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-6">
-          Des sites faits<br>pour votre projet.
-        </h2>
-        <p class="font-body text-base text-brun-mid leading-relaxed mb-8">
-          Site vitrine, boutique, blog, refonte — je m'adapte à votre projet, pas l'inverse.
-          Chaque devis est sur mesure, selon vos vrais besoins et votre budget.
-        </p>
-        <Button href="/services" variant="outline">Voir mes prestations →</Button>
-      </div>
-
-      <div class="space-y-0" data-reveal data-delay="1">
-        {[
-          'Création de site vitrine',
-          'Site avec blog & actualités',
-          'Petite boutique en ligne',
-          'Refonte de site existant',
-          'Entretien & accompagnement',
-        ].map((service) => (
-          <div class="flex items-center gap-4 py-4 border-b border-cream-dark">
-            <span class="w-1.5 h-1.5 rounded-full bg-ocre flex-shrink-0"></span>
-            <span class="font-body text-base text-brun">{service}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
 
 
-  <!-- ─── APERÇU À PROPOS ─── -->
-  <section class="py-24 px-6 md:px-10 lg:px-20 bg-sauge-pale">
-    <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.3fr] gap-16 items-center">
-
-      <div class="aspect-[4/5] overflow-hidden" data-img-reveal>
-        <img
-          src="/images/bureau-nature.jpg"
-          alt="Bureau en bois sur une terrasse avec vue sur une gorge boisée — travailler dans la nature"
-          class="w-full h-full object-cover"
-          data-parallax
-        />
-      </div>
-
-      <div data-reveal data-delay="1">
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Qui suis-je ?</p>
-        <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-6">
-          Salut, je suis<br><em>Célestin.</em>
-        </h2>
-        <p class="font-body text-base text-brun-mid leading-relaxed mb-4">
-          22 ans, Drôme, la nature chevillée au corps depuis l'enfance. J'ai créé Caelestis
-          pour mettre mes compétences au service des professionnels de l'environnement —
-          ceux qui méritent bien mieux que les sites génériques.
-        </p>
-        <p class="font-body text-base text-brun-mid leading-relaxed mb-8">
-          Travailler simplement, honnêtement, en restant humain. C'est tout ce que je cherche.
-        </p>
-        <Button href="/a-propos" variant="outline">En savoir plus →</Button>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ─── TÉMOIGNAGES ─── -->
-  <section class="py-24 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
-    <div class="max-w-6xl mx-auto">
-
-      <div class="mb-16" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Témoignages</p>
-        <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1]">
-          La confiance<br><em>de mes clients.</em>
-        </h2>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-6">
-        {[
-          {
-            quote: "Caelestis a compris notre métier dès le premier échange. Le site est professionnel, élégant, et nos clients nous contactent désormais directement. Un vrai investissement qui a porté ses fruits en quelques semaines.",
-            name: "Philippe Morel",
-            role: "Gérant — Morel Paysages",
-            delay: "0",
-          },
-          {
-            quote: "Nous cherchions une agence qui comprenne le monde agricole. Caelestis a créé un site qui reflète nos valeurs et notre qualité. L'accompagnement a été remarquable du début à la fin.",
-            name: "Claire Fontaine",
-            role: "Directrice — Domaine des Chênes Bio",
-            delay: "1",
-          },
-          {
-            quote: "Un travail impeccable. Le design est sobre, moderne et parfaitement aligné avec notre image. Le site nous a permis de doubler nos demandes en trois mois. Je recommande sans hésiter.",
-            name: "Lucas Bernard",
-            role: "Fondateur — Verde Solutions",
-            delay: "2",
-          },
-        ].map(({ quote, name, role, delay }) => (
-          <div class="bg-cream-dark p-8 flex flex-col justify-between" data-reveal data-delay={delay}>
-            <div>
-              <p class="font-body text-xs tracking-widest uppercase text-sauge mb-6">✦</p>
-              <p class="font-display text-base font-light text-brun leading-relaxed italic mb-8">
-                "{quote}"
-              </p>
-            </div>
-            <div class="border-t border-cream pt-5">
-              <p class="font-body text-sm font-medium text-brun">{name}</p>
-              <p class="font-body text-xs text-brun-mid mt-1">{role}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
 
 
   <!-- ─── FAQ ─── -->
-  <section class="py-24 px-6 md:px-10 lg:px-20 bg-brun text-cream">
+  <section class="py-24 px-6 md:px-10 lg:px-20 bg-brun text-cream section-dark-depth">
     <div class="max-w-4xl mx-auto">
 
       <div class="mb-16" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">FAQ</p>
         <h2 class="font-display text-4xl md:text-5xl font-light leading-[1.1]">
-          Questions<br><em>fréquentes.</em>
+          On répond<br><em>à vos questions.</em>
         </h2>
       </div>
 
       <div id="faq-list" data-reveal data-delay="1">
         {[
           {
-            q: "Quels sont les délais de création d'un site internet ?",
-            a: "La création d'un site complet prend généralement entre 2 et 4 semaines selon la complexité du projet. Je travaille en étapes claires avec des validations régulières pour garantir un résultat qui vous correspond parfaitement.",
+            q: "Combien de temps faut-il pour créer mon site ?",
+            a: "Il faut entre 2 et 4 semaines en général, selon vos besoins et nos échanges. Je réalise d'abord une maquette du site, puis nous l'ajustons ensemble étape par étape jusqu'à obtenir un résultat qui vous correspond vraiment.",
           },
           {
-            q: "Comment se passe l'accompagnement ?",
-            a: "Je vous accompagne de A à Z : prise de brief détaillée, proposition de design, phases de validation, mise en ligne et formation. Après le lancement, je reste disponible pour toute question ou ajustement.",
+            q: "Comment ça se passe concrètement ?",
+            a: "Nous échangeons d'abord autour de votre projet lors d'un premier appel. Vous recevez ensuite un devis sous 48h. Une première version du site est créée, puis nous l'ajustons ensemble étape par étape grâce à vos retours. Une fois le site finalisé, il est mis en ligne sur votre page Google. Le paiement n'intervient qu'après la mise en ligne et le bon fonctionnement du site. Et bien sûr, je reste disponible par la suite si besoin.",
           },
           {
-            q: "Les sites sont-ils adaptés aux mobiles ?",
-            a: "Absolument. Tous mes sites sont conçus en responsive design — ils s'adaptent parfaitement à tous les écrans : ordinateurs, tablettes et smartphones. Aujourd'hui, plus de 60 % des visites viennent du mobile.",
+            q: "Est-ce que mon site sera visible sur Google ?",
+            a: "Oui. Chaque site est construit sur de bonnes bases : structure claire, chargement rapide, balisage propre et référencement pensé dès le départ. Votre site sera lisible par Google, optimisé pour les recherches locales et relié à la fiche Google de votre entreprise afin de renforcer votre visibilité. Et si vous souhaitez aller plus loin, un travail de référencement plus avancé peut également être mis en place.",
           },
           {
-            q: "Quels sont les tarifs exacts ?",
-            a: "La création d'un site démarre à partir de 600 €. Le prix final est défini ensemble lors d'un échange, selon vos besoins et la complexité du projet. Devis détaillé, aucune ligne floue, aucune surprise.",
+            q: "Combien ça coûte ?",
+            a: "Les sites démarrent à partir de 600 €. Le prix final dépend surtout de la complexité du projet : nombre de pages, fonctionnalités souhaitées, réservation, boutique en ligne, rédaction, référencement, identité visuelle etc.",
           },
           {
-            q: "Puis-je modifier mon site après la livraison ?",
-            a: "Oui, absolument. Après la livraison, toute modification ou évolution (design, contenu, nouvelles pages…) reste possible à tout moment. Je vous propose un devis simple et transparent selon votre demande.",
+            q: "Est-ce que je peux modifier mon site après ?",
+            a: "Oui. Un site n'est pas figé : il peut évoluer avec votre activité. Nouveaux contenus, nouvelles fonctionnalités, pages supplémentaires ou modifications plus importantes, tout peut être ajusté au fil du temps. Je vous propose simplement un devis adapté selon l'ampleur des changements à réaliser.",
           },
-          {
-            q: "Travaillez-vous uniquement dans la Drôme ?",
-            a: "Je suis basé dans la Drôme, mais je travaille avec des clients partout en France. Tout se passe très bien à distance — appels, échanges de fichiers, validations en ligne. La localisation n'est pas un frein.",
-          },
-        ].map(({ q, a }, i) => (
-          <div class="faq-item border-t" style="border-color: rgba(250,246,240,0.15)">
-            <button
-              class="faq-trigger w-full flex items-center justify-between gap-6 py-6 text-left"
-              aria-expanded="false"
-            >
+        ].map(({ q, a }) => (
+          <div class="faq-item border-t" style="border-color: rgba(237,227,212,0.15)">
+            <button class="faq-trigger w-full flex items-center justify-between gap-6 py-6 text-left" aria-expanded="false">
               <span class="font-display text-lg font-light">{q}</span>
-              <span class="faq-icon font-body text-xl font-light flex-shrink-0" style="color: rgba(250,246,240,0.4)">+</span>
+              <span class="faq-icon font-body text-xl font-light flex-shrink-0" style="color: rgba(237,227,212,0.4)">+</span>
             </button>
             <div class="faq-body overflow-hidden max-h-0 transition-[max-height] duration-300 ease-out">
-              <p class="font-body text-sm leading-relaxed pb-6" style="color: rgba(250,246,240,0.6)">{a}</p>
+              <p class="font-body text-sm leading-relaxed pb-6" style="color: rgba(237,227,212,0.6)">{a}</p>
             </div>
           </div>
         ))}
@@ -362,24 +476,22 @@ import Button from '../components/Button.astro';
 
 
   <!-- ─── CTA FINAL ─── -->
-  <section class="py-28 px-6 md:px-10 lg:px-20 text-center" data-reveal>
+  <section class="py-28 px-6 md:px-10 lg:px-20 text-center section-ambient" data-reveal>
     <div class="max-w-2xl mx-auto">
-      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6">Passons à l'action</p>
-      <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-4">
-        À la hauteur<br><em>de votre projet.</em>
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6">Un premier échange.</p>
+      <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-6">
+        Faites rayonner<br><em>ce que vous créez.</em>
       </h2>
-      <p class="font-body text-base text-brun-mid mb-10 max-w-md mx-auto">
-        Décrivez-moi votre activité en quelques lignes.
-        Je vous réponds personnellement sous 24h.
+      <p class="font-body text-base text-brun-mid mb-10 max-w-md mx-auto leading-relaxed">
+        Parlez-moi de votre activité en quelques lignes. Je reviens vers vous sous 48h.
       </p>
-      <Button href="/contact" variant="primary">Réserver un appel →</Button>
+      <Button href="/contact" variant="primary">Discutons de votre projet →</Button>
     </div>
   </section>
 
 </BaseLayout>
 
 <script>
-  /* ── Accordéon FAQ ── */
   document.querySelectorAll<HTMLButtonElement>('.faq-trigger').forEach((trigger) => {
     trigger.addEventListener('click', () => {
       const item   = trigger.parentElement!;
@@ -387,33 +499,64 @@ import Button from '../components/Button.astro';
       const icon   = trigger.querySelector<HTMLElement>('.faq-icon')!;
       const isOpen = trigger.getAttribute('aria-expanded') === 'true';
 
-      /* Ferme tous les autres */
       document.querySelectorAll<HTMLButtonElement>('.faq-trigger').forEach((t) => {
         if (t !== trigger) {
           t.setAttribute('aria-expanded', 'false');
-          const b = t.parentElement!.querySelector<HTMLElement>('.faq-body')!;
+          const b  = t.parentElement!.querySelector<HTMLElement>('.faq-body')!;
           const ic = t.querySelector<HTMLElement>('.faq-icon')!;
-          b.style.maxHeight = '0';
-          ic.textContent    = '+';
-          ic.style.color    = 'rgba(250,246,240,0.4)';
-          ic.style.transform = '';
+          b.style.maxHeight   = '0';
+          ic.textContent      = '+';
+          ic.style.color      = 'rgba(237,227,212,0.4)';
+          ic.style.transform  = '';
         }
       });
 
-      /* Toggle courant */
       if (isOpen) {
         trigger.setAttribute('aria-expanded', 'false');
         body.style.maxHeight = '0';
         icon.textContent     = '+';
-        icon.style.color     = 'rgba(250,246,240,0.4)';
+        icon.style.color     = 'rgba(237,227,212,0.4)';
         icon.style.transform = '';
       } else {
         trigger.setAttribute('aria-expanded', 'true');
         body.style.maxHeight = body.scrollHeight + 'px';
         icon.textContent     = '–';
-        icon.style.color     = '#C97B45';
+        icon.style.color     = '#A08060';
         icon.style.transform = '';
       }
     });
   });
 </script>
+
+<style>
+  /* ── Fil botanique — visible desktop uniquement ── */
+  .vine-wrap {
+    position: absolute;
+    left: clamp(6px, 1.8vw, 22px);
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    pointer-events: none;
+    z-index: 2;
+    display: none;
+    mix-blend-mode: difference; /* inversion auto selon fond clair/sombre */
+  }
+
+  /* Couleur source pour mix-blend-mode:difference.
+     Bone #EDE3D4 = (237,227,212). Cible mousse #889063 = (136,144,99).
+     Source = (237−136, 227−144, 212−99) = (101,83,113) = #655371.
+     Résultat sur bone : mousse mat · sur kombu : violet-ardoise doux. */
+  #vine-path {
+    stroke: #655371;
+  }
+  @media (min-width: 1024px) {
+    .vine-wrap { display: block; }
+  }
+  .vine-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 100%;
+  }
+</style>
