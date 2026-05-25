@@ -1,4 +1,4 @@
----
+﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import { Image } from 'astro:assets';
@@ -15,7 +15,7 @@ const localBusiness = {
   description: 'Création de site web soigné et référencement naturel pour artisans, praticiens et indépendants.',
   url: 'https://caelestis.fr',
   email: 'contact@caelestis.fr',
-  telephone: '+33782687399',
+  telephone: '+33769362727',
   image: 'https://caelestis.fr/og-image.jpg',
   logo: 'https://caelestis.fr/favicon.svg',
   address: {
@@ -199,11 +199,11 @@ const faqSchema = {
         <div data-reveal data-delay="4">
           <Button href="/contact" variant="primary">Lancer mon projet →</Button>
           <div class="flex items-center justify-center gap-4 mt-6">
-            <span class="font-body text-xs text-brun-mid/40 tracking-wide">Réponse sous 48h</span>
-            <span class="text-brun-mid/20">·</span>
-            <span class="font-body text-xs text-brun-mid/40 tracking-wide">Devis gratuit</span>
-            <span class="text-brun-mid/20">·</span>
-            <span class="font-body text-xs text-brun-mid/40 tracking-wide">À partir de 600€</span>
+            <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">Réponse sous 48h</span>
+            <span class="text-brun-mid/25">·</span>
+            <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">Devis gratuit</span>
+            <span class="text-brun-mid/25">·</span>
+            <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">À partir de 600€</span>
           </div>
         </div>
       </div>
@@ -234,8 +234,8 @@ const faqSchema = {
 
     <!-- Scroll indicator — respiration GSAP -->
     <div class="scroll-indicator absolute bottom-8 left-6 md:left-10 lg:left-20 flex items-center gap-3" aria-hidden="true">
-      <div class="w-8 h-px bg-brun opacity-40"></div>
-      <span class="font-body text-xs tracking-widest uppercase text-brun opacity-40">Découvrir</span>
+      <div class="scroll-line w-8 h-px bg-brun opacity-35"></div>
+      <span class="font-body text-xs tracking-[0.18em] uppercase text-brun opacity-35">Découvrir</span>
     </div>
   </section>
 
@@ -338,6 +338,7 @@ const faqSchema = {
                     {label}
                   </h3>
                 </div>
+                <span class="font-body text-sm text-sauge opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out select-none">→</span>
               </div>
             ))}
           </div>
@@ -594,6 +595,16 @@ const faqSchema = {
     z-index: 2;
     display: none;
     mix-blend-mode: difference; /* inversion auto selon fond clair/sombre */
+  }
+
+  /* ── Scroll indicator — ligne respirante ── */
+  @keyframes scroll-breathe {
+    0%, 100% { transform: scaleX(1);   opacity: 0.35; }
+    50%       { transform: scaleX(1.5); opacity: 0.55; }
+  }
+  .scroll-line {
+    transform-origin: left;
+    animation: scroll-breathe 2.8s ease-in-out infinite;
   }
 
   /* Couleur source pour mix-blend-mode:difference.
