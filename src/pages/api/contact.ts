@@ -101,8 +101,9 @@ function buildEmailHtml(params: {
   societe: string;
   projet: string;
   date: string;
+  extras: Array<[string, string]>;
 }) {
-  const { type, prenom, email, societe, projet, date } = params;
+  const { type, prenom, email, societe, projet, date, extras } = params;
   const typeInfo = TYPE_LABELS[type] ?? { label: 'Demande', emoji: '📩', color: '#1C3828' };
 
   // Toutes les données utilisateur sont échappées avant injection dans le HTML
@@ -187,6 +188,27 @@ function buildEmailHtml(params: {
             </td>
           </tr>
 
+          <!-- ─── DÉTAILS COMPLÉMENTAIRES (créneau, type projet, etc.) ─── -->
+          ${extras.length > 0 ? `
+          <tr>
+            <td style="background-color:#F2F7F0;padding:0 40px 20px;">
+              <p style="margin:0 0 12px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#6BA05A;font-weight:600;border-bottom:1px solid #D8E8D0;padding-bottom:10px;">
+                Détails complémentaires
+              </p>
+              <table cellpadding="0" cellspacing="0" width="100%">
+                ${extras.map(([label, value]) => `
+                <tr>
+                  <td style="padding:8px 0;border-bottom:1px solid #D8E8D0;width:160px;vertical-align:top;">
+                    <p style="margin:0;font-size:11px;color:#4A7260;letter-spacing:0.08em;text-transform:uppercase;">${escHtml(label)}</p>
+                  </td>
+                  <td style="padding:8px 0;border-bottom:1px solid #D8E8D0;vertical-align:top;">
+                    <p style="margin:0;font-size:14px;color:#1C3828;font-weight:500;">${escHtml(value)}</p>
+                  </td>
+                </tr>`).join('')}
+              </table>
+            </td>
+          </tr>` : ''}
+
           <!-- ─── DESCRIPTION DU PROJET ─── -->
           <tr>
             <td style="background-color:#F2F7F0;padding:28px 40px;">
@@ -239,8 +261,9 @@ function buildEmailHtml(params: {
 export const POST: APIRoute = async ({ request }) => {
 
   /* ── 1. CORS / CSRF — vérification de l'origine ── */
+  /* Bloque si Origin absent (curl, Postman, scripts tiers) OU non autorisé */
   const origin = request.headers.get('origin');
-  if (origin && !ALLOWED_ORIGINS.has(origin)) {
+  if (!origin || !ALLOWED_ORIGINS.has(origin)) {
     return new Response(
       JSON.stringify({ error: 'Accès non autorisé.' }),
       { status: 403, headers: { 'Content-Type': 'application/json' } }
@@ -248,9 +271,12 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   /* ── 2. Rate limiting par IP ── */
+  /* Sur Vercel, x-real-ip est injecté par le CDN et ne peut pas être forgé par le client.
+     x-forwarded-for peut être manipulé (le client contrôle les premières valeurs) ;
+     on lit la DERNIÈRE entrée, ajoutée par Vercel, qui correspond à l'IP réelle. */
   const ip = (
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
     request.headers.get('x-real-ip') ??
+    request.headers.get('x-forwarded-for')?.split(',').at(-1)?.trim() ??
     'unknown'
   );
   const { allowed, retryAfterSecs } = checkRateLimit(ip);
@@ -277,16 +303,62 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
+  /* ── 3b. Vérification Content-Type (doit être un FormData) ── */
+  const contentType = request.headers.get('content-type') ?? '';
+  if (!contentType.includes('multipart/form-data') && !contentType.includes('application/x-www-form-urlencoded')) {
+    return new Response(
+      JSON.stringify({ error: 'Format de requête invalide.' }),
+      { status: 415, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
   try {
     const data = await request.formData();
 
-    /* ── 4. Extraction et nettoyage des champs ── */
+    /* ── 4a. Honeypot anti-bot — doit rester vide ── */
+    const honeypot = data.get('website')?.toString() ?? '';
+    if (honeypot.length > 0) {
+      /* Réponse silencieuse — ne pas alerter le bot */
+      return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    }
+
+    /* ── 4b. Extraction et nettoyage des champs principaux ── */
     const type    = data.get('formType')?.toString().trim()  ?? '';
     const prenom  = data.get('prenom')?.toString().trim()    ?? '';
     const email   = data.get('email')?.toString().trim()     ?? '';
     const societe = data.get('societe')?.toString().trim()   ?? '';
     /* 'projet' est le nom unifié côté formulaire HTML pour les 3 types de demande */
     const projet  = data.get('projet')?.toString().trim()    ?? '';
+
+    /* ── 4c. Champs complémentaires selon le type de formulaire ── */
+    const extras: Array<[string, string]> = [];
+    if (type === 'message') {
+      const sujet = data.get('sujet')?.toString().trim() ?? '';
+      if (sujet) extras.push(['Sujet', sujet]);
+    }
+    if (type === 'appel') {
+      const telephone = data.get('telephone')?.toString().trim() ?? '';
+      const creneau   = data.get('creneau')?.toString().trim()   ?? '';
+      const jours     = data.getAll('jours').map(j => j.toString().trim()).filter(Boolean).join(', ');
+      if (telephone) {
+        /* Validation basique du numéro (chiffres, espaces, +, tirets) */
+        if (!/^[\d\s\+\-\.\(\)]{6,20}$/.test(telephone)) {
+          return new Response(
+            JSON.stringify({ error: 'Numéro de téléphone invalide.' }),
+            { status: 400, headers: { 'Content-Type': 'application/json' } }
+          );
+        }
+        extras.push(['Téléphone', telephone]);
+      }
+      if (creneau) extras.push(['Créneau préféré', creneau]);
+      if (jours)   extras.push(['Jours disponibles', jours]);
+    }
+    if (type === 'devis') {
+      const typeProjet = data.get('typeProjet')?.toString().trim() ?? '';
+      const delai      = data.get('delai')?.toString().trim()      ?? '';
+      if (typeProjet) extras.push(['Type de projet', typeProjet]);
+      if (delai)      extras.push(['Délai souhaité',  delai]);
+    }
 
     /* ── 5. Validation longueurs (DoS) ── */
     const fields: [string, string, number][] = [
@@ -347,7 +419,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     const subject = `[Caelestis] ${typeInfo.label} — ${prenom}${societe ? ' · ' + societe : ''}`;
-    const html    = buildEmailHtml({ type, prenom, email, societe, projet, date: dateStr });
+    const html    = buildEmailHtml({ type, prenom, email, societe, projet, date: dateStr, extras });
 
     await transporter.sendMail({
       from:    '"Caelestis" <contact@caelestis.fr>',

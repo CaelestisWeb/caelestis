@@ -93,8 +93,9 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <ClientRouter />
 
     <!-- ── JSON-LD Structured Data ── -->
+    <!-- Échappement de < > / pour éviter l'injection via </script> dans une valeur JSON -->
     {schemas.map((s) => (
-      <script is:inline type="application/ld+json" set:html={JSON.stringify(s)} />
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(s).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/\//g, '\\u002f')} />
     ))}
   </head>
   <body>

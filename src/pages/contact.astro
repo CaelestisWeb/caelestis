@@ -153,6 +153,8 @@ const breadcrumbContact = {
 
             <form id="form-message" class="space-y-5" novalidate>
               <input type="hidden" name="formType" value="message" />
+              <!-- Honeypot anti-bot : doit rester vide, caché des utilisateurs réels -->
+              <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;width:1px;height:1px;" />
 
               <div class="grid grid-cols-2 gap-4">
                 <div>
@@ -239,6 +241,8 @@ const breadcrumbContact = {
 
             <form id="form-appel" class="space-y-5" novalidate>
               <input type="hidden" name="formType" value="appel" />
+              <!-- Honeypot anti-bot -->
+              <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;width:1px;height:1px;" />
 
               <div class="grid grid-cols-2 gap-4">
                 <div>
@@ -346,6 +350,8 @@ const breadcrumbContact = {
 
             <form id="form-devis" class="space-y-5" novalidate>
               <input type="hidden" name="formType" value="devis" />
+              <!-- Honeypot anti-bot -->
+              <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;width:1px;height:1px;" />
 
               <div class="grid grid-cols-2 gap-4">
                 <div>

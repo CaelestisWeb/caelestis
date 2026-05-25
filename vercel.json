@@ -52,7 +52,7 @@
         },
         {
           "key": "Permissions-Policy",
-          "value": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), bluetooth=()"
+          "value": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), bluetooth=(), autoplay=(self)"
         },
         {
           "key": "Content-Security-Policy",
