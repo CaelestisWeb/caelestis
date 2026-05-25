@@ -123,7 +123,7 @@ const etapes = [
 >
 
   <!-- En-tête de page -->
-  <section class="pt-20 pb-10 px-6 md:px-10 lg:px-20 border-b border-cream-dark section-ambient overflow-hidden relative">
+  <section class="pt-20 pb-10 px-6 md:px-10 lg:px-20 border-b border-cream-dark section-ambient overflow-hidden relative" style="isolation: isolate;">
 
     <!-- Blob sauge atmosphérique -->
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-20 -right-20 w-[420px] h-[420px]"></div>
@@ -157,10 +157,10 @@ const etapes = [
         </div>
         <h1
           class="font-display font-light text-brun leading-[1.05] tracking-tight max-w-3xl"
-          style="font-size: clamp(2.6rem, 5.5vw, 4.5rem);"
+          style="font-size: clamp(2.2rem, 5.5vw, 4.5rem);"
           data-reveal data-delay="1"
         >
-          Un site adapté à ce que vous faites,<br><span class="text-sauge">construit pour durer.</span>
+          Un site adapté à ce que vous faites,<br class="hidden sm:block"><span class="text-sauge">construit pour durer.</span>
         </h1>
         <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed" data-reveal data-delay="2">
           Chaque projet est unique. Je vous propose ce dont vous, et vos clients avez vraiment besoin.
@@ -525,7 +525,7 @@ const etapes = [
     <div class="max-w-6xl mx-auto">
 
       <!-- Bloc tarif — card centrée -->
-      <div class="relative rounded-2xl p-8 md:p-12 mb-24 overflow-hidden bg-sauge-pale border border-cream-dark text-center" data-reveal>
+      <div class="relative rounded-2xl p-6 sm:p-8 md:p-12 mb-16 sm:mb-24 overflow-hidden bg-sauge-pale border border-cream-dark text-center" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Budget</p>
         <p class="font-display font-light text-brun leading-tight mb-3" style="font-size: clamp(2.2rem, 4vw, 3.2rem);">
           De <span class="text-ocre">600€</span> à <span class="text-ocre">2 500€</span>

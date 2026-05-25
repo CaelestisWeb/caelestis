@@ -8,7 +8,7 @@ const nav = [
 const current = Astro.url.pathname;
 ---
 <header id="header" class="sticky top-0 z-50 bg-cream/80 backdrop-blur-md border-b border-cream-dark/60">
-  <div class="w-full px-6 md:px-10 lg:px-16 h-16 grid md:grid-cols-[auto_1fr_auto] flex items-center md:items-stretch gap-0">
+  <div class="w-full px-6 md:px-10 lg:px-16 h-16 flex items-center md:grid md:grid-cols-[auto_1fr_auto] gap-0">
 
     <!-- Logo — extrême gauche -->
     <a href="/" class="font-display text-xl font-medium text-brun tracking-[-0.02em] hover:text-ocre transition-colors duration-300 flex items-center">
@@ -43,8 +43,8 @@ const current = Astro.url.pathname;
       </a>
     </div>
 
-    <!-- Mobile toggle -->
-    <button id="menu-toggle" class="md:hidden text-brun ml-auto" aria-label="Ouvrir le menu" aria-expanded="false">
+    <!-- Mobile toggle — taille tactile min 44×44px (WCAG 2.5.5) -->
+    <button id="menu-toggle" class="md:hidden text-brun ml-auto flex items-center justify-center w-11 h-11 -mr-2" aria-label="Ouvrir le menu" aria-expanded="false">
       <svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
         <line x1="0" y1="1"  x2="22" y2="1"  stroke="currentColor" stroke-width="1.5"/>
         <line x1="0" y1="8"  x2="22" y2="8"  stroke="currentColor" stroke-width="1.5"/>

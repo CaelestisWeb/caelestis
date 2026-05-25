@@ -233,14 +233,14 @@ const faqSchema = {
 
     </div>
 
-    <!-- Badge disponibilité — coin haut droit -->
-    <span class="absolute top-6 right-6 md:right-10 lg:right-20 inline-flex items-center gap-1.5 font-body text-[10px] tracking-widest uppercase text-sauge/70 border border-sauge/20 px-3 py-1.5 rounded-full z-20 bg-cream/60 backdrop-blur-sm" data-reveal>
+    <!-- Badge disponibilité — coin haut droit (masqué sur xs pour éviter le chevauchement) -->
+    <span class="hidden sm:inline-flex absolute top-6 right-6 md:right-10 lg:right-20 items-center gap-1.5 font-body text-[10px] tracking-widest uppercase text-sauge/70 border border-sauge/20 px-3 py-1.5 rounded-full z-20 bg-cream/60 backdrop-blur-sm" data-reveal>
       <span class="w-1.5 h-1.5 rounded-full bg-sauge animate-pulse"></span>
       Disponible
     </span>
 
-    <!-- Scroll indicator — respiration GSAP -->
-    <div class="scroll-indicator absolute bottom-8 left-6 md:left-10 lg:left-20 flex items-center gap-3" aria-hidden="true">
+    <!-- Scroll indicator — respiration GSAP (caché sur très petit écran) -->
+    <div class="scroll-indicator absolute bottom-8 left-6 md:left-10 lg:left-20 hidden sm:flex items-center gap-3" aria-hidden="true">
       <div class="scroll-line w-8 h-px bg-brun opacity-35"></div>
       <span class="font-body text-xs tracking-[0.18em] uppercase text-brun opacity-35">Découvrir</span>
     </div>
@@ -248,7 +248,7 @@ const faqSchema = {
 
 
   <!-- ─── BARRE MOTS-CLÉS ─── -->
-  <div class="caelestis-bar">
+  <div class="caelestis-bar overflow-hidden">
     <ul class="caelestis-bar-inner" aria-label="Mots-clés Caelestis">
       <li><span>savoir-faire</span></li>
       <li aria-hidden="true" class="sep">✦</li>
@@ -275,7 +275,7 @@ const faqSchema = {
   <style is:global>
     .caelestis-bar {
       width: 100%;
-      padding: 18px 40px;
+      padding: 14px 16px;
       background: linear-gradient(
         135deg,
         rgba(76, 61, 25, 0.04)   0%,
@@ -288,24 +288,42 @@ const faqSchema = {
       border-top:    1px solid rgba(76, 61, 25, 0.10);
       border-bottom: 1px solid rgba(76, 61, 25, 0.10);
     }
+    @media (min-width: 640px) {
+      .caelestis-bar { padding: 18px 40px; }
+    }
     .caelestis-bar-inner {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
       list-style: none;
       margin: 0; padding: 0;
       width: 100%;
     }
+    @media (min-width: 640px) {
+      .caelestis-bar-inner {
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        gap: 0;
+      }
+    }
     .caelestis-bar-inner li span {
       font-family: 'DM Sans', sans-serif;
-      font-size: 10px; font-weight: 500;
-      letter-spacing: 0.2em; text-transform: uppercase;
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
       color: #4C3D19; opacity: 0.75;
       white-space: nowrap;
       transition: opacity 0.3s ease, color 0.3s ease;
     }
+    @media (min-width: 640px) {
+      .caelestis-bar-inner li span { font-size: 10px; letter-spacing: 0.2em; }
+    }
     .caelestis-bar-inner li:hover span { opacity: 1; color: #889063; }
-    .caelestis-bar-inner li.sep { color: #A08060; font-size: 7px; opacity: 0.35; flex-shrink: 0; }
+    .caelestis-bar-inner li.sep { color: #A08060; font-size: 7px; opacity: 0.35; flex-shrink: 0; display: none; }
+    @media (min-width: 640px) {
+      .caelestis-bar-inner li.sep { display: block; }
+    }
 
   </style>
 
@@ -352,7 +370,7 @@ const faqSchema = {
         </div>
 
         <!-- Colonne droite : mosaïque éditoriale -->
-        <div class="relative" data-reveal data-delay="2">
+        <div class="relative hidden lg:block" data-reveal data-delay="2">
 
           <!-- Grande image en haut -->
           <div class="img-zoom aspect-[4/3] overflow-hidden mb-3">
@@ -404,7 +422,7 @@ const faqSchema = {
   <section class="py-8 px-6 border-t border-cream-dark" data-reveal>
     <div class="max-w-xl mx-auto flex flex-col items-center gap-2 text-center">
       <div class="flex items-center gap-4 justify-center">
-        <p class="font-display text-lg md:text-xl font-light text-brun whitespace-nowrap">
+        <p class="font-display text-base md:text-xl font-light text-brun">
           2 % de chaque projet reversé à une association environnementale.
         </p>
         <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:32px;height:52px;flex-shrink:0;overflow:visible">

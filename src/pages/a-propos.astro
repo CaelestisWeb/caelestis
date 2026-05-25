@@ -52,15 +52,15 @@ const valeurs = [
   schema={[personSchema, breadcrumbApropos]}
 >
 
-  <section class="pt-20 pb-28 px-6 md:px-10 lg:px-20">
+  <section class="pt-20 pb-28 px-6 md:px-10 lg:px-20 overflow-hidden">
     <div class="max-w-6xl mx-auto">
 
-      <div class="grid lg:grid-cols-[1fr_1.5fr] gap-16 md:gap-24 items-start">
+      <div class="grid lg:grid-cols-[1fr_1.5fr] gap-12 md:gap-16 lg:gap-24 items-start">
 
         <!-- Colonne gauche : placeholder photo + petites infos -->
         <div data-reveal>
           <!-- Rivière de montagne — évoque la Drôme, la nature, le calme -->
-          <div class="img-zoom img-editorial aspect-[3/4] mb-4 overflow-hidden">
+          <div class="img-zoom img-editorial aspect-[3/4] mb-4 overflow-hidden max-h-[480px] lg:max-h-none">
             <Image
               src={imgRiviere}
               alt="Table au bord d'une rivière turquoise en montagne — paysage de la Drôme"
@@ -139,7 +139,7 @@ const valeurs = [
             </div>
           </div>
 
-          <div class="mt-10 flex flex-wrap gap-4" data-reveal data-delay="3">
+          <div class="mt-10 flex flex-col sm:flex-row flex-wrap gap-4" data-reveal data-delay="3">
             <Button href="/contact" variant="primary">Réserver un appel →</Button>
             <Button href="/services" variant="outline">Mes prestations</Button>
           </div>
