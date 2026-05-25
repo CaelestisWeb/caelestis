@@ -172,7 +172,7 @@ const current = Astro.url.pathname;
   /* ── Son forêt — sync bouton ── */
   function syncSoundBtn() {
     const btns = document.querySelectorAll<HTMLElement>('.sound-btn');
-    const ambient = (window as any).__caelestisAmbient;
+    const ambient = window.__caelestisAmbient;
     const playing = ambient?.playing ?? false;
     const initialized = ambient !== undefined;
     btns.forEach(btn => {

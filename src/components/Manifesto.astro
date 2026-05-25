@@ -163,16 +163,20 @@
 <script>
   import gsap from 'gsap';
 
+  declare global {
+    interface Window {
+      __caelestisIntro?: boolean;
+    }
+  }
+
   const overlay = document.getElementById('manifesto');
   if (overlay) {
 
-    const WIN = window as any;
-
-    if (WIN.__caelestisIntro) {
+    if (window.__caelestisIntro) {
       overlay.remove();
 
     } else {
-      WIN.__caelestisIntro = true;
+      window.__caelestisIntro = true;
 
       overlay.style.opacity       = '1';
       overlay.style.pointerEvents = 'auto';
@@ -194,7 +198,7 @@
          AUDIO — Sons de clavier mécanique (Caelestis uniquement)
       ══════════════════════════════════════════════════════ */
 
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioCtx = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       let ctx: AudioContext | null = null;
 
       if (AudioCtx) {

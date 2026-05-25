@@ -550,36 +550,41 @@ const faqSchema = {
 </BaseLayout>
 
 <script>
+  /* Couleurs inline FAQ — constantes nommées */
+  const FAQ_COLOR_CLOSED = 'rgba(237,227,212,0.4)';
+  const FAQ_COLOR_OPEN   = '#A08060';
+
   document.querySelectorAll<HTMLButtonElement>('.faq-trigger').forEach((trigger) => {
     trigger.addEventListener('click', () => {
-      const item   = trigger.parentElement!;
-      const body   = item.querySelector<HTMLElement>('.faq-body')!;
-      const icon   = trigger.querySelector<HTMLElement>('.faq-icon')!;
+      const item = trigger.parentElement;
+      const body = item?.querySelector<HTMLElement>('.faq-body');
+      const icon = trigger.querySelector<HTMLElement>('.faq-icon');
+      if (!item || !body || !icon) return;
+
       const isOpen = trigger.getAttribute('aria-expanded') === 'true';
 
+      /* Ferme tous les autres items */
       document.querySelectorAll<HTMLButtonElement>('.faq-trigger').forEach((t) => {
-        if (t !== trigger) {
-          t.setAttribute('aria-expanded', 'false');
-          const b  = t.parentElement!.querySelector<HTMLElement>('.faq-body')!;
-          const ic = t.querySelector<HTMLElement>('.faq-icon')!;
-          b.style.maxHeight   = '0';
-          ic.textContent      = '+';
-          ic.style.color      = 'rgba(237,227,212,0.4)';
-          ic.style.transform  = '';
-        }
+        if (t === trigger) return;
+        t.setAttribute('aria-expanded', 'false');
+        const b  = t.parentElement?.querySelector<HTMLElement>('.faq-body');
+        const ic = t.querySelector<HTMLElement>('.faq-icon');
+        if (b)  b.style.maxHeight  = '0';
+        if (ic) { ic.textContent = '+'; ic.style.color = FAQ_COLOR_CLOSED; ic.style.transform = ''; }
       });
 
+      /* Bascule l'item courant */
       if (isOpen) {
         trigger.setAttribute('aria-expanded', 'false');
         body.style.maxHeight = '0';
         icon.textContent     = '+';
-        icon.style.color     = 'rgba(237,227,212,0.4)';
+        icon.style.color     = FAQ_COLOR_CLOSED;
         icon.style.transform = '';
       } else {
         trigger.setAttribute('aria-expanded', 'true');
         body.style.maxHeight = body.scrollHeight + 'px';
         icon.textContent     = '–';
-        icon.style.color     = '#A08060';
+        icon.style.color     = FAQ_COLOR_OPEN;
         icon.style.transform = '';
       }
     });

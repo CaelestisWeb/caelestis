@@ -64,12 +64,21 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <!-- ── Fonts — preconnect + chargement non-bloquant ── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Préchargement des polices critiques (évite le flash FOUT) -->
-    <!-- 4 variantes uniquement : Lora 400/600 + DM Sans 400/600 — gain ~20KB vs 6 variantes -->
-    <link rel="preload" as="style"
+    <!-- Préchargement : 4 variantes — Lora 400/600 + DM Sans 400/600 (gain ~20KB vs 6 variantes) -->
+    <!-- media="print" + onload="this.media='all'" : technique non-bloquante standard (pas de TS inline) -->
+    <link
+      id="gfonts"
+      rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,600&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
+      media="print"
     />
+    <script is:inline>
+      /* Convertit la feuille de style "print" en "all" dès qu'elle est prête */
+      (function() {
+        var l = document.getElementById('gfonts');
+        if (l) { l.onload = function() { l.media = 'all'; }; }
+      })();
+    </script>
     <noscript>
       <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,600&display=swap"
@@ -85,7 +94,7 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 
     <!-- ── JSON-LD Structured Data ── -->
     {schemas.map((s) => (
-      <script type="application/ld+json" set:html={JSON.stringify(s)} />
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(s)} />
     ))}
   </head>
   <body>
@@ -241,14 +250,20 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
   /* ═══════════════════════════════════════════════════════
      GSAP + Lenis — chargement asynchrone après le rendu
   ═══════════════════════════════════════════════════════ */
-  type GsapType  = typeof import('gsap')['default'];
-  type StType    = typeof import('gsap/ScrollTrigger')['ScrollTrigger'];
-  type LenisType = typeof import('lenis')['default'];
+  type GsapType = typeof import('gsap')['default'];
+  type StType   = typeof import('gsap/ScrollTrigger')['ScrollTrigger'];
+
+  /** Interface minimale de l'instance Lenis dont on se sert */
+  interface LenisInstance {
+    raf(time: number): void;
+    destroy(): void;
+    on(event: string, callback: () => void): void;
+  }
 
   let gsap: GsapType;
   let ScrollTrigger: StType;
-  let Lenis: { new(...args: any[]): any };
-  let lenis: any = null;
+  let Lenis: new(opts?: { duration?: number; easing?: (t: number) => number; smoothWheel?: boolean }) => LenisInstance;
+  let lenis: LenisInstance | null = null;
   let gsapReady = false;
 
   async function loadGsap() {

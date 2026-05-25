@@ -361,9 +361,10 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
 
-  } catch {
+  } catch (err: unknown) {
     /* Erreur générique — aucun détail exposé au client */
-    console.error('[contact API] Erreur d\'envoi');
+    const message = err instanceof Error ? err.message : String(err);
+    console.error('[contact API] Erreur d\'envoi :', message);
     return new Response(
       JSON.stringify({ error: 'Erreur serveur. Veuillez réessayer ou écrire directement à contact@caelestis.fr' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }

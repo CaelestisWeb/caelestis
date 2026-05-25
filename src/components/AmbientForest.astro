@@ -1,11 +1,16 @@
 <script>
+  declare global {
+    interface Window {
+      __caelestisAmbientInit?: boolean;
+      __caelestisAmbient?: { playing: boolean } | undefined;
+    }
+  }
+
   (() => {
-    const WIN = window as any;
+    if (window.__caelestisAmbientInit) return;
+    window.__caelestisAmbientInit = true;
 
-    if (WIN.__caelestisAmbientInit) return;
-    WIN.__caelestisAmbientInit = true;
-
-    WIN.__caelestisAmbient = undefined;
+    window.__caelestisAmbient = undefined;
 
     const TARGET_VOLUME = 0.03; /* volume cible — discret */
 
@@ -50,7 +55,7 @@
     function startAmbient() {
       if (running) return;
       running = true;
-      WIN.__caelestisAmbient = { playing: true };
+      window.__caelestisAmbient = { playing: true };
 
       const el = getAudio();
       el.volume = 0;
@@ -64,7 +69,7 @@
     function stopAmbient() {
       if (!running) return;
       running = false;
-      WIN.__caelestisAmbient = { playing: false };
+      window.__caelestisAmbient = { playing: false };
 
       fadeTo(0, 2500, () => { ambientEl?.pause(); });
       window.dispatchEvent(new CustomEvent('caelestis:sound-state'));
@@ -74,7 +79,7 @@
     function resumeAmbient() {
       if (running) return;
       running = true;
-      WIN.__caelestisAmbient = { playing: true };
+      window.__caelestisAmbient = { playing: true };
 
       const el = getAudio();
       el.play().catch(() => {});
@@ -86,8 +91,8 @@
     /* ── Événements ── */
     window.addEventListener('caelestis:audio-enable', () => startAmbient());
     window.addEventListener('caelestis:sound-toggle', () => {
-      if (WIN.__caelestisAmbient === undefined) return;
-      WIN.__caelestisAmbient.playing ? stopAmbient() : resumeAmbient();
+      if (window.__caelestisAmbient === undefined) return;
+      window.__caelestisAmbient.playing ? stopAmbient() : resumeAmbient();
     });
     document.addEventListener('astro:page-load', () => {
       window.dispatchEvent(new CustomEvent('caelestis:sound-state'));

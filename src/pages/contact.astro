@@ -544,9 +544,12 @@ const breadcrumbContact = {
       submitLbl.textContent = 'Envoi en cours…';
       hideErr();
 
+      /* Mémorise le label d'origine avant de le changer */
+      const originalLabel = submitLbl.textContent ?? '→';
+
       try {
         const res  = await fetch('/api/contact', { method: 'POST', body: new FormData(form) });
-        const json = await res.json();
+        const json = await res.json() as { success?: boolean; error?: string };
 
         if (res.ok && json.success) {
           form.classList.add('hidden');
@@ -555,11 +558,13 @@ const breadcrumbContact = {
         } else {
           showErr(json.error ?? 'Une erreur est survenue. Veuillez réessayer.');
           submitBtn.disabled    = false;
-          submitLbl.textContent = submitLbl.textContent.replace('Envoi en cours…', '') || '→';
+          submitLbl.textContent = originalLabel;
         }
-      } catch {
+      } catch (err) {
+        console.error('[contact] Erreur réseau :', err);
         showErr('Erreur réseau. Vérifiez votre connexion.');
         submitBtn.disabled    = false;
+        submitLbl.textContent = originalLabel;
       }
 
       function showErr(msg: string) { if (errorEl) { errorEl.textContent = msg; errorEl.classList.remove('hidden'); } }
