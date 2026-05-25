@@ -502,11 +502,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       e.preventDefault();
       if (!submitBtn || !submitLbl) return;
 
-      /* Validation minimale */
-      const prenom = (form.querySelector('[name="prenom"]') as HTMLInputElement)?.value.trim();
-      const email  = (form.querySelector('[name="email"]')  as HTMLInputElement)?.value.trim();
-      if (!prenom) { showErr('Veuillez indiquer votre prénom.');           return; }
-      if (!email)  { showErr('Veuillez indiquer votre adresse email.');    return; }
+      /* Validation côté client */
+      const prenom  = (form.querySelector('[name="prenom"]') as HTMLInputElement)?.value.trim();
+      const email   = (form.querySelector('[name="email"]')  as HTMLInputElement)?.value.trim();
+      const projet  = (form.querySelector('[name="projet"]') as HTMLTextAreaElement)?.value.trim();
+      const societe = (form.querySelector('[name="societe"]') as HTMLInputElement)?.value.trim() ?? '';
+
+      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
+      if (!prenom)                      { showErr('Veuillez indiquer votre prénom.');          return; }
+      if (prenom.length > 100)          { showErr('Prénom trop long (100 caractères max).');   return; }
+      if (!email)                       { showErr('Veuillez indiquer votre adresse email.');   return; }
+      if (!emailRegex.test(email) || /[,;\r\n]/.test(email)) {
+                                          showErr('Adresse email invalide.');                  return; }
+      if (email.length > 254)           { showErr('Email trop long.');                         return; }
+      if (societe.length > 200)         { showErr('Nom d\'entreprise trop long.');             return; }
+      if (projet && projet.length > 5000) { showErr('Message trop long (5000 caractères max).'); return; }
 
       submitBtn.disabled    = true;
       submitLbl.textContent = 'Envoi en cours…';
