@@ -187,7 +187,7 @@ const faqSchema = {
           data-split
         >
           <span class="sl"><span>Votre projet,</span></span>
-          <span class="sl"><em>mis en <span class="text-sauge">valeur.</span></em></span>
+          <span class="sl">mis en <span class="text-sauge">valeur.</span></span>
         </h1>
 
         <p class="font-body text-lg leading-relaxed max-w-[460px] mb-10 text-brun-mid mx-auto" data-reveal data-delay="2">
@@ -243,23 +243,23 @@ const faqSchema = {
   <!-- ─── BARRE MOTS-CLÉS ─── -->
   <div class="caelestis-bar">
     <ul class="caelestis-bar-inner" aria-label="Mots-clés Caelestis">
-      <li><em>savoir-faire</em></li>
+      <li><span>savoir-faire</span></li>
       <li aria-hidden="true" class="sep">✦</li>
       <li><span>passion</span></li>
       <li aria-hidden="true" class="sep">✦</li>
-      <li><em>bâtir</em></li>
+      <li><span>bâtir</span></li>
       <li aria-hidden="true" class="sep">✦</li>
       <li><span>expertise</span></li>
       <li aria-hidden="true" class="sep">✦</li>
-      <li><em>clarté</em></li>
+      <li><span>clarté</span></li>
       <li aria-hidden="true" class="sep">✦</li>
       <li><span>présence</span></li>
       <li aria-hidden="true" class="sep">✦</li>
-      <li><em>visibilité</em></li>
+      <li><span>visibilité</span></li>
       <li aria-hidden="true" class="sep">✦</li>
       <li><span>confiance</span></li>
       <li aria-hidden="true" class="sep">✦</li>
-      <li><em>transmettre</em></li>
+      <li><span>transmettre</span></li>
       <li aria-hidden="true" class="sep">✦</li>
       <li><span>durer</span></li>
     </ul>
@@ -297,16 +297,7 @@ const faqSchema = {
       white-space: nowrap;
       transition: opacity 0.3s ease, color 0.3s ease;
     }
-    .caelestis-bar-inner li em {
-      font-family: 'Lora', serif; font-style: italic;
-      font-size: 12px; font-weight: 400;
-      letter-spacing: 0.04em;
-      color: #354024; opacity: 0.80;
-      white-space: nowrap;
-      transition: opacity 0.3s ease, color 0.3s ease;
-    }
-    .caelestis-bar-inner li:hover span,
-    .caelestis-bar-inner li:hover em { opacity: 1; color: #889063; }
+    .caelestis-bar-inner li:hover span { opacity: 1; color: #889063; }
     .caelestis-bar-inner li.sep { color: #A08060; font-size: 7px; opacity: 0.35; flex-shrink: 0; }
 
   </style>
@@ -321,7 +312,7 @@ const faqSchema = {
         <div class="lg:pt-4">
           <div class="mb-12" data-reveal>
             <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1]">
-              Votre site devrait<br><em>vous ressembler.</em>
+              Votre site devrait<br>vous ressembler.
             </h2>
             <p class="font-body text-base text-brun-mid mt-5 leading-relaxed">
               Donnez à votre activité la présence qu'elle mérite.
@@ -331,17 +322,17 @@ const faqSchema = {
           <!-- Liste éditoriale numérotée -->
           <div class="divide-y" style="border-color: rgba(76,61,25,0.08)" data-reveal data-delay="1">
             {[
-              { num: '01', label: 'Artisans & créateurs',      italic: true  },
-              { num: '02', label: 'Agriculteurs & maraîchers', italic: false },
-              { num: '03', label: 'Praticiens bien-être',      italic: true  },
-              { num: '04', label: "Pros de l'environnement",   italic: false },
-              { num: '05', label: 'Paysagistes & espaces verts', italic: false },
-            ].map(({ num, label, italic }) => (
+              { num: '01', label: 'Artisans & créateurs'      },
+              { num: '02', label: 'Agriculteurs & maraîchers' },
+              { num: '03', label: 'Praticiens bien-être'      },
+              { num: '04', label: "Pros de l'environnement"   },
+              { num: '05', label: 'Paysagistes & espaces verts' },
+            ].map(({ num, label }) => (
               <div class="group flex items-center justify-between py-4 cursor-default">
                 <div class="flex items-center gap-5">
                   <span class="font-body text-xs tabular-nums select-none" style="color: rgba(136,144,99,0.45)">{num}</span>
                   <h3
-                    class={`font-display font-light text-brun transition-colors duration-300 group-hover:text-ocre ${italic ? 'italic' : ''}`}
+                    class="font-display font-light text-brun transition-colors duration-300 group-hover:text-ocre"
                     style="font-size: clamp(1.15rem, 2vw, 1.45rem);"
                   >
                     {label}
@@ -406,7 +397,7 @@ const faqSchema = {
     <div class="max-w-xl mx-auto flex flex-col items-center gap-2 text-center">
       <div class="flex items-center gap-4 justify-center">
         <p class="font-display text-lg md:text-xl font-light text-brun whitespace-nowrap">
-          <em>2 % de chaque projet reversé à une association environnementale.</em>
+          2 % de chaque projet reversé à une association environnementale.
         </p>
         <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:32px;height:52px;flex-shrink:0;overflow:visible">
           <ellipse cx="40" cy="125" rx="18" ry="4.5" fill="rgba(78,100,64,0.12)"/>
@@ -437,7 +428,7 @@ const faqSchema = {
       <div class="mb-16" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Ma façon de travailler</p>
         <h2 class="font-display text-4xl md:text-5xl font-light leading-[1.1]">
-          Ce qu'on<br><em>bâtit ensemble.</em>
+          Ce qu'on<br>bâtit ensemble.
         </h2>
       </div>
 
@@ -491,7 +482,7 @@ const faqSchema = {
       <div class="mb-16" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">FAQ</p>
         <h2 class="font-display text-4xl md:text-5xl font-light leading-[1.1]">
-          On répond<br><em>à vos questions.</em>
+          On répond<br>à vos questions.
         </h2>
       </div>
 
@@ -538,7 +529,7 @@ const faqSchema = {
     <div class="max-w-2xl mx-auto">
       <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6">Un premier échange.</p>
       <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-6">
-        Faites rayonner<br><em>ce que vous créez.</em>
+        Faites rayonner<br>ce que vous créez.
       </h2>
       <p class="font-body text-base text-brun-mid mb-10 max-w-md mx-auto leading-relaxed">
         Parlez-moi de votre activité en quelques lignes. Je reviens vers vous sous 48h.
