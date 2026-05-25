@@ -1,0 +1,259 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Référencement naturel (SEO)',
+  description: 'Audit SEO, stratégie de contenu et optimisation on-page pour artisans et indépendants en Drôme et toute la France.',
+  provider: {
+    '@type': 'LocalBusiness',
+    name: 'Caelestis',
+    url: 'https://caelestis.fr',
+    telephone: '+33769362727',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Crest',
+      addressRegion: 'Drôme',
+      postalCode: '26400',
+      addressCountry: 'FR',
+    },
+  },
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Drôme' },
+    { '@type': 'Country', name: 'France' },
+  ],
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Prestations', item: 'https://caelestis.fr/services' },
+    { '@type': 'ListItem', position: 3, name: 'Référencement naturel', item: 'https://caelestis.fr/services/referencement-seo' },
+  ],
+};
+
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Combien de temps faut-il pour voir des résultats en SEO ?',
+      acceptedAnswer: { '@type': 'Answer', text: 'En SEO local, les premiers résultats apparaissent généralement entre 2 et 4 mois après les optimisations. Pour un référencement national, comptez 6 à 12 mois. Le SEO est un investissement long terme, mais les effets sont durables contrairement à la publicité payante.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Quelle est la différence entre SEO et publicité Google (SEA) ?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Le SEO (référencement naturel) vous positionne dans les résultats organiques de Google, sans payer à chaque clic. Le SEA (Google Ads) vous donne une visibilité immédiate mais payante. Je me concentre sur le SEO : plus long à mettre en place, mais gratuit et durable une fois en place.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Le référencement local fonctionne-t-il vraiment pour les artisans ?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Oui, et c\'est souvent là que le ROI est le plus élevé. Quand un client local cherche "paysagiste Drôme" ou "maraîcher bio Valence", il est prêt à acheter. Apparaître dans ces résultats (et sur Google Maps) génère des contacts très qualifiés.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Dois-je avoir un site internet pour travailler le SEO ?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Oui, un site est indispensable pour le SEO. Google My Business seul ne suffit pas. Un site bien structuré avec du contenu de qualité est la base de tout référencement efficace. Si vous n\'avez pas encore de site, je peux m\'occuper des deux.' },
+    },
+  ],
+};
+
+const prestationsSeo = [
+  { titre: 'Audit SEO complet', desc: 'Analyse de votre situation actuelle : mots-clés, structure, vitesse, backlinks, concurrents. Un diagnostic clair avant d\'agir.' },
+  { titre: 'Optimisation on-page', desc: 'Titres, méta-descriptions, structure H1/H2/H3, contenu, images — tout ce qui permet à Google de comprendre et valoriser vos pages.' },
+  { titre: 'SEO local & Google My Business', desc: 'Optimisation de votre fiche GMB, citations locales, avis clients. Apparaître sur Google Maps quand vos clients cherchent à proximité.' },
+  { titre: 'Stratégie de contenu', desc: 'Identification des mots-clés que vos clients tapent, plan de contenu (articles de blog, pages de services) pour capter ce trafic qualifié.' },
+  { titre: 'Référencement technique', desc: 'Vitesse de chargement, Core Web Vitals, sitemap, robots.txt, données structurées (Schema.org). Les fondations que Google vérifie en premier.' },
+  { titre: 'Suivi & reporting', desc: 'Tableau de bord mensuel avec vos positions, trafic et évolutions. Vous savez exactement où vous en êtes.' },
+];
+---
+<BaseLayout
+  title="Référencement naturel SEO Drôme — Artisans & indépendants · Caelestis"
+  description="Référencement naturel et SEO local en Drôme. Apparaissez sur Google quand vos clients vous cherchent. Audit, stratégie, optimisation on-page. Spécialiste artisans."
+  schema={[schema, breadcrumb, faq]}
+>
+
+  <!-- ─── EN-TÊTE ─── -->
+  <section class="pt-20 pb-16 px-6 md:px-10 lg:px-20 section-ambient overflow-hidden relative border-b border-cream-dark">
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-20 -right-20 w-[400px] h-[400px]"></div>
+
+    <div class="max-w-4xl mx-auto relative">
+      <nav class="flex items-center gap-2 font-body text-xs text-brun-mid/50 mb-8" aria-label="Fil d'Ariane">
+        <a href="/" class="hover:text-sauge transition-colors">Accueil</a>
+        <span>/</span>
+        <a href="/services" class="hover:text-sauge transition-colors">Prestations</a>
+        <span>/</span>
+        <span class="text-brun-mid">Référencement naturel</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-2 mb-6" data-reveal>
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">SEO · Référencement local & national</p>
+      </div>
+
+      <h1
+        class="font-display font-light text-brun leading-[1.06] tracking-tight mb-8"
+        style="font-size: clamp(2.4rem, 5vw, 4rem);"
+        data-reveal data-delay="1"
+      >
+        Apparaître sur Google<br><span class="text-sauge">quand vos clients vous cherchent.</span>
+      </h1>
+
+      <p class="font-body text-lg text-brun-mid leading-relaxed max-w-2xl mb-10" data-reveal data-delay="2">
+        Le référencement naturel, c'est attirer des clients qui cherchent exactement ce que vous faites — sans payer à chaque clic.
+        Je m'occupe du SEO technique, du contenu et du référencement local pour que votre site remonte sur Google.
+      </p>
+
+      <div class="flex flex-wrap gap-4" data-reveal data-delay="3">
+        <Button href="/contact" variant="primary">Demander un audit gratuit →</Button>
+        <Button href="/services" variant="outline">Toutes les prestations</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CONTENU ─── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20">
+    <div class="max-w-4xl mx-auto">
+
+      <!-- Intro -->
+      <div class="mb-20" data-reveal>
+        <h2 class="font-display text-2xl md:text-3xl font-light text-brun mb-6 leading-[1.1]">
+          Pourquoi le SEO est indispensable pour votre activité ?
+        </h2>
+        <div class="font-body text-base text-brun-mid leading-relaxed space-y-4 max-w-3xl">
+          <p>
+            En France, <strong class="text-brun">plus de 90% des recherches locales</strong> se font sur Google.
+            Quand un particulier cherche un paysagiste, un maraîcher bio ou un thérapeute dans la Drôme, il tape ses mots dans Google — et il contacte l'un des premiers résultats.
+          </p>
+          <p>
+            Si votre site n'apparaît pas dans ces résultats, vous n'existez pas pour ces clients potentiels. Même si vous avez le meilleur service de la région.
+          </p>
+          <p>
+            Le SEO local est particulièrement puissant pour les indépendants et artisans : la concurrence est souvent faible, et les personnes qui cherchent sont prêtes à passer à l'action.
+            Basé à Crest, j'accompagne des professionnels dans toute la Drôme (Valence, Romans-sur-Isère, Montélimar, Die) et partout en France.
+          </p>
+        </div>
+      </div>
+
+      <!-- Prestations SEO -->
+      <div class="mb-20" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Ce que je fais</p>
+        <h2 class="font-display text-2xl md:text-3xl font-light text-brun mb-10 leading-[1.1]">
+          Mon accompagnement SEO.
+        </h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          {prestationsSeo.map(({ titre, desc }) => (
+            <div class="border border-cream-dark rounded-xl p-6 card-lift" data-reveal>
+              <div class="flex items-center gap-3 mb-3">
+                <span class="w-1.5 h-1.5 rounded-full bg-sauge flex-shrink-0"></span>
+                <h3 class="font-display text-lg font-light text-brun">{titre}</h3>
+              </div>
+              <p class="font-body text-sm text-brun-mid leading-relaxed">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Avantage local -->
+      <div class="mb-20 bg-brun text-cream rounded-2xl p-8 md:p-12 section-dark-depth" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Avantage local</p>
+        <h2 class="font-display text-2xl font-light mb-6 leading-[1.1]">
+          Le SEO en Drôme :<br>une opportunité encore peu saisie.
+        </h2>
+        <p class="font-body text-base leading-relaxed max-w-2xl" style="color: rgba(237,227,212,0.7)">
+          Contrairement aux grandes villes où la concurrence SEO est féroce, la Drôme offre encore de vraies opportunités
+          pour les professionnels locaux. Beaucoup de métiers — paysagistes, maraîchers, thérapeutes, artisans —
+          n'ont pas encore de site optimisé. C'est votre avantage concurrentiel à saisir maintenant.
+        </p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 pt-8" style="border-top: 1px solid rgba(237,227,212,0.1)">
+          {[
+            { val: '90%', label: 'des recherches passent par Google' },
+            { val: '3', label: 'résultats reçoivent 75% des clics' },
+            { val: '2–4', label: 'mois pour les 1ers résultats locaux' },
+            { val: '0€', label: 'coût par clic une fois positionné' },
+          ].map(({ val, label }) => (
+            <div>
+              <p class="font-display text-3xl font-light text-sauge mb-1">{val}</p>
+              <p class="font-body text-xs leading-relaxed" style="color: rgba(237,227,212,0.5)">{label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── FAQ ─── -->
+  <section class="py-16 px-6 md:px-10 lg:px-20 bg-brun text-cream section-dark-depth">
+    <div class="max-w-3xl mx-auto">
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4" data-reveal>FAQ</p>
+      <h2 class="font-display text-2xl md:text-3xl font-light mb-12 leading-[1.1]" data-reveal data-delay="1">
+        Vos questions sur le référencement naturel.
+      </h2>
+      <div id="faq-seo" data-reveal data-delay="2">
+        {faq.mainEntity.map(({ name, acceptedAnswer }) => (
+          <div class="faq-item border-t" style="border-color: rgba(237,227,212,0.15)">
+            <button class="faq-trigger w-full flex items-center justify-between gap-6 py-6 text-left" aria-expanded="false">
+              <span class="font-display text-base font-light">{name}</span>
+              <span class="faq-icon font-body text-xl font-light flex-shrink-0" style="color: rgba(237,227,212,0.4)">+</span>
+            </button>
+            <div class="faq-body overflow-hidden max-h-0 transition-[max-height] duration-300 ease-out">
+              <p class="font-body text-sm leading-relaxed pb-6" style="color: rgba(237,227,212,0.6)">{acceptedAnswer.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ─── -->
+  <section class="py-24 px-6 md:px-10 lg:px-20 text-center section-ambient" data-reveal>
+    <div class="max-w-2xl mx-auto">
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6">Audit gratuit</p>
+      <h2 class="font-display text-3xl md:text-4xl font-light text-brun leading-[1.1] mb-6">
+        Où êtes-vous sur Google<br><span class="text-sauge">aujourd'hui ?</span>
+      </h2>
+      <p class="font-body text-base text-brun-mid mb-10 leading-relaxed">
+        Je vous fais un état des lieux gratuit de votre référencement actuel. Aucun engagement.
+      </p>
+      <Button href="/contact" variant="primary">Demander mon audit SEO gratuit →</Button>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  const FAQ_COLOR_CLOSED = 'rgba(237,227,212,0.4)';
+  const FAQ_COLOR_OPEN   = '#A08060';
+  document.querySelectorAll<HTMLButtonElement>('#faq-seo .faq-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const item = trigger.parentElement;
+      const body = item?.querySelector<HTMLElement>('.faq-body');
+      const icon = trigger.querySelector<HTMLElement>('.faq-icon');
+      if (!item || !body || !icon) return;
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll<HTMLButtonElement>('#faq-seo .faq-trigger').forEach((t) => {
+        if (t === trigger) return;
+        t.setAttribute('aria-expanded', 'false');
+        const b = t.parentElement?.querySelector<HTMLElement>('.faq-body');
+        const ic = t.querySelector<HTMLElement>('.faq-icon');
+        if (b) b.style.maxHeight = '0';
+        if (ic) { ic.textContent = '+'; ic.style.color = FAQ_COLOR_CLOSED; }
+      });
+      if (isOpen) {
+        trigger.setAttribute('aria-expanded', 'false');
+        body.style.maxHeight = '0';
+        icon.textContent = '+'; icon.style.color = FAQ_COLOR_CLOSED;
+      } else {
+        trigger.setAttribute('aria-expanded', 'true');
+        body.style.maxHeight = body.scrollHeight + 'px';
+        icon.textContent = '–'; icon.style.color = FAQ_COLOR_OPEN;
+      }
+    });
+  });
+</script>

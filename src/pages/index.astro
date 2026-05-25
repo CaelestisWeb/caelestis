@@ -20,10 +20,9 @@ const localBusiness = {
   logo: 'https://caelestis.fr/favicon.svg',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '60 rue François 1er',
-    postalCode: '75008',
-    addressLocality: 'Paris',
+    addressLocality: 'Crest',
     addressRegion: 'Drôme',
+    postalCode: '26400',
     addressCountry: 'FR',
   },
   geo: {
@@ -42,6 +41,14 @@ const localBusiness = {
   paymentAccepted: 'Virement bancaire, Carte bancaire',
   areaServed: { '@type': 'Country', name: 'France' },
   knowsAbout: ['Création de site web', 'Référencement naturel', 'SEO', 'Développement Astro', 'Tailwind CSS'],
+  sameAs: [
+    'https://caelestis.fr',
+  ],
+  serviceArea: {
+    '@type': 'GeoCircle',
+    geoMidpoint: { '@type': 'GeoCoordinates', latitude: '44.7308', longitude: '5.0197' },
+    geoRadius: '500000',
+  },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Prestations Caelestis',
@@ -119,8 +126,8 @@ const faqSchema = {
 };
 ---
 <BaseLayout
-  title="Caelestis — Création de site web soigné · Drôme & toute la France"
-  description="Création de site web soigné et visible sur Google. Pour artisans, praticiens et indépendants. Basé dans la Drôme, disponible partout en France. Devis gratuit sous 48h."
+  title="Création de site internet Drôme — Caelestis · Agence web artisans"
+  description="Création de site internet sur mesure en Drôme. Spécialiste sites web pour artisans, paysagistes, agriculteurs et indépendants. Devis gratuit sous 48h. À partir de 600€."
   schema={[localBusiness, faqSchema]}
 >
 

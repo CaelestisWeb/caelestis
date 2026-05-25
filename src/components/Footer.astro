@@ -47,9 +47,12 @@ const year = new Date().getFullYear();
           <p class="font-body text-xs tracking-widest uppercase mb-4" style="color: rgba(237,227,212,0.35)">Navigation</p>
           <nav class="flex flex-col gap-2.5" aria-label="Navigation du site">
             {[
-              { href: '/services',  label: 'Services'  },
-              { href: '/a-propos',  label: 'À propos'  },
-              { href: '/contact',   label: 'Contact'   },
+              { href: '/services',                        label: 'Services'          },
+              { href: '/services/creation-site-internet', label: 'Création de site'  },
+              { href: '/services/referencement-seo',      label: 'Référencement SEO' },
+              { href: '/blog',                            label: 'Blog'              },
+              { href: '/a-propos',                        label: 'À propos'          },
+              { href: '/contact',                         label: 'Contact'           },
             ].map(({ href, label }) => (
               <a href={href} class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.6)">{label}</a>
             ))}
