@@ -49,11 +49,15 @@
     const consent = localStorage.getItem('caelestis-cookies');
     if (consent !== null) return;
 
-    /* Affiche le bandeau après 1.5s */
+    /* Affiche le bandeau après 10s + focus sur le bouton Accepter pour l'accessibilité */
     setTimeout(() => {
       banner.style.transition = 'transform 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.45s ease';
       banner.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
       banner.classList.add('translate-y-0', 'opacity-100');
+      /* WCAG 2.4.3 — déplace le focus vers le dialogue pour les utilisateurs clavier */
+      setTimeout(() => {
+        (document.getElementById('cookie-accept') as HTMLButtonElement | null)?.focus();
+      }, 500);
     }, 10000);
 
     function hideBanner() {

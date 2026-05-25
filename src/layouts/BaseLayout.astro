@@ -89,6 +89,14 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     ))}
   </head>
   <body>
+    <!-- ── Lien "Aller au contenu" — WCAG 2.4.1 (A) ── -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] focus:bg-cream focus:text-brun focus:px-5 focus:py-2.5 focus:rounded-full focus:font-body focus:text-sm focus:font-medium focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-sauge"
+    >
+      Aller au contenu principal
+    </a>
+
 <Header />
 
     <!-- ── Bannière consentement audio ── -->
@@ -134,7 +142,7 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       </div> <!-- fin wrapper centré -->
     </div>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
     <Footer />
@@ -271,6 +279,20 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 
   function initAnimations() {
     ScrollTrigger.getAll().forEach((t) => t.kill());
+
+    /* Respect prefers-reduced-motion — WCAG 2.3.3 (AAA) / bonne pratique AA */
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      /* Rend tous les éléments visibles sans animation */
+      document.querySelectorAll<HTMLElement>('[data-reveal]').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+      document.querySelectorAll<HTMLElement>('.sl > *').forEach(el => {
+        (el as HTMLElement).style.transform = 'translateY(0%)';
+      });
+      return;
+    }
 
     /* ── 1. Scroll reveal — apparition élégante, lente ── */
     document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {

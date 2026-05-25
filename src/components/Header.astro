@@ -16,17 +16,21 @@ const current = Astro.url.pathname;
     </a>
 
     <!-- Desktop nav — parfaitement centré -->
-    <nav class="hidden md:flex items-center justify-center gap-9">
-      {nav.map(({ href, label }) => (
+    <nav class="hidden md:flex items-center justify-center gap-9" aria-label="Navigation principale">
+      {nav.map(({ href, label }) => {
+        const isActive = href === '/' ? current === '/' : current.startsWith(href);
+        return (
         <a
           href={href}
+          aria-current={isActive ? 'page' : undefined}
           class={`nav-link font-body text-sm font-medium transition-colors hover:text-ocre ${
-            (href === '/' ? current === '/' : current.startsWith(href)) ? 'text-ocre is-active' : 'text-brun-mid'
+            isActive ? 'text-ocre is-active' : 'text-brun-mid'
           }`}
         >
           {label}
         </a>
-      ))}
+        );
+      })}
     </nav>
 
     <!-- CTA — extrême droite -->
@@ -51,10 +55,17 @@ const current = Astro.url.pathname;
 
   <!-- Mobile menu -->
   <div id="mobile-menu" class="hidden md:hidden bg-cream border-t border-cream-dark">
-    <nav class="px-6 py-6 flex flex-col gap-4">
-      {nav.map(({ href, label }) => (
-        <a href={href} class="font-body text-base text-brun hover:text-ocre transition-colors">{label}</a>
-      ))}
+    <nav class="px-6 py-6 flex flex-col gap-4" aria-label="Navigation mobile">
+      {nav.map(({ href, label }) => {
+        const isActive = href === '/' ? current === '/' : current.startsWith(href);
+        return (
+        <a
+          href={href}
+          aria-current={isActive ? 'page' : undefined}
+          class="font-body text-base text-brun hover:text-ocre transition-colors"
+        >{label}</a>
+        );
+      })}
       <a
         href="/contact"
         class="font-body text-base font-medium bg-brun text-cream px-5 py-3 rounded-full text-center mt-2 hover:bg-ocre transition-colors duration-200"

@@ -181,9 +181,13 @@
       if (skipBtn) {
         skipBtn.style.opacity       = '1';
         skipBtn.style.pointerEvents = 'auto';
+        /* WCAG 2.4.3 — focus sur le bouton "Passer" dès l'apparition */
+        setTimeout(() => skipBtn.focus(), 100);
       }
 
       document.body.style.overflow = 'hidden';
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 
       /* ══════════════════════════════════════════════════════
@@ -258,6 +262,16 @@
       async function typeBrand(el: HTMLElement): Promise<void> {
         el.innerHTML = '';
         el.style.opacity = '1';
+
+        /* WCAG 2.3.3 — affichage instantané si prefers-reduced-motion */
+        if (prefersReduced) {
+          el.textContent = 'Caelestis';
+          const dot = document.createElement('em');
+          dot.className   = 'm-dot';
+          dot.textContent = '.';
+          el.appendChild(dot);
+          return;
+        }
 
         const cur = document.createElement('span');
         cur.className   = 'm-cursor';
@@ -347,6 +361,17 @@
       m0.textContent = 'Pour ceux qui créent quelque chose de beau.';
 
       (async () => {
+        if (prefersReduced) {
+          /* Affichage instantané, pas d'animation — WCAG 2.3.3 */
+          m0.style.opacity = '1';
+          m0.textContent   = 'Pour ceux qui créent quelque chose de beau.';
+          await wait(1200);
+          m0.style.opacity = '0';
+          await typeBrand(m3);
+          finish();
+          return;
+        }
+
         /* ── Tagline — apparaît dès le début, reste tout le long ── */
         if (tagline) {
           gsap.to(tagline, { opacity: 1, duration: 1.4, delay: 0.15, ease: 'power2.out' });

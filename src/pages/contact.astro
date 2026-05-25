@@ -94,7 +94,7 @@ const breadcrumbContact = {
       <div data-reveal data-delay="1">
 
         <!-- Sélecteur -->
-        <div class="flex flex-col sm:flex-row gap-3 mb-8">
+        <div class="flex flex-col sm:flex-row gap-3 mb-8" role="tablist" aria-label="Type de contact">
           {[
             { id: 'message', label: 'Rédiger un message', icon: '✉' },
             { id: 'appel',   label: 'Réserver un appel',  icon: '☎' },
@@ -102,10 +102,14 @@ const breadcrumbContact = {
           ].map(({ id, label, icon }) => (
             <button
               type="button"
+              id={`tab-${id}`}
               data-tab={id}
+              role="tab"
+              aria-selected={id === 'message' ? 'true' : 'false'}
+              aria-controls={`panel-${id}`}
               class={`tab-btn flex-1 flex items-center gap-2.5 px-4 py-3.5 border font-body text-sm transition-all duration-200 text-left ${id === 'message' ? 'border-sauge bg-sauge text-cream' : 'border-cream-dark text-brun-mid hover:border-sauge/40'}`}
             >
-              <span class="text-base leading-none">{icon}</span>
+              <span class="text-base leading-none" aria-hidden="true">{icon}</span>
               <span>{label}</span>
             </button>
           ))}
@@ -115,7 +119,7 @@ const breadcrumbContact = {
         <div class="bg-cream-dark p-8 md:p-10">
 
           <!-- ══ FORMULAIRE 1 — Message ══ -->
-          <div id="panel-message" class="tab-panel">
+          <div id="panel-message" role="tabpanel" aria-labelledby="tab-message" class="tab-panel">
             <div class="mb-7 pb-7 border-b border-cream flex items-end justify-between gap-6">
               <div>
                 <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-1.5">Message</p>
@@ -139,7 +143,7 @@ const breadcrumbContact = {
               </div>
             </div>
 
-            <div id="success-message" class="hidden text-center py-12">
+            <div id="success-message" role="status" aria-live="polite" class="hidden text-center py-12">
               <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-5">
                 <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
               </div>
@@ -152,8 +156,8 @@ const breadcrumbContact = {
 
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label for="msg-prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Prénom <span class="text-ocre">*</span></label>
-                  <input type="text" id="msg-prenom" name="prenom" autocomplete="given-name" placeholder="Votre prénom"
+                  <label for="msg-prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Prénom <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
+                  <input type="text" id="msg-prenom" name="prenom" autocomplete="given-name" placeholder="Votre prénom" aria-required="true"
                     class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
                 </div>
                 <div>
@@ -164,8 +168,8 @@ const breadcrumbContact = {
               </div>
 
               <div>
-                <label for="msg-email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Email <span class="text-ocre">*</span></label>
-                <input type="email" id="msg-email" name="email" autocomplete="email" placeholder="votre@email.com"
+                <label for="msg-email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Email <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
+                <input type="email" id="msg-email" name="email" autocomplete="email" placeholder="votre@email.com" aria-required="true"
                   class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
               </div>
 
@@ -176,12 +180,12 @@ const breadcrumbContact = {
               </div>
 
               <div>
-                <label for="msg-message" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Message <span class="text-ocre">*</span></label>
-                <textarea id="msg-message" name="message" rows="5" placeholder="Votre message…"
+                <label for="msg-message" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Message <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
+                <textarea id="msg-message" name="message" rows="5" placeholder="Votre message…" aria-required="true"
                   class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
               </div>
 
-              <p id="error-message" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
+              <p id="error-message" role="alert" aria-live="assertive" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
 
               <p class="font-display text-sm font-light italic text-brun-mid/70 text-center border-t border-cream pt-5">
                 Il n'y a pas de mauvaise question ! Nous aurons le plaisir de vous répondre :)
@@ -196,7 +200,7 @@ const breadcrumbContact = {
           </div>
 
           <!-- ══ FORMULAIRE 2 — Appel ══ -->
-          <div id="panel-appel" class="tab-panel hidden">
+          <div id="panel-appel" role="tabpanel" aria-labelledby="tab-appel" class="tab-panel hidden">
             <div class="mb-7 pb-7 border-b border-cream flex items-end justify-between gap-6">
               <div>
                 <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-1.5">Appel</p>
@@ -220,7 +224,7 @@ const breadcrumbContact = {
               </div>
             </div>
 
-            <div id="success-appel" class="hidden text-center py-12">
+            <div id="success-appel" role="status" aria-live="polite" class="hidden text-center py-12">
               <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-5">
                 <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
               </div>
@@ -233,26 +237,26 @@ const breadcrumbContact = {
 
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label for="appel-prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Prénom <span class="text-ocre">*</span></label>
-                  <input type="text" id="appel-prenom" name="prenom" autocomplete="given-name" placeholder="Votre prénom"
+                  <label for="appel-prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Prénom <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
+                  <input type="text" id="appel-prenom" name="prenom" autocomplete="given-name" placeholder="Votre prénom" aria-required="true"
                     class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
                 </div>
                 <div>
-                  <label for="appel-tel" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Téléphone <span class="text-ocre">*</span></label>
-                  <input type="tel" id="appel-tel" name="telephone" autocomplete="tel" placeholder="06 00 00 00 00"
+                  <label for="appel-tel" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Téléphone <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
+                  <input type="tel" id="appel-tel" name="telephone" autocomplete="tel" placeholder="06 00 00 00 00" aria-required="true"
                     class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
                 </div>
               </div>
 
               <div>
-                <label for="appel-email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Email <span class="text-ocre">*</span></label>
-                <input type="email" id="appel-email" name="email" autocomplete="email" placeholder="votre@email.com"
+                <label for="appel-email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Email <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
+                <input type="email" id="appel-email" name="email" autocomplete="email" placeholder="votre@email.com" aria-required="true"
                   class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
               </div>
 
-              <!-- Créneau horaire -->
-              <div>
-                <p class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Moment préféré <span class="text-ocre">*</span></p>
+              <!-- Créneau horaire — fieldset pour grouper les radios WCAG 1.3.1 -->
+              <fieldset>
+                <legend class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Moment préféré <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></legend>
                 <div class="flex gap-3">
                   {['Matin (9h–12h)', 'Après-midi (14h–18h)', 'Indifférent'].map((slot) => (
                     <label class="slot-label flex-1 flex items-center justify-center text-center px-3 py-2.5 border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
@@ -261,11 +265,11 @@ const breadcrumbContact = {
                     </label>
                   ))}
                 </div>
-              </div>
+              </fieldset>
 
-              <!-- Jours disponibles -->
-              <div>
-                <p class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Jours disponibles</p>
+              <!-- Jours disponibles — fieldset pour les checkboxes WCAG 1.3.1 -->
+              <fieldset>
+                <legend class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Jours disponibles</legend>
                 <div class="flex gap-2 flex-wrap">
                   {['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'].map((jour) => (
                     <label class="flex items-center justify-center w-12 h-10 border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
@@ -274,15 +278,15 @@ const breadcrumbContact = {
                     </label>
                   ))}
                 </div>
-              </div>
+              </fieldset>
 
               <div>
-                <label for="appel-sujet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Sujet de l'appel <span class="text-ocre">*</span></label>
-                <textarea id="appel-sujet" name="sujet" rows="3" placeholder="En quelques mots, ce que vous souhaitez aborder…"
+                <label for="appel-sujet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Sujet de l'appel <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
+                <textarea id="appel-sujet" name="sujet" rows="3" placeholder="En quelques mots, ce que vous souhaitez aborder…" aria-required="true"
                   class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
               </div>
 
-              <p id="error-appel" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
+              <p id="error-appel" role="alert" aria-live="assertive" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
 
               <p class="font-display text-sm font-light italic text-brun-mid/70 text-center border-t border-cream pt-5">
                 10 minutes suffisent pour faire connaissance et poser les bases d'une future collaboration.
@@ -297,7 +301,7 @@ const breadcrumbContact = {
           </div>
 
           <!-- ══ FORMULAIRE 3 — Devis ══ -->
-          <div id="panel-devis" class="tab-panel hidden">
+          <div id="panel-devis" role="tabpanel" aria-labelledby="tab-devis" class="tab-panel hidden">
             <div class="mb-7 pb-7 border-b border-cream flex items-end justify-between gap-6">
               <div>
                 <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-1.5">Devis</p>
@@ -322,7 +326,7 @@ const breadcrumbContact = {
               </div>
             </div>
 
-            <div id="success-devis" class="hidden text-center py-12">
+            <div id="success-devis" role="status" aria-live="polite" class="hidden text-center py-12">
               <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-5">
                 <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
               </div>
@@ -335,8 +339,8 @@ const breadcrumbContact = {
 
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label for="devis-prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Prénom <span class="text-ocre">*</span></label>
-                  <input type="text" id="devis-prenom" name="prenom" autocomplete="given-name" placeholder="Votre prénom"
+                  <label for="devis-prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Prénom <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
+                  <input type="text" id="devis-prenom" name="prenom" autocomplete="given-name" placeholder="Votre prénom" aria-required="true"
                     class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
                 </div>
                 <div>
@@ -347,14 +351,14 @@ const breadcrumbContact = {
               </div>
 
               <div>
-                <label for="devis-email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Email <span class="text-ocre">*</span></label>
-                <input type="email" id="devis-email" name="email" autocomplete="email" placeholder="votre@email.com"
+                <label for="devis-email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Email <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
+                <input type="email" id="devis-email" name="email" autocomplete="email" placeholder="votre@email.com" aria-required="true"
                   class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
               </div>
 
-              <!-- Type de projet -->
-              <div>
-                <p class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Type de projet <span class="text-ocre">*</span></p>
+              <!-- Type de projet — fieldset WCAG 1.3.1 -->
+              <fieldset>
+                <legend class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Type de projet <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></legend>
                 <div class="grid grid-cols-2 gap-2">
                   {[
                     { value: 'vitrine',  label: 'Site vitrine'      },
@@ -364,18 +368,18 @@ const breadcrumbContact = {
                   ].map(({ value, label }) => (
                     <label class="flex items-center gap-2.5 px-3 py-2.5 border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
                       <input type="radio" name="typeProjet" value={value} class="sr-only" />
-                      <span class="w-3.5 h-3.5 rounded-full border border-current flex-shrink-0 flex items-center justify-center">
+                      <span class="w-3.5 h-3.5 rounded-full border border-current flex-shrink-0 flex items-center justify-center" aria-hidden="true">
                         <span class="radio-dot w-1.5 h-1.5 rounded-full bg-ocre opacity-0 transition-opacity duration-150"></span>
                       </span>
                       {label}
                     </label>
                   ))}
                 </div>
-              </div>
+              </fieldset>
 
-              <!-- Délai -->
-              <div>
-                <p class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Délai souhaité</p>
+              <!-- Délai — fieldset WCAG 1.3.1 -->
+              <fieldset>
+                <legend class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Délai souhaité</legend>
                 <div class="flex gap-2 flex-wrap">
                   {['Le plus vite possible', '1 à 3 mois', '3 à 6 mois', 'Pas de contrainte'].map((d) => (
                     <label class="px-3 py-2 border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
@@ -384,15 +388,15 @@ const breadcrumbContact = {
                     </label>
                   ))}
                 </div>
-              </div>
+              </fieldset>
 
               <div>
-                <label for="devis-projet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Votre projet <span class="text-ocre">*</span></label>
-                <textarea id="devis-projet" name="projet" rows="4" placeholder="Votre activité, vos objectifs, ce que vous souhaitez accomplir…"
+                <label for="devis-projet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Votre projet <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
+                <textarea id="devis-projet" name="projet" rows="4" placeholder="Votre activité, vos objectifs, ce que vous souhaitez accomplir…" aria-required="true"
                   class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
               </div>
 
-              <p id="error-devis" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
+              <p id="error-devis" role="alert" aria-live="assertive" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
 
               <p class="font-display text-sm font-light italic text-brun-mid/70 text-center border-t border-cream pt-5">
                 Chaque devis est proposé dans une fourchette indicative, puis précisé et ajusté après discussion afin de correspondre parfaitement à votre projet.
@@ -491,6 +495,8 @@ const breadcrumbContact = {
       btn.classList.toggle('text-cream',        active);
       btn.classList.toggle('border-cream-dark', !active);
       btn.classList.toggle('text-brun-mid',     !active);
+      /* WCAG 4.1.2 — mise à jour de aria-selected */
+      btn.setAttribute('aria-selected', String(active));
     });
     tabPanels.forEach(panel => {
       panel.classList.toggle('hidden', panel.id !== `panel-${id}`);
@@ -578,14 +584,40 @@ const breadcrumbContact = {
 
   let autoCloseTimer: ReturnType<typeof setTimeout> | null = null;
   let progressAnim:   ReturnType<typeof requestAnimationFrame> | null = null;
+  let previousFocus:  HTMLElement | null = null;
+
+  /* ── Piège de focus WCAG 2.1.2 ── */
+  function trapFocus(e: KeyboardEvent) {
+    if (!popup || popup.style.display === 'none') return;
+    const focusable = popup.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    const first = focusable[0];
+    const last  = focusable[focusable.length - 1];
+    if (e.key === 'Tab') {
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
+    }
+  }
 
   function showPopup(prenom: string, msg: string) {
     if (!popup || !popupCard) return;
     if (thanksBody) thanksBody.textContent = `Merci ${prenom} — ${msg}`;
+    /* Mémorise l'élément focalisé avant l'ouverture pour le restaurer à la fermeture */
+    previousFocus = document.activeElement as HTMLElement;
     popup.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', trapFocus);
     gsap.fromTo(popup,     { opacity: 0 }, { opacity: 1, duration: 0.28, ease: 'power2.out' });
-    gsap.fromTo(popupCard, { opacity: 0, y: 28, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.42, delay: 0.06, ease: 'power3.out' });
+    gsap.fromTo(popupCard, { opacity: 0, y: 28, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.42, delay: 0.06, ease: 'power3.out',
+      onComplete: () => {
+        /* WCAG 2.4.3 — focus sur le bouton de fermeture après l'animation */
+        closeBtn?.focus();
+      }
+    });
 
     if (progressBar) {
       const DURATION = 6000;
@@ -604,9 +636,17 @@ const breadcrumbContact = {
     if (!popup || !popupCard) return;
     if (autoCloseTimer) { clearTimeout(autoCloseTimer); autoCloseTimer = null; }
     if (progressAnim)   { cancelAnimationFrame(progressAnim); progressAnim = null; }
+    document.removeEventListener('keydown', trapFocus);
     gsap.to(popupCard, { opacity: 0, y: 14, scale: 0.97, duration: 0.26, ease: 'power2.in' });
     gsap.to(popup, { opacity: 0, duration: 0.32, delay: 0.10, ease: 'power2.in',
-      onComplete: () => { popup.style.display = 'none'; document.body.style.overflow = ''; } });
+      onComplete: () => {
+        popup.style.display = 'none';
+        document.body.style.overflow = '';
+        /* WCAG 2.4.3 — restitue le focus à l'élément d'origine */
+        previousFocus?.focus();
+        previousFocus = null;
+      }
+    });
   }
 
   closeBtn?.addEventListener('click',   closePopup);

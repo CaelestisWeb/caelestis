@@ -432,14 +432,20 @@
   /* Blobs — immobiles */
   .light-blob { animation: none; }
 
+  /* Scroll reveal — visible d'emblée sans animation */
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   /* Split text — visible d'emblée */
   [data-split] .sl > *,
   [data-split-hero] .sl > * {
     transform: translateY(0);
   }
 
-  /* Parallax — annule le will-change */
-  [data-parallax] { will-change: auto; }
+  /* Parallax — annule le will-change et l'effet */
+  [data-parallax] { will-change: auto; min-height: 100%; }
 
   /* Transitions de page Astro — désactivées */
   ::view-transition-old(root),

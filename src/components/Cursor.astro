@@ -20,10 +20,11 @@
 <div id="cur-ring" aria-hidden="true" transition:persist></div>
 
 <style is:global>
-  /* ── Masquer le curseur natif sur desktop ── */
+  /* ── Masquer le curseur natif sur desktop — uniquement quand JS est chargé ── */
+  /* WCAG : fallback si JS échoue ou si prefers-reduced-motion est actif */
   @media (pointer: fine) {
-    html { cursor: none !important; }
-    * { cursor: none !important; }
+    html.js-cursor { cursor: none !important; }
+    html.js-cursor * { cursor: none !important; }
 
     /* ── Base commune ── */
     #cur-dot,
@@ -122,9 +123,15 @@
     /* Sécurité : sortie si écran tactile */
     if (!window.matchMedia('(pointer: fine)').matches) return;
 
+    /* Ne pas masquer le curseur si prefers-reduced-motion est actif */
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const dot  = document.getElementById('cur-dot')  as HTMLElement | null;
     const ring = document.getElementById('cur-ring') as HTMLElement | null;
     if (!dot || !ring) return;
+
+    /* Active le masquage du curseur natif uniquement quand JS est prêt */
+    document.documentElement.classList.add('js-cursor');
 
     /* ── Hotspot : pointe de la feuille sur le curseur, anneau centré ── */
     gsap.set(dot,  { xPercent: -50, yPercent: 0 });   /* top = pointe → aligne sur clic */
