@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
+import { Image } from 'astro:assets';
+import imgBureau from '../assets/images/bureau-jardin.jpg';
 
 const servicesSchema = {
   '@context': 'https://schema.org',
@@ -179,6 +181,20 @@ const etapes = [
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#889063" stroke-width="1.2"/><path d="M4 6l1.5 1.5L8 4" stroke="#889063" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             À partir de 600€
           </span>
+        </div>
+      </div>
+
+      <!-- Photo visible mobile/tablette uniquement -->
+      <div class="lg:hidden mt-8" data-reveal>
+        <div class="overflow-hidden" style="height: 240px; border-radius: 6px; box-shadow: 0 12px 40px rgba(76,61,25,0.14);">
+          <Image
+            src={imgBureau}
+            alt="Bureau en plein jardin avec ordinateur — travail de création web en extérieur"
+            class="w-full h-full object-cover object-center"
+            loading="eager"
+            widths={[480, 768]}
+            sizes="100vw"
+          />
         </div>
       </div>
 
