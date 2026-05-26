@@ -6,6 +6,8 @@ import imgHero      from '../assets/images/atelier-botanique.jpg';
 import imgMosaique1 from '../assets/images/jardin-communautaire.jpg';
 import imgMosaique2 from '../assets/images/bougies-artisan.jpg';
 import imgMosaique3 from '../assets/images/yoga-soleil.jpg';
+import imgLaptop    from '../assets/images/laptop-jardin.jpg';
+import imgAtelier   from '../assets/images/atelier-creatif.jpg';
 
 const localBusiness = {
   '@context': 'https://schema.org',
@@ -233,6 +235,21 @@ const faqSchema = {
 
     </div>
 
+    <!-- Photo hero visible sur mobile/tablette uniquement -->
+    <div class="lg:hidden mt-10 w-full max-w-xl mx-auto px-0" data-reveal>
+      <div class="img-zoom img-editorial overflow-hidden" style="height: 260px; border-radius: 6px;">
+        <Image
+          src={imgHero}
+          alt="Atelier botanique artisanal — encres naturelles, fleurs séchées et tampons botaniques"
+          class="w-full h-full object-cover object-center"
+          loading="eager"
+          fetchpriority="high"
+          widths={[480, 768]}
+          sizes="100vw"
+        />
+      </div>
+    </div>
+
     <!-- Badge disponibilité — coin haut droit (masqué sur xs pour éviter le chevauchement) -->
     <span class="hidden sm:inline-flex absolute top-6 right-6 md:right-10 lg:right-20 items-center gap-1.5 font-body text-[10px] tracking-widest uppercase text-sauge/70 border border-sauge/20 px-3 py-1.5 rounded-full z-20 bg-cream/60 backdrop-blur-sm" data-reveal>
       <span class="w-1.5 h-1.5 rounded-full bg-sauge animate-pulse"></span>
@@ -367,6 +384,30 @@ const faqSchema = {
               </div>
             ))}
           </div>
+
+          <!-- Duo photos visible mobile/tablette uniquement -->
+          <div class="lg:hidden mt-10 grid grid-cols-2 gap-3" data-reveal data-delay="2">
+            <div class="img-zoom overflow-hidden" style="aspect-ratio: 4/5; border-radius: 4px;">
+              <Image
+                src={imgMosaique1}
+                alt="Jardin partagé urbain avec parcelles maraîchères"
+                class="w-full h-full object-cover"
+                loading="lazy"
+                widths={[320, 480]}
+                sizes="50vw"
+              />
+            </div>
+            <div class="img-zoom overflow-hidden mt-6" style="aspect-ratio: 4/5; border-radius: 4px;">
+              <Image
+                src={imgMosaique2}
+                alt="Atelier de bougies artisanales en cire d'abeille"
+                class="w-full h-full object-cover"
+                loading="lazy"
+                widths={[320, 480]}
+                sizes="50vw"
+              />
+            </div>
+          </div>
         </div>
 
         <!-- Colonne droite : mosaïque éditoriale -->
@@ -499,6 +540,69 @@ const faqSchema = {
 
 
 
+
+
+  <!-- ─── MOCKUPS TOUS ÉCRANS ─── -->
+  <section class="py-20 md:py-28 px-6 md:px-10 lg:px-20 section-ambient overflow-hidden">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+        <!-- Texte -->
+        <div data-reveal>
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Multi-écran</p>
+          <h2 class="font-display text-3xl md:text-4xl font-light text-brun leading-[1.1] mb-5">
+            Pensé pour<br>chaque écran.
+          </h2>
+          <p class="font-body text-base text-brun-mid leading-relaxed mb-6 max-w-sm">
+            Que vos visiteurs arrivent depuis leur téléphone, leur tablette ou leur ordinateur, votre site s'adapte et reste impeccable.
+          </p>
+          <p class="font-body text-sm leading-relaxed max-w-sm" style="color: rgba(76,61,25,0.45)">
+            Plus de 70&nbsp;% des recherches locales se font sur mobile. Un site pensé pour tous les écrans, c'est une clientèle que vous ne perdez pas.
+          </p>
+        </div>
+
+        <!-- Mockups -->
+        <div class="flex items-end justify-center gap-4 md:gap-6">
+
+          <!-- Mockup navigateur -->
+          <div class="mockup-browser flex-1" style="max-width: 320px;" data-reveal data-delay="1">
+            <div class="mockup-browser-bar">
+              <span class="mockup-dot" style="background:#e08080"></span>
+              <span class="mockup-dot" style="background:#e0c080"></span>
+              <span class="mockup-dot" style="background:#80c080"></span>
+              <span class="mockup-url">caelestis.fr</span>
+            </div>
+            <div class="overflow-hidden" style="aspect-ratio:16/10;">
+              <Image
+                src={imgLaptop}
+                alt="Site web sur ordinateur — vue depuis un bureau en extérieur"
+                class="w-full h-full object-cover"
+                loading="lazy"
+                widths={[480, 768]}
+                sizes="(max-width: 1024px) 80vw, 40vw"
+              />
+            </div>
+          </div>
+
+          <!-- Mockup téléphone -->
+          <div class="mockup-phone self-end mb-4" data-reveal data-delay="2">
+            <div class="mockup-phone-notch"></div>
+            <div class="mockup-phone-screen">
+              <Image
+                src={imgAtelier}
+                alt="Site web sur mobile — atelier créatif"
+                class="w-full h-full object-cover"
+                loading="lazy"
+                widths={[240, 360]}
+                sizes="25vw"
+              />
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
 
 
   <!-- ─── FAQ ─── -->
@@ -648,5 +752,68 @@ const faqSchema = {
     left: 0;
     width: 50px;
     height: 100%;
+  }
+
+  /* ── Mockup navigateur ── */
+  .mockup-browser {
+    background: #f2ece0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(76,61,25,0.18), 0 2px 8px rgba(76,61,25,0.08);
+  }
+  .mockup-browser-bar {
+    background: #e5ddd0;
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .mockup-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+    opacity: 0.75;
+  }
+  .mockup-url {
+    flex: 1;
+    background: rgba(255,255,255,0.55);
+    border-radius: 3px;
+    height: 14px;
+    margin-left: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 8px;
+    color: rgba(76,61,25,0.45);
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Mockup téléphone ── */
+  .mockup-phone {
+    background: #2d2416;
+    border-radius: 28px;
+    padding: 8px;
+    box-shadow: 0 20px 56px rgba(76,61,25,0.28), 0 2px 8px rgba(76,61,25,0.12);
+    width: 110px;
+    flex-shrink: 0;
+  }
+  .mockup-phone-notch {
+    width: 52px; height: 16px;
+    background: #2d2416;
+    border-radius: 0 0 10px 10px;
+    margin: 0 auto -3px;
+    position: relative; z-index: 2;
+  }
+  .mockup-phone-screen {
+    border-radius: 22px;
+    overflow: hidden;
+    aspect-ratio: 9/18;
+    background: #1a1208;
+  }
+
+  @media (min-width: 640px) {
+    .mockup-phone { width: 130px; }
   }
 </style>
