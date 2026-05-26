@@ -1,54 +1,66 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
 
-  <!-- Fond brun foncé arrondi -->
-  <rect width="32" height="32" rx="6" fill="#2A1E0C"/>
+  <!-- Fond vert olive du logo -->
+  <rect width="32" height="32" rx="4" fill="#888f4e"/>
 
   <!--
-    Cercle presque complet, centre (16,13), r=9
-    Gap à ~4h30 (entre 30° et 60° depuis 3h, sens horaire SVG)
-    Point départ arc (60°) : (16+9cos60°, 13+9sin60°) = (20.5, 20.79)
-    Point fin arc  (30°) : (16+9cos30°, 13+9sin30°) = (23.79, 17.5)
-    Arc long sens horaire (large-arc=1, sweep=1)
+    Cercle presque complet, centre(16,15.5), r=11
+    Gap à ~4h30 (bas-droite)
+    Start(55°): (16+11cos55°, 15.5+11sin55°) = (22.31, 24.51)
+    End (25°): (16+11cos25°, 15.5+11sin25°) = (25.97, 20.15)
+    Arc long sens horaire
   -->
   <path
-    d="M 20.5 20.79 A 9 9 0 1 1 23.79 17.5"
+    d="M 22.31 24.51 A 11 11 0 1 1 25.97 20.15"
     fill="none"
-    stroke="#EDE3D4"
-    stroke-width="1.1"
+    stroke="white"
+    stroke-width="1.6"
     stroke-linecap="round"
   />
 
-  <!-- Point vert au gap (45° : (22.36, 19.36)) -->
-  <circle cx="22.36" cy="19.36" r="1.85" fill="#889063"/>
+  <!-- Point brun au gap (~40°) -->
+  <circle cx="24.42" cy="22.57" r="2.1" fill="#4a3515"/>
 
-  <!-- Tige principale courbée montant du bas-gauche vers le haut -->
+  <!-- Tige principale : bas-gauche vers haut-centre -->
   <path
-    d="M 13.5 18 Q 15 13.5 17.5 8"
-    fill="none"
-    stroke="#EDE3D4"
-    stroke-width="0.95"
+    d="M 13.5 25 Q 14 19 17 11"
+    fill="none" stroke="white" stroke-width="1.3" stroke-linecap="round"
+  />
+
+  <!-- Petite fourche en bas -->
+  <path
+    d="M 13.5 25 C 11.5 23.5 10.5 24.5 11.5 26.5"
+    fill="none" stroke="white" stroke-width="1.0" stroke-linecap="round"
+  />
+
+  <!-- Grande feuille gauche (arrondie, pointe haut-gauche) -->
+  <path
+    d="M 13.5 22 C 7.5 20 5.5 13 9.5 10 C 12 13 13.5 19 13.5 22 Z"
+    fill="none" stroke="white" stroke-width="1.2" stroke-linejoin="round"
+  />
+  <!-- Nervure centrale feuille gauche -->
+  <path
+    d="M 13.5 22 Q 10.5 16 9.5 10"
+    fill="none" stroke="white" stroke-width="0.65" opacity="0.7"
     stroke-linecap="round"
   />
 
-  <!-- Feuille gauche basse -->
+  <!-- Feuille droite (médium, pointe droite) -->
   <path
-    d="M 14 17 C 10.5 15 10 11 12.5 10 C 13.5 11.5 14.5 15 14 17 Z"
-    fill="#EDE3D4"
-    opacity="0.88"
+    d="M 15.5 17.5 C 20 14.5 23.5 17 21.5 22 C 19 19.5 15.5 18.5 15.5 17.5 Z"
+    fill="none" stroke="white" stroke-width="1.1" stroke-linejoin="round"
+  />
+  <!-- Nervure feuille droite -->
+  <path
+    d="M 15.5 17.5 Q 19 18.5 21.5 22"
+    fill="none" stroke="white" stroke-width="0.6" opacity="0.7"
+    stroke-linecap="round"
   />
 
-  <!-- Feuille droite haute -->
+  <!-- Feuille haute étroite (pointe haut-droite) -->
   <path
-    d="M 16 13 C 19 10.5 21.5 10.5 20.5 7.5 C 18.5 8.5 15.5 10.5 16 13 Z"
-    fill="#EDE3D4"
-    opacity="0.88"
-  />
-
-  <!-- Petit bourgeon terminal -->
-  <path
-    d="M 17 9.5 C 15.5 7.5 15.5 5.5 17.5 5 C 18 6.5 18 8.5 17 9.5 Z"
-    fill="#EDE3D4"
-    opacity="0.75"
+    d="M 16.5 13 C 17.5 9.5 20.5 7 21.5 5.5 C 20.5 8.5 18 12 16.5 13 Z"
+    fill="none" stroke="white" stroke-width="1.0" stroke-linejoin="round"
   />
 
 </svg>
