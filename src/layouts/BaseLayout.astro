@@ -228,7 +228,7 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     if (!banner) return;
 
     /* Ne réaffiche pas si l'utilisateur a déjà répondu (persiste entre navigations) */
-    if (sessionStorage.getItem('caelestis-audio-choice')) return;
+    if (localStorage.getItem('caelestis-audio-choice')) return;
 
     /* Affiche la bannière après 2s avec CSS transition */
     setTimeout(() => {
@@ -244,7 +244,7 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       banner!.style.opacity    = '0';
       banner!.style.pointerEvents = 'none';
       /* Persiste le choix pour toute la session (pas de réapparition sur navigation) */
-      sessionStorage.setItem('caelestis-audio-choice', accepted ? 'yes' : 'no');
+      localStorage.setItem('caelestis-audio-choice', accepted ? 'yes' : 'no');
       if (accepted) {
         window.dispatchEvent(new CustomEvent('caelestis:audio-enable'));
       }
