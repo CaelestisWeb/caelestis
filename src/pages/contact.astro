@@ -107,7 +107,7 @@ const breadcrumbContact = {
               role="tab"
               aria-selected={id === 'message' ? 'true' : 'false'}
               aria-controls={`panel-${id}`}
-              class={`tab-btn flex-1 flex items-center gap-2.5 px-4 py-3.5 border font-body text-sm transition-all duration-200 text-left ${id === 'message' ? 'border-sauge bg-sauge text-cream' : 'border-cream-dark text-brun-mid hover:border-sauge/40'}`}
+              class={`tab-btn flex-1 flex items-center gap-2.5 px-4 py-3.5 min-h-[44px] border font-body text-sm transition-all duration-200 text-left ${id === 'message' ? 'border-sauge bg-sauge text-cream' : 'border-cream-dark text-brun-mid hover:border-sauge/40'}`}
             >
               <span class="text-base leading-none" aria-hidden="true">{icon}</span>
               <span>{label}</span>
@@ -281,7 +281,7 @@ const breadcrumbContact = {
                 <legend class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Jours disponibles</legend>
                 <div class="flex gap-2 flex-wrap">
                   {['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'].map((jour) => (
-                    <label class="flex items-center justify-center w-12 h-10 border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
+                    <label class="flex items-center justify-center w-12 min-h-[44px] border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
                       <input type="checkbox" name="jours" value={jour} class="sr-only" />
                       {jour}
                     </label>
@@ -467,7 +467,7 @@ const breadcrumbContact = {
     <div id="thanks-backdrop" class="absolute inset-0 bg-encre/60 backdrop-blur-sm"></div>
     <div
       id="thanks-card"
-      class="relative bg-cream rounded-sm shadow-2xl max-w-md w-full px-10 py-12 text-center"
+      class="relative bg-cream rounded-sm shadow-2xl max-w-md w-full px-6 sm:px-10 py-10 sm:py-12 text-center"
       style="box-shadow: 0 32px 80px rgba(14,32,24,0.35)"
     >
       <button id="thanks-close" aria-label="Fermer"
