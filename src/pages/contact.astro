@@ -559,6 +559,10 @@ const breadcrumbContact = {
       e.preventDefault();
       if (!submitBtn || !submitLbl) return;
 
+      /* ── Efface toutes les erreurs précédentes ── */
+      form!.querySelectorAll('.field-error').forEach(el => el.classList.remove('field-error'));
+      hideErr();
+
       /* ── Marque un champ invalide en rouge et efface dès la prochaine saisie ── */
       function markInvalid(name: string) {
         const el = form!.querySelector(`[name="${name}"]`) as HTMLElement | null;
@@ -570,28 +574,42 @@ const breadcrumbContact = {
         el.addEventListener('change', clear, { once: true });
       }
 
-      /* Validation côté client */
-      const prenom  = (form.querySelector('[name="prenom"]')    as HTMLInputElement)?.value.trim();
-      const email   = (form.querySelector('[name="email"]')     as HTMLInputElement)?.value.trim();
-      const projet  = (form.querySelector('[name="projet"]')    as HTMLTextAreaElement)?.value.trim();
-      const societe = (form.querySelector('[name="societe"]')   as HTMLInputElement)?.value.trim() ?? '';
-      const tel     = (form.querySelector('[name="telephone"]') as HTMLInputElement)?.value.trim() ?? '';
-      const creneau = (form.querySelector('[name="creneau"]:checked') as HTMLInputElement | null)?.value ?? '';
+      /* ── Lecture des valeurs ── */
+      const prenom     = (form.querySelector('[name="prenom"]')              as HTMLInputElement | null)?.value.trim()  ?? '';
+      const email      = (form.querySelector('[name="email"]')               as HTMLInputElement | null)?.value.trim()  ?? '';
+      const projet     = (form.querySelector('[name="projet"]')              as HTMLTextAreaElement | null)?.value.trim() ?? '';
+      const societe    = (form.querySelector('[name="societe"]')             as HTMLInputElement | null)?.value.trim()  ?? '';
+      const tel        = (form.querySelector('[name="telephone"]')           as HTMLInputElement | null)?.value.trim()  ?? '';
+      const creneau    = (form.querySelector('[name="creneau"]:checked')     as HTMLInputElement | null)?.value ?? '';
+      const typeProjet = (form.querySelector('[name="typeProjet"]:checked')  as HTMLInputElement | null)?.value ?? '';
 
       const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
-      if (!prenom)                      { markInvalid('prenom');    showErr('Veuillez indiquer votre prénom.');        return; }
-      if (prenom.length > 100)          {                           showErr('Prénom trop long (100 caractères max).'); return; }
+      /* ── Validation — tous les champs requis en une passe ── */
+      let hasError = false;
+
+      if (!prenom || prenom.length > 100)
+        { markInvalid('prenom'); hasError = true; }
+      if (!email || !emailRegex.test(email) || /[,;\r\n]/.test(email) || email.length > 254)
+        { markInvalid('email'); hasError = true; }
       if (form.querySelector('[name="telephone"]') && !tel)
-                                        { markInvalid('telephone'); showErr('Veuillez indiquer votre téléphone.');     return; }
-      if (!email)                       { markInvalid('email');     showErr('Veuillez indiquer votre adresse email.'); return; }
-      if (!emailRegex.test(email) || /[,;\r\n]/.test(email))
-                                        { markInvalid('email');     showErr('Adresse email invalide.');                return; }
-      if (email.length > 254)           {                           showErr('Email trop long.');                       return; }
+        { markInvalid('telephone'); hasError = true; }
       if (form.querySelector('[name="creneau"]') && !creneau)
-                                        { markInvalid('creneau');   showErr('Veuillez choisir un moment préféré.');    return; }
-      if (societe.length > 200)         {                           showErr('Nom d\'entreprise trop long.');           return; }
-      if (projet && projet.length > 5000) {                         showErr('Message trop long (5000 caractères max).'); return; }
+        { markInvalid('creneau'); hasError = true; }
+      if (form.querySelector('[name="typeProjet"]') && !typeProjet)
+        { markInvalid('typeProjet'); hasError = true; }
+      if (form.querySelector('[name="projet"][aria-required="true"]') && !projet)
+        { markInvalid('projet'); hasError = true; }
+      if (projet.length > 5000)
+        { showErr('Message trop long (5 000 caractères max).'); return; }
+      if (societe.length > 200)
+        { showErr('Nom d\'entreprise trop long (200 caractères max).'); return; }
+
+      if (hasError) {
+        showErr('Veuillez remplir tous les champs obligatoires (*).');
+        form.querySelector<HTMLElement>('.field-error')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
 
       /* Mémorise le label d'origine AVANT de l'écraser */
       const originalLabel = submitLbl.textContent ?? '→';
