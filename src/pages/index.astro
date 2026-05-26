@@ -794,20 +794,23 @@ const faqSchema = {
   .mockup-phone {
     background: #2d2416;
     border-radius: 28px;
-    padding: 8px;
+    padding: 0;
     box-shadow: 0 20px 56px rgba(76,61,25,0.28), 0 2px 8px rgba(76,61,25,0.12);
     width: 110px;
     flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
   }
   .mockup-phone-notch {
-    width: 52px; height: 16px;
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 48px; height: 14px;
     background: #2d2416;
     border-radius: 0 0 10px 10px;
-    margin: 0 auto -3px;
-    position: relative; z-index: 2;
+    z-index: 10;
   }
   .mockup-phone-screen {
-    border-radius: 22px;
+    border-radius: 28px;
     overflow: hidden;
     aspect-ratio: 9/18;
     background: #1a1208;
