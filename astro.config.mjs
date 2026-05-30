@@ -12,15 +12,19 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [
     sitemap({
-      // Exclure pages légales non-indexées et l'API
+      // Exclure toutes les pages noindex : légales, demos, API
       filter: (page) =>
         !page.includes('/cgv') &&
+        !page.includes('/mentions-legales') &&
+        !page.includes('/politique-confidentialite') &&
+        !page.includes('/demos/') &&
         !page.includes('/api/'),
       changefreq: 'monthly',
       priority: 0.7,
-      customPages: ['https://caelestis.fr/'],
     }),
   ],
+  // Normaliser les URLs : pas de slash final (évite /page vs /page/)
+  trailingSlash: 'never',
   compressHTML: true,
   vite: {
     plugins: [tailwindcss()],

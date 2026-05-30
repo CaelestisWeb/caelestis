@@ -27,7 +27,9 @@ const {
 } = Astro.props;
 
 const siteUrl     = 'https://caelestis.fr';
-const canonicalUrl = canonical ?? Astro.url.href;
+// Toujours pointer vers le domaine principal — évite les doublons si le site
+// est accessible sur plusieurs domaines (Vercel preview, www, etc.)
+const canonicalUrl = canonical ?? `${siteUrl}${Astro.url.pathname}`;
 const ogImage      = image.startsWith('http') ? image : `${siteUrl}${image}`;
 
 // JSON-LD — accepte un objet unique ou un tableau
