@@ -188,6 +188,10 @@
     } else {
       window.__caelestisIntro = true;
 
+      /* Double rAF : laisse le navigateur peindre le hero une fois avant l'overlay.
+         LCP mesure le premier paint du contenu sous-jacent, pas l'intro. */
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+
       overlay.style.opacity       = '1';
       overlay.style.pointerEvents = 'auto';
 
@@ -423,6 +427,8 @@
 
         finish();
       })();
+
+      })); // fin double rAF
     }
   }
 </script>

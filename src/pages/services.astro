@@ -1,4 +1,4 @@
----
+﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import { Image } from 'astro:assets';
@@ -25,7 +25,7 @@ const servicesSchema = {
           '@type': 'Offer',
           priceSpecification: {
             '@type': 'PriceSpecification',
-            minPrice: '600',
+            minPrice: '800',
             priceCurrency: 'EUR',
           },
         },
@@ -90,37 +90,37 @@ const breadcrumbServices = {
 const prestations = [
   {
     title: 'Site vitrine',
-    desc: "Votre activité présentée clairement, visible sur Google, lisible sur tout type d'écran. En quelques secondes, vos visiteurs comprennent ce que vous faites, et savent comment vous contacter.",
+    desc: "Votre activité en ligne, claire et lisible sur tous les écrans. Vos visiteurs comprennent ce que vous faites et savent comment vous contacter.",
   },
   {
     title: 'Boutique en ligne',
-    desc: "Boostez vos ventes grâce à votre site web. Catalogue en ligne, paiement sécurisé. Il vous sera bien entendu possible de connecter votre site au logiciel de gestion de votre choix.",
+    desc: "Vendez directement depuis votre site. Catalogue, paiement sécurisé, connecté à vos outils.",
   },
   {
     title: 'Référencement naturel',
-    desc: "Apparaître en tête des résultats quand vos clients vous cherchent. Je travaille votre référencement local pour que les bonnes personnes vous trouvent, au bon moment.",
+    desc: "Apparaître quand vos clients vous cherchent. Je travaille votre visibilité locale pour que les bonnes personnes vous trouvent.",
   },
   {
     title: 'Refonte de site existant',
-    desc: "Votre site date ou ne vous ressemble plus ? On repart proprement. Un site clair, soigné, qui donne enfin une bonne première impression.",
+    desc: "Votre site date ou ne vous ressemble plus ? On repart sur des bases propres.",
   },
   {
     title: 'Accompagnement & maintenance',
-    desc: "Après la mise en ligne, votre site continue d'évoluer. Deux options selon vos besoins : un forfait mensuel pour des modifications régulières (mises à jour, nouvelles pages, ajustements récurrents), ou à la tâche sous devis rapide pour des interventions ponctuelles. Vous choisissez ce qui vous convient.",
+    desc: "Je reste disponible après la mise en ligne. Forfait mensuel ou intervention ponctuelle, selon vos besoins.",
   },
 ];
 
 const etapes = [
-  { num: '01', title: 'Premier appel',   desc: "On échange autour de votre projet : votre activité, vos clients, ce que vous voulez accomplir. Je ne propose rien avant d'avoir bien compris." },
-  { num: '02', title: 'Devis',           desc: "Vous recevez un devis sous 48h, clair et sans jargon. Chaque ligne est expliquée. Aucune surprise." },
-  { num: '03', title: 'Conception',      desc: "Je réalise une première version du site, puis nous l'ajustons ensemble étape par étape grâce à vos retours, jusqu'à un résultat qui vous ressemble vraiment." },
-  { num: '04', title: 'Mise en ligne',   desc: "Après finalisation, le site est mis en ligne et entièrement vérifié ensemble afin de garantir que tout soit parfaitement fonctionnel." },
-  { num: '05', title: 'Paiement & suivi', desc: "Le paiement n'intervient qu'après la mise en ligne et le bon fonctionnement du site. Et je reste disponible après, pour vos questions et évolutions." },
+  { num: '01', title: 'Premier échange', desc: "On parle de votre activité, vos clients, ce que vous voulez. Je ne propose rien avant d'avoir bien compris." },
+  { num: '02', title: 'Devis',           desc: "Sous 48h, chaque ligne expliquée. Vous savez exactement ce pour quoi vous vous engagez." },
+  { num: '03', title: 'Conception',      desc: "Je construis une première version, puis on ajuste ensemble jusqu'à ce que le résultat vous ressemble." },
+  { num: '04', title: 'Mise en ligne',   desc: "Le site est publié et vérifié ensemble. Vous avez les clés." },
+  { num: '05', title: 'Suivi',           desc: "Le paiement intervient après la mise en ligne. Je reste disponible pour vos questions et évolutions." },
 ];
 ---
 <BaseLayout
   title="Création site internet & SEO Drôme — Prestations · Caelestis"
-  description="Site vitrine, boutique en ligne, référencement naturel local. Solutions web sur mesure pour artisans et indépendants en Drôme et toute la France. Devis gratuit sous 48h."
+  description="Site vitrine, boutique en ligne, référencement naturel local. Solutions web sur mesure pour artisans et indépendants dans la Drôme et toute la France. Devis gratuit sous 48h."
   schema={[servicesSchema, breadcrumbServices]}
 >
 
@@ -165,7 +165,7 @@ const etapes = [
           Un site adapté à ce que vous faites,<br class="hidden sm:block"> <span class="text-sauge">construit pour durer.</span>
         </h1>
         <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed" data-reveal data-delay="2">
-          Chaque projet est unique. Je vous propose ce dont vous, et vos clients avez vraiment besoin.
+          Ce dont vous avez besoin. Pas plus, pas moins.
         </p>
         <!-- Badges -->
         <div class="flex flex-wrap gap-3 mt-8" data-reveal data-delay="3">
@@ -179,7 +179,7 @@ const etapes = [
           </span>
           <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-body font-medium bg-sauge-pale text-brun border border-cream-dark">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#889063" stroke-width="1.2"/><path d="M4 6l1.5 1.5L8 4" stroke="#889063" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            À partir de 600€
+            À partir de 800€
           </span>
         </div>
       </div>
@@ -233,11 +233,11 @@ const etapes = [
               <!-- Hero -->
               <div class="mk-hero">
                 <div class="mk-hero-text">
-                  <div class="mk-eyebrow">Agence web · Drôme, France</div>
+                  <div class="mk-eyebrow">Développeur web indépendant · Drôme</div>
                   <div class="mk-h1">Votre site devrait</div>
                   <div class="mk-h1 mk-h1i">vous ressembler.</div>
-                  <div class="mk-body">Votre site est souvent la première impression que vous laissez.</div>
-                  <div class="mk-body mk-body-s">Bien conçu, il attire les bons clients.</div>
+                  <div class="mk-body">Un bon site internet devient un outil de croissance.</div>
+                  <div class="mk-body mk-body-s">Il renforce votre image et contribue au développement de votre entreprise.</div>
                   <div class="mk-btns">
                     <div class="mk-btn-p">Lancer mon projet</div>
                     <div class="mk-btn-g">Nos prestations</div>
@@ -245,7 +245,7 @@ const etapes = [
                   <div class="mk-meta">
                     <span>Réponse sous 48h</span><span class="mk-sep">·</span>
                     <span>Devis gratuit</span><span class="mk-sep">·</span>
-                    <span>À partir de 600€</span>
+                    <span>À partir de 800€</span>
                   </div>
                 </div>
                 <div class="mk-hero-img">
@@ -544,7 +544,7 @@ const etapes = [
       <div class="relative rounded-2xl p-6 sm:p-8 md:p-12 mb-16 sm:mb-24 overflow-hidden bg-sauge-pale border border-cream-dark text-center" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Budget</p>
         <p class="font-display font-light text-brun leading-tight mb-3 text-center w-full" style="font-size: clamp(2.2rem, 4vw, 3.2rem);">
-          De&nbsp;<span class="text-ocre">600€</span>&nbsp;à&nbsp;<span class="text-ocre">2&nbsp;500€</span>
+          De&nbsp;<span class="text-ocre">800€</span>&nbsp;à&nbsp;<span class="text-ocre">2&nbsp;500€</span>
         </p>
         <p class="font-body text-base text-brun-mid leading-relaxed mx-auto max-w-lg">
           Sur devis uniquement, selon vos besoins réels.
@@ -558,67 +558,86 @@ const etapes = [
           <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Ce que je peux faire pour vous</p>
         </div>
         <div>
-          {prestations.map((p, i) => {
-            const isLeft = i % 2 === 0;
-            const icons = [
-              `<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="1.5" y="3.5" width="19" height="15" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M1.5 8h19" stroke="currentColor" stroke-width="1.5"/><circle cx="5" cy="5.75" r="1" fill="currentColor"/><circle cx="8.5" cy="5.75" r="1" fill="currentColor"/><rect x="5" y="11" width="12" height="1.5" rx=".75" fill="currentColor" opacity=".4"/><rect x="5" y="14" width="8" height="1.5" rx=".75" fill="currentColor" opacity=".25"/></svg>`,
-              `<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M7 9V7a4 4 0 0 1 8 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="3.5" y="9" width="15" height="11" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 13.5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
-              `<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="10" cy="10" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M15 15l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M7 10.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-              `<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4.5 11a6.5 6.5 0 0 1 6.5-6.5 6.5 6.5 0 0 1 5.6 3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M17.5 5v3.5H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.5 11a6.5 6.5 0 0 1-6.5 6.5A6.5 6.5 0 0 1 5.4 14.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4.5 17v-3.5H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-              `<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2C7 2 4 5.5 4 8.5c0 2 1 3.8 2.5 4.8L5 19h12l-1.5-5.7C17 12.3 18 10.5 18 8.5 18 5.5 15 2 11 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8.5 19l.5 1h4l.5-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 6v5M9 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
-            ];
-            return (
-              <div class="relative border-t border-cream-dark py-10 overflow-hidden group" data-reveal>
-
-
-
-                <div class={`flex flex-col md:flex-row md:items-stretch gap-8 ${!isLeft ? 'md:flex-row-reverse' : ''}`}>
-
-                  <!-- Bloc titre coloré -->
-                  <div class={`md:w-[36%] shrink-0 rounded-xl px-8 py-10 flex flex-col items-center justify-center gap-5 text-center ${i % 2 === 0 ? 'bg-sauge' : 'bg-brun'}`}>
-                    <div class="flex items-center gap-3">
-                      <div class="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
-                           style="background:rgba(237,227,212,0.15); color:rgba(237,227,212,0.80);"
-                           set:html={icons[i]}
-                      ></div>
-                      <span class="font-display font-light text-sm" style="color:rgba(237,227,212,0.40);">{String(i + 1).padStart(2, '0')}</span>
-                    </div>
-                    <h3 class="font-display font-light text-cream leading-[1.15]" style="font-size: clamp(1.5rem, 2.5vw, 2.2rem);">
-                      {p.title}
-                    </h3>
-                  </div>
-
-                  <!-- Bloc description -->
-                  <div class="flex-1 flex items-center justify-center px-2 py-6 md:py-2">
-                    <p class="font-body text-base text-brun-mid leading-relaxed text-center">{p.desc}</p>
-                  </div>
-
-                </div>
-              </div>
-            );
-          })}
+          {prestations.map((p, i) => (
+            <div class="border-t border-cream-dark py-8 md:grid md:grid-cols-[220px_1fr] md:gap-16 items-baseline" data-reveal>
+              <h3 class="font-display text-xl font-light text-brun mb-3 md:mb-0">{p.title}</h3>
+              <p class="font-body text-sm text-brun-mid leading-relaxed">{p.desc}</p>
+            </div>
+          ))}
+          <div class="border-t border-cream-dark"></div>
         </div>
       </div>
 
       <!-- Mes réalisations -->
       <div class="mb-24" data-reveal>
-        <div class="flex items-center gap-3 mb-10">
-          <span class="block w-8 h-px bg-sauge"></span>
-          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Réalisations</p>
+        <div class="text-center mb-10">
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Réalisations</p>
+          <h2 class="font-display font-light text-brun leading-[1.1]" style="font-size: clamp(2rem, 3.5vw, 3rem);">
+            Mes réalisations
+          </h2>
         </div>
-        <h2 class="font-display font-light text-brun leading-[1.1] mb-10" style="font-size: clamp(2rem, 3.5vw, 3rem);">
-          Mes réalisations
-        </h2>
-        <!-- Placeholder stylisé palette forêt -->
-        <div class="relative rounded-2xl overflow-hidden py-20 text-center bg-sauge-pale border border-dashed border-cream-dark">
-          <svg aria-hidden="true" class="mx-auto mb-5 opacity-30" width="48" height="64" viewBox="0 0 48 64" fill="none">
-            <path d="M24 0 C30 12 44 28 40 44 C36 58 24 64 24 64 C24 64 12 58 8 44 C4 28 18 12 24 0Z" fill="#889063"/>
-            <path d="M24 62 Q25.5 38 24 2" stroke="#CFC0A0" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M24 40 C20 36 14 36 10 40" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
-            <path d="M24 40 C28 36 34 36 38 40" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
-          <p class="font-display text-lg font-light text-brun-mid/50">Les exemples arrivent bientôt.</p>
+        <div class="grid md:grid-cols-2 gap-6">
+
+          <!-- Carte — Atelier Néra -->
+          <a href="/demos/atelier-nera" target="_blank" rel="noopener noreferrer"
+             class="group relative overflow-hidden rounded-sm border border-cream-dark hover:border-ocre/40 transition-colors duration-300 bg-white block">
+            <div class="h-2 w-full" style="background: linear-gradient(90deg, #1C1510 0%, #C4963C 50%, #8B6B4A 100%)"></div>
+            <div class="relative overflow-hidden" style="aspect-ratio: 16/10; background: #F4EFE6;">
+              <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-8 text-center">
+                <p class="font-body text-[10px] tracking-[0.25em] uppercase" style="color: #8B6B4A">Ébénisterie sur mesure</p>
+                <p class="font-display font-light text-2xl md:text-3xl" style="color: #1C1510; letter-spacing: -0.02em">Atelier Néra</p>
+                <div class="w-8 h-px mt-1" style="background: #C4963C"></div>
+                <p class="font-body text-xs leading-relaxed" style="color: rgba(28,21,16,0.5); max-width: 260px">
+                  Site vitrine haut de gamme pour un artisan ébéniste. Galerie, processus de création, prise de contact.
+                </p>
+              </div>
+              <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: rgba(28,21,16,0.7)">
+                <span class="font-body text-sm tracking-widest uppercase text-white border border-white/40 px-6 py-3">Voir le site →</span>
+              </div>
+            </div>
+            <div class="p-5 flex items-center justify-between">
+              <div>
+                <p class="font-display text-base font-light text-brun">Atelier Néra</p>
+                <p class="font-body text-xs text-brun-mid mt-0.5">Ébénisterie · Site vitrine</p>
+              </div>
+              <div class="flex gap-1.5">
+                <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Artisan</span>
+                <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Premium</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Carte — Lunéa Botanique -->
+          <a href="/demos/lunea-botanique" target="_blank" rel="noopener noreferrer"
+             class="group relative overflow-hidden rounded-sm border border-cream-dark hover:border-ocre/40 transition-colors duration-300 bg-white block">
+            <div class="h-2 w-full" style="background: linear-gradient(90deg, #2C3D2A 0%, #8B9E7E 50%, #D4C5A9 100%)"></div>
+            <div class="relative overflow-hidden" style="aspect-ratio: 16/10; background: #F7F4EF;">
+              <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-8 text-center">
+                <p class="font-body text-[10px] tracking-[0.25em] uppercase" style="color: #8B9E7E">Bougies botaniques artisanales</p>
+                <p class="font-display font-light text-2xl md:text-3xl" style="color: #2C3D2A; letter-spacing: -0.02em">Lunéa Botanique</p>
+                <div class="w-8 h-px mt-1" style="background: #8B9E7E"></div>
+                <p class="font-body text-xs leading-relaxed" style="color: rgba(44,61,42,0.5); max-width: 260px">
+                  E-commerce botanique élégant. Produits vedettes, histoire de marque, fabrication artisanale, newsletter.
+                </p>
+              </div>
+              <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: rgba(44,61,42,0.7)">
+                <span class="font-body text-sm tracking-widets uppercase text-white border border-white/40 px-6 py-3">Voir le site →</span>
+              </div>
+            </div>
+            <div class="p-5 flex items-center justify-between">
+              <div>
+                <p class="font-display text-base font-light text-brun">Lunéa Botanique</p>
+                <p class="font-body text-xs text-brun-mid mt-0.5">Bougies artisanales · E-commerce</p>
+              </div>
+              <div class="flex gap-1.5">
+                <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Boutique</span>
+                <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Premium</span>
+              </div>
+            </div>
+          </a>
+
         </div>
+        <p class="font-body text-xs text-brun-mid/50 text-center mt-6">Projets fictifs réalisés à titre de démonstration.</p>
       </div>
 
     </div>
@@ -632,7 +651,7 @@ const etapes = [
       <div class="text-center mb-12" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Comment je travaille</p>
         <h2 class="font-display font-light text-brun leading-[1.1]" style="font-size: clamp(1.8rem, 3vw, 2.6rem);">
-          5 étapes, <span class="text-sauge">pas de surprise.</span>
+          5 étapes, <span class="text-sauge">rien de caché.</span>
         </h2>
       </div>
 

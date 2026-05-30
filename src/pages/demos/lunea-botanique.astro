@@ -1,0 +1,630 @@
+---
+export const prerender = true;
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lunéa Botanique — Bougies & Soins naturels artisanaux</title>
+  <meta name="description" content="Lunéa Botanique, marque artisanale de bougies naturelles, soins botaniques et objets bien-être fabriqués à la main en France." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" />
+  <link rel="stylesheet" media="print" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" id="gfonts-lunea" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" /></noscript>
+  <script>var l=document.getElementById('gfonts-lunea');if(l)l.onload=function(){l.media='all'};</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ivory: #F7F4EF;
+      --ivory-dark: #EDE8DF;
+      --forest: #2C3D2A;
+      --forest-light: #3D5439;
+      --sage: #7A9068;
+      --sand: #C8B898;
+      --dark-text: #1A2018;
+      --mid-text: rgba(26,32,24,0.52);
+      --font: 'Plus Jakarta Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--ivory); color: var(--dark-text); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.6rem 5rem;
+      transition: all 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(247,244,239,0.97);
+      backdrop-filter: blur(12px);
+      padding: 1rem 5rem;
+      box-shadow: 0 1px 0 rgba(26,32,24,0.06);
+    }
+    .nav-logo { font-family: var(--font); font-size: 1.1rem; font-weight: 600; letter-spacing: -0.01em; color: #F7F4EF; text-decoration: none; transition: color 0.4s; }
+    nav.scrolled .nav-logo { color: var(--forest); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: 0.8rem; font-weight: 400; color: rgba(247,244,239,0.68); text-decoration: none; transition: color 0.3s; }
+    nav.scrolled .nav-links a { color: var(--mid-text); }
+    .nav-links a:hover { color: var(--sage) !important; }
+    .nav-basket {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; font-weight: 500; color: rgba(247,244,239,0.75);
+      cursor: pointer; transition: color 0.3s;
+    }
+    nav.scrolled .nav-basket { color: var(--dark-text); }
+    .nav-basket:hover { color: var(--sage) !important; }
+    .basket-count {
+      width: 1.4rem; height: 1.4rem; border-radius: 50%;
+      background: var(--sage); color: white;
+      font-size: 0.62rem; font-weight: 600; display: flex; align-items: center; justify-content: center;
+    }
+
+    /* NOTICE FICTIF */
+    .notice-fictif {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999;
+      background: var(--forest); color: rgba(247,244,239,0.55);
+      padding: 0.75rem 1.1rem; font-size: 0.68rem; font-weight: 400;
+      max-width: 250px; text-align: center; line-height: 1.5;
+      border-left: 2px solid var(--sage);
+    }
+    .notice-fictif strong { color: var(--sage); display: block; margin-bottom: 0.25rem; font-size: 0.62rem; font-weight: 600; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+      position: relative; overflow: hidden;
+    }
+    .hero-left {
+      background: var(--forest);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 10rem 5rem 5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; color: var(--sage); margin-bottom: 1.8rem; display: flex; align-items: center; gap: 1rem; }
+    .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--sage); }
+    .hero h1 { font-family: var(--font); font-weight: 600; font-size: clamp(2.6rem, 4.5vw, 4.5rem); line-height: 1.1; color: var(--ivory); letter-spacing: -0.03em; margin-bottom: 1.8rem; }
+    .hero h1 span { color: var(--sage); }
+    .hero-sub { font-size: 0.95rem; font-weight: 400; line-height: 1.75; color: rgba(247,244,239,0.52); max-width: 380px; margin-bottom: 3rem; }
+    .hero-actions { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+    .btn-primary-hero {
+      background: var(--sage); color: white; border: none;
+      padding: 1rem 2.2rem; font-family: var(--font);
+      font-size: 0.82rem; font-weight: 500;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.3s;
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      border-radius: 2px;
+    }
+    .btn-primary-hero:hover { background: var(--forest-light); }
+    .btn-secondary-hero {
+      font-size: 0.82rem; font-weight: 400;
+      color: rgba(247,244,239,0.55); text-decoration: none;
+      transition: color 0.3s;
+    }
+    .btn-secondary-hero:hover { color: var(--ivory); }
+    .hero-right { position: relative; overflow: hidden; }
+    .hero-right img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-badge {
+      position: absolute; bottom: 2.5rem; left: 2.5rem;
+      background: rgba(247,244,239,0.95); backdrop-filter: blur(8px);
+      padding: 1.1rem 1.6rem;
+    }
+    .hero-badge-text { font-size: 0.9rem; font-weight: 500; color: var(--forest); }
+    .hero-badge-sub { font-size: 0.68rem; font-weight: 400; color: var(--sage); margin-top: 0.3rem; }
+
+    /* SECTION LABEL */
+    .section-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sage); margin-bottom: 1rem; }
+
+    /* PRODUITS VEDETTES */
+    .produits { padding: 8rem 5rem; }
+    .produits-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; flex-wrap: wrap; gap: 1rem; }
+    .produits h2 { font-size: clamp(1.8rem, 2.8vw, 2.8rem); font-weight: 600; color: var(--dark-text); line-height: 1.15; letter-spacing: -0.02em; }
+    .voir-tout { font-size: 0.82rem; font-weight: 500; color: var(--sage); text-decoration: none; transition: opacity 0.3s; }
+    .voir-tout:hover { opacity: 0.7; }
+    .produits-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+    .produit-card { cursor: pointer; }
+    .produit-img { position: relative; overflow: hidden; background: var(--ivory-dark); margin-bottom: 1.1rem; }
+    .produit-img img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; transition: transform 0.7s ease; }
+    .produit-card:hover .produit-img img { transform: scale(1.05); }
+    .produit-badge {
+      position: absolute; top: 0.9rem; left: 0.9rem;
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+    }
+    .badge-new { background: var(--forest); color: var(--ivory); }
+    .badge-best { background: var(--sage); color: white; }
+    .produit-quick {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(44,61,42,0.9); color: var(--ivory);
+      text-align: center; padding: 0.85rem;
+      font-size: 0.75rem; font-weight: 500; font-family: var(--font);
+      border: none; cursor: pointer; width: 100%;
+      transform: translateY(100%); transition: transform 0.32s;
+    }
+    .produit-card:hover .produit-quick { transform: translateY(0); }
+    .produit-name { font-size: 1rem; font-weight: 600; color: var(--dark-text); margin-bottom: 0.35rem; letter-spacing: -0.01em; }
+    .produit-desc { font-size: 0.78rem; font-weight: 400; color: var(--mid-text); margin-bottom: 0.6rem; line-height: 1.5; }
+    .produit-footer { display: flex; justify-content: space-between; align-items: center; }
+    .produit-price { font-size: 1rem; font-weight: 600; color: var(--forest); }
+    .produit-stars { font-size: 0.7rem; color: var(--sage); }
+
+    /* BRAND STORY */
+    .brand-story {
+      background: var(--forest); padding: 9rem 5rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8rem; align-items: center;
+    }
+    .story-img-main { aspect-ratio: 4/5; overflow: hidden; }
+    .story-img-main img { width: 100%; height: 100%; object-fit: cover; }
+    .brand-story .section-label { color: var(--sage); }
+    .brand-story h2 { font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 600; color: var(--ivory); line-height: 1.15; margin-bottom: 1.8rem; letter-spacing: -0.02em; }
+    .brand-story p { font-size: 0.9rem; font-weight: 400; line-height: 1.85; color: rgba(247,244,239,0.52); margin-bottom: 1.2rem; }
+    .story-sign { font-size: 0.85rem; font-weight: 500; color: var(--sage); margin-top: 1.8rem; padding-top: 1.5rem; border-top: 1px solid rgba(247,244,239,0.12); }
+
+    /* VALEURS */
+    .valeurs { padding: 8rem 5rem; background: var(--ivory-dark); }
+    .valeurs-header { text-align: center; margin-bottom: 5rem; }
+    .valeurs h2 { font-size: clamp(1.8rem, 2.8vw, 2.8rem); font-weight: 600; color: var(--dark-text); letter-spacing: -0.02em; }
+    .valeurs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(122,144,104,0.15); }
+    .valeur-card { background: var(--ivory-dark); padding: 3.5rem 3rem; text-align: center; transition: background 0.3s; }
+    .valeur-card:hover { background: var(--ivory); }
+    .valeur-num { font-size: 2.8rem; font-weight: 300; color: rgba(122,144,104,0.25); line-height: 1; margin: 0 auto 1.8rem; }
+    .valeur-card h3 { font-size: 1.05rem; font-weight: 600; color: var(--dark-text); margin-bottom: 0.9rem; letter-spacing: -0.01em; }
+    .valeur-card p { font-size: 0.84rem; font-weight: 400; line-height: 1.8; color: var(--mid-text); }
+
+    /* BESTSELLER FOCUS */
+    .bestseller {
+      padding: 9rem 5rem;
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 7rem; align-items: center;
+    }
+    .bestseller-img { overflow: hidden; }
+    .bestseller-img img { width: 100%; aspect-ratio: 4/5; object-fit: cover; transition: transform 0.9s; }
+    .bestseller-img:hover img { transform: scale(1.04); }
+    .bestseller h2 { font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 600; color: var(--dark-text); line-height: 1.15; margin-bottom: 1.3rem; letter-spacing: -0.02em; }
+    .bestseller p { font-size: 0.88rem; font-weight: 400; line-height: 1.85; color: var(--mid-text); margin-bottom: 1.1rem; }
+    .bestseller-details { display: flex; flex-direction: column; gap: 0.75rem; margin: 2rem 0; padding: 2rem 0; border-top: 1px solid rgba(26,32,24,0.08); border-bottom: 1px solid rgba(26,32,24,0.08); }
+    .b-detail { display: flex; gap: 1rem; font-size: 0.82rem; }
+    .b-detail strong { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sage); min-width: 80px; padding-top: 1px; }
+    .b-detail span { font-weight: 400; color: var(--mid-text); }
+    .bestseller-price { font-size: 1.8rem; font-weight: 600; color: var(--forest); margin-bottom: 1.8rem; letter-spacing: -0.02em; }
+    .btn-add {
+      background: var(--forest); color: var(--ivory); border: none;
+      padding: 1.05rem 2.5rem; font-family: var(--font);
+      font-size: 0.82rem; font-weight: 500;
+      cursor: pointer; transition: background 0.3s;
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      border-radius: 2px;
+    }
+    .btn-add:hover { background: var(--sage); }
+
+    /* FABRICATION */
+    .fabrication { background: var(--forest); padding: 9rem 5rem; }
+    .fabrication .section-label { color: var(--sage); }
+    .fabrication h2 { font-size: clamp(1.8rem, 2.8vw, 2.8rem); font-weight: 600; color: var(--ivory); margin-bottom: 5rem; max-width: 500px; line-height: 1.15; letter-spacing: -0.02em; }
+    .fab-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(247,244,239,0.06); }
+    .fab-step { background: var(--forest); padding: 3rem 2.5rem; transition: background 0.3s; }
+    .fab-step:hover { background: rgba(247,244,239,0.04); }
+    .fab-step-num { font-size: 2.5rem; font-weight: 300; color: rgba(122,144,104,0.2); line-height: 1; margin-bottom: 2rem; }
+    .fab-step h3 { font-size: 1rem; font-weight: 600; color: var(--ivory); margin-bottom: 0.9rem; letter-spacing: -0.01em; }
+    .fab-step p { font-size: 0.82rem; font-weight: 400; line-height: 1.8; color: rgba(247,244,239,0.42); }
+
+    /* TEMOIGNAGES */
+    .temoignages { padding: 8rem 5rem; }
+    .temoignages-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; flex-wrap: wrap; gap: 1rem; }
+    .temoignages h2 { font-size: clamp(1.6rem, 2.3vw, 2.3rem); font-weight: 600; color: var(--dark-text); letter-spacing: -0.02em; }
+    .temoignages-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .t-card { padding: 2.2rem; border: 1px solid rgba(122,144,104,0.15); transition: border-color 0.3s, transform 0.3s; }
+    .t-card:hover { border-color: var(--sage); transform: translateY(-2px); }
+    .t-stars { color: var(--sage); font-size: 0.8rem; letter-spacing: 0.08em; margin-bottom: 1.4rem; }
+    .t-card blockquote { font-size: 0.9rem; font-weight: 400; color: var(--dark-text); line-height: 1.75; margin-bottom: 1.8rem; }
+    .t-author { display: flex; align-items: center; gap: 1rem; }
+    .t-avatar { width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--sage); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 600; color: white; flex-shrink: 0; }
+    .t-name { font-size: 0.8rem; font-weight: 500; color: var(--dark-text); }
+    .t-detail { font-size: 0.7rem; font-weight: 400; color: var(--mid-text); margin-top: 0.15rem; }
+
+    /* NEWSLETTER */
+    .newsletter { background: var(--ivory-dark); padding: 7rem 5rem; text-align: center; }
+    .newsletter h2 { font-size: clamp(1.6rem, 2.3vw, 2.3rem); font-weight: 600; color: var(--dark-text); margin-bottom: 0.9rem; letter-spacing: -0.02em; }
+    .newsletter p { font-size: 0.88rem; font-weight: 400; line-height: 1.7; color: var(--mid-text); margin-bottom: 2.5rem; max-width: 400px; margin-left: auto; margin-right: auto; }
+    .newsletter-form { display: flex; max-width: 420px; margin: 0 auto; }
+    .newsletter-form input {
+      flex: 1; background: white; border: 1px solid rgba(122,144,104,0.22); border-right: none;
+      padding: 1rem 1.4rem; font-family: var(--font);
+      font-size: 0.88rem; font-weight: 400; color: var(--dark-text); outline: none;
+      transition: border-color 0.3s;
+    }
+    .newsletter-form input:focus { border-color: var(--sage); }
+    .newsletter-form button {
+      background: var(--forest); color: var(--ivory); border: none;
+      padding: 1rem 1.8rem; font-family: var(--font);
+      font-size: 0.78rem; font-weight: 500;
+      cursor: pointer; transition: background 0.3s; white-space: nowrap;
+    }
+    .newsletter-form button:hover { background: var(--sage); }
+    .newsletter-note { font-size: 0.68rem; font-weight: 400; color: rgba(26,32,24,0.3); margin-top: 1.1rem; }
+
+    /* FOOTER */
+    footer { background: var(--forest); }
+    .footer-top { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 4rem; padding: 5rem 5rem 4rem; border-bottom: 1px solid rgba(247,244,239,0.07); }
+    .footer-brand-name { font-size: 1.1rem; font-weight: 600; color: var(--ivory); margin-bottom: 1rem; letter-spacing: -0.01em; }
+    .footer-brand-desc { font-size: 0.8rem; font-weight: 400; line-height: 1.7; color: rgba(247,244,239,0.32); max-width: 250px; }
+    .footer-col h4 { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sage); margin-bottom: 1.4rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.75rem; }
+    .footer-col a { font-size: 0.8rem; font-weight: 400; color: rgba(247,244,239,0.38); text-decoration: none; transition: color 0.3s; }
+    .footer-col a:hover { color: var(--ivory); }
+    .footer-bottom { padding: 1.5rem 5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    .footer-copy { font-size: 0.7rem; font-weight: 400; color: rgba(247,244,239,0.2); }
+    .footer-fictif { font-size: 0.65rem; font-weight: 400; color: rgba(247,244,239,0.16); text-align: center; }
+    .footer-caelestis { font-size: 0.7rem; font-weight: 400; color: rgba(247,244,239,0.2); }
+    .footer-caelestis a { color: var(--sage); text-decoration: none; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal[data-d="1"] { transition-delay: 0.1s; }
+    .reveal[data-d="2"] { transition-delay: 0.2s; }
+    .reveal[data-d="3"] { transition-delay: 0.3s; }
+
+    /* SCREEN-READER ONLY */
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    /* SKIP LINK */
+    .skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; background: var(--sage); color: white; padding: 0.6rem 1.2rem; font-size: 0.85rem; font-weight: 600; z-index: 9999; text-decoration: none; }
+    .skip-link:focus { left: 1rem; top: 1rem; width: auto; height: auto; overflow: visible; outline: 2px solid var(--forest); outline-offset: 2px; }
+
+    /* PREFERS-REDUCED-MOTION */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .produit-img img, .bestseller-img img, .story-img-main img, .hero-right img { transition: none !important; }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      nav { padding: 1.3rem 2.5rem; }
+      nav.scrolled { padding: 0.9rem 2.5rem; }
+      .produits, .valeurs, .temoignages, .newsletter, .fabrication { padding: 6rem 2.5rem; }
+      .brand-story, .bestseller { padding: 6rem 2.5rem; }
+      .footer-top { padding: 4rem 2.5rem 3rem; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+      .footer-bottom { padding: 1.2rem 2.5rem; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 8rem 2rem 4rem; }
+      .hero-right { height: 60vw; }
+      .produits-grid { grid-template-columns: 1fr 1fr; }
+      .brand-story, .bestseller { grid-template-columns: 1fr; gap: 3rem; }
+      .valeurs-grid { grid-template-columns: 1fr; }
+      .fab-grid { grid-template-columns: 1fr 1fr; }
+      .temoignages-grid { grid-template-columns: 1fr; }
+      .temoignages-header, .produits-header { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+      .footer-top { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-form input { border-right: 1px solid rgba(122,144,104,0.22); border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+  <!-- NOTICE FICTIF -->
+  <div class="notice-fictif">
+    <strong>Projet fictif</strong>
+    Démonstration des possibilités offertes par <a href="https://caelestis.fr" rel="noopener noreferrer" style="color: var(--sage); text-decoration: none;">Caelestis</a>
+  </div>
+
+  <!-- NAV -->
+  <nav id="navbar" aria-label="Navigation principale">
+    <a href="#" class="nav-logo">Lunéa Botanique</a>
+    <ul class="nav-links">
+      <li><a href="#boutique">Boutique</a></li>
+      <li><a href="#histoire">Notre histoire</a></li>
+      <li><a href="#fabrication">Fabrication</a></li>
+      <li><a href="#contact-footer">Contact</a></li>
+    </ul>
+    <div class="nav-basket">
+      <span>Panier</span>
+      <div class="basket-count">2</div>
+    </div>
+  </nav>
+
+  <main id="main-content" tabindex="-1">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Artisanal · Naturel · Fait en France</div>
+      <h1>La nature<br><span>à l'état pur.</span></h1>
+      <p class="hero-sub">Des bougies naturelles, des soins botaniques et des objets bien-être fabriqués à la main. Pour ceux qui choisissent le vivant.</p>
+      <div class="hero-actions">
+        <a href="#boutique" class="btn-primary-hero">Découvrir la boutique →</a>
+        <a href="#histoire" class="btn-secondary-hero">Notre histoire</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=900&q=80" alt="Bougies naturelles Lunéa Botanique" loading="eager" />
+      <div class="hero-badge">
+        <div class="hero-badge-text">Fabriqué avec intention</div>
+        <div class="hero-badge-sub">Depuis 2019 · Drôme, France</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUITS VEDETTES -->
+  <section class="produits" id="boutique">
+    <div class="produits-header reveal">
+      <div>
+        <p class="section-label">Boutique</p>
+        <h2>Nos créations du moment</h2>
+      </div>
+      <a href="#" class="voir-tout">Voir toute la collection →</a>
+    </div>
+    <div class="produits-grid">
+      <div class="produit-card reveal">
+        <div class="produit-img">
+          <img src="https://images.unsplash.com/photo-1573480813647-552e9b7b5394?auto=format&fit=crop&w=500&q=80" alt="Bougie Forêt de Pins" loading="lazy" />
+          <span class="produit-badge badge-best">Bestseller</span>
+          <button class="produit-quick" type="button" aria-label="Ajouter au panier">Ajouter au panier</button>
+        </div>
+        <div class="produit-name">Forêt de Pins</div>
+        <div class="produit-desc">Bougie en cire de soja · 220g · 50h</div>
+        <div class="produit-footer">
+          <div class="produit-price">34 €</div>
+          <div class="produit-stars" aria-label="5 étoiles sur 5">★★★★★</div>
+        </div>
+      </div>
+      <div class="produit-card reveal" data-d="1">
+        <div class="produit-img">
+          <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=500&q=80" alt="Sérum botanique" loading="lazy" />
+          <span class="produit-badge badge-new">Nouveau</span>
+          <button class="produit-quick" type="button" aria-label="Ajouter au panier">Ajouter au panier</button>
+        </div>
+        <div class="produit-name">Sérum Botanique</div>
+        <div class="produit-desc">Huile visage · Rose musquée & argan · 30ml</div>
+        <div class="produit-footer">
+          <div class="produit-price">48 €</div>
+          <div class="produit-stars" aria-label="5 étoiles sur 5">★★★★★</div>
+        </div>
+      </div>
+      <div class="produit-card reveal" data-d="2">
+        <div class="produit-img">
+          <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=500&q=80" alt="Savon artisanal" loading="lazy" />
+          <button class="produit-quick" type="button" aria-label="Ajouter au panier">Ajouter au panier</button>
+        </div>
+        <div class="produit-name">Savon Lavande & Avoine</div>
+        <div class="produit-desc">Savon surgras · Saponification à froid · 100g</div>
+        <div class="produit-footer">
+          <div class="produit-price">12 €</div>
+          <div class="produit-stars" aria-label="4 étoiles sur 5">★★★★☆</div>
+        </div>
+      </div>
+      <div class="produit-card reveal" data-d="3">
+        <div class="produit-img">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=500&q=80" alt="Diffuseur naturel" loading="lazy" />
+          <span class="produit-badge badge-new">Nouveau</span>
+          <button class="produit-quick" type="button" aria-label="Ajouter au panier">Ajouter au panier</button>
+        </div>
+        <div class="produit-name">Diffuseur Eucalyptus</div>
+        <div class="produit-desc">Diffuseur à roseaux · 100ml · 8 semaines</div>
+        <div class="produit-footer">
+          <div class="produit-price">29 €</div>
+          <div class="produit-stars" aria-label="5 étoiles sur 5">★★★★★</div>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top: 1.5rem; font-size: 0.68rem; color: rgba(26,32,24,0.28);">Projet fictif — démonstration Caelestis</p>
+  </section>
+
+  <!-- BRAND STORY -->
+  <section class="brand-story" id="histoire">
+    <div class="reveal">
+      <div class="story-img-main">
+        <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?auto=format&fit=crop&w=700&q=80" alt="Atelier Lunéa" loading="lazy" />
+      </div>
+    </div>
+    <div>
+      <p class="section-label reveal">Notre histoire</p>
+      <h2 class="reveal" data-d="1">Née d'une conviction : la nature suffit.</h2>
+      <p class="reveal" data-d="1">Tout a commencé dans une cuisine de la Drôme, avec une passion pour les plantes et une question simple : pourquoi nos produits du quotidien sont-ils si loin du vivant ?</p>
+      <p class="reveal" data-d="2">Lunéa Botanique, c'est l'histoire de Léa, herboriste de formation reconvertie en créatrice de cosmétiques et de bougies. Chaque formule est développée à la main, testée en famille, ajustée jusqu'à la perfection.</p>
+      <p class="reveal" data-d="2">Pas d'usine, pas de sous-traitance. Tout est fait ici, dans notre atelier, avec des matières premières sourcées en circuit court.</p>
+      <div class="story-sign reveal" data-d="3">Léa, fondatrice</div>
+    </div>
+  </section>
+
+  <!-- VALEURS -->
+  <section class="valeurs">
+    <div class="valeurs-header reveal">
+      <p class="section-label">Nos engagements</p>
+      <h2>Ce que nous ne compromettrons jamais.</h2>
+    </div>
+    <div class="valeurs-grid">
+      <div class="valeur-card reveal">
+        <div class="valeur-num">01</div>
+        <h3>Ingrédients naturels</h3>
+        <p>Zéro silicone, zéro paraben, zéro synthétique. Chaque ingrédient a un nom, une origine et une raison d'être dans nos formules.</p>
+      </div>
+      <div class="valeur-card reveal" data-d="1">
+        <div class="valeur-num">02</div>
+        <h3>Fait à la main</h3>
+        <p>Chaque bougie est coulée, chaque savon est coupé, chaque pot est rempli à la main dans notre atelier de la Drôme. Sans exception.</p>
+      </div>
+      <div class="valeur-card reveal" data-d="2">
+        <div class="valeur-num">03</div>
+        <h3>Éco-responsable</h3>
+        <p>Emballages recyclables, encres végétales, cires naturelles, livraison compensée carbone. Nous mesurons notre impact à chaque étape.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BESTSELLER FOCUS -->
+  <section class="bestseller">
+    <div class="bestseller-img reveal">
+      <img src="https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&w=800&q=80" alt="Bougie Forêt de Pins allumée" loading="lazy" />
+    </div>
+    <div>
+      <p class="section-label reveal">Notre incontournable</p>
+      <h2 class="reveal" data-d="1">Forêt de Pins, le bestseller depuis 2019.</h2>
+      <p class="reveal" data-d="1">Une fragrance qui transporte. Pins sylvestres, résine chaude, sous-bois humide. Cette bougie s'est imposée comme notre signature olfactive dès nos débuts.</p>
+      <p class="reveal" data-d="2">Cire de soja 100% naturelle, mèche en coton biologique, fragrance composée exclusivement d'huiles essentielles. Elle brûle proprement pendant 50 heures.</p>
+      <div class="bestseller-details reveal" data-d="2">
+        <div class="b-detail"><strong>Matière</strong><span>Cire de soja, mèche coton bio</span></div>
+        <div class="b-detail"><strong>Contenance</strong><span>220g · Durée de combustion 50h</span></div>
+        <div class="b-detail"><strong>Fragrance</strong><span>Pin sylvestre, résine, cèdre</span></div>
+        <div class="b-detail"><strong>Origine</strong><span>Fabriqué à la main · Drôme, France</span></div>
+      </div>
+      <div class="bestseller-price reveal" data-d="3">34 €</div>
+      <button class="btn-add reveal" type="button" data-d="3" aria-label="Ajouter la bougie Forêt de Pins au panier">Ajouter au panier →</button>
+    </div>
+  </section>
+
+  <!-- FABRICATION -->
+  <section class="fabrication" id="fabrication">
+    <p class="section-label reveal">Notre processus</p>
+    <h2 class="reveal" data-d="1">De la plante au produit fini,<br>rien n'est laissé au hasard.</h2>
+    <div class="fab-grid">
+      <div class="fab-step reveal">
+        <div class="fab-step-num">01</div>
+        <h3>Sourcing</h3>
+        <p>Nous sélectionnons nos matières premières auprès de producteurs locaux et certifiés bio. Cires végétales, huiles essentielles, plantes séchées.</p>
+      </div>
+      <div class="fab-step reveal" data-d="1">
+        <div class="fab-step-num">02</div>
+        <h3>Formulation</h3>
+        <p>Chaque recette est développée et testée dans notre atelier. Des semaines de tests pour trouver le bon équilibre entre efficacité et sensorialité.</p>
+      </div>
+      <div class="fab-step reveal" data-d="2">
+        <div class="fab-step-num">03</div>
+        <h3>Fabrication</h3>
+        <p>Tout est fait à la main, en petites séries. Coulage, saponification, remplissage. Chaque pièce passe entre nos mains avant de partir.</p>
+      </div>
+      <div class="fab-step reveal" data-d="3">
+        <div class="fab-step-num">04</div>
+        <h3>Expédition</h3>
+        <p>Emballages recyclables, papier de soie végétal, colis compensé carbone. Votre commande arrive belle, et dans le respect de la planète.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEMOIGNAGES -->
+  <section class="temoignages">
+    <div class="temoignages-header reveal">
+      <div>
+        <p class="section-label">Avis clients</p>
+        <h2>4,9 / 5 · 847 avis vérifiés</h2>
+      </div>
+    </div>
+    <div class="temoignages-grid">
+      <div class="t-card reveal">
+        <div class="t-stars" aria-label="5 étoiles sur 5">★★★★★</div>
+        <blockquote>Je ne commande plus ailleurs. La bougie Forêt de Pins est dans mon salon depuis deux ans maintenant. L'odeur, la durée, la qualité — irréprochable.</blockquote>
+        <div class="t-author">
+          <div class="t-avatar">M</div>
+          <div>
+            <div class="t-name">Marie-Claire B.</div>
+            <div class="t-detail">Bougie Forêt de Pins · Achat vérifié</div>
+          </div>
+        </div>
+      </div>
+      <div class="t-card reveal" data-d="1">
+        <div class="t-stars" aria-label="5 étoiles sur 5">★★★★★</div>
+        <blockquote>Le sérum botanique a transformé ma routine. Ma peau n'a jamais été aussi apaisée. Je suis convaincue par la démarche et par les résultats.</blockquote>
+        <div class="t-author">
+          <div class="t-avatar">A</div>
+          <div>
+            <div class="t-name">Amandine R.</div>
+            <div class="t-detail">Sérum Botanique · Achat vérifié</div>
+          </div>
+        </div>
+      </div>
+      <div class="t-card reveal" data-d="2">
+        <div class="t-stars" aria-label="5 étoiles sur 5">★★★★★</div>
+        <blockquote>Un cadeau pour ma sœur qui est devenue accro. La présentation est magnifique, les produits sentent divinement bon et on sent vraiment le soin apporté à chaque détail.</blockquote>
+        <div class="t-author">
+          <div class="t-avatar">J</div>
+          <div>
+            <div class="t-name">Juliette P.</div>
+            <div class="t-detail">Diffuseur Eucalyptus · Achat vérifié</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <p class="section-label reveal">Newsletter</p>
+    <h2 class="reveal" data-d="1">Les nouvelles de l'atelier, une fois par mois.</h2>
+    <p class="reveal" data-d="1">Recevez nos nouveautés, nos coulisses de fabrication et un code de réduction réservé aux abonnés.</p>
+    <div class="newsletter-form reveal" data-d="2">
+      <label for="lunea-newsletter" class="sr-only">Votre adresse email</label>
+      <input id="lunea-newsletter" type="email" name="email" autocomplete="email" placeholder="votre@email.fr" aria-required="true" />
+      <button type="button" aria-label="S'abonner à la newsletter">S'abonner →</button>
+    </div>
+    <p class="newsletter-note reveal" data-d="3">Projet fictif · Pas de spam, désabonnement en un clic.</p>
+  </section>
+
+  </main><!-- /#main-content -->
+
+  <!-- FOOTER -->
+  <footer id="contact-footer">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">Lunéa Botanique</div>
+        <p class="footer-brand-desc">Marque artisanale de bougies naturelles, soins botaniques et objets bien-être. Tout est fait à la main dans la Drôme depuis 2019.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Boutique</h4>
+        <ul>
+          <li><a href="#">Bougies naturelles</a></li>
+          <li><a href="#">Soins botaniques</a></li>
+          <li><a href="#">Diffuseurs</a></li>
+          <li><a href="#">Coffrets cadeaux</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>À propos</h4>
+        <ul>
+          <li><a href="#">Notre histoire</a></li>
+          <li><a href="#">Fabrication</a></li>
+          <li><a href="#">Nos valeurs</a></li>
+          <li><a href="#">Presse</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Service client</h4>
+        <ul>
+          <li><a href="#">Livraisons & retours</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Mentions légales</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Lunéa Botanique · Tous droits réservés</div>
+      <div class="footer-fictif">Projet fictif créé comme démonstration des possibilités offertes par Caelestis</div>
+      <div class="footer-caelestis">Site créé par <a href="https://caelestis.fr" rel="noopener noreferrer">Caelestis</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

@@ -1,13 +1,8 @@
-﻿---
+---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import { Image } from 'astro:assets';
-import imgHero      from '../assets/images/atelier-botanique.jpg';
-import imgMosaique1 from '../assets/images/jardin-communautaire.jpg';
-import imgMosaique2 from '../assets/images/bougies-artisan.jpg';
-import imgMosaique3 from '../assets/images/yoga-soleil.jpg';
-import imgLaptop    from '../assets/images/laptop-jardin.jpg';
-import imgAtelier   from '../assets/images/atelier-creatif.jpg';
+import imgHero from '../assets/images/atelier-botanique.jpg';
 
 const localBusiness = {
   '@context': 'https://schema.org',
@@ -34,7 +29,7 @@ const localBusiness = {
   },
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     opens: '09:00',
     closes: '18:00',
   },
@@ -45,6 +40,7 @@ const localBusiness = {
   knowsAbout: ['Création de site web', 'Référencement naturel', 'SEO', 'Développement Astro', 'Tailwind CSS'],
   sameAs: [
     'https://caelestis.fr',
+    'https://share.google/IKYSIPaXxlTN0W5Zz',
   ],
   serviceArea: {
     '@type': 'GeoCircle',
@@ -64,7 +60,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          minPrice: '600',
+          minPrice: '800',
           priceCurrency: 'EUR',
         },
       },
@@ -80,57 +76,77 @@ const localBusiness = {
   },
 };
 
-const faqSchema = {
+const websiteSchema = {
   '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Combien de temps faut-il pour créer mon site ?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Entre 2 et 4 semaines en général, selon ce dont vous avez besoin. On avance par étapes — à chaque phase, je vous montre où j\'en suis et on valide ensemble avant de continuer.',
-      },
+  '@type': 'WebSite',
+  name: 'Caelestis',
+  url: 'https://caelestis.fr',
+  description: 'Création de site web et référencement naturel pour artisans et indépendants dans la Drôme.',
+  inLanguage: 'fr-FR',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Caelestis',
+    url: 'https://caelestis.fr',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://caelestis.fr/favicon.svg',
     },
-    {
-      '@type': 'Question',
-      name: 'Comment ça se passe concrètement ?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Un premier appel pour parler de votre projet. Ensuite un devis sous 48h. On construit le site ensemble, par étapes, avec vos retours à chaque fois. Mise en ligne, transmission des accès. Et je reste disponible après.',
-      },
+  },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://caelestis.fr/blog?q={search_term_string}',
     },
-    {
-      '@type': 'Question',
-      name: 'Est-ce que mon site sera visible sur Google ?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Oui. Chaque site est construit sur de bonnes bases : structure claire, chargement rapide, balisage propre et référencement pensé dès le départ. Votre site sera lisible par Google, optimisé pour les recherches locales et relié à la fiche Google de votre entreprise afin de renforcer votre visibilité. Et si vous souhaitez aller plus loin, un travail de référencement plus avancé peut également être mis en place.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Combien ça coûte ?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Les sites démarrent à partir de 600 €. Le prix final dépend surtout de la complexité du projet : nombre de pages, fonctionnalités souhaitées, réservation, boutique en ligne, rédaction, référencement, identité visuelle etc.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Est-ce que je peux modifier mon site après ?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: "Oui. Un site n'est pas figé : il peut évoluer avec votre activité. Nouveaux contenus, nouvelles fonctionnalités, pages supplémentaires ou modifications plus importantes, tout peut être ajusté au fil du temps. Je vous propose simplement un devis adapté selon l'ampleur des changements à réaliser.",
-      },
-    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Caelestis',
+  alternateName: 'CaelestisWeb',
+  url: 'https://caelestis.fr',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://caelestis.fr/og-image.jpg',
+    width: 1200,
+    height: 630,
+  },
+  description: 'Développeur web indépendant spécialisé dans la création de sites internet sur mesure et le référencement naturel pour artisans, paysagistes et indépendants dans la Drôme.',
+  email: 'contact@caelestis.fr',
+  telephone: '+33769362727',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Crest',
+    addressRegion: 'Drôme',
+    postalCode: '26400',
+    addressCountry: 'FR',
+  },
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Drôme' },
+    { '@type': 'Country', name: 'France' },
+  ],
+  foundingDate: '2024',
+  founder: {
+    '@type': 'Person',
+    name: 'Célestin Fruleux',
+    jobTitle: 'Développeur web & consultant SEO',
+    url: 'https://caelestis.fr/a-propos',
+  },
+  knowsAbout: ['Création de site web', 'Développement Astro', 'Référencement naturel', 'SEO local', 'Tailwind CSS'],
+  sameAs: [
+    'https://caelestis.fr',
+    'https://share.google/IKYSIPaXxlTN0W5Zz',
   ],
 };
+
 ---
 <BaseLayout
-  title="Création de site internet Drôme — Caelestis · Agence web artisans"
-  description="Création de site internet sur mesure en Drôme. Spécialiste sites web pour artisans, paysagistes, agriculteurs et indépendants. Devis gratuit sous 48h. À partir de 600€."
-  schema={[localBusiness, faqSchema]}
+  title="Caelestis — Création de site internet dans la Drôme · Artisans & indépendants"
+  description="Célestin, développeur web indépendant dans la Drôme. Je crée des sites soignés pour artisans, paysagistes et indépendants. Devis gratuit sous 48h. À partir de 800€."
+  schema={[localBusiness, organizationSchema, websiteSchema]}
 >
 
   <!-- ─── FIL BOTANIQUE ─── -->
@@ -160,6 +176,7 @@ const faqSchema = {
     </svg>
   </div>
 
+
   <!-- ─── HERO ─── -->
   <section class="min-h-[100vh] flex flex-col justify-center px-6 md:px-10 lg:px-20 pt-20 pb-16 relative overflow-hidden">
 
@@ -171,53 +188,47 @@ const faqSchema = {
            style="bottom: 5%; right: -8%; opacity: 0.55;"></div>
       <div class="light-blob light-blob-cream absolute w-[300px] h-[300px]"
            style="top: 40%; left: 38%; opacity: 0.4;"></div>
-      <div class="light-blob light-blob-bois absolute w-[280px] h-[280px]"
-           style="top: 65%; left: 8%; opacity: 0.5;"></div>
     </div>
 
     <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-[1fr_42%] gap-12 lg:gap-24 items-center relative z-10">
 
-      <!-- Colonne gauche : texte centré -->
-      <div class="text-center lg:pl-8">
+      <!-- Colonne gauche : texte -->
+      <div class="text-center lg:text-left lg:pl-8">
 
         <!-- Eyebrow -->
-        <div class="mb-10" data-reveal>
-          <p class="font-body text-sm tracking-[0.22em] uppercase text-sauge">
-            Agence web · Drôme, France
-          </p>
-          <p class="font-body text-sm tracking-[0.18em] uppercase mt-1.5" style="color: rgba(136,144,99,0.55)">
-            Création de site internet
-          </p>
-        </div>
-
-        <h1
-          class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-10"
-          style="font-size: clamp(2.8rem, 6vw, 5.2rem);"
-          data-split
-        >
-          <span class="sl"><span>Votre projet,</span></span>
-          <span class="sl">mis en <span class="text-sauge">valeur.</span></span>
-        </h1>
-
-        <p class="font-body text-lg leading-relaxed max-w-[460px] mb-10 text-brun-mid mx-auto" data-reveal data-delay="2">
-          Votre site est souvent la première impression que vous laissez.
-          Bien conçu, il attire les bons clients, rend votre message évident
-          et installe une confiance immédiate.
+        <p class="font-body text-sm tracking-[0.22em] uppercase text-sauge mb-8" data-reveal>
+          Développeur web indépendant · Drôme, France
         </p>
 
-        <div data-reveal data-delay="4">
-          <Button href="/contact" variant="primary">Lancer mon projet →</Button>
-          <div class="flex items-center justify-center gap-4 mt-6">
+        <!-- H1 -->
+        <h1
+          class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-7 hero-title"
+          style="font-size: clamp(2rem, 5.5vw, 4.8rem);"
+        >
+          <span class="sl"><span>Valorisez</span></span>
+          <span class="sl">votre <span class="text-sauge">activité.</span></span>
+        </h1>
+
+        <!-- Sous-titre -->
+        <p class="font-body text-base leading-relaxed max-w-[500px] mb-5 text-brun-mid mx-auto lg:mx-0" data-reveal data-delay="1">
+          Des sites web pour ceux qui créent, cultivent et bâtissent avec passion. J'aide les artisans, praticiens et indépendants à avoir une présence en ligne à la hauteur de leur travail.
+        </p>
+
+        <!-- CTA -->
+        <div data-reveal data-delay="2">
+          <Button href="/contact" variant="primary">Parler de mon projet →</Button>
+          <div class="flex items-center justify-center lg:justify-start gap-4 mt-6 flex-wrap">
             <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">Réponse sous 48h</span>
             <span class="text-brun-mid/25">·</span>
             <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">Devis gratuit</span>
             <span class="text-brun-mid/25">·</span>
-            <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">À partir de 600€</span>
+            <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">À partir de 800€</span>
           </div>
         </div>
+
       </div>
 
-      <!-- Colonne droite : photo éditoriale -->
+      <!-- Colonne droite : photo éditoriale (desktop) -->
       <div class="hidden lg:flex items-center justify-center h-full">
         <div class="img-zoom img-editorial w-full" style="height: min(72vh, 620px);">
           <Image
@@ -235,8 +246,8 @@ const faqSchema = {
 
     </div>
 
-    <!-- Photo hero visible sur mobile/tablette uniquement -->
-    <div class="lg:hidden mt-10 w-full max-w-xl mx-auto px-0" data-reveal>
+    <!-- Photo hero mobile/tablette uniquement -->
+    <div class="lg:hidden mt-10 w-full max-w-xl mx-auto px-0">
       <div class="img-zoom img-editorial overflow-hidden" style="height: 260px; border-radius: 6px;">
         <Image
           src={imgHero}
@@ -244,473 +255,234 @@ const faqSchema = {
           class="w-full h-full object-cover object-center"
           loading="eager"
           fetchpriority="high"
-          widths={[480, 768]}
-          sizes="100vw"
+          widths={[400, 640, 768]}
+          sizes="(max-width: 640px) 100vw, 576px"
+          quality={72}
         />
       </div>
     </div>
 
-    <!-- Badge disponibilité — coin haut droit (masqué sur xs pour éviter le chevauchement) -->
-    <span class="hidden sm:inline-flex absolute top-6 right-6 md:right-10 lg:right-20 items-center gap-1.5 font-body text-[10px] tracking-widest uppercase text-sauge/70 border border-sauge/20 px-3 py-1.5 rounded-full z-20 bg-cream/60 backdrop-blur-sm" data-reveal>
+    <!-- Badge disponibilité -->
+    <span class="hidden sm:inline-flex absolute top-6 right-6 md:right-10 lg:right-20 items-center gap-1.5 font-body text-[10px] tracking-widest uppercase text-sauge/70 border border-sauge/20 px-3 py-1.5 rounded-full z-20 bg-cream/60 backdrop-blur-sm">
       <span class="w-1.5 h-1.5 rounded-full bg-sauge animate-pulse"></span>
       Disponible
     </span>
 
-    <!-- Scroll indicator — respiration GSAP (caché sur très petit écran) -->
+    <!-- Scroll indicator -->
     <div class="scroll-indicator absolute bottom-8 left-6 md:left-10 lg:left-20 hidden sm:flex items-center gap-3" aria-hidden="true">
       <div class="scroll-line w-8 h-px bg-brun opacity-35"></div>
       <span class="font-body text-xs tracking-[0.18em] uppercase text-brun opacity-35">Découvrir</span>
     </div>
+
   </section>
-
-
-  <!-- ─── BARRE MOTS-CLÉS ─── -->
-  <div class="caelestis-bar overflow-hidden">
-    <ul class="caelestis-bar-inner" aria-label="Mots-clés Caelestis">
-      <li><span>savoir-faire</span></li>
-      <li aria-hidden="true" class="sep">✦</li>
-      <li><span>passion</span></li>
-      <li aria-hidden="true" class="sep">✦</li>
-      <li><span>bâtir</span></li>
-      <li aria-hidden="true" class="sep">✦</li>
-      <li><span>expertise</span></li>
-      <li aria-hidden="true" class="sep">✦</li>
-      <li><span>clarté</span></li>
-      <li aria-hidden="true" class="sep">✦</li>
-      <li><span>présence</span></li>
-      <li aria-hidden="true" class="sep">✦</li>
-      <li><span>visibilité</span></li>
-      <li aria-hidden="true" class="sep">✦</li>
-      <li><span>confiance</span></li>
-      <li aria-hidden="true" class="sep">✦</li>
-      <li><span>transmettre</span></li>
-      <li aria-hidden="true" class="sep">✦</li>
-      <li><span>durer</span></li>
-    </ul>
-  </div>
-
-  <style is:global>
-    .caelestis-bar {
-      width: 100%;
-      padding: 14px 16px;
-      background: linear-gradient(
-        135deg,
-        rgba(76, 61, 25, 0.04)   0%,
-        rgba(207, 192, 160, 0.28) 40%,
-        rgba(237, 227, 212, 0.55) 60%,
-        rgba(76, 61, 25, 0.04)   100%
-      );
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border-top:    1px solid rgba(76, 61, 25, 0.10);
-      border-bottom: 1px solid rgba(76, 61, 25, 0.10);
-    }
-    @media (min-width: 640px) {
-      .caelestis-bar { padding: 18px 40px; }
-    }
-    .caelestis-bar-inner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      list-style: none;
-      margin: 0; padding: 0;
-      width: 100%;
-    }
-    @media (min-width: 640px) {
-      .caelestis-bar-inner {
-        justify-content: space-between;
-        flex-wrap: nowrap;
-        gap: 0;
-      }
-    }
-    .caelestis-bar-inner li span {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 9px; font-weight: 500;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      color: #4C3D19; opacity: 0.75;
-      white-space: nowrap;
-      transition: opacity 0.3s ease, color 0.3s ease;
-    }
-    @media (min-width: 640px) {
-      .caelestis-bar-inner li span { font-size: 10px; letter-spacing: 0.2em; }
-    }
-    .caelestis-bar-inner li:hover span { opacity: 1; color: #889063; }
-    .caelestis-bar-inner li.sep { color: #A08060; font-size: 7px; opacity: 0.35; flex-shrink: 0; display: none; }
-    @media (min-width: 640px) {
-      .caelestis-bar-inner li.sep { display: block; }
-    }
-
-  </style>
 
 
   <!-- ─── POUR QUI ─── -->
-  <section class="py-24 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
-    <div class="max-w-6xl mx-auto">
-      <div class="grid lg:grid-cols-[1fr_480px] gap-16 lg:gap-20 items-start">
-
-        <!-- Colonne gauche : texte + liste -->
-        <div class="lg:pt-4">
-          <div class="mb-12" data-reveal>
-            <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1]">
-              Votre site devrait<br>vous ressembler.
-            </h2>
-            <p class="font-body text-base text-brun-mid mt-5 leading-relaxed">
-              Donnez à votre activité la présence qu'elle mérite.
-            </p>
-          </div>
-
-          <!-- Liste éditoriale numérotée -->
-          <div class="divide-y" style="border-color: rgba(76,61,25,0.08)" data-reveal data-delay="1">
-            {[
-              { num: '01', label: 'Artisans & créateurs'      },
-              { num: '02', label: 'Agriculteurs & maraîchers' },
-              { num: '03', label: 'Praticiens bien-être'      },
-              { num: '04', label: "Pros de l'environnement"   },
-              { num: '05', label: 'Paysagistes & espaces verts' },
-            ].map(({ num, label }) => (
-              <div class="group flex items-center justify-between py-4 cursor-default">
-                <div class="flex items-center gap-5">
-                  <span class="font-body text-xs tabular-nums select-none" style="color: rgba(136,144,99,0.45)">{num}</span>
-                  <h3
-                    class="font-display font-light text-brun transition-colors duration-300 group-hover:text-ocre"
-                    style="font-size: clamp(1.15rem, 2vw, 1.45rem);"
-                  >
-                    {label}
-                  </h3>
-                </div>
-                <span class="font-body text-sm text-sauge opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out select-none">→</span>
-              </div>
-            ))}
-          </div>
-
-          <!-- Duo photos visible mobile/tablette uniquement -->
-          <div class="lg:hidden mt-10 grid grid-cols-2 gap-3" data-reveal data-delay="2">
-            <div class="img-zoom overflow-hidden" style="aspect-ratio: 4/5; border-radius: 4px;">
-              <Image
-                src={imgMosaique1}
-                alt="Jardin partagé urbain avec parcelles maraîchères"
-                class="w-full h-full object-cover"
-                loading="lazy"
-                widths={[320, 480]}
-                sizes="50vw"
-              />
-            </div>
-            <div class="img-zoom overflow-hidden mt-6" style="aspect-ratio: 4/5; border-radius: 4px;">
-              <Image
-                src={imgMosaique2}
-                alt="Atelier de bougies artisanales en cire d'abeille"
-                class="w-full h-full object-cover"
-                loading="lazy"
-                widths={[320, 480]}
-                sizes="50vw"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Colonne droite : mosaïque éditoriale -->
-        <div class="relative hidden lg:block" data-reveal data-delay="2">
-
-          <!-- Grande image en haut -->
-          <div class="img-zoom aspect-[4/3] overflow-hidden mb-3">
-            <Image
-              src={imgMosaique1}
-              alt="Jardin partagé urbain avec parcelles maraîchères"
-              class="w-full h-full object-cover"
-              data-parallax
-              loading="lazy"
-              widths={[480, 768]}
-              sizes="(max-width: 768px) 100vw, 40vw"
-            />
-          </div>
-
-          <!-- Deux images côte à côte, décalées -->
-          <div class="grid grid-cols-2 gap-3">
-            <div class="img-zoom overflow-hidden" style="aspect-ratio: 3/4">
-              <Image
-                src={imgMosaique2}
-                alt="Atelier de bougies artisanales en cire d'abeille"
-                class="w-full h-full object-cover"
-                data-parallax
-                loading="lazy"
-                widths={[320, 480]}
-                sizes="(max-width: 768px) 50vw, 20vw"
-              />
-            </div>
-            <div class="img-zoom overflow-hidden mt-8" style="aspect-ratio: 3/4">
-              <Image
-                src={imgMosaique3}
-                alt="Posture de yoga au coucher du soleil face à la mer"
-                class="w-full h-full object-cover"
-                data-parallax
-                loading="lazy"
-                widths={[320, 480]}
-                sizes="(max-width: 768px) 50vw, 20vw"
-              />
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ─── BANDEAU 2% ─── -->
-  <section class="py-8 px-6 border-t border-cream-dark" data-reveal>
-    <div class="max-w-xl mx-auto flex flex-col items-center gap-2 text-center">
-      <div class="flex items-center gap-4 justify-center">
-        <p class="font-display text-base md:text-xl font-light text-brun">
-          2 % de chaque projet reversé à <a href="https://www.fne.asso.fr" target="_blank" rel="noopener noreferrer" class="text-ocre hover:underline">France Nature Environnement</a>.
-        </p>
-        <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:32px;height:52px;flex-shrink:0;overflow:visible">
-          <ellipse cx="40" cy="125" rx="18" ry="4.5" fill="rgba(78,100,64,0.12)"/>
-          <rect x="38" y="18" width="4" height="103" rx="2" fill="rgba(78,100,64,0.45)"/>
-          <ellipse cx="26" cy="89" rx="16" ry="7" fill="rgba(78,100,64,0.28)" transform="rotate(-35 26 89)"/>
-          <ellipse cx="54" cy="66" rx="16" ry="7" fill="rgba(78,100,64,0.22)" transform="rotate(35 54 66)"/>
-          <g>
-            <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(0   40 18)"/>
-            <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(72  40 18)"/>
-            <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(144 40 18)"/>
-            <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(216 40 18)"/>
-            <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(168,92,44,0.28)" transform="rotate(288 40 18)"/>
-            <circle cx="40" cy="18" r="5" fill="rgba(168,92,44,0.55)"/>
-          </g>
-        </svg>
-      </div>
-      <p class="font-body text-sm text-brun-mid">
-        Parce que construire quelque chose de beau ne s'arrête pas à soi.
+  <section class="py-10 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
+    <div class="max-w-6xl mx-auto text-center" data-reveal>
+      <p class="font-body text-sm leading-relaxed" style="color: rgba(76,61,25,0.65); letter-spacing: 0.05em;">
+        Artisans · Créateurs · Paysagistes · Maraîchers · Producteurs locaux · Pépiniéristes · Praticiens bien-être · Éco-constructeurs · Gîtes de charme · Projets engagés
       </p>
     </div>
   </section>
 
 
-  <!-- ─── MES VALEURS ─── -->
-  <section class="py-16 px-6 md:px-10 lg:px-20 bg-brun text-cream section-dark-depth">
+  <!-- ─── SERVICES ─── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
     <div class="max-w-6xl mx-auto">
 
-      <div class="mb-16" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Ma façon de travailler</p>
-        <h2 class="font-display text-4xl md:text-5xl font-light leading-[1.1]">
-          Ce qu'on<br>bâtit ensemble.
+      <div class="text-center mb-14" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Prestations</p>
+        <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-5">
+          Ce que je peux faire pour vous.
         </h2>
+        <a href="/services" class="font-body text-sm font-medium text-sauge hover:opacity-70 transition-opacity">
+          Voir toutes les prestations →
+        </a>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-x-16">
+      <div class="grid md:grid-cols-3 gap-5" id="service-cards" data-reveal data-delay="1">
 
-        <div class="card-lift border-t py-10 px-4 -mx-4 rounded-sm" style="border-color: rgba(237,227,212,0.15)" data-reveal>
-          <span class="font-display text-6xl font-light block mb-4" style="color: rgba(237,227,212,0.1)">01</span>
-          <h3 class="font-display text-2xl font-light mb-3">Votre projet au centre</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
-            Chaque projet fonctionne différemment. Avant de concevoir le site, je cherche à comprendre votre activité, votre manière de travailler et ce que vos visiteurs doivent ressentir en arrivant dessus. Le but n'est pas de suivre un modèle, mais de créer une présence cohérente avec ce que vous faites réellement.
-          </p>
-        </div>
+        <button type="button" data-service="0"
+          class="service-card border border-cream-dark rounded-sm p-5 md:p-7 flex flex-col gap-4 text-left cursor-pointer transition-all duration-300 hover:border-sauge/40">
+          <span class="service-num font-body text-xs tracking-[0.2em] uppercase transition-colors duration-300" style="color: rgba(136,144,99,0.5)">01</span>
+          <h3 class="font-display text-xl font-light text-brun">Site vitrine</h3>
+          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Votre activité en ligne, claire et lisible sur tous les écrans. Vos visiteurs comprennent ce que vous faites en quelques secondes et savent comment vous joindre.</p>
+          <p class="service-price font-body text-xs text-sauge transition-colors duration-300">À partir de 800€</p>
+        </button>
 
-        <div class="card-lift border-t py-10 md:mt-28 px-4 -mx-4 rounded-sm" style="border-color: rgba(237,227,212,0.15)" data-reveal data-delay="1">
-          <span class="font-display text-6xl font-light block mb-4" style="color: rgba(237,227,212,0.1)">02</span>
-          <h3 class="font-display text-2xl font-light mb-3">Clair dès la première seconde</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
-            En quelques secondes, vos visiteurs doivent comprendre ce que vous faites et pourquoi vous choisir. C'est la différence entre un site qui travaille pour vous et un site qui ne fonctionne pas.
-          </p>
-        </div>
+        <button type="button" data-service="1"
+          class="service-card border border-cream-dark rounded-sm p-5 md:p-7 flex flex-col gap-4 text-left cursor-pointer transition-all duration-300 hover:border-sauge/40">
+          <span class="service-num font-body text-xs tracking-[0.2em] uppercase transition-colors duration-300" style="color: rgba(136,144,99,0.5)">02</span>
+          <h3 class="font-display text-xl font-light text-brun">Boutique en ligne</h3>
+          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Vendez vos produits directement depuis votre site. Catalogue en ligne, paiement sécurisé, connecté à vos outils de gestion.</p>
+          <p class="service-price font-body text-xs text-sauge transition-colors duration-300">Sur devis</p>
+        </button>
 
-        <div class="card-lift border-t py-10 px-4 -mx-4 rounded-sm" style="border-color: rgba(237,227,212,0.15)" data-reveal data-delay="1">
-          <span class="font-display text-6xl font-light block mb-4" style="color: rgba(237,227,212,0.1)">03</span>
-          <h3 class="font-display text-2xl font-light mb-3">Construit pour durer</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
-            Un site rapide, bien affiché sur tout type d'écran (ordinateur, mobile et tablette), et bien positionné dans votre niche sur Google.
-          </p>
-        </div>
-
-        <div class="card-lift border-t py-10 px-4 -mx-4 rounded-sm" style="border-color: rgba(237,227,212,0.15)" data-reveal data-delay="2">
-          <span class="font-display text-6xl font-light block mb-4" style="color: rgba(237,227,212,0.1)">04</span>
-          <h3 class="font-display text-2xl font-light mb-3">Prix clairs, zéro surprise</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
-            Devis sous 48h. Chaque ligne expliquée simplement. Vous savez exactement ce que vous investissez. Chaque devis est proposé dans une fourchette indicative, puis précisé et ajusté après discussion afin de correspondre parfaitement à votre projet.
-          </p>
-        </div>
+        <button type="button" data-service="2"
+          class="service-card border border-cream-dark rounded-sm p-5 md:p-7 flex flex-col gap-4 text-left cursor-pointer transition-all duration-300 hover:border-sauge/40">
+          <span class="service-num font-body text-xs tracking-[0.2em] uppercase transition-colors duration-300" style="color: rgba(136,144,99,0.5)">03</span>
+          <h3 class="font-display text-xl font-light text-brun">Référencement naturel</h3>
+          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Apparaître en tête des résultats quand vos clients vous cherchent sur Google. Référencement local et national.</p>
+          <p class="service-price font-body text-xs text-sauge transition-colors duration-300">Sur devis</p>
+        </button>
 
       </div>
+
     </div>
   </section>
 
 
-
-
-
-
-  <!-- ─── MOCKUPS TOUS ÉCRANS ─── -->
-  <section class="py-20 md:py-28 px-6 md:px-10 lg:px-20 section-ambient overflow-hidden">
+  <!-- ─── POURQUOI MOI ─── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 bg-brun text-cream section-dark-depth">
     <div class="max-w-6xl mx-auto">
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-        <!-- Texte -->
+      <div class="mb-16 text-center" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Pas une agence. Une personne.</p>
+        <h2 class="font-display text-4xl md:text-5xl font-light leading-[1.1]">
+          Ce qui fait<br>vraiment la différence.
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-10 md:gap-14">
+
         <div data-reveal>
-          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Multi-écran</p>
-          <h2 class="font-display text-3xl md:text-4xl font-light text-brun leading-[1.1] mb-5">
-            Pensé pour<br>chaque écran.
-          </h2>
-          <p class="font-body text-base text-brun-mid leading-relaxed mb-6 max-w-sm">
-            Que vos visiteurs arrivent depuis leur téléphone, leur tablette ou leur ordinateur, votre site s'adapte et reste impeccable.
-          </p>
-          <p class="font-body text-sm leading-relaxed max-w-sm" style="color: rgba(76,61,25,0.45)">
-            Plus de 70&nbsp;% des recherches locales se font sur mobile. Un site pensé pour tous les écrans, c'est une clientèle que vous ne perdez pas.
+          <div class="w-8 h-px bg-sauge mb-7"></div>
+          <h3 class="font-display text-xl font-light mb-4">Je comprends votre métier.</h3>
+          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
+            Avant de concevoir quoi que ce soit, je cherche à comprendre votre activité, vos clients et ce qui vous distingue. Le site découle de là, pas d'un modèle.
           </p>
         </div>
 
-        <!-- Mockups -->
-        <div class="flex items-end justify-center gap-4 md:gap-6">
-
-          <!-- Mockup navigateur -->
-          <div class="mockup-browser flex-1" style="max-width: 320px;" data-reveal data-delay="1">
-            <div class="mockup-browser-bar">
-              <span class="mockup-dot" style="background:#e08080"></span>
-              <span class="mockup-dot" style="background:#e0c080"></span>
-              <span class="mockup-dot" style="background:#80c080"></span>
-              <span class="mockup-url">caelestis.fr</span>
-            </div>
-            <div class="overflow-hidden" style="aspect-ratio:16/10;">
-              <Image
-                src={imgLaptop}
-                alt="Site web sur ordinateur — vue depuis un bureau en extérieur"
-                class="w-full h-full object-cover"
-                loading="lazy"
-                widths={[480, 768]}
-                sizes="(max-width: 1024px) 80vw, 40vw"
-              />
-            </div>
-          </div>
-
-          <!-- Mockup téléphone -->
-          <div class="mockup-phone self-end mb-4" data-reveal data-delay="2">
-            <div class="mockup-phone-notch"></div>
-            <div class="mockup-phone-screen">
-              <Image
-                src={imgAtelier}
-                alt="Site web sur mobile — atelier créatif"
-                class="w-full h-full object-cover object-top"
-                loading="lazy"
-                widths={[240, 360]}
-                sizes="25vw"
-              />
-            </div>
-          </div>
-
+        <div data-reveal data-delay="1">
+          <div class="w-8 h-px bg-sauge mb-7"></div>
+          <h3 class="font-display text-xl font-light mb-4">Le prix, posé sur la table dès le début.</h3>
+          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
+            Devis sous 48h, chaque ligne expliquée. Vous décidez en connaissance de cause, sans précipitation.
+          </p>
         </div>
+
+        <div data-reveal data-delay="2">
+          <div class="w-8 h-px bg-sauge mb-7"></div>
+          <h3 class="font-display text-xl font-light mb-4">Je reste là après le lancement.</h3>
+          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
+            Lancer le site ne clôt pas notre échange. Questions, évolutions, nouvelles idées : je suis là.
+          </p>
+        </div>
+
       </div>
+
+      <!-- 2% FNE — intégré ici -->
+      <div class="mt-16 pt-10 border-t text-center" style="border-color: rgba(237,227,212,0.10)" data-reveal>
+        <p class="font-body text-sm" style="color: rgba(237,227,212,0.38)">
+          2&nbsp;% de chaque projet est reversé à <a href="https://www.fne.asso.fr" target="_blank" rel="noopener noreferrer" class="text-sauge hover:opacity-80 transition-opacity">France Nature Environnement</a>. Parce que construire quelque chose de beau ne s'arrête pas à soi.
+        </p>
+      </div>
+
     </div>
   </section>
 
 
-  <!-- ─── FAQ ─── -->
-  <section class="py-24 px-6 md:px-10 lg:px-20 bg-brun text-cream section-dark-depth">
-    <div class="max-w-4xl mx-auto">
+  <!-- ─── RÉALISATIONS ─── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
+    <div class="max-w-6xl mx-auto">
 
-      <div class="mb-16" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">FAQ</p>
-        <h2 class="font-display text-4xl md:text-5xl font-light leading-[1.1]">
-          On répond<br>à vos questions.
+      <div class="text-center mb-12" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Réalisations</p>
+        <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-4">
+          Voici ce que je crée.
         </h2>
+        <p class="font-body text-sm text-brun-mid leading-relaxed mx-auto max-w-sm">
+          Chaque site est conçu sur mesure. Ces deux exemples illustrent ce que Caelestis peut créer pour vous.
+        </p>
       </div>
 
-      <div id="faq-list" data-reveal data-delay="1">
-        {[
-          {
-            q: "Combien de temps faut-il pour créer mon site ?",
-            a: "Il faut entre 2 et 4 semaines en général, selon vos besoins et nos échanges. Je réalise d'abord une maquette du site, puis nous l'ajustons ensemble étape par étape jusqu'à obtenir un résultat qui vous correspond vraiment.",
-          },
-          {
-            q: "Comment ça se passe concrètement ?",
-            a: "Nous échangeons d'abord autour de votre projet lors d'un premier appel. Vous recevez ensuite un devis sous 48h. Une première version du site est créée, puis nous l'ajustons ensemble étape par étape grâce à vos retours. Une fois le site finalisé, il est mis en ligne sur votre page Google. Le paiement n'intervient qu'après la mise en ligne et le bon fonctionnement du site. Et bien sûr, je reste disponible par la suite si besoin.",
-          },
-          {
-            q: "Est-ce que mon site sera visible sur Google ?",
-            a: "Oui. Chaque site est construit sur de bonnes bases : structure claire, chargement rapide, balisage propre et référencement pensé dès le départ. Votre site sera lisible par Google, optimisé pour les recherches locales et relié à la fiche Google de votre entreprise afin de renforcer votre visibilité. Et si vous souhaitez aller plus loin, un travail de référencement plus avancé peut également être mis en place.",
-          },
-          {
-            q: "Combien ça coûte ?",
-            a: "Les sites démarrent à partir de 600 €. Le prix final dépend surtout de la complexité du projet : nombre de pages, fonctionnalités souhaitées, réservation, boutique en ligne, rédaction, référencement, identité visuelle etc.",
-          },
-          {
-            q: "Est-ce que je peux modifier mon site après ?",
-            a: "Oui. Un site n'est pas figé : il peut évoluer avec votre activité. Nouveaux contenus, nouvelles fonctionnalités, pages supplémentaires ou modifications plus importantes, tout peut être ajusté au fil du temps. Je vous propose simplement un devis adapté selon l'ampleur des changements à réaliser.",
-          },
-        ].map(({ q, a }) => (
-          <div class="faq-item border-t" style="border-color: rgba(237,227,212,0.15)">
-            <button class="faq-trigger w-full flex items-center justify-between gap-6 py-6 text-left" aria-expanded="false">
-              <span class="font-display text-lg font-light">{q}</span>
-              <span class="faq-icon font-body text-xl font-light flex-shrink-0" style="color: rgba(237,227,212,0.4)">+</span>
-            </button>
-            <div class="faq-body overflow-hidden max-h-0 transition-[max-height] duration-300 ease-out">
-              <p class="font-body text-sm leading-relaxed pb-6" style="color: rgba(237,227,212,0.6)">{a}</p>
+      <div class="grid md:grid-cols-2 gap-6 lg:gap-8" data-reveal data-delay="1">
+
+        <!-- Carte — Atelier Néra -->
+        <a href="/demos/atelier-nera" target="_blank" rel="noopener noreferrer"
+           class="group relative overflow-hidden rounded-sm border border-cream-dark hover:border-ocre/40 transition-colors duration-300 bg-white block">
+          <div class="h-2 w-full" style="background: linear-gradient(90deg, #1C1510 0%, #C4963C 50%, #8B6B4A 100%)"></div>
+          <div class="relative overflow-hidden" style="aspect-ratio: 16/10; background: #F4EFE6;">
+            <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-8 text-center">
+              <p class="font-body text-[10px] tracking-[0.25em] uppercase" style="color: #8B6B4A">Ébénisterie sur mesure</p>
+              <p class="font-display font-light text-2xl md:text-3xl" style="color: #1C1510; letter-spacing: -0.02em">Atelier Néra</p>
+              <div class="w-8 h-px mt-1" style="background: #C4963C"></div>
+              <p class="font-body text-xs leading-relaxed" style="color: rgba(28,21,16,0.5); max-width: 260px">
+                Site vitrine haut de gamme pour un artisan ébéniste. Galerie de réalisations, processus de création, prise de contact.
+              </p>
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: rgba(28,21,16,0.7)">
+              <span class="font-body text-sm tracking-widest uppercase text-white border border-white/40 px-6 py-3">Voir le site →</span>
             </div>
           </div>
-        ))}
+          <div class="p-5 flex items-center justify-between">
+            <div>
+              <p class="font-display text-base font-light text-brun">Atelier Néra</p>
+              <p class="font-body text-xs text-brun-mid mt-0.5">Ébénisterie · Site vitrine</p>
+            </div>
+            <div class="flex gap-1.5">
+              <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Artisan</span>
+              <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Premium</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Carte — Lunéa Botanique -->
+        <a href="/demos/lunea-botanique" target="_blank" rel="noopener noreferrer"
+           class="group relative overflow-hidden rounded-sm border border-cream-dark hover:border-ocre/40 transition-colors duration-300 bg-white block">
+          <div class="h-2 w-full" style="background: linear-gradient(90deg, #2C3D2A 0%, #8B9E7E 50%, #D4C5A9 100%)"></div>
+          <div class="relative overflow-hidden" style="aspect-ratio: 16/10; background: #F7F4EF;">
+            <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-8 text-center">
+              <p class="font-body text-[10px] tracking-[0.25em] uppercase" style="color: #8B9E7E">Bougies botaniques artisanales</p>
+              <p class="font-display font-light text-2xl md:text-3xl" style="color: #2C3D2A; letter-spacing: -0.02em">Lunéa Botanique</p>
+              <div class="w-8 h-px mt-1" style="background: #8B9E7E"></div>
+              <p class="font-body text-xs leading-relaxed" style="color: rgba(44,61,42,0.5); max-width: 260px">
+                E-commerce botanique élégant. Produits vedettes, histoire de marque, fabrication artisanale, newsletter.
+              </p>
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: rgba(44,61,42,0.7)">
+              <span class="font-body text-sm tracking-widest uppercase text-white border border-white/40 px-6 py-3">Voir le site →</span>
+            </div>
+          </div>
+          <div class="p-5 flex items-center justify-between">
+            <div>
+              <p class="font-display text-base font-light text-brun">Lunéa Botanique</p>
+              <p class="font-body text-xs text-brun-mid mt-0.5">Bougies artisanales · E-commerce</p>
+            </div>
+            <div class="flex gap-1.5">
+              <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Boutique</span>
+              <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Premium</span>
+            </div>
+          </div>
+        </a>
+
       </div>
+
+      <p class="font-body text-xs text-brun-mid/50 text-center mt-8" data-reveal data-delay="2">
+        Projets fictifs réalisés à titre de démonstration.
+      </p>
+
     </div>
   </section>
 
 
   <!-- ─── CTA FINAL ─── -->
-  <section class="py-28 px-6 md:px-10 lg:px-20 text-center section-ambient" data-reveal>
-    <div class="max-w-2xl mx-auto">
+  <section class="py-28 px-6 md:px-10 lg:px-20 text-center section-ambient border-t border-cream-dark" data-reveal>
+    <div class="max-w-xl mx-auto">
       <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6">Un premier échange.</p>
       <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-6">
-        Faites rayonner<br>ce que vous créez.
+        Vous avez un projet ?<br>On en parle.
       </h2>
-      <p class="font-body text-base text-brun-mid mb-10 max-w-md mx-auto leading-relaxed">
-        Parlez-moi de votre activité en quelques lignes. Je reviens vers vous sous 48h.
+      <p class="font-body text-base text-brun-mid mb-10 leading-relaxed">
+        Décrivez votre activité en quelques lignes.<br>Je reviens vers vous sous 48h.
       </p>
-      <Button href="/contact" variant="primary">Discutons de votre projet →</Button>
+      <Button href="/contact" variant="primary">Lancer la conversation →</Button>
     </div>
   </section>
 
 </BaseLayout>
 
-<script>
-  /* Couleurs inline FAQ — constantes nommées */
-  const FAQ_COLOR_CLOSED = 'rgba(237,227,212,0.4)';
-  const FAQ_COLOR_OPEN   = '#A08060';
-
-  document.querySelectorAll<HTMLButtonElement>('.faq-trigger').forEach((trigger) => {
-    trigger.addEventListener('click', () => {
-      const item = trigger.parentElement;
-      const body = item?.querySelector<HTMLElement>('.faq-body');
-      const icon = trigger.querySelector<HTMLElement>('.faq-icon');
-      if (!item || !body || !icon) return;
-
-      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
-
-      /* Ferme tous les autres items */
-      document.querySelectorAll<HTMLButtonElement>('.faq-trigger').forEach((t) => {
-        if (t === trigger) return;
-        t.setAttribute('aria-expanded', 'false');
-        const b  = t.parentElement?.querySelector<HTMLElement>('.faq-body');
-        const ic = t.querySelector<HTMLElement>('.faq-icon');
-        if (b)  b.style.maxHeight  = '0';
-        if (ic) { ic.textContent = '+'; ic.style.color = FAQ_COLOR_CLOSED; ic.style.transform = ''; }
-      });
-
-      /* Bascule l'item courant */
-      if (isOpen) {
-        trigger.setAttribute('aria-expanded', 'false');
-        body.style.maxHeight = '0';
-        icon.textContent     = '+';
-        icon.style.color     = FAQ_COLOR_CLOSED;
-        icon.style.transform = '';
-      } else {
-        trigger.setAttribute('aria-expanded', 'true');
-        body.style.maxHeight = body.scrollHeight + 'px';
-        icon.textContent     = '–';
-        icon.style.color     = FAQ_COLOR_OPEN;
-        icon.style.transform = '';
-      }
-    });
-  });
-</script>
 
 <style>
   /* ── Fil botanique — visible desktop uniquement ── */
@@ -723,23 +495,8 @@ const faqSchema = {
     pointer-events: none;
     z-index: 2;
     display: none;
-    mix-blend-mode: difference; /* inversion auto selon fond clair/sombre */
+    mix-blend-mode: difference;
   }
-
-  /* ── Scroll indicator — ligne respirante ── */
-  @keyframes scroll-breathe {
-    0%, 100% { transform: scaleX(1);   opacity: 0.35; }
-    50%       { transform: scaleX(1.5); opacity: 0.55; }
-  }
-  .scroll-line {
-    transform-origin: left;
-    animation: scroll-breathe 2.8s ease-in-out infinite;
-  }
-
-  /* Couleur source pour mix-blend-mode:difference.
-     Bone #EDE3D4 = (237,227,212). Cible mousse #889063 = (136,144,99).
-     Source = (237−136, 227−144, 212−99) = (101,83,113) = #655371.
-     Résultat sur bone : mousse mat · sur kombu : violet-ardoise doux. */
   #vine-path {
     stroke: #655371;
   }
@@ -754,69 +511,32 @@ const faqSchema = {
     height: 100%;
   }
 
-  /* ── Mockup navigateur ── */
-  .mockup-browser {
-    background: #f2ece0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 16px 48px rgba(76,61,25,0.18), 0 2px 8px rgba(76,61,25,0.08);
+  /* ── Scroll indicator ── */
+  @keyframes scroll-breathe {
+    0%, 100% { transform: scaleX(1);   opacity: 0.35; }
+    50%       { transform: scaleX(1.5); opacity: 0.55; }
   }
-  .mockup-browser-bar {
-    background: #e5ddd0;
-    padding: 7px 10px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .mockup-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    display: inline-block;
-    flex-shrink: 0;
-    opacity: 0.75;
-  }
-  .mockup-url {
-    flex: 1;
-    background: rgba(255,255,255,0.55);
-    border-radius: 3px;
-    height: 14px;
-    margin-left: 8px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 8px;
-    color: rgba(76,61,25,0.45);
-    display: flex;
-    align-items: center;
-    padding: 0 6px;
-    letter-spacing: 0.04em;
+  .scroll-line {
+    transform-origin: left;
+    animation: scroll-breathe 2.8s ease-in-out infinite;
   }
 
-  /* ── Mockup téléphone ── */
-  .mockup-phone {
-    background: #2d2416;
-    border-radius: 28px;
-    padding: 0;
-    box-shadow: 0 20px 56px rgba(76,61,25,0.28), 0 2px 8px rgba(76,61,25,0.12);
-    width: 110px;
-    flex-shrink: 0;
-    overflow: hidden;
-    position: relative;
+  /* ── Service cards — état actif ── */
+  .service-card.active {
+    border-color: #889063;
+    background: rgba(136, 144, 99, 0.06);
   }
-  .mockup-phone-notch {
-    position: absolute;
-    top: 0; left: 50%; transform: translateX(-50%);
-    width: 48px; height: 14px;
-    background: #2d2416;
-    border-radius: 0 0 10px 10px;
-    z-index: 10;
-  }
-  .mockup-phone-screen {
-    border-radius: 28px;
-    overflow: hidden;
-    aspect-ratio: 9/18;
-    background: #1a1208;
-  }
-
-  @media (min-width: 640px) {
-    .mockup-phone { width: 130px; }
+  .service-card.active .service-num {
+    color: #889063 !important;
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.service-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      const isActive = card.classList.contains('active');
+      document.querySelectorAll('.service-card').forEach((c) => c.classList.remove('active'));
+      if (!isActive) card.classList.add('active');
+    });
+  });
+</script>

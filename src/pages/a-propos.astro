@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import { Image } from 'astro:assets';
-import imgRiviere from '../assets/images/bureau-jardin.jpg';
+import imgRiviere from '../assets/images/bureau-setup.jpg';
 
 const personSchema = {
   '@context': 'https://schema.org',
@@ -27,6 +27,7 @@ const personSchema = {
   knowsAbout: ['Création de site web', 'Développement Astro', 'Tailwind CSS', 'Référencement naturel', 'SEO local', 'UX Design'],
   sameAs: [
     'https://caelestis.fr',
+    'https://share.google/IKYSIPaXxlTN0W5Zz',
   ],
 };
 
@@ -40,15 +41,15 @@ const breadcrumbApropos = {
 };
 
 const valeurs = [
-  { label: "Faire les choses proprement",      detail: "Prendre le temps, soigner les détails et construire quelque chose qui tient dans le temps." },
-  { label: "Mettre en valeur de vrais projets", detail: "J'aime travailler avec des gens passionnés par ce qu'ils font et leur donner une présence en ligne à la hauteur de leur travail." },
-  { label: "Être honnête du début à la fin",   detail: "Des échanges simples, des prix clairs et un accompagnement sérieux pendant tout le projet." },
-  { label: "Créer des sites qui ont du sens",  detail: "Pas juste quelque chose de joli, mais un site utile, clair et pensé pour les personnes qui vont le visiter." },
+  { label: "Soigner les détails",              detail: "Construire quelque chose de propre, qui tient dans le temps." },
+  { label: "Travailler avec des gens passionnés", detail: "J'aime donner une présence en ligne à la hauteur de ce que vous faites vraiment." },
+  { label: "Être honnête",                     detail: "On se parle franchement, les prix le sont aussi." },
+  { label: "Faire des sites utiles",           detail: "Un site pensé pour vos visiteurs, pas juste joli." },
 ];
 ---
 <BaseLayout
-  title="Célestin Fruleux — Développeur web & SEO à Crest, Drôme · Caelestis"
-  description="Célestin Fruleux, créateur de sites internet et consultant SEO basé à Crest dans la Drôme. J'aide artisans, paysagistes et indépendants à être visibles sur Google."
+  title="Célestin Fruleux — Développeur web & SEO dans la Drôme · Caelestis"
+  description="Célestin Fruleux, créateur de sites internet et consultant SEO basé dans la Drôme. J'aide artisans, paysagistes et indépendants à être visibles sur Google."
   schema={[personSchema, breadcrumbApropos]}
 >
 
@@ -63,7 +64,7 @@ const valeurs = [
           <div class="img-zoom img-editorial aspect-[3/4] mb-4 overflow-hidden max-h-[480px] lg:max-h-none">
             <Image
               src={imgRiviere}
-              alt="Bureau en plein jardin avec ordinateur — espace de travail naturel"
+              alt="Bureau home office en bois avec plantes vertes et setup PC — espace de travail soigné"
               class="w-full h-full object-cover"
               data-parallax
               loading="eager"
@@ -86,7 +87,7 @@ const valeurs = [
             </div>
             <div class="flex justify-between items-baseline border-b border-bois-pale/40 pb-3">
               <span class="font-body text-xs tracking-widest uppercase text-bois-mid">Spécialité</span>
-              <span class="font-display text-xl font-light text-brun">Web & SEO</span>
+              <span class="font-display text-xl font-light text-brun">Création web</span>
             </div>
             <div class="flex justify-between items-baseline border-b border-bois-pale/40 pb-3">
               <span class="font-body text-xs tracking-widest uppercase text-bois-mid">Réponse</span>
@@ -103,23 +104,18 @@ const valeurs = [
             style="font-size: clamp(2.6rem, 5vw, 4rem);"
             data-reveal data-delay="1"
           >
-            Salut,<br>je suis Célestin.
+            Derrière Caelestis.
           </h1>
 
           <div class="space-y-6 font-body text-base text-brun-mid leading-relaxed" data-reveal data-delay="2">
             <p>
-              Avec le temps, je me suis rendu compte d'une chose : beaucoup de petites structures font un travail remarquable, apportent une vraie valeur autour d'elles, mais restent pourtant peu visibles.
+              Beaucoup de petites structures font un travail remarquable. Elles restent pourtant peu visibles. Pas par manque de qualité, mais parce qu'elles sont mal représentées en ligne.
             </p>
             <p>
-              Pas parce que leur activité manque de qualité.<br>
-              Souvent, c'est simplement parce qu'elle est mal représentée en ligne, ou presque absente du web.
+              Un bon site ne change pas ce que vous faites. Il vous rend visible, crédible, facile à trouver.
             </p>
             <p>
-              Un bon site ne change pas ce que vous faites.<br>
-              Il permet surtout de le rendre visible, compréhensible et crédible aux yeux des autres.
-            </p>
-            <p>
-              C'est ce qui m'a donné envie de créer Caelestis : aider ce genre de projets nourrissants, à prendre la place qu'ils méritent réellement.
+              C'est ce qui m'a donné envie de créer Caelestis : aider ces projets à prendre la place qu'ils méritent.
             </p>
           </div>
 

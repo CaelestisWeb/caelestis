@@ -1,4 +1,4 @@
----
+﻿---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 
@@ -6,7 +6,7 @@ const schema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'Référencement naturel (SEO)',
-  description: 'Audit SEO, stratégie de contenu et optimisation on-page pour artisans et indépendants en Drôme et toute la France.',
+  description: 'Audit SEO, stratégie de contenu et optimisation on-page pour artisans et indépendants dans la Drôme et toute la France.',
   provider: {
     '@type': 'LocalBusiness',
     name: 'Caelestis',
@@ -65,7 +65,7 @@ const faq = {
 
 const prestationsSeo = [
   { titre: 'Audit SEO complet', desc: 'Analyse de votre situation actuelle : mots-clés, structure, vitesse, backlinks, concurrents. Un diagnostic clair avant d\'agir.' },
-  { titre: 'Optimisation on-page', desc: 'Titres, méta-descriptions, structure H1/H2/H3, contenu, images — tout ce qui permet à Google de comprendre et valoriser vos pages.' },
+  { titre: 'Optimisation on-page', desc: 'Titres, méta-descriptions, structure H1/H2/H3, contenu, images. Tout ce qui permet à Google de comprendre et valoriser vos pages.' },
   { titre: 'SEO local & Google My Business', desc: 'Optimisation de votre fiche GMB, citations locales, avis clients. Apparaître sur Google Maps quand vos clients cherchent à proximité.' },
   { titre: 'Stratégie de contenu', desc: 'Identification des mots-clés que vos clients tapent, plan de contenu (articles de blog, pages de services) pour capter ce trafic qualifié.' },
   { titre: 'Référencement technique', desc: 'Vitesse de chargement, Core Web Vitals, sitemap, robots.txt, données structurées (Schema.org). Les fondations que Google vérifie en premier.' },
@@ -74,7 +74,7 @@ const prestationsSeo = [
 ---
 <BaseLayout
   title="Référencement naturel SEO Drôme — Artisans & indépendants · Caelestis"
-  description="Référencement naturel et SEO local en Drôme. Apparaissez sur Google quand vos clients vous cherchent. Audit, stratégie, optimisation on-page. Spécialiste artisans."
+  description="Référencement naturel et SEO local dans la Drôme. Apparaissez sur Google quand vos clients vous cherchent. Audit, stratégie, optimisation on-page. Spécialiste artisans."
   schema={[schema, breadcrumb, faq]}
 >
 
@@ -105,7 +105,7 @@ const prestationsSeo = [
       </h1>
 
       <p class="font-body text-lg text-brun-mid leading-relaxed max-w-2xl mb-10" data-reveal data-delay="2">
-        Le référencement naturel, c'est attirer des clients qui cherchent exactement ce que vous faites — sans payer à chaque clic.
+        Le référencement naturel, c'est attirer des clients qui cherchent exactement ce que vous faites, sans payer à chaque clic.
         Je m'occupe du SEO technique, du contenu et du référencement local pour que votre site remonte sur Google.
       </p>
 
@@ -128,24 +128,26 @@ const prestationsSeo = [
         <div class="font-body text-base text-brun-mid leading-relaxed space-y-4 max-w-3xl">
           <p>
             En France, <strong class="text-brun">plus de 90% des recherches locales</strong> se font sur Google.
-            Quand un particulier cherche un paysagiste, un maraîcher bio ou un thérapeute dans la Drôme, il tape ses mots dans Google — et il contacte l'un des premiers résultats.
+            Quand un particulier cherche un paysagiste, un maraîcher bio ou un thérapeute dans la Drôme, il tape ses mots dans Google et contacte l'un des premiers résultats.
           </p>
           <p>
             Si votre site n'apparaît pas dans ces résultats, vous n'existez pas pour ces clients potentiels. Même si vous avez le meilleur service de la région.
           </p>
           <p>
             Le SEO local est particulièrement puissant pour les indépendants et artisans : la concurrence est souvent faible, et les personnes qui cherchent sont prêtes à passer à l'action.
-            Basé à Crest, j'accompagne des professionnels dans toute la Drôme (Valence, Romans-sur-Isère, Montélimar, Die) et partout en France.
+            Basé dans la Drôme, j'accompagne des professionnels dans tout le département (Valence, Romans-sur-Isère, Montélimar, Die) et partout en France.
           </p>
         </div>
       </div>
 
       <!-- Prestations SEO -->
       <div class="mb-20" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Ce que je fais</p>
-        <h2 class="font-display text-2xl md:text-3xl font-light text-brun mb-10 leading-[1.1]">
-          Mon accompagnement SEO.
-        </h2>
+        <div class="text-center mb-10">
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Ce que je fais</p>
+          <h2 class="font-display text-2xl md:text-3xl font-light text-brun leading-[1.1]">
+            Mon accompagnement SEO.
+          </h2>
+        </div>
         <div class="grid md:grid-cols-2 gap-6">
           {prestationsSeo.map(({ titre, desc }) => (
             <div class="border border-cream-dark rounded-xl p-6 card-lift" data-reveal>
@@ -161,13 +163,13 @@ const prestationsSeo = [
 
       <!-- Avantage local -->
       <div class="mb-20 bg-brun text-cream rounded-2xl p-8 md:p-12 section-dark-depth" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Avantage local</p>
-        <h2 class="font-display text-2xl font-light mb-6 leading-[1.1]">
-          Le SEO en Drôme :<br>une opportunité encore peu saisie.
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4 text-center">Avantage local</p>
+        <h2 class="font-display text-2xl font-light mb-6 leading-[1.1] text-center">
+          Le SEO dans la Drôme :<br>une opportunité encore peu saisie.
         </h2>
         <p class="font-body text-base leading-relaxed max-w-2xl" style="color: rgba(237,227,212,0.7)">
           Contrairement aux grandes villes où la concurrence SEO est féroce, la Drôme offre encore de vraies opportunités
-          pour les professionnels locaux. Beaucoup de métiers — paysagistes, maraîchers, thérapeutes, artisans —
+          pour les professionnels locaux. Beaucoup de métiers (paysagistes, maraîchers, thérapeutes, artisans)
           n'ont pas encore de site optimisé. C'est votre avantage concurrentiel à saisir maintenant.
         </p>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 pt-8 overflow-hidden" style="border-top: 1px solid rgba(237,227,212,0.1)">
@@ -219,7 +221,7 @@ const prestationsSeo = [
         Où êtes-vous sur Google<br><span class="text-sauge">aujourd'hui ?</span>
       </h2>
       <p class="font-body text-base text-brun-mid mb-10 leading-relaxed">
-        Je vous fais un état des lieux gratuit de votre référencement actuel. Aucun engagement.
+        Je regarde ce qui se passe vraiment pour votre site et je vous dis exactement quoi faire pour progresser.
       </p>
       <Button href="/contact" variant="primary">Demander mon audit SEO gratuit →</Button>
     </div>

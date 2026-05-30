@@ -1,4 +1,4 @@
----
+﻿---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 
@@ -6,7 +6,7 @@ const schema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'Création de site internet',
-  description: 'Création de sites internet sur mesure pour artisans, paysagistes, agriculteurs et indépendants en Drôme et toute la France.',
+  description: 'Création de sites internet sur mesure pour artisans, paysagistes, agriculteurs et indépendants dans la Drôme et toute la France.',
   provider: {
     '@type': 'LocalBusiness',
     name: 'Caelestis',
@@ -28,7 +28,7 @@ const schema = {
     '@type': 'Offer',
     priceSpecification: {
       '@type': 'PriceSpecification',
-      minPrice: '600',
+      minPrice: '800',
       maxPrice: '2500',
       priceCurrency: 'EUR',
     },
@@ -51,29 +51,29 @@ const faq = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'Combien coûte la création d\'un site internet en Drôme ?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Les sites internet que je crée démarrent à partir de 600 €. Le tarif final dépend de vos besoins : nombre de pages, fonctionnalités souhaitées (formulaire de contact, galerie, boutique en ligne, blog…). Je vous envoie un devis clair et détaillé sous 48h, sans engagement.' },
+      name: 'Combien coûte la création d\'un site internet dans la Drôme ?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Les sites internet que je crée démarrent à partir de 800 €. Le tarif final dépend de vos besoins : nombre de pages, fonctionnalités souhaitées (formulaire de contact, galerie, boutique en ligne, blog…). Je vous envoie un devis clair et détaillé sous 48h.' },
     },
     {
       '@type': 'Question',
       name: 'Combien de temps faut-il pour créer un site internet ?',
-      acceptedAnswer: { '@type': 'Answer', text: 'En général, entre 2 et 4 semaines selon la complexité du projet. Je travaille par étapes validées ensemble, ce qui permet d\'avancer vite sans mauvaise surprise.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'En général, entre 2 et 4 semaines selon la complexité du projet. Je travaille par étapes validées ensemble, pour avancer clairement à chaque phase.' },
     },
     {
       '@type': 'Question',
       name: 'Mon site sera-t-il visible sur Google ?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Oui. Chaque site est construit avec une structure claire, un chargement rapide et les bases du référencement naturel. Je lie également votre site à votre fiche Google My Business pour renforcer votre visibilité locale en Drôme.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'Oui. Chaque site est construit avec une structure claire, un chargement rapide et les bases du référencement naturel. Je lie également votre site à votre fiche Google My Business pour renforcer votre visibilité locale dans la Drôme.' },
     },
     {
       '@type': 'Question',
-      name: 'Intervenez-vous uniquement en Drôme ?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Non. Basé à Crest dans la Drôme, j\'interviens dans toute la France. Je travaille entièrement à distance, par échange vidéo ou email, ce qui me permet d\'accompagner des clients partout sur le territoire.' },
+      name: 'Intervenez-vous uniquement dans la Drôme ?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Non. Basé dans la Drôme, j\'interviens dans toute la France. Je travaille entièrement à distance, par échange vidéo ou email, ce qui me permet d\'accompagner des clients partout sur le territoire.' },
     },
   ],
 };
 
 const inclus = [
-  { titre: 'Design sur mesure', desc: 'Une identité visuelle cohérente avec votre activité. Pas de template générique — chaque page est pensée pour vous.' },
+  { titre: 'Design sur mesure', desc: 'Une identité visuelle cohérente avec votre activité. Pas de template générique, chaque page est pensée pour vous.' },
   { titre: 'Responsive mobile', desc: 'Votre site est parfaitement lisible sur smartphone, tablette et ordinateur. Plus de 60% des visites se font sur mobile.' },
   { titre: 'SEO technique intégré', desc: 'Structure Hn claire, balises méta, vitesse de chargement optimisée, sitemap XML. Les bases pour que Google vous trouve.' },
   { titre: 'Formulaire de contact', desc: 'Un formulaire fonctionnel, sécurisé et directement relié à votre boîte mail.' },
@@ -93,7 +93,7 @@ const secteurs = [
 ---
 <BaseLayout
   title="Création de site internet Drôme — Artisans & indépendants · Caelestis"
-  description="Création de site internet sur mesure à Crest, Drôme. Sites professionnels pour artisans, paysagistes, agriculteurs et indépendants. Visible sur Google. À partir de 600€."
+  description="Création de site internet sur mesure dans la Drôme. Sites professionnels pour artisans, paysagistes, agriculteurs et indépendants. Visible sur Google. À partir de 800€."
   schema={[schema, breadcrumb, faq]}
 >
 
@@ -118,7 +118,7 @@ const secteurs = [
 
       <h1
         class="font-display font-light text-brun leading-[1.06] tracking-tight mb-8"
-        style="font-size: clamp(2.4rem, 5vw, 4rem);"
+        style="font-size: clamp(2rem, 5vw, 4rem);"
         data-reveal data-delay="1"
       >
         Un site internet qui travaille<br><span class="text-sauge">pour votre activité.</span>
@@ -126,7 +126,7 @@ const secteurs = [
 
       <p class="font-body text-lg text-brun-mid leading-relaxed max-w-2xl mb-10" data-reveal data-delay="2">
         Je crée des sites internet sur mesure pour les artisans, paysagistes, agriculteurs et indépendants de la Drôme et de toute la France.
-        Des sites clairs, rapides, visibles sur Google — qui donnent envie à vos visiteurs de vous contacter.
+        Des sites clairs, rapides, visibles sur Google, qui donnent envie à vos visiteurs de vous contacter.
       </p>
 
       <div class="flex flex-col sm:flex-row flex-wrap gap-4" data-reveal data-delay="3">
@@ -136,7 +136,7 @@ const secteurs = [
 
       <div class="flex flex-wrap gap-6 mt-10 pt-8 border-t border-cream-dark" data-reveal data-delay="4">
         {[
-          { label: 'À partir de', val: '600€' },
+          { label: 'À partir de', val: '800€' },
           { label: 'Devis en', val: '48h' },
           { label: 'Mise en ligne', val: '2–4 sem.' },
           { label: 'Paiement', val: 'À la livraison' },
@@ -161,7 +161,7 @@ const secteurs = [
         </h2>
         <div class="font-body text-base text-brun-mid leading-relaxed space-y-4 max-w-3xl">
           <p>
-            Beaucoup de petites entreprises et d'indépendants en Drôme ont une activité remarquable — mais une présence en ligne quasi inexistante ou mal construite.
+            Beaucoup de petites entreprises et d'indépendants dans la Drôme ont une activité remarquable, mais une présence en ligne quasi inexistante ou mal construite.
             Résultat : des clients potentiels qui passent à côté, ou qui choisissent un concurrent mieux référencé.
           </p>
           <p>
@@ -169,17 +169,19 @@ const secteurs = [
             Des sites qui se chargent vite, qui s'affichent parfaitement sur mobile, et qui sont optimisés pour apparaître sur Google quand vos clients cherchent vos services.
           </p>
           <p>
-            Basé à Crest dans la Drôme, j'accompagne des professionnels dans toute la Drôme (Valence, Romans-sur-Isère, Montélimar, Die, Bourg-lès-Valence) et partout en France, entièrement à distance.
+            Basé dans la Drôme, j'accompagne des professionnels dans tout le département (Valence, Romans-sur-Isère, Montélimar, Die, Bourg-lès-Valence) et partout en France, entièrement à distance.
           </p>
         </div>
       </div>
 
       <!-- Ce qui est inclus -->
       <div class="mb-20" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Inclus dans chaque projet</p>
-        <h2 class="font-display text-2xl md:text-3xl font-light text-brun mb-10 leading-[1.1]">
-          Ce que comprend votre site internet.
-        </h2>
+        <div class="text-center mb-10">
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Inclus dans chaque projet</p>
+          <h2 class="font-display text-2xl md:text-3xl font-light text-brun leading-[1.1]">
+            Ce que comprend votre site internet.
+          </h2>
+        </div>
         <div class="grid md:grid-cols-2 gap-6">
           {inclus.map(({ titre, desc }) => (
             <div class="border border-cream-dark rounded-xl p-6 card-lift" data-reveal>
@@ -208,7 +210,7 @@ const secteurs = [
           ))}
         </ul>
         <p class="font-body text-sm text-brun-mid/60 mt-6 leading-relaxed">
-          Vous avez un autre type d'activité ? N'hésitez pas à me contacter — j'étudie tous les projets liés à l'environnement, la nature et le monde artisanal.
+          Vous avez un autre type d'activité ? N'hésitez pas à me contacter, j'étudie tous les projets liés à l'environnement, la nature et le monde artisanal.
         </p>
       </div>
 
@@ -220,8 +222,8 @@ const secteurs = [
         </h2>
         <div class="space-y-0 divide-y divide-cream-dark">
           {[
-            { num: '01', t: 'Premier échange', d: 'On parle de votre activité, vos clients, ce que vous voulez accomplir. C\'est gratuit, sans engagement, et ça dure 20–30 min.' },
-            { num: '02', t: 'Devis sous 48h', d: 'Je vous envoie un devis clair, ligne par ligne. Vous savez exactement ce que vous investissez, sans surprise.' },
+            { num: '01', t: 'Premier échange', d: 'On parle de votre activité, vos clients, ce que vous voulez accomplir. Gratuit, environ 20–30 min, et ça aide vraiment à clarifier le projet.' },
+            { num: '02', t: 'Devis sous 48h', d: 'Je vous envoie un devis clair, ligne par ligne. Vous savez exactement ce que vous investissez avant de vous lancer.' },
             { num: '03', t: 'Conception du site', d: 'Je crée votre site par étapes, avec vos retours à chaque phase. Vous restez maître du projet du début à la fin.' },
             { num: '04', t: 'Mise en ligne & accès', d: 'Je m\'occupe de tout : hébergement, nom de domaine, SSL, Google. Vous recevez tous vos accès.' },
             { num: '05', t: 'Paiement à la livraison', d: 'Vous ne payez qu\'une fois le site en ligne et validé. Pas d\'acompte obligatoire avant le lancement.' },
@@ -272,7 +274,7 @@ const secteurs = [
         Votre site internet,<br><span class="text-sauge">livré en 2 à 4 semaines.</span>
       </h2>
       <p class="font-body text-base text-brun-mid mb-10 leading-relaxed">
-        Devis gratuit sous 48h. Paiement à la livraison. Disponible en Drôme et partout en France.
+        Devis gratuit sous 48h. Paiement à la livraison. Disponible dans la Drôme et partout en France.
       </p>
       <Button href="/contact" variant="primary">Demander mon devis gratuit →</Button>
     </div>

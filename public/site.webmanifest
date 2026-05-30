@@ -1,0 +1,31 @@
+{
+  "name": "Caelestis",
+  "short_name": "Caelestis",
+  "description": "Création de site internet dans la Drôme pour artisans et indépendants.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#3a4a2a",
+  "theme_color": "#3a4a2a",
+  "icons": [
+    {
+      "src": "/favicon-16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

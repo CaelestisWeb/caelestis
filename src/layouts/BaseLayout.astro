@@ -86,9 +86,12 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     </noscript>
 
     <!-- ── Icônes ── -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
-    <link rel="icon" type="image/x-icon"  href="/favicon.ico?v=2" />
-    <link rel="apple-touch-icon" href="/favicon.svg?v=2" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=4" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=4" />
+    <link rel="icon" type="image/png" href="/favicon.png?v=4" />
+    <link rel="icon" type="image/x-icon"  href="/favicon.ico?v=4" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <title>{title}</title>
     <ClientRouter />
@@ -269,9 +272,14 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 
   let gsap: GsapType;
   let ScrollTrigger: StType;
-  let Lenis: new(opts?: { duration?: number; easing?: (t: number) => number; smoothWheel?: boolean }) => LenisInstance;
+  let Lenis: new(opts?: { duration?: number; easing?: (t: number) => number; smoothWheel?: boolean; smoothTouch?: boolean; touchMultiplier?: number }) => LenisInstance;
   let lenis: LenisInstance | null = null;
   let gsapReady = false;
+
+  /* Référence au ticker pour pouvoir le retirer avant d'en ajouter un nouveau.
+     Sans ça, chaque navigation empile un callback supplémentaire → scroll
+     2×, 3×, N× trop rapide après plusieurs changements de page. */
+  let lenisTicker: ((time: number) => void) | null = null;
 
   async function loadGsap() {
     if (gsapReady) return;
@@ -288,15 +296,28 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
   }
 
   function initLenis() {
-    if (lenis) { lenis.destroy(); }
+    /* Nettoie l'ancienne instance et son ticker avant tout */
+    if (lenisTicker) { gsap.ticker.remove(lenisTicker); lenisTicker = null; }
+    if (lenis) { lenis.destroy(); lenis = null; }
+
+    /* Sur écrans tactiles purs (mobile), Lenis est désactivé :
+       le scroll natif iOS/Android est déjà parfaitement fluide et
+       Lenis peut introduire de la latence tactile. */
+    const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    if (isTouch) return;
+
     lenis = new Lenis({
-      duration: 1.4,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
+      duration:       1.1,   /* réduit vs 1.4 → moins "swimmy" */
+      easing:         (t: number) => 1 - Math.pow(1 - t, 4),  /* quartic ease-out : départ vif, fin douce */
+      smoothWheel:    true,
+      smoothTouch:    false, /* touch natif sur mobiles hybrides */
+      touchMultiplier: 1.5,
     });
     lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time: number) => { lenis!.raf(time * 1000); });
-    gsap.ticker.lagSmoothing(0);
+
+    lenisTicker = (time: number) => { lenis!.raf(time * 1000); };
+    gsap.ticker.add(lenisTicker);
+    gsap.ticker.lagSmoothing(500, 33); /* laisse GSAP compenser les frames longues */
   }
 
   function initAnimations() {

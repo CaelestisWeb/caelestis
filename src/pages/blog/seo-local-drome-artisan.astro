@@ -1,12 +1,12 @@
----
+﻿---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: "SEO local en Drôme : comment apparaître sur Google quand on est artisan",
-  description: "Le référencement local est l'outil le plus efficace pour attirer des clients dans votre zone. Voici comment le mettre en place concrètement pour un artisan en Drôme.",
+  headline: "SEO local dans la Drôme : comment apparaître sur Google quand on est artisan",
+  description: "Le référencement local est l'outil le plus efficace pour attirer des clients dans votre zone. Voici comment le mettre en place concrètement pour un artisan dans la Drôme.",
   author: {
     '@type': 'Person',
     name: 'Célestin Fruleux',
@@ -30,13 +30,13 @@ const breadcrumb = {
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
     { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://caelestis.fr/blog' },
-    { '@type': 'ListItem', position: 3, name: 'SEO local en Drôme', item: 'https://caelestis.fr/blog/seo-local-drome-artisan' },
+    { '@type': 'ListItem', position: 3, name: 'SEO local dans la Drôme', item: 'https://caelestis.fr/blog/seo-local-drome-artisan' },
   ],
 };
 ---
 <BaseLayout
   title="SEO local Drôme : apparaître sur Google en tant qu'artisan — Caelestis"
-  description="Comment un artisan ou indépendant en Drôme peut apparaître sur Google et Google Maps grâce au référencement local. Guide pratique par Caelestis."
+  description="Comment un artisan ou indépendant dans la Drôme peut apparaître sur Google et Google Maps grâce au référencement local. Guide pratique par Caelestis."
   schema={[articleSchema, breadcrumb]}
 >
 
@@ -65,7 +65,7 @@ const breadcrumb = {
         style="font-size: clamp(2rem, 4vw, 3rem);"
         data-reveal data-delay="1"
       >
-        SEO local en Drôme :<br>comment apparaître sur Google<br>quand on est artisan.
+        SEO local dans la Drôme :<br>comment apparaître sur Google<br>quand on est artisan.
       </h1>
 
       <div class="font-body text-base text-brun-mid leading-relaxed space-y-8" data-reveal data-delay="2">
@@ -131,10 +131,10 @@ const breadcrumb = {
         </p>
 
         <h2 class="font-display text-2xl font-light text-brun leading-[1.1] mt-12">
-          Combien de temps faut-il pour se positionner en Drôme ?
+          Combien de temps faut-il pour se positionner dans la Drôme ?
         </h2>
         <p>
-          Pour des recherches locales en Drôme, avec un bon site et une fiche GMB bien remplie, on voit généralement les premiers résultats en 2 à 4 mois. La concurrence est encore relativement faible dans de nombreux secteurs — c'est le bon moment pour agir.
+          Pour des recherches locales dans la Drôme, avec un bon site et une fiche GMB bien remplie, on voit généralement les premiers résultats en 2 à 4 mois. La concurrence est encore relativement faible dans de nombreux secteurs — c'est le bon moment pour agir.
         </p>
 
         <h2 class="font-display text-2xl font-light text-brun leading-[1.1] mt-12">
@@ -147,12 +147,12 @@ const breadcrumb = {
       </div>
 
       <!-- CTA -->
-      <div class="mt-16 pt-10 border-t border-cream-dark" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Envie d'être visible en Drôme ?</p>
+      <div class="mt-16 pt-10 border-t border-cream-dark text-center" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Envie d'être visible dans la Drôme ?</p>
         <h2 class="font-display text-2xl font-light text-brun mb-4 leading-[1.1]">
           Demandez votre audit SEO gratuit.
         </h2>
-        <p class="font-body text-sm text-brun-mid mb-8 leading-relaxed max-w-lg">
+        <p class="font-body text-sm text-brun-mid mb-8 leading-relaxed max-w-lg mx-auto">
           Je regarde votre situation actuelle sur Google et je vous dis exactement quoi faire pour progresser.
         </p>
         <Button href="/contact" variant="primary">Demander mon audit gratuit →</Button>

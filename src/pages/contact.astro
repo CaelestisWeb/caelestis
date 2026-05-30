@@ -11,11 +11,42 @@ const breadcrumbContact = {
     { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://caelestis.fr/contact' },
   ],
 };
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Combien ça coûte ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Les sites démarrent à partir de 800 €. Le prix final dépend de la complexité du projet : nombre de pages, fonctionnalités souhaitées, boutique en ligne, référencement, identité visuelle, etc. Vous recevez un devis clair sous 48h.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Combien de temps faut-il pour créer mon site ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Entre 2 et 4 semaines en général, selon vos besoins et nos échanges. Je réalise d\'abord une maquette du site, puis nous l\'ajustons ensemble étape par étape jusqu\'à obtenir un résultat qui vous correspond vraiment.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Est-ce que mon site sera visible sur Google ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Oui. Chaque site est construit sur de bonnes bases : structure claire, chargement rapide, balisage propre et référencement pensé dès le départ. Votre site sera optimisé pour les recherches locales et relié à votre fiche Google.',
+      },
+    },
+  ],
+};
 ---
 <BaseLayout
   title="Devis création site internet Drôme — Contacter Caelestis"
-  description="Demandez votre devis gratuit pour la création de votre site internet. Réponse sous 48h. Caelestis, agence web spécialisée artisans et indépendants, Crest — Drôme."
-  schema={breadcrumbContact}
+  description="Demandez votre devis gratuit pour la création de votre site internet. Réponse sous 48h. Caelestis, agence web spécialisée artisans et indépendants dans la Drôme."
+  schema={[breadcrumbContact, faqSchema]}
 >
 
   <!-- ─── INTRO ÉDITORIALE ─── -->
@@ -26,7 +57,7 @@ const breadcrumbContact = {
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-5" data-reveal>Contact</p>
         <h1
           class="font-display font-light text-brun leading-[1.05] tracking-[-0.02em]"
-          style="font-size: clamp(2.4rem, 6vw, 5.5rem);"
+          style="font-size: clamp(2rem, 6vw, 5.5rem);"
           data-reveal data-delay="1"
         >
           Faites rayonner<br>ce que vous créez.
@@ -75,7 +106,7 @@ const breadcrumbContact = {
               { label: 'Email',        value: 'contact@caelestis.fr', href: 'mailto:contact@caelestis.fr' },
               { label: 'Téléphone',    value: '07 69 36 27 27',            href: 'tel:+33769362727'                },
               { label: 'Localisation', value: 'Drôme, France',             href: null                              },
-              { label: 'Horaires',     value: 'Lun–Sam · 9h–17h',         href: null                              },
+              { label: 'Horaires',     value: 'Lun–Sam · 9h–18h',         href: null                              },
             ].map(({ label, value, href }) => (
               <div class="flex items-baseline justify-between gap-4 border-b border-cream-dark py-4">
                 <span class="font-body text-xs tracking-widest uppercase text-sauge flex-shrink-0">{label}</span>
@@ -190,7 +221,7 @@ const breadcrumbContact = {
               <p id="error-message" role="alert" aria-live="assertive" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
 
               <p class="font-display text-sm font-light text-brun-mid/70 text-center border-t border-cream pt-5">
-                Il n'y a pas de mauvaise question ! Nous aurons le plaisir de vous répondre :)
+                Posez tout ce qui vous passe par la tête. Je lis chaque message et réponds personnellement.
               </p>
 
               <button type="submit" class="submit-btn w-full bg-brun text-cream font-body font-medium text-sm py-4 rounded-full hover:bg-ocre transition-colors duration-200 cursor-pointer disabled:opacity-50">
@@ -438,6 +469,48 @@ const breadcrumbContact = {
   </section>
 
 
+  <!-- ─── FAQ ─── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
+    <div class="max-w-4xl mx-auto">
+
+      <div class="mb-12 text-center" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Questions fréquentes</p>
+        <h2 class="font-display text-3xl md:text-4xl font-light text-brun leading-[1.1]">
+          Quelques réponses utiles.
+        </h2>
+      </div>
+
+      <div id="faq-list" data-reveal data-delay="1">
+        {[
+          {
+            q: "Combien ça coûte ?",
+            a: "Les sites démarrent à partir de 800 €. Le prix final dépend de la complexité du projet : nombre de pages, fonctionnalités souhaitées, boutique en ligne, référencement, identité visuelle, etc. Vous recevez un devis clair sous 48h, chaque ligne expliquée.",
+          },
+          {
+            q: "Combien de temps faut-il pour créer mon site ?",
+            a: "Entre 2 et 4 semaines en général, selon vos besoins et nos échanges. Je réalise d'abord une maquette du site, puis nous l'ajustons ensemble jusqu'à obtenir un résultat qui vous correspond vraiment.",
+          },
+          {
+            q: "Est-ce que mon site sera visible sur Google ?",
+            a: "Oui. Chaque site est construit sur de bonnes bases : structure claire, chargement rapide, balisage propre et référencement pensé dès le départ. Votre site sera optimisé pour les recherches locales et relié à votre fiche Google. Et si vous souhaitez aller plus loin, un travail de référencement avancé peut être mis en place.",
+          },
+        ].map(({ q, a }) => (
+          <div class="faq-item border-t border-cream-dark">
+            <button class="faq-trigger w-full flex items-center justify-between gap-6 py-6 text-left" aria-expanded="false">
+              <span class="font-display text-lg font-light text-brun">{q}</span>
+              <span class="faq-icon font-body text-xl font-light flex-shrink-0 text-brun-mid/40">+</span>
+            </button>
+            <div class="faq-body overflow-hidden max-h-0 transition-[max-height] duration-300 ease-out">
+              <p class="font-body text-sm leading-relaxed pb-6 text-brun-mid">{a}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+
   <!-- ─── BANDEAU CONFIANCE ─── -->
   <section class="border-t border-cream-dark py-12 px-6 md:px-10 lg:px-20" data-reveal>
     <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -515,6 +588,44 @@ const breadcrumbContact = {
 </style>
 
 <script>
+  /* ══════════════════════════════════════════
+     FAQ
+  ══════════════════════════════════════════ */
+  const FAQ_COLOR_CLOSED = 'rgba(76,61,25,0.4)';
+  const FAQ_COLOR_OPEN   = '#889063';
+
+  document.querySelectorAll<HTMLButtonElement>('.faq-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const item = trigger.parentElement;
+      const body = item?.querySelector<HTMLElement>('.faq-body');
+      const icon = trigger.querySelector<HTMLElement>('.faq-icon');
+      if (!item || !body || !icon) return;
+
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+      document.querySelectorAll<HTMLButtonElement>('.faq-trigger').forEach((t) => {
+        if (t === trigger) return;
+        t.setAttribute('aria-expanded', 'false');
+        const b  = t.parentElement?.querySelector<HTMLElement>('.faq-body');
+        const ic = t.querySelector<HTMLElement>('.faq-icon');
+        if (b)  b.style.maxHeight  = '0';
+        if (ic) { ic.textContent = '+'; ic.style.color = FAQ_COLOR_CLOSED; }
+      });
+
+      if (isOpen) {
+        trigger.setAttribute('aria-expanded', 'false');
+        body.style.maxHeight = '0';
+        icon.textContent     = '+';
+        icon.style.color     = FAQ_COLOR_CLOSED;
+      } else {
+        trigger.setAttribute('aria-expanded', 'true');
+        body.style.maxHeight = body.scrollHeight + 'px';
+        icon.textContent     = '–';
+        icon.style.color     = FAQ_COLOR_OPEN;
+      }
+    });
+  });
+
   import gsap from 'gsap';
 
   /* ══════════════════════════════════════════
