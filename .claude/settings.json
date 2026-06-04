@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "Set-Location C:\\dev\\caelestis; if (git status --porcelain) { git add -A; $t = Get-Date -Format 'HH:mm'; git commit -m \"auto: deploy $t\"; npx vercel --prod 2>&1 | Select-Object -Last 4 }",
+            "async": true,
+            "statusMessage": "Déploiement Vercel en cours...",
+            "timeout": 180
+          }
+        ]
+      }
+    ]
+  }
+}
