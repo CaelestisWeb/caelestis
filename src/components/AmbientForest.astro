@@ -65,13 +65,14 @@
       window.dispatchEvent(new CustomEvent('caelestis:sound-state'));
     }
 
-    /* ── Arrêt / mute ── */
+    /* ── Arrêt / mute — coupure immédiate ── */
     function stopAmbient() {
       if (!running) return;
       running = false;
       window.__caelestisAmbient = { playing: false };
 
-      fadeTo(0, 2500, () => { ambientEl?.pause(); });
+      if (fadeInterval) { clearInterval(fadeInterval); fadeInterval = null; }
+      if (ambientEl) { ambientEl.volume = 0; ambientEl.pause(); }
       window.dispatchEvent(new CustomEvent('caelestis:sound-state'));
     }
 
