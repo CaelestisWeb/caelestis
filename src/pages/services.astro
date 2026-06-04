@@ -624,7 +624,7 @@ const etapes = [
       <div class="grid sm:grid-cols-2 gap-4 lg:gap-5">
 
         {etapes.slice(0, 4).map((e, i) => (
-          <div class="border border-sauge/40 rounded-2xl p-7 lg:p-9 text-center" style="background: #D4D9C4;" data-reveal data-delay={i}>
+          <div class="bg-cream border border-sauge/30 rounded-2xl p-7 lg:p-9 text-center" data-reveal data-delay={i}>
             <p class="font-body text-[10px] tracking-[0.22em] uppercase text-sauge mb-4">{e.num}</p>
             <h4 class="font-display text-xl font-light text-brun mb-3 leading-snug">{e.title}</h4>
             <p class="font-body text-sm text-brun leading-relaxed">{e.desc}</p>
@@ -633,8 +633,7 @@ const etapes = [
 
         <!-- Étape 05 — pleine largeur, ton de clôture -->
         <div
-          class="sm:col-span-2 border border-sauge/40 rounded-2xl p-7 lg:p-9 text-center"
-          style="background: #D4D9C4;"
+          class="sm:col-span-2 bg-cream border border-sauge/30 rounded-2xl p-7 lg:p-9 text-center"
           data-reveal data-delay="4"
         >
           <!-- Icône feuille centrée -->
