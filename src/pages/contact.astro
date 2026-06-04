@@ -1,7 +1,5 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { Image } from 'astro:assets';
-import imgBureau from '../assets/images/bureau-jardin.jpg';
 
 const breadcrumbContact = {
   '@context': 'https://schema.org',
@@ -76,48 +74,27 @@ const faqSchema = {
 
   <!-- ─── CONTENU ─── -->
   <section class="py-20 px-6 md:px-10 lg:px-20">
-    <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.45fr] gap-16 items-start">
+    <div class="max-w-6xl mx-auto">
 
-      <!-- ── Colonne gauche ── -->
-      <div>
-
-        <!-- Image — hauteur limitée sur mobile pour éviter une photo qui prend toute la page -->
-        <div class="img-zoom img-editorial aspect-[3/4] overflow-hidden mb-8 lg:mb-12 max-h-[400px] lg:max-h-none" data-reveal>
-          <Image
-            src={imgBureau}
-            alt="Bureau en bois sous une pergola dans un jardin verdoyant"
-            class="w-full h-full object-cover"
-            data-parallax
-            loading="lazy"
-            widths={[480, 768]}
-            sizes="(max-width: 1024px) 100vw, 35vw"
-          />
-        </div>
-
-        <!-- Infos contact -->
-        <div data-reveal data-delay="1">
-          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6">Me joindre</p>
-          <div class="space-y-0">
-            {[
-              { label: 'Email',        value: 'contact@caelestis.fr', href: 'mailto:contact@caelestis.fr' },
-              { label: 'Téléphone',    value: '07 69 36 27 27',            href: 'tel:+33769362727'                },
-              { label: 'Localisation', value: 'Drôme, France',             href: null                              },
-              { label: 'Horaires',     value: 'Lun–Sam · 9h–18h',         href: null                              },
-            ].map(({ label, value, href }) => (
-              <div class="flex items-baseline justify-between gap-4 border-b border-cream-dark py-4">
-                <span class="font-body text-xs tracking-widest uppercase text-sauge flex-shrink-0">{label}</span>
-                {href
-                  ? <a href={href} class="font-display text-base font-light text-brun hover:text-ocre transition-colors text-right">{value}</a>
-                  : <span class="font-display text-base font-light text-brun text-right">{value}</span>
-                }
-              </div>
-            ))}
+      <!-- ── Bandeau infos contact ── -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-cream-dark mb-12 border border-cream-dark" data-reveal>
+        {[
+          { label: 'Email',        value: 'contact@caelestis.fr', href: 'mailto:contact@caelestis.fr' },
+          { label: 'Téléphone',    value: '07 69 36 27 27',       href: 'tel:+33769362727'            },
+          { label: 'Localisation', value: 'Drôme, France',        href: null                          },
+          { label: 'Horaires',     value: 'Lun–Sam · 9h–18h',    href: null                          },
+        ].map(({ label, value, href }) => (
+          <div class="bg-cream px-5 py-4 flex flex-col gap-1">
+            <span class="font-body text-[10px] tracking-[0.22em] uppercase text-sauge">{label}</span>
+            {href
+              ? <a href={href} class="font-display text-sm font-light text-brun hover:text-ocre transition-colors">{value}</a>
+              : <span class="font-display text-sm font-light text-brun">{value}</span>
+            }
           </div>
-        </div>
-
+        ))}
       </div>
 
-      <!-- ── Colonne droite : sélecteur + formulaires ── -->
+      <!-- ── Formulaires pleine largeur ── -->
       <div data-reveal data-delay="1">
 
         <!-- Sélecteur -->
