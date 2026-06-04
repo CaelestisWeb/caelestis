@@ -367,6 +367,12 @@
 
       skipBtn?.addEventListener('click', finish, { once: true });
 
+      window.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+          finish();
+        }
+      });
+
 
       /* ══════════════════════════════════════════════════════
          SÉQUENCE
