@@ -131,7 +131,7 @@ function buildEmailHtml(params: {
           <!-- ─── EN-TÊTE ─── -->
           <tr>
             <td style="background-color:#1C3828;padding:32px 40px;border-radius:4px 4px 0 0;">
-              <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(242,247,240,0.45);font-weight:500;">Caelestis · Agence web</p>
+              <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(242,247,240,0.45);font-weight:500;">Caelestis · Création de site web</p>
               <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#F2F7F0;letter-spacing:-0.02em;">Nouvelle demande reçue</h1>
               <p style="margin:6px 0 0;font-size:12px;color:rgba(242,247,240,0.38);">${safeDate}</p>
             </td>

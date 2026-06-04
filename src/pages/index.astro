@@ -193,11 +193,11 @@ const organizationSchema = {
     <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-[1fr_42%] gap-12 lg:gap-24 items-center relative z-10">
 
       <!-- Colonne gauche : texte -->
-      <div class="text-center lg:text-left lg:pl-8">
+      <div class="text-center lg:pl-8">
 
         <!-- Eyebrow -->
         <p class="font-body text-sm tracking-[0.22em] uppercase text-sauge mb-8" data-reveal>
-          Développeur web indépendant · Drôme, France
+          Création de site web · Drôme, France
         </p>
 
         <!-- H1 -->
@@ -210,14 +210,14 @@ const organizationSchema = {
         </h1>
 
         <!-- Sous-titre -->
-        <p class="font-body text-base leading-relaxed max-w-[500px] mb-5 text-brun-mid mx-auto lg:mx-0" data-reveal data-delay="1">
+        <p class="font-body text-base leading-relaxed max-w-[500px] mb-5 text-brun-mid mx-auto" data-reveal data-delay="1">
           Des sites web pour ceux qui créent, cultivent et bâtissent avec passion. J'aide les artisans, praticiens et indépendants à avoir une présence en ligne à la hauteur de leur travail.
         </p>
 
         <!-- CTA -->
-        <div data-reveal data-delay="2">
+        <div class="flex flex-col items-center" data-reveal data-delay="2">
           <Button href="/contact" variant="primary">Parler de mon projet →</Button>
-          <div class="flex items-center justify-center lg:justify-start gap-4 mt-6 flex-wrap">
+          <div class="flex items-center justify-center gap-4 mt-6 flex-wrap">
             <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">Réponse sous 48h</span>
             <span class="text-brun-mid/25">·</span>
             <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">Devis gratuit</span>
@@ -248,7 +248,7 @@ const organizationSchema = {
 
     <!-- Photo hero mobile/tablette uniquement -->
     <div class="lg:hidden mt-10 w-full max-w-xl mx-auto px-0">
-      <div class="img-zoom img-editorial overflow-hidden" style="height: 260px; border-radius: 6px;">
+      <div class="img-zoom img-editorial overflow-hidden" style="aspect-ratio: 16/10; max-height: 360px; border-radius: 12px;">
         <Image
           src={imgHero}
           alt="Atelier botanique artisanal — encres naturelles, fleurs séchées et tampons botaniques"
@@ -301,10 +301,10 @@ const organizationSchema = {
         </a>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-5" id="service-cards" data-reveal data-delay="1">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6" id="service-cards" data-reveal data-delay="1">
 
         <button type="button" data-service="0"
-          class="service-card border border-cream-dark rounded-sm p-5 md:p-7 flex flex-col gap-4 text-left cursor-pointer transition-all duration-300 hover:border-sauge/40">
+          class="service-card border-2 border-cream-dark rounded-2xl p-5 md:p-7 flex flex-col gap-4 text-left cursor-pointer transition-all duration-300 hover:border-sauge/40">
           <span class="service-num font-body text-xs tracking-[0.2em] uppercase transition-colors duration-300" style="color: rgba(136,144,99,0.5)">01</span>
           <h3 class="font-display text-xl font-light text-brun">Site vitrine</h3>
           <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Votre activité en ligne, claire et lisible sur tous les écrans. Vos visiteurs comprennent ce que vous faites en quelques secondes et savent comment vous joindre.</p>
@@ -312,7 +312,7 @@ const organizationSchema = {
         </button>
 
         <button type="button" data-service="1"
-          class="service-card border border-cream-dark rounded-sm p-5 md:p-7 flex flex-col gap-4 text-left cursor-pointer transition-all duration-300 hover:border-sauge/40">
+          class="service-card border-2 border-cream-dark rounded-2xl p-5 md:p-7 flex flex-col gap-4 text-left cursor-pointer transition-all duration-300 hover:border-sauge/40">
           <span class="service-num font-body text-xs tracking-[0.2em] uppercase transition-colors duration-300" style="color: rgba(136,144,99,0.5)">02</span>
           <h3 class="font-display text-xl font-light text-brun">Boutique en ligne</h3>
           <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Vendez vos produits directement depuis votre site. Catalogue en ligne, paiement sécurisé, connecté à vos outils de gestion.</p>
@@ -320,14 +320,19 @@ const organizationSchema = {
         </button>
 
         <button type="button" data-service="2"
-          class="service-card border border-cream-dark rounded-sm p-5 md:p-7 flex flex-col gap-4 text-left cursor-pointer transition-all duration-300 hover:border-sauge/40">
+          class="service-card border-2 border-cream-dark rounded-2xl p-5 md:p-7 flex flex-col gap-4 text-left cursor-pointer transition-all duration-300 hover:border-sauge/40">
           <span class="service-num font-body text-xs tracking-[0.2em] uppercase transition-colors duration-300" style="color: rgba(136,144,99,0.5)">03</span>
-          <h3 class="font-display text-xl font-light text-brun">Référencement naturel</h3>
-          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Apparaître en tête des résultats quand vos clients vous cherchent sur Google. Référencement local et national.</p>
+          <h3 class="font-display text-xl font-light text-brun">Site sur mesure</h3>
+          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Un site entièrement conçu selon vos besoins, votre identité et vos objectifs. Une solution unique pensée pour valoriser votre activité et soutenir son développement.</p>
           <p class="service-price font-body text-xs text-sauge transition-colors duration-300">Sur devis</p>
         </button>
 
       </div>
+
+      <!-- Note de modalité — rassurance sur le paiement -->
+      <p class="font-body text-xs sm:text-sm font-semibold text-sauge text-center mt-10" data-reveal data-delay="2">
+        30&nbsp;% d'acompte à la signature, solde à la mise en ligne.
+      </p>
 
     </div>
   </section>
@@ -338,35 +343,35 @@ const organizationSchema = {
     <div class="max-w-6xl mx-auto">
 
       <div class="mb-16 text-center" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Pas une agence. Une personne.</p>
-        <h2 class="font-display text-4xl md:text-5xl font-light leading-[1.1]">
-          Ce qui fait<br>vraiment la différence.
+        <h2 class="font-display font-light leading-[1.3]" style="color: rgba(237,227,212,0.85);">
+          <span class="block text-2xl md:text-3xl">Un site construit ensemble.</span>
+          <span class="block text-xl md:text-2xl text-sauge mt-1">Un site qui vous ressemble.</span>
         </h2>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-10 md:gap-14">
+      <div class="grid sm:grid-cols-3 gap-10 sm:gap-8 md:gap-12 lg:gap-14">
 
-        <div data-reveal>
-          <div class="w-8 h-px bg-sauge mb-7"></div>
+        <div class="text-center" data-reveal>
+          <div class="w-8 h-px bg-sauge mb-7 mx-auto"></div>
           <h3 class="font-display text-xl font-light mb-4">Je comprends votre métier.</h3>
           <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
-            Avant de concevoir quoi que ce soit, je cherche à comprendre votre activité, vos clients et ce qui vous distingue. Le site découle de là, pas d'un modèle.
+            Avant de concevoir quoi que ce soit, je cherche à comprendre votre activité, vos clients et ce qui vous distingue.
           </p>
         </div>
 
-        <div data-reveal data-delay="1">
-          <div class="w-8 h-px bg-sauge mb-7"></div>
-          <h3 class="font-display text-xl font-light mb-4">Le prix, posé sur la table dès le début.</h3>
+        <div class="text-center" data-reveal data-delay="1">
+          <div class="w-8 h-px bg-sauge mb-7 mx-auto"></div>
+          <h3 class="font-display text-xl font-light mb-4">Un site construit avec vous.</h3>
           <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
-            Devis sous 48h, chaque ligne expliquée. Vous décidez en connaissance de cause, sans précipitation.
+            Chaque projet débute par un échange. Je réalise une maquette, nous l'améliorons ensemble et ne publions le site que lorsqu'il correspond pleinement à vos attentes.
           </p>
         </div>
 
-        <div data-reveal data-delay="2">
-          <div class="w-8 h-px bg-sauge mb-7"></div>
+        <div class="text-center" data-reveal data-delay="2">
+          <div class="w-8 h-px bg-sauge mb-7 mx-auto"></div>
           <h3 class="font-display text-xl font-light mb-4">Je reste là après le lancement.</h3>
           <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
-            Lancer le site ne clôt pas notre échange. Questions, évolutions, nouvelles idées : je suis là.
+            La mise en ligne ne marque pas la fin du projet. Je reste à votre disposition pour vous conseiller et vous accompagner dans les éventuels ajustements de votre site.
           </p>
         </div>
 
@@ -378,90 +383,6 @@ const organizationSchema = {
           2&nbsp;% de chaque projet est reversé à <a href="https://www.fne.asso.fr" target="_blank" rel="noopener noreferrer" class="text-sauge hover:opacity-80 transition-opacity">France Nature Environnement</a>. Parce que construire quelque chose de beau ne s'arrête pas à soi.
         </p>
       </div>
-
-    </div>
-  </section>
-
-
-  <!-- ─── RÉALISATIONS ─── -->
-  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
-    <div class="max-w-6xl mx-auto">
-
-      <div class="text-center mb-12" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Réalisations</p>
-        <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-4">
-          Voici ce que je crée.
-        </h2>
-        <p class="font-body text-sm text-brun-mid leading-relaxed mx-auto max-w-sm">
-          Chaque site est conçu sur mesure. Ces deux exemples illustrent ce que Caelestis peut créer pour vous.
-        </p>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-6 lg:gap-8" data-reveal data-delay="1">
-
-        <!-- Carte — Atelier Néra -->
-        <a href="/demos/atelier-nera" target="_blank" rel="noopener noreferrer"
-           class="group relative overflow-hidden rounded-sm border border-cream-dark hover:border-ocre/40 transition-colors duration-300 bg-white block">
-          <div class="h-2 w-full" style="background: linear-gradient(90deg, #1C1510 0%, #C4963C 50%, #8B6B4A 100%)"></div>
-          <div class="relative overflow-hidden" style="aspect-ratio: 16/10; background: #F4EFE6;">
-            <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-8 text-center">
-              <p class="font-body text-[10px] tracking-[0.25em] uppercase" style="color: #8B6B4A">Ébénisterie sur mesure</p>
-              <p class="font-display font-light text-2xl md:text-3xl" style="color: #1C1510; letter-spacing: -0.02em">Atelier Néra</p>
-              <div class="w-8 h-px mt-1" style="background: #C4963C"></div>
-              <p class="font-body text-xs leading-relaxed" style="color: rgba(28,21,16,0.5); max-width: 260px">
-                Site vitrine haut de gamme pour un artisan ébéniste. Galerie de réalisations, processus de création, prise de contact.
-              </p>
-            </div>
-            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: rgba(28,21,16,0.7)">
-              <span class="font-body text-sm tracking-widest uppercase text-white border border-white/40 px-6 py-3">Voir le site →</span>
-            </div>
-          </div>
-          <div class="p-5 flex items-center justify-between">
-            <div>
-              <p class="font-display text-base font-light text-brun">Atelier Néra</p>
-              <p class="font-body text-xs text-brun-mid mt-0.5">Ébénisterie · Site vitrine</p>
-            </div>
-            <div class="flex gap-1.5">
-              <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Artisan</span>
-              <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Premium</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Carte — Lunéa Botanique -->
-        <a href="/demos/lunea-botanique" target="_blank" rel="noopener noreferrer"
-           class="group relative overflow-hidden rounded-sm border border-cream-dark hover:border-ocre/40 transition-colors duration-300 bg-white block">
-          <div class="h-2 w-full" style="background: linear-gradient(90deg, #2C3D2A 0%, #8B9E7E 50%, #D4C5A9 100%)"></div>
-          <div class="relative overflow-hidden" style="aspect-ratio: 16/10; background: #F7F4EF;">
-            <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-8 text-center">
-              <p class="font-body text-[10px] tracking-[0.25em] uppercase" style="color: #8B9E7E">Bougies botaniques artisanales</p>
-              <p class="font-display font-light text-2xl md:text-3xl" style="color: #2C3D2A; letter-spacing: -0.02em">Lunéa Botanique</p>
-              <div class="w-8 h-px mt-1" style="background: #8B9E7E"></div>
-              <p class="font-body text-xs leading-relaxed" style="color: rgba(44,61,42,0.5); max-width: 260px">
-                E-commerce botanique élégant. Produits vedettes, histoire de marque, fabrication artisanale, newsletter.
-              </p>
-            </div>
-            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: rgba(44,61,42,0.7)">
-              <span class="font-body text-sm tracking-widest uppercase text-white border border-white/40 px-6 py-3">Voir le site →</span>
-            </div>
-          </div>
-          <div class="p-5 flex items-center justify-between">
-            <div>
-              <p class="font-display text-base font-light text-brun">Lunéa Botanique</p>
-              <p class="font-body text-xs text-brun-mid mt-0.5">Bougies artisanales · E-commerce</p>
-            </div>
-            <div class="flex gap-1.5">
-              <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Boutique</span>
-              <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Premium</span>
-            </div>
-          </div>
-        </a>
-
-      </div>
-
-      <p class="font-body text-xs text-brun-mid/50 text-center mt-8" data-reveal data-delay="2">
-        Projets fictifs réalisés à titre de démonstration.
-      </p>
 
     </div>
   </section>

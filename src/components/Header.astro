@@ -55,20 +55,23 @@ const current = Astro.url.pathname;
 
   <!-- Mobile menu -->
   <div id="mobile-menu" class="hidden md:hidden bg-cream border-t border-cream-dark">
-    <nav class="px-6 py-6 flex flex-col gap-4" aria-label="Navigation mobile">
+    <nav class="px-6 py-4 flex flex-col" aria-label="Navigation mobile">
       {nav.map(({ href, label }) => {
         const isActive = href === '/' ? current === '/' : current.startsWith(href);
         return (
         <a
           href={href}
           aria-current={isActive ? 'page' : undefined}
-          class="font-body text-base text-brun hover:text-ocre transition-colors"
-        >{label}</a>
+          class={`font-body text-base py-3.5 border-b border-cream-dark/40 hover:text-ocre transition-colors flex items-center justify-between ${isActive ? 'text-ocre' : 'text-brun'}`}
+        >
+          <span>{label}</span>
+          <span aria-hidden="true" class="text-bois-mid/40 text-xs">→</span>
+        </a>
         );
       })}
       <a
         href="/contact"
-        class="font-body text-base font-medium bg-brun text-cream px-5 py-3 rounded-full text-center mt-2 hover:bg-ocre transition-colors duration-200"
+        class="font-body text-base font-medium bg-brun text-cream px-5 py-3.5 rounded-full text-center mt-4 mb-2 hover:bg-ocre transition-colors duration-200"
       >
         Lancer mon projet
       </a>

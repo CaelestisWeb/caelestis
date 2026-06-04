@@ -3,7 +3,7 @@ const year = new Date().getFullYear();
 ---
 <footer class="bg-brun text-cream">
   <div class="max-w-6xl mx-auto px-6 md:px-10 py-16">
-    <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-10 mb-12 items-start">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_auto_1fr] gap-10 lg:gap-12 mb-12 items-start">
 
       <!-- Colonne brand -->
       <div>
@@ -18,8 +18,8 @@ const year = new Date().getFullYear();
         </p>
       </div>
 
-      <!-- Carte centrée -->
-      <div class="hidden md:flex flex-col items-center gap-3">
+      <!-- Carte centrée — masquée sur tablette md où elle écrase, visible lg+ -->
+      <div class="hidden lg:flex flex-col items-center gap-3">
         <div class="relative overflow-hidden" style="width: 200px; height: 148px; border-radius: 3px;">
           <div class="absolute inset-0 z-10 pointer-events-none" style="
             background:
@@ -80,7 +80,7 @@ const year = new Date().getFullYear();
     <!-- Bandeau CTA -->
     <div class="border-t py-10 flex flex-col items-center gap-5" style="border-color: rgba(237,227,212,0.08)">
       <p class="font-display text-base font-light text-center" style="color: rgba(237,227,212,0.70)">
-        Une question, même petite ? Elle mérite une vraie réponse.
+        Une question, un conseil ?
       </p>
       <a
         href="/contact"

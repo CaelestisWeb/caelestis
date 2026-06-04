@@ -87,35 +87,32 @@ const breadcrumbServices = {
   ],
 };
 
-const prestations = [
-  {
-    title: 'Site vitrine',
-    desc: "Votre activité en ligne, claire et lisible sur tous les écrans. Vos visiteurs comprennent ce que vous faites et savent comment vous contacter.",
-  },
-  {
-    title: 'Boutique en ligne',
-    desc: "Vendez directement depuis votre site. Catalogue, paiement sécurisé, connecté à vos outils.",
-  },
-  {
-    title: 'Référencement naturel',
-    desc: "Apparaître quand vos clients vous cherchent. Je travaille votre visibilité locale pour que les bonnes personnes vous trouvent.",
-  },
-  {
-    title: 'Refonte de site existant',
-    desc: "Votre site date ou ne vous ressemble plus ? On repart sur des bases propres.",
-  },
-  {
-    title: 'Accompagnement & maintenance',
-    desc: "Je reste disponible après la mise en ligne. Forfait mensuel ou intervention ponctuelle, selon vos besoins.",
-  },
-];
-
 const etapes = [
-  { num: '01', title: 'Premier échange', desc: "On parle de votre activité, vos clients, ce que vous voulez. Je ne propose rien avant d'avoir bien compris." },
-  { num: '02', title: 'Devis',           desc: "Sous 48h, chaque ligne expliquée. Vous savez exactement ce pour quoi vous vous engagez." },
-  { num: '03', title: 'Conception',      desc: "Je construis une première version, puis on ajuste ensemble jusqu'à ce que le résultat vous ressemble." },
-  { num: '04', title: 'Mise en ligne',   desc: "Le site est publié et vérifié ensemble. Vous avez les clés." },
-  { num: '05', title: 'Suivi',           desc: "Le paiement intervient après la mise en ligne. Je reste disponible pour vos questions et évolutions." },
+  {
+    num: '01',
+    title: 'Faire connaissance',
+    desc: "Tout commence par un échange. Je prends le temps de découvrir votre activité, votre parcours et vos objectifs afin de bien comprendre votre projet et ce qui le rend unique."
+  },
+  {
+    num: '02',
+    title: 'Définir vos besoins',
+    desc: "À partir de nos échanges, je vous propose une solution adaptée à votre activité. Le devis détaille simplement ce qui sera réalisé et vous permet d'avancer en toute sérénité. (Après signature du devis, un acompte de 30 % permet de lancer la création de votre site. Le reste est réglé une fois le site terminé et validé ensemble.)"
+  },
+  {
+    num: '03',
+    title: 'Concevoir votre site',
+    desc: "Je réalise une première version du site que nous faisons évoluer ensemble. Chaque détail est ajusté jusqu'à obtenir un résultat fidèle à votre image et à vos attentes."
+  },
+  {
+    num: '04',
+    title: 'Mettre en ligne et valider',
+    desc: "Une fois le site finalisé, il est mis en ligne. Nous effectuons ensemble les derniers contrôles, testons et validons le résultat. Quand tout est en place et que vous êtes satisfait, le projet est clôturé et la facturation intervient."
+  },
+  {
+    num: '05',
+    title: 'Rester à vos côtés',
+    desc: "La mise en ligne ne marque pas la fin du projet. Je reste disponible pour répondre à vos questions, effectuer les modifications nécessaires et accompagner l'évolution de votre site au fil du temps."
+  },
 ];
 ---
 <BaseLayout
@@ -155,38 +152,33 @@ const etapes = [
         <!-- Eyebrow -->
         <div class="inline-flex items-center gap-2 mb-6" data-reveal>
           <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
-          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Prestations</p>
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Création de site internet</p>
         </div>
         <h1
           class="font-display font-light text-brun leading-[1.05] tracking-tight max-w-3xl"
           style="font-size: clamp(2.2rem, 5.5vw, 4.5rem);"
           data-reveal data-delay="1"
         >
-          Un site adapté à ce que vous faites,<br class="hidden sm:block"> <span class="text-sauge">construit pour durer.</span>
+          Un site internet qui reflète vraiment<br class="hidden sm:block"> <span class="text-sauge">votre activité.</span>
         </h1>
-        <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed" data-reveal data-delay="2">
-          Ce dont vous avez besoin. Pas plus, pas moins.
+        <p class="font-body text-lg text-brun-mid mt-8 max-w-xl leading-relaxed" data-reveal data-delay="2">
+          En 2 à 4 semaines, nous construisons ensemble un site sobre, authentique et durable. Un site qui raconte votre histoire, met en lumière votre travail et donne envie de vous contacter.
         </p>
-        <!-- Badges -->
-        <div class="flex flex-wrap gap-3 mt-8" data-reveal data-delay="3">
-          <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-body font-medium bg-sauge-pale text-brun border border-cream-dark">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#889063" stroke-width="1.2"/><path d="M4 6l1.5 1.5L8 4" stroke="#889063" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Devis gratuit
-          </span>
-          <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-body font-medium bg-sauge-pale text-brun border border-cream-dark">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#889063" stroke-width="1.2"/><path d="M4 6l1.5 1.5L8 4" stroke="#889063" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Réponse sous 48h
-          </span>
-          <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-body font-medium bg-sauge-pale text-brun border border-cream-dark">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#889063" stroke-width="1.2"/><path d="M4 6l1.5 1.5L8 4" stroke="#889063" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            À partir de 800€
-          </span>
+
+        <!-- CTA + ligne d'info discrète -->
+        <div class="mt-10 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-7" data-reveal data-delay="3">
+          <Button href="/contact" variant="primary">Lancer mon projet →</Button>
+          <div class="flex items-center gap-3 flex-wrap">
+            <span class="font-body text-xs tracking-[0.18em] uppercase text-brun-mid/70">Devis gratuit</span>
+            <span class="text-bois-mid/30">·</span>
+            <span class="font-body text-xs tracking-[0.18em] uppercase text-brun-mid/70">Réponse sous 48h</span>
+          </div>
         </div>
       </div>
 
       <!-- Photo visible mobile/tablette uniquement -->
       <div class="lg:hidden mt-8" data-reveal>
-        <div class="overflow-hidden" style="height: 240px; border-radius: 6px; box-shadow: 0 12px 40px rgba(76,61,25,0.14);">
+        <div class="overflow-hidden" style="height: 240px; border-radius: 12px; box-shadow: 0 12px 40px rgba(76,61,25,0.14);">
           <Image
             src={imgBureau}
             alt="Paysage de rivière en montagne — nature et environnement, Drôme"
@@ -352,7 +344,7 @@ const etapes = [
       height: 15px;
       background: rgba(255,255,255,0.80);
       border: 1px solid #c8c8c4;
-      border-radius: 6px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -446,7 +438,7 @@ const etapes = [
     .mk-sep { opacity: 0.4; }
 
     /* Image hero */
-    .mk-hero-img { border-radius: 6px; overflow: hidden; position: relative; }
+    .mk-hero-img { border-radius: 12px; overflow: hidden; position: relative; }
     .mk-img-inner {
       width: 100%; height: 100%;
       background: linear-gradient(145deg, #c5cc9f 0%, #a4b07e 45%, #788a55 100%);
@@ -532,7 +524,7 @@ const etapes = [
     }
   </style>
 
-  <!-- ── Tarif + Prestations ── -->
+  <!-- ── Tarif — trois typologies ── -->
   <section class="py-24 px-6 md:px-10 lg:px-20 relative overflow-hidden">
 
     <!-- Blob sauge atmosphérique gauche -->
@@ -540,119 +532,95 @@ const etapes = [
 
     <div class="max-w-6xl mx-auto">
 
-      <!-- Bloc tarif — card centrée -->
-      <div class="relative rounded-2xl p-6 sm:p-8 md:p-12 mb-16 sm:mb-24 overflow-hidden bg-sauge-pale border border-cream-dark text-center" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Budget</p>
-        <p class="font-display font-light text-brun leading-tight mb-3 text-center w-full" style="font-size: clamp(2.2rem, 4vw, 3.2rem);">
-          De&nbsp;<span class="text-ocre">800€</span>&nbsp;à&nbsp;<span class="text-ocre">2&nbsp;500€</span>
-        </p>
-        <p class="font-body text-base text-brun-mid leading-relaxed mx-auto max-w-lg">
-          Sur devis uniquement, selon vos besoins réels.
-        </p>
-      </div>
+      <!-- Bloc tarif — trois typologies éditoriales -->
+      <div class="mb-16 sm:mb-24" data-reveal>
 
-      <!-- Liste des prestations -->
-      <div class="mb-24">
-        <div class="flex items-center gap-3 mb-12" data-reveal>
-          <span class="block w-8 h-px bg-sauge"></span>
-          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Ce que je peux faire pour vous</p>
-        </div>
-        <div>
-          {prestations.map((p, i) => (
-            <div class="border-t border-cream-dark py-8 md:grid md:grid-cols-[220px_1fr] md:gap-16 items-baseline" data-reveal>
-              <h3 class="font-display text-xl font-light text-brun mb-3 md:mb-0">{p.title}</h3>
-              <p class="font-body text-sm text-brun-mid leading-relaxed">{p.desc}</p>
-            </div>
-          ))}
-          <div class="border-t border-cream-dark"></div>
-        </div>
-      </div>
-
-      <!-- Mes réalisations -->
-      <div class="mb-24" data-reveal>
-        <div class="text-center mb-10">
-          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Réalisations</p>
-          <h2 class="font-display font-light text-brun leading-[1.1]" style="font-size: clamp(2rem, 3.5vw, 3rem);">
-            Mes réalisations
+        <!-- Header -->
+        <div class="text-center mb-12 lg:mb-16">
+          <div class="inline-flex items-center gap-3 mb-4">
+            <span class="block w-8 h-px bg-sauge"></span>
+            <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Comprendre nos offres</p>
+            <span class="block w-8 h-px bg-sauge"></span>
+          </div>
+          <h2 class="font-display font-light text-brun leading-[1.1] max-w-2xl mx-auto" style="font-size: clamp(2rem, 4vw, 3rem);">
+            Des tarifs <em class="not-italic text-sauge">simples</em> et transparents.
           </h2>
         </div>
-        <div class="grid md:grid-cols-2 gap-6">
 
-          <!-- Carte — Atelier Néra -->
-          <a href="/demos/atelier-nera" target="_blank" rel="noopener noreferrer"
-             class="group relative overflow-hidden rounded-sm border border-cream-dark hover:border-ocre/40 transition-colors duration-300 bg-white block">
-            <div class="h-2 w-full" style="background: linear-gradient(90deg, #1C1510 0%, #C4963C 50%, #8B6B4A 100%)"></div>
-            <div class="relative overflow-hidden" style="aspect-ratio: 16/10; background: #F4EFE6;">
-              <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-8 text-center">
-                <p class="font-body text-[10px] tracking-[0.25em] uppercase" style="color: #8B6B4A">Ébénisterie sur mesure</p>
-                <p class="font-display font-light text-2xl md:text-3xl" style="color: #1C1510; letter-spacing: -0.02em">Atelier Néra</p>
-                <div class="w-8 h-px mt-1" style="background: #C4963C"></div>
-                <p class="font-body text-xs leading-relaxed" style="color: rgba(28,21,16,0.5); max-width: 260px">
-                  Site vitrine haut de gamme pour un artisan ébéniste. Galerie, processus de création, prise de contact.
-                </p>
-              </div>
-              <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: rgba(28,21,16,0.7)">
-                <span class="font-body text-sm tracking-widest uppercase text-white border border-white/40 px-6 py-3">Voir le site →</span>
-              </div>
-            </div>
-            <div class="p-5 flex items-center justify-between">
-              <div>
-                <p class="font-display text-base font-light text-brun">Atelier Néra</p>
-                <p class="font-body text-xs text-brun-mid mt-0.5">Ébénisterie · Site vitrine</p>
-              </div>
-              <div class="flex gap-1.5">
-                <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Artisan</span>
-                <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Premium</span>
-              </div>
-            </div>
-          </a>
+        <!-- Trois typologies : Vitrine · Boutique · Sur mesure -->
+        <div class="grid sm:grid-cols-3 gap-px bg-cream-dark border border-cream-dark rounded-2xl overflow-hidden max-w-5xl mx-auto" data-reveal data-delay="1">
 
-          <!-- Carte — Lunéa Botanique -->
-          <a href="/demos/lunea-botanique" target="_blank" rel="noopener noreferrer"
-             class="group relative overflow-hidden rounded-sm border border-cream-dark hover:border-ocre/40 transition-colors duration-300 bg-white block">
-            <div class="h-2 w-full" style="background: linear-gradient(90deg, #2C3D2A 0%, #8B9E7E 50%, #D4C5A9 100%)"></div>
-            <div class="relative overflow-hidden" style="aspect-ratio: 16/10; background: #F7F4EF;">
-              <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-8 text-center">
-                <p class="font-body text-[10px] tracking-[0.25em] uppercase" style="color: #8B9E7E">Bougies botaniques artisanales</p>
-                <p class="font-display font-light text-2xl md:text-3xl" style="color: #2C3D2A; letter-spacing: -0.02em">Lunéa Botanique</p>
-                <div class="w-8 h-px mt-1" style="background: #8B9E7E"></div>
-                <p class="font-body text-xs leading-relaxed" style="color: rgba(44,61,42,0.5); max-width: 260px">
-                  E-commerce botanique élégant. Produits vedettes, histoire de marque, fabrication artisanale, newsletter.
-                </p>
-              </div>
-              <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: rgba(44,61,42,0.7)">
-                <span class="font-body text-sm tracking-widets uppercase text-white border border-white/40 px-6 py-3">Voir le site →</span>
-              </div>
+          <!-- Site vitrine -->
+          <div class="bg-cream p-7 sm:p-8 lg:p-10 flex flex-col text-center items-center">
+            <p class="font-body text-xs tracking-[0.22em] uppercase text-bois-mid mb-4">Site vitrine</p>
+            <div class="mb-5">
+              <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid/70 mb-1">À partir de</p>
+              <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.4rem, 5vw, 3.5rem); letter-spacing: -0.025em;">
+                <span class="text-sauge">800</span><span class="text-bois-mid text-2xl ml-0.5">€</span>
+              </p>
             </div>
-            <div class="p-5 flex items-center justify-between">
-              <div>
-                <p class="font-display text-base font-light text-brun">Lunéa Botanique</p>
-                <p class="font-body text-xs text-brun-mid mt-0.5">Bougies artisanales · E-commerce</p>
-              </div>
-              <div class="flex gap-1.5">
-                <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Boutique</span>
-                <span class="font-body text-[10px] tracking-wider uppercase px-2 py-1 rounded-sm border border-cream-dark text-brun-mid">Premium</span>
-              </div>
+            <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
+              Un site professionnel pour présenter votre activité, vos services et permettre à vos clients de vous contacter facilement.
+            </p>
+          </div>
+
+          <!-- Boutique en ligne -->
+          <div class="bg-cream p-7 sm:p-8 lg:p-10 flex flex-col text-center items-center">
+            <p class="font-body text-xs tracking-[0.22em] uppercase text-bois-mid mb-4">Boutique en ligne</p>
+            <div class="mb-5">
+              <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid/70 mb-1">À partir de</p>
+              <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.4rem, 5vw, 3.5rem); letter-spacing: -0.025em;">
+                <span class="text-sauge">1&nbsp;200</span><span class="text-bois-mid text-2xl ml-0.5">€</span>
+              </p>
             </div>
-          </a>
+            <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
+              Vendez vos produits directement sur votre site grâce à une boutique simple, claire et facile à gérer au quotidien.
+            </p>
+          </div>
+
+          <!-- Site sur mesure -->
+          <div class="bg-cream p-7 sm:p-8 lg:p-10 flex flex-col text-center items-center">
+            <p class="font-body text-xs tracking-[0.22em] uppercase text-bois-mid mb-4">Site sur mesure</p>
+            <div class="mb-5">
+              <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid/70 mb-1">À partir de</p>
+              <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.4rem, 5vw, 3.5rem); letter-spacing: -0.025em;">
+                <span class="text-sauge">2&nbsp;500</span><span class="text-bois-mid text-2xl ml-0.5">€</span>
+              </p>
+            </div>
+            <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
+              Un site entièrement adapté à votre projet, avec davantage de contenu, de fonctionnalités et un travail SEO plus approfondi.
+            </p>
+          </div>
 
         </div>
-        <p class="font-body text-xs text-brun-mid/50 text-center mt-6">Projets fictifs réalisés à titre de démonstration.</p>
+
+        <!-- Note philosophie -->
+        <div class="mt-12 lg:mt-14 pt-8 border-t border-cream-dark text-center max-w-2xl mx-auto" data-reveal data-delay="2">
+          <p class="font-body text-sm text-brun-mid leading-relaxed">
+            Après avoir échangé sur votre projet, je vous transmets un devis détaillé et personnalisé. Le tarif dépend de la structure du site, du nombre de pages, du contenu à mettre en valeur et des fonctionnalités envisagées.
+          </p>
+          <p class="font-body text-sm font-semibold text-sauge leading-relaxed mt-4">
+            30 % d'acompte à la signature, solde à la mise en ligne.
+          </p>
+        </div>
+
       </div>
 
     </div>
   </section>
 
-  <!-- ── Comment je travaille ── -->
+  <!-- ── Comment je travaille — 5 étapes enrichies ── -->
   <section class="py-16 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
     <div class="max-w-5xl mx-auto">
 
       <!-- Titre centré compact -->
-      <div class="text-center mb-12" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Comment je travaille</p>
-        <h2 class="font-display font-light text-brun leading-[1.1]" style="font-size: clamp(1.8rem, 3vw, 2.6rem);">
-          5 étapes, <span class="text-sauge">rien de caché.</span>
+      <div class="text-center mb-12 lg:mb-14" data-reveal>
+        <h2 class="font-display font-light text-brun leading-[1.15] mb-3" style="font-size: clamp(1.9rem, 3.2vw, 2.8rem);">
+          Comment se déroule un projet&nbsp;?
         </h2>
+        <p class="font-display italic font-light text-sauge" style="font-size: clamp(1.05rem, 1.5vw, 1.3rem);">
+          Cinq étapes, en toute simplicité.
+        </p>
       </div>
 
       <!-- Étapes en liste verticale épurée -->

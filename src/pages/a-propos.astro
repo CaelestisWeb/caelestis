@@ -40,12 +40,6 @@ const breadcrumbApropos = {
   ],
 };
 
-const valeurs = [
-  { label: "Soigner les détails",              detail: "Construire quelque chose de propre, qui tient dans le temps." },
-  { label: "Travailler avec des gens passionnés", detail: "J'aime donner une présence en ligne à la hauteur de ce que vous faites vraiment." },
-  { label: "Être honnête",                     detail: "On se parle franchement, les prix le sont aussi." },
-  { label: "Faire des sites utiles",           detail: "Un site pensé pour vos visiteurs, pas juste joli." },
-];
 ---
 <BaseLayout
   title="Célestin Fruleux — Développeur web & SEO dans la Drôme · Caelestis"
@@ -104,38 +98,34 @@ const valeurs = [
             style="font-size: clamp(2.6rem, 5vw, 4rem);"
             data-reveal data-delay="1"
           >
-            Derrière Caelestis.
+            Pourquoi <span class="text-sauge">Caelestis</span> ?
           </h1>
 
           <div class="space-y-6 font-body text-base text-brun-mid leading-relaxed" data-reveal data-delay="2">
             <p>
-              Beaucoup de petites structures font un travail remarquable. Elles restent pourtant peu visibles. Pas par manque de qualité, mais parce qu'elles sont mal représentées en ligne.
+              Le nom Caelestis est inspiré de mon prénom Célestin, dont l'origine latine évoque le ciel.
             </p>
             <p>
-              Un bon site ne change pas ce que vous faites. Il vous rend visible, crédible, facile à trouver.
+              Pour me présenter brièvement : Célestin Fruleux, 22 ans et passionné par la nature, le bien-être et l'entrepreneuriat.
             </p>
             <p>
-              C'est ce qui m'a donné envie de créer Caelestis : aider ces projets à prendre la place qu'ils méritent.
+              J'ai commencé par créer des sites internet pour mes propres projets. Puis mes proches m'ont demandé de les aider à leur tour. De fil en aiguille, j'ai conçu plusieurs sites, expérimenté différentes approches et développé mes compétences en conception web, image de marque et présence en ligne.
+            </p>
+            <p>
+              Ces expériences m'ont montré que beaucoup d'artisans, d'indépendants et de petites structures réalisent un travail remarquable. Pourtant, une grande partie d'entre eux restent peu visibles et ne génèrent pas toujours les revenus qu'ils méritent. Non pas par manque de qualité, mais souvent à cause d'une présence en ligne insuffisante ou d'une communication qui ne reflète pas pleinement la valeur de leur savoir-faire.
+            </p>
+            <p>
+              Un bon site internet ne change pas votre activité. Il la valorise. Il la rend visible, crédible et facile à trouver. En bref, il devient un véritable outil de croissance pour une entreprise.
+            </p>
+            <p>
+              C'est donc pour cette raison que j'ai créé Caelestis : aider les artisans, indépendants et entrepreneurs à disposer d'une présence en ligne à la hauteur de leur savoir-faire.
+            </p>
+            <p class="font-display font-light text-brun text-lg">
+              Caelestis.
             </p>
           </div>
 
-          <!-- Valeurs -->
-          <div class="mt-12 pt-10 border-t border-cream-dark" data-reveal data-delay="3">
-            <h2 class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-8">Ce qui compte pour moi</h2>
-            <div class="space-y-6">
-              {valeurs.map(({ label, detail }) => (
-                <div class="flex items-start gap-4">
-                  <span class="w-1.5 h-1.5 rounded-full bg-bois-mid mt-[0.5rem] flex-shrink-0"></span>
-                  <div>
-                    <p class="font-display text-base font-light text-brun mb-1">{label}</p>
-                    <p class="font-body text-sm text-brun-mid leading-relaxed">{detail}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div class="mt-10 flex flex-col sm:flex-row flex-wrap gap-4" data-reveal data-delay="3">
+          <div class="mt-12 flex flex-col sm:flex-row flex-wrap gap-4" data-reveal data-delay="3">
             <Button href="/contact" variant="primary">Réserver un appel →</Button>
             <Button href="/services" variant="outline">Mes prestations</Button>
           </div>

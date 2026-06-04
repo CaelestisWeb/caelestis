@@ -55,6 +55,22 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     font-feature-settings: "kern" 1, "liga" 1;
+    /* Empêche tout débordement horizontal mobile */
+    overflow-x: clip;
+    /* Respect du notch iPhone et zones sûres */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  body {
+    overflow-x: clip;
+    /* Suppression du highlight bleu au tap sur iOS */
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Toute zone interactive sur mobile : tap target 44×44 mini (WCAG 2.5.5) */
+  @media (hover: none) and (pointer: coarse) {
+    nav a, button, [role="button"], [role="tab"], .tap-44 {
+      min-height: 44px;
+    }
   }
 
   /* Sélection — mousse dorée */
@@ -119,11 +135,36 @@
     background: rgba(76, 61, 25, 0.48);
   }
 
-  /* Focus accessible */
+  /* Focus accessible — visible au clavier, invisible au clic souris */
+  :focus { outline: none; }
   :focus-visible {
     outline: 2px solid #889063;
     outline-offset: 3px;
     border-radius: 4px;
+  }
+
+  /* ── Garde-fous responsive globaux ── */
+  /* Aucune image ne déborde, même si attribut width/height oublié */
+  img { height: auto; max-width: 100%; }
+
+  /* Textes longs : pas de débordement, césure respectueuse */
+  p, h1, h2, h3, h4, h5, h6, blockquote { overflow-wrap: break-word; word-wrap: break-word; }
+  h1, h2, h3, h4 { hyphens: manual; }
+
+  /* Vidéos / iframes responsive par défaut */
+  iframe, video { max-width: 100%; }
+
+  /* ── Champs de formulaire — coins arrondis pour humaniser ── */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  input[type="number"],
+  input[type="password"],
+  textarea,
+  select {
+    border-radius: 10px;
   }
 }
 
