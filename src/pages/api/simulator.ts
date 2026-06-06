@@ -57,7 +57,7 @@ function toArray(v: unknown): string[] {
    LISTES VALIDES
 ══════════════════════════════════════════════════════════ */
 const VALID_TYPES    = new Set(['vitrine', 'boutique', 'surMesure']);
-const VALID_Q2       = new Set(['simple','blog','rdv','small','medium','large','refonte','avance','autre']);
+const VALID_Q2       = new Set(['simple','blog','rdv','widgets','small','medium','large','extras','refonte','avance','integration','autre']);
 const VALID_CONTENTS = new Set(['ready','logo','nothing']);
 const VALID_TIMELINES= new Set(['slow','medium','urgent']);
 
@@ -74,15 +74,18 @@ const TYPE_LABELS: Record<string,string> = {
   surMesure: 'Site sur mesure',
 };
 const Q2_LABELS: Record<string,string> = {
-  simple:  'Simple et soigné (3–4 pages)',
-  blog:    'Avec blog / actualités',
-  rdv:     'Avec réservation en ligne',
-  small:   'Moins de 20 produits',
-  medium:  'Entre 20 et 100 produits',
-  large:   'Plus de 100 produits',
-  refonte: 'Refonte d\'un site existant',
-  avance:  'Avec fonctions avancées',
-  autre:   'Projet spécifique',
+  simple:      'Simple et soigné (3–4 pages)',
+  blog:        'Avec blog / actualités',
+  rdv:         'Avec réservation en ligne',
+  widgets:     'Avec fonctionnalités avancées (formulaire, galerie, carte…)',
+  small:       'Moins de 20 produits',
+  medium:      'Entre 20 et 100 produits',
+  large:       'Plus de 100 produits',
+  extras:      'Avec fonctionnalités boutique+ (wishlist, fidélité, avis…)',
+  refonte:     'Refonte d\'un site existant',
+  avance:      'Avec fonctions avancées',
+  integration: 'Avec intégrations tierces (CRM, ERP, API…)',
+  autre:       'Projet spécifique',
 };
 const CONTENT_LABELS: Record<string,string> = {
   ready:   'Logo + textes déjà prêts',
@@ -115,14 +118,17 @@ function calculateEstimate(
 
   /* Q2 — les modificateurs s'additionnent */
   // Options vitrine
-  if (q2s.includes('blog')) base += 300;
-  if (q2s.includes('rdv'))  base += 600;
+  if (q2s.includes('blog'))    base += 300;
+  if (q2s.includes('rdv'))     base += 600;
+  if (q2s.includes('widgets')) base += 350;
   // Options boutique
-  if (q2s.includes('large'))  base += 600;
+  if (q2s.includes('large'))   base += 600;
   else if (q2s.includes('medium')) base += 300;
+  if (q2s.includes('extras'))  base += 400;
   // Options sur mesure — prend le plus coûteux
-  if (q2s.includes('avance'))      base += 1000;
-  else if (q2s.includes('autre'))  base += 500;
+  if (q2s.includes('avance'))         base += 1000;
+  else if (q2s.includes('autre'))     base += 500;
+  if (q2s.includes('integration'))    base += 800;
 
   /* Contenus — prend le plus coûteux */
   if (contents.includes('nothing'))   base += 350;

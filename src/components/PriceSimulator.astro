@@ -1,6 +1,6 @@
 ---
 // PriceSimulator.astro
-// Simulateur multi-étapes — sélection multiple par étape + bouton Continuer
+// Simulateur multi-étapes — activité en intro, multi-sélection, bouton Continuer
 ---
 
 <div id="simulator" class="sim-wrap" aria-label="Simulateur de prix Caelestis">
@@ -13,10 +13,37 @@
   <!-- ── Corps des étapes ── -->
   <div class="sim-body">
 
+    <!-- ═══ ÉTAPE 0 — Domaine d'activité (intro) ═══ -->
+    <div class="sim-step is-active" id="s0">
+      <p class="sim-overline">Pour commencer</p>
+      <h2 class="sim-headline">Quelle est<br>votre activité&nbsp;?</h2>
+      <p class="sim-intro-sub">Quelques mots suffisent — paysagiste, artisan boulanger, thérapeute, gîte…</p>
+
+      <div class="sim-field">
+        <label for="sim-activity-pre" class="sim-field-label">Votre domaine d'activité</label>
+        <input
+          class="sim-input sim-input-lg"
+          type="text"
+          id="sim-activity-pre"
+          name="activity-pre"
+          placeholder="Ex : Paysagiste, maraîcher, praticien bien-être…"
+          autocomplete="organization"
+          maxlength="200"
+          autofocus
+        />
+      </div>
+
+      <div class="sim-step-actions">
+        <button class="sim-continue sim-btn-primary" id="continue-s0" disabled>
+          Commencer le quiz →
+        </button>
+      </div>
+    </div>
+
     <!-- ═══ ÉTAPE 1 — Type de site ═══ -->
-    <div class="sim-step is-active" id="s1" data-field="types">
+    <div class="sim-step" id="s1" data-field="types">
       <p class="sim-overline">Question 1 sur 4</p>
-      <h2 class="sim-headline">Pour commencer —<br>quel est votre projet&nbsp;?</h2>
+      <h2 class="sim-headline">Quel est<br>votre projet&nbsp;?</h2>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="vitrine">
           <span class="sim-card-num">01</span>
@@ -52,6 +79,7 @@
     <div class="sim-step" id="s2a" data-field="q2s">
       <p class="sim-overline">Question 2 sur 4</p>
       <h2 class="sim-headline">Comment imaginez-vous<br>votre site&nbsp;?</h2>
+      <p class="sim-cards-hint">Vous pouvez choisir plusieurs options.</p>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="simple">
           <span class="sim-card-num">01</span>
@@ -77,6 +105,14 @@
           </span>
           <span class="sim-card-check" aria-hidden="true"></span>
         </button>
+        <button class="sim-card" data-value="widgets">
+          <span class="sim-card-num">04</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Avec fonctionnalités avancées</strong>
+            <span class="sim-card-desc">Formulaire personnalisé, galerie photos, carte Google Maps, newsletter, témoignages, FAQ…</span>
+          </span>
+          <span class="sim-card-check" aria-hidden="true"></span>
+        </button>
       </div>
       <div class="sim-step-actions">
         <button class="sim-continue sim-btn-primary" id="continue-s2a" disabled>Continuer →</button>
@@ -86,7 +122,8 @@
     <!-- ═══ ÉTAPE 2b — Q2 Boutique ═══ -->
     <div class="sim-step" id="s2b" data-field="q2s">
       <p class="sim-overline">Question 2 sur 4</p>
-      <h2 class="sim-headline">Combien de produits<br>vendez-vous&nbsp;?</h2>
+      <h2 class="sim-headline">Comment imaginez-vous<br>votre boutique&nbsp;?</h2>
+      <p class="sim-cards-hint">Vous pouvez choisir plusieurs options.</p>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="small">
           <span class="sim-card-num">01</span>
@@ -112,6 +149,14 @@
           </span>
           <span class="sim-card-check" aria-hidden="true"></span>
         </button>
+        <button class="sim-card" data-value="extras">
+          <span class="sim-card-num">04</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Avec fonctionnalités boutique+</strong>
+            <span class="sim-card-desc">Wishlist, programme de fidélité, avis vérifiés, codes promo, abonnements…</span>
+          </span>
+          <span class="sim-card-check" aria-hidden="true"></span>
+        </button>
       </div>
       <div class="sim-step-actions">
         <button class="sim-continue sim-btn-primary" id="continue-s2b" disabled>Continuer →</button>
@@ -122,6 +167,7 @@
     <div class="sim-step" id="s2c" data-field="q2s">
       <p class="sim-overline">Question 2 sur 4</p>
       <h2 class="sim-headline">Votre projet,<br>c'est plutôt&nbsp;:</h2>
+      <p class="sim-cards-hint">Vous pouvez choisir plusieurs options.</p>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="refonte">
           <span class="sim-card-num">01</span>
@@ -139,8 +185,16 @@
           </span>
           <span class="sim-card-check" aria-hidden="true"></span>
         </button>
-        <button class="sim-card" data-value="autre">
+        <button class="sim-card" data-value="integration">
           <span class="sim-card-num">03</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Avec intégrations tierces</strong>
+            <span class="sim-card-desc">Connexion à un CRM, ERP, outil métier, paiement spécifique, API externe…</span>
+          </span>
+          <span class="sim-card-check" aria-hidden="true"></span>
+        </button>
+        <button class="sim-card" data-value="autre">
+          <span class="sim-card-num">04</span>
           <span class="sim-card-body">
             <strong class="sim-card-title">Projet spécifique</strong>
             <span class="sim-card-desc">Autre besoin — je vous expliquerai lors de notre échange</span>
@@ -249,6 +303,7 @@
             placeholder="Louis" autocomplete="given-name" required maxlength="100" />
         </div>
 
+        <!-- Activité pré-remplie depuis l'étape 0 -->
         <div class="sim-field">
           <label for="sim-activity" class="sim-field-label">Votre activité</label>
           <input class="sim-input" type="text" id="sim-activity" name="activity"
@@ -350,7 +405,7 @@
     transform: translateX(0);
   }
 
-  /* ── Typography ── */
+  /* ── Typographie ── */
   .sim-overline {
     font-size: 0.68rem;
     letter-spacing: 0.22em;
@@ -366,18 +421,25 @@
     font-weight: 400;
     color: #3d4f28;
     line-height: 1.18;
-    margin-bottom: 30px;
+    margin-bottom: 28px;
     letter-spacing: -0.025em;
   }
   .sim-intro-sub {
     font-size: 0.875rem;
     color: #6B6040;
     margin-top: -14px;
-    margin-bottom: 26px;
+    margin-bottom: 24px;
     line-height: 1.65;
   }
+  .sim-cards-hint {
+    font-size: 0.76rem;
+    color: #A08060;
+    margin-top: -16px;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
 
-  /* ── Cards ── */
+  /* ── Cartes ── */
   .sim-cards-col {
     display: flex;
     flex-direction: column;
@@ -390,17 +452,13 @@
     background: rgba(255, 252, 245, 0.7);
     border: 1.5px solid #CFC0A0;
     border-radius: 10px;
-    padding: 16px 18px;
+    padding: 15px 17px;
     cursor: pointer;
     text-align: left;
     width: 100%;
     font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
     -webkit-tap-highlight-color: transparent;
-    transition:
-      border-color 0.2s ease,
-      background   0.2s ease,
-      transform    0.18s ease,
-      box-shadow   0.2s ease;
+    transition: border-color 0.2s, background 0.2s, transform 0.18s, box-shadow 0.2s;
   }
   .sim-card:hover {
     border-color: #889063;
@@ -408,15 +466,12 @@
     transform: translateX(4px);
     box-shadow: 0 3px 14px rgba(61, 79, 40, 0.09);
   }
-  .sim-card:active {
-    transform: translateX(2px) scale(0.99);
-  }
+  .sim-card:active { transform: translateX(2px) scale(0.99); }
   .sim-card.is-selected {
     border-color: #889063;
     background: rgba(136, 144, 99, 0.1);
   }
 
-  /* Numéro */
   .sim-card-num {
     font-family: 'Lora', serif;
     font-size: 0.72rem;
@@ -426,11 +481,8 @@
     transition: color 0.2s;
   }
   .sim-card:hover .sim-card-num,
-  .sim-card.is-selected .sim-card-num {
-    color: #889063;
-  }
+  .sim-card.is-selected .sim-card-num { color: #889063; }
 
-  /* Corps texte */
   .sim-card-body {
     flex: 1;
     display: flex;
@@ -439,20 +491,20 @@
     min-width: 0;
   }
   .sim-card-title {
-    font-size: 0.96rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: #3d4f28;
     line-height: 1.25;
     display: block;
   }
   .sim-card-desc {
-    font-size: 0.8rem;
+    font-size: 0.79rem;
     color: #6B6040;
     line-height: 1.5;
     display: block;
   }
 
-  /* Coche de sélection */
+  /* Coche */
   .sim-card-check {
     flex-shrink: 0;
     width: 18px;
@@ -477,16 +529,12 @@
     opacity: 0;
     transition: opacity 0.15s;
   }
-  .sim-card:hover .sim-card-check {
-    border-color: #889063;
-  }
+  .sim-card:hover .sim-card-check { border-color: #889063; }
   .sim-card.is-selected .sim-card-check {
     border-color: #889063;
     background: #889063;
   }
-  .sim-card.is-selected .sim-card-check::after {
-    opacity: 1;
-  }
+  .sim-card.is-selected .sim-card-check::after { opacity: 1; }
 
   /* Zone bouton Continuer */
   .sim-step-actions {
@@ -496,7 +544,7 @@
     justify-content: flex-end;
   }
 
-  /* ── Écran de transition ── */
+  /* ── Transition interlude ── */
   .sim-interlude {
     display: flex;
     flex-direction: column;
@@ -524,10 +572,9 @@
     color: #6B6040;
     max-width: 320px;
     line-height: 1.65;
-    margin-top: 2px;
   }
 
-  /* ── Champs formulaire ── */
+  /* ── Champs texte ── */
   .sim-field {
     display: flex;
     flex-direction: column;
@@ -554,6 +601,10 @@
     outline: none;
     -webkit-appearance: none;
     transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .sim-input-lg {
+    padding: 15px 18px;
+    font-size: 1.05rem;
   }
   .sim-input::placeholder { color: #A08060; opacity: 0.65; }
   .sim-input:focus {
@@ -626,9 +677,7 @@
     box-shadow: 0 5px 20px rgba(76, 61, 25, 0.24);
     transform: translateY(-1px);
   }
-  .sim-btn-primary:active:not(:disabled) {
-    transform: translateY(0) scale(0.98);
-  }
+  .sim-btn-primary:active:not(:disabled) { transform: translateY(0) scale(0.98); }
   .sim-btn-primary:disabled {
     opacity: 0.38;
     cursor: not-allowed;
@@ -637,11 +686,7 @@
   }
   .sim-btn-block { width: 100%; margin-top: 6px; }
   .sim-btn-inline { margin-top: 16px; }
-
-  /* ── Continue button (dans les étapes à cartes) ── */
-  .sim-continue {
-    margin-top: 0;
-  }
+  .sim-continue { margin-top: 0; }
 
   /* Spinner */
   .sim-spinner { animation: sim-spin 0.75s linear infinite; }
@@ -734,16 +779,16 @@
 <script>
   (function () {
 
-    /* ─── État (tableaux pour multi-sélection) ─── */
+    /* ─── État ─── */
     const state = {
-      step: 1,
+      step:      0,           // commence à 0 (intro activité)
+      activity:  '',          // saisie en étape 0, pré-remplie en étape 6
       types:     [] as string[],
       q2s:       [] as string[],
       contents:  [] as string[],
       timelines: [] as string[],
     };
 
-    /* Correspondance field HTML → clé d'état */
     const fieldToKey: Record<string, keyof typeof state> = {
       types:     'types',
       q2s:       'q2s',
@@ -752,16 +797,19 @@
     };
 
     /* ─── DOM ─── */
-    const progressBar = document.getElementById('sim-progress-bar') as HTMLElement | null;
-    const backBtn     = document.getElementById('sim-back-btn')      as HTMLButtonElement | null;
-    const indicator   = document.getElementById('sim-step-indicator') as HTMLElement | null;
-    const simFooter   = document.getElementById('sim-footer')         as HTMLElement | null;
+    const progressBar = document.getElementById('sim-progress-bar')    as HTMLElement | null;
+    const backBtn     = document.getElementById('sim-back-btn')         as HTMLButtonElement | null;
+    const indicator   = document.getElementById('sim-step-indicator')   as HTMLElement | null;
+    const simFooter   = document.getElementById('sim-footer')           as HTMLElement | null;
 
-    /* ─── Progress ─── */
-    const PROGRESS: Record<number, number> = { 1: 0, 2: 22, 3: 44, 4: 66, 5: 82, 6: 90, 7: 100 };
+    /* ─── Progression ─── */
+    const PROGRESS: Record<number, number> = {
+      0: 0, 1: 12, 2: 28, 3: 46, 4: 64, 5: 80, 6: 90, 7: 100,
+    };
 
     /* ─── ID d'étape ─── */
     function getStepId(step: number): string {
+      if (step === 0) return 's0';
       if (step === 1) return 's1';
       if (step === 2) {
         if (state.types.includes('surMesure')) return 's2c';
@@ -784,16 +832,17 @@
       target.classList.add('is-active');
     }
 
-    /* ─── Mettre à jour le bouton Continuer d'une étape ─── */
+    /* ─── Activer/désactiver le bouton Continuer d'une étape à cartes ─── */
     function refreshContinueBtn(stepEl: HTMLElement): void {
-      const btn = stepEl.querySelector<HTMLButtonElement>('.sim-continue');
+      const btn   = stepEl.querySelector<HTMLButtonElement>('.sim-continue');
       if (!btn) return;
-      const field = stepEl.dataset.field as string;
-      const arr   = (state as Record<string, unknown>)[field] as string[];
-      btn.disabled = !arr || arr.length === 0;
+      const field = stepEl.dataset.field as string | undefined;
+      if (!field || !(field in fieldToKey)) return;
+      const arr = (state as Record<string, unknown>)[field] as string[];
+      btn.disabled = arr.length === 0;
     }
 
-    /* ─── Render global ─── */
+    /* ─── Render ─── */
     function render(): void {
       const id = getStepId(state.step);
       showStep(id);
@@ -804,26 +853,52 @@
         progressBar.closest('[role="progressbar"]')?.setAttribute('aria-valuenow', String(pct));
       }
 
-      const showBack = state.step >= 2 && state.step <= 6;
-      if (backBtn) backBtn.hidden = !showBack;
+      /* Retour : caché sur step 0, visible sur 1–6 */
+      if (backBtn) backBtn.hidden = state.step === 0 || state.step === 7;
 
+      /* Indicateur */
       if (indicator) {
         indicator.textContent =
-          state.step <= 4 ? `${state.step} / 4` :
-          state.step <= 6 ? 'Dernière étape' : '';
+          state.step >= 1 && state.step <= 4 ? `${state.step} / 4` :
+          state.step === 5 || state.step === 6 ? 'Dernière étape' : '';
       }
 
+      /* Pied de page : masqué sur confirmation */
       if (simFooter) simFooter.style.visibility = state.step === 7 ? 'hidden' : 'visible';
 
       /* Rafraîchir le bouton Continuer de l'étape active */
-      const activeStep = document.getElementById(id);
-      if (activeStep) refreshContinueBtn(activeStep);
+      const activeEl = document.getElementById(id);
+      if (activeEl && activeEl.dataset.field) refreshContinueBtn(activeEl);
+
+      /* Pré-remplir l'activité dans le formulaire contact */
+      if (state.step === 6 && state.activity) {
+        const actEl = document.getElementById('sim-activity') as HTMLInputElement | null;
+        if (actEl && !actEl.value) actEl.value = state.activity;
+      }
     }
 
+    /* ─── Étape 0 : champ texte activité ─── */
+    const activityInput  = document.getElementById('sim-activity-pre') as HTMLInputElement | null;
+    const continueS0     = document.getElementById('continue-s0')       as HTMLButtonElement | null;
+
+    activityInput?.addEventListener('input', () => {
+      state.activity = activityInput.value.trim();
+      if (continueS0) continueS0.disabled = state.activity.length === 0;
+    });
+
+    /* Valider avec Entrée depuis le champ activité */
+    activityInput?.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && state.activity.length > 0) {
+        e.preventDefault();
+        state.step = 1;
+        render();
+      }
+    });
+
     /* ─── Clic sur une carte — toggle ─── */
-    document.querySelectorAll<HTMLElement>('.sim-step').forEach(stepEl => {
+    document.querySelectorAll<HTMLElement>('.sim-step[data-field]').forEach(stepEl => {
       const field = stepEl.dataset.field as string;
-      if (!field || !(field in fieldToKey)) return;
+      if (!(field in fieldToKey)) return;
 
       stepEl.querySelectorAll<HTMLButtonElement>('.sim-card').forEach(card => {
         card.addEventListener('click', () => {
@@ -832,7 +907,6 @@
 
           const arr = (state as Record<string, unknown>)[field] as string[];
           const idx = arr.indexOf(value);
-
           if (idx === -1) {
             arr.push(value);
             card.classList.add('is-selected');
@@ -848,18 +922,18 @@
       });
     });
 
-    /* ─── Boutons Continuer des étapes à cartes ─── */
+    /* ─── Boutons Continuer (cartes + intro s0) ─── */
     document.querySelectorAll<HTMLButtonElement>('.sim-continue').forEach(btn => {
       btn.addEventListener('click', () => {
-        if (state.step === 1)      state.step = 2;
-        else if (state.step === 2) state.step = 3;
-        else if (state.step === 3) state.step = 4;
-        else if (state.step === 4) state.step = 5;
-        render();
+        /* Avance de +1 quel que soit le step (step 0→1, 1→2, 2→3, 3→4, 4→5) */
+        if (state.step < 5) {
+          state.step += 1;
+          render();
+        }
       });
     });
 
-    /* ─── Bouton "Voir mon estimation" (transition) ─── */
+    /* ─── Bouton interlude "Voir mon estimation" ─── */
     document.getElementById('sim-cta-interlude')?.addEventListener('click', () => {
       state.step = 6;
       render();
@@ -867,24 +941,22 @@
 
     /* ─── Retour ─── */
     backBtn?.addEventListener('click', () => {
-      const prev: Record<number, number> = { 2: 1, 3: 2, 4: 3, 5: 4, 6: 5 };
-      if (prev[state.step] !== undefined) {
-        /* En revenant à l'étape 1, on vide les q2s car la branche peut changer */
-        if (state.step === 2) state.q2s = [];
-        state.step = prev[state.step];
-        render();
-      }
+      if (state.step <= 0) return;
+      /* Vider les q2s quand on revient au step 1 (type peut changer → autre branche) */
+      if (state.step === 2) state.q2s = [];
+      state.step -= 1;
+      render();
     });
 
-    /* ─── Formulaire ─── */
-    const form      = document.getElementById('sim-form')       as HTMLFormElement | null;
-    const submitBtn = document.getElementById('sim-submit')      as HTMLButtonElement | null;
+    /* ─── Formulaire de contact ─── */
+    const form      = document.getElementById('sim-form')      as HTMLFormElement | null;
+    const submitBtn = document.getElementById('sim-submit')     as HTMLButtonElement | null;
     const btnText   = submitBtn?.querySelector<HTMLElement>('.sim-btn-text');
     const btnLoader = submitBtn?.querySelector<HTMLElement>('.sim-btn-loader');
-    const errorMsg  = document.getElementById('sim-error-msg')  as HTMLElement | null;
+    const errorMsg  = document.getElementById('sim-error-msg') as HTMLElement | null;
 
-    const showError = (msg: string) => { if (errorMsg) { errorMsg.textContent = msg; errorMsg.hidden = false; } };
-    const hideError = ()            => { if (errorMsg) errorMsg.hidden = true; };
+    const showError  = (msg: string) => { if (errorMsg) { errorMsg.textContent = msg; errorMsg.hidden = false; } };
+    const hideError  = ()            => { if (errorMsg) errorMsg.hidden = true; };
     const setLoading = (on: boolean) => {
       if (!submitBtn || !btnText || !btnLoader) return;
       submitBtn.disabled = on;
@@ -900,7 +972,7 @@
       const activity = (document.getElementById('sim-activity') as HTMLInputElement | null)?.value.trim() ?? '';
       const email    = (document.getElementById('sim-email')    as HTMLInputElement | null)?.value.trim() ?? '';
       const consent  = (document.getElementById('sim-consent')  as HTMLInputElement | null)?.checked ?? false;
-      const honeypot = (form.querySelector<HTMLInputElement>('input[name="website"]'))?.value ?? '';
+      const honeypot = form.querySelector<HTMLInputElement>('input[name="website"]')?.value ?? '';
 
       if (!prenom || !activity || !email) { showError('Veuillez remplir tous les champs.'); return; }
       if (!consent) { showError('Veuillez cocher la case pour continuer.'); return; }
@@ -909,7 +981,7 @@
 
       try {
         const res = await fetch('/api/simulator', {
-          method: 'POST',
+          method:  'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             prenom, activity, email,
@@ -921,7 +993,10 @@
           }),
         });
 
-        const data = await res.json() as { success?: boolean; error?: string; low?: number; high?: number; prenom?: string };
+        const data = await res.json() as {
+          success?: boolean; error?: string;
+          low?: number; high?: number; prenom?: string;
+        };
 
         if (!res.ok || !data.success) {
           showError(data.error ?? 'Une erreur est survenue. Réessayez ou écrivez à contact@caelestis.fr');
