@@ -46,6 +46,25 @@ function esc(s: string) {
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
+/* Normalise un champ qui peut être string ou string[] */
+function toArray(v: unknown): string[] {
+  if (Array.isArray(v)) return v.map(String);
+  if (typeof v === 'string' && v.trim()) return [v.trim()];
+  return [];
+}
+
+/* ══════════════════════════════════════════════════════════
+   LISTES VALIDES
+══════════════════════════════════════════════════════════ */
+const VALID_TYPES    = new Set(['vitrine', 'boutique', 'surMesure']);
+const VALID_Q2       = new Set(['simple','blog','rdv','small','medium','large','refonte','avance','autre']);
+const VALID_CONTENTS = new Set(['ready','logo','nothing']);
+const VALID_TIMELINES= new Set(['slow','medium','urgent']);
+
+function validateArray(arr: string[], valid: Set<string>): boolean {
+  return arr.length > 0 && arr.every(v => valid.has(v));
+}
+
 /* ══════════════════════════════════════════════════════════
    LABELS LISIBLES
 ══════════════════════════════════════════════════════════ */
@@ -54,17 +73,13 @@ const TYPE_LABELS: Record<string,string> = {
   boutique:  'Boutique en ligne',
   surMesure: 'Site sur mesure',
 };
-const Q2_VITRINE: Record<string,string> = {
-  simple: 'Simple et soigné (3–4 pages)',
-  blog:   'Avec blog / actualités',
-  rdv:    'Avec réservation en ligne',
-};
-const Q2_BOUTIQUE: Record<string,string> = {
-  small:  'Moins de 20 produits',
-  medium: 'Entre 20 et 100 produits',
-  large:  'Plus de 100 produits',
-};
-const Q2_SURMESURE: Record<string,string> = {
+const Q2_LABELS: Record<string,string> = {
+  simple:  'Simple et soigné (3–4 pages)',
+  blog:    'Avec blog / actualités',
+  rdv:     'Avec réservation en ligne',
+  small:   'Moins de 20 produits',
+  medium:  'Entre 20 et 100 produits',
+  large:   'Plus de 100 produits',
   refonte: 'Refonte d\'un site existant',
   avance:  'Avec fonctions avancées',
   autre:   'Projet spécifique',
@@ -80,56 +95,65 @@ const TIMELINE_LABELS: Record<string,string> = {
   urgent: 'Dès que possible',
 };
 
-function getQ2Label(type: string, q2: string): string {
-  if (type === 'vitrine')   return Q2_VITRINE[q2]   ?? q2;
-  if (type === 'boutique')  return Q2_BOUTIQUE[q2]  ?? q2;
-  if (type === 'surMesure') return Q2_SURMESURE[q2] ?? q2;
-  return q2;
+function labelize(arr: string[], map: Record<string,string>): string {
+  return arr.map(v => map[v] ?? v).join(' + ');
 }
 
 /* ══════════════════════════════════════════════════════════
-   CALCUL DU PRIX
+   CALCUL DU PRIX — supporte les tableaux multi-sélection
 ══════════════════════════════════════════════════════════ */
-function calculateEstimate(type: string, q2: string, content: string, timeline: string) {
-  let base = 0;
-  if (type === 'vitrine') {
-    base = 800;
-    if (q2 === 'blog') base += 300;
-    else if (q2 === 'rdv') base += 600;
-  } else if (type === 'boutique') {
-    base = 1200;
-    if (q2 === 'medium') base += 300;
-    else if (q2 === 'large') base += 600;
-  } else {
-    base = 2500;
-    if (q2 === 'avance') base += 1000;
-    else if (q2 === 'autre') base += 500;
-  }
-  if (content === 'logo')    base += 150;
-  if (content === 'nothing') base += 350;
-  if (timeline === 'urgent') base += 250;
+function calculateEstimate(
+  types:     string[],
+  q2s:       string[],
+  contents:  string[],
+  timelines: string[],
+) {
+  /* Type — base la plus haute */
+  let base = 800; // vitrine par défaut
+  if (types.includes('surMesure')) base = 2500;
+  else if (types.includes('boutique')) base = 1200;
+
+  /* Q2 — les modificateurs s'additionnent */
+  // Options vitrine
+  if (q2s.includes('blog')) base += 300;
+  if (q2s.includes('rdv'))  base += 600;
+  // Options boutique
+  if (q2s.includes('large'))  base += 600;
+  else if (q2s.includes('medium')) base += 300;
+  // Options sur mesure — prend le plus coûteux
+  if (q2s.includes('avance'))      base += 1000;
+  else if (q2s.includes('autre'))  base += 500;
+
+  /* Contenus — prend le plus coûteux */
+  if (contents.includes('nothing'))   base += 350;
+  else if (contents.includes('logo')) base += 150;
+
+  /* Délai — urgent si dans la sélection */
+  if (timelines.includes('urgent')) base += 250;
+
   const low  = Math.round(base * 0.90 / 50) * 50;
   const high = Math.round(base * 1.15 / 50) * 50;
   return { low, high };
 }
 
 /* ══════════════════════════════════════════════════════════
-   EMAIL PROSPECT — chaleureux, personnel
+   EMAIL PROSPECT
 ══════════════════════════════════════════════════════════ */
 function buildProspectEmail(p: {
   prenom: string; activity: string; email: string;
-  type: string; q2: string; content: string; timeline: string;
+  types: string[]; q2s: string[]; contents: string[]; timelines: string[];
   low: number; high: number;
 }) {
-  const typeLabel = esc(TYPE_LABELS[p.type] ?? p.type);
-  const q2Label   = esc(getQ2Label(p.type, p.q2));
-  const contentL  = esc(CONTENT_LABELS[p.content] ?? p.content);
-  const timeL     = esc(TIMELINE_LABELS[p.timeline] ?? p.timeline);
+  const typeLabel    = esc(labelize(p.types, TYPE_LABELS));
+  const q2Label      = esc(labelize(p.q2s, Q2_LABELS));
+  const contentLabel = esc(labelize(p.contents, CONTENT_LABELS));
+  const timeLabel    = esc(labelize(p.timelines, TIMELINE_LABELS));
+
   const rows = [
     ['Type de site',  typeLabel],
     ['Votre projet',  q2Label],
-    ['Contenus',      contentL],
-    ['Délai',         timeL],
+    ['Contenus',      contentLabel],
+    ['Délai',         timeLabel],
   ];
 
   return `<!DOCTYPE html>
@@ -153,7 +177,7 @@ function buildProspectEmail(p: {
         <p style="margin:0;font-size:14px;color:#4A7260;line-height:1.65;">Merci d'avoir pris quelques minutes pour simuler votre projet. Voici l'estimation que j'ai calculée pour vous.</p>
       </td></tr>
 
-      <!-- Estimation mise en avant -->
+      <!-- Estimation -->
       <tr><td style="background-color:#F2F7F0;padding:0 40px 28px;">
         <table cellpadding="0" cellspacing="0" width="100%">
           <tr><td style="background-color:#1C3828;padding:28px 32px;border-radius:4px;text-align:center;">
@@ -164,7 +188,7 @@ function buildProspectEmail(p: {
         </table>
       </td></tr>
 
-      <!-- Résumé du projet -->
+      <!-- Résumé -->
       <tr><td style="background-color:#F2F7F0;padding:0 40px 28px;">
         <p style="margin:0 0 14px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#6BA05A;font-weight:600;border-bottom:1px solid #D8E8D0;padding-bottom:10px;">Votre projet en résumé</p>
         <table cellpadding="0" cellspacing="0" width="100%">
@@ -180,7 +204,7 @@ function buildProspectEmail(p: {
         </table>
       </td></tr>
 
-      <!-- Ce qui est inclus -->
+      <!-- Inclus -->
       <tr><td style="background-color:#DFF0D6;padding:24px 40px;">
         <p style="margin:0 0 14px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#6BA05A;font-weight:600;">Inclus dans chaque projet Caelestis</p>
         ${[
@@ -208,7 +232,7 @@ function buildProspectEmail(p: {
         <p style="margin:0;font-size:13px;color:#4A7260;line-height:1.7;">À très bientôt,<br><strong style="color:#1C3828;font-weight:600;">Célestin</strong><br><span style="font-size:12px;">Fondateur de Caelestis</span></p>
       </td></tr>
 
-      <!-- Pied de page -->
+      <!-- Pied -->
       <tr><td style="background-color:#1C3828;padding:20px 40px;border-radius:0 0 4px 4px;">
         <p style="margin:0;font-size:11px;color:rgba(242,247,240,0.32);line-height:1.65;">Vous recevez cet email car vous avez réalisé une simulation sur <strong style="color:rgba(242,247,240,0.55);">caelestis.fr</strong>.<br>Caelestis · Drôme, France · contact@caelestis.fr</p>
       </td></tr>
@@ -221,19 +245,19 @@ function buildProspectEmail(p: {
 }
 
 /* ══════════════════════════════════════════════════════════
-   EMAIL ADMIN — fiche prospect complète
+   EMAIL ADMIN
 ══════════════════════════════════════════════════════════ */
 function buildAdminEmail(p: {
   prenom: string; activity: string; email: string;
-  type: string; q2: string; content: string; timeline: string;
+  types: string[]; q2s: string[]; contents: string[]; timelines: string[];
   low: number; high: number; date: string;
 }) {
-  const typeLabel = esc(TYPE_LABELS[p.type] ?? p.type);
-  const q2Label   = esc(getQ2Label(p.type, p.q2));
-  const contentL  = esc(CONTENT_LABELS[p.content] ?? p.content);
-  const timeL     = esc(TIMELINE_LABELS[p.timeline] ?? p.timeline);
-  const safeEmail = esc(p.email);
-  const safePrenom = esc(p.prenom);
+  const typeLabel    = esc(labelize(p.types, TYPE_LABELS));
+  const q2Label      = esc(labelize(p.q2s, Q2_LABELS));
+  const contentLabel = esc(labelize(p.contents, CONTENT_LABELS));
+  const timeLabel    = esc(labelize(p.timelines, TIMELINE_LABELS));
+  const safeEmail    = esc(p.email);
+  const safePrenom   = esc(p.prenom);
 
   return `<!DOCTYPE html>
 <html lang="fr">
@@ -249,7 +273,7 @@ function buildAdminEmail(p: {
         <p style="margin:6px 0 0;font-size:12px;color:rgba(242,247,240,0.38);">${esc(p.date)}</p>
       </td></tr>
 
-      <!-- Estimation en badge -->
+      <!-- Badge estimation -->
       <tr><td style="background-color:#F2F7F0;padding:28px 40px 0;">
         <table cellpadding="0" cellspacing="0">
           <tr><td style="background-color:#1C3828;padding:10px 22px;border-radius:3px;">
@@ -262,10 +286,7 @@ function buildAdminEmail(p: {
       <tr><td style="background-color:#F2F7F0;padding:24px 40px 0;">
         <p style="margin:0 0 14px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#6BA05A;font-weight:600;border-bottom:1px solid #D8E8D0;padding-bottom:10px;">Coordonnées</p>
         <table cellpadding="0" cellspacing="0" width="100%">
-          ${[
-            ['Prénom',   safePrenom],
-            ['Activité', esc(p.activity)],
-          ].map(([label, value]) => `
+          ${[['Prénom', safePrenom], ['Activité', esc(p.activity)]].map(([label, value]) => `
           <tr>
             <td style="padding:8px 0;border-bottom:1px solid #D8E8D0;width:120px;vertical-align:top;">
               <p style="margin:0;font-size:11px;color:#4A7260;letter-spacing:0.08em;text-transform:uppercase;">${label}</p>
@@ -292,8 +313,8 @@ function buildAdminEmail(p: {
           ${[
             ['Type de site',  typeLabel],
             ['Complexité',    q2Label],
-            ['Contenus',      contentL],
-            ['Délai',         timeL],
+            ['Contenus',      contentLabel],
+            ['Délai',         timeLabel],
           ].map(([label, value]) => `
           <tr>
             <td style="padding:8px 0;border-bottom:1px solid #D8E8D0;width:120px;vertical-align:top;">
@@ -306,7 +327,7 @@ function buildAdminEmail(p: {
         </table>
       </td></tr>
 
-      <!-- CTA répondre -->
+      <!-- CTA -->
       <tr><td style="background-color:#F2F7F0;padding:24px 40px 36px;">
         <table cellpadding="0" cellspacing="0">
           <tr><td style="background-color:#D4603A;padding:14px 28px;border-radius:3px;">
@@ -347,53 +368,49 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  /* SMTP */
   const smtpPassword = import.meta.env.OVH_SMTP_PASSWORD;
   if (!smtpPassword) {
     return new Response(JSON.stringify({ error: 'Configuration serveur incomplète.' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 
   try {
-    const body = await request.json() as Record<string, string>;
+    const body = await request.json() as Record<string, unknown>;
 
     /* Honeypot */
-    if (body.website && body.website.length > 0) {
+    if (body.website && String(body.website).length > 0) {
       return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
     }
 
     /* Extraction */
-    const prenom   = (body.prenom   ?? '').trim().slice(0, 100);
-    const activity = (body.activity ?? '').trim().slice(0, 200);
-    const email    = (body.email    ?? '').trim().slice(0, 254);
-    const type     = (body.type     ?? '').trim().slice(0, 20);
-    const q2       = (body.q2       ?? '').trim().slice(0, 20);
-    const content  = (body.content  ?? '').trim().slice(0, 20);
-    const timeline = (body.timeline ?? '').trim().slice(0, 20);
+    const prenom   = String(body.prenom   ?? '').trim().slice(0, 100);
+    const activity = String(body.activity ?? '').trim().slice(0, 200);
+    const email    = String(body.email    ?? '').trim().slice(0, 254);
+    const types    = toArray(body.types).map(v => v.slice(0, 20));
+    const q2s      = toArray(body.q2s).map(v => v.slice(0, 20));
+    const contents = toArray(body.contents).map(v => v.slice(0, 20));
+    const timelines= toArray(body.timelines).map(v => v.slice(0, 20));
 
     /* Validation */
-    if (!prenom || !activity || !email || !type || !q2 || !content || !timeline) {
+    if (!prenom || !activity || !email) {
       return new Response(JSON.stringify({ error: 'Données manquantes.' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
     if (!EMAIL_REGEX.test(email) || /[,;\r\n]/.test(email)) {
       return new Response(JSON.stringify({ error: 'Adresse email invalide.' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
-    const validTypes     = ['vitrine', 'boutique', 'surMesure'];
-    const validQ2        = ['simple','blog','rdv','small','medium','large','refonte','avance','autre'];
-    const validContent   = ['ready','logo','nothing'];
-    const validTimeline  = ['slow','medium','urgent'];
-    if (!validTypes.includes(type) || !validQ2.includes(q2) || !validContent.includes(content) || !validTimeline.includes(timeline)) {
+    if (!validateArray(types, VALID_TYPES) || !validateArray(q2s, VALID_Q2) ||
+        !validateArray(contents, VALID_CONTENTS) || !validateArray(timelines, VALID_TIMELINES)) {
       return new Response(JSON.stringify({ error: 'Données invalides.' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
 
     /* Calcul */
-    const { low, high } = calculateEstimate(type, q2, content, timeline);
+    const { low, high } = calculateEstimate(types, q2s, contents, timelines);
 
     const dateStr = new Date().toLocaleDateString('fr-FR', {
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
       hour: '2-digit', minute: '2-digit',
     });
 
-    const params = { prenom, activity, email, type, q2, content, timeline, low, high };
+    const params = { prenom, activity, email, types, q2s, contents, timelines, low, high };
 
     /* Envoi SMTP */
     const transporter = nodemailer.createTransport({
@@ -402,15 +419,13 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     await Promise.all([
-      /* Email au prospect */
       transporter.sendMail({
         from:    '"Célestin — Caelestis" <contact@caelestis.fr>',
         to:      email,
         replyTo: 'contact@caelestis.fr',
-        subject: `Votre estimation Caelestis — entre ${low} € et ${high} €`,
+        subject: `Votre estimation Caelestis — entre ${low} € et ${high} €`,
         html:    buildProspectEmail(params),
       }),
-      /* Notification admin */
       transporter.sendMail({
         from:    '"Simulateur Caelestis" <contact@caelestis.fr>',
         to:      'contact@caelestis.fr',
