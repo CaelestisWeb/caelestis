@@ -1,0 +1,961 @@
+---
+// PriceSimulator.astro
+// Simulateur d'estimation de prix multi-étapes
+// Soumet vers /api/simulator (POST JSON)
+---
+
+<div id="simulator" class="sim-wrap" aria-label="Simulateur de prix Caelestis">
+
+  <!-- ── Barre de progression ── -->
+  <div class="sim-progress-outer" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progression">
+    <div class="sim-progress-inner" id="sim-progress-bar"></div>
+  </div>
+
+  <!-- ── Corps des étapes ── -->
+  <div class="sim-body">
+
+    <!-- ═══ ÉTAPE 1 — Type de site ═══ -->
+    <div class="sim-step is-active" id="s1">
+      <p class="sim-overline">Question 1 sur 4</p>
+      <h2 class="sim-headline">Pour commencer —<br>quel est votre projet&nbsp;?</h2>
+      <div class="sim-cards-col">
+        <button class="sim-card" data-field="type" data-value="vitrine">
+          <span class="sim-card-num">01</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Site vitrine</strong>
+            <span class="sim-card-desc">Présentez votre activité, vos services et vos coordonnées</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+        <button class="sim-card" data-field="type" data-value="boutique">
+          <span class="sim-card-num">02</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Boutique en ligne</strong>
+            <span class="sim-card-desc">Vendez vos produits directement sur internet</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+        <button class="sim-card" data-field="type" data-value="surMesure">
+          <span class="sim-card-num">03</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Site sur mesure</strong>
+            <span class="sim-card-desc">Application web, espace membre, fonctions avancées</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ ÉTAPE 2a — Q2 Vitrine ═══ -->
+    <div class="sim-step" id="s2a">
+      <p class="sim-overline">Question 2 sur 4</p>
+      <h2 class="sim-headline">Comment imaginez-vous<br>votre site&nbsp;?</h2>
+      <div class="sim-cards-col">
+        <button class="sim-card" data-field="q2" data-value="simple">
+          <span class="sim-card-num">01</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Simple et soigné</strong>
+            <span class="sim-card-desc">3 à 4 pages — Accueil, Services, À propos, Contact</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+        <button class="sim-card" data-field="q2" data-value="blog">
+          <span class="sim-card-num">02</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Avec blog / actualités</strong>
+            <span class="sim-card-desc">Pour publier des articles et améliorer votre visibilité Google</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+        <button class="sim-card" data-field="q2" data-value="rdv">
+          <span class="sim-card-num">03</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Avec réservation en ligne</strong>
+            <span class="sim-card-desc">Permettez à vos clients de prendre rendez-vous directement</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ ÉTAPE 2b — Q2 Boutique ═══ -->
+    <div class="sim-step" id="s2b">
+      <p class="sim-overline">Question 2 sur 4</p>
+      <h2 class="sim-headline">Combien de produits<br>vendez-vous&nbsp;?</h2>
+      <div class="sim-cards-col">
+        <button class="sim-card" data-field="q2" data-value="small">
+          <span class="sim-card-num">01</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Moins de 20 produits</strong>
+            <span class="sim-card-desc">Gamme resserrée, mise en valeur soignée de chaque produit</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+        <button class="sim-card" data-field="q2" data-value="medium">
+          <span class="sim-card-num">02</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Entre 20 et 100 produits</strong>
+            <span class="sim-card-desc">Catalogue structuré avec filtres et catégories</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+        <button class="sim-card" data-field="q2" data-value="large">
+          <span class="sim-card-num">03</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Plus de 100 produits</strong>
+            <span class="sim-card-desc">Grande boutique avec gestion avancée des stocks</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ ÉTAPE 2c — Q2 Sur mesure ═══ -->
+    <div class="sim-step" id="s2c">
+      <p class="sim-overline">Question 2 sur 4</p>
+      <h2 class="sim-headline">Votre projet,<br>c'est plutôt&nbsp;:</h2>
+      <div class="sim-cards-col">
+        <button class="sim-card" data-field="q2" data-value="refonte">
+          <span class="sim-card-num">01</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Refonte d'un site existant</strong>
+            <span class="sim-card-desc">Moderniser et optimiser un site déjà en place</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+        <button class="sim-card" data-field="q2" data-value="avance">
+          <span class="sim-card-num">02</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Avec fonctions avancées</strong>
+            <span class="sim-card-desc">Espace membre, tableau de bord, API, automatisations</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+        <button class="sim-card" data-field="q2" data-value="autre">
+          <span class="sim-card-num">03</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Projet spécifique</strong>
+            <span class="sim-card-desc">Autre besoin — je vous expliquerai lors de notre échange</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ ÉTAPE 3 — Contenus ═══ -->
+    <div class="sim-step" id="s3">
+      <p class="sim-overline">Question 3 sur 4</p>
+      <h2 class="sim-headline">Et côté contenus,<br>où en êtes-vous&nbsp;?</h2>
+      <div class="sim-cards-col">
+        <button class="sim-card" data-field="content" data-value="ready">
+          <span class="sim-card-num">01</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Tout est prêt</strong>
+            <span class="sim-card-desc">Logo, textes, photos — j'ai tout ce qu'il faut</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+        <button class="sim-card" data-field="content" data-value="logo">
+          <span class="sim-card-num">02</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">J'ai mon logo</strong>
+            <span class="sim-card-desc">Logo existant, mais les textes sont à rédiger</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+        <button class="sim-card" data-field="content" data-value="nothing">
+          <span class="sim-card-num">03</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">À construire entièrement</strong>
+            <span class="sim-card-desc">Logo, textes et photos — tout est à créer</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ ÉTAPE 4 — Délai ═══ -->
+    <div class="sim-step" id="s4">
+      <p class="sim-overline">Question 4 sur 4</p>
+      <h2 class="sim-headline">Dans quel délai&nbsp;?</h2>
+      <div class="sim-cards-col">
+        <button class="sim-card" data-field="timeline" data-value="slow">
+          <span class="sim-card-num">01</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Je prends mon temps</strong>
+            <span class="sim-card-desc">2 à 3 mois — pas d'urgence</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+        <button class="sim-card" data-field="timeline" data-value="medium">
+          <span class="sim-card-num">02</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">D'ici un mois</strong>
+            <span class="sim-card-desc">Je souhaite avancer assez rapidement</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+        <button class="sim-card" data-field="timeline" data-value="urgent">
+          <span class="sim-card-num">03</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Dès que possible</strong>
+            <span class="sim-card-desc">J'ai besoin de mon site très rapidement</span>
+          </span>
+          <span class="sim-card-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ ÉTAPE 5 — Transition ═══ -->
+    <div class="sim-step" id="s5">
+      <div class="sim-interlude">
+        <div class="sim-interlude-ornament" aria-hidden="true">✦</div>
+        <h2 class="sim-interlude-title">Votre estimation<br>est prête.</h2>
+        <p class="sim-interlude-sub">Plus qu'une dernière étape — indiquez-moi où vous l'envoyer.</p>
+        <button id="sim-cta-interlude" class="sim-btn-primary">Voir mon estimation →</button>
+      </div>
+    </div>
+
+    <!-- ═══ ÉTAPE 6 — Formulaire contact ═══ -->
+    <div class="sim-step" id="s6">
+      <p class="sim-overline">Dernière étape</p>
+      <h2 class="sim-headline">Où envoyer<br>votre estimation&nbsp;?</h2>
+      <p class="sim-intro-sub">Gratuit, sans engagement. Je vous envoie le détail par email.</p>
+
+      <form id="sim-form" novalidate>
+        <!-- Honeypot anti-bot -->
+        <input
+          type="text"
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+          style="opacity:0;position:absolute;height:0;width:0;pointer-events:none;border:0;"
+        />
+
+        <div class="sim-field">
+          <label for="sim-prenom" class="sim-field-label">Votre prénom</label>
+          <input
+            class="sim-input"
+            type="text"
+            id="sim-prenom"
+            name="prenom"
+            placeholder="Louis"
+            autocomplete="given-name"
+            required
+            maxlength="100"
+          />
+        </div>
+
+        <div class="sim-field">
+          <label for="sim-activity" class="sim-field-label">Votre activité</label>
+          <input
+            class="sim-input"
+            type="text"
+            id="sim-activity"
+            name="activity"
+            placeholder="Paysagiste, artisan, maraîcher…"
+            autocomplete="organization"
+            required
+            maxlength="200"
+          />
+        </div>
+
+        <div class="sim-field">
+          <label for="sim-email" class="sim-field-label">Adresse email</label>
+          <input
+            class="sim-input"
+            type="email"
+            id="sim-email"
+            name="email"
+            placeholder="vous@exemple.fr"
+            autocomplete="email"
+            required
+            maxlength="254"
+          />
+        </div>
+
+        <label class="sim-consent-wrap">
+          <input type="checkbox" id="sim-consent" name="consent" required />
+          <span class="sim-consent-text">
+            J'accepte de recevoir mon estimation et d'être recontacté par Caelestis.
+            <a href="/mentions-legales" target="_blank" rel="noopener" class="sim-link">Mentions légales</a>
+          </span>
+        </label>
+
+        <div id="sim-error-msg" class="sim-error" hidden role="alert" aria-live="assertive"></div>
+
+        <button type="submit" id="sim-submit" class="sim-btn-primary sim-btn-block">
+          <span class="sim-btn-text">Recevoir mon estimation</span>
+          <span class="sim-btn-loader" hidden>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="sim-spinner" aria-hidden="true">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+            Envoi en cours…
+          </span>
+        </button>
+      </form>
+    </div>
+
+    <!-- ═══ ÉTAPE 7 — Confirmation ═══ -->
+    <div class="sim-step" id="s7">
+      <div class="sim-confirm">
+        <div class="sim-confirm-check" aria-hidden="true">✓</div>
+        <p class="sim-overline" style="text-align:center;margin-bottom:4px;">Envoyé avec succès</p>
+        <h2 class="sim-confirm-title">Votre estimation :</h2>
+        <div class="sim-confirm-price">
+          Entre&nbsp;<strong id="sim-low">–</strong>&nbsp;€
+          <span class="sim-confirm-sep">et</span>
+          <strong id="sim-high">–</strong>&nbsp;€
+        </div>
+        <p class="sim-confirm-note" id="sim-confirm-note">
+          Je vous ai envoyé le détail à votre adresse email. Je vous recontacterai très prochainement.
+        </p>
+        <a href="/contact" class="sim-btn-primary sim-btn-inline">Réserver un appel gratuit →</a>
+      </div>
+    </div>
+
+  </div><!-- /.sim-body -->
+
+  <!-- ── Navigation bas ── -->
+  <div class="sim-footer" id="sim-footer">
+    <button id="sim-back-btn" class="sim-back" hidden aria-label="Revenir à l'étape précédente">
+      ← Retour
+    </button>
+    <span class="sim-indicator" id="sim-step-indicator" aria-live="polite"></span>
+  </div>
+
+</div><!-- /#simulator -->
+
+<style>
+  /* ═══════════════════════════════════════
+     WRAPPER
+  ═══════════════════════════════════════ */
+  .sim-wrap {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+  }
+
+  /* ═══════════════════════════════════════
+     PROGRESS BAR
+  ═══════════════════════════════════════ */
+  .sim-progress-outer {
+    height: 2px;
+    background: rgba(207, 192, 160, 0.5);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 44px;
+  }
+  .sim-progress-inner {
+    height: 100%;
+    background: #889063;
+    border-radius: 99px;
+    width: 0%;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ═══════════════════════════════════════
+     ÉTAPES — visibilité & transitions
+  ═══════════════════════════════════════ */
+  .sim-step {
+    display: none;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .sim-step.is-active {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ═══════════════════════════════════════
+     TYPOGRAPHIE
+  ═══════════════════════════════════════ */
+  .sim-overline {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #889063;
+    font-weight: 600;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .sim-headline {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.5rem, 3.8vw, 2.1rem);
+    font-weight: 400;
+    color: #3d4f28;
+    line-height: 1.18;
+    margin-bottom: 30px;
+    letter-spacing: -0.025em;
+  }
+  .sim-intro-sub {
+    font-size: 0.875rem;
+    color: #6B6040;
+    margin-top: -14px;
+    margin-bottom: 26px;
+    line-height: 1.65;
+  }
+
+  /* ═══════════════════════════════════════
+     CARTES DE CHOIX
+  ═══════════════════════════════════════ */
+  .sim-cards-col {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .sim-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 252, 245, 0.7);
+    border: 1.5px solid #CFC0A0;
+    border-radius: 10px;
+    padding: 17px 18px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    overflow: hidden;
+    transition:
+      border-color 0.2s ease,
+      background   0.2s ease,
+      transform    0.18s ease,
+      box-shadow   0.2s ease;
+  }
+  .sim-card:hover {
+    border-color: #889063;
+    background: rgba(255, 252, 245, 0.95);
+    transform: translateX(5px);
+    box-shadow: 0 3px 16px rgba(61, 79, 40, 0.09);
+  }
+  .sim-card:active {
+    transform: translateX(3px) scale(0.99);
+  }
+  .sim-card.is-selected {
+    border-color: #889063;
+    background: rgba(136, 144, 99, 0.09);
+  }
+
+  .sim-card-num {
+    font-family: 'Lora', serif;
+    font-size: 0.72rem;
+    color: #CFC0A0;
+    flex-shrink: 0;
+    width: 20px;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+  .sim-card:hover .sim-card-num,
+  .sim-card.is-selected .sim-card-num {
+    color: #889063;
+  }
+
+  .sim-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+  .sim-card-title {
+    font-size: 0.96rem;
+    font-weight: 600;
+    color: #3d4f28;
+    line-height: 1.25;
+    display: block;
+  }
+  .sim-card-desc {
+    font-size: 0.8rem;
+    color: #6B6040;
+    line-height: 1.5;
+    display: block;
+  }
+
+  .sim-card-arrow {
+    font-size: 0.82rem;
+    color: #CFC0A0;
+    flex-shrink: 0;
+    transition: color 0.2s, transform 0.2s;
+  }
+  .sim-card:hover .sim-card-arrow {
+    color: #889063;
+    transform: translateX(3px);
+  }
+
+  /* ═══════════════════════════════════════
+     ÉCRAN DE TRANSITION (étape 5)
+  ═══════════════════════════════════════ */
+  .sim-interlude {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 36px 16px 16px;
+    gap: 14px;
+  }
+  .sim-interlude-ornament {
+    font-size: 1.8rem;
+    color: #889063;
+    opacity: 0.45;
+    line-height: 1;
+  }
+  .sim-interlude-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.9rem, 5.5vw, 2.8rem);
+    font-weight: 400;
+    color: #3d4f28;
+    line-height: 1.13;
+    letter-spacing: -0.03em;
+  }
+  .sim-interlude-sub {
+    font-size: 0.875rem;
+    color: #6B6040;
+    max-width: 320px;
+    line-height: 1.65;
+    margin-top: 2px;
+  }
+
+  /* ═══════════════════════════════════════
+     CHAMPS FORMULAIRE
+  ═══════════════════════════════════════ */
+  .sim-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .sim-field-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #889063;
+    font-weight: 600;
+    display: block;
+  }
+  .sim-input {
+    background: rgba(255, 252, 245, 0.75);
+    border: 1.5px solid #CFC0A0;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: 0.94rem;
+    color: #3d4f28;
+    width: 100%;
+    outline: none;
+    -webkit-appearance: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .sim-input::placeholder {
+    color: #A08060;
+    opacity: 0.65;
+  }
+  .sim-input:focus {
+    border-color: #889063;
+    box-shadow: 0 0 0 3px rgba(136, 144, 99, 0.14);
+  }
+  .sim-input.is-error {
+    border-color: #C46A3A;
+    box-shadow: 0 0 0 3px rgba(196, 106, 58, 0.12);
+  }
+
+  /* ═══════════════════════════════════════
+     CONSENTEMENT
+  ═══════════════════════════════════════ */
+  .sim-consent-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 22px;
+    cursor: pointer;
+  }
+  .sim-consent-wrap input[type="checkbox"] {
+    margin-top: 2px;
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    accent-color: #889063;
+    cursor: pointer;
+  }
+  .sim-consent-text {
+    font-size: 0.775rem;
+    color: #6B6040;
+    line-height: 1.6;
+  }
+  .sim-link {
+    color: #889063;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* ═══════════════════════════════════════
+     MESSAGE D'ERREUR
+  ═══════════════════════════════════════ */
+  .sim-error {
+    background: rgba(196, 106, 58, 0.07);
+    border: 1px solid rgba(196, 106, 58, 0.28);
+    border-radius: 7px;
+    padding: 11px 15px;
+    font-size: 0.845rem;
+    color: #8A3318;
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+
+  /* ═══════════════════════════════════════
+     BOUTONS
+  ═══════════════════════════════════════ */
+  .sim-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    background: #4C3D19;
+    color: #EDE3D4;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 14px 28px;
+    border-radius: 99px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.22s, transform 0.18s, box-shadow 0.22s;
+    min-height: 48px;
+    margin-top: 10px;
+  }
+  .sim-btn-primary:hover {
+    background: #362A10;
+    box-shadow: 0 5px 20px rgba(76, 61, 25, 0.24);
+    transform: translateY(-1px);
+  }
+  .sim-btn-primary:active {
+    transform: translateY(0) scale(0.98);
+  }
+  .sim-btn-primary:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .sim-btn-block {
+    width: 100%;
+    margin-top: 6px;
+  }
+  .sim-btn-inline {
+    margin-top: 16px;
+  }
+
+  /* Spinner */
+  .sim-spinner {
+    animation: sim-spin 0.75s linear infinite;
+  }
+  @keyframes sim-spin {
+    from { transform: rotate(0deg);   }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* ═══════════════════════════════════════
+     ÉCRAN DE CONFIRMATION (étape 7)
+  ═══════════════════════════════════════ */
+  .sim-confirm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 16px 12px 8px;
+    gap: 10px;
+  }
+  .sim-confirm-check {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(136, 144, 99, 0.12);
+    border: 1.5px solid rgba(136, 144, 99, 0.32);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: #889063;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+  }
+  .sim-confirm-title {
+    font-family: 'Lora', serif;
+    font-size: 1.45rem;
+    font-weight: 400;
+    color: #3d4f28;
+    margin-bottom: 0;
+  }
+  .sim-confirm-price {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+    font-weight: 400;
+    color: #3d4f28;
+    letter-spacing: -0.03em;
+    background: rgba(136, 144, 99, 0.09);
+    border: 1.5px solid rgba(136, 144, 99, 0.22);
+    border-radius: 10px;
+    padding: 18px 24px;
+    margin: 4px 0;
+    line-height: 1.3;
+  }
+  .sim-confirm-price strong {
+    font-weight: 600;
+  }
+  .sim-confirm-sep {
+    font-size: 0.75em;
+    opacity: 0.65;
+    margin: 0 4px;
+  }
+  .sim-confirm-note {
+    font-size: 0.86rem;
+    color: #6B6040;
+    max-width: 380px;
+    line-height: 1.68;
+    margin-top: 4px;
+  }
+
+  /* ═══════════════════════════════════════
+     PIED DE PAGE (retour + indicateur)
+  ═══════════════════════════════════════ */
+  .sim-footer {
+    margin-top: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 34px;
+  }
+  .sim-back {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: #A08060;
+    padding: 6px 0;
+    letter-spacing: 0.03em;
+    transition: color 0.18s;
+  }
+  .sim-back:hover {
+    color: #4C3D19;
+  }
+  .sim-indicator {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #CFC0A0;
+    margin-left: auto;
+  }
+</style>
+
+<script>
+  (function () {
+    /* ─── État global ─── */
+    const state: {
+      step: number;
+      type: string;
+      q2: string;
+      content: string;
+      timeline: string;
+    } = {
+      step: 1,
+      type: '',
+      q2: '',
+      content: '',
+      timeline: '',
+    };
+
+    /* ─── Références DOM ─── */
+    const progressBar = document.getElementById('sim-progress-bar') as HTMLElement | null;
+    const backBtn     = document.getElementById('sim-back-btn')    as HTMLButtonElement | null;
+    const indicator   = document.getElementById('sim-step-indicator') as HTMLElement | null;
+    const simFooter   = document.getElementById('sim-footer')      as HTMLElement | null;
+
+    /* ─── Progression par étape ─── */
+    function getProgress(step: number): number {
+      const map: Record<number, number> = { 1: 0, 2: 22, 3: 44, 4: 66, 5: 82, 6: 90, 7: 100 };
+      return map[step] ?? 0;
+    }
+
+    /* ─── Texte indicateur ─── */
+    function getIndicator(step: number): string {
+      if (step >= 1 && step <= 4) return `${step} / 4`;
+      if (step === 5 || step === 6) return 'Dernière étape';
+      return '';
+    }
+
+    /* ─── ID de l'étape active ─── */
+    function getStepId(step: number): string {
+      if (step === 1) return 's1';
+      if (step === 2) {
+        if (state.type === 'vitrine')   return 's2a';
+        if (state.type === 'boutique')  return 's2b';
+        if (state.type === 'surMesure') return 's2c';
+        return 's2a';
+      }
+      return 's' + step;
+    }
+
+    /* ─── Afficher une étape ─── */
+    function showStep(id: string): void {
+      document.querySelectorAll<HTMLElement>('.sim-step').forEach(el => {
+        el.classList.remove('is-active');
+        el.style.display = 'none';
+      });
+      const target = document.getElementById(id);
+      if (!target) return;
+      target.style.display = 'block';
+      void target.offsetHeight; // reflow
+      target.classList.add('is-active');
+    }
+
+    /* ─── Rendu de l'état ─── */
+    function render(): void {
+      showStep(getStepId(state.step));
+
+      if (progressBar) {
+        progressBar.style.width = getProgress(state.step) + '%';
+        progressBar.closest('[role="progressbar"]')?.setAttribute('aria-valuenow', String(getProgress(state.step)));
+      }
+
+      const showBack = state.step >= 2 && state.step <= 6;
+      if (backBtn) backBtn.hidden = !showBack;
+      if (indicator) indicator.textContent = getIndicator(state.step);
+      if (simFooter) simFooter.style.visibility = state.step === 7 ? 'hidden' : 'visible';
+    }
+
+    /* ─── Choix de carte (auto-avance) ─── */
+    document.querySelectorAll<HTMLButtonElement>('.sim-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const field = card.dataset.field;
+        const value = card.dataset.value;
+        if (!field || !value) return;
+
+        card.closest('.sim-cards-col')?.querySelectorAll('.sim-card').forEach(s => s.classList.remove('is-selected'));
+        card.classList.add('is-selected');
+
+        (state as Record<string, string | number>)[field] = value;
+
+        setTimeout(() => {
+          if (field === 'type')     state.step = 2;
+          else if (field === 'q2')       state.step = 3;
+          else if (field === 'content')  state.step = 4;
+          else if (field === 'timeline') state.step = 5;
+          render();
+        }, 220);
+      });
+    });
+
+    /* ─── Bouton "Continuer" sur l'écran de transition ─── */
+    document.getElementById('sim-cta-interlude')?.addEventListener('click', () => {
+      state.step = 6;
+      render();
+    });
+
+    /* ─── Bouton Retour ─── */
+    backBtn?.addEventListener('click', () => {
+      const prev: Record<number, number> = { 2: 1, 3: 2, 4: 3, 5: 4, 6: 5 };
+      if (prev[state.step] !== undefined) {
+        state.step = prev[state.step];
+        render();
+      }
+    });
+
+    /* ─── Formulaire de contact ─── */
+    const form      = document.getElementById('sim-form')      as HTMLFormElement | null;
+    const submitBtn = document.getElementById('sim-submit')    as HTMLButtonElement | null;
+    const btnText   = submitBtn?.querySelector<HTMLElement>('.sim-btn-text');
+    const btnLoader = submitBtn?.querySelector<HTMLElement>('.sim-btn-loader');
+    const errorMsg  = document.getElementById('sim-error-msg') as HTMLElement | null;
+
+    function showError(msg: string): void {
+      if (!errorMsg) return;
+      errorMsg.textContent = msg;
+      errorMsg.hidden = false;
+    }
+    function hideError(): void {
+      if (errorMsg) errorMsg.hidden = true;
+    }
+    function setLoading(on: boolean): void {
+      if (!submitBtn || !btnText || !btnLoader) return;
+      submitBtn.disabled = on;
+      btnText.hidden = on;
+      btnLoader.hidden = !on;
+    }
+
+    form?.addEventListener('submit', async (e: SubmitEvent) => {
+      e.preventDefault();
+      hideError();
+
+      const prenom   = (document.getElementById('sim-prenom')   as HTMLInputElement | null)?.value.trim() ?? '';
+      const activity = (document.getElementById('sim-activity') as HTMLInputElement | null)?.value.trim() ?? '';
+      const email    = (document.getElementById('sim-email')    as HTMLInputElement | null)?.value.trim() ?? '';
+      const consent  = (document.getElementById('sim-consent')  as HTMLInputElement | null)?.checked ?? false;
+      const honeypot = (form.querySelector<HTMLInputElement>('input[name="website"]'))?.value ?? '';
+
+      if (!prenom || !activity || !email) {
+        showError('Veuillez remplir tous les champs.');
+        return;
+      }
+      if (!consent) {
+        showError('Veuillez cocher la case pour continuer.');
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        const res = await fetch('/api/simulator', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            prenom, activity, email,
+            type:     state.type,
+            q2:       state.q2,
+            content:  state.content,
+            timeline: state.timeline,
+            website:  honeypot,
+          }),
+        });
+
+        const data = await res.json() as { success?: boolean; error?: string; low?: number; high?: number; prenom?: string };
+
+        if (!res.ok || !data.success) {
+          showError(data.error ?? 'Une erreur est survenue. Réessayez ou écrivez à contact@caelestis.fr');
+          setLoading(false);
+          return;
+        }
+
+        /* Remplissage de l'écran de confirmation */
+        const lowEl  = document.getElementById('sim-low');
+        const highEl = document.getElementById('sim-high');
+        const noteEl = document.getElementById('sim-confirm-note');
+
+        if (lowEl  && data.low  !== undefined) lowEl.textContent  = data.low.toLocaleString('fr-FR');
+        if (highEl && data.high !== undefined) highEl.textContent = data.high.toLocaleString('fr-FR');
+        if (noteEl && data.prenom) {
+          noteEl.textContent = `${data.prenom}, je vous ai envoyé le détail à votre adresse email. Je vous recontacterai très prochainement pour affiner ce devis.`;
+        }
+
+        state.step = 7;
+        render();
+        setLoading(false);
+
+      } catch {
+        showError('Erreur réseau. Vérifiez votre connexion et réessayez.');
+        setLoading(false);
+      }
+    });
+
+    /* ─── Initialisation ─── */
+    render();
+
+  })();
+</script>
