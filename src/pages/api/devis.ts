@@ -85,11 +85,10 @@ const RADIO_LABELS: Record<string, Record<string, string>> = {
     pas_urgent: 'Pas de délai particulier',
   },
   budget: {
-    moins_800:  'Moins de 800 €',
-    '800_1500': 'Entre 800 et 1 500 €',
-    '1500_3000':'Entre 1 500 et 3 000 €',
-    plus_3000:  'Plus de 3 000 €',
-    ne_sais_pas:'Je ne sais pas encore',
+    '800_1000':  '800 à 1 000 €',
+    '1000_2000': '1 000 à 2 000 €',
+    '2000_3000': '2 000 à 3 000 €',
+    '3000_4000': '3 000 à 4 000 €',
   },
 };
 
