@@ -209,6 +209,7 @@ function buildEmailHtml(params: {
             </td>
           </tr>` : ''}
 
+          ${projet ? `
           <!-- ─── DESCRIPTION DU PROJET ─── -->
           <tr>
             <td style="background-color:#F2F7F0;padding:28px 40px;">
@@ -219,7 +220,7 @@ function buildEmailHtml(params: {
                 <p style="margin:0;font-size:15px;color:#1C3828;line-height:1.78;">${safeProjet}</p>
               </div>
             </td>
-          </tr>
+          </tr>` : ''}
 
           <!-- ─── ACTION RAPIDE ─── -->
           <tr>
@@ -242,6 +243,100 @@ function buildEmailHtml(params: {
               <p style="margin:0;font-size:11px;color:rgba(242,247,240,0.32);line-height:1.65;">
                 Ce message a été envoyé via le formulaire de contact de <strong style="color:rgba(242,247,240,0.55);">caelestis.fr</strong><br>
                 L'adresse de réponse est définie automatiquement sur l'email du client.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>`;
+}
+
+/* ══════════════════════════════════════════════════════════
+   EMAIL CLIENT — Invitation questionnaire devis
+══════════════════════════════════════════════════════════ */
+function buildDevisInviteEmail(prenom: string, dateStr: string): string {
+  const safePrenom = escHtml(prenom);
+  const safeDate   = escHtml(dateStr);
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votre questionnaire de devis — Caelestis</title>
+</head>
+<body style="margin:0;padding:0;background-color:#D8E8D0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#D8E8D0;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+          <!-- ─── EN-TÊTE ─── -->
+          <tr>
+            <td style="background-color:#1C3828;padding:32px 40px;border-radius:4px 4px 0 0;">
+              <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(242,247,240,0.45);font-weight:500;">Caelestis · Création de site web</p>
+              <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#F2F7F0;letter-spacing:-0.02em;">Votre questionnaire de devis</h1>
+              <p style="margin:6px 0 0;font-size:12px;color:rgba(242,247,240,0.38);">${safeDate}</p>
+            </td>
+          </tr>
+
+          <!-- ─── CORPS ─── -->
+          <tr>
+            <td style="background-color:#F2F7F0;padding:36px 40px 28px;">
+              <p style="margin:0 0 20px;font-size:17px;font-weight:300;color:#1C3828;line-height:1.6;">Bonjour ${safePrenom},</p>
+              <p style="margin:0 0 16px;font-size:15px;font-weight:300;color:#3d4f28;line-height:1.75;">
+                Merci de votre intérêt pour Caelestis. Pour vous établir un devis précis et personnalisé, nous avons besoin de quelques informations sur votre projet.
+              </p>
+              <p style="margin:0 0 28px;font-size:15px;font-weight:300;color:#3d4f28;line-height:1.75;">
+                Remplissez le questionnaire en cliquant sur le bouton ci-dessous — il ne prend que quelques minutes.
+              </p>
+            </td>
+          </tr>
+
+          <!-- ─── CTA ─── -->
+          <tr>
+            <td style="background-color:#F2F7F0;padding:0 40px 36px;" align="center">
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="background-color:#1C3828;padding:16px 32px;border-radius:3px;">
+                    <a href="https://caelestis.fr/questionnaire-devis" style="font-size:14px;font-weight:600;color:#F2F7F0;text-decoration:none;letter-spacing:0.04em;">
+                      Remplir mon questionnaire de devis →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ─── NOTE ─── -->
+          <tr>
+            <td style="background-color:#F2F7F0;padding:0 40px 36px;border-bottom:1px solid #D8E8D0;">
+              <p style="margin:0;font-size:13px;color:#4A7260;line-height:1.65;">
+                Votre devis vous sera transmis sous <strong>48H</strong> après réception de vos réponses.<br>
+                Si vous avez la moindre question, répondez simplement à cet email.
+              </p>
+            </td>
+          </tr>
+
+          <!-- ─── SIGNATURE ─── -->
+          <tr>
+            <td style="background-color:#F2F7F0;padding:28px 40px 36px;">
+              <p style="margin:0;font-size:15px;font-weight:300;color:#1C3828;line-height:1.6;">À très vite,</p>
+              <p style="margin:4px 0 0;font-size:15px;font-weight:500;color:#1C3828;">Célestin — Caelestis</p>
+            </td>
+          </tr>
+
+          <!-- ─── PIED DE PAGE ─── -->
+          <tr>
+            <td style="background-color:#1C3828;padding:22px 40px;border-radius:0 0 4px 4px;">
+              <p style="margin:0;font-size:11px;color:rgba(242,247,240,0.32);line-height:1.65;">
+                Vous recevez cet email suite à votre demande de devis sur <strong style="color:rgba(242,247,240,0.55);">caelestis.fr</strong><br>
+                Lien direct : <a href="https://caelestis.fr/questionnaire-devis" style="color:rgba(242,247,240,0.45);text-decoration:underline;">caelestis.fr/questionnaire-devis</a>
               </p>
             </td>
           </tr>
@@ -354,10 +449,7 @@ export const POST: APIRoute = async ({ request }) => {
       if (jours)   extras.push(['Jours disponibles', jours]);
     }
     if (type === 'devis') {
-      const typeProjet = data.get('typeProjet')?.toString().trim() ?? '';
-      const delai      = data.get('delai')?.toString().trim()      ?? '';
-      if (typeProjet) extras.push(['Type de projet', typeProjet]);
-      if (delai)      extras.push(['Délai souhaité',  delai]);
+      extras.push(['Questionnaire', 'Envoyé par email au client']);
     }
 
     /* ── 5. Validation longueurs (DoS) ── */
@@ -378,7 +470,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     /* ── 6. Validation des champs obligatoires ── */
-    if (!type || !prenom || !email || !projet) {
+    if (!type || !prenom || !email || (type !== 'devis' && !projet)) {
       return new Response(
         JSON.stringify({ error: 'Veuillez remplir tous les champs obligatoires.' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
@@ -428,6 +520,16 @@ export const POST: APIRoute = async ({ request }) => {
       subject,
       html,
     });
+
+    /* ── Email client : lien vers le questionnaire de devis ── */
+    if (type === 'devis') {
+      await transporter.sendMail({
+        from:    '"Caelestis" <contact@caelestis.fr>',
+        to:      email,
+        subject: 'Votre questionnaire de devis — Caelestis',
+        html:    buildDevisInviteEmail(prenom, dateStr),
+      });
+    }
 
     return new Response(
       JSON.stringify({ success: true, prenom }),

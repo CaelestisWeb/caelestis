@@ -348,8 +348,8 @@ const faqSchema = {
               <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-5">
                 <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
               </div>
-              <p class="font-display text-xl font-light text-brun">Demande envoyée !</p>
-              <p class="font-body text-sm text-brun-mid mt-2">Votre devis vous parvient sous 48h.</p>
+              <p class="font-display text-xl font-light text-brun">Questionnaire envoyé !</p>
+              <p class="font-body text-sm text-brun-mid mt-2">Vérifiez votre boîte mail — votre questionnaire de devis vous y attend.</p>
             </div>
 
             <form id="form-devis" class="space-y-5" novalidate>
@@ -376,57 +376,17 @@ const faqSchema = {
                   class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
               </div>
 
-              <!-- Type de projet — fieldset WCAG 1.3.1 -->
-              <fieldset>
-                <legend class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Type de projet <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></legend>
-                <div class="grid grid-cols-2 gap-2">
-                  {[
-                    { value: 'vitrine',  label: 'Site vitrine'      },
-                    { value: 'boutique', label: 'Boutique en ligne' },
-                    { value: 'refonte',  label: 'Refonte de site'   },
-                    { value: 'autre',    label: 'Autre'             },
-                  ].map(({ value, label }) => (
-                    <label class="flex items-center gap-2.5 px-3 py-2.5 border border-cream-dark bg-cream rounded-xl font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun min-h-[44px]">
-                      <input type="radio" name="typeProjet" value={value} class="sr-only" />
-                      <span class="w-3.5 h-3.5 rounded-full border border-current flex-shrink-0 flex items-center justify-center" aria-hidden="true">
-                        <span class="radio-dot w-1.5 h-1.5 rounded-full bg-ocre opacity-0 transition-opacity duration-150"></span>
-                      </span>
-                      {label}
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-
-              <!-- Délai — fieldset WCAG 1.3.1 -->
-              <fieldset>
-                <legend class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Délai souhaité</legend>
-                <div class="flex gap-2 flex-wrap">
-                  {['Le plus vite possible', '1 à 3 mois', '3 à 6 mois', 'Pas de contrainte'].map((d) => (
-                    <label class="px-3 py-2 border border-cream-dark bg-cream rounded-lg font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
-                      <input type="radio" name="delai" value={d} class="sr-only" />
-                      {d}
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-
-              <div>
-                <label for="devis-projet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Votre projet <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
-                <textarea id="devis-projet" name="projet" rows="4" placeholder="Votre activité, vos objectifs, ce que vous souhaitez accomplir…" aria-required="true"
-                  class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
-              </div>
-
               <p id="error-devis" role="alert" aria-live="assertive" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
 
               <p class="font-display text-sm font-light text-brun-mid/70 text-center border-t border-cream pt-5">
-                Chaque devis est proposé dans une fourchette indicative, puis précisé et ajusté après discussion afin de correspondre parfaitement à votre projet.
+                Vous recevrez par email un questionnaire court à remplir. Nous établissons votre devis sous 48H.
               </p>
 
               <button type="submit" class="submit-btn w-full bg-brun text-cream font-body font-medium text-sm py-4 rounded-full hover:bg-ocre transition-colors duration-200 cursor-pointer disabled:opacity-50">
                 <span class="submit-label">Demander mon devis</span>
               </button>
 
-              <p class="font-body text-xs text-brun-mid/50 text-center">Devis gratuit sous 48h · Aucune revente de données</p>
+              <p class="font-body text-xs text-brun-mid/50 text-center">Devis reçu par email · Réponse sous 48H</p>
               <!-- Notice RGPD art. 13 — obligatoire avant collecte -->
               <p class="font-body text-[11px] text-brun-mid/40 text-center leading-relaxed">
                 Vos données sont traitées par <strong class="text-brun-mid/55">Caelestis</strong> (Célestin Fruleux) uniquement pour répondre à votre demande. Aucune revente. Durée : 3 ans.
@@ -736,7 +696,7 @@ const faqSchema = {
 
   bindForm('form-message', 'error-message', 'success-message', 'Nous vous répondons sous 48h.');
   bindForm('form-appel',   'error-appel',   'success-appel',   'Nous vous confirmons le créneau sous 48h.');
-  bindForm('form-devis',   'error-devis',   'success-devis',   'Votre devis vous parvient sous 48h.');
+  bindForm('form-devis',   'error-devis',   'success-devis',   'Vérifiez votre boîte mail — votre questionnaire de devis vous y attend.');
 
   /* ══════════════════════════════════════════
      POPUP
@@ -885,11 +845,10 @@ const faqSchema = {
   /* ── Plante formulaire Devis ── */
   const updateDevis = initPlant('fp');
   if (updateDevis) {
-    const inp = (id: string) => document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | null;
-    document.querySelectorAll<HTMLInputElement>('[name="typeProjet"]').forEach(r =>
-      r.addEventListener('change', () => updateDevis(0, true)));
-    inp('devis-prenom')?.addEventListener('input', (e) => updateDevis(1, (e.target as HTMLInputElement).value.trim().length > 0));
-    inp('devis-email') ?.addEventListener('input', (e) => updateDevis(2, (e.target as HTMLInputElement).value.trim().length > 2));
-    inp('devis-projet')?.addEventListener('input', (e) => updateDevis(3, (e.target as HTMLTextAreaElement).value.trim().length > 8));
+    const inp = (id: string) => document.getElementById(id) as HTMLInputElement | null;
+    inp('devis-prenom') ?.addEventListener('input', (e) => updateDevis(0, (e.target as HTMLInputElement).value.trim().length > 0));
+    inp('devis-societe')?.addEventListener('input', (e) => updateDevis(1, (e.target as HTMLInputElement).value.trim().length > 0));
+    inp('devis-email')  ?.addEventListener('input', (e) => updateDevis(2, (e.target as HTMLInputElement).value.trim().length > 2));
+    inp('devis-email')  ?.addEventListener('input', (e) => updateDevis(3, (e.target as HTMLInputElement).value.trim().length > 8));
   }
 </script>
