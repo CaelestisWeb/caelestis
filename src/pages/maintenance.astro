@@ -50,7 +50,7 @@ const etapes = [
 
 <BaseLayout
   title="Maintenance & accompagnement mensuel — Caelestis"
-  description="Forfaits mensuels de maintenance pour site vitrine, boutique en ligne et site sur mesure. Mises à jour, modifications, rapports de performances. Dès 49 €/mois HT."
+  description="Forfaits mensuels de maintenance pour site vitrine, boutique en ligne et site sur mesure. Mises à jour, modifications, rapports de performances. Dès 19 €/mois HT."
   schema={[schema, breadcrumb]}
   noindex={true}
 >
@@ -156,7 +156,7 @@ const etapes = [
             id="cta-prm"
             href="https://buy.stripe.com/aFa8wO5W66PJgiCbBYdAk02"
             target="_blank" rel="noopener"
-            class="block text-center font-body text-sm font-medium px-7 py-3.5 rounded-full transition-all duration-200 hover:opacity-90"
+            class="block text-center font-body text-sm font-medium px-7 py-3.5 rounded-full transition-all duration-200 hover:opacity-90 btn-magnetic"
             style="background: #889063; color: #ede3d4;"
           >
             Choisir Premium
@@ -371,6 +371,7 @@ const etapes = [
   };
 
   let typeActif = 'vitrine';
+  let controller: AbortController | null = null;
 
   function render(type: string) {
     typeActif = type;
@@ -402,19 +403,24 @@ const etapes = [
     }
 
     document.querySelectorAll<HTMLButtonElement>('.type-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.type === type);
+      const isActive = btn.dataset.type === type;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-pressed', String(isActive));
     });
   }
 
   function init() {
+    if (controller) controller.abort();
+    controller = new AbortController();
+    const { signal } = controller;
     document.querySelectorAll<HTMLButtonElement>('.type-btn').forEach(btn => {
-      btn.addEventListener('click', () => render(btn.dataset.type ?? 'vitrine'));
+      btn.addEventListener('click', () => render(btn.dataset.type ?? 'vitrine'), { signal });
     });
     render(typeActif);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', init, { once: true });
   } else {
     init();
   }
