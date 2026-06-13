@@ -284,64 +284,92 @@ function buildAdminEmail(
 }
 
 /* ══════════════════════════════════════════════════════════
-   BUILD EMAIL CLIENT (confirmation chaleureuse)
+   BUILD EMAIL CLIENT (confirmation + récapitulatif)
 ══════════════════════════════════════════════════════════ */
-function buildClientEmail(d: Record<string, unknown>): string {
-  const prenom   = str(d['nom_dirigeant']) || str(d['nom_entreprise']) || 'Bonjour';
-  const activite = str(d['activite']) || 'votre activité';
-  const prenomEsc   = esc(prenom);
-  const activiteEsc = esc(activite);
+function buildClientEmail(d: Record<string, unknown>, dateStr: string, filenames: string[]): string {
+  const prenom    = str(d['nom_dirigeant']) || str(d['nom_entreprise']) || 'Bonjour';
+  const prenomEsc = esc(prenom);
+
+  const g  = (k: string, mx = 2000) => multiline(str(d[k], mx)) || '<span style="color:#bbb;">—</span>';
+  const rl = (cat: string, k: string, otherK = '') => radioLabel(cat, str(d[k]), str(d[otherK]));
+  const al = (k: string, cat: string, otherK = '') => arrLabel(toArr(d[k]), cat, str(d[otherK]));
+
+  const boutique     = str(d['boutique_actif']);
+  const boutiqueRows = boutique === 'oui'
+    ? eRow('Nb de produits', g('boutique_nb_produits'))
+      + eRow('Livraison',    g('boutique_livraison'))
+      + eRow('Paiement',     al('boutique_paiement', 'boutique_paiement', 'boutique_paiement_autre'))
+    : '';
+  const statutVal   = str(d['statut_juridique']);
+  const statutLabel = statutVal === 'autre'
+    ? `Autre : ${esc(str(d['statut_autre']))}`
+    : radioLabel('statut_juridique', statutVal);
+  const filesHtml = filenames.length > 0
+    ? filenames.map(n => `📄 ${esc(n)}`).join('<br>')
+    : '<span style="color:#bbb;">Aucun fichier joint</span>';
+
+  const recap = [
+    eBlock('01', 'Vos coordonnées', [
+      eRow('Entreprise', g('nom_entreprise')),
+      eRow('Nom',        g('nom_dirigeant')),
+      eRow('Email',      g('email_contact')),
+      eRow('Téléphone',  g('telephone')),
+    ].join('')),
+    eBlock('02', 'Contenu disponible', [
+      eRow('Éléments fournis',  al('contenu_dispo', 'contenu_dispo', 'contenu_dispo_autre')),
+      eRow('Rédaction textes',  rl('textes', 'textes')),
+    ].join('')),
+    eBlock('03', 'Présence en ligne', [
+      eRow('Réseaux sociaux',   al('reseaux', 'reseaux', 'reseaux_autre')),
+      eRow('Comptes / pseudos', g('comptes_reseaux', 2000)),
+    ].join('')),
+    eBlock('04', 'Boutique en ligne', [
+      eRow('Boutique', rl('boutique_actif', 'boutique_actif')),
+      boutiqueRows,
+    ].join('')),
+    eBlock('05', 'Informations légales', [
+      eRow('Statut juridique', statutLabel),
+      eRow('SIRET',            g('siret')),
+      eRow('N° TVA',           g('numero_tva')),
+    ].join('')),
+    eBlock('06', 'Valeurs et message', [
+      eRow('Valeurs',           al('valeurs', 'valeurs', 'valeurs_autre')),
+      eRow('Message important', g('message_important', 3000)),
+    ].join('')),
+    eBlock('📎', 'Pièces jointes', [
+      eRow(`Fichiers (${filenames.length})`, filesHtml),
+      str(d['wetransfer_link'])
+        ? eRow('WeTransfer', `<a href="${esc(str(d['wetransfer_link']))}" style="color:#1dbd8e;">${esc(str(d['wetransfer_link']))}</a>`)
+        : '',
+    ].join('')),
+  ].join('');
 
   return `<!DOCTYPE html>
 <html lang="fr">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
 <body style="margin:0;padding:0;background:#f5f8fb;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f8fb;padding:40px 20px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f8fb;padding:32px 16px;">
 <tr><td align="center">
-<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+<table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%;">
 
-  <!-- En-tête -->
-  <tr><td style="background:linear-gradient(135deg,#028183 0%,#1dbd8e 100%);padding:36px 40px;border-radius:8px 8px 0 0;text-align:center;">
-    <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);">Caelestis · Création de site web</p>
-    <h1 style="margin:12px 0 0;font-size:26px;font-weight:300;color:#fff;letter-spacing:-.02em;">Questionnaire bien reçu ✓</h1>
-    <p style="margin:10px 0 0;font-size:13px;color:rgba(255,255,255,.55);">Merci pour le temps que vous y avez consacré</p>
+  <tr><td style="background:linear-gradient(135deg,#028183 0%,#1dbd8e 100%);padding:32px 36px;border-radius:8px 8px 0 0;">
+    <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:500;">Caelestis · Questionnaire de création</p>
+    <h1 style="margin:10px 0 0;font-size:24px;font-weight:300;color:#fff;letter-spacing:-.02em;">Questionnaire bien reçu ✓</h1>
+    <p style="margin:8px 0 0;font-size:12px;color:rgba(255,255,255,.45);">${esc(dateStr)}</p>
   </td></tr>
 
-  <!-- Corps -->
-  <tr><td style="background:#fff;padding:36px 40px 28px;">
-    <p style="margin:0 0 16px;font-size:15px;color:#2d3f54;">Bonjour <strong>${prenomEsc}</strong>,</p>
-    <p style="margin:0 0 16px;font-size:14px;color:#52647a;line-height:1.8;">J'ai bien reçu votre questionnaire concernant <strong style="color:#2d3f54;">${activiteEsc}</strong>. Ces informations sont précieuses — elles vont me permettre de préparer quelque chose de vraiment adapté à votre situation, et non pas un devis générique.</p>
-    <p style="margin:0 0 24px;font-size:14px;color:#52647a;line-height:1.8;">Je vais prendre le temps de le lire attentivement et je vous recontacte <strong style="color:#2d3f54;">sous 48h maximum</strong> pour fixer un premier appel si vous le souhaitez — ou directement vous envoyer une proposition.</p>
-
-    <!-- Encadré étapes -->
-    <table cellpadding="0" cellspacing="0" width="100%" style="background:#f5f8fb;border-radius:8px;margin-bottom:24px;">
-      <tr><td style="padding:20px 24px;">
-        <p style="margin:0 0 14px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#1dbd8e;">Ce qui se passe maintenant</p>
-        ${[
-          ['Lecture de votre questionnaire', 'Célestin analyse vos réponses en détail'],
-          ['Préparation du projet', 'Réflexion sur la structure, le design et les fonctionnalités'],
-          ['Premier contact',       'Un échange pour aligner nos visions — appel ou email, à votre convenance'],
-        ].map(([title, desc]) => `
-        <table cellpadding="0" cellspacing="0" style="margin-bottom:10px;">
-          <tr>
-            <td style="width:20px;vertical-align:top;padding-top:2px;">
-              <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#1dbd8e;"></span>
-            </td>
-            <td>
-              <p style="margin:0;font-size:13px;color:#2d3f54;font-weight:600;">${esc(title)}</p>
-              <p style="margin:2px 0 0;font-size:12px;color:#52647a;">${esc(desc)}</p>
-            </td>
-          </tr>
-        </table>`).join('')}
-      </td></tr>
-    </table>
-
-    <p style="margin:0 0 8px;font-size:14px;color:#52647a;line-height:1.8;">En attendant, si vous souhaitez m'envoyer des documents complémentaires (logo, photos, textes existants…) ou si vous avez une question urgente, n'hésitez pas à répondre directement à cet email ou à m'appeler.</p>
+  <tr><td style="background:#fff;padding:28px 36px 20px;">
+    <p style="margin:0 0 12px;font-size:15px;color:#2d3f54;">Bonjour <strong>${prenomEsc}</strong>,</p>
+    <p style="margin:0 0 12px;font-size:14px;color:#52647a;line-height:1.8;">Votre questionnaire de création a bien été reçu. Je vais le lire attentivement et vous recontacterai <strong style="color:#2d3f54;">sous 48h maximum</strong>.</p>
+    <p style="margin:0 0 4px;font-size:14px;color:#52647a;line-height:1.8;">Ci-dessous le récapitulatif de vos réponses. Si quelque chose est inexact ou si vous souhaitez ajouter une précision, répondez simplement à cet email.</p>
   </td></tr>
 
-  <!-- Signature -->
-  <tr><td style="background:#fff;padding:0 40px 32px;">
-    <table cellpadding="0" cellspacing="0" style="border-top:1px solid #eef2f7;padding-top:20px;width:100%;">
+  <tr><td style="height:2px;background:#f5f8fb;"></td></tr>
+
+  ${recap}
+
+  <tr><td style="background:#fff;padding:20px 36px 28px;">
+    <table cellpadding="0" cellspacing="0" style="border-top:1px solid #eef2f7;padding-top:18px;width:100%;">
       <tr>
         <td>
           <p style="margin:0;font-size:14px;color:#2d3f54;font-weight:600;">Célestin</p>
@@ -355,9 +383,8 @@ function buildClientEmail(d: Record<string, unknown>): string {
     </table>
   </td></tr>
 
-  <!-- Pied -->
-  <tr><td style="background:#2d3f54;padding:20px 40px;border-radius:0 0 8px 8px;">
-    <p style="margin:0;font-size:11px;color:rgba(255,255,255,.3);line-height:1.65;">Vous recevez cet email car vous avez complété le questionnaire client sur <strong style="color:rgba(255,255,255,.55);">caelestis.fr</strong>.<br>Caelestis · Drôme, France · contact@caelestis.fr</p>
+  <tr><td style="background:#2d3f54;padding:18px 36px;border-radius:0 0 8px 8px;">
+    <p style="margin:0;font-size:11px;color:rgba(255,255,255,.3);line-height:1.65;">Vous recevez cet email car vous avez complété le questionnaire de création sur <strong style="color:rgba(255,255,255,.55);">caelestis.fr</strong>.<br>Caelestis · Drôme, France · contact@caelestis.fr</p>
   </td></tr>
 
 </table>
@@ -791,7 +818,7 @@ export const POST: APIRoute = async ({ request }) => {
         to:      emailContact,
         replyTo: 'contact@caelestis.fr',
         subject: 'Votre questionnaire Caelestis a bien été reçu',
-        html:    buildClientEmail(body),
+        html:    buildClientEmail(body, dateStr, filenames),
       }),
     ]);
 

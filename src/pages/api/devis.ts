@@ -258,56 +258,91 @@ function buildAdminEmail(d: Record<string, unknown>, dateStr: string): string {
 }
 
 /* ══════════════════════════════════════════════════════════
-   EMAIL CLIENT — confirmation devis
+   EMAIL CLIENT — confirmation devis + récapitulatif
 ══════════════════════════════════════════════════════════ */
-function buildClientEmail(d: Record<string, unknown>): string {
-  const prenom      = str(d['nom_dirigeant']) || str(d['nom_entreprise']) || 'Bonjour';
-  const prenomEsc   = esc(prenom);
+function buildClientEmail(d: Record<string, unknown>, dateStr: string): string {
+  const prenom    = str(d['nom_dirigeant']) || str(d['nom_entreprise']) || 'Bonjour';
+  const prenomEsc = esc(prenom);
+
+  const g  = (k: string, mx = 2000) => multiline(str(d[k], mx)) || '<span style="color:#bbb;">—</span>';
+  const rl = (cat: string, k: string, otherK = '') => radioLabel(cat, str(d[k]), str(d[otherK]));
+  const al = (k: string, cat: string, otherK = '') => arrLabel(toArr(d[k]), cat, str(d[otherK]));
+
+  const services   = [1,2,3,4,5].map(n => str(d[`service_${n}`])).filter(Boolean).map((sv, i) => `${i+1}. ${esc(sv)}`).join('<br>') || '<span style="color:#bbb;">—</span>';
+  const pagesList  = [1,2,3,4,5,6,7,8].map(n => str(d[`page_${n}`])).filter(Boolean);
+  const pagesHtml  = pagesList.length ? pagesList.map((p, i) => `${i+1}. ${esc(p)}`).join('<br>') : '<span style="color:#bbb;">—</span>';
+  const boutique   = str(d['boutique_actif']);
+  const boutiqueRows = boutique === 'oui' ? eRow('Nb de produits', g('boutique_nb_produits')) : '';
+
+  const recap = [
+    eBlock('01', 'À propos de vous', [
+      eRow('Entreprise',       g('nom_entreprise')),
+      eRow('Nom',              g('nom_dirigeant')),
+      eRow('Activité',         g('activite')),
+      eRow('Ville',            g('ville')),
+      eRow('Téléphone',        g('telephone')),
+      eRow('Email',            g('email_contact')),
+      eRow('Site actuel',      g('site_actuel')),
+      eRow('Domaine souhaité', g('domaine_souhaite')),
+    ].join('')),
+    eBlock('02', 'Votre activité', [
+      eRow('Description',       g('description_activite', 3000)),
+      eRow('Différenciation',   g('ce_qui_vous_differencie', 2000)),
+      eRow('Clientèle',         al('type_client', 'type_client', 'type_client_autre')),
+      eRow('Zone géographique', g('zone_geo')),
+    ].join('')),
+    eBlock('03', 'Vos services', [
+      eRow('Prestations',    services),
+      eRow('Tarifs en ligne', rl('affichage_tarifs', 'affichage_tarifs')),
+    ].join('')),
+    eBlock('04', 'Votre futur site', [
+      eRow('Type de site',     rl('type_site', 'type_site')),
+      eRow('Objectifs',        al('objectifs', 'objectifs', 'objectifs_autre')),
+      eRow('Nombre de pages',  esc(str(d['nb_pages'])) || '<span style="color:#bbb;">—</span>'),
+      eRow('Pages souhaitées', pagesHtml),
+      eRow('Fonctionnalités',  al('fonctionnalites', 'fonctionnalites', 'fonctionnalites_autre')),
+      eRow('Boutique',         rl('boutique_actif', 'boutique_actif')),
+      boutiqueRows,
+    ].join('')),
+    eBlock('05', 'Univers visuel', [
+      eRow('Style',             al('style_adjectifs', 'style_adjectifs', 'style_autre')),
+      eRow('Couleurs aimées',   g('couleurs_aimees', 1000)),
+      eRow('Couleurs à éviter', g('couleurs_non_aimees', 1000)),
+      eRow('Sites inspirants',  g('sites_aimes', 2000)),
+    ].join('')),
+    eBlock('06', 'Budget et délai', [
+      eRow('Budget',  rl('budget', 'budget')),
+      eRow('Délai',   rl('delai', 'delai')),
+      eRow('Message', g('message_important', 3000)),
+    ].join('')),
+  ].join('');
 
   return `<!DOCTYPE html>
 <html lang="fr">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
 <body style="margin:0;padding:0;background:#f5f8fb;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f8fb;padding:40px 20px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f8fb;padding:32px 16px;">
 <tr><td align="center">
-<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+<table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%;">
 
-  <tr><td style="background:linear-gradient(135deg,#028183 0%,#1dbd8e 100%);padding:36px 40px;border-radius:8px 8px 0 0;text-align:center;">
-    <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);">Caelestis · Création de site web</p>
-    <h1 style="margin:12px 0 0;font-size:26px;font-weight:300;color:#fff;letter-spacing:-.02em;">Demande bien reçue ✓</h1>
-    <p style="margin:10px 0 0;font-size:13px;color:rgba(255,255,255,.55);">Merci pour le temps que vous y avez consacré</p>
+  <tr><td style="background:linear-gradient(135deg,#028183 0%,#1dbd8e 100%);padding:32px 36px;border-radius:8px 8px 0 0;">
+    <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:500;">Caelestis · Demande de devis</p>
+    <h1 style="margin:10px 0 0;font-size:24px;font-weight:300;color:#fff;letter-spacing:-.02em;">Demande bien reçue ✓</h1>
+    <p style="margin:8px 0 0;font-size:12px;color:rgba(255,255,255,.45);">${esc(dateStr)}</p>
   </td></tr>
 
-  <tr><td style="background:#fff;padding:36px 40px 28px;">
-    <p style="margin:0 0 16px;font-size:15px;color:#2d3f54;">Bonjour <strong>${prenomEsc}</strong>,</p>
-    <p style="margin:0 0 16px;font-size:14px;color:#52647a;line-height:1.8;">J'ai bien reçu votre demande de devis. Je vais l'étudier avec attention et vous préparer une proposition personnalisée, adaptée à votre situation précise.</p>
-    <p style="margin:0 0 24px;font-size:14px;color:#52647a;line-height:1.8;">Vous recevrez votre devis <strong style="color:#2d3f54;">sous 48h maximum</strong>. Si vous avez une question ou souhaitez échanger directement, n'hésitez pas à m'appeler ou à répondre à cet email.</p>
-
-    <table cellpadding="0" cellspacing="0" width="100%" style="background:#f5f8fb;border-radius:8px;margin-bottom:24px;">
-      <tr><td style="padding:20px 24px;">
-        <p style="margin:0 0 14px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#1dbd8e;">Ce qui se passe maintenant</p>
-        ${[
-          ['Lecture de votre demande',   'Célestin analyse vos besoins et votre projet en détail'],
-          ['Préparation du devis',       "Élaboration d'une proposition précise et personnalisée"],
-          ['Envoi du devis',             'Vous recevrez votre devis chiffré sous 48h maximum'],
-        ].map(([title, desc]) => `
-        <table cellpadding="0" cellspacing="0" style="margin-bottom:10px;">
-          <tr>
-            <td style="width:20px;vertical-align:top;padding-top:2px;">
-              <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#1dbd8e;"></span>
-            </td>
-            <td>
-              <p style="margin:0;font-size:13px;color:#2d3f54;font-weight:600;">${esc(title)}</p>
-              <p style="margin:2px 0 0;font-size:12px;color:#52647a;">${esc(desc)}</p>
-            </td>
-          </tr>
-        </table>`).join('')}
-      </td></tr>
-    </table>
+  <tr><td style="background:#fff;padding:28px 36px 20px;">
+    <p style="margin:0 0 12px;font-size:15px;color:#2d3f54;">Bonjour <strong>${prenomEsc}</strong>,</p>
+    <p style="margin:0 0 12px;font-size:14px;color:#52647a;line-height:1.8;">J'ai bien reçu votre demande de devis. Je vous prépare une proposition personnalisée que vous recevrez <strong style="color:#2d3f54;">sous 48H</strong>.</p>
+    <p style="margin:0 0 4px;font-size:14px;color:#52647a;line-height:1.8;">Ci-dessous le récapitulatif de vos réponses. Si quelque chose est inexact ou si vous souhaitez ajouter une précision, répondez simplement à cet email.</p>
   </td></tr>
 
-  <tr><td style="background:#fff;padding:0 40px 32px;">
-    <table cellpadding="0" cellspacing="0" style="border-top:1px solid #eef2f7;padding-top:20px;width:100%;">
+  <tr><td style="height:2px;background:#f5f8fb;"></td></tr>
+
+  ${recap}
+
+  <tr><td style="background:#fff;padding:20px 36px 28px;">
+    <table cellpadding="0" cellspacing="0" style="border-top:1px solid #eef2f7;padding-top:18px;width:100%;">
       <tr>
         <td>
           <p style="margin:0;font-size:14px;color:#2d3f54;font-weight:600;">Célestin</p>
@@ -321,7 +356,7 @@ function buildClientEmail(d: Record<string, unknown>): string {
     </table>
   </td></tr>
 
-  <tr><td style="background:#2d3f54;padding:20px 40px;border-radius:0 0 8px 8px;">
+  <tr><td style="background:#2d3f54;padding:18px 36px;border-radius:0 0 8px 8px;">
     <p style="margin:0;font-size:11px;color:rgba(255,255,255,.3);line-height:1.65;">Vous recevez cet email car vous avez complété le questionnaire de devis sur <strong style="color:rgba(255,255,255,.55);">caelestis.fr</strong>.<br>Caelestis · Drôme, France · contact@caelestis.fr</p>
   </td></tr>
 
@@ -684,7 +719,7 @@ export const POST: APIRoute = async ({ request }) => {
         to:      emailContact,
         replyTo: 'contact@caelestis.fr',
         subject: 'Votre demande de devis Caelestis a bien été reçue',
-        html:    buildClientEmail(body),
+        html:    buildClientEmail(body, dateStr),
       }),
     ]);
 
