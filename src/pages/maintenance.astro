@@ -10,11 +10,11 @@ const schema = {
   provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
   areaServed: { '@type': 'Country', name: 'France' },
   offers: [
-    { '@type': 'Offer', name: 'Standard Vitrine', priceSpecification: { '@type': 'PriceSpecification', price: '29', priceCurrency: 'EUR', unitText: 'MONTH' } },
+    { '@type': 'Offer', name: 'Standard Vitrine', priceSpecification: { '@type': 'PriceSpecification', price: '19', priceCurrency: 'EUR', unitText: 'MONTH' } },
     { '@type': 'Offer', name: 'Premium Vitrine',  priceSpecification: { '@type': 'PriceSpecification', price: '59', priceCurrency: 'EUR', unitText: 'MONTH' } },
-    { '@type': 'Offer', name: 'Standard Boutique', priceSpecification: { '@type': 'PriceSpecification', price: '49', priceCurrency: 'EUR', unitText: 'MONTH' } },
+    { '@type': 'Offer', name: 'Standard Boutique', priceSpecification: { '@type': 'PriceSpecification', price: '29', priceCurrency: 'EUR', unitText: 'MONTH' } },
     { '@type': 'Offer', name: 'Premium Boutique',  priceSpecification: { '@type': 'PriceSpecification', price: '89', priceCurrency: 'EUR', unitText: 'MONTH' } },
-    { '@type': 'Offer', name: 'Standard Sur mesure', priceSpecification: { '@type': 'PriceSpecification', price: '69', priceCurrency: 'EUR', unitText: 'MONTH' } },
+    { '@type': 'Offer', name: 'Standard Sur mesure', priceSpecification: { '@type': 'PriceSpecification', price: '39', priceCurrency: 'EUR', unitText: 'MONTH' } },
     { '@type': 'Offer', name: 'Premium Sur mesure',  priceSpecification: { '@type': 'PriceSpecification', price: '119', priceCurrency: 'EUR', unitText: 'MONTH' } },
   ],
 };
@@ -131,7 +131,7 @@ const etapes = [
           </div>
           <p class="font-body text-sm text-brun-mid mt-4 mb-7 leading-relaxed">L'essentiel pour que votre site reste fiable, à jour et bien entretenu.</p>
           <ul id="feats-std" class="flex flex-col gap-3.5 flex-1 mb-8"></ul>
-          <Button href="/contact" variant="outline">Choisir Standard</Button>
+          <a id="cta-std" href="https://buy.stripe.com/00w00iacm2ztaYieOadAk01" target="_blank" rel="noopener" class="inline-flex items-center justify-center font-body font-medium text-sm tracking-[0.04em] transition-all duration-300 min-h-[44px] border border-sauge/70 text-sauge px-8 py-3 rounded-full hover:bg-sauge hover:text-cream hover:border-sauge btn-magnetic">Choisir Standard</a>
         </div>
 
         <!-- Premium -->
@@ -153,7 +153,9 @@ const etapes = [
           <p class="font-body text-sm mt-4 mb-7 leading-relaxed" style="color: rgba(237,227,212,0.65);">Un accompagnement complet, avec contenu SEO et suivi de performances inclus.</p>
           <ul id="feats-prm" class="flex flex-col gap-3.5 flex-1 mb-8"></ul>
           <a
-            href="/contact"
+            id="cta-prm"
+            href="https://buy.stripe.com/aFa8wO5W66PJgiCbBYdAk02"
+            target="_blank" rel="noopener"
             class="block text-center font-body text-sm font-medium px-7 py-3.5 rounded-full transition-all duration-200 hover:opacity-90"
             style="background: #889063; color: #ede3d4;"
           >
@@ -305,9 +307,15 @@ const etapes = [
 </style>
 
 <script>
+  const LIENS: Record<string, { std: string; prm: string }> = {
+    vitrine:   { std: 'https://buy.stripe.com/00w00iacm2ztaYieOadAk01', prm: 'https://buy.stripe.com/aFa8wO5W66PJgiCbBYdAk02' },
+    boutique:  { std: 'https://buy.stripe.com/aFa14m2JUfmf6I221odAk03', prm: 'https://buy.stripe.com/14A6oG5W6eib4zU35sdAk04' },
+    surmesure: { std: 'https://buy.stripe.com/fZu7sKesCfmf0jEeOadAk05', prm: 'https://buy.stripe.com/00weVc1FQb5Z3vQcG2dAk06' },
+  };
+
   const OFFRES: Record<string, { std: { prix: string; feats: string[] }; prm: { prix: string; feats: string[] } }> = {
     vitrine: {
-      std: { prix: '29', feats: [
+      std: { prix: '19', feats: [
         "Mises à jour de sécurité chaque mois",
         "1 heure de modifications incluse par mois",
         "Sauvegarde mensuelle du site",
@@ -325,7 +333,7 @@ const etapes = [
       ]},
     },
     boutique: {
-      std: { prix: '49', feats: [
+      std: { prix: '29', feats: [
         "Mises à jour de sécurité et extensions boutique",
         "1 heure de modifications incluse par mois",
         "Sauvegarde mensuelle du site et des données clients",
@@ -343,7 +351,7 @@ const etapes = [
       ]},
     },
     surmesure: {
-      std: { prix: '69', feats: [
+      std: { prix: '39', feats: [
         "Mises à jour techniques et dépendances logicielles",
         "2 heures de modifications incluses par mois",
         "Sauvegardes hebdomadaires",
@@ -376,6 +384,11 @@ const etapes = [
 
     if (priceStd) priceStd.textContent = o.std.prix;
     if (pricePrm) pricePrm.textContent = o.prm.prix;
+
+    const ctaStd = document.getElementById('cta-std') as HTMLAnchorElement | null;
+    const ctaPrm = document.getElementById('cta-prm') as HTMLAnchorElement | null;
+    if (ctaStd) ctaStd.href = LIENS[type]?.std ?? '#';
+    if (ctaPrm) ctaPrm.href = LIENS[type]?.prm ?? '#';
 
     if (featsStd) {
       featsStd.innerHTML = o.std.feats
