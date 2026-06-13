@@ -1,15 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
-import { Image } from 'astro:assets';
-import imgHero from '../assets/images/atelier-botanique.jpg';
+import { Image, getImage } from 'astro:assets';
+import imgHero        from '../assets/images/laptop-jardin.jpg';
+import imgArtisan     from '../assets/images/atelier-botanique.jpg';
+import imgBougies     from '../assets/images/bougies-artisan.jpg';
+import imgYoga        from '../assets/images/yoga-soleil.jpg';
+import imgJardin      from '../assets/images/jardin-communautaire.jpg';
 
 const localBusiness = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
+  '@type': 'ProfessionalService',
+  '@id': 'https://caelestis.fr/#business',
   name: 'Caelestis',
   alternateName: 'CaelestisWeb',
-  description: 'Création de site web soigné et référencement naturel pour artisans, praticiens et indépendants.',
+  description: 'Développeur web freelance et agence web indépendante dans la Drôme. Création de sites internet sur mesure et référencement naturel pour artisans, paysagistes, maraîchers et indépendants. Basé à Crest (26400), disponible dans toute la Drôme et en France.',
   url: 'https://caelestis.fr',
   email: 'contact@caelestis.fr',
   telephone: '+33769362727',
@@ -29,7 +34,7 @@ const localBusiness = {
   },
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
     opens: '09:00',
     closes: '18:00',
   },
@@ -37,11 +42,8 @@ const localBusiness = {
   currenciesAccepted: 'EUR',
   paymentAccepted: 'Virement bancaire, Carte bancaire',
   areaServed: { '@type': 'Country', name: 'France' },
-  knowsAbout: ['Création de site web', 'Référencement naturel', 'SEO', 'Développement Astro', 'Tailwind CSS'],
-  sameAs: [
-    'https://caelestis.fr',
-    'https://share.google/IKYSIPaXxlTN0W5Zz',
-  ],
+  knowsAbout: ['Création de site web', 'Référencement naturel', 'SEO local Drôme', 'Développement Astro', 'Site internet artisan', 'Site vitrine paysagiste', 'Site internet maraîcher', 'Site internet praticien bien-être', 'Site internet gîte', 'Site internet éco-construction', 'Agence web Drôme', 'Développeur web freelance Drôme', 'Création site internet Crest', 'Création site internet Valence'],
+  sameAs: ['https://share.google/IKYSIPaXxlTN0W5Zz'],
   serviceArea: {
     '@type': 'GeoCircle',
     geoMidpoint: { '@type': 'GeoCoordinates', latitude: '44.7308', longitude: '5.0197' },
@@ -56,11 +58,11 @@ const localBusiness = {
         itemOffered: {
           '@type': 'Service',
           name: 'Création de site vitrine',
-          description: 'Site web soigné, visible sur Google, adapté à votre activité.',
+          description: 'Site web soigné, visible sur Google, adapté à votre activité. Idéal pour artisans, paysagistes, maraîchers et indépendants.',
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          minPrice: '800',
+          price: '800',
           priceCurrency: 'EUR',
         },
       },
@@ -68,8 +70,26 @@ const localBusiness = {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Référencement naturel (SEO)',
-          description: 'Audit, stratégie et optimisation pour apparaître sur Google.',
+          name: 'Création de boutique en ligne',
+          description: 'Boutique e-commerce avec catalogue, paiement sécurisé et gestion des commandes.',
+        },
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          price: '1200',
+          priceCurrency: 'EUR',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Site sur mesure',
+          description: 'Site entièrement conçu selon vos besoins, votre identité et vos objectifs.',
+        },
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          price: '2500',
+          priceCurrency: 'EUR',
         },
       },
     ],
@@ -92,19 +112,43 @@ const websiteSchema = {
       url: 'https://caelestis.fr/favicon.svg',
     },
   },
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: 'https://caelestis.fr/blog?q={search_term_string}',
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Quel est le délai pour créer un site internet ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'En général, un site internet est livré en 2 à 6 semaines selon la complexité du projet et la rapidité de transmission des contenus (textes, photos et autres). Nous vous accompagnons à chaque étape avec un planning clair dès le départ.',
+      },
     },
-    'query-input': 'required name=search_term_string',
-  },
+    {
+      '@type': 'Question',
+      name: 'Proposez-vous la maintenance du site après livraison ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Oui. Nous proposons un accompagnement après la mise en ligne : mises à jour, modifications de contenu, suivi SEO. On en discute ensemble selon vos besoins lors du premier appel.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Quel est le prix d\'un site internet ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Nos prestations démarrent à 800 € pour un site vitrine, 1 200 € pour une boutique en ligne, et 2 500 € pour un site plus complexe et sur mesure (SEO). Un devis gratuit est établi après notre appel de découverte.',
+      },
+    },
+  ],
 };
 
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': 'https://caelestis.fr/#organization',
   name: 'Caelestis',
   alternateName: 'CaelestisWeb',
   url: 'https://caelestis.fr',
@@ -114,7 +158,7 @@ const organizationSchema = {
     width: 1200,
     height: 630,
   },
-  description: 'Développeur web indépendant spécialisé dans la création de sites internet sur mesure et le référencement naturel pour artisans, paysagistes et indépendants dans la Drôme.',
+  description: 'Développeur web freelance et agence web dans la Drôme, spécialisé dans la création de sites internet sur mesure et le référencement naturel pour artisans, paysagistes, maraîchers et indépendants. Basé à Crest (26400), disponible à Valence, Romans-sur-Isère, Montélimar et dans toute la France.',
   email: 'contact@caelestis.fr',
   telephone: '+33769362727',
   address: {
@@ -135,19 +179,30 @@ const organizationSchema = {
     jobTitle: 'Développeur web & consultant SEO',
     url: 'https://caelestis.fr/a-propos',
   },
-  knowsAbout: ['Création de site web', 'Développement Astro', 'Référencement naturel', 'SEO local', 'Tailwind CSS'],
-  sameAs: [
-    'https://caelestis.fr',
-    'https://share.google/IKYSIPaXxlTN0W5Zz',
-  ],
+  knowsAbout: ['Création de site web', 'Développement Astro', 'Référencement naturel', 'SEO local Drôme', 'Agence web Drôme', 'Freelance web Drôme', 'Site internet artisan', 'Site vitrine paysagiste', 'Site internet maraîcher', 'Site internet praticien bien-être', 'Site internet gîte de charme', 'Site internet éco-construction', 'Projets engagés', 'Création site internet Crest', 'Création site internet Valence', 'Création site internet Romans-sur-Isère'],
+  sameAs: ['https://share.google/IKYSIPaXxlTN0W5Zz'],
 };
+
+// ── Preload hero image (LCP) ──
+const heroPreloadSm = await getImage({ src: imgHero, width: 360, format: 'webp', quality: 55 });
+const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp', quality: 55 });
 
 ---
 <BaseLayout
   title="Création de site internet dans la Drôme · Caelestis"
-  description="Sites web soignés pour artisans, paysagistes et indépendants dans la Drôme. Visible sur Google, livré en 2 à 4 semaines. Devis gratuit — à partir de 800€."
-  schema={[localBusiness, organizationSchema, websiteSchema]}
+  description="Sites web soignés pour artisans, paysagistes et indépendants dans la Drôme. Visible sur Google, livré en 2 à 6 semaines. Devis gratuit — à partir de 800€."
+  schema={[localBusiness, organizationSchema, websiteSchema, faqSchema]}
 >
+
+  <!-- Preload hero image pour améliorer le LCP -->
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    imagesrcset={`${heroPreloadSm.src} 360w, ${heroPreloadMd.src} 576w`}
+    imagesizes="(max-width: 640px) 100vw, 576px"
+    fetchpriority="high"
+  />
 
   <!-- ─── FIL BOTANIQUE ─── -->
   <div class="vine-wrap" aria-hidden="true">
@@ -178,7 +233,7 @@ const organizationSchema = {
 
 
   <!-- ─── HERO ─── -->
-  <section class="min-h-[100vh] flex flex-col justify-center px-6 md:px-10 lg:px-20 pt-20 pb-16 relative overflow-hidden">
+  <section class="min-h-[100vh] flex flex-col justify-center px-6 md:px-10 lg:px-20 pt-8 md:pt-20 pb-16 relative overflow-hidden">
 
     <!-- Lumière ambiante organique -->
     <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
@@ -196,7 +251,7 @@ const organizationSchema = {
       <div class="text-center lg:pl-8">
 
         <!-- Eyebrow -->
-        <p class="font-body text-sm tracking-[0.22em] uppercase text-sauge mb-8" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase mb-8 text-sauge" data-reveal>
           Création de site web · Drôme, France
         </p>
 
@@ -205,18 +260,21 @@ const organizationSchema = {
           class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-7 hero-title"
           style="font-size: clamp(2rem, 5.5vw, 4.8rem);"
         >
-          <span class="sl"><span>Valorisez</span></span>
-          <span class="sl">votre <span class="text-sauge">activité.</span></span>
+          <span class="sl"><span>Valorisez votre activité</span></span>
+          <span class="sl"><span class="text-sauge whitespace-nowrap">avec votre site web.</span></span>
         </h1>
 
         <!-- Sous-titre -->
         <p class="font-body text-base leading-relaxed max-w-[500px] mb-5 text-brun-mid mx-auto" data-reveal data-delay="1">
-          Des sites web pour ceux qui créent, cultivent et bâtissent avec passion. J'aide les artisans, praticiens et indépendants à avoir une présence en ligne à la hauteur de leur travail.
+          Des sites web pour ceux qui créent, cultivent et bâtissent avec passion. Nous accompagnons les artisans, praticiens et indépendants pour avoir une présence en ligne à la hauteur de leur travail.
         </p>
 
         <!-- CTA -->
         <div class="flex flex-col items-center" data-reveal data-delay="2">
-          <Button href="/contact" variant="primary">Parler de mon projet</Button>
+          <div class="flex flex-col sm:flex-row items-center gap-3">
+            <Button href="/contact" variant="primary">Parler de mon projet</Button>
+            <Button href="/simulateur" variant="outline">Estimer mon projet</Button>
+          </div>
           <div class="flex items-center justify-center gap-4 mt-6 flex-wrap">
             <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">Réponse sous 48h</span>
             <span class="text-brun-mid/25">·</span>
@@ -233,13 +291,14 @@ const organizationSchema = {
         <div class="img-zoom img-editorial w-full" style="height: min(72vh, 620px);">
           <Image
             src={imgHero}
-            alt="Atelier botanique artisanal — encres naturelles, fleurs séchées et tampons botaniques"
+            alt="Laptop ouvert dans un jardin verdoyant — création de site internet par Caelestis, Drôme"
             class="w-full h-full object-cover object-center"
             data-parallax
             loading="eager"
             fetchpriority="high"
-            widths={[480, 768, 1024]}
-            sizes="(max-width: 1024px) 0px, 50vw"
+            widths={[480, 640]}
+            sizes="(max-width: 1024px) 0px, 42vw"
+            quality={55}
           />
         </div>
       </div>
@@ -251,13 +310,13 @@ const organizationSchema = {
       <div class="img-zoom img-editorial overflow-hidden" style="aspect-ratio: 16/10; max-height: 360px; border-radius: 12px;">
         <Image
           src={imgHero}
-          alt="Atelier botanique artisanal — encres naturelles, fleurs séchées et tampons botaniques"
+          alt="Laptop ouvert dans un jardin verdoyant — création de site internet par Caelestis, Drôme"
           class="w-full h-full object-cover object-center"
           loading="eager"
           fetchpriority="high"
-          widths={[400, 640, 768]}
+          widths={[360, 576]}
           sizes="(max-width: 640px) 100vw, 576px"
-          quality={72}
+          quality={65}
         />
       </div>
     </div>
@@ -265,19 +324,113 @@ const organizationSchema = {
     <!-- Scroll indicator -->
     <div class="scroll-indicator absolute bottom-8 left-6 md:left-10 lg:left-20 hidden sm:flex items-center gap-3" aria-hidden="true">
       <div class="scroll-line w-8 h-px bg-brun opacity-35"></div>
-      <span class="font-body text-xs tracking-[0.18em] uppercase text-brun opacity-35">Découvrir</span>
     </div>
 
   </section>
 
 
   <!-- ─── POUR QUI ─── -->
-  <section class="py-10 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
-    <div class="max-w-6xl mx-auto text-center" data-reveal>
-      <p class="font-body text-sm leading-relaxed" style="color: rgba(76,61,25,0.65); letter-spacing: 0.05em;">
-        Artisans · Créateurs · Paysagistes · Maraîchers · Producteurs locaux · Pépiniéristes · Praticiens bien-être · Éco-constructeurs · Gîtes de charme · Projets engagés
+  <section class="py-14 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient overflow-hidden">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Ligne métiers — une seule ligne centrée -->
+      <div class="overflow-x-auto mb-10" data-reveal>
+        <p class="font-body text-xs text-center whitespace-nowrap" style="color: rgba(76,61,25,0.50); letter-spacing: 0.08em;">
+          Artisans &nbsp;·&nbsp; Créateurs &nbsp;·&nbsp; Projets engagés &nbsp;·&nbsp; Maraîchers &nbsp;·&nbsp; Producteurs locaux &nbsp;·&nbsp; Pépiniéristes &nbsp;·&nbsp; Praticiens bien-être &nbsp;·&nbsp; Éco-constructeurs &nbsp;·&nbsp; Gîtes de charme &nbsp;·&nbsp; Paysagistes
+        </p>
+      </div>
+
+      <!-- Galerie portfolio — 5 photos, 2 grandes + 3 petites -->
+      <!-- Bento grid responsive : 2×2 mobile → bento desktop -->
+      <div class="bento-gallery" data-reveal data-delay="1">
+
+        <!-- Jardin communautaire -->
+        <div class="bento-cell bento-jardin img-zoom overflow-hidden">
+          <Image
+            src={imgJardin}
+            alt="Jardin maraîcher et espace vert — paysagiste indépendant"
+            class="w-full h-full object-cover object-center"
+            widths={[200, 400, 760]}
+            sizes="(max-width: 768px) 50vw, 50vw"
+            loading="lazy"
+            quality={72}
+          />
+        </div>
+
+        <!-- Yoga : portrait pleine hauteur (bento desktop) -->
+        <div class="bento-cell bento-yoga img-zoom overflow-hidden">
+          <Image
+            src={imgYoga}
+            alt="Praticien bien-être — yoga au coucher de soleil"
+            class="w-full h-full object-cover object-center"
+            widths={[200, 320, 480]}
+            sizes="(max-width: 768px) 50vw, 33vw"
+            loading="lazy"
+            quality={72}
+          />
+        </div>
+
+        <!-- Atelier botanique -->
+        <div class="bento-cell bento-artisan img-zoom overflow-hidden">
+          <Image
+            src={imgArtisan}
+            alt="Artisane dans son atelier botanique — créateur indépendant"
+            class="w-full h-full object-cover object-center"
+            widths={[200, 400, 760]}
+            sizes="(max-width: 768px) 50vw, 50vw"
+            loading="lazy"
+            quality={72}
+          />
+        </div>
+
+        <!-- Bougies artisan -->
+        <div class="bento-cell bento-bougies img-zoom overflow-hidden">
+          <Image
+            src={imgBougies}
+            alt="Atelier de bougies artisanales — artisan"
+            class="w-full h-full object-cover object-center"
+            widths={[200, 320, 480]}
+            sizes="(max-width: 768px) 50vw, 33vw"
+            loading="lazy"
+            quality={72}
+          />
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ─── TRANSITION EDITORIALE ─── -->
+  <section class="py-24 px-6 md:px-10 lg:px-20">
+    <div class="max-w-3xl mx-auto text-center">
+
+      <p class="inline-block font-body text-xs tracking-[0.22em] uppercase text-sauge border border-sauge/40 rounded-full px-4 py-1.5 mb-8" data-reveal>
+        L'importance d'un site web
       </p>
-      <p class="font-body text-xs mt-3" style="color: #889063; letter-spacing: 0.12em;">et bien d'autres…</p>
+
+      <h2
+        class="font-display font-light text-brun leading-[1.15] tracking-tight mb-8"
+        style="font-size: clamp(1.5rem, 2.6vw, 2.1rem);"
+        data-reveal data-delay="1"
+      >
+        <span class="block">Les fleurs donnent vie à un jardin,</span>
+        <span class="block text-sauge">votre site web donne vie à votre entreprise.</span>
+      </h2>
+
+      <div class="para-card" data-reveal data-delay="2">
+        <p class="font-body text-base leading-relaxed mb-3">
+          Aujourd'hui, de nombreux clients recherchent des informations en ligne avant de prendre contact, de se déplacer ou de passer commande.
+        </p>
+        <p class="font-body text-base leading-relaxed mb-3">
+          Un site internet leur permet de découvrir votre activité, de comprendre ce qui vous distingue et de vous contacter en toute confiance.
+        </p>
+        <p class="font-body text-base leading-relaxed">
+          Véritable vitrine de votre savoir-faire, il renforce votre crédibilité, améliore votre visibilité et contribue au développement de votre entreprise en vous aidant à toucher de nouveaux clients.
+        </p>
+      </div>
+
     </div>
   </section>
 
@@ -289,7 +442,7 @@ const organizationSchema = {
       <div class="text-center mb-14" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Prestations</p>
         <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-5">
-          Ce que je peux faire pour vous.
+          Ce que nous pouvons faire pour vous.
         </h2>
 
       </div>
@@ -307,14 +460,14 @@ const organizationSchema = {
           class="service-card border-2 border-cream-dark rounded-2xl p-5 md:p-7 flex flex-col gap-4 text-center cursor-pointer transition-all duration-300 hover:border-sauge/40">
           <h3 class="font-display text-xl font-light text-brun">Boutique en ligne</h3>
           <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Vendez vos produits directement depuis votre site. Catalogue en ligne, paiement sécurisé, connecté à vos outils de gestion.</p>
-          <p class="service-price font-body text-xs text-sauge transition-colors duration-300">Sur devis</p>
+          <p class="service-price font-body text-xs text-sauge transition-colors duration-300">À partir de 1 200€</p>
         </button>
 
         <button type="button" data-service="2"
           class="service-card border-2 border-cream-dark rounded-2xl p-5 md:p-7 flex flex-col gap-4 text-center cursor-pointer transition-all duration-300 hover:border-sauge/40">
           <h3 class="font-display text-xl font-light text-brun">Site sur mesure</h3>
           <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Un site entièrement conçu selon vos besoins, votre identité et vos objectifs. Une solution unique pensée pour valoriser votre activité et soutenir son développement.</p>
-          <p class="service-price font-body text-xs text-sauge transition-colors duration-300">Sur devis</p>
+          <p class="service-price font-body text-xs text-sauge transition-colors duration-300">À partir de 2 500€</p>
         </button>
 
       </div>
@@ -335,7 +488,7 @@ const organizationSchema = {
       <div class="mb-10 text-center" data-reveal>
         <h2 class="font-display font-light leading-[1.3]" style="color: rgba(237,227,212,0.85);">
           <span class="block text-2xl md:text-3xl">Un site construit ensemble.</span>
-          <span class="block text-xl md:text-2xl text-sauge mt-1">Un site qui vous ressemble.</span>
+          <span class="block text-xl md:text-2xl text-sauge italic mt-1">Un site qui vous ressemble.</span>
         </h2>
       </div>
 
@@ -343,25 +496,25 @@ const organizationSchema = {
 
         <div class="text-center" data-reveal>
           <div class="w-8 h-px bg-sauge mb-7 mx-auto"></div>
-          <h3 class="font-display text-xl font-light mb-4">Je comprends votre métier.</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
-            Avant de concevoir quoi que ce soit, je cherche à comprendre votre activité, vos clients et ce qui vous distingue.
+          <h3 class="font-display text-xl font-light mb-4">Nous comprenons votre métier.</h3>
+          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.78)">
+            Avant de concevoir quoi que ce soit, nous cherchons à comprendre votre activité, vos clients et ce qui vous distingue.
           </p>
         </div>
 
         <div class="text-center" data-reveal data-delay="1">
           <div class="w-8 h-px bg-sauge mb-7 mx-auto"></div>
-          <h3 class="font-display text-xl font-light mb-4">Un site construit avec vous.</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
-            Chaque projet débute par un échange. Je réalise une maquette, nous l'améliorons ensemble et ne publions le site que lorsqu'il correspond pleinement à vos attentes.
+          <h3 class="font-display text-xl font-light mb-4">De l'échange, à la mise en ligne.</h3>
+          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.78)">
+            Chaque projet débute par un échange. Nous réalisons une maquette, nous l'améliorons ensemble et ne publions le site que lorsqu'il correspond pleinement à vos attentes.
           </p>
         </div>
 
         <div class="text-center" data-reveal data-delay="2">
           <div class="w-8 h-px bg-sauge mb-7 mx-auto"></div>
-          <h3 class="font-display text-xl font-light mb-4">Je reste là après le lancement.</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.6)">
-            La mise en ligne ne marque pas la fin du projet. Je reste à votre disposition pour vous conseiller et vous accompagner dans les éventuels ajustements de votre site.
+          <h3 class="font-display text-xl font-light mb-4">Nous restons là après le lancement.</h3>
+          <p class="font-body text-sm leading-relaxed" style="color: rgba(237,227,212,0.78)">
+            La mise en ligne ne marque pas la fin du projet. Nous restons à votre disposition pour vous conseiller et vous accompagner dans les éventuels ajustements de votre site.
           </p>
         </div>
 
@@ -369,7 +522,7 @@ const organizationSchema = {
 
       <!-- 2% FNE — intégré ici -->
       <div class="mt-16 pt-10 border-t text-center" style="border-color: rgba(237,227,212,0.10)" data-reveal>
-        <p class="font-body text-sm" style="color: rgba(237,227,212,0.38)">
+        <p class="font-body text-sm" style="color: rgba(237,227,212,0.68)">
           2&nbsp;% de chaque projet est reversé à <a href="https://www.fne.asso.fr" target="_blank" rel="noopener noreferrer" class="text-sauge hover:opacity-80 transition-opacity">France Nature Environnement</a>. Parce que construire quelque chose de beau ne s'arrête pas à soi.
         </p>
       </div>
@@ -378,15 +531,70 @@ const organizationSchema = {
   </section>
 
 
+  <!-- ─── FAQ ─── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark" aria-labelledby="faq-title">
+    <div class="max-w-3xl mx-auto">
+
+      <div class="text-center mb-12" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Questions fréquentes</p>
+        <h2 id="faq-title" class="font-display text-3xl md:text-4xl font-light text-brun leading-[1.1]">
+          Ce que vous voulez savoir.
+        </h2>
+      </div>
+
+      <dl class="divide-y divide-cream-dark" data-reveal data-delay="1">
+
+        {[
+          {
+            q: 'Quel est le délai pour créer un site internet ?',
+            a: 'En général, un site internet est livré en 2 à 6 semaines selon la complexité du projet et la rapidité de transmission des contenus (textes, photos et autres). Nous vous accompagnons à chaque étape avec un planning clair dès le départ.',
+          },
+          {
+            q: 'Proposez-vous la maintenance du site après livraison ?',
+            a: 'Oui. Nous proposons un accompagnement après la mise en ligne : mises à jour, modifications de contenu, suivi SEO. On en discute ensemble selon vos besoins lors du premier appel.',
+          },
+          {
+            q: 'Quel est le prix d\'un site internet ?',
+            a: 'Nos prestations démarrent à 800 € pour un site vitrine, 1 200 € pour une boutique en ligne, et 2 500 € pour un site plus complexe et sur mesure (SEO). Un devis gratuit est établi après notre appel de découverte.',
+          },
+        ].map(({ q, a }) => (
+          <div class="faq-item">
+            <dt>
+              <button
+                type="button"
+                class="faq-btn w-full flex items-center justify-between gap-6 py-5 text-left"
+                aria-expanded="false"
+              >
+                <span class="font-display text-lg font-light text-brun">{q}</span>
+                <span class="faq-icon flex-shrink-0 w-7 h-7 rounded-full border border-cream-dark flex items-center justify-center text-bun-mid transition-all duration-300" aria-hidden="true">
+                  <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                    <line x1="5.5" y1="0" x2="5.5" y2="11" stroke="currentColor" stroke-width="1.2" class="faq-plus-v transition-all duration-300"/>
+                    <line x1="0" y1="5.5" x2="11" y2="5.5" stroke="currentColor" stroke-width="1.2"/>
+                  </svg>
+                </span>
+              </button>
+            </dt>
+            <dd class="faq-answer overflow-hidden max-h-0 transition-all duration-400 ease-in-out">
+              <p class="font-body text-sm text-brun-mid leading-relaxed pb-5 pr-12">{a}</p>
+            </dd>
+          </div>
+        ))}
+
+      </dl>
+
+    </div>
+  </section>
+
+
   <!-- ─── CTA FINAL ─── -->
   <section class="py-20 px-6 md:px-10 lg:px-20 text-center section-ambient border-t border-cream-dark" data-reveal>
     <div class="max-w-xl mx-auto">
-      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6">Un premier échange.</p>
+      <p class="inline-block font-body text-xs tracking-[0.22em] uppercase text-sauge border border-sauge/40 rounded-full px-4 py-1.5 mb-6">Un premier échange</p>
       <h2 class="font-display text-4xl md:text-5xl font-light text-brun leading-[1.1] mb-6">
-        Vous avez un projet ?<br>On en parle.
+        Vous avez un projet ?<br><span class="italic">On en parle.</span>
       </h2>
       <p class="font-body text-base text-brun-mid mb-10 leading-relaxed">
-        Décrivez votre activité en quelques lignes.<br>Je reviens vers vous sous 48h.
+        Décrivez votre activité en quelques lignes.<br>Nous revenons vers vous sous 48h.
       </p>
       <Button href="/contact" variant="primary">Lancer la conversation</Button>
     </div>
@@ -406,10 +614,10 @@ const organizationSchema = {
     pointer-events: none;
     z-index: 2;
     display: none;
-    mix-blend-mode: difference;
   }
   #vine-path {
-    stroke: #655371;
+    stroke: #889063;
+    opacity: 0.35;
   }
   @media (min-width: 1024px) {
     .vine-wrap { display: block; }
@@ -440,6 +648,68 @@ const organizationSchema = {
   .service-card.active .service-num {
     color: #889063 !important;
   }
+
+  /* ── Carte paragraphe luxe ── */
+  .para-card {
+    position: relative;
+    background: rgba(61, 79, 40, 0.75);
+    border-radius: 24px;
+    padding: 2rem 1.25rem;
+    text-align: center;
+    overflow: hidden;
+    box-shadow:
+      0 40px 90px rgba(42, 61, 24, 0.35),
+      0 8px 24px rgba(42, 61, 24, 0.20),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  }
+  @media (min-width: 640px) {
+    .para-card { padding: 3rem 3.5rem; }
+  }
+  .para-card p {
+    color: rgba(237, 227, 212, 0.90);
+    font-size: 1.05rem;
+    line-height: 1.95;
+    letter-spacing: 0.012em;
+  }
+
+  /* ── Galerie bento ── */
+  .bento-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 160px 160px;
+    gap: 8px;
+  }
+  /* Mobile : 2×2 simple, toutes les cellules dans l'ordre naturel */
+  .bento-jardin  { grid-column: 1; grid-row: 1; }
+  .bento-yoga    { grid-column: 2; grid-row: 1; }
+  .bento-artisan { grid-column: 1; grid-row: 2; }
+  .bento-bougies { grid-column: 2; grid-row: 2; }
+
+  /* Desktop : bento avec yoga portrait pleine hauteur */
+  @media (min-width: 768px) {
+    .bento-gallery {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 210px 180px;
+      gap: 10px;
+    }
+    .bento-jardin  { grid-column: 1 / 3; grid-row: 1; }
+    .bento-yoga    { grid-column: 3;     grid-row: 1 / 3; }
+    .bento-artisan { grid-column: 1;     grid-row: 2; }
+    .bento-bougies { grid-column: 2;     grid-row: 2; }
+  }
+
+  .bento-cell {
+    border-radius: 6px;
+    box-shadow: 0 2px 12px rgba(76, 61, 25, 0.10);
+    outline: 1px solid rgba(76, 61, 25, 0.07);
+    outline-offset: -1px;
+  }
+
+  /* ── FAQ accordéon ── */
+  .faq-item.open .faq-answer { max-height: 300px; }
+  .faq-item.open .faq-plus-v { transform: scaleY(0); opacity: 0; }
+  .faq-item.open .faq-icon   { border-color: #889063; color: #889063; }
+  .faq-btn:hover .faq-icon   { border-color: #889063; color: #889063; }
 </style>
 
 <script>
@@ -450,4 +720,26 @@ const organizationSchema = {
       if (!isActive) card.classList.add('active');
     });
   });
+
+  /* ── FAQ ── */
+  function bindFaq() {
+    document.querySelectorAll<HTMLButtonElement>('.faq-btn').forEach((btn) => {
+      const clone = btn.cloneNode(true) as HTMLButtonElement;
+      btn.parentNode?.replaceChild(clone, btn);
+      clone.addEventListener('click', () => {
+        const item = clone.closest('.faq-item')!;
+        const open = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach((i) => {
+          i.classList.remove('open');
+          i.querySelector('.faq-btn')?.setAttribute('aria-expanded', 'false');
+        });
+        if (!open) {
+          item.classList.add('open');
+          clone.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  }
+  bindFaq();
+  document.addEventListener('astro:page-load', bindFaq);
 </script>

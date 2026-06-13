@@ -92,7 +92,11 @@
     /* ── Événements ── */
     window.addEventListener('caelestis:audio-enable', () => startAmbient());
     window.addEventListener('caelestis:sound-toggle', () => {
-      if (window.__caelestisAmbient === undefined) return;
+      if (window.__caelestisAmbient === undefined) {
+        /* Premier clic sur l'oiseau — bannière déjà disparue ou refusée */
+        startAmbient();
+        return;
+      }
       window.__caelestisAmbient.playing ? stopAmbient() : resumeAmbient();
     });
     document.addEventListener('astro:page-load', () => {

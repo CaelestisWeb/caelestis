@@ -27,7 +27,7 @@ const faqSchema = {
       name: 'Combien de temps faut-il pour créer mon site ?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Entre 2 et 4 semaines en général, selon vos besoins et nos échanges. Je réalise d\'abord une maquette du site, puis nous l\'ajustons ensemble étape par étape jusqu\'à obtenir un résultat qui vous correspond vraiment.',
+        text: 'Entre 2 et 6 semaines en général, selon vos besoins et nos échanges. Nous réalisons d\'abord une maquette du site, puis nous l\'ajustons ensemble étape par étape jusqu\'à obtenir un résultat qui vous correspond vraiment.',
       },
     },
     {
@@ -64,7 +64,7 @@ const faqSchema = {
 
       <div class="lg:text-right" data-reveal data-delay="2">
         <p class="font-body text-base text-brun-mid leading-relaxed mb-3">
-          Parlez-moi de votre activité en quelques lignes.<br>Je reviens vers vous sous 48h.
+          Parlez-nous de votre projet.<br>Nous revenons vers vous sous 48h.
         </p>
       </div>
 
@@ -111,7 +111,7 @@ const faqSchema = {
               role="tab"
               aria-selected={id === 'message' ? 'true' : 'false'}
               aria-controls={`panel-${id}`}
-              class={`tab-btn flex-1 flex items-center gap-2.5 px-4 py-3.5 min-h-[44px] border font-body text-sm transition-all duration-200 text-left ${id === 'message' ? 'border-sauge bg-sauge text-cream' : 'border-cream-dark text-brun-mid hover:border-sauge/40'}`}
+              class={`tab-btn flex-1 flex items-center gap-2.5 px-4 py-3.5 min-h-[44px] border rounded-xl font-body text-sm transition-all duration-200 text-left ${id === 'message' ? 'border-sauge bg-sauge text-cream' : 'border-cream-dark text-brun-mid hover:border-sauge/40'}`}
             >
               <span class="text-base leading-none" aria-hidden="true">{icon}</span>
               <span>{label}</span>
@@ -120,14 +120,14 @@ const faqSchema = {
         </div>
 
         <!-- Wrapper commun -->
-        <div class="bg-cream-dark p-5 sm:p-8 md:p-10">
+        <div class="bg-cream-dark rounded-2xl p-5 sm:p-8 md:p-10">
 
           <!-- ══ FORMULAIRE 1 — Message ══ -->
           <div id="panel-message" role="tabpanel" aria-labelledby="tab-message" class="tab-panel">
             <div class="mb-7 pb-7 border-b border-cream flex items-end justify-between gap-6">
               <div>
                 <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-1.5">Message</p>
-                <p class="font-display text-2xl font-light text-brun">Une question, une idée,<br>un premier contact.</p>
+                <p class="font-display text-2xl font-light text-brun"><span class="whitespace-nowrap">Une question, une idée,</span><br>un premier contact.</p>
               </div>
               <div id="plant-message" aria-hidden="true" class="flex-shrink-0" style="width:50px;height:78px">
                 <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full overflow-visible">
@@ -152,7 +152,7 @@ const faqSchema = {
                 <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
               </div>
               <p class="font-display text-xl font-light text-brun">Message envoyé !</p>
-              <p class="font-body text-sm text-brun-mid mt-2">Je vous réponds sous 48h.</p>
+              <p class="font-body text-sm text-brun-mid mt-2">Nous vous répondons sous 48h.</p>
             </div>
 
             <form id="form-message" class="space-y-5" novalidate>
@@ -164,37 +164,37 @@ const faqSchema = {
                 <div>
                   <label for="msg-prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Prénom <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
                   <input type="text" id="msg-prenom" name="prenom" autocomplete="given-name" placeholder="Votre prénom" aria-required="true"
-                    class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                    class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
                 </div>
                 <div>
                   <label for="msg-nom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Nom</label>
                   <input type="text" id="msg-nom" name="nom" autocomplete="family-name" placeholder="Votre nom"
-                    class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                    class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
                 </div>
               </div>
 
               <div>
                 <label for="msg-email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Email <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
                 <input type="email" id="msg-email" name="email" autocomplete="email" placeholder="votre@email.com" aria-required="true"
-                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                  class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
               </div>
 
               <div>
                 <label for="msg-sujet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Sujet</label>
                 <input type="text" id="msg-sujet" name="sujet" placeholder="En quelques mots…"
-                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                  class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
               </div>
 
               <div>
                 <label for="msg-message" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Message <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
                 <textarea id="msg-message" name="projet" rows="5" placeholder="Votre message…" aria-required="true"
-                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
+                  class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
               </div>
 
               <p id="error-message" role="alert" aria-live="assertive" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
 
               <p class="font-display text-sm font-light text-brun-mid/70 text-center border-t border-cream pt-5">
-                Posez tout ce qui vous passe par la tête. Je lis chaque message et réponds personnellement.
+                Posez tout ce qui vous passe par la tête. Chaque message est lu et traité personnellement.
               </p>
 
               <button type="submit" class="submit-btn w-full bg-brun text-cream font-body font-medium text-sm py-4 rounded-full hover:bg-ocre transition-colors duration-200 cursor-pointer disabled:opacity-50">
@@ -240,7 +240,7 @@ const faqSchema = {
                 <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
               </div>
               <p class="font-display text-xl font-light text-brun">Demande reçue !</p>
-              <p class="font-body text-sm text-brun-mid mt-2">Je vous confirme le créneau sous 48h.</p>
+              <p class="font-body text-sm text-brun-mid mt-2">Nous vous confirmons le créneau sous 48h.</p>
             </div>
 
             <form id="form-appel" class="space-y-5" novalidate>
@@ -252,19 +252,19 @@ const faqSchema = {
                 <div>
                   <label for="appel-prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Prénom <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
                   <input type="text" id="appel-prenom" name="prenom" autocomplete="given-name" placeholder="Votre prénom" aria-required="true"
-                    class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                    class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
                 </div>
                 <div>
                   <label for="appel-tel" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Téléphone <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
                   <input type="tel" id="appel-tel" name="telephone" autocomplete="tel" placeholder="06 00 00 00 00" aria-required="true"
-                    class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                    class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
                 </div>
               </div>
 
               <div>
                 <label for="appel-email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Email <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
                 <input type="email" id="appel-email" name="email" autocomplete="email" placeholder="votre@email.com" aria-required="true"
-                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                  class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
               </div>
 
               <!-- Créneau horaire — fieldset pour grouper les radios WCAG 1.3.1 -->
@@ -272,7 +272,7 @@ const faqSchema = {
                 <legend class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Moment préféré <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></legend>
                 <div class="flex flex-col xs:flex-row gap-2 sm:gap-3">
                   {['Matin (9h–12h)', 'Après-midi (14h–18h)', 'Indifférent'].map((slot) => (
-                    <label class="slot-label flex-1 flex items-center justify-center text-center px-3 py-2.5 border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun min-h-[44px]">
+                    <label class="slot-label flex-1 flex items-center justify-center text-center px-3 py-2.5 border border-cream-dark bg-cream rounded-xl font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun min-h-[44px]">
                       <input type="radio" name="creneau" value={slot} class="sr-only" />
                       {slot}
                     </label>
@@ -285,7 +285,7 @@ const faqSchema = {
                 <legend class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Jours disponibles</legend>
                 <div class="flex gap-2 flex-wrap">
                   {['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'].map((jour) => (
-                    <label class="flex items-center justify-center w-12 min-h-[44px] border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
+                    <label class="flex items-center justify-center w-12 min-h-[44px] border border-cream-dark bg-cream rounded-lg font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
                       <input type="checkbox" name="jours" value={jour} class="sr-only" />
                       {jour}
                     </label>
@@ -296,7 +296,7 @@ const faqSchema = {
               <div>
                 <label for="appel-sujet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Sujet de l'appel <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
                 <textarea id="appel-sujet" name="projet" rows="3" placeholder="En quelques mots, ce que vous souhaitez aborder…" aria-required="true"
-                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
+                  class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
               </div>
 
               <p id="error-appel" role="alert" aria-live="assertive" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
@@ -361,19 +361,19 @@ const faqSchema = {
                 <div>
                   <label for="devis-prenom" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Prénom <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
                   <input type="text" id="devis-prenom" name="prenom" autocomplete="given-name" placeholder="Votre prénom" aria-required="true"
-                    class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                    class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
                 </div>
                 <div>
                   <label for="devis-societe" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Entreprise</label>
                   <input type="text" id="devis-societe" name="societe" autocomplete="organization" placeholder="Ferme des Collines…"
-                    class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                    class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
                 </div>
               </div>
 
               <div>
                 <label for="devis-email" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Email <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
                 <input type="email" id="devis-email" name="email" autocomplete="email" placeholder="votre@email.com" aria-required="true"
-                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
+                  class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200" />
               </div>
 
               <!-- Type de projet — fieldset WCAG 1.3.1 -->
@@ -386,7 +386,7 @@ const faqSchema = {
                     { value: 'refonte',  label: 'Refonte de site'   },
                     { value: 'autre',    label: 'Autre'             },
                   ].map(({ value, label }) => (
-                    <label class="flex items-center gap-2.5 px-3 py-2.5 border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun min-h-[44px]">
+                    <label class="flex items-center gap-2.5 px-3 py-2.5 border border-cream-dark bg-cream rounded-xl font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun min-h-[44px]">
                       <input type="radio" name="typeProjet" value={value} class="sr-only" />
                       <span class="w-3.5 h-3.5 rounded-full border border-current flex-shrink-0 flex items-center justify-center" aria-hidden="true">
                         <span class="radio-dot w-1.5 h-1.5 rounded-full bg-ocre opacity-0 transition-opacity duration-150"></span>
@@ -402,7 +402,7 @@ const faqSchema = {
                 <legend class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Délai souhaité</legend>
                 <div class="flex gap-2 flex-wrap">
                   {['Le plus vite possible', '1 à 3 mois', '3 à 6 mois', 'Pas de contrainte'].map((d) => (
-                    <label class="px-3 py-2 border border-cream-dark bg-cream font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
+                    <label class="px-3 py-2 border border-cream-dark bg-cream rounded-lg font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
                       <input type="radio" name="delai" value={d} class="sr-only" />
                       {d}
                     </label>
@@ -413,7 +413,7 @@ const faqSchema = {
               <div>
                 <label for="devis-projet" class="font-body text-xs tracking-widest uppercase text-brun-mid block mb-2">Votre projet <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></label>
                 <textarea id="devis-projet" name="projet" rows="4" placeholder="Votre activité, vos objectifs, ce que vous souhaitez accomplir…" aria-required="true"
-                  class="w-full bg-cream border border-cream-dark px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
+                  class="w-full bg-cream border border-cream-dark rounded-xl px-4 py-3 font-body text-sm text-brun placeholder:text-brun-mid/40 focus:outline-none focus:border-ocre transition-colors duration-200 resize-none"></textarea>
               </div>
 
               <p id="error-devis" role="alert" aria-live="assertive" class="hidden font-body text-xs text-ocre-dark text-center bg-ocre/8 px-4 py-3"></p>
@@ -456,24 +456,27 @@ const faqSchema = {
       <div id="faq-list" data-reveal data-delay="1">
         {[
           {
+            id: 'faq-cout',
             q: "Combien ça coûte ?",
             a: "Les sites démarrent à partir de 800 €. Le prix final dépend de la complexité du projet : nombre de pages, fonctionnalités souhaitées, boutique en ligne, référencement, identité visuelle, etc. Vous recevez un devis clair sous 48h, chaque ligne expliquée.",
           },
           {
+            id: 'faq-delai',
             q: "Combien de temps faut-il pour créer mon site ?",
-            a: "Entre 2 et 4 semaines en général, selon vos besoins et nos échanges. Je réalise d'abord une maquette du site, puis nous l'ajustons ensemble jusqu'à obtenir un résultat qui vous correspond vraiment.",
+            a: "Entre 2 et 6 semaines en général, selon vos besoins et nos échanges. Nous réalisons d'abord une maquette du site, puis nous l'ajustons ensemble jusqu'à obtenir un résultat qui vous correspond vraiment.",
           },
           {
+            id: 'faq-google',
             q: "Est-ce que mon site sera visible sur Google ?",
             a: "Oui. Chaque site est construit sur de bonnes bases : structure claire, chargement rapide, balisage propre et référencement pensé dès le départ. Votre site sera optimisé pour les recherches locales et relié à votre fiche Google. Et si vous souhaitez aller plus loin, un travail de référencement avancé peut être mis en place.",
           },
-        ].map(({ q, a }) => (
+        ].map(({ id, q, a }) => (
           <div class="faq-item border-t border-cream-dark">
-            <button class="faq-trigger w-full flex items-center justify-between gap-6 py-6 text-left" aria-expanded="false">
+            <button class="faq-trigger w-full flex items-center justify-between gap-6 py-6 text-left" aria-expanded="false" aria-controls={id}>
               <span class="font-display text-lg font-light text-brun">{q}</span>
-              <span class="faq-icon font-body text-xl font-light flex-shrink-0 text-brun-mid/40">+</span>
+              <span class="faq-icon font-body text-xl font-light flex-shrink-0 text-brun-mid/40" aria-hidden="true">+</span>
             </button>
-            <div class="faq-body overflow-hidden max-h-0 transition-[max-height] duration-300 ease-out">
+            <div id={id} class="faq-body overflow-hidden max-h-0 transition-[max-height] duration-300 ease-out">
               <p class="font-body text-sm leading-relaxed pb-6 text-brun-mid">{a}</p>
             </div>
           </div>
@@ -530,7 +533,7 @@ const faqSchema = {
       </div>
       <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Reçu 5 sur 5</p>
       <h2 id="thanks-title" class="font-display text-3xl font-light text-brun mb-4 tracking-[-0.02em]">Envoyé !</h2>
-      <p id="thanks-body" class="font-body text-sm text-brun-mid leading-relaxed mb-8">Je vous réponds sous 48h.</p>
+      <p id="thanks-body" class="font-body text-sm text-brun-mid leading-relaxed mb-8">Nous vous répondons sous 48h.</p>
       <div class="w-full h-px bg-cream-dark overflow-hidden rounded-full mb-6">
         <div id="thanks-progress" class="h-full bg-sauge/50 rounded-full" style="width:100%"></div>
       </div>
@@ -731,8 +734,8 @@ const faqSchema = {
     });
   }
 
-  bindForm('form-message', 'error-message', 'success-message', 'Je vous réponds sous 48h.');
-  bindForm('form-appel',   'error-appel',   'success-appel',   'Je vous confirme le créneau sous 48h.');
+  bindForm('form-message', 'error-message', 'success-message', 'Nous vous répondons sous 48h.');
+  bindForm('form-appel',   'error-appel',   'success-appel',   'Nous vous confirmons le créneau sous 48h.');
   bindForm('form-devis',   'error-devis',   'success-devis',   'Votre devis vous parvient sous 48h.');
 
   /* ══════════════════════════════════════════

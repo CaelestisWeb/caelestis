@@ -4,7 +4,8 @@ Allow: /
 Disallow: /cgv
 Disallow: /mentions-legales
 Disallow: /politique-confidentialite
-Disallow: /demos/
+Disallow: /questionnaire-client
+Disallow: /maintenance
 Disallow: /_astro/
 Disallow: /api/
 

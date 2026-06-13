@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* ── Polices auto-hébergées (éliminent la requête Google Fonts) ── */
+@import '@fontsource-variable/dm-sans/opsz.css';
+@import '@fontsource/lora/latin-400.css';
+@import '@fontsource/lora/latin-400-italic.css';
+@import '@fontsource/lora/latin-600.css';
+
 /* ════════════════════════════════════════
    PALETTE CAELESTIS — FORÊT VIVANTE
    Vert forêt profond comme ton dominant.
@@ -21,7 +27,7 @@
   --color-golden:      #CFBB99;   /* tan — highlights, détails chaleureux */
 
   /* ── Forêt mature : kombu deep green ── */
-  --color-brun:        #354024;   /* kombu — texte, sections sombres */
+  --color-brun:        #3d4f28;   /* vert forêt — texte, sections sombres */
   --color-brun-mid:    #6B6040;   /* olive chaud — texte secondaire lisible */
 
   /* ── Végétaux maturés : mousse & lin ── */
@@ -38,7 +44,7 @@
   --color-encre:       #2A1E0C;   /* encre brûlée — profondeur absolue */
 
   --font-display: 'Lora', serif;
-  --font-body:    'DM Sans', sans-serif;
+  --font-body:    'DM Sans Variable', 'DM Sans', sans-serif;
 }
 
 
@@ -80,7 +86,7 @@
   }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
     background-color: #EDE3D4;
     color: #1C3828;
     line-height: 1.7;
@@ -154,18 +160,6 @@
   /* Vidéos / iframes responsive par défaut */
   iframe, video { max-width: 100%; }
 
-  /* ── Champs de formulaire — coins arrondis pour humaniser ── */
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"],
-  input[type="url"],
-  input[type="search"],
-  input[type="number"],
-  input[type="password"],
-  textarea,
-  select {
-    border-radius: 10px;
-  }
 }
 
 
@@ -398,15 +392,7 @@
   isolation: isolate;
 }
 .section-dark-depth::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    radial-gradient(ellipse 90% 60% at 8% 25%,  rgba(136, 144, 99, 0.16)  0%, transparent 50%),
-    radial-gradient(ellipse 65% 50% at 92% 80%,  rgba(207, 187, 153, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(237, 227, 212, 0.04) 0%, transparent 40%);
+  content: none;
 }
 /* Contenu au-dessus du dégradé */
 .section-dark-depth > * { position: relative; z-index: 1; }
@@ -476,6 +462,36 @@
 
 
 /* ════════════════════════════════════════
+   ARRONDI GLOBAL — règle hors @layer
+   Priorité cascade > utilities Tailwind
+   Tous les champs du site sont arrondis
+════════════════════════════════════════ */
+
+input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):not([type="submit"]):not([type="file"]),
+textarea,
+select {
+  border-radius: 10px;
+}
+
+
+/* ════════════════════════════════════════
+   FOCUS VISIBLE — champs formulaire
+   Priorité cascade > @layer utilities
+   Restaure le focus-visible que focus:outline-none
+   de Tailwind supprime sur les inputs.
+   WCAG 2.4.7 / 2.4.11
+════════════════════════════════════════ */
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #4C3D19;
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+
+/* ════════════════════════════════════════
    ACCESSIBILITÉ — mouvement réduit
    Pour les utilisateurs qui préfèrent
    pas ou peu d'animations (vestibulaire,
@@ -516,4 +532,45 @@
   ::view-transition-new(root) {
     animation: none !important;
   }
+}
+
+
+/* ════════════════════════════════════════
+   IMPRESSION
+════════════════════════════════════════ */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Masque les éléments non pertinents à l'impression */
+  body::after,
+  .vine-wrap,
+  .fixed-bird,
+  #audio-banner,
+  .cookie-banner,
+  #header nav,
+  footer { display: none !important; }
+
+  /* Révèle tous les éléments cachés par les animations */
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+
+  /* Affiche les URLs des liens */
+  a[href]:not([href^="#"]):not([href^="tel:"]):not([href^="mailto:"]) {
+    text-decoration: underline;
+  }
+
+  /* Évite les coupures de page sur les titres et images */
+  h1, h2, h3, h4 { page-break-after: avoid; }
+  img, figure, .sim-step { page-break-inside: avoid; }
+
+  @page { margin: 1.5cm 2cm; size: A4; }
 }

@@ -13,8 +13,8 @@
       <div class="flex-1 min-w-0">
         <div>
           <p class="font-body text-[13px] text-brun leading-relaxed">
-            <strong class="font-semibold">Ce site · Caelestis</strong> dépose uniquement des cookies techniques
-            strictement nécessaires à son fonctionnement. Aucun tracker, aucune publicité, aucune donnée revendue.
+            <strong class="font-semibold">Ce site · Caelestis</strong> utilise des cookies techniques nécessaires
+            à son fonctionnement et, avec votre accord, Google Analytics pour mesurer la fréquentation. Aucune publicité, aucune donnée revendue.
             <a href="/politique-confidentialite" class="text-sauge underline underline-offset-2 hover:text-brun transition-colors ml-1">En savoir plus →</a>
           </p>
         </div>
@@ -80,14 +80,12 @@
     /* Ne rien afficher si consentement valide déjà donné */
     if (readConsent() !== null) return;
 
-    /* Affiche le bandeau après 10s + focus (WCAG 2.4.3) */
+    /* Affiche le bandeau après 10s — pas de focus automatique (WCAG 2.4.3 : ne pas déplacer
+       le focus de façon inattendue ; l'utilisateur accède aux boutons via Tab si nécessaire) */
     setTimeout(() => {
       banner.style.transition = 'transform 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.45s ease';
       banner.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
       banner.classList.add('translate-y-0', 'opacity-100');
-      setTimeout(() => {
-        (document.getElementById('cookie-accept') as HTMLButtonElement | null)?.focus();
-      }, 500);
     }, 10000);
 
     function hideBanner() {
@@ -99,6 +97,7 @@
     document.getElementById('cookie-accept')?.addEventListener('click', () => {
       saveConsent('accepted');
       hideBanner();
+      window.dispatchEvent(new CustomEvent('caelestis:consent-accepted'));
     });
 
     document.getElementById('cookie-decline')?.addEventListener('click', () => {
@@ -125,9 +124,6 @@
       banner.style.pointerEvents = 'auto';
       banner.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
       banner.classList.add('translate-y-0', 'opacity-100');
-      setTimeout(() => {
-        (document.getElementById('cookie-accept') as HTMLButtonElement | null)?.focus();
-      }, 500);
     }, 100);
   };
 </script>

@@ -6,16 +6,103 @@ const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
-    { '@type': 'ListItem', position: 2, name: 'Simulateur de prix', item: 'https://caelestis.fr/simulateur' },
+    { '@type': 'ListItem', position: 1, name: 'Accueil',                      item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Simulateur de prix site internet', item: 'https://caelestis.fr/simulateur' },
+  ],
+};
+
+const webAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Simulateur de prix — création de site internet',
+  applicationCategory: 'BusinessApplication',
+  url: 'https://caelestis.fr/simulateur',
+  description: 'Outil gratuit pour estimer le coût de création de votre site internet en 2 minutes. Pour artisans, paysagistes, praticiens et indépendants en Drôme et partout en France.',
+  operatingSystem: 'Any',
+  inLanguage: 'fr-FR',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'EUR',
+    description: 'Estimation gratuite et sans engagement',
+  },
+  provider: {
+    '@type': 'LocalBusiness',
+    '@id': 'https://caelestis.fr/#business',
+    name: 'Caelestis',
+    url: 'https://caelestis.fr',
+    telephone: '+33769362727',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Crest',
+      addressRegion: 'Drôme',
+      postalCode: '26400',
+      addressCountry: 'FR',
+    },
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Combien coûte un site vitrine pour artisan ou indépendant ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Un site vitrine pour artisan ou indépendant coûte entre 800 € et 1 600 € chez Caelestis, selon le nombre de pages (1 à 4, 4 à 6, ou 6 et plus), la disponibilité des contenus et le délai souhaité. Ce tarif inclut la conception sur mesure, le développement, l\'optimisation mobile et le référencement de base.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Quel est le prix d\'une boutique en ligne ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'La création d\'une boutique en ligne est estimée entre 1 200 € et 2 500 € chez Caelestis. Ce prix varie selon le nombre de produits (0–10, 10–30 ou 30–50), l\'état du stock existant et le volume de contenu à intégrer. Le devis précis est établi après un échange gratuit de 20 minutes.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Combien coûte un site internet sur mesure avec fonctionnalités avancées ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Un site sur mesure (espace membre, système de réservation, tableau de bord ou application web) est estimé entre 2 500 € et 4 000 € chez Caelestis, selon la complexité technique et la maturité du projet. Un appel de cadrage gratuit permet d\'affiner ce chiffre avant tout engagement.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Le simulateur de prix est-il gratuit et sans engagement ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Oui, le simulateur de prix Caelestis est entièrement gratuit et sans engagement. En 4 questions et moins de 2 minutes, vous recevez une fourchette de prix personnalisée directement par email. Aucune carte bancaire ni inscription n\'est requise.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Pourquoi les prix d\'un site internet varient-ils autant ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Le coût d\'un site web dépend de plusieurs facteurs : le nombre de pages, les fonctionnalités souhaitées (galerie, blog, boutique, réservation en ligne), la disponibilité des contenus (textes, photos, logo) et le délai de livraison. Un site vitrine simple avec contenus prêts sera bien moins coûteux qu\'un projet complet à construire de A à Z.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Créez-vous des sites pour des professionnels dans toute la France ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Oui. Basé à Crest dans la Drôme (26), Caelestis accompagne artisans, paysagistes, maraîchers, praticiens et indépendants dans toute la Drôme (Valence, Romans-sur-Isère, Montélimar, Die, Nyons), en Ardèche et partout en France. Tout se fait à distance, en visioconférence, sans déplacement nécessaire.',
+      },
+    },
   ],
 };
 ---
 
 <BaseLayout
-  title="Simulateur de prix — Créez votre site web · Caelestis"
-  description="Obtenez une estimation personnalisée pour votre projet de site internet en 2 minutes. Vitrine, boutique ou sur mesure — recevez votre fourchette de prix par email, sans engagement."
-  schema={breadcrumbSchema}
+  title="Combien coûte un site internet ? Simulateur de prix gratuit · Caelestis"
+  description="Estimez le prix de votre site internet en 2 minutes. Site vitrine dès 800 €, boutique dès 1 200 €, sur mesure dès 2 500 €. Gratuit, sans engagement — artisans et indépendants, Drôme et toute la France."
+  canonical="https://caelestis.fr/simulateur"
+  schema={[breadcrumbSchema, webAppSchema, faqSchema]}
 >
 
   <!-- ── Fond décoratif subtil ── -->
@@ -24,34 +111,32 @@ const breadcrumbSchema = {
     <div style="position:absolute;bottom:5%;left:-6%;width:340px;height:340px;background:radial-gradient(circle,rgba(76,61,25,0.05) 0%,transparent 70%);border-radius:50%;"></div>
   </div>
 
-  <main style="position:relative;z-index:1;">
+  <div style="position:relative;z-index:1;">
 
     <!-- ── En-tête de page ── -->
     <section class="pt-20 pb-4 px-6 md:px-10 text-center">
-      <p
-        class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-5"
-        data-reveal
-      >Simulateur de prix</p>
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-5" data-reveal>
+        Estimation gratuite · Sans engagement
+      </p>
       <h1
         class="font-display font-light text-brun leading-tight tracking-tight mb-5"
         style="font-size: clamp(2rem, 5vw, 3.2rem);"
         data-reveal data-delay="1"
       >
-        Quelle est votre<br>
-        <em class="not-italic" style="color:#889063;">fourchette de prix</em>&nbsp;?
+        Combien coûte<br>
+        <em class="not-italic" style="color:#889063;">votre site internet&nbsp;?</em>
       </h1>
       <p
         class="font-body text-sm text-brun-mid max-w-md mx-auto leading-relaxed mb-2"
         data-reveal data-delay="2"
       >
-        4 questions — moins de 2 minutes — estimation reçue par email.
+        4 questions, moins de 2 minutes. Recevez votre fourchette de prix par email — pour artisans, paysagistes et indépendants en Drôme et partout en France.
       </p>
     </section>
 
     <!-- ── Simulateur ── -->
-    <section class="px-6 md:px-10 pb-28 pt-10">
+    <section class="px-6 md:px-10 pb-16 pt-10">
       <div class="max-w-lg mx-auto">
-        <!-- Carte contenant le simulateur -->
         <div
           style="
             background: rgba(255,252,245,0.55);
@@ -65,17 +150,133 @@ const breadcrumbSchema = {
         >
           <PriceSimulator />
         </div>
-
-        <!-- Note de confiance -->
-        <p
-          class="font-body text-xs text-brun-mid/50 text-center mt-6 leading-relaxed"
-          data-reveal
-        >
-          Gratuit · Sans engagement · Aucune carte bancaire requise
+        <p class="font-body text-xs text-brun-mid/50 text-center mt-6 leading-relaxed" data-reveal>
+          Gratuit · Sans engagement
         </p>
       </div>
     </section>
 
-  </main>
+    <!-- ── Section tarifaire rapide ── -->
+    <section class="px-6 md:px-10 pb-16 max-w-3xl mx-auto" aria-label="Grille tarifaire indicative">
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-8 text-center" data-reveal>
+        Tarifs indicatifs
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" data-reveal data-delay="1">
+
+        <div style="background:rgba(255,252,245,0.7);border:1.5px solid rgba(207,192,160,0.4);border-radius:12px;padding:22px 20px;">
+          <p class="font-body text-xs tracking-[0.16em] uppercase text-sauge mb-2">Site vitrine</p>
+          <p class="font-display font-light text-brun text-2xl mb-1">800 € – 1 600 €</p>
+          <p class="font-body text-xs text-brun-mid/70 leading-relaxed">1 à 6 pages · Mobile responsive · Référencement de base</p>
+        </div>
+
+        <div style="background:rgba(61,79,40,0.05);border:1.5px solid rgba(136,144,99,0.35);border-radius:12px;padding:22px 20px;position:relative;">
+          <span style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#889063;color:#FFFCF5;font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:3px 12px;border-radius:99px;" class="font-body">Le plus demandé</span>
+          <p class="font-body text-xs tracking-[0.16em] uppercase text-sauge mb-2">Boutique en ligne</p>
+          <p class="font-display font-light text-brun text-2xl mb-1">1 200 € – 2 500 €</p>
+          <p class="font-body text-xs text-brun-mid/70 leading-relaxed">Catalogue produits · Paiement sécurisé · Gestion des commandes</p>
+        </div>
+
+        <div style="background:rgba(255,252,245,0.7);border:1.5px solid rgba(207,192,160,0.4);border-radius:12px;padding:22px 20px;">
+          <p class="font-body text-xs tracking-[0.16em] uppercase text-sauge mb-2">Sur mesure</p>
+          <p class="font-display font-light text-brun text-2xl mb-1">2 500 € – 4 000 €</p>
+          <p class="font-body text-xs text-brun-mid/70 leading-relaxed">Espace membre · Réservation · Fonctionnalités avancées</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── FAQ visible (SEO content) ── -->
+    <section class="px-6 md:px-10 pb-24 max-w-3xl mx-auto" aria-label="Questions fréquentes sur les prix">
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-8 text-center" data-reveal>
+        Questions fréquentes
+      </p>
+
+      <div class="flex flex-col gap-5" data-reveal data-delay="1">
+
+        <details class="sim-faq-item" open>
+          <summary class="sim-faq-q">Combien coûte un site vitrine pour artisan ou indépendant ?</summary>
+          <p class="sim-faq-a">Un site vitrine réalisé sur mesure est facturé entre <strong>800 € et 1 600 €</strong>, selon le nombre de pages (simple 1–4 pages, standard 4–6 pages, ou complet 6 pages et plus), la disponibilité des contenus et l'urgence du projet. Ce tarif inclut la conception graphique, le développement, l'adaptation mobile et le référencement naturel de base. Pour les artisans, paysagistes, maraîchers et praticiens de la Drôme, une estimation gratuite est disponible en 2 minutes via le simulateur ci-dessus.</p>
+        </details>
+
+        <details class="sim-faq-item">
+          <summary class="sim-faq-q">Quel est le prix d'une boutique en ligne ?</summary>
+          <p class="sim-faq-a">La création d'une boutique e-commerce est estimée entre <strong>1 200 € et 2 500 €</strong>. Ce prix varie principalement selon le nombre de produits à intégrer (0–10, 10–30 ou 30–50 références), la gestion du stock existant et le volume de contenu à structurer. Le devis définitif est établi lors d'un appel gratuit de 20 minutes.</p>
+        </details>
+
+        <details class="sim-faq-item">
+          <summary class="sim-faq-q">Combien coûte un site sur mesure avec fonctionnalités avancées ?</summary>
+          <p class="sim-faq-a">Un site avec des fonctionnalités spécifiques — espace client, prise de rendez-vous en ligne, tableau de bord ou application web — est estimé entre <strong>2 500 € et 4 000 €</strong>, selon la complexité technique et le degré de maturité du projet (brief cadré, grandes lignes, ou projet à co-construire).</p>
+        </details>
+
+        <details class="sim-faq-item">
+          <summary class="sim-faq-q">Pourquoi les prix d'un site web varient-ils autant d'un prestataire à l'autre ?</summary>
+          <p class="sim-faq-a">Le coût d'un site internet dépend de plusieurs facteurs cumulatifs : le nombre de pages, les fonctionnalités à développer, la disponibilité des contenus (textes rédigés, photos professionnelles, logo existant), le niveau de personnalisation graphique et le délai de livraison. Un site simple avec tous les contenus prêts peut être livré rapidement à budget maîtrisé, là où un projet à construire de A à Z mobilise beaucoup plus de temps et de compétences.</p>
+        </details>
+
+        <details class="sim-faq-item">
+          <summary class="sim-faq-q">Le simulateur de prix est-il vraiment gratuit et sans engagement ?</summary>
+          <p class="sim-faq-a">Oui, entièrement. En 4 questions et moins de 2 minutes, vous obtenez une fourchette de prix personnalisée envoyée par email, sans inscription ni carte bancaire. Cette estimation est un premier repère honnête — le devis précis est établi après un échange téléphonique gratuit de 20 minutes.</p>
+        </details>
+
+        <details class="sim-faq-item">
+          <summary class="sim-faq-q">Intervenez-vous uniquement en Drôme, ou partout en France ?</summary>
+          <p class="sim-faq-a">Basé à <strong>Crest (Drôme, 26)</strong>, Caelestis accompagne artisans, paysagistes, maraîchers, praticiens bien-être, associations et indépendants dans toute la <strong>Drôme</strong> (Valence, Romans-sur-Isère, Montélimar, Die, Nyons, Crest), en <strong>Ardèche</strong> et <strong>partout en France</strong>. Les projets se déroulent entièrement à distance, en visioconférence, sans déplacement nécessaire.</p>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
 
 </BaseLayout>
+
+<style>
+  .sim-faq-item {
+    border: 1.5px solid rgba(207,192,160,0.4);
+    border-radius: 10px;
+    background: rgba(255,252,245,0.6);
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+  }
+  .sim-faq-item[open] {
+    border-color: rgba(136,144,99,0.45);
+  }
+  .sim-faq-q {
+    font-family: var(--font-body, sans-serif);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-brun);
+    padding: 18px 20px;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    line-height: 1.4;
+  }
+  .sim-faq-q::-webkit-details-marker { display: none; }
+  .sim-faq-q::after {
+    content: '+';
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: var(--color-sauge);
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+  .sim-faq-item[open] .sim-faq-q::after {
+    transform: rotate(45deg);
+  }
+  .sim-faq-a {
+    font-family: var(--font-body, sans-serif);
+    font-size: 0.85rem;
+    color: #52647a;
+    line-height: 1.75;
+    padding: 0 20px 18px;
+    margin: 0;
+  }
+  .sim-faq-a strong {
+    color: var(--color-brun);
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,1149 @@
+---
+---
+
+<div class="brief-root">
+
+  <!-- ── Bannière de restauration ── -->
+  <div id="restore-banner" class="restore-banner hidden" role="alert">
+    <div class="restore-inner">
+      <span class="restore-dot" aria-hidden="true"></span>
+      <p class="restore-msg">Réponses sauvegardées. Souhaitez-vous reprendre là où vous en étiez&nbsp;?</p>
+      <div class="restore-actions">
+        <button id="restore-btn" class="restore-yes">Reprendre</button>
+        <button id="discard-btn" class="restore-no" aria-label="Ignorer">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="form-container" class="brief-container">
+
+    <!-- ── En-tête ── -->
+    <header class="brief-header">
+      <p class="brief-overline">Caelestis. Questionnaire client</p>
+      <h1 class="brief-title">Questionnaire de création<br>de site internet</h1>
+      <p class="brief-subtitle">Répondez à votre rythme, même partiellement. Chaque détail nous aide à préparer votre projet avec soin. Vos réponses sont sauvegardées automatiquement.</p>
+      <div class="brief-divider" aria-hidden="true"></div>
+    </header>
+
+    <!-- Indicateur de sauvegarde masqué visuellement -->
+    <div aria-live="polite" style="display:none;">
+      <span id="save-indicator" aria-label="Formulaire sauvegardé">
+        <span id="save-time"></span>
+      </span>
+    </div>
+
+    <form id="brief-form" novalidate>
+
+      <!-- Honeypot -->
+      <div style="position:absolute;left:-9999px;opacity:0;pointer-events:none;height:0;" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <!-- ══════════════════════════════
+           01 · Qui êtes-vous ?
+      ══════════════════════════════ -->
+      <section class="b-card">
+        <div class="b-card-head">
+          <span class="b-num" aria-hidden="true">01</span>
+          <div>
+            <p class="b-overline">Pour commencer</p>
+            <h2 class="b-title">Qui êtes-vous ?</h2>
+          </div>
+        </div>
+        <div class="b-body">
+          <div class="b-row-2">
+            <div class="b-field">
+              <label class="b-label" for="nom_entreprise">Nom de l'entreprise</label>
+              <input id="nom_entreprise" type="text" name="nom_entreprise" placeholder="Ex : Jardins Dupont" class="b-input">
+            </div>
+            <div class="b-field">
+              <label class="b-label" for="nom_dirigeant">Votre prénom et nom</label>
+              <input id="nom_dirigeant" type="text" name="nom_dirigeant" placeholder="Ex : Jean Dupont" class="b-input">
+            </div>
+          </div>
+          <div class="b-row-2">
+            <div class="b-field">
+              <label class="b-label" for="activite">Activité principale</label>
+              <input id="activite" type="text" name="activite" placeholder="Ex : Paysagiste, thérapeute, artisan…" class="b-input">
+            </div>
+            <div class="b-field">
+              <label class="b-label" for="ville">Ville / Département</label>
+              <input id="ville" type="text" name="ville" placeholder="Ex : Valence (26)" class="b-input">
+            </div>
+          </div>
+          <div class="b-row-2">
+            <div class="b-field">
+              <label class="b-label" for="telephone">Téléphone</label>
+              <input id="telephone" type="tel" name="telephone" placeholder="07 xx xx xx xx" class="b-input">
+            </div>
+            <div class="b-field">
+              <label class="b-label" for="email_contact">
+                Email <span class="b-required" aria-label="champ obligatoire">*</span>
+              </label>
+              <input id="email_contact" type="email" name="email_contact" placeholder="votre@email.fr" class="b-input" required>
+            </div>
+          </div>
+          <div class="b-row-2">
+            <div class="b-field">
+              <label class="b-label" for="site_actuel">Site internet actuel <span class="b-hint">(si vous en avez un)</span></label>
+              <input id="site_actuel" type="text" name="site_actuel" placeholder="https://..." class="b-input">
+            </div>
+            <div class="b-field">
+              <label class="b-label" for="domaine_souhaite">Nom de domaine souhaité (si disponible)</label>
+              <input id="domaine_souhaite" type="text" name="domaine_souhaite" placeholder="Ex : jardins-dupont.fr" class="b-input">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════
+           02 · Votre activité
+      ══════════════════════════════ -->
+      <section class="b-card">
+        <div class="b-card-head">
+          <span class="b-num" aria-hidden="true">02</span>
+          <div>
+            <p class="b-overline">Votre histoire</p>
+            <h2 class="b-title">Votre activité</h2>
+          </div>
+        </div>
+        <div class="b-body">
+          <div class="b-field">
+            <label class="b-label" for="description_activite">Décrivez votre activité en quelques phrases</label>
+            <textarea id="description_activite" name="description_activite" rows="4" placeholder="Ce que vous faites, depuis combien de temps, ce qui vous tient à cœur dans ce métier…" class="b-textarea"></textarea>
+          </div>
+          <div class="b-field">
+            <label class="b-label" for="ce_qui_vous_differencie">Ce qui vous différencie de vos concurrents</label>
+            <textarea id="ce_qui_vous_differencie" name="ce_qui_vous_differencie" rows="3" placeholder="Votre approche, votre expérience, votre façon de travailler, ce que les autres ne font pas…" class="b-textarea"></textarea>
+          </div>
+          <div class="b-field">
+            <span class="b-label" id="type-client-legend">Clientèle ciblée</span>
+            <div class="b-chips b-chips-wrap" role="group" aria-labelledby="type-client-legend">
+              <label class="b-chip"><input type="checkbox" name="type_client" value="particuliers" class="b-chip-input"><span>Particuliers</span></label>
+              <label class="b-chip"><input type="checkbox" name="type_client" value="professionnels" class="b-chip-input"><span>Professionnels (B2B)</span></label>
+              <label class="b-chip"><input type="checkbox" name="type_client" value="collectivites" class="b-chip-input"><span>Collectivités</span></label>
+              <label class="b-chip"><input type="checkbox" name="type_client" value="associations" class="b-chip-input"><span>Associations</span></label>
+              <label class="b-chip"><input type="checkbox" name="type_client" value="autre" class="b-chip-input"><span>Autre</span></label>
+            </div>
+            <div id="type_client-autre" class="b-reveal hidden">
+              <input type="text" name="type_client_autre" placeholder="Précisez votre clientèle…" class="b-input">
+            </div>
+          </div>
+          <div class="b-field">
+            <label class="b-label" for="zone_geo">Zone géographique desservie</label>
+            <input id="zone_geo" type="text" name="zone_geo" placeholder="Ex : Drôme et Ardèche, toute la France, international…" class="b-input">
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════
+           03 · Vos services
+      ══════════════════════════════ -->
+      <section class="b-card">
+        <div class="b-card-head">
+          <span class="b-num" aria-hidden="true">03</span>
+          <div>
+            <p class="b-overline">Ce que vous proposez</p>
+            <h2 class="b-title">Vos services</h2>
+          </div>
+        </div>
+        <div class="b-body">
+          <div class="b-field">
+            <span class="b-label">Vos principales prestations</span>
+            <div class="b-services">
+              <div class="b-service-row">
+                <span class="b-service-num" aria-hidden="true">1</span>
+                <input type="text" name="service_1" placeholder="Ex : Création et aménagement de jardins" class="b-input">
+              </div>
+              <div class="b-service-row">
+                <span class="b-service-num" aria-hidden="true">2</span>
+                <input type="text" name="service_2" placeholder="Ex : Entretien régulier (tonte, taille…)" class="b-input">
+              </div>
+              <div class="b-service-row">
+                <span class="b-service-num" aria-hidden="true">3</span>
+                <input type="text" name="service_3" placeholder="Service 3 (optionnel)" class="b-input">
+              </div>
+              <div class="b-service-row">
+                <span class="b-service-num" aria-hidden="true">4</span>
+                <input type="text" name="service_4" placeholder="Service 4 (optionnel)" class="b-input">
+              </div>
+              <div class="b-service-row">
+                <span class="b-service-num" aria-hidden="true">5</span>
+                <input type="text" name="service_5" placeholder="Service 5 (optionnel)" class="b-input">
+              </div>
+            </div>
+          </div>
+          <div class="b-field">
+            <span class="b-label" id="tarifs-legend">Afficher les tarifs sur le site ?</span>
+            <div class="b-chips" role="radiogroup" aria-labelledby="tarifs-legend">
+              <label class="b-chip"><input type="radio" name="affichage_tarifs" value="oui" class="b-chip-input"><span>Oui, mes prix</span></label>
+              <label class="b-chip"><input type="radio" name="affichage_tarifs" value="sur_demande" class="b-chip-input"><span>Sur demande</span></label>
+              <label class="b-chip"><input type="radio" name="affichage_tarifs" value="non" class="b-chip-input"><span>Non</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════
+           04 · Votre site internet
+      ══════════════════════════════ -->
+      <section class="b-card">
+        <div class="b-card-head">
+          <span class="b-num" aria-hidden="true">04</span>
+          <div>
+            <p class="b-overline">Votre vision</p>
+            <h2 class="b-title">Votre site internet</h2>
+          </div>
+        </div>
+        <div class="b-body">
+          <div class="b-field">
+            <span class="b-label" id="type-site-legend">Type de site</span>
+            <div class="b-chips" role="radiogroup" aria-labelledby="type-site-legend">
+              <label class="b-chip"><input type="radio" name="type_site" value="vitrine" class="b-chip-input"><span>Site vitrine</span></label>
+              <label class="b-chip"><input type="radio" name="type_site" value="boutique_en_ligne" class="b-chip-input"><span>Boutique en ligne</span></label>
+              <label class="b-chip"><input type="radio" name="type_site" value="sur_mesure" class="b-chip-input"><span>Site sur mesure</span></label>
+            </div>
+          </div>
+          <div class="b-field">
+            <span class="b-label" id="objectifs-legend">Objectifs principaux</span>
+            <div class="b-check-grid" role="group" aria-labelledby="objectifs-legend">
+              <label class="b-check"><input type="checkbox" name="objectifs" value="visibilite" class="b-check-input"><span>Gagner en visibilité</span></label>
+              <label class="b-check"><input type="checkbox" name="objectifs" value="prospects" class="b-check-input"><span>Attirer des prospects</span></label>
+              <label class="b-check"><input type="checkbox" name="objectifs" value="vente_ligne" class="b-check-input"><span>Vendre en ligne</span></label>
+              <label class="b-check"><input type="checkbox" name="objectifs" value="notoriete" class="b-check-input"><span>Renforcer la notoriété</span></label>
+              <label class="b-check"><input type="checkbox" name="objectifs" value="credibilite" class="b-check-input"><span>Crédibiliser l'activité</span></label>
+              <label class="b-check"><input type="checkbox" name="objectifs" value="recrutement" class="b-check-input"><span>Faciliter le recrutement</span></label>
+              <label class="b-check"><input type="checkbox" name="objectifs" value="autre" class="b-check-input"><span>Autre</span></label>
+            </div>
+            <div id="objectifs-autre" class="b-reveal hidden">
+              <input type="text" name="objectifs_autre" placeholder="Précisez votre objectif…" class="b-input">
+            </div>
+          </div>
+          <div class="b-field">
+            <span class="b-label" id="delai-legend">Délai de lancement souhaité</span>
+            <div class="b-chips b-chips-wrap" role="radiogroup" aria-labelledby="delai-legend">
+              <label class="b-chip"><input type="radio" name="delai" value="asap" class="b-chip-input"><span>Dès que possible</span></label>
+              <label class="b-chip"><input type="radio" name="delai" value="un_mois" class="b-chip-input"><span>Dans 1 mois</span></label>
+              <label class="b-chip"><input type="radio" name="delai" value="trois_mois" class="b-chip-input"><span>Dans 3 mois</span></label>
+              <label class="b-chip"><input type="radio" name="delai" value="six_mois" class="b-chip-input"><span>6 mois ou plus</span></label>
+              <label class="b-chip"><input type="radio" name="delai" value="pas_urgent" class="b-chip-input"><span>Pas de délai</span></label>
+            </div>
+          </div>
+          <div class="b-field">
+            <span class="b-label" id="fonctionnalites-legend">Fonctionnalités souhaitées</span>
+            <div class="b-check-grid" role="group" aria-labelledby="fonctionnalites-legend">
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="formulaire_contact" class="b-check-input"><span>Formulaire de contact</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="galerie" class="b-check-input"><span>Galerie photos</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="blog" class="b-check-input"><span>Blog / Actualités</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="reservation" class="b-check-input"><span>Réservation en ligne</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="espace_client" class="b-check-input"><span>Espace client</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="carte" class="b-check-input"><span>Carte interactive</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="newsletter" class="b-check-input"><span>Newsletter</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="multilingue" class="b-check-input"><span>Multi-langue</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="autre" class="b-check-input"><span>Autre</span></label>
+            </div>
+            <div id="fonctionnalites-autre" class="b-reveal hidden">
+              <input type="text" name="fonctionnalites_autre" placeholder="Précisez la fonctionnalité souhaitée…" class="b-input">
+            </div>
+          </div>
+          <!-- ── Pages du site ── -->
+          <div class="b-field">
+            <span class="b-label" id="nb-pages-legend">Nombre de pages souhaitées</span>
+            <div class="b-chips b-chips-wrap" role="radiogroup" aria-labelledby="nb-pages-legend">
+              <label class="b-chip"><input type="radio" name="nb_pages" value="1-3" class="b-chip-input"><span>1 – 3 pages</span></label>
+              <label class="b-chip"><input type="radio" name="nb_pages" value="4-6" class="b-chip-input"><span>4 – 6 pages</span></label>
+              <label class="b-chip"><input type="radio" name="nb_pages" value="7-10" class="b-chip-input"><span>7 – 10 pages</span></label>
+              <label class="b-chip"><input type="radio" name="nb_pages" value="10+" class="b-chip-input"><span>10 pages et plus</span></label>
+              <label class="b-chip"><input type="radio" name="nb_pages" value="je_ne_sais_pas" class="b-chip-input"><span>Je ne sais pas</span></label>
+            </div>
+          </div>
+          <div class="b-field">
+            <span class="b-label">Noms des pages <span class="b-hint">(laissez vide les cases inutilisées)</span></span>
+            <div class="b-pages-grid">
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">1</span><input type="text" name="page_1" placeholder="Ex : Accueil" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">2</span><input type="text" name="page_2" placeholder="Ex : Nos prestations" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">3</span><input type="text" name="page_3" placeholder="Ex : Notre histoire" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">4</span><input type="text" name="page_4" placeholder="Ex : Réalisations" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">5</span><input type="text" name="page_5" placeholder="Ex : Témoignages" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">6</span><input type="text" name="page_6" placeholder="Ex : Blog / Actualités" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">7</span><input type="text" name="page_7" placeholder="Ex : FAQ" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">8</span><input type="text" name="page_8" placeholder="Ex : Contact" class="b-input"></div>
+            </div>
+          </div>
+
+          <div class="b-field">
+            <span class="b-label" id="boutique-legend">Boutique en ligne ?</span>
+            <div class="b-chips" role="radiogroup" aria-labelledby="boutique-legend">
+              <label class="b-chip"><input type="radio" name="boutique_actif" value="oui" class="b-chip-input"><span>Oui</span></label>
+              <label class="b-chip"><input type="radio" name="boutique_actif" value="non" class="b-chip-input"><span>Non</span></label>
+            </div>
+          </div>
+          <div id="boutique-extra" class="b-nested hidden">
+            <p class="b-nested-label">Détails boutique</p>
+            <div class="b-field">
+              <label class="b-label" for="boutique_nb_produits">Nombre de produits approximatif</label>
+              <input id="boutique_nb_produits" type="text" name="boutique_nb_produits" placeholder="Ex : 30 produits" class="b-input">
+            </div>
+            <div class="b-field">
+              <label class="b-label" for="boutique_livraison">Mode de livraison prévu</label>
+              <input id="boutique_livraison" type="text" name="boutique_livraison" placeholder="Ex : Colissimo, retrait en boutique, livraison locale…" class="b-input">
+            </div>
+            <div class="b-field">
+              <span class="b-label" id="paiement-legend">Modes de paiement souhaités</span>
+              <div class="b-chips b-chips-wrap" role="group" aria-labelledby="paiement-legend">
+                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="cb" class="b-chip-input"><span>Carte bancaire</span></label>
+                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="virement" class="b-chip-input"><span>Virement</span></label>
+                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="cheque" class="b-chip-input"><span>Chèque</span></label>
+                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="paypal" class="b-chip-input"><span>PayPal</span></label>
+                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="autre" class="b-chip-input"><span>Autre</span></label>
+              </div>
+              <div id="boutique_paiement-autre" class="b-reveal hidden">
+                <input type="text" name="boutique_paiement_autre" placeholder="Précisez le mode de paiement…" class="b-input">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════
+           05 · Contenu disponible
+      ══════════════════════════════ -->
+      <section class="b-card">
+        <div class="b-card-head">
+          <span class="b-num" aria-hidden="true">05</span>
+          <div>
+            <p class="b-overline">Ce que vous avez déjà</p>
+            <h2 class="b-title">Contenu disponible</h2>
+          </div>
+        </div>
+        <div class="b-body">
+          <div class="b-field">
+            <span class="b-label" id="contenu-legend">Éléments que vous pouvez fournir</span>
+            <div class="b-check-grid" role="group" aria-labelledby="contenu-legend">
+              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="logo" class="b-check-input"><span>Logo / charte graphique</span></label>
+              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="photos" class="b-check-input"><span>Photos</span></label>
+              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="textes_rediges" class="b-check-input"><span>Textes rédigés</span></label>
+              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="videos" class="b-check-input"><span>Vidéos</span></label>
+              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="temoignages" class="b-check-input"><span>Témoignages clients</span></label>
+              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="rien" class="b-check-input"><span>Rien pour l'instant</span></label>
+              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="autre" class="b-check-input"><span>Autre</span></label>
+            </div>
+            <div id="contenu_dispo-autre" class="b-reveal hidden">
+              <input type="text" name="contenu_dispo_autre" placeholder="Précisez ce que vous avez…" class="b-input">
+            </div>
+          </div>
+          <div class="b-field">
+            <span class="b-label" id="textes-legend">Rédaction des textes du site</span>
+            <div class="b-chips b-chips-col" role="radiogroup" aria-labelledby="textes-legend">
+              <label class="b-chip"><input type="radio" name="textes" value="je_fournis" class="b-chip-input"><span>Je fournis les textes moi-même</span></label>
+              <label class="b-chip"><input type="radio" name="textes" value="aide" class="b-chip-input"><span>Vous m'aidez à les améliorer</span></label>
+              <label class="b-chip"><input type="radio" name="textes" value="vous_redigez" class="b-chip-input"><span>Vous rédigez entièrement pour moi</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════
+           06 · Présence en ligne
+      ══════════════════════════════ -->
+      <section class="b-card">
+        <div class="b-card-head">
+          <span class="b-num" aria-hidden="true">06</span>
+          <div>
+            <p class="b-overline">Votre empreinte digitale</p>
+            <h2 class="b-title">Présence en ligne</h2>
+          </div>
+        </div>
+        <div class="b-body">
+          <div class="b-field">
+            <span class="b-label" id="reseaux-legend">Réseaux sociaux utilisés</span>
+            <div class="b-check-grid" role="group" aria-labelledby="reseaux-legend">
+              <label class="b-check"><input type="checkbox" name="reseaux" value="facebook" class="b-check-input"><span>Facebook</span></label>
+              <label class="b-check"><input type="checkbox" name="reseaux" value="instagram" class="b-check-input"><span>Instagram</span></label>
+              <label class="b-check"><input type="checkbox" name="reseaux" value="linkedin" class="b-check-input"><span>LinkedIn</span></label>
+              <label class="b-check"><input type="checkbox" name="reseaux" value="youtube" class="b-check-input"><span>YouTube</span></label>
+              <label class="b-check"><input type="checkbox" name="reseaux" value="tiktok" class="b-check-input"><span>TikTok</span></label>
+              <label class="b-check"><input type="checkbox" name="reseaux" value="pinterest" class="b-check-input"><span>Pinterest</span></label>
+              <label class="b-check"><input type="checkbox" name="reseaux" value="autre" class="b-check-input"><span>Autre</span></label>
+            </div>
+            <div id="reseaux-autre" class="b-reveal hidden">
+              <input type="text" name="reseaux_autre" placeholder="Précisez le réseau social…" class="b-input">
+            </div>
+          </div>
+          <div class="b-field">
+            <label class="b-label" for="comptes_reseaux">Vos comptes / liens <span class="b-hint">(un par ligne)</span></label>
+            <textarea id="comptes_reseaux" name="comptes_reseaux" rows="3" placeholder="facebook.com/votre-page&#10;@votre_compte (Instagram)&#10;..." class="b-textarea"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════
+           07 · Univers visuel
+      ══════════════════════════════ -->
+      <section class="b-card">
+        <div class="b-card-head">
+          <span class="b-num" aria-hidden="true">07</span>
+          <div>
+            <p class="b-overline">L'univers de votre site</p>
+            <h2 class="b-title">Univers visuel</h2>
+          </div>
+        </div>
+        <div class="b-body">
+          <div class="b-field">
+            <span class="b-label" id="style-legend">L'image que vous souhaitez renvoyer</span>
+            <div class="b-check-grid" role="group" aria-labelledby="style-legend">
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="moderne" class="b-check-input"><span>Moderne</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="epure" class="b-check-input"><span>Épuré / minimaliste</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="chaleureux" class="b-check-input"><span>Chaleureux</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="nature" class="b-check-input"><span>Nature / organique</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="professionnel" class="b-check-input"><span>Professionnel</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="dynamique" class="b-check-input"><span>Dynamique</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="luxe" class="b-check-input"><span>Luxe / premium</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="artisanal" class="b-check-input"><span>Artisanal</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="colore" class="b-check-input"><span>Coloré</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="autre" class="b-check-input"><span>Autre</span></label>
+            </div>
+            <div id="style_adjectifs-autre" class="b-reveal hidden">
+              <input type="text" name="style_autre" placeholder="Décrivez l'ambiance souhaitée…" class="b-input">
+            </div>
+          </div>
+          <div class="b-row-2">
+            <div class="b-field">
+              <label class="b-label" for="couleurs_aimees">Couleurs que vous aimez</label>
+              <textarea id="couleurs_aimees" name="couleurs_aimees" rows="3" placeholder="Ex : Vert forêt, blanc cassé, touches de terracotta…" class="b-textarea"></textarea>
+            </div>
+            <div class="b-field">
+              <label class="b-label" for="couleurs_non_aimees">Couleurs à éviter</label>
+              <textarea id="couleurs_non_aimees" name="couleurs_non_aimees" rows="3" placeholder="Ex : Le rouge vif, le jaune flashy…" class="b-textarea"></textarea>
+            </div>
+          </div>
+          <div class="b-field">
+            <label class="b-label" for="sites_aimes">Sites internet qui vous inspirent <span class="b-hint">(et ce que vous y aimez)</span></label>
+            <textarea id="sites_aimes" name="sites_aimes" rows="3" placeholder="https://exemple.fr — j'aime le design épuré et les grandes photos&#10;https://exemple2.fr — bonne navigation, lisible…" class="b-textarea"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════
+           08 · Votre structure
+      ══════════════════════════════ -->
+      <section class="b-card">
+        <div class="b-card-head">
+          <span class="b-num" aria-hidden="true">08</span>
+          <div>
+            <p class="b-overline">Informations légales</p>
+            <h2 class="b-title">Votre structure</h2>
+          </div>
+        </div>
+        <div class="b-body">
+          <div class="b-field">
+            <span class="b-label" id="statut-legend">Statut juridique</span>
+            <div class="b-chips b-chips-wrap" role="radiogroup" aria-labelledby="statut-legend">
+              <label class="b-chip"><input type="radio" name="statut_juridique" value="ei" class="b-chip-input"><span>Auto-entrepreneur / EI</span></label>
+              <label class="b-chip"><input type="radio" name="statut_juridique" value="eurl" class="b-chip-input"><span>EURL</span></label>
+              <label class="b-chip"><input type="radio" name="statut_juridique" value="sarl" class="b-chip-input"><span>SARL</span></label>
+              <label class="b-chip"><input type="radio" name="statut_juridique" value="sas" class="b-chip-input"><span>SAS / SASU</span></label>
+              <label class="b-chip"><input type="radio" name="statut_juridique" value="association" class="b-chip-input"><span>Association</span></label>
+              <label class="b-chip"><input type="radio" name="statut_juridique" value="autre" class="b-chip-input"><span>Autre</span></label>
+            </div>
+            <div id="statut-autre" class="b-reveal hidden">
+              <input type="text" name="statut_autre" placeholder="Précisez votre statut…" class="b-input">
+            </div>
+          </div>
+          <div class="b-field">
+            <label class="b-label" for="siret">Numéro SIRET <span class="b-optional">(facultatif)</span></label>
+            <input id="siret" type="text" name="siret" placeholder="ex. 999 959 497 00010" class="b-input" maxlength="20" inputmode="numeric">
+          </div>
+          <div class="b-field">
+            <label class="b-label" for="numero_tva">Numéro de TVA intracommunautaire <span class="b-optional">(si applicable)</span></label>
+            <input id="numero_tva" type="text" name="numero_tva" placeholder="ex. FR 12 999959497" class="b-input" maxlength="20">
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════
+           09 · Pour terminer
+      ══════════════════════════════ -->
+      <section class="b-card">
+        <div class="b-card-head">
+          <span class="b-num" aria-hidden="true">09</span>
+          <div>
+            <p class="b-overline">Pour finir</p>
+            <h2 class="b-title">Vos valeurs et votre message</h2>
+          </div>
+        </div>
+        <div class="b-body">
+          <div class="b-field">
+            <span class="b-label" id="valeurs-legend">Vos valeurs</span>
+            <div class="b-check-grid b-check-grid-4" role="group" aria-labelledby="valeurs-legend">
+              <label class="b-check"><input type="checkbox" name="valeurs" value="proximite" class="b-check-input"><span>Proximité</span></label>
+              <label class="b-check"><input type="checkbox" name="valeurs" value="qualite" class="b-check-input"><span>Qualité</span></label>
+              <label class="b-check"><input type="checkbox" name="valeurs" value="confiance" class="b-check-input"><span>Confiance</span></label>
+              <label class="b-check"><input type="checkbox" name="valeurs" value="innovation" class="b-check-input"><span>Innovation</span></label>
+              <label class="b-check"><input type="checkbox" name="valeurs" value="transparence" class="b-check-input"><span>Transparence</span></label>
+              <label class="b-check"><input type="checkbox" name="valeurs" value="engagement" class="b-check-input"><span>Engagement</span></label>
+              <label class="b-check"><input type="checkbox" name="valeurs" value="passion" class="b-check-input"><span>Passion</span></label>
+              <label class="b-check"><input type="checkbox" name="valeurs" value="expertise" class="b-check-input"><span>Expertise</span></label>
+              <label class="b-check"><input type="checkbox" name="valeurs" value="autre" class="b-check-input"><span>Autre</span></label>
+            </div>
+            <div id="valeurs-autre" class="b-reveal hidden">
+              <input type="text" name="valeurs_autre" placeholder="Précisez votre valeur…" class="b-input">
+            </div>
+          </div>
+          <div class="b-field">
+            <label class="b-label" for="message_important">Quelque chose d'important à nous communiquer ?</label>
+            <textarea id="message_important" name="message_important" rows="4" placeholder="Une contrainte particulière, une date butoir, une exigence spécifique, ce que vous ne voulez surtout pas sur votre site, ou tout ce que vous n'avez pas pu exprimer dans les questions précédentes…" class="b-textarea"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════
+           Pièces jointes
+      ══════════════════════════════ -->
+      <section class="b-card b-card-upload">
+        <div class="b-card-head">
+          <span class="b-num b-num-icon" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 10V1m0 0L4.5 4M7.5 1l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 10.5v1a2 2 0 002 2h8a2 2 0 002-2v-1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </span>
+          <div>
+            <p class="b-overline">Documents et médias</p>
+            <h2 class="b-title">Pièces jointes</h2>
+          </div>
+        </div>
+        <div class="b-body">
+          <p class="b-docs-note">Logo, photos de vos réalisations, brochures, documents… Tout ce qui peut nous aider à démarrer votre projet. <span class="b-hint">5 Mo max par fichier, 8 Mo total.</span> Pour des fichiers plus lourds, utilisez WeTransfer et collez le lien ci-dessous.</p>
+          <div class="b-field">
+            <div class="b-upload-zone" id="upload-zone">
+              <input type="file" id="attachments" name="attachments" multiple
+                accept="image/jpeg,image/png,image/webp,image/gif,application/pdf,.doc,.docx"
+                class="b-upload-input" aria-label="Joindre des fichiers">
+              <div class="b-upload-ui" id="upload-ui">
+                <div class="b-upload-icon" aria-hidden="true">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 18V7m0 0L9 12m5-5l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20v1.5A2.5 2.5 0 006.5 24h15a2.5 2.5 0 002.5-2.5V20" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                </div>
+                <p class="b-upload-text">Glissez vos fichiers ici</p>
+                <p class="b-upload-sub">ou cliquez pour parcourir vos dossiers</p>
+                <p class="b-upload-sub">Images (JPG, PNG, WebP), PDF, Word</p>
+              </div>
+              <ul id="file-list" class="b-file-list" aria-label="Fichiers sélectionnés"></ul>
+              <p id="upload-error" class="b-upload-error hidden"></p>
+            </div>
+          </div>
+          <div class="b-field">
+            <label class="b-label" for="wetransfer_link">Lien WeTransfer <span class="b-hint">(pour les fichiers volumineux)</span></label>
+            <input id="wetransfer_link" type="url" name="wetransfer_link" placeholder="https://we.tl/t-xxxxxxxxxx" class="b-input">
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Message d'erreur ── -->
+      <div id="form-error" class="b-error hidden" role="alert">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3.5M8 11v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span id="form-error-text"></span>
+      </div>
+
+      <!-- ── Bouton d'envoi ── -->
+      <div class="brief-submit-wrap">
+        <button id="submit-btn" type="submit" class="b-submit">
+          Envoyer le questionnaire
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- ── Écran de succès ── -->
+  <div id="success-screen" class="success-screen hidden">
+    <div class="success-inner">
+      <div class="success-icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5 14l6 6 12-12" stroke="#3d4f28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <p class="success-overline">Questionnaire envoyé</p>
+      <h2 class="success-title">Merci.<br>C'est bien reçu.</h2>
+      <p class="success-body">Votre questionnaire a bien été transmis. Célestin va le lire avec attention et vous recontactera <strong>sous 48h maximum</strong>.</p>
+      <div class="success-footer">
+        <span>07 69 36 27 27</span>
+        <span class="success-sep" aria-hidden="true">/</span>
+        <a href="https://caelestis.fr" class="success-link">caelestis.fr</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .brief-root {
+    --cream:       #EDE3D4;
+    --cream-dark:  #CFC0A0;
+    --ocre:        #4C3D19;
+    --ocre-dark:   #362A10;
+    --golden:      #CFBB99;
+    --brun:        #3d4f28;
+    --brun-mid:    #6B6040;
+    --sauge:       #889063;
+    --sauge-pale:  #D8CDB0;
+    --bois-pale:   #CFBB99;
+    --pierre:      #8A8470;
+    --encre:       #2A1E0C;
+    --surface:     rgba(255,253,248,0.82);
+    --border:      rgba(207,192,160,0.75);
+    --border-focus:#3d4f28;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    background: var(--cream);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  .restore-banner {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--brun);
+    border-bottom: 1px solid rgba(61,79,40,0.4);
+  }
+  .restore-inner {
+    max-width: 760px; margin: 0 auto; padding: 12px 20px;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .restore-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--golden); flex-shrink: 0;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
+  .restore-msg { font-size:.8125rem; color:rgba(237,227,212,.9); flex:1; min-width:180px; }
+  .restore-actions { display:flex; gap:8px; flex-shrink:0; }
+  .restore-yes {
+    font-size:.75rem; font-weight:700;
+    background:var(--golden); color:var(--encre);
+    border:none; border-radius:6px; padding:6px 14px;
+    cursor:pointer; transition:background .2s; font-family:inherit;
+  }
+  .restore-yes:hover { background:#e0cd9e; }
+  .restore-no {
+    font-size:.8rem; color:rgba(237,227,212,.6);
+    background:none; border:none; cursor:pointer; padding:6px 8px;
+    font-family:inherit; transition:color .2s;
+  }
+  .restore-no:hover { color:rgba(237,227,212,.95); }
+
+  .brief-container { max-width:760px; margin:0 auto; padding:0 20px; }
+
+  .brief-header { padding-top:56px; margin-bottom:8px; }
+  .brief-overline {
+    font-size:.625rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:.22em; color:var(--sauge); display:block; margin-bottom:14px;
+  }
+  .brief-title {
+    font-family:'Lora',serif;
+    font-size:clamp(1.9rem,5vw,2.75rem);
+    font-weight:400; color:var(--brun);
+    line-height:1.1; letter-spacing:-.025em; margin-bottom:18px;
+  }
+  .brief-subtitle {
+    font-size:.875rem; color:var(--brun-mid);
+    line-height:1.75; max-width:520px; margin-bottom:28px;
+  }
+  .brief-divider {
+    width:48px; height:2px;
+    background:linear-gradient(90deg,var(--sauge),transparent);
+    border-radius:2px; margin-bottom:32px;
+  }
+
+  .save-row { text-align:right; height:20px; margin-bottom:12px; }
+  .save-indicator {
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:.6875rem; color:var(--sauge);
+  }
+
+  .b-card {
+    background:var(--surface);
+    border:1.5px solid var(--border);
+    border-radius:14px; overflow:hidden;
+    margin-bottom:16px;
+    transition:border-color .25s ease,box-shadow .25s ease;
+  }
+  .b-card:focus-within {
+    border-color:rgba(136,144,99,.55);
+    box-shadow:0 6px 28px rgba(61,79,40,.07);
+  }
+  .b-card-upload { border-style:dashed; border-color:rgba(207,192,160,.6); }
+  .b-card-head {
+    display:flex; align-items:flex-start; gap:16px;
+    padding:20px 26px 16px;
+    border-bottom:1px solid var(--border);
+    background:rgba(237,227,212,.35);
+  }
+  .b-num {
+    font-family:'Lora',serif;
+    font-size:.875rem; font-weight:400;
+    color:var(--sauge); line-height:1;
+    padding-top:3px; flex-shrink:0; min-width:24px;
+  }
+  .b-num-icon { color:var(--pierre); display:flex; align-items:center; padding-top:2px; }
+  .b-overline {
+    font-size:.6rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:.18em; color:var(--sauge); display:block; margin-bottom:4px;
+  }
+  .b-title {
+    font-family:'Lora',serif;
+    font-size:1rem; font-weight:400;
+    color:var(--brun); line-height:1.2; letter-spacing:-.018em;
+  }
+  .b-body { padding:22px 26px; display:flex; flex-direction:column; gap:18px; }
+
+  .b-field { display:flex; flex-direction:column; gap:7px; }
+  .b-label {
+    font-size:.6875rem; font-weight:600; text-transform:uppercase;
+    letter-spacing:.09em; color:var(--brun-mid);
+  }
+  .b-required { color:#b45309; margin-left:2px; }
+  .b-hint { font-weight:400; text-transform:none; letter-spacing:0; color:var(--pierre); }
+  .b-input {
+    width:100%; border:1.5px solid var(--border); border-radius:8px;
+    padding:10px 13px; font-size:.875rem; color:var(--encre);
+    background:rgba(255,253,248,.85); outline:none; font-family:inherit;
+    transition:border-color .18s ease,box-shadow .18s ease; box-sizing:border-box;
+  }
+  .b-input::placeholder { color:var(--pierre); }
+  .b-input:focus { border-color:var(--brun); box-shadow:0 0 0 3px rgba(61,79,40,.1); background:rgba(255,253,248,1); }
+  .b-textarea {
+    width:100%; border:1.5px solid var(--border); border-radius:8px;
+    padding:10px 13px; font-size:.875rem; color:var(--encre);
+    background:rgba(255,253,248,.85); outline:none; resize:vertical;
+    min-height:80px; font-family:inherit; line-height:1.65;
+    transition:border-color .18s ease,box-shadow .18s ease; box-sizing:border-box;
+  }
+  .b-textarea::placeholder { color:var(--pierre); }
+  .b-textarea:focus { border-color:var(--brun); box-shadow:0 0 0 3px rgba(61,79,40,.1); background:rgba(255,253,248,1); }
+
+  .b-row-2 { display:grid; grid-template-columns:1fr; gap:14px; }
+  @media (min-width:560px) { .b-row-2 { grid-template-columns:1fr 1fr; } }
+
+  .b-chips { display:flex; flex-wrap:wrap; gap:7px; }
+  .b-chips-wrap { flex-wrap:wrap; }
+  .b-chips-col { flex-direction:column; gap:6px; }
+  .b-chip {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:7px 13px; border:1.5px solid var(--border); border-radius:99px;
+    cursor:pointer; font-size:.8125rem; color:var(--brun-mid);
+    background:rgba(255,253,248,.7);
+    transition:border-color .18s ease,background .18s ease,color .18s ease;
+    -webkit-tap-highlight-color:transparent; user-select:none;
+  }
+  .b-chip:hover { border-color:var(--sauge); background:rgba(136,144,99,.08); color:var(--brun); }
+  .b-chip:has(.b-chip-input:checked) { border-color:var(--brun); background:rgba(61,79,40,.08); color:var(--brun); font-weight:500; }
+  .b-chip-input { position:absolute; opacity:0; width:0; height:0; pointer-events:none; }
+
+  .b-check-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .b-check-grid-4 { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  @media (min-width:560px) {
+    .b-check-grid { grid-template-columns:repeat(3,1fr); }
+    .b-check-grid-4 { grid-template-columns:repeat(4,1fr); }
+  }
+  .b-check {
+    display:flex; align-items:center; gap:9px;
+    padding:8px 11px; border:1.5px solid var(--border); border-radius:8px;
+    cursor:pointer; font-size:.8125rem; color:var(--brun-mid);
+    background:rgba(255,253,248,.6);
+    transition:border-color .18s ease,background .18s ease,color .18s ease;
+    -webkit-tap-highlight-color:transparent; user-select:none;
+  }
+  .b-check:hover { border-color:var(--sauge); background:rgba(136,144,99,.08); color:var(--brun); }
+  .b-check:has(.b-check-input:checked) { border-color:var(--brun); background:rgba(61,79,40,.07); color:var(--brun); font-weight:500; }
+  .b-check-input { width:14px; height:14px; accent-color:var(--brun); flex-shrink:0; cursor:pointer; }
+
+  .b-services { display:flex; flex-direction:column; gap:8px; }
+  .b-service-row { display:flex; align-items:center; gap:10px; }
+  .b-service-num {
+    font-family:'Lora',serif; font-style:normal;
+    font-size:.8125rem; color:var(--sauge); width:18px; text-align:right; flex-shrink:0;
+  }
+
+  .b-pages-grid { display:grid; grid-template-columns:1fr; gap:7px; }
+  @media (min-width:560px) { .b-pages-grid { grid-template-columns:1fr 1fr; } }
+  .b-page-row { display:flex; align-items:center; gap:10px; }
+  .b-page-num {
+    font-family:'Lora',serif; font-style:normal;
+    font-size:.8125rem; color:var(--sauge); width:18px; text-align:right; flex-shrink:0;
+  }
+
+  .b-reveal { margin-top:6px; animation:b-fadein .22s ease both; }
+  @keyframes b-fadein { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
+
+  .b-nested {
+    background:rgba(61,79,40,.04); border:1px solid rgba(136,144,99,.3);
+    border-radius:10px; padding:18px; display:flex; flex-direction:column; gap:16px;
+  }
+  .b-nested-label {
+    font-size:.625rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:.18em; color:var(--sauge);
+  }
+
+  .b-docs-note { font-size:.8125rem; color:var(--brun-mid); line-height:1.65; }
+
+  /* ── Pièces jointes ── */
+  .b-upload-zone {
+    position:relative; border:1.5px dashed rgba(207,192,160,.65);
+    border-radius:10px; background:rgba(255,253,248,.5);
+    transition:border-color .2s,background .2s;
+  }
+  .b-upload-zone.is-dragover { border-color:var(--sauge); background:rgba(136,144,99,.06); }
+  .b-upload-input {
+    position:absolute; inset:0; opacity:0; cursor:pointer;
+    width:100%; height:100%; z-index:2;
+  }
+  .b-upload-ui { padding:32px 20px; text-align:center; pointer-events:none; }
+  .b-upload-icon { color:var(--pierre); opacity:.4; margin-bottom:10px; }
+  .b-upload-text { font-size:.875rem; color:var(--brun-mid); margin:0; line-height:1.5; }
+  .b-upload-sub { font-size:.72rem; color:var(--pierre); margin:4px 0 0; }
+  .b-file-list { list-style:none; padding:0 14px 14px; display:flex; flex-direction:column; gap:5px; }
+  .b-file-list:empty { display:none; }
+  .b-file-item {
+    display:flex; align-items:center; gap:8px; padding:7px 10px;
+    background:rgba(136,144,99,.08); border-radius:6px;
+  }
+  .b-file-name { flex:1; font-size:.8125rem; color:var(--brun-mid); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
+  .b-file-size { font-size:.72rem; color:var(--pierre); flex-shrink:0; }
+  .b-file-remove {
+    background:none; border:none; cursor:pointer; color:var(--pierre);
+    font-size:.75rem; padding:2px 5px; flex-shrink:0; border-radius:4px;
+    transition:color .18s,background .18s; font-family:inherit;
+  }
+  .b-file-remove:hover { color:#92400e; background:rgba(180,83,9,.08); }
+  .b-upload-error { font-size:.75rem; color:#92400e; padding:0 14px 12px; margin:0; }
+
+  .b-error {
+    display:flex; align-items:flex-start; gap:10px;
+    background:rgba(180,83,9,.07); border:1.5px solid rgba(180,83,9,.25);
+    border-radius:10px; padding:14px 16px;
+    font-size:.875rem; color:#92400e; margin-bottom:16px;
+  }
+  .b-error svg { flex-shrink:0; margin-top:1px; }
+
+  .brief-submit-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; padding-bottom:8px; }
+  .b-submit {
+    display:inline-flex; align-items:center; gap:10px;
+    padding:14px 36px; background:var(--sauge); color:#fff;
+    border:none; border-radius:10px; font-family:inherit;
+    font-size:.875rem; font-weight:600; letter-spacing:.04em;
+    cursor:pointer; position:relative;
+    transition:background .22s ease,transform .2s cubic-bezier(.34,1.2,.64,1),box-shadow .22s ease;
+  }
+  .b-submit::before {
+    content:''; position:absolute; inset:-6px; border-radius:14px;
+    border:1.5px solid rgba(136,144,99,.4); opacity:0; transform:scale(.93);
+    transition:opacity .36s ease,transform .36s cubic-bezier(.34,1.2,.64,1); pointer-events:none;
+  }
+  .b-submit:hover { background:var(--brun-mid); transform:translateY(-2px); box-shadow:0 8px 28px rgba(136,144,99,.28); }
+  .b-submit:hover::before { opacity:1; transform:scale(1); }
+  .b-submit:active { transform:translateY(0); box-shadow:none; }
+  .b-submit:disabled { opacity:.55; cursor:not-allowed; transform:none; box-shadow:none; }
+  .brief-submit-note { font-size:.6875rem; color:var(--pierre); text-align:center; }
+
+  .success-screen { max-width:580px; margin:0 auto; padding:80px 24px; }
+  .success-inner { text-align:center; }
+  .success-icon {
+    width:64px; height:64px; border-radius:50%;
+    background:rgba(61,79,40,.1); border:1.5px solid rgba(61,79,40,.2);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 24px;
+  }
+  .success-overline { font-size:.625rem; font-weight:700; text-transform:uppercase; letter-spacing:.2em; color:var(--sauge); display:block; margin-bottom:12px; }
+  .success-title { font-family:'Lora',serif; font-size:clamp(1.75rem,5vw,2.5rem); font-weight:400; color:var(--brun); line-height:1.12; letter-spacing:-.025em; margin-bottom:20px; }
+  .success-body { font-size:.875rem; color:var(--brun-mid); line-height:1.75; margin-bottom:12px; }
+  .success-body strong { color:var(--encre); font-weight:600; }
+  .success-link { color:var(--brun); text-decoration:underline; text-underline-offset:3px; }
+  .success-link:hover { color:var(--ocre); }
+  .success-footer { display:flex; align-items:center; justify-content:center; gap:10px; font-size:.75rem; color:var(--pierre); margin-top:28px; }
+  .success-sep { opacity:.4; }
+
+  .hidden { display:none !important; }
+</style>
+
+<script>
+  const form          = document.getElementById('brief-form')      as HTMLFormElement | null;
+  const saveIndicator = document.getElementById('save-indicator')  as HTMLElement | null;
+  const saveTimeEl    = document.getElementById('save-time')       as HTMLElement | null;
+  const restoreBanner = document.getElementById('restore-banner')  as HTMLElement | null;
+  const restoreBtn    = document.getElementById('restore-btn')     as HTMLElement | null;
+  const discardBtn    = document.getElementById('discard-btn')     as HTMLElement | null;
+  const submitBtn     = document.getElementById('submit-btn')      as HTMLButtonElement | null;
+  const formContainer = document.getElementById('form-container')  as HTMLElement | null;
+  const successScreen = document.getElementById('success-screen')  as HTMLElement | null;
+  const formError     = document.getElementById('form-error')      as HTMLElement | null;
+  const formErrorText = document.getElementById('form-error-text') as HTMLElement | null;
+
+  const STORAGE_KEY = 'caelestis_brief_v2';
+
+  /* ══ Sérialisation ══ */
+  function getFormState(): Record<string, string | string[]> {
+    if (!form) return {};
+    const state: Record<string, string | string[]> = {};
+
+    form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+      'input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), textarea'
+    ).forEach(el => { if (el.name) state[el.name] = el.value; });
+
+    const radioNames = new Set<string>();
+    form.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach(el => { if (el.name) radioNames.add(el.name); });
+    radioNames.forEach(name => {
+      const checked = form!.querySelector<HTMLInputElement>(`input[type="radio"][name="${CSS.escape(name)}"]:checked`);
+      state[name] = checked ? checked.value : '';
+    });
+
+    const cbNames = new Set<string>();
+    form.querySelectorAll<HTMLInputElement>('input[type="checkbox"]').forEach(el => { if (el.name) cbNames.add(el.name); });
+    cbNames.forEach(name => {
+      state[name] = Array.from(
+        form!.querySelectorAll<HTMLInputElement>(`input[type="checkbox"][name="${CSS.escape(name)}"]:checked`)
+      ).map(el => el.value);
+    });
+
+    return state;
+  }
+
+  /* ══ Restauration ══ */
+  function restoreFormState(state: Record<string, string | string[]>) {
+    if (!form) return;
+    Object.entries(state).forEach(([name, value]) => {
+      if (Array.isArray(value)) {
+        form!.querySelectorAll<HTMLInputElement>(`input[type="checkbox"][name="${CSS.escape(name)}"]`).forEach(el => {
+          el.checked = value.includes(el.value);
+        });
+      } else if (value) {
+        const isRadioGroup = !!form!.querySelector<HTMLInputElement>(`input[type="radio"][name="${CSS.escape(name)}"]`);
+        if (isRadioGroup) {
+          const r = form!.querySelector<HTMLInputElement>(`input[type="radio"][name="${CSS.escape(name)}"][value="${CSS.escape(value)}"]`);
+          if (r) r.checked = true;
+        } else {
+          const el = form!.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${CSS.escape(name)}"]`);
+          if (el && el.type !== 'radio' && el.type !== 'checkbox' && el.type !== 'file') el.value = value;
+        }
+      }
+    });
+    syncAllConditionals();
+  }
+
+  /* ══ Auto-sauvegarde ══ */
+  let saveTimer: ReturnType<typeof setTimeout> | null = null;
+  function triggerSave() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(getFormState()));
+        const hhmm = new Date().toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+        if (saveTimeEl) saveTimeEl.textContent = hhmm;
+        saveIndicator?.classList.remove('hidden');
+      } catch (_) {}
+    }, 600);
+  }
+  form?.addEventListener('input', triggerSave);
+  form?.addEventListener('change', triggerSave);
+
+  /* ══ Watchers conditionnels ══ */
+  function watchCbOther(groupName: string, panelId: string) {
+    const sync = () => {
+      const hasAutre = !!form?.querySelector<HTMLInputElement>(
+        `input[type="checkbox"][name="${CSS.escape(groupName)}"][value="autre"]:checked`
+      );
+      document.getElementById(panelId)?.classList.toggle('hidden', !hasAutre);
+    };
+    form?.querySelectorAll<HTMLInputElement>(`input[type="checkbox"][name="${CSS.escape(groupName)}"]`)
+      .forEach(el => el.addEventListener('change', sync));
+  }
+
+  function watchRadioValue(groupName: string, triggerValue: string, panelId: string) {
+    const sync = () => {
+      const checked = form?.querySelector<HTMLInputElement>(`input[type="radio"][name="${CSS.escape(groupName)}"]:checked`);
+      document.getElementById(panelId)?.classList.toggle('hidden', checked?.value !== triggerValue);
+    };
+    form?.querySelectorAll<HTMLInputElement>(`input[type="radio"][name="${CSS.escape(groupName)}"]`)
+      .forEach(el => el.addEventListener('change', sync));
+  }
+
+  function syncAllConditionals() {
+    const cbOtherPairs: [string, string][] = [
+      ['type_client',       'type_client-autre'],
+      ['objectifs',         'objectifs-autre'],
+      ['fonctionnalites',   'fonctionnalites-autre'],
+      ['boutique_paiement', 'boutique_paiement-autre'],
+      ['contenu_dispo',     'contenu_dispo-autre'],
+      ['reseaux',           'reseaux-autre'],
+      ['style_adjectifs',   'style_adjectifs-autre'],
+      ['valeurs',           'valeurs-autre'],
+    ];
+    cbOtherPairs.forEach(([name, id]) => {
+      const has = !!form?.querySelector(`input[type="checkbox"][name="${CSS.escape(name)}"][value="autre"]:checked`);
+      document.getElementById(id)?.classList.toggle('hidden', !has);
+    });
+    const boutique = form?.querySelector<HTMLInputElement>('input[type="radio"][name="boutique_actif"]:checked');
+    document.getElementById('boutique-extra')?.classList.toggle('hidden', boutique?.value !== 'oui');
+    const statut = form?.querySelector<HTMLInputElement>('input[type="radio"][name="statut_juridique"]:checked');
+    document.getElementById('statut-autre')?.classList.toggle('hidden', statut?.value !== 'autre');
+  }
+
+  (['type_client','objectifs','fonctionnalites','boutique_paiement','contenu_dispo','reseaux','style_adjectifs','valeurs'] as const)
+    .forEach((name, i) => {
+      const ids = ['type_client-autre','objectifs-autre','fonctionnalites-autre','boutique_paiement-autre',
+        'contenu_dispo-autre','reseaux-autre','style_adjectifs-autre','valeurs-autre'];
+      watchCbOther(name, ids[i]);
+    });
+  watchRadioValue('boutique_actif',   'oui',   'boutique-extra');
+  watchRadioValue('statut_juridique', 'autre', 'statut-autre');
+
+  /* ══ Pièces jointes ══ */
+  const uploadZone   = document.getElementById('upload-zone') as HTMLElement | null;
+  const fileInputEl  = document.getElementById('attachments') as HTMLInputElement | null;
+  const fileListEl   = document.getElementById('file-list')   as HTMLUListElement | null;
+  const uploadErrEl  = document.getElementById('upload-error') as HTMLElement | null;
+
+  let attachedFiles: File[] = [];
+  const MAX_FILE_BYTES  = 5 * 1024 * 1024;
+  const MAX_TOTAL_BYTES = 8 * 1024 * 1024;
+
+  function fmtSize(b: number): string {
+    return b < 1024 * 1024 ? Math.round(b / 1024) + ' Ko' : (b / (1024 * 1024)).toFixed(1) + ' Mo';
+  }
+  function escHtml(s: string): string {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function renderFiles(): void {
+    if (!fileListEl) return;
+    fileListEl.innerHTML = attachedFiles.map((f, i) => `
+      <li class="b-file-item">
+        <span class="b-file-name">${escHtml(f.name)}</span>
+        <span class="b-file-size">${fmtSize(f.size)}</span>
+        <button type="button" class="b-file-remove" data-i="${i}" aria-label="Retirer ${escHtml(f.name)}">✕</button>
+      </li>
+    `).join('');
+    fileListEl.querySelectorAll<HTMLButtonElement>('.b-file-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.i ?? '0', 10);
+        attachedFiles.splice(idx, 1);
+        renderFiles();
+        if (uploadErrEl) uploadErrEl.classList.add('hidden');
+      });
+    });
+  }
+
+  function addFiles(list: FileList | File[]): void {
+    let totalBytes = attachedFiles.reduce((s, f) => s + f.size, 0);
+    let skipped = false;
+    Array.from(list).forEach(f => {
+      if (f.size > MAX_FILE_BYTES) { skipped = true; return; }
+      if (totalBytes + f.size > MAX_TOTAL_BYTES) { skipped = true; return; }
+      if (attachedFiles.some(ex => ex.name === f.name && ex.size === f.size)) return;
+      attachedFiles.push(f);
+      totalBytes += f.size;
+    });
+    renderFiles();
+    if (uploadErrEl) {
+      if (skipped) {
+        uploadErrEl.textContent = 'Certains fichiers ont été ignorés (5 Mo max par fichier, 8 Mo total).';
+        uploadErrEl.classList.remove('hidden');
+      } else {
+        uploadErrEl.classList.add('hidden');
+      }
+    }
+  }
+
+  fileInputEl?.addEventListener('change', () => {
+    if (fileInputEl.files) addFiles(fileInputEl.files);
+    fileInputEl.value = '';
+  });
+  uploadZone?.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('is-dragover'); });
+  ['dragleave','dragend'].forEach(ev => uploadZone?.addEventListener(ev, () => uploadZone.classList.remove('is-dragover')));
+  uploadZone?.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('is-dragover');
+    if ((e as DragEvent).dataTransfer?.files) addFiles((e as DragEvent).dataTransfer!.files);
+  });
+
+  /* ══ Erreurs ══ */
+  function showError(msg: string) {
+    if (!formError || !formErrorText) return;
+    formErrorText.textContent = msg;
+    formError.classList.remove('hidden');
+    formError.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+
+  /* ══ Soumission ══ */
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formError?.classList.add('hidden');
+
+    const emailInput = form.querySelector<HTMLInputElement>('input[name="email_contact"]');
+    if (!emailInput?.value.trim()) {
+      emailInput?.scrollIntoView({ behavior:'smooth', block:'center' });
+      setTimeout(() => emailInput?.focus(), 400);
+      showError('Votre adresse email est requise pour envoyer le questionnaire.');
+      return;
+    }
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Envoi en cours… <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>';
+    }
+
+    try {
+      const fd = new FormData();
+      const state = getFormState();
+      for (const [k, v] of Object.entries(state)) {
+        if (Array.isArray(v)) {
+          v.forEach(val => fd.append(k, val));
+        } else {
+          fd.append(k, v);
+        }
+      }
+      attachedFiles.forEach(f => fd.append('files', f));
+
+      const res  = await fetch('/api/brief', { method:'POST', body:fd });
+      const data = await res.json() as { success?: boolean; error?: string };
+
+      if (data.success) {
+        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+        formContainer?.classList.add('hidden');
+        restoreBanner?.classList.add('hidden');
+        successScreen?.classList.remove('hidden');
+        window.scrollTo({ top:0, behavior:'smooth' });
+      } else {
+        throw new Error(data.error ?? "Erreur lors de l'envoi");
+      }
+    } catch (err) {
+      showError((err as Error).message ?? 'Erreur. Réessayez ou écrivez à contact@caelestis.fr');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Envoyer le questionnaire <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      }
+    }
+  });
+
+  const spinStyle = document.createElement('style');
+  spinStyle.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+  document.head.appendChild(spinStyle);
+
+  /* ══ Init localStorage ══ */
+  (function init() {
+    let saved: Record<string, string | string[]> | null = null;
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) saved = JSON.parse(raw) as Record<string, string | string[]>;
+    } catch (_) {}
+
+    if (!saved || Object.keys(saved).length === 0) return;
+    const hasContent = Object.values(saved).some(v => Array.isArray(v) ? v.length > 0 : v.trim() !== '');
+    if (!hasContent) return;
+
+    restoreBanner?.classList.remove('hidden');
+    restoreBtn?.addEventListener('click', () => {
+      restoreFormState(saved!);
+      restoreBanner?.classList.add('hidden');
+      if (saveTimeEl) saveTimeEl.textContent = 'restauré';
+      saveIndicator?.classList.remove('hidden');
+    });
+    discardBtn?.addEventListener('click', () => {
+      try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+      restoreBanner?.classList.add('hidden');
+    });
+  })();
+</script>

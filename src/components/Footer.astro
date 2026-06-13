@@ -10,7 +10,7 @@ const year = new Date().getFullYear();
         <a href="/" class="font-display text-xl font-medium tracking-[-0.02em] block mb-3 hover:text-ocre transition-colors duration-300">
           Caelestis<em class="text-ocre not-italic">.</em>
         </a>
-        <p class="font-display text-base font-light mb-4" style="color: rgba(237,227,212,0.65)">
+        <p class="font-display text-base font-light italic mb-4" style="color: rgba(237,227,212,0.78)">
           Sites web soignés et visibles,<br>pour ceux qui construisent quelque chose.
         </p>
         <p class="font-body text-sm leading-relaxed max-w-xs" style="color: rgba(237,227,212,0.4)">
@@ -21,6 +21,15 @@ const year = new Date().getFullYear();
       <!-- Carte centrée — masquée sur tablette md où elle écrase, visible lg+ -->
       <div class="hidden lg:flex flex-col items-center gap-3">
         <div class="relative overflow-hidden" style="width: 200px; height: 148px; border-radius: 3px;">
+          <!-- Lien overlay cliquable au-dessus de la carte -->
+          <a
+            href="https://www.google.com/maps/place/Dr%C3%B4me/@44.7308,5.0197,9z"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Voir la Drôme sur Google Maps"
+            class="absolute inset-0 z-20 transition-colors duration-200 hover:bg-white/5"
+          ></a>
+          <!-- Dégradé décoratif -->
           <div class="absolute inset-0 z-10 pointer-events-none" style="
             background:
               linear-gradient(to bottom, #354024 0%, transparent 20%, transparent 80%, #354024 100%),
@@ -47,14 +56,13 @@ const year = new Date().getFullYear();
           <p class="font-body text-xs tracking-widest uppercase mb-4" style="color: rgba(237,227,212,0.35)">Navigation</p>
           <nav class="flex flex-col gap-2.5" aria-label="Navigation du site">
             {[
-              { href: '/services',                        label: 'Services'          },
-              { href: '/services/creation-site-internet', label: 'Création de site'  },
-              { href: '/services/referencement-seo',      label: 'Référencement SEO' },
-              { href: '/blog',                            label: 'Blog'              },
-              { href: '/a-propos',                        label: 'À propos'          },
-              { href: '/contact',                         label: 'Contact'           },
+              { href: '/',           label: 'Accueil'    },
+              { href: '/services',   label: 'Services'   },
+              { href: '/simulateur', label: 'Simulateur' },
+              { href: '/a-propos',   label: 'À propos'   },
+              { href: '/contact',    label: 'Contact'    },
             ].map(({ href, label }) => (
-              <a href={href} class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.6)">{label}</a>
+              <a href={href} class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.82)">{label}</a>
             ))}
           </nav>
         </div>
@@ -63,14 +71,14 @@ const year = new Date().getFullYear();
         <div>
           <p class="font-body text-xs tracking-widest uppercase mb-4" style="color: rgba(237,227,212,0.35)">Contact</p>
           <div class="flex flex-col gap-2.5">
-            <a href="mailto:contact@caelestis.fr" class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.6)">
+            <a href="mailto:contact@caelestis.fr" class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.82)">
               contact@caelestis.fr
             </a>
-            <a href="tel:+33769362727" class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.6)">
+            <a href="tel:+33769362727" class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.82)">
               07 69 36 27 27
             </a>
-            <p class="font-body text-sm" style="color: rgba(237,227,212,0.6)">Drôme, France</p>
-            <p class="font-body text-xs mt-1" style="color: rgba(237,227,212,0.3)">Lun–Sam · 9h–18h</p>
+            <p class="font-body text-sm" style="color: rgba(237,227,212,0.82)">Drôme, France</p>
+            <p class="font-body text-xs mt-1" style="color: rgba(237,227,212,0.78)">Lun–Sam · 9h–18h</p>
           </div>
         </div>
       </div>
@@ -79,13 +87,13 @@ const year = new Date().getFullYear();
 
     <!-- Bandeau CTA -->
     <div class="border-t py-10 flex flex-col items-center gap-5" style="border-color: rgba(237,227,212,0.08)">
-      <p class="font-display text-base font-light text-center" style="color: rgba(237,227,212,0.70)">
+      <p class="font-display text-base font-light italic text-center" style="color: rgba(237,227,212,0.70)">
         Une question, un conseil ?
       </p>
       <a
         href="/contact"
         class="font-body text-sm font-medium px-6 py-2.5 rounded-full border transition-colors duration-200 hover:bg-cream hover:text-brun"
-        style="border-color: rgba(237,227,212,0.30); color: rgba(237,227,212,0.85);"
+        style="border-color: rgba(237,227,212,0.45); color: rgba(237,227,212,0.92);"
       >
         Écrivez-moi
       </a>
@@ -93,16 +101,16 @@ const year = new Date().getFullYear();
 
     <!-- Bas de page -->
     <div class="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-3" style="border-color: rgba(237,227,212,0.08)">
-      <p class="font-body text-xs" style="color: rgba(237,227,212,0.3)">© {year} Caelestis — Tous droits réservés</p>
+      <p class="font-body text-xs" style="color: rgba(237,227,212,0.78)">© {year} Caelestis — Tous droits réservés</p>
       <div class="flex flex-wrap justify-center md:justify-end gap-x-5 gap-y-2">
-        <a href="/mentions-legales" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.3)">Mentions légales</a>
-        <a href="/politique-confidentialite" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.3)">Politique de confidentialité</a>
-        <a href="/cgv" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.3)">CGV</a>
+        <a href="/mentions-legales" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.78)">Mentions légales</a>
+        <a href="/politique-confidentialite" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.78)">Politique de confidentialité</a>
+        <a href="/cgv" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.78)">CGV</a>
         <!-- Lien CNIL requis : l'utilisateur doit pouvoir retirer son consentement facilement -->
         <button
           id="footer-cookie-btn"
           class="font-body text-xs hover:text-cream transition-colors duration-200 cursor-pointer bg-transparent border-0 p-0"
-          style="color: rgba(237,227,212,0.3)"
+          style="color: rgba(237,227,212,0.78)"
         >
           Gérer mes cookies
         </button>

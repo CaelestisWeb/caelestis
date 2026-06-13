@@ -2,14 +2,14 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import { Image } from 'astro:assets';
-import imgRiviere from '../assets/images/bureau-setup.jpg';
+import imgRiviere from '../assets/images/photo-bureau.jpg';
 
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Célestin Fruleux',
   jobTitle: 'Développeur web & consultant SEO',
-  description: 'Fondateur de Caelestis, j\'aide des indépendants et petites structures à avoir une présence en ligne claire, soignée et efficace.',
+  description: 'Développeur web freelance et fondateur de Caelestis, agence web dans la Drôme. J\'aide artisans, paysagistes et indépendants à avoir une présence en ligne claire, soignée et visible sur Google.',
   url: 'https://caelestis.fr/a-propos',
   email: 'contact@caelestis.fr',
   telephone: '+33769362727',
@@ -21,14 +21,12 @@ const personSchema = {
   },
   worksFor: {
     '@type': 'LocalBusiness',
+    '@id': 'https://caelestis.fr/#business',
     name: 'Caelestis',
     url: 'https://caelestis.fr',
   },
-  knowsAbout: ['Création de site web', 'Développement Astro', 'Tailwind CSS', 'Référencement naturel', 'SEO local', 'UX Design'],
-  sameAs: [
-    'https://caelestis.fr',
-    'https://share.google/IKYSIPaXxlTN0W5Zz',
-  ],
+  knowsAbout: ['Création de site web', 'Développement Astro', 'Référencement naturel', 'SEO local Drôme', 'UX Design', 'Agence web Drôme', 'Freelance web Drôme', 'Site internet artisan', 'Site internet paysagiste', 'Site internet maraîcher', 'Site internet praticien bien-être', 'Site internet gîte', 'Site internet éco-construction', 'Création site internet Crest', 'Création site internet Valence'],
+  sameAs: ['https://share.google/IKYSIPaXxlTN0W5Zz'],
 };
 
 const breadcrumbApropos = {
@@ -43,7 +41,7 @@ const breadcrumbApropos = {
 ---
 <BaseLayout
   title="Célestin Fruleux — Développeur web & SEO Drôme · Caelestis"
-  description="Célestin Fruleux, développeur web & SEO dans la Drôme. Sites soignés pour artisans et indépendants — visibles sur Google, adaptés à votre activité."
+  description="Célestin Fruleux, fondateur de Caelestis. Développeur web freelance dans la Drôme, je crée des sites soignés pour artisans, maraîchers et indépendants — visibles sur Google, livrés en 2 à 6 semaines."
   schema={[personSchema, breadcrumbApropos]}
 >
 
@@ -58,16 +56,18 @@ const breadcrumbApropos = {
           <div class="img-zoom img-editorial aspect-[3/4] mb-4 overflow-hidden max-h-[480px] lg:max-h-none">
             <Image
               src={imgRiviere}
-              alt="Bureau home office en bois avec plantes vertes et setup PC — espace de travail soigné"
+              alt="Célestin Fruleux, fondateur de Caelestis, à son bureau — création de site internet dans la Drôme"
               class="w-full h-full object-cover"
+              style="object-position: center 20%;"
               data-parallax
               loading="eager"
               fetchpriority="high"
               widths={[480, 768]}
               sizes="(max-width: 1024px) 100vw, 35vw"
+              quality={72}
             />
           </div>
-          <p class="font-body text-xs text-brun-mid/50 text-center">Drôme, France</p>
+          <p class="font-body text-xs text-brun-mid/50 text-center">Célestin · Drôme</p>
 
           <!-- Petites stats discrètes -->
           <div class="mt-10 space-y-4">
@@ -106,7 +106,7 @@ const breadcrumbApropos = {
               Le nom Caelestis est inspiré de mon prénom Célestin, dont l'origine latine évoque le ciel.
             </p>
             <p>
-              Pour me présenter brièvement : Célestin Fruleux, 22 ans, passionné par la nature, le bien-être et l'entrepreneuriat.
+              Je suis Célestin Fruleux, j'ai 22 ans, et je suis passionné par la nature, le bien-être et l'entrepreneuriat.
             </p>
             <p>
               J'ai commencé par créer des sites internet pour mes propres projets. Puis mes proches m'ont demandé de les aider à leur tour. De fil en aiguille, j'ai conçu plusieurs sites, expérimenté différentes approches et développé mes compétences en conception web, image de marque et présence en ligne.
@@ -120,7 +120,7 @@ const breadcrumbApropos = {
             <p>
               C'est donc pour cette raison que j'ai créé Caelestis : aider les artisans, indépendants et entrepreneurs à disposer d'une présence en ligne à la hauteur de leur savoir-faire.
             </p>
-            <p class="font-display font-light text-brun text-lg">
+            <p class="font-display font-light text-sauge text-lg">
               Caelestis.
             </p>
           </div>

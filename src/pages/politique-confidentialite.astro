@@ -49,8 +49,8 @@ const year = new Date().getFullYear();
               <p>Dans le cadre de l'exploitation du site, les catégories de données suivantes peuvent être collectées :</p>
               <ul>
                 <li><strong>Via le formulaire de contact :</strong> prénom, adresse email, nom de l'entreprise (optionnel), description du projet ou de la demande, type de demande (message, appel, devis)</li>
-                <li><strong>Données de navigation :</strong> aucune donnée de navigation n'est collectée à des fins d'analyse ou de statistiques (pas de Google Analytics ni de tracker tiers)</li>
-                <li><strong>Cookies :</strong> uniquement des cookies techniques strictement nécessaires au fonctionnement du site (session, préférences d'affichage)</li>
+                <li><strong>Données de navigation :</strong> avec votre consentement, Google Analytics 4 collecte des données anonymisées (pages visitées, durée de visite, source de trafic, type d'appareil, ville approximative). Sans consentement, aucune donnée de navigation n'est collectée.</li>
+                <li><strong>Cookies :</strong> cookies techniques nécessaires au fonctionnement du site et, avec votre accord, cookies analytiques Google Analytics 4 (voir section 9)</li>
               </ul>
               <p>Aucune donnée sensible au sens de l'article 9 du RGPD n'est collectée.</p>
             `,
@@ -63,6 +63,7 @@ const year = new Date().getFullYear();
               <ul>
                 <li>Traiter et répondre aux demandes de contact, de devis ou de réservation d'appel</li>
                 <li>Assurer le bon fonctionnement du site (cookies techniques)</li>
+                <li>Mesurer l'audience et améliorer le site via Google Analytics 4 (uniquement avec votre consentement préalable)</li>
                 <li>Constituer un historique de la relation commerciale le cas échéant</li>
               </ul>
               <p>Vos données ne font l'objet d'aucune cession, vente, location ou communication à des tiers à des fins commerciales.</p>
@@ -88,7 +89,8 @@ const year = new Date().getFullYear();
               <ul>
                 <li><strong>Données issues du formulaire de contact :</strong> 3 ans à compter du dernier échange, sauf opposition de votre part</li>
                 <li><strong>Données relatives à une relation contractuelle :</strong> 10 ans à compter de la fin du contrat, conformément aux obligations légales comptables</li>
-                <li><strong>Cookies techniques :</strong> durée de la session ou au maximum 13 mois</li>
+                <li><strong>Cookie de consentement (caelestis-cookies) :</strong> 13 mois</li>
+                <li><strong>Cookies Google Analytics (_ga, _ga_*) :</strong> 13 mois (déposés uniquement après consentement)</li>
               </ul>
               <p>À l'issue de ces délais, les données sont supprimées ou anonymisées de manière irréversible.</p>
             `,
@@ -151,9 +153,15 @@ const year = new Date().getFullYear();
             title: 'Cookies',
             content: `
               <p>
-                Le site <strong>caelestis.fr</strong> utilise uniquement des cookies techniques strictement nécessaires
-                à son bon fonctionnement (gestion du consentement, préférences d'affichage).
-                <strong>Aucun cookie publicitaire, de tracking ou d'analyse tiers</strong> n'est déposé.
+                Le site <strong>caelestis.fr</strong> utilise deux catégories de cookies :
+              </p>
+              <h3 style="font-weight:600;color:#5A4030;margin-top:1rem;margin-bottom:.5rem;">1 — Cookies strictement nécessaires (pas de consentement requis)</h3>
+              <p>Ces cookies sont indispensables au fonctionnement du site et ne peuvent pas être refusés.</p>
+              <h3 style="font-weight:600;color:#5A4030;margin-top:1rem;margin-bottom:.5rem;">2 — Cookies analytiques (consentement requis)</h3>
+              <p>
+                Avec votre accord, le site utilise <strong>Google Analytics 4</strong> (Google Ireland Ltd.) pour mesurer l'audience de façon anonymisée.
+                Ces cookies ne sont déposés qu'après votre acceptation via le bandeau de consentement.
+                Aucune donnée publicitaire ni revente de données n'est effectuée.
               </p>
               <h3 style="font-weight:600;color:#5A4030;margin-top:1rem;margin-bottom:.5rem;">Détail des cookies déposés</h3>
               <div style="overflow-x:auto;">
@@ -169,17 +177,28 @@ const year = new Date().getFullYear();
                   <tbody>
                     <tr style="border-bottom:1px solid rgba(90,64,48,0.08)">
                       <td style="padding:.5rem .75rem;font-family:monospace;font-size:.75rem;">caelestis-cookies</td>
-                      <td style="padding:.5rem .75rem;">Mémorisation du choix de consentement cookies (accepté / refusé)</td>
+                      <td style="padding:.5rem .75rem;">Mémorisation du choix de consentement (accepté / refusé)</td>
                       <td style="padding:.5rem .75rem;">13 mois</td>
                       <td style="padding:.5rem .75rem;">caelestis.fr</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid rgba(90,64,48,0.08)">
+                      <td style="padding:.5rem .75rem;font-family:monospace;font-size:.75rem;">_ga</td>
+                      <td style="padding:.5rem .75rem;">Distinction des utilisateurs — Google Analytics 4 (si consentement accepté)</td>
+                      <td style="padding:.5rem .75rem;">13 mois</td>
+                      <td style="padding:.5rem .75rem;">Google Ireland Ltd.</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:.5rem .75rem;font-family:monospace;font-size:.75rem;">_ga_CE8L11103N</td>
+                      <td style="padding:.5rem .75rem;">Session et état de navigation — Google Analytics 4 (si consentement accepté)</td>
+                      <td style="padding:.5rem .75rem;">13 mois</td>
+                      <td style="padding:.5rem .75rem;">Google Ireland Ltd.</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <p style="margin-top:.75rem;">
-                Ce cookie est stocké dans le <code style="font-size:.75rem;">localStorage</code> de votre navigateur.
-                Vous pouvez retirer votre consentement à tout moment via le lien « Gérer mes cookies » en bas de page,
-                ou désactiver les cookies dans les paramètres de votre navigateur.
+                Vous pouvez retirer votre consentement à tout moment via le lien « Gérer mes cookies » en bas de page.
+                Pour en savoir plus sur l'utilisation de vos données par Google : <a href="https://policies.google.com/privacy" style="color:#889063;text-decoration:underline;" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a>.
               </p>
             `,
           },
