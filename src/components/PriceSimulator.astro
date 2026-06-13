@@ -471,18 +471,20 @@
       </div>
     </div>
 
-    <!-- ══ s5 — Interlude ══ -->
-    <div class="sim-step" id="s5">
-      <div class="sim-interlude">
-        <div class="sim-interlude-ornament" aria-hidden="true">✦</div>
-        <h2 class="sim-interlude-title">
-          L'estimation pour<br>
-          <em id="sim-activity-display" class="sim-interlude-em">votre projet</em><br>
-          est prête.
-        </h2>
-        <p class="sim-interlude-sub">
-          Votre estimation est prête.
+    <!-- ══ s5 — Confirmation ══ -->
+    <div class="sim-step" id="s5" role="status" aria-live="polite">
+      <div class="sim-confirm">
+        <div class="sim-confirm-icon" aria-hidden="true">✓</div>
+        <p class="sim-confirm-title">Estimation envoyée !</p>
+        <p class="sim-confirm-note">
+          Votre fourchette de prix pour
+          <em id="sim-activity-display" class="sim-interlude-em">votre projet</em>
+          vient d'être envoyée par email. Vérifiez votre boîte mail.
         </p>
+        <div class="sim-confirm-actions">
+          <a href="/questionnaire-devis" class="sim-btn-primary">Demander un devis précis →</a>
+          <p class="sim-confirm-sub">Gratuit · Sans engagement</p>
+        </div>
       </div>
     </div>
 
@@ -768,27 +770,7 @@
     display: flex;
     justify-content: flex-end;
   }
-  /* ── Interlude ── */
-  .sim-interlude {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 32px 12px 12px;
-    gap: 16px;
-  }
-  .sim-interlude-ornament { font-size: 1.7rem; color: #889063; opacity: 0.4; line-height: 1; }
-  .sim-interlude-title {
-    font-family: 'Lora', serif;
-    font-size: clamp(2rem, 6vw, 3rem);
-    font-weight: 400;
-    color: #3d4f28;
-    line-height: 1.12;
-    letter-spacing: -0.03em;
-    margin: 0;
-  }
   .sim-interlude-em { font-style: italic; color: #889063; }
-  .sim-interlude-sub { font-size: 0.875rem; color: #6B6040; max-width: 340px; line-height: 1.7; margin-top: -4px; }
   /* ── Champs formulaire ── */
   .sim-fields-row {
     display: grid;
@@ -918,19 +900,7 @@
   }
   @keyframes sim-pop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   .sim-confirm-title { font-family: 'Lora', serif; font-size: 1.4rem; font-weight: 400; color: #3d4f28; margin: 0; }
-  .sim-confirm-price {
-    font-family: 'Lora', serif;
-    font-size: clamp(1.6rem, 6vw, 2.4rem);
-    font-weight: 400; color: #3d4f28; letter-spacing: -0.03em;
-    background: rgba(136,144,99,0.09);
-    border: 1.5px solid rgba(136,144,99,0.22);
-    border-radius: 12px; padding: 20px 28px; line-height: 1.2;
-    animation: sim-fadein 0.5s 0.2s both;
-  }
   @keyframes sim-fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .sim-confirm-price strong { font-weight: 600; }
-  .sim-confirm-between { font-size: 0.55em; opacity: 0.55; margin-right: 4px; vertical-align: middle; }
-  .sim-confirm-sep { opacity: 0.4; margin: 0 6px; }
   .sim-confirm-note { font-size: 0.855rem; color: #6B6040; max-width: 380px; line-height: 1.7; margin: 0; }
   .sim-confirm-actions { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 4px; }
   .sim-confirm-sub { font-size: 0.7rem; letter-spacing: 0.08em; color: #A08060; margin: 0; }
@@ -1121,17 +1091,6 @@
       }
     }
 
-    /* ══ s0 — activité ══ */
-    const actInput = document.getElementById('sim-activity-pre') as HTMLInputElement | null;
-    const contS0   = document.getElementById('continue-s0')      as HTMLButtonElement | null;
-    actInput?.addEventListener('input', () => {
-      state.activity = actInput.value.trim();
-      if (contS0) contS0.disabled = state.activity.length === 0;
-    });
-    actInput?.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.key === 'Enter' && state.activity.length > 0) { e.preventDefault(); state.stepNum = 1; render(); }
-    });
-
     /* ══ s1 — type (mono-select) ══ */
     document.querySelectorAll<HTMLButtonElement>('#s1 .sim-card').forEach(card => {
       card.addEventListener('click', () => {
@@ -1215,11 +1174,6 @@
         state.stepNum += 1;
         render();
       });
-    });
-
-    /* ══ Interlude CTA ══ */
-    document.getElementById('sim-cta-interlude')?.addEventListener('click', () => {
-      state.stepNum = maxStep(); render();
     });
 
     /* ══ Retour ══ */
