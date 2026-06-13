@@ -526,7 +526,7 @@ function generateQuestionnairePDF(
       [`Fichiers (${filenames.length})`, filenames.length ? filenames.join(', ') : 'Aucun'],
       ...(wtLink ? [['WeTransfer', wtLink] as [string, string]] : []),
     ];
-    section('📎', 'Pièces jointes', pjRows);
+    section('PJ', 'Pièces jointes', pjRows);
 
     /* ── Pied de page sur toutes les pages ── */
     const totalPages = (doc.bufferedPageRange().count);
@@ -670,7 +670,7 @@ function generateQuestionnaireDocx(
     spacer(),
 
     /* Pièces jointes */
-    heading('Pièces jointes', '📎'),
+    heading('Pièces jointes', 'PJ'),
     dataRow(`Fichiers (${filenames.length})`, filenames.length ? filenames.join(', ') : 'Aucun'),
     ...(str(d['wetransfer_link']) ? [dataRow('WeTransfer', str(d['wetransfer_link']))] : []),
     spacer(),
@@ -711,7 +711,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   /* Rate limiting */
   const ip = request.headers.get('x-real-ip')
-    ?? request.headers.get('x-forwarded-for')?.split(',').at(-1)?.trim()
+    ?? request.headers.get('x-forwarded-for')?.split(',').at(0)?.trim()
     ?? 'unknown';
   const { allowed, retryAfterSecs } = checkRateLimit(ip);
   if (!allowed) {
@@ -761,6 +761,12 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ success: true }), {
         status: 200, headers: { 'Content-Type': 'application/json' },
       });
+    }
+
+    /* Sanitize WeTransfer link — n'autoriser que les URLs https:// */
+    const rawWt = str(body['wetransfer_link'], 500);
+    if (rawWt && !/^https:\/\//i.test(rawWt)) {
+      body['wetransfer_link'] = '';
     }
 
     /* Champ requis : email */

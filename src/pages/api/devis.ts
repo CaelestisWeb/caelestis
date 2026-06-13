@@ -77,6 +77,12 @@ const RADIO_LABELS: Record<string, Record<string, string>> = {
     boutique_en_ligne: 'Boutique en ligne',
     sur_mesure:        'Site sur mesure',
   },
+  nb_pages: {
+    '1-4':            '1 à 4 pages',
+    '4-6':            '4 à 6 pages',
+    '6+':             '6 pages et plus',
+    'je_ne_sais_pas': 'Je ne sais pas encore',
+  },
   delai: {
     asap:       'Dès que possible',
     un_mois:    'Dans 1 mois environ',
@@ -201,7 +207,7 @@ function buildAdminEmail(d: Record<string, unknown>, dateStr: string): string {
     eBlock(4, 'Votre futur site', [
       eRow('Type de site',     rl('type_site', 'type_site')),
       eRow('Objectifs',        al('objectifs', 'objectifs', 'objectifs_autre')),
-      eRow('Nombre de pages',  esc(str(d['nb_pages'])) || '<span style="color:#ccc;">—</span>'),
+      eRow('Nombre de pages',  rl('nb_pages', 'nb_pages')),
       eRow('Pages souhaitées', pagesHtml),
       eRow('Fonctionnalités',  al('fonctionnalites', 'fonctionnalites', 'fonctionnalites_autre')),
       eRow('Boutique',         rl('boutique_actif', 'boutique_actif')),
@@ -298,7 +304,7 @@ function buildClientEmail(d: Record<string, unknown>, dateStr: string): string {
     eBlock('04', 'Votre futur site', [
       eRow('Type de site',     rl('type_site', 'type_site')),
       eRow('Objectifs',        al('objectifs', 'objectifs', 'objectifs_autre')),
-      eRow('Nombre de pages',  esc(str(d['nb_pages'])) || '<span style="color:#bbb;">—</span>'),
+      eRow('Nombre de pages',  rl('nb_pages', 'nb_pages')),
       eRow('Pages souhaitées', pagesHtml),
       eRow('Fonctionnalités',  al('fonctionnalites', 'fonctionnalites', 'fonctionnalites_autre')),
       eRow('Boutique',         rl('boutique_actif', 'boutique_actif')),
@@ -455,7 +461,7 @@ function generateDevisPDF(d: Record<string, unknown>, dateStr: string): Promise<
     section('04', 'Votre futur site', [
       ['Type de site',     radio('type_site', 'type_site')],
       ['Objectifs',        chips('objectifs', 'objectifs', 'objectifs_autre')],
-      ['Nb de pages',      clean('nb_pages')],
+      ['Nb de pages',      radio('nb_pages', 'nb_pages')],
       ['Pages souhaitées', pagesList.length ? pagesList.map((p,i) => `${i+1}. ${p}`).join('  |  ') : '—'],
       ['Fonctionnalités',  chips('fonctionnalites', 'fonctionnalites', 'fonctionnalites_autre')],
       ['Boutique',         radio('boutique_actif', 'boutique_actif')],
@@ -584,7 +590,7 @@ function generateDevisDocx(d: Record<string, unknown>, dateStr: string): Promise
     heading('Votre futur site', '04'),
     dataRow('Type de site',     radio('type_site', 'type_site')),
     dataRow('Objectifs',        chips('objectifs', 'objectifs', 'objectifs_autre')),
-    dataRow('Nb de pages',      clean('nb_pages')),
+    dataRow('Nb de pages',      radio('nb_pages', 'nb_pages')),
     dataRow('Pages souhaitées', [1,2,3,4,5,6,7,8].map(n => str(d[`page_${n}`])).filter(Boolean).map((p,i) => `${i+1}. ${p}`).join('  ·  ') || '—'),
     dataRow('Fonctionnalités',  chips('fonctionnalites', 'fonctionnalites', 'fonctionnalites_autre')),
     dataRow('Boutique',         radio('boutique_actif', 'boutique_actif')),
@@ -632,7 +638,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const ip = request.headers.get('x-real-ip')
-    ?? request.headers.get('x-forwarded-for')?.split(',').at(-1)?.trim()
+    ?? request.headers.get('x-forwarded-for')?.split(',').at(0)?.trim()
     ?? 'unknown';
   const { allowed, retryAfterSecs } = checkRateLimit(ip);
   if (!allowed) {
