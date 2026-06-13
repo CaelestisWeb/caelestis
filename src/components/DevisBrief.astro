@@ -17,9 +17,9 @@
   <div id="form-container" class="brief-container">
 
     <header class="brief-header">
-      <p class="brief-overline">Caelestis. Questionnaire de création</p>
-      <h1 class="brief-title">Donnons vie<br>à votre site.</h1>
-      <p class="brief-subtitle">Vous avez validé votre devis, bravo ! Ce questionnaire me donne toutes les informations nécessaires pour démarrer la création de votre site. Prenez votre temps, il se sauvegarde automatiquement.</p>
+      <p class="brief-overline">Caelestis. Demande de devis</p>
+      <h1 class="brief-title">Parlez-moi<br>de votre projet.</h1>
+      <p class="brief-subtitle">Ces questions me permettent de comprendre votre projet en détail. Avec vos réponses, je vous prépare un devis précis et personnalisé, livré sous 48h.</p>
       <div class="brief-divider" aria-hidden="true"></div>
     </header>
 
@@ -33,15 +33,13 @@
         <input type="text" name="website" tabindex="-1" autocomplete="off">
       </div>
 
-      <!-- Identification légère -->
+      <!-- 01 · À propos de vous -->
       <section class="b-card">
         <div class="b-card-head">
-          <span class="b-num" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 12c0-2.21 2.239-4 5-4s5 1.79 5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-          </span>
+          <span class="b-num" aria-hidden="true">01</span>
           <div>
             <p class="b-overline">Pour commencer</p>
-            <h2 class="b-title">Vos coordonnées</h2>
+            <h2 class="b-title">À propos de vous</h2>
           </div>
         </div>
         <div class="b-body">
@@ -57,6 +55,16 @@
           </div>
           <div class="b-row-2">
             <div class="b-field">
+              <label class="b-label" for="activite">Activité principale</label>
+              <input id="activite" type="text" name="activite" placeholder="Ex : Paysagiste, thérapeute, artisan…" class="b-input">
+            </div>
+            <div class="b-field">
+              <label class="b-label" for="ville">Ville et département</label>
+              <input id="ville" type="text" name="ville" placeholder="Ex : Valence (26)" class="b-input">
+            </div>
+          </div>
+          <div class="b-row-2">
+            <div class="b-field">
               <label class="b-label" for="email_contact">
                 Email <span class="b-required" aria-label="champ obligatoire">*</span>
               </label>
@@ -67,225 +75,269 @@
               <input id="telephone" type="tel" name="telephone" placeholder="07 xx xx xx xx" class="b-input">
             </div>
           </div>
-        </div>
-      </section>
-
-      <!-- 01 · Votre contenu -->
-      <section class="b-card">
-        <div class="b-card-head">
-          <span class="b-num" aria-hidden="true">01</span>
-          <div>
-            <p class="b-overline">Ce que vous avez</p>
-            <h2 class="b-title">Votre contenu</h2>
-          </div>
-        </div>
-        <div class="b-body">
-          <div class="b-field">
-            <span class="b-label" id="contenu-legend">Éléments que vous pouvez fournir</span>
-            <div class="b-check-grid" role="group" aria-labelledby="contenu-legend">
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="logo" class="b-check-input"><span>Logo et charte graphique</span></label>
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="photos" class="b-check-input"><span>Photos professionnelles</span></label>
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="textes_rediges" class="b-check-input"><span>Textes rédigés</span></label>
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="videos" class="b-check-input"><span>Vidéos</span></label>
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="temoignages" class="b-check-input"><span>Témoignages clients</span></label>
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="rien" class="b-check-input"><span>Rien pour l'instant</span></label>
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="autre" class="b-check-input"><span>Autre</span></label>
+          <div class="b-row-2">
+            <div class="b-field">
+              <label class="b-label" for="site_actuel">Site internet actuel <span class="b-hint">(si vous en avez un)</span></label>
+              <input id="site_actuel" type="text" name="site_actuel" placeholder="https://…" class="b-input">
             </div>
-            <div id="contenu_dispo-autre" class="b-reveal hidden">
-              <input type="text" name="contenu_dispo_autre" placeholder="Précisez ce que vous pouvez apporter…" class="b-input">
-            </div>
-          </div>
-          <div class="b-field">
-            <span class="b-label" id="textes-legend">Les textes du site</span>
-            <div class="b-chips b-chips-col" role="radiogroup" aria-labelledby="textes-legend">
-              <label class="b-chip b-chip-block"><input type="radio" name="textes" value="je_fournis" class="b-chip-input"><span>Je fournis les textes moi-même</span></label>
-              <label class="b-chip b-chip-block"><input type="radio" name="textes" value="aide" class="b-chip-input"><span>Vous m'aidez à les améliorer</span></label>
-              <label class="b-chip b-chip-block"><input type="radio" name="textes" value="vous_redigez" class="b-chip-input"><span>Vous rédigez entièrement pour moi</span></label>
+            <div class="b-field">
+              <label class="b-label" for="domaine_souhaite">Nom de domaine souhaité</label>
+              <input id="domaine_souhaite" type="text" name="domaine_souhaite" placeholder="Ex : jardins-dupont.fr" class="b-input">
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 02 · Vos réseaux sociaux -->
+      <!-- 02 · Votre activité -->
       <section class="b-card">
         <div class="b-card-head">
           <span class="b-num" aria-hidden="true">02</span>
           <div>
-            <p class="b-overline">Votre présence en ligne</p>
-            <h2 class="b-title">Vos réseaux sociaux</h2>
+            <p class="b-overline">Votre histoire</p>
+            <h2 class="b-title">Votre activité</h2>
           </div>
         </div>
         <div class="b-body">
           <div class="b-field">
-            <span class="b-label" id="reseaux-legend">Réseaux à intégrer sur le site <span class="b-hint">(optionnel)</span></span>
-            <div class="b-check-grid" role="group" aria-labelledby="reseaux-legend">
-              <label class="b-check"><input type="checkbox" name="reseaux" value="facebook" class="b-check-input"><span>Facebook</span></label>
-              <label class="b-check"><input type="checkbox" name="reseaux" value="instagram" class="b-check-input"><span>Instagram</span></label>
-              <label class="b-check"><input type="checkbox" name="reseaux" value="linkedin" class="b-check-input"><span>LinkedIn</span></label>
-              <label class="b-check"><input type="checkbox" name="reseaux" value="youtube" class="b-check-input"><span>YouTube</span></label>
-              <label class="b-check"><input type="checkbox" name="reseaux" value="tiktok" class="b-check-input"><span>TikTok</span></label>
-              <label class="b-check"><input type="checkbox" name="reseaux" value="pinterest" class="b-check-input"><span>Pinterest</span></label>
-              <label class="b-check"><input type="checkbox" name="reseaux" value="autre" class="b-check-input"><span>Autre</span></label>
+            <label class="b-label" for="description_activite">Décrivez votre activité en quelques phrases</label>
+            <textarea id="description_activite" name="description_activite" rows="4" placeholder="Ce que vous faites, depuis combien de temps, ce qui vous tient à cœur dans ce métier…" class="b-textarea"></textarea>
+          </div>
+          <div class="b-field">
+            <label class="b-label" for="ce_qui_vous_differencie">Ce qui vous différencie de vos concurrents</label>
+            <textarea id="ce_qui_vous_differencie" name="ce_qui_vous_differencie" rows="3" placeholder="Votre approche, votre expérience, votre façon de travailler…" class="b-textarea"></textarea>
+          </div>
+          <div class="b-field">
+            <span class="b-label" id="type-client-legend">Clientèle ciblée</span>
+            <div class="b-chips b-chips-wrap" role="group" aria-labelledby="type-client-legend">
+              <label class="b-chip"><input type="checkbox" name="type_client" value="particuliers" class="b-chip-input"><span>Particuliers</span></label>
+              <label class="b-chip"><input type="checkbox" name="type_client" value="professionnels" class="b-chip-input"><span>Professionnels (B2B)</span></label>
+              <label class="b-chip"><input type="checkbox" name="type_client" value="collectivites" class="b-chip-input"><span>Collectivités</span></label>
+              <label class="b-chip"><input type="checkbox" name="type_client" value="associations" class="b-chip-input"><span>Associations</span></label>
+              <label class="b-chip"><input type="checkbox" name="type_client" value="autre" class="b-chip-input"><span>Autre</span></label>
             </div>
-            <div id="reseaux-autre" class="b-reveal hidden">
-              <input type="text" name="reseaux_autre" placeholder="Précisez le réseau…" class="b-input">
+            <div id="type_client-autre" class="b-reveal hidden">
+              <input type="text" name="type_client_autre" placeholder="Précisez votre clientèle…" class="b-input">
             </div>
           </div>
           <div class="b-field">
-            <label class="b-label" for="comptes_reseaux">URLs ou noms de vos comptes</label>
-            <textarea id="comptes_reseaux" name="comptes_reseaux" rows="3" placeholder="Ex : instagram.com/jardins.dupont, facebook.com/jardinsdupont…" class="b-textarea"></textarea>
+            <label class="b-label" for="zone_geo">Zone géographique desservie</label>
+            <input id="zone_geo" type="text" name="zone_geo" placeholder="Ex : Drôme et Ardèche, toute la France, international…" class="b-input">
           </div>
         </div>
       </section>
 
-      <!-- 03 · Votre boutique en ligne -->
+      <!-- 03 · Vos services -->
       <section class="b-card">
         <div class="b-card-head">
           <span class="b-num" aria-hidden="true">03</span>
           <div>
-            <p class="b-overline">Vente en ligne</p>
-            <h2 class="b-title">Votre boutique</h2>
+            <p class="b-overline">Ce que vous proposez</p>
+            <h2 class="b-title">Vos services</h2>
           </div>
         </div>
         <div class="b-body">
           <div class="b-field">
-            <span class="b-label" id="boutique-legend">Votre site inclut-il une boutique en ligne ?</span>
+            <span class="b-label">Vos principales prestations</span>
+            <div class="b-services">
+              <div class="b-service-row"><span class="b-service-num" aria-hidden="true">1</span><input type="text" name="service_1" placeholder="Ex : Création et aménagement de jardins" class="b-input"></div>
+              <div class="b-service-row"><span class="b-service-num" aria-hidden="true">2</span><input type="text" name="service_2" placeholder="Ex : Entretien régulier" class="b-input"></div>
+              <div class="b-service-row"><span class="b-service-num" aria-hidden="true">3</span><input type="text" name="service_3" placeholder="Prestation 3 (optionnelle)" class="b-input"></div>
+              <div class="b-service-row"><span class="b-service-num" aria-hidden="true">4</span><input type="text" name="service_4" placeholder="Prestation 4 (optionnelle)" class="b-input"></div>
+              <div class="b-service-row"><span class="b-service-num" aria-hidden="true">5</span><input type="text" name="service_5" placeholder="Prestation 5 (optionnelle)" class="b-input"></div>
+            </div>
+          </div>
+          <div class="b-field">
+            <span class="b-label" id="tarifs-legend">Afficher les tarifs sur le site ?</span>
+            <div class="b-chips" role="radiogroup" aria-labelledby="tarifs-legend">
+              <label class="b-chip"><input type="radio" name="affichage_tarifs" value="oui" class="b-chip-input"><span>Oui, mes prix</span></label>
+              <label class="b-chip"><input type="radio" name="affichage_tarifs" value="sur_demande" class="b-chip-input"><span>Sur demande uniquement</span></label>
+              <label class="b-chip"><input type="radio" name="affichage_tarifs" value="non" class="b-chip-input"><span>Non</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 · Votre futur site -->
+      <section class="b-card">
+        <div class="b-card-head">
+          <span class="b-num" aria-hidden="true">04</span>
+          <div>
+            <p class="b-overline">Votre vision</p>
+            <h2 class="b-title">Votre futur site</h2>
+          </div>
+        </div>
+        <div class="b-body">
+          <div class="b-field">
+            <span class="b-label" id="type-site-legend">Type de site</span>
+            <div class="b-chips" role="radiogroup" aria-labelledby="type-site-legend">
+              <label class="b-chip"><input type="radio" name="type_site" value="vitrine" class="b-chip-input"><span>Site vitrine</span></label>
+              <label class="b-chip"><input type="radio" name="type_site" value="boutique_en_ligne" class="b-chip-input"><span>Boutique en ligne</span></label>
+              <label class="b-chip"><input type="radio" name="type_site" value="sur_mesure" class="b-chip-input"><span>Site sur mesure</span></label>
+            </div>
+          </div>
+          <div class="b-field">
+            <span class="b-label" id="objectifs-legend">Objectifs principaux</span>
+            <div class="b-check-grid" role="group" aria-labelledby="objectifs-legend">
+              <label class="b-check"><input type="checkbox" name="objectifs" value="visibilite" class="b-check-input"><span>Gagner en visibilité</span></label>
+              <label class="b-check"><input type="checkbox" name="objectifs" value="prospects" class="b-check-input"><span>Attirer des prospects</span></label>
+              <label class="b-check"><input type="checkbox" name="objectifs" value="vente_ligne" class="b-check-input"><span>Vendre en ligne</span></label>
+              <label class="b-check"><input type="checkbox" name="objectifs" value="notoriete" class="b-check-input"><span>Renforcer la notoriété</span></label>
+              <label class="b-check"><input type="checkbox" name="objectifs" value="credibilite" class="b-check-input"><span>Crédibiliser l'activité</span></label>
+              <label class="b-check"><input type="checkbox" name="objectifs" value="recrutement" class="b-check-input"><span>Faciliter le recrutement</span></label>
+              <label class="b-check"><input type="checkbox" name="objectifs" value="autre" class="b-check-input"><span>Autre</span></label>
+            </div>
+            <div id="objectifs-autre" class="b-reveal hidden">
+              <input type="text" name="objectifs_autre" placeholder="Précisez votre objectif…" class="b-input">
+            </div>
+          </div>
+          <div class="b-field">
+            <span class="b-label" id="nb-pages-legend">Nombre de pages souhaitées</span>
+            <div class="b-chips b-chips-wrap" role="radiogroup" aria-labelledby="nb-pages-legend">
+              <label class="b-chip"><input type="radio" name="nb_pages" value="1-3" class="b-chip-input"><span>1 à 3 pages</span></label>
+              <label class="b-chip"><input type="radio" name="nb_pages" value="4-6" class="b-chip-input"><span>4 à 6 pages</span></label>
+              <label class="b-chip"><input type="radio" name="nb_pages" value="7-10" class="b-chip-input"><span>7 à 10 pages</span></label>
+              <label class="b-chip"><input type="radio" name="nb_pages" value="10+" class="b-chip-input"><span>10 pages et plus</span></label>
+              <label class="b-chip"><input type="radio" name="nb_pages" value="je_ne_sais_pas" class="b-chip-input"><span>Je ne sais pas encore</span></label>
+            </div>
+          </div>
+          <div class="b-field">
+            <span class="b-label">Noms des pages souhaitées <span class="b-hint">(laissez vide les cases inutilisées)</span></span>
+            <div class="b-pages-grid">
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">1</span><input type="text" name="page_1" placeholder="Ex : Accueil" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">2</span><input type="text" name="page_2" placeholder="Ex : Nos prestations" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">3</span><input type="text" name="page_3" placeholder="Ex : Notre histoire" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">4</span><input type="text" name="page_4" placeholder="Ex : Réalisations" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">5</span><input type="text" name="page_5" placeholder="Ex : Témoignages" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">6</span><input type="text" name="page_6" placeholder="Ex : Blog et actualités" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">7</span><input type="text" name="page_7" placeholder="Ex : FAQ" class="b-input"></div>
+              <div class="b-page-row"><span class="b-page-num" aria-hidden="true">8</span><input type="text" name="page_8" placeholder="Ex : Contact" class="b-input"></div>
+            </div>
+          </div>
+          <div class="b-field">
+            <span class="b-label" id="fonctionnalites-legend">Fonctionnalités souhaitées</span>
+            <div class="b-check-grid" role="group" aria-labelledby="fonctionnalites-legend">
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="formulaire_contact" class="b-check-input"><span>Formulaire de contact</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="galerie" class="b-check-input"><span>Galerie de photos</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="blog" class="b-check-input"><span>Blog et actualités</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="reservation" class="b-check-input"><span>Réservation en ligne</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="espace_client" class="b-check-input"><span>Espace client</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="carte" class="b-check-input"><span>Carte interactive</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="newsletter" class="b-check-input"><span>Newsletter</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="multilingue" class="b-check-input"><span>Site multilingue</span></label>
+              <label class="b-check"><input type="checkbox" name="fonctionnalites" value="autre" class="b-check-input"><span>Autre</span></label>
+            </div>
+            <div id="fonctionnalites-autre" class="b-reveal hidden">
+              <input type="text" name="fonctionnalites_autre" placeholder="Précisez la fonctionnalité souhaitée…" class="b-input">
+            </div>
+          </div>
+          <div class="b-field">
+            <span class="b-label" id="boutique-legend">Une boutique en ligne ?</span>
             <div class="b-chips" role="radiogroup" aria-labelledby="boutique-legend">
               <label class="b-chip"><input type="radio" name="boutique_actif" value="oui" class="b-chip-input"><span>Oui</span></label>
               <label class="b-chip"><input type="radio" name="boutique_actif" value="non" class="b-chip-input"><span>Non</span></label>
             </div>
           </div>
           <div id="boutique-extra" class="b-nested hidden">
-            <p class="b-nested-label">Détails de votre boutique</p>
+            <p class="b-nested-label">À propos de votre boutique</p>
             <div class="b-field">
               <label class="b-label" for="boutique_nb_produits">Nombre de produits approximatif</label>
-              <input id="boutique_nb_produits" type="text" name="boutique_nb_produits" placeholder="Ex : 30 produits, 5 catégories" class="b-input">
-            </div>
-            <div class="b-field">
-              <label class="b-label" for="boutique_livraison">Modalités de livraison</label>
-              <textarea id="boutique_livraison" name="boutique_livraison" rows="2" placeholder="Ex : Livraison Colissimo, click and collect, livraison offerte dès 50 €…" class="b-textarea"></textarea>
-            </div>
-            <div class="b-field">
-              <span class="b-label" id="paiement-legend">Modes de paiement souhaités</span>
-              <div class="b-chips b-chips-wrap" role="group" aria-labelledby="paiement-legend">
-                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="cb" class="b-chip-input"><span>Carte bancaire</span></label>
-                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="paypal" class="b-chip-input"><span>PayPal</span></label>
-                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="virement" class="b-chip-input"><span>Virement bancaire</span></label>
-                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="cheque" class="b-chip-input"><span>Chèque</span></label>
-                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="autre" class="b-chip-input"><span>Autre</span></label>
-              </div>
-              <div id="boutique_paiement-autre" class="b-reveal hidden">
-                <input type="text" name="boutique_paiement_autre" placeholder="Précisez le mode de paiement…" class="b-input">
-              </div>
+              <input id="boutique_nb_produits" type="text" name="boutique_nb_produits" placeholder="Ex : 30 produits" class="b-input">
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 04 · Informations légales -->
-      <section class="b-card">
-        <div class="b-card-head">
-          <span class="b-num" aria-hidden="true">04</span>
-          <div>
-            <p class="b-overline">Pour les mentions légales</p>
-            <h2 class="b-title">Informations légales</h2>
-          </div>
-        </div>
-        <div class="b-body">
-          <div class="b-field">
-            <span class="b-label" id="statut-legend">Statut juridique</span>
-            <div class="b-chips b-chips-wrap" role="radiogroup" aria-labelledby="statut-legend">
-              <label class="b-chip"><input type="radio" name="statut_juridique" value="ei" class="b-chip-input"><span>Auto-entrepreneur ou EI</span></label>
-              <label class="b-chip"><input type="radio" name="statut_juridique" value="eurl" class="b-chip-input"><span>EURL</span></label>
-              <label class="b-chip"><input type="radio" name="statut_juridique" value="sarl" class="b-chip-input"><span>SARL</span></label>
-              <label class="b-chip"><input type="radio" name="statut_juridique" value="sas" class="b-chip-input"><span>SAS ou SASU</span></label>
-              <label class="b-chip"><input type="radio" name="statut_juridique" value="association" class="b-chip-input"><span>Association</span></label>
-              <label class="b-chip"><input type="radio" name="statut_juridique" value="autre" class="b-chip-input"><span>Autre</span></label>
-            </div>
-            <div id="statut-autre" class="b-reveal hidden">
-              <input type="text" name="statut_autre" placeholder="Précisez votre statut juridique…" class="b-input">
-            </div>
-          </div>
-          <div class="b-row-2">
-            <div class="b-field">
-              <label class="b-label" for="siret">Numéro SIRET <span class="b-hint">(optionnel)</span></label>
-              <input id="siret" type="text" name="siret" placeholder="Ex : 123 456 789 00010" class="b-input" maxlength="20" inputmode="numeric">
-            </div>
-            <div class="b-field">
-              <label class="b-label" for="numero_tva">Numéro de TVA <span class="b-hint">(si applicable)</span></label>
-              <input id="numero_tva" type="text" name="numero_tva" placeholder="Ex : FR 12 345678901" class="b-input">
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 05 · Vos valeurs -->
+      <!-- 05 · Votre univers visuel -->
       <section class="b-card">
         <div class="b-card-head">
           <span class="b-num" aria-hidden="true">05</span>
           <div>
-            <p class="b-overline">Ce qui vous définit</p>
-            <h2 class="b-title">Vos valeurs</h2>
+            <p class="b-overline">L'identité de votre site</p>
+            <h2 class="b-title">Votre univers visuel</h2>
           </div>
         </div>
         <div class="b-body">
           <div class="b-field">
-            <span class="b-label" id="valeurs-legend">Les valeurs à mettre en avant sur votre site</span>
-            <div class="b-check-grid" role="group" aria-labelledby="valeurs-legend">
-              <label class="b-check"><input type="checkbox" name="valeurs" value="proximite" class="b-check-input"><span>Proximité</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="qualite" class="b-check-input"><span>Qualité</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="confiance" class="b-check-input"><span>Confiance</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="innovation" class="b-check-input"><span>Innovation</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="transparence" class="b-check-input"><span>Transparence</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="engagement" class="b-check-input"><span>Engagement</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="passion" class="b-check-input"><span>Passion</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="expertise" class="b-check-input"><span>Expertise</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="autre" class="b-check-input"><span>Autre</span></label>
+            <span class="b-label" id="style-legend">L'image que vous souhaitez renvoyer</span>
+            <div class="b-check-grid" role="group" aria-labelledby="style-legend">
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="moderne" class="b-check-input"><span>Moderne</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="epure" class="b-check-input"><span>Épuré et minimaliste</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="chaleureux" class="b-check-input"><span>Chaleureux</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="nature" class="b-check-input"><span>Nature et organique</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="professionnel" class="b-check-input"><span>Professionnel</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="dynamique" class="b-check-input"><span>Dynamique</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="luxe" class="b-check-input"><span>Luxe et premium</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="artisanal" class="b-check-input"><span>Artisanal</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="colore" class="b-check-input"><span>Coloré et vivant</span></label>
+              <label class="b-check"><input type="checkbox" name="style_adjectifs" value="autre" class="b-check-input"><span>Autre</span></label>
             </div>
-            <div id="valeurs-autre" class="b-reveal hidden">
-              <input type="text" name="valeurs_autre" placeholder="Précisez vos valeurs…" class="b-input">
+            <div id="style_adjectifs-autre" class="b-reveal hidden">
+              <input type="text" name="style_autre" placeholder="Décrivez l'ambiance souhaitée…" class="b-input">
+            </div>
+          </div>
+          <div class="b-row-2">
+            <div class="b-field">
+              <label class="b-label" for="couleurs_aimees">Couleurs que vous aimez</label>
+              <textarea id="couleurs_aimees" name="couleurs_aimees" rows="3" placeholder="Ex : Vert forêt, blanc cassé, touches de terracotta…" class="b-textarea"></textarea>
+            </div>
+            <div class="b-field">
+              <label class="b-label" for="couleurs_non_aimees">Couleurs à éviter</label>
+              <textarea id="couleurs_non_aimees" name="couleurs_non_aimees" rows="3" placeholder="Ex : Le rouge vif, le jaune flashy…" class="b-textarea"></textarea>
             </div>
           </div>
           <div class="b-field">
-            <label class="b-label" for="message_important">Message important ou contrainte particulière <span class="b-hint">(optionnel)</span></label>
-            <textarea id="message_important" name="message_important" rows="4" placeholder="Une date butoir, quelque chose que vous ne voulez surtout pas sur votre site, une idée de page ou de fonctionnalité qui vous tient à cœur…" class="b-textarea"></textarea>
+            <label class="b-label" for="sites_aimes">Sites qui vous inspirent <span class="b-hint">(et ce que vous y aimez)</span></label>
+            <textarea id="sites_aimes" name="sites_aimes" rows="3" placeholder="https://exemple.fr — j'aime le design épuré et les grandes photos…" class="b-textarea"></textarea>
           </div>
         </div>
       </section>
 
-      <!-- 06 · Vos fichiers -->
-      <section class="b-card b-card-upload">
+      <!-- 06 · Budget et délai -->
+      <section class="b-card">
         <div class="b-card-head">
-          <span class="b-num b-num-icon" aria-hidden="true">
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 10V1m0 0L4.5 4M7.5 1l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 10.5v1a2 2 0 002 2h8a2 2 0 002-2v-1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-          </span>
+          <span class="b-num" aria-hidden="true">06</span>
           <div>
-            <p class="b-overline">Documents et médias</p>
-            <h2 class="b-title">Vos fichiers</h2>
+            <p class="b-overline">Organisation du projet</p>
+            <h2 class="b-title">Budget et délai</h2>
           </div>
         </div>
         <div class="b-body">
-          <p class="b-docs-note">Logo, photos de vos réalisations, brochures, textes rédigés… Tout ce qui peut nous aider à démarrer. <span class="b-hint">5 Mo max par fichier, 8 Mo total.</span> Pour des fichiers plus lourds, utilisez WeTransfer et collez le lien ci-dessous.</p>
           <div class="b-field">
-            <div class="b-upload-zone" id="upload-zone">
-              <input type="file" id="attachments" name="attachments" multiple
-                accept="image/jpeg,image/png,image/webp,image/gif,application/pdf,.doc,.docx"
-                class="b-upload-input" aria-label="Joindre des fichiers">
-              <div class="b-upload-ui" id="upload-ui">
-                <div class="b-upload-icon" aria-hidden="true">
-                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 18V7m0 0L9 12m5-5l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20v1.5A2.5 2.5 0 006.5 24h15a2.5 2.5 0 002.5-2.5V20" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-                </div>
-                <p class="b-upload-text">Glissez vos fichiers ici</p>
-                <p class="b-upload-sub">ou cliquez pour parcourir vos dossiers</p>
-                <p class="b-upload-sub">Images (JPG, PNG, WebP), PDF, Word</p>
-              </div>
-              <ul id="file-list" class="b-file-list" aria-label="Fichiers sélectionnés"></ul>
-              <p id="upload-error" class="b-upload-error hidden"></p>
+            <span class="b-label" id="budget-legend">Budget approximatif</span>
+            <div class="b-chips b-chips-wrap" role="radiogroup" aria-labelledby="budget-legend">
+              <label class="b-chip"><input type="radio" name="budget" value="moins_800" class="b-chip-input"><span>Moins de 800 €</span></label>
+              <label class="b-chip"><input type="radio" name="budget" value="800_1500" class="b-chip-input"><span>Entre 800 et 1 500 €</span></label>
+              <label class="b-chip"><input type="radio" name="budget" value="1500_3000" class="b-chip-input"><span>Entre 1 500 et 3 000 €</span></label>
+              <label class="b-chip"><input type="radio" name="budget" value="plus_3000" class="b-chip-input"><span>Plus de 3 000 €</span></label>
+              <label class="b-chip"><input type="radio" name="budget" value="ne_sais_pas" class="b-chip-input"><span>Je ne sais pas encore</span></label>
             </div>
           </div>
           <div class="b-field">
-            <label class="b-label" for="wetransfer_link">Lien WeTransfer <span class="b-hint">(pour les fichiers volumineux)</span></label>
-            <input id="wetransfer_link" type="url" name="wetransfer_link" placeholder="https://we.tl/t-xxxxxxxxxx" class="b-input">
+            <span class="b-label" id="delai-legend">Délai de lancement souhaité</span>
+            <div class="b-chips b-chips-wrap" role="radiogroup" aria-labelledby="delai-legend">
+              <label class="b-chip"><input type="radio" name="delai" value="asap" class="b-chip-input"><span>Dès que possible</span></label>
+              <label class="b-chip"><input type="radio" name="delai" value="un_mois" class="b-chip-input"><span>Dans 1 mois environ</span></label>
+              <label class="b-chip"><input type="radio" name="delai" value="trois_mois" class="b-chip-input"><span>Dans 3 mois environ</span></label>
+              <label class="b-chip"><input type="radio" name="delai" value="six_mois" class="b-chip-input"><span>Dans 6 mois ou plus</span></label>
+              <label class="b-chip"><input type="radio" name="delai" value="pas_urgent" class="b-chip-input"><span>Pas de délai particulier</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 · Pour terminer -->
+      <section class="b-card">
+        <div class="b-card-head">
+          <span class="b-num" aria-hidden="true">07</span>
+          <div>
+            <p class="b-overline">Pour finir</p>
+            <h2 class="b-title">Quelque chose à ajouter ?</h2>
+          </div>
+        </div>
+        <div class="b-body">
+          <div class="b-field">
+            <label class="b-label" for="message_important">Un message, une contrainte, une envie particulière ?</label>
+            <textarea id="message_important" name="message_important" rows="4" placeholder="Une date butoir, une exigence spécifique, quelque chose que vous ne voulez surtout pas sur votre site, ou tout ce que vous n'avez pas pu exprimer dans les questions précédentes…" class="b-textarea"></textarea>
           </div>
         </div>
       </section>
@@ -297,7 +349,7 @@
 
       <div class="brief-submit-wrap">
         <button id="submit-btn" type="submit" class="b-submit">
-          Envoyer le questionnaire
+          Recevoir mon devis
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
@@ -310,9 +362,9 @@
       <div class="success-icon" aria-hidden="true">
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5 14l6 6 12-12" stroke="#3d4f28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <p class="success-overline">Questionnaire envoyé</p>
-      <h2 class="success-title">Merci.<br>C'est bien reçu.</h2>
-      <p class="success-body">Votre questionnaire de création a bien été transmis. Célestin va le lire avec attention et vous recontactera <strong>sous 48h maximum</strong> pour démarrer le projet.</p>
+      <p class="success-overline">Demande reçue</p>
+      <h2 class="success-title">Merci.<br>C'est noté.</h2>
+      <p class="success-body">Votre demande de devis a bien été reçue. Je vais l'étudier avec soin et vous enverrai votre devis personnalisé <strong>sous 48h maximum</strong>.</p>
       <div class="success-footer">
         <span>07 69 36 27 27</span>
         <span class="success-sep" aria-hidden="true">/</span>
@@ -364,7 +416,6 @@
   .b-card:focus-within { border-color:rgba(136,144,99,.55);box-shadow:0 6px 28px rgba(61,79,40,.07); }
   .b-card-head { display:flex;align-items:flex-start;gap:16px;padding:20px 26px 16px;border-bottom:1px solid var(--border);background:rgba(237,227,212,.35); }
   .b-num { font-family:'Lora',serif;font-size:.875rem;font-weight:400;color:var(--sauge);line-height:1;padding-top:3px;flex-shrink:0;min-width:24px; }
-  .b-num-icon { display:flex;align-items:center;color:var(--sauge); }
   .b-overline { font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--sauge);display:block;margin-bottom:4px; }
   .b-title { font-family:'Lora',serif;font-size:1rem;font-weight:400;color:var(--brun);line-height:1.2;letter-spacing:-.018em; }
   .b-body { padding:22px 26px;display:flex;flex-direction:column;gap:18px; }
@@ -382,9 +433,7 @@
   @media (min-width:560px) { .b-row-2 { grid-template-columns:1fr 1fr; } }
   .b-chips { display:flex;flex-wrap:wrap;gap:7px; }
   .b-chips-wrap { flex-wrap:wrap; }
-  .b-chips-col { flex-direction:column; }
   .b-chip { display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border:1.5px solid var(--border);border-radius:99px;cursor:pointer;font-size:.8125rem;color:var(--brun-mid);background:rgba(255,253,248,.7);transition:border-color .18s ease,background .18s ease,color .18s ease;-webkit-tap-highlight-color:transparent;user-select:none; }
-  .b-chip-block { border-radius:9px;width:100%; }
   .b-chip:hover { border-color:var(--sauge);background:rgba(136,144,99,.08);color:var(--brun); }
   .b-chip:has(.b-chip-input:checked) { border-color:var(--brun);background:rgba(61,79,40,.08);color:var(--brun);font-weight:500; }
   .b-chip-input { position:absolute;opacity:0;width:0;height:0;pointer-events:none; }
@@ -394,25 +443,17 @@
   .b-check:hover { border-color:var(--sauge);background:rgba(136,144,99,.08);color:var(--brun); }
   .b-check:has(.b-check-input:checked) { border-color:var(--brun);background:rgba(61,79,40,.07);color:var(--brun);font-weight:500; }
   .b-check-input { width:14px;height:14px;accent-color:var(--brun);flex-shrink:0;cursor:pointer; }
+  .b-services { display:flex;flex-direction:column;gap:8px; }
+  .b-service-row { display:flex;align-items:center;gap:10px; }
+  .b-service-num { font-family:'Lora',serif;font-size:.8125rem;color:var(--sauge);width:18px;text-align:right;flex-shrink:0; }
+  .b-pages-grid { display:grid;grid-template-columns:1fr;gap:7px; }
+  @media (min-width:560px) { .b-pages-grid { grid-template-columns:1fr 1fr; } }
+  .b-page-row { display:flex;align-items:center;gap:10px; }
+  .b-page-num { font-family:'Lora',serif;font-size:.8125rem;color:var(--sauge);width:18px;text-align:right;flex-shrink:0; }
   .b-reveal { margin-top:6px;animation:b-fadein .22s ease both; }
   @keyframes b-fadein { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
   .b-nested { background:rgba(61,79,40,.04);border:1px solid rgba(136,144,99,.3);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:16px; }
   .b-nested-label { font-size:.625rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--sauge); }
-  .b-docs-note { font-size:.8125rem;color:var(--brun-mid);line-height:1.65;margin:0; }
-  .b-upload-zone { border:1.5px dashed var(--cream-dark);border-radius:10px;background:rgba(255,253,248,.6);cursor:pointer;transition:border-color .18s ease,background .18s ease;position:relative;min-height:120px; }
-  .b-upload-zone.is-dragover { border-color:var(--brun);background:rgba(61,79,40,.05); }
-  .b-upload-input { position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2; }
-  .b-upload-ui { display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:24px 16px;pointer-events:none;text-align:center; }
-  .b-upload-icon { width:44px;height:44px;border-radius:50%;background:rgba(136,144,99,.12);display:flex;align-items:center;justify-content:center;color:var(--sauge);margin-bottom:4px; }
-  .b-upload-text { font-size:.875rem;font-weight:500;color:var(--brun); }
-  .b-upload-sub { font-size:.75rem;color:var(--pierre);margin:0; }
-  .b-file-list { list-style:none;padding:0 10px 10px;margin:0;display:flex;flex-direction:column;gap:4px; }
-  .b-file-item { display:flex;align-items:center;gap:8px;background:rgba(61,79,40,.06);border-radius:6px;padding:7px 10px; }
-  .b-file-name { flex:1;font-size:.8125rem;color:var(--brun);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
-  .b-file-size { font-size:.75rem;color:var(--pierre);flex-shrink:0; }
-  .b-file-remove { background:none;border:none;cursor:pointer;color:var(--pierre);font-size:.75rem;padding:2px 4px;line-height:1;transition:color .15s ease;font-family:inherit; }
-  .b-file-remove:hover { color:var(--brun); }
-  .b-upload-error { font-size:.75rem;color:#b45309;margin:0 10px 10px;padding:6px 10px;background:rgba(180,83,9,.06);border-radius:6px; }
   .b-error { display:flex;align-items:flex-start;gap:10px;background:rgba(180,83,9,.07);border:1.5px solid rgba(180,83,9,.25);border-radius:10px;padding:14px 16px;font-size:.875rem;color:#92400e;margin-bottom:16px; }
   .b-error svg { flex-shrink:0;margin-top:1px; }
   .brief-submit-wrap { display:flex;flex-direction:column;align-items:center;gap:10px;padding-bottom:8px; }
@@ -449,7 +490,7 @@
   const formError     = document.getElementById('form-error')      as HTMLElement | null;
   const formErrorText = document.getElementById('form-error-text') as HTMLElement | null;
 
-  const STORAGE_KEY = 'caelestis_creation_v2';
+  const STORAGE_KEY = 'caelestis_devis_v1';
 
   function getFormState(): Record<string, string | string[]> {
     if (!form) return {};
@@ -530,92 +571,20 @@
   }
 
   function syncAllConditionals() {
-    [['contenu_dispo','contenu_dispo-autre'],['reseaux','reseaux-autre'],['valeurs','valeurs-autre'],['boutique_paiement','boutique_paiement-autre']]
+    [['type_client','type_client-autre'],['objectifs','objectifs-autre'],['fonctionnalites','fonctionnalites-autre'],['style_adjectifs','style_adjectifs-autre']]
       .forEach(([name, id]) => {
         const has = !!form?.querySelector(`input[type="checkbox"][name="${CSS.escape(name)}"][value="autre"]:checked`);
         document.getElementById(id)?.classList.toggle('hidden', !has);
       });
     const boutique = form?.querySelector<HTMLInputElement>('input[type="radio"][name="boutique_actif"]:checked');
     document.getElementById('boutique-extra')?.classList.toggle('hidden', boutique?.value !== 'oui');
-    const statut = form?.querySelector<HTMLInputElement>('input[type="radio"][name="statut_juridique"]:checked');
-    document.getElementById('statut-autre')?.classList.toggle('hidden', statut?.value !== 'autre');
   }
 
-  watchCbOther('contenu_dispo',      'contenu_dispo-autre');
-  watchCbOther('reseaux',            'reseaux-autre');
-  watchCbOther('valeurs',            'valeurs-autre');
-  watchCbOther('boutique_paiement',  'boutique_paiement-autre');
-  watchRadioValue('boutique_actif',   'oui',   'boutique-extra');
-  watchRadioValue('statut_juridique', 'autre', 'statut-autre');
-
-  /* ══ Pièces jointes ══ */
-  const uploadZone  = document.getElementById('upload-zone')  as HTMLElement | null;
-  const fileInputEl = document.getElementById('attachments')  as HTMLInputElement | null;
-  const fileListEl  = document.getElementById('file-list')    as HTMLUListElement | null;
-  const uploadErrEl = document.getElementById('upload-error') as HTMLElement | null;
-
-  let attachedFiles: File[] = [];
-  const MAX_FILE_BYTES  = 5 * 1024 * 1024;
-  const MAX_TOTAL_BYTES = 8 * 1024 * 1024;
-
-  function fmtSize(b: number): string {
-    return b < 1024 * 1024 ? Math.round(b / 1024) + ' Ko' : (b / (1024 * 1024)).toFixed(1) + ' Mo';
-  }
-  function escHtml(s: string): string {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-
-  function renderFiles(): void {
-    if (!fileListEl) return;
-    fileListEl.innerHTML = attachedFiles.map((f, i) => `
-      <li class="b-file-item">
-        <span class="b-file-name">${escHtml(f.name)}</span>
-        <span class="b-file-size">${fmtSize(f.size)}</span>
-        <button type="button" class="b-file-remove" data-i="${i}" aria-label="Retirer ${escHtml(f.name)}">✕</button>
-      </li>
-    `).join('');
-    fileListEl.querySelectorAll<HTMLButtonElement>('.b-file-remove').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const idx = parseInt(btn.dataset.i ?? '0', 10);
-        attachedFiles.splice(idx, 1);
-        renderFiles();
-        if (uploadErrEl) uploadErrEl.classList.add('hidden');
-      });
-    });
-  }
-
-  function addFiles(list: FileList | File[]): void {
-    let totalBytes = attachedFiles.reduce((s, f) => s + f.size, 0);
-    let skipped = false;
-    Array.from(list).forEach(f => {
-      if (f.size > MAX_FILE_BYTES) { skipped = true; return; }
-      if (totalBytes + f.size > MAX_TOTAL_BYTES) { skipped = true; return; }
-      if (attachedFiles.some(ex => ex.name === f.name && ex.size === f.size)) return;
-      attachedFiles.push(f);
-      totalBytes += f.size;
-    });
-    renderFiles();
-    if (uploadErrEl) {
-      if (skipped) {
-        uploadErrEl.textContent = 'Certains fichiers ont été ignorés (5 Mo max par fichier, 8 Mo total).';
-        uploadErrEl.classList.remove('hidden');
-      } else {
-        uploadErrEl.classList.add('hidden');
-      }
-    }
-  }
-
-  fileInputEl?.addEventListener('change', () => {
-    if (fileInputEl.files) addFiles(fileInputEl.files);
-    fileInputEl.value = '';
-  });
-  uploadZone?.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('is-dragover'); });
-  ['dragleave','dragend'].forEach(ev => uploadZone?.addEventListener(ev, () => uploadZone.classList.remove('is-dragover')));
-  uploadZone?.addEventListener('drop', e => {
-    e.preventDefault();
-    uploadZone.classList.remove('is-dragover');
-    if ((e as DragEvent).dataTransfer?.files) addFiles((e as DragEvent).dataTransfer!.files);
-  });
+  watchCbOther('type_client',     'type_client-autre');
+  watchCbOther('objectifs',       'objectifs-autre');
+  watchCbOther('fonctionnalites', 'fonctionnalites-autre');
+  watchCbOther('style_adjectifs', 'style_adjectifs-autre');
+  watchRadioValue('boutique_actif', 'oui', 'boutique-extra');
 
   function showError(msg: string) {
     if (!formError || !formErrorText) return;
@@ -632,7 +601,7 @@
     if (!emailInput?.value.trim()) {
       emailInput?.scrollIntoView({ behavior:'smooth', block:'center' });
       setTimeout(() => emailInput?.focus(), 400);
-      showError('Votre adresse email est requise pour envoyer le questionnaire.');
+      showError('Votre adresse email est requise pour envoyer la demande.');
       return;
     }
 
@@ -648,9 +617,8 @@
         if (Array.isArray(v)) v.forEach(val => fd.append(k, val));
         else fd.append(k, v);
       }
-      attachedFiles.forEach(f => fd.append('files', f));
 
-      const res  = await fetch('/api/brief', { method:'POST', body:fd });
+      const res  = await fetch('/api/devis', { method:'POST', body:fd });
       const data = await res.json() as { success?: boolean; error?: string };
 
       if (data.success) {
@@ -666,7 +634,7 @@
       showError((err as Error).message ?? 'Erreur. Réessayez ou écrivez à contact@caelestis.fr');
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Envoyer le questionnaire <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        submitBtn.innerHTML = 'Recevoir mon devis <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       }
     }
   });
