@@ -120,7 +120,11 @@ const year = new Date().getFullYear();
 </footer>
 
 <script>
-  document.getElementById('footer-cookie-btn')?.addEventListener('click', () => {
+  /* Délégation sur document (persistant) — survit aux navigations View Transitions
+     même si le <footer> est re-rendu à chaque changement de page. */
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest('#footer-cookie-btn')) return;
     const reset = (window as Window & { caelestisResetCookies?: () => void }).caelestisResetCookies;
     if (typeof reset === 'function') reset();
   });

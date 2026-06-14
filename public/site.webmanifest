@@ -4,8 +4,8 @@
   "description": "Création de site internet dans la Drôme pour artisans et indépendants.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#3a4a2a",
-  "theme_color": "#3a4a2a",
+  "background_color": "#3d4f28",
+  "theme_color": "#3d4f28",
   "icons": [
     {
       "src": "/favicon-16.png",

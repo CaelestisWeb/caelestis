@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import { Image } from 'astro:assets';
-import imgRiviere from '../assets/images/photo-bureau.jpg';
+import imgBureau from '../assets/images/photo-bureau.jpg';
 
 const personSchema = {
   '@context': 'https://schema.org',
@@ -52,10 +52,10 @@ const breadcrumbApropos = {
 
         <!-- Colonne gauche : placeholder photo + petites infos -->
         <div data-reveal>
-          <!-- Rivière de montagne — évoque la Drôme, la nature, le calme -->
+          <!-- Portrait au bureau — évoque le travail, la Drôme, le calme -->
           <div class="img-zoom img-editorial aspect-[3/4] mb-4 overflow-hidden max-h-[480px] lg:max-h-none">
             <Image
-              src={imgRiviere}
+              src={imgBureau}
               alt="Célestin Fruleux, fondateur de Caelestis, à son bureau — création de site internet dans la Drôme"
               class="w-full h-full object-cover"
               style="object-position: center 20%;"

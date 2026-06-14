@@ -524,6 +524,19 @@ const faqSchema = {
 </style>
 
 <script>
+  import gsap from 'gsap';
+
+  /* État partagé entre ré-initialisations (View Transitions) */
+  let contactEscBound  = false;
+  let activeClosePopup: (() => void) | null = null;
+  let activePopupEl:    HTMLElement | null = null;
+
+  /* Ré-initialise toute l'interactivité de la page contact.
+     Appelé au chargement initial ET après chaque navigation View Transitions :
+     le DOM étant recréé à chaque navigation, on re-sélectionne tous les éléments. */
+  function initContactPage() {
+    if (!document.getElementById('panel-message')) return;
+
   /* ══════════════════════════════════════════
      FAQ
   ══════════════════════════════════════════ */
@@ -561,8 +574,6 @@ const faqSchema = {
       }
     });
   });
-
-  import gsap from 'gsap';
 
   /* ══════════════════════════════════════════
      ONGLETS
@@ -779,9 +790,18 @@ const faqSchema = {
   closeBtn?.addEventListener('click',   closePopup);
   ctaBtn?.addEventListener('click',     closePopup);
   popupBg?.addEventListener('click',    closePopup);
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && popup?.style.display !== 'none') closePopup();
-  });
+  /* Références vers la popup/closePopup de l'init courante */
+  activeClosePopup = closePopup;
+  activePopupEl    = popup;
+  /* Écouteur Escape lié une seule fois sur document (persistant entre navigations) */
+  if (!contactEscBound) {
+    contactEscBound = true;
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && activePopupEl && activePopupEl.style.display !== 'none') {
+        activeClosePopup?.();
+      }
+    });
+  }
 
   /* ══════════════════════════════════════════
      PLANTE GERMINALE — 3 formulaires
@@ -851,4 +871,8 @@ const faqSchema = {
     inp('devis-email')  ?.addEventListener('input', (e) => updateDevis(2, (e.target as HTMLInputElement).value.trim().length > 2));
     inp('devis-email')  ?.addEventListener('input', (e) => updateDevis(3, (e.target as HTMLInputElement).value.trim().length > 8));
   }
+  }
+
+  initContactPage();
+  document.addEventListener('astro:page-load', initContactPage);
 </script>

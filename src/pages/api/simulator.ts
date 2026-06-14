@@ -400,7 +400,7 @@ function buildProspectEmail(p: {
       <tr><td class="em-pad" style="background-color:#FDFAF5;padding:0 36px 28px;">
         <p style="margin:0 0 2px;font-size:14px;color:#6B6040;">À très bientôt,</p>
         <p style="margin:0 0 2px;font-size:15px;font-weight:700;color:#3d4f28;">Célestin</p>
-        <p style="margin:0;font-size:12px;color:#A08060;">Fondateur de Caelestis · 07&nbsp;82&nbsp;68&nbsp;73&nbsp;99</p>
+        <p style="margin:0;font-size:12px;color:#A08060;">Fondateur de Caelestis · 07&nbsp;69&nbsp;36&nbsp;27&nbsp;27</p>
       </td></tr>
 
       <!-- Pied -->
@@ -533,7 +533,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   /* Rate limiting */
-  const ip = request.headers.get('x-real-ip') ?? request.headers.get('x-forwarded-for')?.split(',').at(-1)?.trim() ?? 'unknown';
+  const ip = request.headers.get('x-real-ip') ?? request.headers.get('x-forwarded-for')?.split(',').at(0)?.trim() ?? 'unknown';
   const { allowed, retryAfterSecs } = checkRateLimit(ip);
   if (!allowed) {
     return new Response(

@@ -34,7 +34,7 @@ const localBusiness = {
   },
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     opens: '09:00',
     closes: '18:00',
   },
@@ -566,7 +566,7 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
                 aria-expanded="false"
               >
                 <span class="font-display text-lg font-light text-brun">{q}</span>
-                <span class="faq-icon flex-shrink-0 w-7 h-7 rounded-full border border-cream-dark flex items-center justify-center text-bun-mid transition-all duration-300" aria-hidden="true">
+                <span class="faq-icon flex-shrink-0 w-7 h-7 rounded-full border border-cream-dark flex items-center justify-center text-brun-mid transition-all duration-300" aria-hidden="true">
                   <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
                     <line x1="5.5" y1="0" x2="5.5" y2="11" stroke="currentColor" stroke-width="1.2" class="faq-plus-v transition-all duration-300"/>
                     <line x1="0" y1="5.5" x2="11" y2="5.5" stroke="currentColor" stroke-width="1.2"/>
@@ -645,9 +645,6 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
     border-color: #889063;
     background: rgba(136, 144, 99, 0.06);
   }
-  .service-card.active .service-num {
-    color: #889063 !important;
-  }
 
   /* ── Carte paragraphe luxe ── */
   .para-card {
@@ -713,13 +710,20 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
 </style>
 
 <script>
-  document.querySelectorAll<HTMLButtonElement>('.service-card').forEach((card) => {
-    card.addEventListener('click', () => {
-      const isActive = card.classList.contains('active');
-      document.querySelectorAll('.service-card').forEach((c) => c.classList.remove('active'));
-      if (!isActive) card.classList.add('active');
+  /* Ré-attaché après chaque navigation View Transitions (cloneNode purge les anciens listeners) */
+  function bindServiceCards() {
+    document.querySelectorAll<HTMLButtonElement>('.service-card').forEach((card) => {
+      const clone = card.cloneNode(true) as HTMLButtonElement;
+      card.parentNode?.replaceChild(clone, card);
+      clone.addEventListener('click', () => {
+        const isActive = clone.classList.contains('active');
+        document.querySelectorAll('.service-card').forEach((c) => c.classList.remove('active'));
+        if (!isActive) clone.classList.add('active');
+      });
     });
-  });
+  }
+  bindServiceCards();
+  document.addEventListener('astro:page-load', bindServiceCards);
 
   /* ── FAQ ── */
   function bindFaq() {

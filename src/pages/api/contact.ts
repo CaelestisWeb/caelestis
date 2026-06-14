@@ -366,12 +366,12 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   /* ── 2. Rate limiting par IP ── */
-  /* Sur Vercel, x-real-ip est injecté par le CDN et ne peut pas être forgé par le client.
-     x-forwarded-for peut être manipulé (le client contrôle les premières valeurs) ;
-     on lit la DERNIÈRE entrée, ajoutée par Vercel, qui correspond à l'IP réelle. */
+  /* Sur Vercel, x-real-ip est injecté par le CDN et constitue la source fiable.
+     En repli, on lit la PREMIÈRE entrée de x-forwarded-for (IP client d'origine),
+     pour rester cohérent avec les autres endpoints (devis, brief, simulator). */
   const ip = (
     request.headers.get('x-real-ip') ??
-    request.headers.get('x-forwarded-for')?.split(',').at(-1)?.trim() ??
+    request.headers.get('x-forwarded-for')?.split(',').at(0)?.trim() ??
     'unknown'
   );
   const { allowed, retryAfterSecs } = checkRateLimit(ip);
