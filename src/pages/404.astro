@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+---
+<BaseLayout
+  title="Page introuvable — Caelestis"
+  description="Cette page n'existe pas ou a été déplacée. Revenez à l'accueil ou explorez les prestations Caelestis."
+  noindex={true}
+>
+
+  <section class="min-h-[72vh] flex items-center justify-center px-6 md:px-10 lg:px-20 py-24 relative overflow-hidden section-ambient">
+
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-20 -right-20 w-[420px] h-[420px]"></div>
+    <div aria-hidden="true" class="light-blob light-blob-ocre pointer-events-none absolute bottom-0 left-1/4 w-64 h-64"></div>
+
+    <div class="max-w-xl mx-auto text-center relative">
+
+      <!-- Feuille SVG décorative -->
+      <svg aria-hidden="true" class="mx-auto mb-8 opacity-25" width="54" height="74" viewBox="0 0 60 100" fill="none">
+        <path d="M30 0 C38 16 55 36 50 58 C44 78 30 100 30 100 C30 100 16 78 10 58 C5 36 22 16 30 0Z" fill="#354024"/>
+        <path d="M30 98 Q31.5 62 30 4" stroke="#889063" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M30 60 C26 54 20 52 16 56" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M30 60 C34 54 40 52 44 56" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-5" data-reveal>Erreur 404</p>
+
+      <h1
+        class="font-display font-light text-brun leading-[1.05] tracking-tight mb-6"
+        style="font-size: clamp(2.6rem, 7vw, 4.5rem);"
+        data-reveal data-delay="1"
+      >
+        Cette page s'est<br><span class="text-sauge italic">égarée en chemin.</span>
+      </h1>
+
+      <p class="font-body text-base text-brun-mid leading-relaxed mb-10 max-w-md mx-auto" data-reveal data-delay="2">
+        Le lien que vous avez suivi n'existe pas ou a été déplacé. Pas d'inquiétude — retrouvons ensemble le bon chemin.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3" data-reveal data-delay="3">
+        <Button href="/" variant="primary">Retour à l'accueil</Button>
+        <Button href="/contact" variant="outline">Me contacter</Button>
+      </div>
+
+      <!-- Liens rapides -->
+      <nav class="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-2" aria-label="Liens utiles" data-reveal data-delay="4">
+        <a href="/services" class="font-body text-sm text-brun-mid hover:text-sauge transition-colors">Prestations</a>
+        <span class="text-bois-mid/30" aria-hidden="true">·</span>
+        <a href="/simulateur" class="font-body text-sm text-brun-mid hover:text-sauge transition-colors">Simulateur</a>
+        <span class="text-bois-mid/30" aria-hidden="true">·</span>
+        <a href="/a-propos" class="font-body text-sm text-brun-mid hover:text-sauge transition-colors">À propos</a>
+      </nav>
+
+    </div>
+  </section>
+
+</BaseLayout>

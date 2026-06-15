@@ -526,6 +526,12 @@ const faqSchema = {
 <script>
   import gsap from 'gsap';
 
+  declare global {
+    interface Window {
+      caelTrack?: (event: string, params?: Record<string, unknown>) => void;
+    }
+  }
+
   /* État partagé entre ré-initialisations (View Transitions) */
   let contactEscBound  = false;
   let activeClosePopup: (() => void) | null = null;
@@ -681,6 +687,11 @@ const faqSchema = {
         const json = await res.json() as { success?: boolean; error?: string };
 
         if (res.ok && json.success) {
+          /* GA4 — conversion (ne se déclenche que si le consentement cookies est donné) */
+          window.caelTrack?.('generate_lead', {
+            lead_source: 'contact',
+            form_type: (form.querySelector('[name="formType"]') as HTMLInputElement | null)?.value ?? '',
+          });
           form.classList.add('hidden');
           successEl?.classList.remove('hidden');
           /* Met à jour previousFocus vers l'onglet actif AVANT que le formulaire soit masqué,

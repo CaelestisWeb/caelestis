@@ -307,6 +307,12 @@ const etapes = [
 </style>
 
 <script>
+  declare global {
+    interface Window {
+      caelTrack?: (event: string, params?: Record<string, unknown>) => void;
+    }
+  }
+
   const LIENS: Record<string, { std: string; prm: string }> = {
     vitrine:   { std: 'https://buy.stripe.com/00w00iacm2ztaYieOadAk01', prm: 'https://buy.stripe.com/aFa8wO5W66PJgiCbBYdAk02' },
     boutique:  { std: 'https://buy.stripe.com/aFa14m2JUfmf6I221odAk03', prm: 'https://buy.stripe.com/14A6oG5W6eib4zU35sdAk04' },
@@ -416,6 +422,11 @@ const etapes = [
     document.querySelectorAll<HTMLButtonElement>('.type-btn').forEach(btn => {
       btn.addEventListener('click', () => render(btn.dataset.type ?? 'vitrine'), { signal });
     });
+    /* GA4 — clic vers le paiement Stripe (ne se déclenche que si le consentement cookies est donné) */
+    document.getElementById('cta-std')?.addEventListener('click',
+      () => window.caelTrack?.('begin_checkout', { plan: 'standard', site_type: typeActif }), { signal });
+    document.getElementById('cta-prm')?.addEventListener('click',
+      () => window.caelTrack?.('begin_checkout', { plan: 'premium', site_type: typeActif }), { signal });
     render(typeActif);
   }
 

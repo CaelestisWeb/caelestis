@@ -970,6 +970,12 @@
 </style>
 
 <script>
+  declare global {
+    interface Window {
+      caelTrack?: (event: string, params?: Record<string, unknown>) => void;
+    }
+  }
+
   (function () {
 
     /* ══ ÉTAT ══ */
@@ -1242,6 +1248,8 @@
           setLoad(false); return;
         }
 
+        /* GA4 — conversion simulateur (ne se déclenche que si le consentement cookies est donné) */
+        window.caelTrack?.('generate_lead', { lead_source: 'simulateur', site_type: dominantType() });
         state.stepNum = dominantType() === 'boutique' ? 8 : 7; render(); setLoad(false);
       } catch {
         showErr('Erreur réseau. Vérifiez votre connexion et réessayez.');

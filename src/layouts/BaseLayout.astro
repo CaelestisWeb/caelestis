@@ -44,6 +44,8 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <script is:inline>
     (function(){
       var GA='G-CE8L11103N';var loaded=false;
+      /* Helper de tracking global — no-op tant que le consentement n'est pas donné (CNIL) */
+      window.caelTrack=function(name,params){try{if(typeof window.gtag==='function')window.gtag('event',name,params||{});}catch(e){}};
       function load(){
         if(loaded)return;loaded=true;
         window.dataLayer=window.dataLayer||[];
