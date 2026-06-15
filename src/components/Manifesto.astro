@@ -3,10 +3,12 @@
   Manifeste plein écran.
 
   COMPORTEMENT :
-  — Joue à chaque NOUVEAU chargement de page (refresh / nouvel onglet /
-    URL directe vers n'importe quelle page du site).
+  — Joue UNE SEULE FOIS par session de navigation (sessionStorage).
+    Première arrivée sur le site → intro. Ensuite plus rien tant que
+    l'onglet reste ouvert : ni au rafraîchissement, ni sur une autre page.
   — Ne rejoue PAS sur les navigations View Transitions internes
     (window.__caelestisIntro persiste dans la même fenêtre).
+  — Rejoue dans un nouvel onglet / une nouvelle session.
   — m0 + m1 : apparaissent ensemble, reveal GSAP (pas de typewriter).
   — m3 "Caelestis." : typewriter lettre par lettre, inchangé.
   — Bouton "Passer →" disponible dès l'apparition.
@@ -182,11 +184,14 @@
   const overlay = document.getElementById('manifesto');
   if (overlay) {
 
-    if (window.__caelestisIntro) {
+    /* Intro jouée une seule fois par session de navigation (sessionStorage) :
+       ne rejoue ni au rafraîchissement, ni en changeant de page dans le même onglet. */
+    if (window.__caelestisIntro || sessionStorage.getItem('caelestis-intro-seen')) {
       overlay.remove();
 
     } else {
       window.__caelestisIntro = true;
+      try { sessionStorage.setItem('caelestis-intro-seen', '1'); } catch (e) { /* sessionStorage indisponible */ }
 
       /* Double rAF : laisse le navigateur peindre le hero une fois avant l'overlay.
          LCP mesure le premier paint du contenu sous-jacent, pas l'intro. */
