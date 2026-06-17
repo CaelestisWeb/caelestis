@@ -14,7 +14,7 @@ const localBusiness = {
   '@id': 'https://caelestis.fr/#business',
   name: 'Caelestis',
   alternateName: 'CaelestisWeb',
-  description: 'Développeur web freelance et agence web indépendante dans la Drôme. Création de sites internet sur mesure et référencement naturel pour artisans, producteurs et indépendants. Basé à Crest (26400), disponible dans toute la Drôme et en France.',
+  description: 'Développeur web freelance et agence web indépendante. Création de sites internet sur mesure et référencement naturel pour artisans, producteurs et indépendants partout en France. Basé à Crest (26400), dans la Drôme.',
   url: 'https://caelestis.fr',
   email: 'contact@caelestis.fr',
   telephone: '+33769362727',
@@ -101,7 +101,7 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'Caelestis',
   url: 'https://caelestis.fr',
-  description: 'Création de site web et référencement naturel pour artisans et indépendants dans la Drôme.',
+  description: 'Création de site web et référencement naturel pour artisans et indépendants partout en France.',
   inLanguage: 'fr-FR',
   publisher: {
     '@type': 'Organization',
@@ -158,7 +158,7 @@ const organizationSchema = {
     width: 1200,
     height: 630,
   },
-  description: 'Développeur web freelance et agence web dans la Drôme, spécialisé dans la création de sites internet sur mesure et le référencement naturel pour artisans, producteurs et indépendants. Basé à Crest (26400), disponible à Valence, Romans-sur-Isère, Montélimar et dans toute la France.',
+  description: 'Développeur web freelance et agence web indépendante, spécialisé dans la création de sites internet sur mesure et le référencement naturel pour artisans, producteurs et indépendants partout en France. Basé à Crest (26400), dans la Drôme.',
   email: 'contact@caelestis.fr',
   telephone: '+33769362727',
   address: {
@@ -189,8 +189,8 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
 
 ---
 <BaseLayout
-  title="Création de site internet dans la Drôme · Caelestis"
-  description="Sites web soignés pour artisans, producteurs et indépendants dans la Drôme. Visible sur Google, livré en 2 à 6 semaines. Devis gratuit — à partir de 800€."
+  title="Création de site internet · Caelestis — Drôme & toute la France"
+  description="Sites web soignés pour artisans, producteurs et indépendants, partout en France. Agence basée dans la Drôme. Visible sur Google, livré en 2 à 6 semaines. Devis gratuit dès 800€."
   schema={[localBusiness, organizationSchema, websiteSchema, faqSchema]}
 >
 
