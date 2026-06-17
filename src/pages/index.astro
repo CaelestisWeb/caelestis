@@ -266,7 +266,7 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
 
         <!-- Sous-titre -->
         <p class="font-body text-base leading-relaxed max-w-[500px] mb-5 text-brun-mid mx-auto" data-reveal data-delay="1">
-          Des sites web pour ceux qui créent, cultivent et bâtissent avec passion. Nous accompagnons les artisans, praticiens et indépendants pour avoir une présence en ligne à la hauteur de leur travail.
+          Une présence en ligne à la hauteur de votre travail. Pour les artisans, praticiens et indépendants qui créent, cultivent et bâtissent avec passion.
         </p>
 
         <!-- CTA -->
@@ -333,11 +333,12 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
   <section class="py-14 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient overflow-hidden">
     <div class="max-w-6xl mx-auto">
 
-      <!-- Ligne métiers — une seule ligne centrée -->
-      <div class="overflow-x-auto mb-10" data-reveal>
-        <p class="font-body text-xs text-center whitespace-nowrap" style="color: rgba(76,61,25,0.50); letter-spacing: 0.08em;">
-          Artisans &nbsp;·&nbsp; Créateurs &nbsp;·&nbsp; Projets engagés &nbsp;·&nbsp; Maraîchers &nbsp;·&nbsp; Producteurs locaux &nbsp;·&nbsp; Pépiniéristes &nbsp;·&nbsp; Praticiens bien-être &nbsp;·&nbsp; Éco-constructeurs &nbsp;·&nbsp; Gîtes de charme &nbsp;·&nbsp; Espaces verts
-        </p>
+      <!-- Ligne métiers — centrée et statique desktop, défilante en boucle sur mobile -->
+      <div class="metiers mb-10" data-reveal>
+        <div class="metiers-track">
+          <span class="metiers-group font-body">Artisans &nbsp;·&nbsp; Créateurs &nbsp;·&nbsp; Projets engagés &nbsp;·&nbsp; Maraîchers &nbsp;·&nbsp; Producteurs locaux &nbsp;·&nbsp; Pépiniéristes &nbsp;·&nbsp; Praticiens bien-être &nbsp;·&nbsp; Éco-constructeurs &nbsp;·&nbsp; Gîtes de charme &nbsp;·&nbsp; Espaces verts</span>
+          <span class="metiers-group font-body" aria-hidden="true">Artisans &nbsp;·&nbsp; Créateurs &nbsp;·&nbsp; Projets engagés &nbsp;·&nbsp; Maraîchers &nbsp;·&nbsp; Producteurs locaux &nbsp;·&nbsp; Pépiniéristes &nbsp;·&nbsp; Praticiens bien-être &nbsp;·&nbsp; Éco-constructeurs &nbsp;·&nbsp; Gîtes de charme &nbsp;·&nbsp; Espaces verts</span>
+        </div>
       </div>
 
       <!-- Galerie portfolio — 5 photos, 2 grandes + 3 petites -->
@@ -421,13 +422,10 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
 
       <div class="para-card" data-reveal data-delay="2">
         <p class="font-body text-base leading-relaxed mb-3">
-          Aujourd'hui, de nombreux clients recherchent des informations en ligne avant de prendre contact, de se déplacer ou de passer commande.
-        </p>
-        <p class="font-body text-base leading-relaxed mb-3">
-          Un site internet leur permet de découvrir votre activité, de comprendre ce qui vous distingue et de vous contacter en toute confiance.
+          Aujourd'hui, la plupart de vos clients se renseignent en ligne avant de prendre contact, de se déplacer ou de passer commande. Sans site, vous restez invisible au moment précis où ils vous cherchent.
         </p>
         <p class="font-body text-base leading-relaxed">
-          Véritable vitrine de votre savoir-faire, il renforce votre crédibilité, améliore votre visibilité et contribue au développement de votre entreprise en vous aidant à toucher de nouveaux clients.
+          Un site bien conçu devient la vitrine de votre savoir-faire. Il montre ce qui vous distingue, renforce votre crédibilité et vous aide à toucher de nouveaux clients en toute confiance.
         </p>
       </div>
 
@@ -655,7 +653,7 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
   /* ── Carte paragraphe luxe ── */
   .para-card {
     position: relative;
-    background: rgba(61, 79, 40, 0.75);
+    background: rgba(61, 79, 40, 0.68);
     border-radius: 24px;
     padding: 2rem 1.25rem;
     text-align: center;
@@ -673,6 +671,39 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
     font-size: 1.05rem;
     line-height: 1.95;
     letter-spacing: 0.012em;
+  }
+
+  /* ── Ligne métiers : centrée/statique desktop, défilante en boucle mobile ── */
+  .metiers { overflow: hidden; }
+  .metiers-track {
+    display: flex;
+    width: max-content;
+    animation: metiers-scroll 32s linear infinite;
+  }
+  .metiers-group {
+    flex-shrink: 0;
+    padding-right: 2.5rem;
+    font-size: 0.75rem;
+    color: rgba(76, 61, 25, 0.50);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  @keyframes metiers-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  /* Desktop : pas de défilement, une seule copie centrée */
+  @media (min-width: 640px) {
+    .metiers-track {
+      width: 100%;
+      animation: none;
+      justify-content: center;
+    }
+    .metiers-group { padding-right: 0; }
+    .metiers-group[aria-hidden="true"] { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .metiers-track { animation: none; }
   }
 
   /* ── Galerie bento ── */
