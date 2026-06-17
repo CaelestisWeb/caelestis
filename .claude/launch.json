@@ -1,10 +1,11 @@
-﻿{
+{
   "version": "0.0.1",
   "configurations": [
     {
       "name": "caelestis-dev",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["astro", "dev", "--host"],
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "C:/dev/caelestis",
       "port": 4321
     }
   ]
