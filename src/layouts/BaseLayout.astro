@@ -574,16 +574,22 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     boot();
   }
 
-  /* ── View Transitions réécrivent <html> → la classe runtime .reveal-js est
-     perdue. On la repose AVANT le paint de la nouvelle page (astro:after-swap)
-     pour ne jamais laisser de contenu data-reveal masqué sur tactile. ── */
+  /* ── View Transitions sur tactile : on AFFICHE directement le contenu de la
+     nouvelle page, sans rejouer l'animation d'entrée. Rejouer le reveal à
+     chaque navigation provoquait un flash / « double affichage » (le contenu
+     repassait à opacity:0 puis ré-apparaissait par-dessus la transition de
+     page). L'effet d'apparition ne joue donc qu'au tout premier chargement.
+     On retire .reveal-js (plus de masquage) et on marque tout comme visible,
+     AVANT le paint — donc sans aucun flash. ── */
   document.addEventListener('astro:after-swap', () => {
-    if (prefersCoarse) document.documentElement.classList.add('reveal-js');
+    if (!prefersCoarse) return;
+    document.documentElement.classList.remove('reveal-js');
+    document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-visible'));
   });
 
   /* ── Relance après chaque navigation View Transitions ── */
   document.addEventListener('astro:page-load', async () => {
-    if (prefersCoarse) { initRevealMobile(); return; }
+    if (prefersCoarse) return;   /* tactile : déjà géré dans astro:after-swap */
     await loadGsap();
     initLenis();
     initAnimations();
