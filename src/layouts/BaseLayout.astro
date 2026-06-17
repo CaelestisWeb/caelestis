@@ -574,6 +574,13 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     boot();
   }
 
+  /* ── View Transitions réécrivent <html> → la classe runtime .reveal-js est
+     perdue. On la repose AVANT le paint de la nouvelle page (astro:after-swap)
+     pour ne jamais laisser de contenu data-reveal masqué sur tactile. ── */
+  document.addEventListener('astro:after-swap', () => {
+    if (prefersCoarse) document.documentElement.classList.add('reveal-js');
+  });
+
   /* ── Relance après chaque navigation View Transitions ── */
   document.addEventListener('astro:page-load', async () => {
     if (prefersCoarse) { initRevealMobile(); return; }
