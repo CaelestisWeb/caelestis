@@ -137,22 +137,6 @@ const etapes = [
     <!-- Blob doré secondaire -->
     <div aria-hidden="true" class="light-blob light-blob-ocre pointer-events-none absolute bottom-0 left-1/3 w-64 h-64"></div>
 
-    <!-- Vagues SVG organiques — palette forêt -->
-    <svg aria-hidden="true" class="pointer-events-none absolute right-0 top-0 h-full w-auto opacity-[0.07]" viewBox="0 0 320 480" fill="none" preserveAspectRatio="xMaxYMid slice">
-      <path d="M320 60 C270 80 210 40 160 60 C110 80 60 40 0 60" stroke="#4C3D19" stroke-width="1.4"/>
-      <path d="M320 90 C270 110 210 70 160 90 C110 110 60 70 0 90" stroke="#889063" stroke-width="1.1"/>
-      <path d="M320 120 C270 140 210 100 160 120 C110 140 60 100 0 120" stroke="#A08060" stroke-width="0.9"/>
-      <path d="M320 160 C270 180 210 140 160 160 C110 180 60 140 0 160" stroke="#4C3D19" stroke-width="1.4"/>
-      <path d="M320 190 C270 210 210 170 160 190 C110 210 60 170 0 190" stroke="#889063" stroke-width="1.1"/>
-      <path d="M320 220 C270 240 210 200 160 220 C110 240 60 200 0 220" stroke="#A08060" stroke-width="0.9"/>
-      <path d="M320 270 C270 290 210 250 160 270 C110 290 60 250 0 270" stroke="#4C3D19" stroke-width="1.4"/>
-      <path d="M320 300 C270 320 210 280 160 300 C110 320 60 280 0 300" stroke="#889063" stroke-width="1.1"/>
-      <path d="M320 330 C270 350 210 310 160 330 C110 350 60 310 0 330" stroke="#A08060" stroke-width="0.9"/>
-      <path d="M320 380 C270 400 210 360 160 380 C110 400 60 360 0 380" stroke="#4C3D19" stroke-width="1.2"/>
-      <path d="M320 410 C270 430 210 390 160 410 C110 430 60 390 0 410" stroke="#889063" stroke-width="1.0"/>
-      <path d="M320 440 C270 460 210 420 160 440 C110 460 60 420 0 440" stroke="#A08060" stroke-width="0.8"/>
-    </svg>
-
     <div class="max-w-6xl mx-auto grid lg:grid-cols-[1fr_480px] gap-12 lg:gap-16 items-center relative">
 
       <!-- Texte -->
@@ -184,20 +168,6 @@ const etapes = [
         </div>
       </div>
 
-      <!-- Photo visible mobile/tablette uniquement -->
-      <div class="lg:hidden mt-8" data-reveal>
-        <div class="overflow-hidden" style="height: 240px; border-radius: 12px; box-shadow: 0 12px 40px rgba(76,61,25,0.14);">
-          <Image
-            src={imgBureau}
-            alt="Paysage de rivière en montagne — nature et environnement, Drôme"
-            class="w-full h-full object-cover object-center"
-            loading="eager"
-            fetchpriority="high"
-            widths={[480, 768]}
-            sizes="100vw"
-          />
-        </div>
-      </div>
 
       <!-- Mockup laptop épuré -->
       <div class="hidden lg:flex items-end justify-center py-4">
