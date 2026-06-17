@@ -12,6 +12,10 @@ const rateLimitMap   = new Map<string, { count: number; resetAt: number }>();
 
 function checkRateLimit(ip: string) {
   const now   = Date.now();
+  /* Purge opportuniste des entrées expirées — remplace le setInterval, inopérant en serverless. */
+  if (rateLimitMap.size > 500) {
+    for (const [k, v] of rateLimitMap.entries()) if (now > v.resetAt) rateLimitMap.delete(k);
+  }
   const entry = rateLimitMap.get(ip);
   if (!entry || now > entry.resetAt) {
     rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
@@ -23,10 +27,6 @@ function checkRateLimit(ip: string) {
   entry.count += 1;
   return { allowed: true, retryAfterSecs: 0 };
 }
-setInterval(() => {
-  const now = Date.now();
-  for (const [k, v] of rateLimitMap.entries()) if (now > v.resetAt) rateLimitMap.delete(k);
-}, RATE_WINDOW_MS);
 
 /* ══════════════════════════════════════════════════════════
    ORIGINES AUTORISÉES

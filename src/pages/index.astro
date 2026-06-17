@@ -42,7 +42,7 @@ const localBusiness = {
   currenciesAccepted: 'EUR',
   paymentAccepted: 'Virement bancaire, Carte bancaire',
   areaServed: { '@type': 'Country', name: 'France' },
-  knowsAbout: ['Création de site web', 'Référencement naturel', 'SEO local Drôme', 'Développement Astro', 'Site internet artisan', 'Site vitrine paysagiste', 'Site internet maraîcher', 'Site internet praticien bien-être', 'Site internet gîte', 'Site internet éco-construction', 'Agence web Drôme', 'Développeur web freelance Drôme', 'Création site internet Crest', 'Création site internet Valence'],
+  knowsAbout: ['Création de site web', 'Référencement naturel', 'SEO local Drôme', 'Développement Astro', 'Agence web Drôme', 'Création site internet Crest'],
   sameAs: ['https://share.google/IKYSIPaXxlTN0W5Zz'],
   serviceArea: {
     '@type': 'GeoCircle',
@@ -179,7 +179,7 @@ const organizationSchema = {
     jobTitle: 'Développeur web & consultant SEO',
     url: 'https://caelestis.fr/a-propos',
   },
-  knowsAbout: ['Création de site web', 'Développement Astro', 'Référencement naturel', 'SEO local Drôme', 'Agence web Drôme', 'Freelance web Drôme', 'Site internet artisan', 'Site vitrine paysagiste', 'Site internet maraîcher', 'Site internet praticien bien-être', 'Site internet gîte de charme', 'Site internet éco-construction', 'Projets engagés', 'Création site internet Crest', 'Création site internet Valence', 'Création site internet Romans-sur-Isère'],
+  knowsAbout: ['Création de site web', 'Développement Astro', 'Référencement naturel', 'SEO local Drôme', 'Agence web Drôme', 'Création site internet Crest'],
   sameAs: ['https://share.google/IKYSIPaXxlTN0W5Zz'],
 };
 
@@ -233,7 +233,7 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
 
 
   <!-- ─── HERO ─── -->
-  <section class="min-h-[100vh] flex flex-col justify-center px-6 md:px-10 lg:px-20 pt-8 md:pt-20 pb-16 relative overflow-hidden">
+  <section class="hero-screen flex flex-col justify-center px-6 md:px-10 lg:px-20 pt-8 md:pt-20 pb-16 relative overflow-hidden">
 
     <!-- Lumière ambiante organique -->
     <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
@@ -604,6 +604,12 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
 
 
 <style>
+  /* ── Hero plein écran — dvh évite le débordement sous la barre d'URL mobile ── */
+  .hero-screen {
+    min-height: 100vh;       /* fallback navigateurs anciens */
+    min-height: 100dvh;      /* hauteur dynamique réelle (mobile) */
+  }
+
   /* ── Fil botanique — visible desktop uniquement ── */
   .vine-wrap {
     position: absolute;

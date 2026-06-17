@@ -203,8 +203,8 @@ const faqSchema = {
 
               <p class="font-body text-xs text-brun-mid/50 text-center">Réponse sous 48h</p>
               <!-- Notice RGPD art. 13 — obligatoire avant collecte -->
-              <p class="font-body text-[11px] text-brun-mid/40 text-center leading-relaxed">
-                Vos données sont traitées par <strong class="text-brun-mid/55">Caelestis</strong> (Célestin Fruleux) uniquement pour répondre à votre demande. Aucune revente. Durée : 3 ans.
+              <p class="font-body text-[11px] text-brun-mid text-center leading-relaxed">
+                Vos données sont traitées par <strong class="text-brun-mid">Caelestis</strong> (Célestin Fruleux) uniquement pour répondre à votre demande. Aucune revente. Durée : 3 ans.
                 <a href="/politique-confidentialite" class="underline underline-offset-2 hover:text-brun-mid transition-colors">Politique de confidentialité →</a>
               </p>
             </form>
@@ -311,8 +311,8 @@ const faqSchema = {
 
               <p class="font-body text-xs text-brun-mid/50 text-center">Appel de 10 à 20 min · Gratuit</p>
               <!-- Notice RGPD art. 13 — obligatoire avant collecte -->
-              <p class="font-body text-[11px] text-brun-mid/40 text-center leading-relaxed">
-                Vos données sont traitées par <strong class="text-brun-mid/55">Caelestis</strong> (Célestin Fruleux) uniquement pour répondre à votre demande. Aucune revente. Durée : 3 ans.
+              <p class="font-body text-[11px] text-brun-mid text-center leading-relaxed">
+                Vos données sont traitées par <strong class="text-brun-mid">Caelestis</strong> (Célestin Fruleux) uniquement pour répondre à votre demande. Aucune revente. Durée : 3 ans.
                 <a href="/politique-confidentialite" class="underline underline-offset-2 hover:text-brun-mid transition-colors">Politique de confidentialité →</a>
               </p>
             </form>
@@ -388,8 +388,8 @@ const faqSchema = {
 
               <p class="font-body text-xs text-brun-mid/50 text-center">Devis reçu par email · Réponse sous 48H</p>
               <!-- Notice RGPD art. 13 — obligatoire avant collecte -->
-              <p class="font-body text-[11px] text-brun-mid/40 text-center leading-relaxed">
-                Vos données sont traitées par <strong class="text-brun-mid/55">Caelestis</strong> (Célestin Fruleux) uniquement pour répondre à votre demande. Aucune revente. Durée : 3 ans.
+              <p class="font-body text-[11px] text-brun-mid text-center leading-relaxed">
+                Vos données sont traitées par <strong class="text-brun-mid">Caelestis</strong> (Célestin Fruleux) uniquement pour répondre à votre demande. Aucune revente. Durée : 3 ans.
                 <a href="/politique-confidentialite" class="underline underline-offset-2 hover:text-brun-mid transition-colors">Politique de confidentialité →</a>
               </p>
             </form>
@@ -645,7 +645,6 @@ const faqSchema = {
       const societe    = (form.querySelector('[name="societe"]')             as HTMLInputElement | null)?.value.trim()  ?? '';
       const tel        = (form.querySelector('[name="telephone"]')           as HTMLInputElement | null)?.value.trim()  ?? '';
       const creneau    = (form.querySelector('[name="creneau"]:checked')     as HTMLInputElement | null)?.value ?? '';
-      const typeProjet = (form.querySelector('[name="typeProjet"]:checked')  as HTMLInputElement | null)?.value ?? '';
 
       const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
@@ -660,8 +659,6 @@ const faqSchema = {
         { markInvalid('telephone'); hasError = true; }
       if (form.querySelector('[name="creneau"]') && !creneau)
         { markInvalid('creneau'); hasError = true; }
-      if (form.querySelector('[name="typeProjet"]') && !typeProjet)
-        { markInvalid('typeProjet'); hasError = true; }
       if (form.querySelector('[name="projet"][aria-required="true"]') && !projet)
         { markInvalid('projet'); hasError = true; }
       if (projet.length > 5000)
