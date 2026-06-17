@@ -27,7 +27,7 @@ const current = Astro.url.pathname;
     </a>
 
     <!-- Desktop nav — parfaitement centré -->
-    <nav class="hidden md:flex items-center justify-center gap-9" aria-label="Navigation principale">
+    <nav class="hidden md:flex items-center justify-center gap-4 lg:gap-9" aria-label="Navigation principale">
       {nav.map(({ href, label }) => {
         const isActive = href === '/' ? current === '/' : current.startsWith(href);
         return (
