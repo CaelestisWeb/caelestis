@@ -14,7 +14,7 @@ const localBusiness = {
   '@id': 'https://caelestis.fr/#business',
   name: 'Caelestis',
   alternateName: 'CaelestisWeb',
-  description: 'Développeur web freelance et agence web indépendante dans la Drôme. Création de sites internet sur mesure et référencement naturel pour artisans, paysagistes, maraîchers et indépendants. Basé à Crest (26400), disponible dans toute la Drôme et en France.',
+  description: 'Développeur web freelance et agence web indépendante dans la Drôme. Création de sites internet sur mesure et référencement naturel pour artisans, producteurs et indépendants. Basé à Crest (26400), disponible dans toute la Drôme et en France.',
   url: 'https://caelestis.fr',
   email: 'contact@caelestis.fr',
   telephone: '+33769362727',
@@ -58,7 +58,7 @@ const localBusiness = {
         itemOffered: {
           '@type': 'Service',
           name: 'Création de site vitrine',
-          description: 'Site web soigné, visible sur Google, adapté à votre activité. Idéal pour artisans, paysagistes, maraîchers et indépendants.',
+          description: 'Site web soigné, visible sur Google, adapté à votre activité. Idéal pour artisans, producteurs et indépendants.',
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
@@ -158,7 +158,7 @@ const organizationSchema = {
     width: 1200,
     height: 630,
   },
-  description: 'Développeur web freelance et agence web dans la Drôme, spécialisé dans la création de sites internet sur mesure et le référencement naturel pour artisans, paysagistes, maraîchers et indépendants. Basé à Crest (26400), disponible à Valence, Romans-sur-Isère, Montélimar et dans toute la France.',
+  description: 'Développeur web freelance et agence web dans la Drôme, spécialisé dans la création de sites internet sur mesure et le référencement naturel pour artisans, producteurs et indépendants. Basé à Crest (26400), disponible à Valence, Romans-sur-Isère, Montélimar et dans toute la France.',
   email: 'contact@caelestis.fr',
   telephone: '+33769362727',
   address: {
@@ -190,7 +190,7 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
 ---
 <BaseLayout
   title="Création de site internet dans la Drôme · Caelestis"
-  description="Sites web soignés pour artisans, paysagistes et indépendants dans la Drôme. Visible sur Google, livré en 2 à 6 semaines. Devis gratuit — à partir de 800€."
+  description="Sites web soignés pour artisans, producteurs et indépendants dans la Drôme. Visible sur Google, livré en 2 à 6 semaines. Devis gratuit — à partir de 800€."
   schema={[localBusiness, organizationSchema, websiteSchema, faqSchema]}
 >
 
@@ -336,7 +336,7 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
       <!-- Ligne métiers — une seule ligne centrée -->
       <div class="overflow-x-auto mb-10" data-reveal>
         <p class="font-body text-xs text-center whitespace-nowrap" style="color: rgba(76,61,25,0.50); letter-spacing: 0.08em;">
-          Artisans &nbsp;·&nbsp; Créateurs &nbsp;·&nbsp; Projets engagés &nbsp;·&nbsp; Maraîchers &nbsp;·&nbsp; Producteurs locaux &nbsp;·&nbsp; Pépiniéristes &nbsp;·&nbsp; Praticiens bien-être &nbsp;·&nbsp; Éco-constructeurs &nbsp;·&nbsp; Gîtes de charme &nbsp;·&nbsp; Paysagistes
+          Artisans &nbsp;·&nbsp; Créateurs &nbsp;·&nbsp; Projets engagés &nbsp;·&nbsp; Maraîchers &nbsp;·&nbsp; Producteurs locaux &nbsp;·&nbsp; Pépiniéristes &nbsp;·&nbsp; Praticiens bien-être &nbsp;·&nbsp; Éco-constructeurs &nbsp;·&nbsp; Gîtes de charme &nbsp;·&nbsp; Espaces verts
         </p>
       </div>
 
@@ -348,7 +348,7 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
         <div class="bento-cell bento-jardin img-zoom overflow-hidden">
           <Image
             src={imgJardin}
-            alt="Jardin maraîcher et espace vert — paysagiste indépendant"
+            alt="Jardin maraîcher et espace vert verdoyant"
             class="w-full h-full object-cover object-center"
             widths={[200, 400, 760]}
             sizes="(max-width: 768px) 50vw, 50vw"
