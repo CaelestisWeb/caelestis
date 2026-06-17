@@ -414,6 +414,14 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
     }
 
+    /* ── 4a-bis. Honeypot temporel — soumission en moins de 2s = bot ──
+       On ne rejette QUE sur un horodatage valide ET trop rapide : un ts absent
+       ou illisible laisse passer (jamais de perte silencieuse d'un vrai message). */
+    const ts = parseInt(data.get('ts')?.toString() ?? '', 10);
+    if (!isNaN(ts) && Date.now() - ts < 2000) {
+      return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    }
+
     /* ── 4b. Extraction et nettoyage des champs principaux ── */
     const type    = data.get('formType')?.toString().trim()  ?? '';
     const prenom  = data.get('prenom')?.toString().trim()    ?? '';

@@ -159,6 +159,8 @@ const faqSchema = {
               <input type="hidden" name="formType" value="message" />
               <!-- Honeypot anti-bot : doit rester vide, caché des utilisateurs réels -->
               <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;width:1px;height:1px;" />
+              <!-- Horodatage anti-bot : rempli en JS au chargement, vérifié côté serveur -->
+              <input type="hidden" name="ts" value="" />
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -247,6 +249,8 @@ const faqSchema = {
               <input type="hidden" name="formType" value="appel" />
               <!-- Honeypot anti-bot -->
               <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;width:1px;height:1px;" />
+              <!-- Horodatage anti-bot : rempli en JS au chargement, vérifié côté serveur -->
+              <input type="hidden" name="ts" value="" />
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -356,6 +360,8 @@ const faqSchema = {
               <input type="hidden" name="formType" value="devis" />
               <!-- Honeypot anti-bot -->
               <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;width:1px;height:1px;" />
+              <!-- Horodatage anti-bot : rempli en JS au chargement, vérifié côté serveur -->
+              <input type="hidden" name="ts" value="" />
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -542,6 +548,12 @@ const faqSchema = {
      le DOM étant recréé à chaque navigation, on re-sélectionne tous les éléments. */
   function initContactPage() {
     if (!document.getElementById('panel-message')) return;
+
+  /* Honeypot temporel — horodate l'ouverture du formulaire (humain : plusieurs
+     secondes ; bot : soumission quasi instantanée). Vérifié côté serveur. */
+  document.querySelectorAll<HTMLInputElement>('input[name="ts"]').forEach((el) => {
+    el.value = String(Date.now());
+  });
 
   /* ══════════════════════════════════════════
      FAQ
