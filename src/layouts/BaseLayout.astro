@@ -374,7 +374,7 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     gsap.ticker.lagSmoothing(500, 33); /* laisse GSAP compenser les frames longues */
   }
 
-  function initAnimations() {
+  function initAnimations(isFirstLoad = true) {
     ScrollTrigger.getAll().forEach((t) => t.kill());
 
     /* Respect prefers-reduced-motion — WCAG 2.3.3 (AAA) / bonne pratique AA */
@@ -393,6 +393,10 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 
     /* ── 1. Scroll reveal — apparition élégante, lente ── */
     document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
+      /* Navigation (pas le 1er chargement) : on affiche directement, sans rejouer
+         l'apparition — sinon le contenu repasse par opacity:0 et « flashe » par
+         dessus la transition de page (même symptôme que celui corrigé sur mobile). */
+      if (!isFirstLoad) { gsap.set(el, { opacity: 1, y: 0 }); return; }
       const delayMap: Record<string, number> = { '0': 0, '1': 0.1, '2': 0.2, '3': 0.32, '4': 0.45, '5': 0.58 };
       const delay = delayMap[el.dataset.delay ?? ''] ?? 0;
       const inlineDelay = el.style.transitionDelay
@@ -582,9 +586,19 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
      On retire .reveal-js (plus de masquage) et on marque tout comme visible,
      AVANT le paint — donc sans aucun flash. ── */
   document.addEventListener('astro:after-swap', () => {
-    if (!prefersCoarse) return;
-    document.documentElement.classList.remove('reveal-js');
-    document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-visible'));
+    if (prefersCoarse) {
+      /* Tactile : retire le masquage et marque tout visible. */
+      document.documentElement.classList.remove('reveal-js');
+      document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-visible'));
+    } else {
+      /* Desktop : révèle directement, AVANT le paint, pour qu'aucune frame ne
+         passe par opacity:0 (GSAP, chargé en async, prend la main ensuite mais
+         seulement pour les effets de scroll — plus pour l'apparition). */
+      document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    }
   });
 
   /* ── Relance après chaque navigation View Transitions ── */
@@ -592,6 +606,6 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     if (prefersCoarse) return;   /* tactile : déjà géré dans astro:after-swap */
     await loadGsap();
     initLenis();
-    initAnimations();
+    initAnimations(false);   /* navigation : pas de ré-animation d'entrée (anti-flash) */
   });
 </script>
