@@ -128,18 +128,34 @@ const faqSchema = {
     },
     {
       '@type': 'Question',
-      name: 'Proposez-vous la maintenance du site après livraison ?',
+      name: 'Et si je n\'ai pas encore mes textes ni mes photos ?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Oui. Nous proposons un accompagnement après la mise en ligne : mises à jour, modifications de contenu, suivi SEO. On en discute ensemble selon vos besoins lors du premier appel.',
+        text: 'C\'est très fréquent, et ce n\'est pas un frein. Nous vous accompagnons pour structurer vos contenus, nous pouvons rédiger les textes à partir de nos échanges et vous orienter sur les visuels. Pas besoin d\'arriver avec un dossier complet pour démarrer.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Quel est le prix d\'un site internet ?',
+      name: 'Mon site sera-t-il visible sur Google ?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Nos prestations démarrent à 800 € pour un site vitrine, 1 200 € pour une boutique en ligne, et 2 500 € pour un site plus complexe et sur mesure (SEO). Un devis gratuit est établi après notre appel de découverte.',
+        text: 'Oui. Chaque site repose sur des bases techniques saines, optimisées pour le référencement naturel : structure claire, pages rapides, contenus pensés pour vos mots-clés. Vous pouvez aussi aller plus loin avec un accompagnement SEO dédié pour gagner en visibilité dans le temps.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Pourquoi faire appel à vous plutôt qu\'à un outil comme Wix ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Un site fait main est plus rapide, mieux référencé et vraiment à votre image, sans les limites ni les abonnements des outils en ligne. Vous gagnez du temps, un résultat professionnel et un interlocuteur unique qui reste disponible après la mise en ligne.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Proposez-vous la maintenance du site après livraison ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Oui. Nous proposons un accompagnement après la mise en ligne : mises à jour, modifications de contenu, suivi SEO. On en discute ensemble selon vos besoins lors du premier appel.',
       },
     },
   ],
@@ -548,12 +564,20 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
             a: 'En général, un site internet est livré en 2 à 6 semaines selon la complexité du projet et la rapidité de transmission des contenus (textes, photos et autres). Nous vous accompagnons à chaque étape avec un planning clair dès le départ.',
           },
           {
-            q: 'Proposez-vous la maintenance du site après livraison ?',
-            a: 'Oui. Nous proposons un accompagnement après la mise en ligne : mises à jour, modifications de contenu, suivi SEO. On en discute ensemble selon vos besoins lors du premier appel.',
+            q: 'Et si je n\'ai pas encore mes textes ni mes photos ?',
+            a: 'C\'est très fréquent, et ce n\'est pas un frein. Nous vous accompagnons pour structurer vos contenus, nous pouvons rédiger les textes à partir de nos échanges et vous orienter sur les visuels. Pas besoin d\'arriver avec un dossier complet pour démarrer.',
           },
           {
-            q: 'Quel est le prix d\'un site internet ?',
-            a: 'Nos prestations démarrent à 800 € pour un site vitrine, 1 200 € pour une boutique en ligne, et 2 500 € pour un site plus complexe et sur mesure (SEO). Un devis gratuit est établi après notre appel de découverte.',
+            q: 'Mon site sera-t-il visible sur Google ?',
+            a: 'Oui. Chaque site repose sur des bases techniques saines, optimisées pour le référencement naturel : structure claire, pages rapides, contenus pensés pour vos mots-clés. Vous pouvez aussi aller plus loin avec un accompagnement SEO dédié pour gagner en visibilité dans le temps.',
+          },
+          {
+            q: 'Pourquoi faire appel à vous plutôt qu\'à un outil comme Wix ?',
+            a: 'Un site fait main est plus rapide, mieux référencé et vraiment à votre image, sans les limites ni les abonnements des outils en ligne. Vous gagnez du temps, un résultat professionnel et un interlocuteur unique qui reste disponible après la mise en ligne.',
+          },
+          {
+            q: 'Proposez-vous la maintenance du site après livraison ?',
+            a: 'Oui. Nous proposons un accompagnement après la mise en ligne : mises à jour, modifications de contenu, suivi SEO. On en discute ensemble selon vos besoins lors du premier appel.',
           },
         ].map(({ q, a }) => (
           <div class="faq-item">
