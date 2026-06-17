@@ -1,7 +1,7 @@
 {
   "name": "Caelestis",
   "short_name": "Caelestis",
-  "description": "Création de site internet dans la Drôme pour artisans et indépendants.",
+  "description": "Création de site internet pour artisans et indépendants, partout en France.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#3d4f28",
