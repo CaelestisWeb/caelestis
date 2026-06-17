@@ -7,7 +7,6 @@ Disallow: /politique-confidentialite
 Disallow: /questionnaire-client
 Disallow: /questionnaire-devis
 Disallow: /maintenance
-Disallow: /_astro/
 Disallow: /api/
 
 Sitemap: https://caelestis.fr/sitemap-index.xml
