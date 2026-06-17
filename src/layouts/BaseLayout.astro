@@ -40,6 +40,25 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- ── Reveal tactile — anti-flash + failsafe ──
+         Sur pointeur grossier (mobile), GSAP n'est pas chargé : on pose .reveal-js
+         AVANT le paint pour que les apparitions soient gérées en CSS/IO. Le failsafe
+         garantit que le contenu devient visible même si le module d'animation échoue. -->
+    <script is:inline>
+    (function(){
+      try{
+        var coarse = matchMedia('(hover: none) and (pointer: coarse)').matches;
+        var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if(!coarse || reduce) return;
+        document.documentElement.classList.add('reveal-js');
+        window.__caelRevealFailsafe = setTimeout(function(){
+          if(window.__caelRevealActive) return;
+          var els = document.querySelectorAll('[data-reveal]:not(.is-visible)');
+          for(var i=0;i<els.length;i++) els[i].classList.add('is-visible');
+        }, 2600);
+      }catch(_){}
+    })();
+    </script>
     <!-- ── GA4 — chargé uniquement après consentement CNIL ── -->
     <script is:inline>
     (function(){
@@ -520,8 +539,30 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     }
   }
 
-  /* ── Boot : charge GSAP de façon asynchrone, ne bloque pas le rendu ── */
+  /* ── Reveal léger sur tactile — remplace GSAP/ScrollTrigger sur mobile ──
+     IntersectionObserver vanilla : 0 dépendance, ~110 Ko de JS en moins. */
+  type CaelWindow = Window & { __caelRevealActive?: boolean; __caelRevealFailsafe?: number };
+  function initRevealMobile() {
+    const w = window as CaelWindow;
+    w.__caelRevealActive = true;                 /* neutralise le failsafe inline */
+    if (w.__caelRevealFailsafe) { clearTimeout(w.__caelRevealFailsafe); w.__caelRevealFailsafe = undefined; }
+
+    const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -7% 0px' });
+    els.forEach((el) => io.observe(el));
+  }
+
+  /* ── Boot : sur tactile, reveal natif sans GSAP ; sur desktop, GSAP complet ── */
   async function boot() {
+    if (prefersCoarse) { initRevealMobile(); return; }
     await loadGsap();
     initLenis();
     initAnimations();
@@ -535,9 +576,9 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 
   /* ── Relance après chaque navigation View Transitions ── */
   document.addEventListener('astro:page-load', async () => {
+    if (prefersCoarse) { initRevealMobile(); return; }
     await loadGsap();
     initLenis();
     initAnimations();
-
   });
 </script>
