@@ -264,40 +264,45 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
     <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center lg:items-stretch relative z-10">
 
       <!-- Colonne gauche : texte -->
-      <div class="text-center lg:flex lg:flex-col">
+      <div class="text-center flex flex-col">
 
-        <!-- Eyebrow -->
+        <!-- Eyebrow — ancré en haut -->
         <p class="font-body text-xs tracking-[0.22em] uppercase mb-8 text-sauge" data-reveal>
           Création de site web · Drôme, France
         </p>
 
-        <!-- H1 -->
-        <h1
-          class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-7 hero-title"
-          style="font-size: clamp(2rem, 4.4vw, 3.8rem);"
-        >
-          <span class="sl"><span>Valorisez votre activité</span></span>
-          <span class="sl"><span class="text-sauge whitespace-nowrap">avec votre site web.</span></span>
-        </h1>
+        <!-- Bloc principal — centré entre eyebrow et badges -->
+        <div class="flex-1 flex flex-col justify-center">
 
-        <!-- Sous-titre -->
-        <p class="font-body text-base leading-relaxed max-w-[500px] mb-5 text-brun-mid mx-auto" data-reveal data-delay="1">
-          Une présence en ligne à la hauteur de votre travail. Pour les artisans, praticiens et indépendants qui créent, cultivent et bâtissent avec passion.
-        </p>
+          <!-- H1 -->
+          <h1
+            class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-7 hero-title"
+            style="font-size: clamp(2rem, 4.4vw, 3.8rem);"
+          >
+            <span class="sl"><span>Valorisez votre activité</span></span>
+            <span class="sl"><span class="text-sauge whitespace-nowrap">avec votre site web.</span></span>
+          </h1>
 
-        <!-- CTA -->
-        <div class="flex flex-col items-center lg:flex-1" data-reveal data-delay="2">
-          <div class="flex flex-col sm:flex-row items-center gap-3">
+          <!-- Sous-titre -->
+          <p class="font-body text-base leading-relaxed max-w-[500px] mb-5 text-brun-mid mx-auto" data-reveal data-delay="1">
+            Une présence en ligne à la hauteur de votre travail. Pour les artisans, praticiens et indépendants qui créent, cultivent et bâtissent avec passion.
+          </p>
+
+          <!-- Boutons CTA -->
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3" data-reveal data-delay="2">
             <Button href="/contact" variant="primary">Parler de mon projet</Button>
             <Button href="/simulateur" variant="outline">Estimer mon projet</Button>
           </div>
-          <div class="flex items-center justify-center gap-4 mt-6 lg:mt-auto flex-wrap">
-            <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">Réponse sous 48h</span>
-            <span class="text-brun-mid/25">·</span>
-            <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">Devis gratuit</span>
-            <span class="text-brun-mid/25">·</span>
-            <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">À partir de 800€</span>
-          </div>
+
+        </div>
+
+        <!-- Badges — ancrés en bas -->
+        <div class="flex items-center justify-center gap-4 mt-8 flex-wrap" data-reveal data-delay="2">
+          <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">Réponse sous 48h</span>
+          <span class="text-brun-mid/25">·</span>
+          <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">Devis gratuit</span>
+          <span class="text-brun-mid/25">·</span>
+          <span class="font-body text-xs text-brun-mid/60 tracking-[0.12em] uppercase">À partir de 800€</span>
         </div>
 
       </div>
