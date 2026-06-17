@@ -594,38 +594,180 @@ const etapes = [
         </h2>
       </div>
 
-      <!-- Grille 2 colonnes + étape finale pleine largeur -->
-      <div class="grid sm:grid-cols-2 gap-4 lg:gap-5">
-
-        {etapes.slice(0, 4).map((e, i) => (
-          <div class="bg-cream border-2 border-sauge/40 rounded-2xl p-7 lg:p-9 text-center" data-reveal data-delay={i}>
-            <p class="font-body text-[10px] tracking-[0.22em] uppercase text-sauge mb-4">{e.num}</p>
-            <h4 class="font-display text-xl font-light text-sauge mb-3 leading-snug">{e.title}</h4>
-            <p class="font-body text-sm text-brun leading-relaxed">{e.desc}</p>
-          </div>
+      <!-- Timeline botanique : fil de liaison + nœuds numérotés (mobile),
+           grille en relief (desktop) -->
+      <ol class="proc-list">
+        {etapes.map((e, i) => (
+          <li class={`proc-step${i === 4 ? ' proc-step--last' : ''}`} data-reveal data-delay={i}>
+            <span class="proc-num" aria-hidden="true">{e.num}</span>
+            <div class="proc-card">
+              <h3 class="proc-title">{e.title}</h3>
+              <p class="proc-desc">{e.desc}</p>
+            </div>
+          </li>
         ))}
-
-        <!-- Étape 05 — pleine largeur, ton de clôture -->
-        <div
-          class="sm:col-span-2 bg-cream border-2 border-sauge/40 rounded-2xl p-7 lg:p-9 text-center"
-          data-reveal data-delay="4"
-        >
-          <!-- Icône feuille centrée -->
-          <svg aria-hidden="true" class="mx-auto mb-4 opacity-25" width="26" height="38" viewBox="0 0 60 100" fill="none">
-            <path d="M30 0 C38 16 55 36 50 58 C44 78 30 100 30 100 C30 100 16 78 10 58 C5 36 22 16 30 0Z" fill="#354024"/>
-            <path d="M30 98 Q31.5 62 30 4" stroke="#889063" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M30 65 C26 59 19 57 15 61" stroke="#4C3D19" stroke-width="1.3" stroke-linecap="round"/>
-            <path d="M30 65 C34 59 41 57 45 61" stroke="#4C3D19" stroke-width="1.3" stroke-linecap="round"/>
-          </svg>
-          <p class="font-body text-[10px] tracking-[0.22em] uppercase text-sauge mb-4">05</p>
-          <h4 class="font-display text-xl font-light text-sauge mb-3 leading-snug">{etapes[4].title}</h4>
-          <p class="font-body text-sm text-brun leading-relaxed max-w-2xl mx-auto">{etapes[4].desc}</p>
-        </div>
-
-      </div>
+      </ol>
 
     </div>
   </section>
+
+  <style>
+    /* ═══════════════════════════════════════════
+       Timeline « Comment se déroule un projet »
+       Mobile : fil botanique vertical + nœuds.
+       Desktop : grille 2 colonnes en relief.
+    ═══════════════════════════════════════════ */
+    .proc-list {
+      position: relative;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      max-width: 600px;
+      margin-inline: auto;
+    }
+
+    /* Fil de liaison vertical — rappel du fil botanique du site */
+    .proc-list::before {
+      content: '';
+      position: absolute;
+      left: 25px;
+      top: 30px;
+      bottom: 30px;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(136, 144, 99, 0.5) 7%,
+        rgba(136, 144, 99, 0.5) 93%,
+        transparent
+      );
+    }
+
+    .proc-step {
+      position: relative;
+      padding-left: 74px;
+      margin-bottom: 20px;
+    }
+    .proc-step:last-child { margin-bottom: 0; }
+
+    /* Nœud numéroté posé sur le fil */
+    .proc-num {
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--color-cream);
+      border: 1.5px solid rgba(136, 144, 99, 0.75);
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      color: #889063;
+      box-shadow: 0 5px 16px rgba(76, 61, 25, 0.14);
+      z-index: 1;
+    }
+
+    /* Carte de contenu — relief par l'ombre + accent latéral */
+    .proc-card {
+      position: relative;
+      background: #F4EDDF;
+      border-radius: 14px;
+      padding: 19px 22px;
+      text-align: left;
+      border-left: 3px solid rgba(136, 144, 99, 0.6);
+      box-shadow:
+        0 12px 30px rgba(76, 61, 25, 0.11),
+        0 3px 8px rgba(76, 61, 25, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.35s ease;
+    }
+    .proc-card:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 18px 40px rgba(76, 61, 25, 0.15),
+        0 4px 10px rgba(76, 61, 25, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    }
+
+    .proc-title {
+      font-family: 'Lora', serif;
+      font-weight: 300;
+      font-size: 1.18rem;
+      color: #889063;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .proc-desc {
+      font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: #3d4f28;
+      line-height: 1.65;
+    }
+
+    /* Dernière étape — touche de clôture plus chaleureuse */
+    .proc-step--last .proc-num {
+      background: var(--grad-main, linear-gradient(135deg, #028183, #1DBD8E));
+      background: linear-gradient(140deg, #889063, #6B7A4A);
+      border-color: transparent;
+      color: #F4EDDF;
+    }
+    .proc-step--last .proc-card {
+      border-left-color: rgba(136, 144, 99, 0.85);
+    }
+
+    /* ── Desktop ≥ 640px : grille 2 colonnes en relief, fil masqué ── */
+    @media (min-width: 640px) {
+      .proc-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px 18px;
+        max-width: none;
+        align-items: stretch;
+      }
+      .proc-list::before { display: none; }
+      .proc-step {
+        padding-left: 0;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .proc-num {
+        position: static;
+        margin: 0 0 16px;
+        width: 56px;
+        height: 56px;
+        top: 0;
+        font-size: 1.05rem;
+        flex-shrink: 0;
+      }
+      .proc-card {
+        text-align: center;
+        border-left: none;
+        border-top: 3px solid rgba(136, 144, 99, 0.5);
+        flex: 1;
+        width: 100%;
+        padding: 30px 28px 26px;
+      }
+      .proc-title { font-size: 1.25rem; }
+      .proc-desc { font-size: 0.92rem; }
+      .proc-step--last {
+        grid-column: 1 / -1;
+      }
+      .proc-step--last .proc-card {
+        border-top-color: rgba(136, 144, 99, 0.85);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .proc-card { transition: none; }
+    }
+  </style>
 
   <!-- ── CTA — fond brun profond avec accent sauge ── -->
   <section class="relative py-20 px-6 md:px-10 lg:px-20 overflow-hidden section-ambient border-t border-cream-dark" data-reveal>
