@@ -223,6 +223,7 @@
 }
 .hero-title .sl:nth-child(1) > * { animation: hero-line-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both; }
 .hero-title .sl:nth-child(2) > * { animation: hero-line-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+.hero-title .sl:nth-child(3) > * { animation: hero-line-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.26s both; }
 
 @keyframes hero-line-in {
   from { transform: translateY(108%); }
