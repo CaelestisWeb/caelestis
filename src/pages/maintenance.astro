@@ -10,12 +10,9 @@ const schema = {
   provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
   areaServed: { '@type': 'Country', name: 'France' },
   offers: [
-    { '@type': 'Offer', name: 'Standard Vitrine', priceSpecification: { '@type': 'PriceSpecification', price: '19', priceCurrency: 'EUR', unitText: 'MONTH' } },
-    { '@type': 'Offer', name: 'Premium Vitrine',  priceSpecification: { '@type': 'PriceSpecification', price: '59', priceCurrency: 'EUR', unitText: 'MONTH' } },
-    { '@type': 'Offer', name: 'Standard Boutique', priceSpecification: { '@type': 'PriceSpecification', price: '29', priceCurrency: 'EUR', unitText: 'MONTH' } },
-    { '@type': 'Offer', name: 'Premium Boutique',  priceSpecification: { '@type': 'PriceSpecification', price: '89', priceCurrency: 'EUR', unitText: 'MONTH' } },
-    { '@type': 'Offer', name: 'Standard Sur mesure', priceSpecification: { '@type': 'PriceSpecification', price: '39', priceCurrency: 'EUR', unitText: 'MONTH' } },
-    { '@type': 'Offer', name: 'Premium Sur mesure',  priceSpecification: { '@type': 'PriceSpecification', price: '119', priceCurrency: 'EUR', unitText: 'MONTH' } },
+    { '@type': 'Offer', name: 'Maintenance site vitrine',      priceSpecification: { '@type': 'PriceSpecification', price: '9.99',  priceCurrency: 'EUR', unitText: 'MONTH' } },
+    { '@type': 'Offer', name: 'Maintenance boutique en ligne',  priceSpecification: { '@type': 'PriceSpecification', price: '19.99', priceCurrency: 'EUR', unitText: 'MONTH' } },
+    { '@type': 'Offer', name: 'Maintenance site sur mesure',    priceSpecification: { '@type': 'PriceSpecification', price: '29.99', priceCurrency: 'EUR', unitText: 'MONTH' } },
   ],
 };
 
@@ -33,24 +30,67 @@ const etapes = [
   {
     num: '01',
     titre: 'Vous choisissez votre formule',
-    texte: "Standard ou Premium, selon le niveau d'accompagnement dont vous avez besoin. La formule commence dès la livraison de votre site, ou à tout moment si votre site existe déjà.",
+    texte: "Selon votre type de site — vitrine, boutique ou sur mesure. L'abonnement commence dès la livraison de votre site, ou à tout moment si votre site existe déjà.",
   },
   {
     num: '02',
-    titre: "Je m'en occupe chaque mois",
-    texte: "Mises à jour, sauvegardes, petites retouches... tout est traité discrètement, sans que vous ayez à y penser. Un email suffit pour me signaler ce que vous souhaitez modifier.",
+    titre: "Je veille sur votre site",
+    texte: "Mises à jour de sécurité, sauvegardes, surveillance, corrections techniques... Tout est traité en arrière-plan, sans que vous ayez à y penser.",
   },
   {
     num: '03',
-    titre: 'Votre site évolue avec vous',
-    texte: "Avec les heures incluses chaque mois, votre site reste à jour. Il reflète vos nouveaux services, vos photos récentes, vos tarifs actuels — sans avoir à relancer un projet à chaque changement.",
+    titre: 'Une évolution ? Sur devis',
+    texte: "Besoin de changer un contenu, d'ajouter une page ou une fonctionnalité ? Je vous fais un devis simple et clair, selon vos besoins — vous ne payez que ce dont vous avez vraiment besoin.",
+  },
+];
+
+// Abonnement maintenance — un tarif par type de site (maintenance technique pure)
+const formules = [
+  {
+    type: 'Vitrine',
+    prix: '9,99',
+    desc: 'Pour garder votre site vitrine en ligne, rapide et sécurisé.',
+    lien: '#',
+    feats: [
+      'Site surveillé et maintenu en ligne',
+      'Mises à jour de sécurité',
+      'Sauvegardes régulières',
+      'Correction des bugs techniques',
+      'Support par email',
+    ],
+  },
+  {
+    type: 'Boutique en ligne',
+    prix: '19,99',
+    desc: 'La tranquillité pour votre boutique : paiements et données surveillés.',
+    lien: '#',
+    feats: [
+      'Tout le suivi d\'un site vitrine',
+      'Surveillance des paiements en ligne',
+      'Mises à jour des modules boutique',
+      'Sauvegarde du site et des données',
+      'Support par email prioritaire',
+    ],
+  },
+  {
+    type: 'Sur mesure',
+    prix: '29,99',
+    desc: 'Pour les sites complexes ou boutiques avancées qui demandent une veille poussée.',
+    lien: '#',
+    feats: [
+      'Tout le suivi d\'une boutique en ligne',
+      'Surveillance de disponibilité avec alertes',
+      'Mises à jour techniques et dépendances',
+      'Sauvegardes rapprochées',
+      'Support par email prioritaire',
+    ],
   },
 ];
 ---
 
 <BaseLayout
   title="Maintenance & accompagnement mensuel — Caelestis"
-  description="Forfaits mensuels de maintenance pour site vitrine, boutique en ligne et site sur mesure. Mises à jour, modifications, rapports de performances. Dès 19 €/mois HT."
+  description="Abonnement de maintenance pour site vitrine, boutique en ligne et site sur mesure. Sécurité, sauvegardes et surveillance technique. Dès 9,99 €/mois, sans engagement."
   schema={[schema, breadcrumb]}
   noindex={true}
 >
@@ -92,7 +132,7 @@ const etapes = [
     </div>
   </section>
 
-  <!-- ── Sélecteur de type + cards ── -->
+  <!-- ── Cartes d'abonnement — une par type de site ── -->
   <section class="py-20 px-6 md:px-10 lg:px-20 relative overflow-hidden">
 
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute top-40 -left-24 w-72 h-72"></div>
@@ -102,73 +142,48 @@ const etapes = [
       <div class="text-center mb-12" data-reveal>
         <div class="inline-flex items-center gap-3 mb-4">
           <span class="block w-8 h-px bg-sauge"></span>
-          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Choisir votre formule</p>
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">L'abonnement maintenance</p>
           <span class="block w-8 h-px bg-sauge"></span>
         </div>
-        <h2 class="font-display font-light text-brun leading-[1.1] mb-8" style="font-size: clamp(1.8rem, 3.5vw, 2.8rem);">
-          Pour quel type de site ?
+        <h2 class="font-display font-light text-brun leading-[1.1] mb-4" style="font-size: clamp(1.8rem, 3.5vw, 2.8rem);">
+          Un tarif selon votre site.
         </h2>
-
-        <!-- Sélecteur -->
-        <div class="inline-flex gap-2 bg-cream border border-cream-dark rounded-2xl p-1.5" role="group" aria-label="Type de site">
-          <button id="btn-vitrine"    class="type-btn font-body text-sm px-6 py-2.5 rounded-xl transition-all duration-200" data-type="vitrine">Vitrine</button>
-          <button id="btn-boutique"   class="type-btn font-body text-sm px-6 py-2.5 rounded-xl transition-all duration-200" data-type="boutique">Boutique</button>
-          <button id="btn-surmesure"  class="type-btn font-body text-sm px-6 py-2.5 rounded-xl transition-all duration-200" data-type="surmesure">Sur mesure</button>
-        </div>
+        <p class="font-body text-base text-brun-mid max-w-xl mx-auto leading-relaxed">
+          Un abonnement unique qui garde votre site en ligne, sécurisé et sauvegardé — sans engagement.
+        </p>
       </div>
 
-      <!-- Cards -->
-      <div class="grid md:grid-cols-2 gap-6 lg:gap-8" data-reveal data-delay="1">
-
-        <!-- Standard -->
-        <div class="bg-cream border-2 rounded-2xl p-8 lg:p-10 flex flex-col" style="border-color: rgba(136,144,99,0.3);">
-          <p class="font-body text-xs tracking-[0.22em] uppercase text-bois-mid mb-5">Standard</p>
-          <div class="mb-2">
-            <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.2rem, 4vw, 3rem); letter-spacing: -0.025em;">
-              <span id="price-std">49</span><span class="text-bois-mid text-xl ml-1">€</span>
-            </p>
-            <p class="font-body text-xs text-brun-mid/75 mt-1">par mois, hors taxe</p>
-          </div>
-          <p class="font-body text-sm text-brun-mid mt-4 mb-7 leading-relaxed">L'essentiel pour que votre site reste fiable, à jour et bien entretenu.</p>
-          <ul id="feats-std" class="flex flex-col gap-3.5 flex-1 mb-8"></ul>
-          <a id="cta-std" href="https://buy.stripe.com/00w00iacm2ztaYieOadAk01" target="_blank" rel="noopener" class="inline-flex items-center justify-center font-body font-medium text-sm tracking-[0.04em] transition-all duration-300 min-h-[44px] border border-sauge/70 text-sauge px-8 py-3 rounded-full hover:bg-sauge hover:text-cream hover:border-sauge btn-magnetic">Choisir Standard</a>
-        </div>
-
-        <!-- Premium -->
-        <div class="rounded-2xl p-8 lg:p-10 flex flex-col relative overflow-hidden" style="background: #354024;">
-          <!-- Badge -->
-          <div class="absolute top-0 right-0">
-            <div class="font-body text-[10px] tracking-[0.18em] uppercase px-4 py-1.5 rounded-bl-xl" style="background: rgba(136,144,99,0.35); color: #c8d4a0;">
-              Recommandé
+      <!-- 3 cartes : une par type de site -->
+      <div class="grid sm:grid-cols-3 gap-5 lg:gap-6 items-stretch" data-reveal data-delay="1">
+        {formules.map((f) => (
+          <div class="bg-cream border-2 border-sauge/30 rounded-2xl p-6 lg:p-8 flex flex-col">
+            <p class="font-body text-xs tracking-[0.22em] uppercase text-bois-mid mb-4">{f.type}</p>
+            <div class="mb-5">
+              <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2rem, 4vw, 2.6rem); letter-spacing: -0.02em;">
+                {f.prix}<span class="text-bois-mid text-lg ml-1">€</span>
+              </p>
+              <p class="font-body text-xs text-brun-mid/75 mt-2">par mois · sans engagement</p>
             </div>
+            <p class="font-body text-sm text-brun-mid mb-6 leading-relaxed">{f.desc}</p>
+            <ul class="flex flex-col gap-3 flex-1 mb-7">
+              {f.feats.map((feat) => (
+                <li class="feat-std flex items-start gap-3 font-body text-sm text-brun-mid leading-snug">{feat}</li>
+              ))}
+            </ul>
+            <a
+              href={f.lien}
+              class="inline-flex items-center justify-center font-body font-medium text-sm tracking-[0.04em] transition-all duration-300 min-h-[44px] border border-sauge/70 text-sauge px-6 py-3 rounded-full hover:bg-sauge hover:text-cream hover:border-sauge btn-magnetic"
+            >
+              S'abonner
+            </a>
           </div>
-
-          <p class="font-body text-xs tracking-[0.22em] uppercase mb-5" style="color: rgba(200,212,160,0.7);">Premium</p>
-          <div class="mb-2">
-            <p class="font-display font-light leading-none" style="font-size: clamp(2.2rem, 4vw, 3rem); letter-spacing: -0.025em; color: #ede3d4;">
-              <span id="price-prm">89</span><span class="text-xl ml-1" style="color: rgba(237,227,212,0.45);">€</span>
-            </p>
-            <p class="font-body text-xs mt-1" style="color: rgba(237,227,212,0.4);">par mois, hors taxe</p>
-          </div>
-          <p class="font-body text-sm mt-4 mb-7 leading-relaxed" style="color: rgba(237,227,212,0.65);">Un accompagnement complet, avec contenu SEO et suivi de performances inclus.</p>
-          <ul id="feats-prm" class="flex flex-col gap-3.5 flex-1 mb-8"></ul>
-          <a
-            id="cta-prm"
-            href="https://buy.stripe.com/aFa8wO5W66PJgiCbBYdAk02"
-            target="_blank" rel="noopener"
-            class="block text-center font-body text-sm font-medium px-7 py-3.5 rounded-full transition-all duration-200 hover:opacity-90 btn-magnetic"
-            style="background: #889063; color: #ede3d4;"
-          >
-            Choisir Premium
-          </a>
-        </div>
-
+        ))}
       </div>
 
       <!-- Note bas de cards -->
       <div class="mt-8 text-center" data-reveal data-delay="2">
         <p class="font-body text-sm text-brun-mid/70 leading-relaxed">
-          Heures supplémentaires facturées 65&nbsp;€/h. Sans engagement minimum.
+          Modifications et évolutions du site sur devis, selon vos besoins — 65&nbsp;€/h. Sans engagement.
         </p>
       </div>
 
@@ -208,29 +223,29 @@ const etapes = [
       </div>
 
       <h2 class="font-display font-light text-brun leading-[1.1] mb-10" style="font-size: clamp(1.6rem, 2.8vw, 2.2rem);">
-        Ce que recouvrent les heures de modifications.
+        Maintenance et modifications,<br>deux choses distinctes.
       </h2>
 
       <div class="grid sm:grid-cols-2 gap-6">
 
         <div class="bg-cream rounded-2xl p-6 border border-cream-dark">
-          <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Ce qui est inclus</p>
+          <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Ce que couvre l'abonnement</p>
           <p class="font-body text-sm text-brun leading-relaxed">
-            Changer un texte, remplacer une photo, mettre à jour vos tarifs, ajouter un nouveau service, ajuster une couleur ou corriger une mise en page. Tout ce qui se règle rapidement et tient dans le quota mensuel.
+            Garder votre site en ligne, rapide et sécurisé : mises à jour de sécurité, sauvegardes, surveillance de la disponibilité et correction des bugs techniques. Tout le travail de fond, en continu, sans que vous ayez à y penser.
           </p>
         </div>
 
         <div class="bg-cream rounded-2xl p-6 border border-cream-dark">
-          <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Ce qui est hors forfait</p>
+          <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Ce qui passe par un devis</p>
           <p class="font-body text-sm text-brun leading-relaxed">
-            Créer une nouvelle page complète, intégrer une fonctionnalité inédite ou refondre une section entière dépasse le cadre d'une maintenance courante. Ces travaux font l'objet d'un devis séparé, comme n'importe quel nouveau projet.
+            Changer un contenu, remplacer des photos, ajouter une page, intégrer une nouvelle fonctionnalité ou faire évoluer votre site. Chaque demande fait l'objet d'un devis simple et clair — vous ne payez que ce dont vous avez besoin.
           </p>
         </div>
 
         <div class="bg-cream rounded-2xl p-6 border border-cream-dark sm:col-span-2">
-          <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Les heures non utilisées</p>
+          <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Pourquoi un abonnement ?</p>
           <p class="font-body text-sm text-brun leading-relaxed">
-            Elles ne sont pas reportées d'un mois sur l'autre. Ce fonctionnement permet de maintenir un rythme régulier et d'éviter les accumulations. Si un mois vous n'avez rien à modifier, la maintenance technique et les sauvegardes sont assurées quoi qu'il arrive.
+            Un site internet n'est pas figé : les technologies évoluent, des failles de sécurité apparaissent, les sauvegardes doivent rester régulières. Sans entretien, un site se fragilise avec le temps. L'abonnement garantit qu'il reste fiable et disponible, mois après mois — même si vous n'y touchez jamais.
           </p>
         </div>
 
@@ -264,23 +279,7 @@ const etapes = [
 </BaseLayout>
 
 <style>
-  .type-btn {
-    color: #52647A;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-  }
-  .type-btn.active {
-    background: #ffffff;
-    color: #354024;
-    font-weight: 500;
-    box-shadow: 0 1px 4px rgba(76,61,25,0.10);
-  }
-  .type-btn:hover:not(.active) {
-    color: #354024;
-  }
-
-  /* Icône check Standard */
+  /* Icône check des fonctionnalités */
   .feat-std::before {
     content: '';
     display: block;
@@ -292,149 +291,5 @@ const etapes = [
     background-repeat: no-repeat;
     background-size: contain;
   }
-  /* Icône check Premium */
-  .feat-prm::before {
-    content: '';
-    display: block;
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-    margin-top: 2px;
-    background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='7.25' stroke='rgba(200%2C212%2C160%2C0.55)' stroke-width='1.5'/%3E%3Cpath d='M4.5 8.2 L6.8 10.5 L11.5 5.5' stroke='rgba(200%2C212%2C160%2C0.9)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
 </style>
 
-<script>
-  declare global {
-    interface Window {
-      caelTrack?: (event: string, params?: Record<string, unknown>) => void;
-    }
-  }
-
-  const LIENS: Record<string, { std: string; prm: string }> = {
-    vitrine:   { std: 'https://buy.stripe.com/00w00iacm2ztaYieOadAk01', prm: 'https://buy.stripe.com/aFa8wO5W66PJgiCbBYdAk02' },
-    boutique:  { std: 'https://buy.stripe.com/aFa14m2JUfmf6I221odAk03', prm: 'https://buy.stripe.com/14A6oG5W6eib4zU35sdAk04' },
-    surmesure: { std: 'https://buy.stripe.com/fZu7sKesCfmf0jEeOadAk05', prm: 'https://buy.stripe.com/00weVc1FQb5Z3vQcG2dAk06' },
-  };
-
-  const OFFRES: Record<string, { std: { prix: string; feats: string[] }; prm: { prix: string; feats: string[] } }> = {
-    vitrine: {
-      std: { prix: '19', feats: [
-        "Mises à jour de sécurité chaque mois",
-        "1 heure de modifications incluse par mois",
-        "Sauvegarde mensuelle du site",
-        "Rapport de performances tous les trimestres",
-        "Réponse par email sous 3 jours ouvrés",
-      ]},
-      prm: { prix: '59', feats: [
-        "Mises à jour de sécurité chaque mois",
-        "3 heures de modifications incluses par mois",
-        "Sauvegardes hebdomadaires",
-        "Rapport de performances et de référencement chaque mois",
-        "Réponse par email sous 24 heures ouvrées",
-        "1 article optimisé pour le référencement par mois",
-        "Audit complet du site après 12 mois d'abonnement",
-      ]},
-    },
-    boutique: {
-      std: { prix: '29', feats: [
-        "Mises à jour de sécurité et extensions boutique",
-        "1 heure de modifications incluse par mois",
-        "Sauvegarde mensuelle du site et des données clients",
-        "Surveillance des paiements en ligne avec alertes",
-        "Réponse par email sous 3 jours ouvrés",
-      ]},
-      prm: { prix: '89', feats: [
-        "Mises à jour de sécurité et extensions boutique",
-        "3 heures de modifications incluses par mois",
-        "Sauvegardes hebdomadaires du site et de la base de données",
-        "Surveillance des paiements en temps réel",
-        "Réponse par email sous 24 heures ouvrées",
-        "Gestion des fiches produits incluse",
-        "Rapport mensuel performances et taux de conversion",
-      ]},
-    },
-    surmesure: {
-      std: { prix: '39', feats: [
-        "Mises à jour techniques et dépendances logicielles",
-        "2 heures de modifications incluses par mois",
-        "Sauvegardes hebdomadaires",
-        "Surveillance de la disponibilité du site",
-        "Réponse par email sous 3 jours ouvrés",
-      ]},
-      prm: { prix: '119', feats: [
-        "Mises à jour techniques et dépendances logicielles",
-        "4 heures de modifications incluses par mois",
-        "Sauvegardes quotidiennes",
-        "Surveillance de la disponibilité avec alertes immédiates",
-        "Réponse par email sous 24 heures ouvrées",
-        "Petites évolutions fonctionnelles incluses",
-        "Audit complet du site après 12 mois d'abonnement",
-      ]},
-    },
-  };
-
-  let typeActif = 'vitrine';
-  let controller: AbortController | null = null;
-
-  function render(type: string) {
-    typeActif = type;
-    const o = OFFRES[type];
-    if (!o) return;
-
-    const priceStd = document.getElementById('price-std');
-    const pricePrm = document.getElementById('price-prm');
-    const featsStd = document.getElementById('feats-std');
-    const featsPrm = document.getElementById('feats-prm');
-
-    if (priceStd) priceStd.textContent = o.std.prix;
-    if (pricePrm) pricePrm.textContent = o.prm.prix;
-
-    const ctaStd = document.getElementById('cta-std') as HTMLAnchorElement | null;
-    const ctaPrm = document.getElementById('cta-prm') as HTMLAnchorElement | null;
-    if (ctaStd) ctaStd.href = LIENS[type]?.std ?? '#';
-    if (ctaPrm) ctaPrm.href = LIENS[type]?.prm ?? '#';
-
-    if (featsStd) {
-      featsStd.innerHTML = o.std.feats
-        .map(f => `<li class="feat-std flex items-start gap-3 font-body text-sm text-brun-mid leading-snug">${f}</li>`)
-        .join('');
-    }
-    if (featsPrm) {
-      featsPrm.innerHTML = o.prm.feats
-        .map(f => `<li class="feat-prm flex items-start gap-3 font-body text-sm leading-snug" style="color: rgba(237,227,212,0.7);">${f}</li>`)
-        .join('');
-    }
-
-    document.querySelectorAll<HTMLButtonElement>('.type-btn').forEach(btn => {
-      const isActive = btn.dataset.type === type;
-      btn.classList.toggle('active', isActive);
-      btn.setAttribute('aria-pressed', String(isActive));
-    });
-  }
-
-  function init() {
-    if (controller) controller.abort();
-    controller = new AbortController();
-    const { signal } = controller;
-    document.querySelectorAll<HTMLButtonElement>('.type-btn').forEach(btn => {
-      btn.addEventListener('click', () => render(btn.dataset.type ?? 'vitrine'), { signal });
-    });
-    /* GA4 — clic vers le paiement Stripe (ne se déclenche que si le consentement cookies est donné) */
-    document.getElementById('cta-std')?.addEventListener('click',
-      () => window.caelTrack?.('begin_checkout', { plan: 'standard', site_type: typeActif }), { signal });
-    document.getElementById('cta-prm')?.addEventListener('click',
-      () => window.caelTrack?.('begin_checkout', { plan: 'premium', site_type: typeActif }), { signal });
-    render(typeActif);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init, { once: true });
-  } else {
-    init();
-  }
-
-  document.addEventListener('astro:page-load', init);
-</script>
