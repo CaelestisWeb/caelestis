@@ -46,6 +46,18 @@ function esc(s: string) {
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
+const FAKE_LOCALS  = new Set(['test','fake','temp','demo','sample','noreply','no-reply','spam','asdf','qwerty','toto','tata','azerty','blabla','aaa','bbb','xxx','null','undefined','admin@']);
+const FAKE_DOMAINS = new Set(['test.com','test.fr','example.com','example.org','example.fr','fake.com','fake.fr','mailinator.com','guerrillamail.com','guerrillamail.fr','yopmail.com','throwaway.email','tempmail.com','trashmail.com','trashmail.me','maildrop.cc','sharklasers.com','spam4.me','dispostable.com','getairmail.com','filzmail.com','tempr.email','anonaddy.com','getnada.com']);
+
+function isFakeEmail(email: string): boolean {
+  const lower  = email.toLowerCase();
+  const atIdx  = lower.indexOf('@');
+  if (atIdx < 0) return false;
+  const local  = lower.slice(0, atIdx);
+  const domain = lower.slice(atIdx + 1);
+  return FAKE_LOCALS.has(local) || FAKE_DOMAINS.has(domain);
+}
+
 function toArray(v: unknown): string[] {
   if (Array.isArray(v)) return v.map(String);
   if (typeof v === 'string' && v.trim()) return [v.trim()];
@@ -578,6 +590,9 @@ export const POST: APIRoute = async ({ request }) => {
     }
     if (!EMAIL_REGEX.test(email) || /[,;\r\n]/.test(email)) {
       return new Response(JSON.stringify({ error: 'Adresse email invalide.' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    }
+    if (isFakeEmail(email)) {
+      return new Response(JSON.stringify({ error: 'Veuillez entrer votre vraie adresse email pour recevoir votre estimation.' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
     if (!validateArray(types, VALID_TYPES)) {
       return new Response(JSON.stringify({ error: 'Type de site invalide.' }), { status: 400, headers: { 'Content-Type': 'application/json' } });

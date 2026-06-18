@@ -1224,6 +1224,13 @@
       if (!prenom || !activity || !email) { showErr('Veuillez remplir tous les champs.'); return; }
       if (!state.interest) { showErr("Veuillez indiquer votre niveau d'intérêt."); return; }
 
+      /* Blocage adresses fictives / jetables */
+      const _el = email.toLowerCase(); const _at = _el.indexOf('@');
+      const _local = _at >= 0 ? _el.slice(0, _at) : ''; const _dom = _at >= 0 ? _el.slice(_at + 1) : '';
+      const _fakeL = new Set(['test','fake','temp','demo','sample','noreply','no-reply','spam','asdf','qwerty','toto','tata','azerty','blabla','aaa','bbb','xxx','null','undefined']);
+      const _fakeD = new Set(['test.com','test.fr','example.com','example.org','example.fr','fake.com','fake.fr','mailinator.com','guerrillamail.com','yopmail.com','throwaway.email','tempmail.com','trashmail.com','trashmail.me','maildrop.cc','sharklasers.com','spam4.me','dispostable.com','getairmail.com','filzmail.com','tempr.email','getnada.com']);
+      if (_fakeL.has(_local) || _fakeD.has(_dom)) { showErr('Veuillez entrer votre vraie adresse email pour recevoir votre estimation.'); return; }
+
       setLoad(true);
       try {
         const res = await fetch('/api/simulator', {
