@@ -626,37 +626,22 @@ const etapes = [
       margin-inline: auto;
     }
 
-    /* Fil de liaison vertical — rappel du fil botanique du site */
-    .proc-list::before {
-      content: '';
-      position: absolute;
-      left: 25px;
-      top: 30px;
-      bottom: 30px;
-      width: 2px;
-      background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(136, 144, 99, 0.5) 7%,
-        rgba(136, 144, 99, 0.5) 93%,
-        transparent
-      );
-    }
-
+    /* Étape — serpentin : impaires à gauche, paires à droite */
     .proc-step {
       position: relative;
-      padding-left: 74px;
-      margin-bottom: 20px;
+      display: flex;
+      margin-bottom: 16px;
     }
     .proc-step:last-child { margin-bottom: 0; }
+    .proc-step:nth-of-type(odd)  { justify-content: flex-start; }
+    .proc-step:nth-of-type(even) { justify-content: flex-end; }
 
-    /* Nœud numéroté posé sur le fil */
+    /* Nœud numéroté — ancré au coin extérieur, alterne de côté */
     .proc-num {
       position: absolute;
-      left: 0;
-      top: 4px;
-      width: 52px;
-      height: 52px;
+      top: -14px;
+      width: 48px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -667,18 +652,20 @@ const etapes = [
       font-size: 1rem;
       letter-spacing: 0.04em;
       color: #889063;
-      box-shadow: 0 5px 16px rgba(76, 61, 25, 0.14);
-      z-index: 1;
+      box-shadow: 0 6px 16px rgba(76, 61, 25, 0.16);
+      z-index: 2;
     }
+    .proc-step:nth-of-type(odd)  .proc-num { left: -8px; }
+    .proc-step:nth-of-type(even) .proc-num { right: -8px; }
 
-    /* Carte de contenu — relief par l'ombre + accent latéral */
+    /* Carte large, relief par l'ombre, accent du côté extérieur */
     .proc-card {
       position: relative;
+      width: 87%;
       background: #F4EDDF;
       border-radius: 14px;
-      padding: 19px 22px;
+      padding: 36px 22px 20px;
       text-align: left;
-      border-left: 3px solid rgba(136, 144, 99, 0.6);
       box-shadow:
         0 12px 30px rgba(76, 61, 25, 0.11),
         0 3px 8px rgba(76, 61, 25, 0.06),
@@ -686,6 +673,8 @@ const etapes = [
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
                   box-shadow 0.35s ease;
     }
+    .proc-step:nth-of-type(odd)  .proc-card { border-left: 3px solid rgba(136, 144, 99, 0.6); }
+    .proc-step:nth-of-type(even) .proc-card { border-right: 3px solid rgba(136, 144, 99, 0.6); }
     .proc-card:hover {
       transform: translateY(-3px);
       box-shadow:
@@ -729,29 +718,34 @@ const etapes = [
         max-width: none;
         align-items: stretch;
       }
-      .proc-list::before { display: none; }
       .proc-step {
-        padding-left: 0;
         margin-bottom: 0;
-        display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: flex-start;
       }
-      .proc-num {
+      .proc-num,
+      .proc-step:nth-of-type(odd) .proc-num,
+      .proc-step:nth-of-type(even) .proc-num {
         position: static;
         margin: 0 0 16px;
+        left: auto;
+        right: auto;
+        top: 0;
         width: 56px;
         height: 56px;
-        top: 0;
         font-size: 1.05rem;
         flex-shrink: 0;
       }
-      .proc-card {
+      .proc-card,
+      .proc-step:nth-of-type(odd) .proc-card,
+      .proc-step:nth-of-type(even) .proc-card {
         text-align: center;
-        border-left: none;
-        border-top: 3px solid rgba(136, 144, 99, 0.5);
-        flex: 1;
         width: 100%;
+        flex: 1;
+        border-left: none;
+        border-right: none;
+        border-top: 3px solid rgba(136, 144, 99, 0.5);
         padding: 30px 28px 26px;
       }
       .proc-title { font-size: 1.25rem; }
