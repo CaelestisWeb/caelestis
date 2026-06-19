@@ -5,8 +5,8 @@ import Button from '../components/Button.astro';
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'Maintenance & accompagnement mensuel — Caelestis',
-  description: 'Forfait mensuel de maintenance, modifications et suivi de site internet pour artisans, indépendants et petites entreprises en France.',
+  name: 'Maintenance mensuelle de site internet · Caelestis',
+  description: 'Abonnement mensuel de maintenance technique de site internet pour artisans, indépendants et petites entreprises en France : sécurité, sauvegardes et surveillance.',
   provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
   areaServed: { '@type': 'Country', name: 'France' },
   offers: [
@@ -26,25 +26,7 @@ const breadcrumb = {
   ],
 };
 
-const etapes = [
-  {
-    num: '01',
-    titre: 'Vous choisissez votre formule',
-    texte: "Selon votre type de site — vitrine, boutique ou sur mesure. L'abonnement commence dès la livraison de votre site, ou à tout moment si votre site existe déjà.",
-  },
-  {
-    num: '02',
-    titre: "Je veille sur votre site",
-    texte: "Mises à jour de sécurité, sauvegardes, surveillance, corrections techniques... Tout est traité en arrière-plan, sans que vous ayez à y penser.",
-  },
-  {
-    num: '03',
-    titre: 'Une évolution ? Sur devis',
-    texte: "Besoin de changer un contenu, d'ajouter une page ou une fonctionnalité ? Je vous fais un devis simple et clair, selon vos besoins — vous ne payez que ce dont vous avez vraiment besoin.",
-  },
-];
-
-// Abonnement maintenance — un tarif par type de site (maintenance technique pure)
+// Abonnement maintenance — un tarif par type de site (maintenance technique uniquement)
 const formules = [
   {
     type: 'Vitrine',
@@ -75,7 +57,7 @@ const formules = [
   {
     type: 'Sur mesure',
     prix: '29,99',
-    desc: 'Pour les sites complexes ou boutiques avancées qui demandent une veille poussée.',
+    desc: 'Pour les sites complexes ou les boutiques avancées qui demandent une veille poussée.',
     lien: 'https://buy.stripe.com/9B6fZg70a8XR9UedK6dAk09',
     feats: [
       'Tout le suivi d\'une boutique en ligne',
@@ -86,11 +68,19 @@ const formules = [
     ],
   },
 ];
+
+// Ce que couvre la maintenance (liste de la section distinction)
+const couvert = [
+  'Mises à jour de sécurité',
+  'Sauvegardes régulières',
+  'Surveillance de la disponibilité',
+  'Correction des bugs techniques',
+];
 ---
 
 <BaseLayout
-  title="Maintenance & accompagnement mensuel — Caelestis"
-  description="Abonnement de maintenance pour site vitrine, boutique en ligne et site sur mesure. Sécurité, sauvegardes et surveillance technique. Dès 9,99 €/mois, sans engagement."
+  title="Maintenance de site internet · Caelestis"
+  description="Abonnement de maintenance pour site vitrine, boutique en ligne et site sur mesure. Sécurité, sauvegardes et surveillance technique. Dès 9,99 € par mois, sans engagement."
   schema={[schema, breadcrumb]}
   noindex={true}
 >
@@ -117,7 +107,7 @@ const formules = [
     <div class="max-w-4xl mx-auto relative text-center">
       <div class="inline-flex items-center gap-2 mb-6" data-reveal>
         <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Accompagnement mensuel</p>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Maintenance mensuelle</p>
       </div>
       <h1
         class="font-display font-light text-brun leading-[1.05] tracking-tight max-w-3xl mx-auto"
@@ -127,12 +117,12 @@ const formules = [
         Votre site reste entre<br class="hidden sm:block"> <span class="text-sauge">de bonnes mains.</span>
       </h1>
       <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed mx-auto" data-reveal data-delay="2">
-        La mise en ligne n'est pas une fin. Mises à jour, retouches, sauvegardes, rapports de performances...<br>Chaque semaine, je veille à ce que votre site fonctionne parfaitement et continue de vous ressembler.
+        La mise en ligne n'est pas une fin. Pour rester rapide, sécurisé et toujours accessible, un site a besoin d'un entretien régulier. Chaque semaine, je veille à ce que le vôtre fonctionne parfaitement, en coulisses, sans que vous ayez à y penser.
       </p>
     </div>
   </section>
 
-  <!-- ── Cartes d'abonnement — une par type de site ── -->
+  <!-- ── Cartes d'abonnement maintenance — une par type de site ── -->
   <section class="py-20 px-6 md:px-10 lg:px-20 relative overflow-hidden">
 
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute top-40 -left-24 w-72 h-72"></div>
@@ -149,7 +139,7 @@ const formules = [
           Un tarif selon votre site.
         </h2>
         <p class="font-body text-base text-brun-mid max-w-xl mx-auto leading-relaxed">
-          Un abonnement unique qui garde votre site en ligne, sécurisé et sauvegardé — sans engagement.
+          Un abonnement qui garde votre site en ligne, sécurisé et sauvegardé, sans engagement.
         </p>
       </div>
 
@@ -180,75 +170,69 @@ const formules = [
         ))}
       </div>
 
-      <!-- Note bas de cards -->
+      <!-- Pointeur vers la distinction -->
       <div class="mt-8 text-center" data-reveal data-delay="2">
         <p class="font-body text-sm text-brun-mid/70 leading-relaxed">
-          Modifications et évolutions du site sur devis, selon vos besoins — 65&nbsp;€/h. Sans engagement.
+          Modifier le contenu de votre site est un service distinct. La différence est expliquée juste en dessous.
         </p>
       </div>
 
     </div>
   </section>
 
-  <!-- ── Comment ça marche — 3 étapes ── -->
-  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
-    <div class="max-w-5xl mx-auto">
+  <!-- ── Maintenance vs Modifications — le cœur de la page ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
+    <div class="max-w-4xl mx-auto" data-reveal>
 
-      <div class="text-center mb-12 lg:mb-16" data-reveal>
-        <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.9rem, 3.2vw, 2.8rem);">
-          Comment ça fonctionne ?
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-3 mb-4">
+          <span class="block w-8 h-px bg-sauge"></span>
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">À ne pas confondre</p>
+          <span class="block w-8 h-px bg-sauge"></span>
+        </div>
+        <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Deux choses bien distinctes.
         </h2>
       </div>
 
-      <div class="grid sm:grid-cols-3 gap-5">
-        {etapes.map((e, i) => (
-          <div class="bg-cream border-2 border-sauge/40 rounded-2xl p-7 lg:p-9 text-center" data-reveal data-delay={i}>
-            <p class="font-body text-[10px] tracking-[0.22em] uppercase text-sauge mb-4">{e.num}</p>
-            <h3 class="font-display text-xl font-light text-sauge mb-3 leading-snug">{e.titre}</h3>
-            <p class="font-body text-sm text-brun leading-relaxed">{e.texte}</p>
-          </div>
-        ))}
+      <div class="grid sm:grid-cols-2 gap-5 lg:gap-6 items-stretch">
+
+        <!-- Maintenance -->
+        <div class="bg-cream rounded-2xl p-7 lg:p-8 border-2 border-sauge/40 flex flex-col">
+          <span class="self-start inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-sauge/15 text-sauge mb-5">Abonnement · en continu</span>
+          <h3 class="font-display text-xl font-light text-brun mb-3">La maintenance</h3>
+          <p class="font-body text-sm text-brun-mid leading-relaxed mb-5">
+            Le socle technique qui garde votre site en ligne, rapide et protégé. Il tourne tout seul, en fond, sans rien vous demander.
+          </p>
+          <ul class="flex flex-col gap-2.5 flex-1 mb-5">
+            {couvert.map((c) => (
+              <li class="feat-std flex items-start gap-3 font-body text-sm text-brun leading-snug">{c}</li>
+            ))}
+          </ul>
+          <p class="font-body text-sm font-semibold text-sauge">Dès 9,99 € par mois, selon votre site.</p>
+        </div>
+
+        <!-- Modifications -->
+        <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark flex flex-col">
+          <span class="self-start inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-ocre/12 text-ocre-dark mb-5">À la demande · sur devis</span>
+          <h3 class="font-display text-xl font-light text-brun mb-3">Les modifications</h3>
+          <p class="font-body text-sm text-brun-mid leading-relaxed mb-5">
+            Tout ce qui change le contenu ou ajoute des fonctions : modifier un texte, remplacer une photo, ajouter une page ou une nouvelle fonctionnalité.
+          </p>
+          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
+            Un service à part, facturé sur devis. Vous ne payez que ce dont vous avez besoin, quand vous le décidez.
+          </p>
+          <p class="font-body text-sm font-semibold text-brun mt-5">Sur devis, sans engagement.</p>
+        </div>
+
       </div>
 
-    </div>
-  </section>
-
-  <!-- ── Ce que « heures incluses » veut dire ── -->
-  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
-    <div class="max-w-3xl mx-auto" data-reveal>
-
-      <div class="inline-flex items-center gap-3 mb-6">
-        <span class="block w-8 h-px bg-sauge"></span>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">À savoir</p>
-      </div>
-
-      <h2 class="font-display font-light text-brun leading-[1.1] mb-10" style="font-size: clamp(1.6rem, 2.8vw, 2.2rem);">
-        Maintenance et modifications,<br>deux choses distinctes.
-      </h2>
-
-      <div class="grid sm:grid-cols-2 gap-6">
-
-        <div class="bg-cream rounded-2xl p-6 border border-cream-dark">
-          <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Ce que couvre l'abonnement</p>
-          <p class="font-body text-sm text-brun leading-relaxed">
-            Garder votre site en ligne, rapide et sécurisé : mises à jour de sécurité, sauvegardes, surveillance de la disponibilité et correction des bugs techniques. Tout le travail de fond, en continu, sans que vous ayez à y penser.
-          </p>
-        </div>
-
-        <div class="bg-cream rounded-2xl p-6 border border-cream-dark">
-          <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Ce qui passe par un devis</p>
-          <p class="font-body text-sm text-brun leading-relaxed">
-            Changer un contenu, remplacer des photos, ajouter une page, intégrer une nouvelle fonctionnalité ou faire évoluer votre site. Chaque demande fait l'objet d'un devis simple et clair — vous ne payez que ce dont vous avez besoin.
-          </p>
-        </div>
-
-        <div class="bg-cream rounded-2xl p-6 border border-cream-dark sm:col-span-2">
-          <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Pourquoi un abonnement ?</p>
-          <p class="font-body text-sm text-brun leading-relaxed">
-            Un site internet n'est pas figé : les technologies évoluent, des failles de sécurité apparaissent, les sauvegardes doivent rester régulières. Sans entretien, un site se fragilise avec le temps. L'abonnement garantit qu'il reste fiable et disponible, mois après mois — même si vous n'y touchez jamais.
-          </p>
-        </div>
-
+      <!-- Pourquoi la maintenance est indispensable -->
+      <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark mt-5 lg:mt-6">
+        <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Pourquoi c'est indispensable</p>
+        <p class="font-body text-sm text-brun leading-relaxed">
+          Un site internet n'est jamais figé. Les technologies évoluent, des failles de sécurité apparaissent, les sauvegardes doivent rester régulières. Sans entretien, un site se fragilise avec le temps. L'abonnement garantit qu'il reste fiable et disponible, mois après mois, même si vous n'y touchez jamais.
+        </p>
       </div>
 
     </div>
@@ -292,4 +276,3 @@ const formules = [
     background-size: contain;
   }
 </style>
-
