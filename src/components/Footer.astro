@@ -61,8 +61,12 @@ const year = new Date().getFullYear();
               { href: '/simulateur', label: 'Simulateur' },
               { href: '/a-propos',   label: 'À propos'   },
               { href: '/contact',    label: 'Contact'    },
-            ].map(({ href, label }) => (
-              <a href={href} class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.82)">{label}</a>
+            ].map(({ href, label }, i) => (
+              <Fragment>
+                <a href={href} class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.82)">{label}</a>
+                {/* Force la 2e ligne sur mobile : « Accueil · Services · Simulateur » puis « À propos · Contact » */}
+                {i === 2 && <span class="basis-full h-0 md:hidden" aria-hidden="true"></span>}
+              </Fragment>
             ))}
           </nav>
         </div>
