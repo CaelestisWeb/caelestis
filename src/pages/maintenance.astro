@@ -122,8 +122,69 @@ const couvert = [
     </div>
   </section>
 
-  <!-- ── Cartes d'abonnement maintenance — une par type de site ── -->
-  <section class="py-20 px-6 md:px-10 lg:px-20 relative overflow-hidden">
+  <!-- ── Maintenance vs Modifications — l'explication, en premier ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20">
+    <div class="max-w-4xl mx-auto" data-reveal>
+
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-3 mb-4">
+          <span class="block w-8 h-px bg-sauge"></span>
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">À ne pas confondre</p>
+          <span class="block w-8 h-px bg-sauge"></span>
+        </div>
+        <h2 class="font-display font-light text-brun leading-[1.15] mb-4" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Deux choses bien distinctes.
+        </h2>
+        <p class="font-body text-base text-brun-mid max-w-xl mx-auto leading-relaxed">
+          Autour de votre site, je propose deux services à ne pas mélanger. Voici la différence en un coup d'œil.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-5 lg:gap-6 items-stretch">
+
+        <!-- 1. Maintenance -->
+        <div class="bg-cream rounded-2xl p-7 lg:p-8 border-2 border-sauge/40 flex flex-col">
+          <span class="self-start inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-sauge/15 text-sauge mb-5">1 · Abonnement, en continu</span>
+          <h3 class="font-display text-xl font-light text-brun mb-3">La maintenance</h3>
+          <p class="font-body text-sm text-brun-mid leading-relaxed mb-5">
+            Le socle technique qui garde votre site en ligne, rapide et protégé. Il tourne tout seul, en fond, sans rien vous demander.
+          </p>
+          <ul class="flex flex-col gap-2.5 flex-1 mb-5">
+            {couvert.map((c) => (
+              <li class="feat-std flex items-start gap-3 font-body text-sm text-brun leading-snug">{c}</li>
+            ))}
+          </ul>
+          <p class="font-body text-sm font-semibold text-sauge">Dès 9,99 € par mois, selon votre site.</p>
+        </div>
+
+        <!-- 2. Modifications -->
+        <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark flex flex-col">
+          <span class="self-start inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-ocre/12 text-ocre-dark mb-5">2 · À la demande, sur devis</span>
+          <h3 class="font-display text-xl font-light text-brun mb-3">Les modifications et retouches</h3>
+          <p class="font-body text-sm text-brun-mid leading-relaxed mb-5">
+            Tout ce qui change le contenu ou ajoute des fonctions : modifier un texte, remplacer une photo, ajouter une page ou une nouvelle fonctionnalité.
+          </p>
+          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
+            Un service à part, facturé sur devis. Vous ne payez que ce dont vous avez besoin, quand vous le décidez.
+          </p>
+          <p class="font-body text-sm font-semibold text-brun mt-5">Sur devis, sans engagement.</p>
+        </div>
+
+      </div>
+
+      <!-- Pourquoi la maintenance est indispensable -->
+      <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark mt-5 lg:mt-6">
+        <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Pourquoi c'est indispensable</p>
+        <p class="font-body text-sm text-brun leading-relaxed">
+          Un site internet n'est jamais figé. Les technologies évoluent, des failles de sécurité apparaissent, les sauvegardes doivent rester régulières. Sans entretien, un site se fragilise avec le temps. L'abonnement garantit qu'il reste fiable et disponible, mois après mois, même si vous n'y touchez jamais.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── L'abonnement maintenance — les cartes, en second ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark relative overflow-hidden">
 
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute top-40 -left-24 w-72 h-72"></div>
 
@@ -170,68 +231,10 @@ const couvert = [
         ))}
       </div>
 
-      <!-- Pointeur vers la distinction -->
+      <!-- Rappel modifications -->
       <div class="mt-8 text-center" data-reveal data-delay="2">
         <p class="font-body text-sm text-brun-mid/70 leading-relaxed">
-          Modifier le contenu de votre site est un service distinct. La différence est expliquée juste en dessous.
-        </p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── Maintenance vs Modifications — le cœur de la page ── -->
-  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
-    <div class="max-w-4xl mx-auto" data-reveal>
-
-      <div class="text-center mb-12">
-        <div class="inline-flex items-center gap-3 mb-4">
-          <span class="block w-8 h-px bg-sauge"></span>
-          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">À ne pas confondre</p>
-          <span class="block w-8 h-px bg-sauge"></span>
-        </div>
-        <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
-          Deux choses bien distinctes.
-        </h2>
-      </div>
-
-      <div class="grid sm:grid-cols-2 gap-5 lg:gap-6 items-stretch">
-
-        <!-- Maintenance -->
-        <div class="bg-cream rounded-2xl p-7 lg:p-8 border-2 border-sauge/40 flex flex-col">
-          <span class="self-start inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-sauge/15 text-sauge mb-5">Abonnement · en continu</span>
-          <h3 class="font-display text-xl font-light text-brun mb-3">La maintenance</h3>
-          <p class="font-body text-sm text-brun-mid leading-relaxed mb-5">
-            Le socle technique qui garde votre site en ligne, rapide et protégé. Il tourne tout seul, en fond, sans rien vous demander.
-          </p>
-          <ul class="flex flex-col gap-2.5 flex-1 mb-5">
-            {couvert.map((c) => (
-              <li class="feat-std flex items-start gap-3 font-body text-sm text-brun leading-snug">{c}</li>
-            ))}
-          </ul>
-          <p class="font-body text-sm font-semibold text-sauge">Dès 9,99 € par mois, selon votre site.</p>
-        </div>
-
-        <!-- Modifications -->
-        <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark flex flex-col">
-          <span class="self-start inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-ocre/12 text-ocre-dark mb-5">À la demande · sur devis</span>
-          <h3 class="font-display text-xl font-light text-brun mb-3">Les modifications</h3>
-          <p class="font-body text-sm text-brun-mid leading-relaxed mb-5">
-            Tout ce qui change le contenu ou ajoute des fonctions : modifier un texte, remplacer une photo, ajouter une page ou une nouvelle fonctionnalité.
-          </p>
-          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
-            Un service à part, facturé sur devis. Vous ne payez que ce dont vous avez besoin, quand vous le décidez.
-          </p>
-          <p class="font-body text-sm font-semibold text-brun mt-5">Sur devis, sans engagement.</p>
-        </div>
-
-      </div>
-
-      <!-- Pourquoi la maintenance est indispensable -->
-      <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark mt-5 lg:mt-6">
-        <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Pourquoi c'est indispensable</p>
-        <p class="font-body text-sm text-brun leading-relaxed">
-          Un site internet n'est jamais figé. Les technologies évoluent, des failles de sécurité apparaissent, les sauvegardes doivent rester régulières. Sans entretien, un site se fragilise avec le temps. L'abonnement garantit qu'il reste fiable et disponible, mois après mois, même si vous n'y touchez jamais.
+          Pour rappel, modifier le contenu de votre site reste un service à la demande, facturé sur devis.
         </p>
       </div>
 
