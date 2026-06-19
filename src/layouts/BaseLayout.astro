@@ -8,6 +8,10 @@ import CookieBanner from '../components/CookieBanner.astro';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
+// Préchargement des 2 polices critiques above-the-fold — ?url résout vers le fichier hashé final
+import loraDisplayUrl from '@fontsource/lora/files/lora-latin-400-normal.woff2?url';
+import dmSansBodyUrl from '@fontsource-variable/dm-sans/files/dm-sans-latin-opsz-normal.woff2?url';
+
 interface Props {
   title: string;
   description: string;
@@ -128,7 +132,9 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <meta name="twitter:image"       content={ogImage} />
 
     <!-- ── Fonts — auto-hébergées via fontsource (pas de requête externe) ── -->
-    <!-- Les @font-face sont dans global.css → aucun JS ni preconnect nécessaire -->
+    <!-- Preload des 2 polices critiques above-the-fold (titres Lora + corps DM Sans) → LCP plus rapide -->
+    <link rel="preload" href={loraDisplayUrl} as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href={dmSansBodyUrl} as="font" type="font/woff2" crossorigin="anonymous" />
 
     <!-- ── Icônes ── -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=7" />
