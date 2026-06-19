@@ -601,3 +601,10 @@ select:focus-visible {
 
   @page { margin: 1.5cm 2cm; size: A4; }
 }
+
+/* ── Accessibilité WCAG AA — labels « eyebrow » en sauge ──
+   Le sauge #889063 (2.66 sur crème) est trop clair pour du petit texte.
+   On fonce le texte des labels uppercase sur fond clair (#5C6440 = 4.93 ✅),
+   tout en gardant le sauge clair si le label est dans une section sombre. */
+.uppercase.text-sauge { color: #5C6440; }
+.bg-brun .uppercase.text-sauge { color: #889063; }
