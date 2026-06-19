@@ -34,11 +34,10 @@ const formules = [
     desc: 'Pour garder votre site vitrine en ligne, rapide et sécurisé.',
     lien: 'https://buy.stripe.com/eVq7sKbgq2ztaYidK6dAk07',
     feats: [
-      'Site surveillé et maintenu en ligne',
-      'Mises à jour de sécurité',
+      '1 mise à jour par semaine',
+      'Site protégé et sécurisé',
       'Sauvegardes régulières',
-      'Correction des bugs techniques',
-      'Support par email',
+      'Toujours en ligne',
     ],
   },
   {
@@ -47,11 +46,10 @@ const formules = [
     desc: 'La tranquillité pour votre boutique : paiements et données surveillés.',
     lien: 'https://buy.stripe.com/7sY7sK98ica35DY49wdAk08',
     feats: [
-      'Tout le suivi d\'un site vitrine',
-      'Surveillance des paiements en ligne',
-      'Mises à jour des modules boutique',
-      'Sauvegarde du site et des données',
-      'Support par email prioritaire',
+      '3 mises à jour par semaine',
+      'Boutique et paiements sécurisés',
+      'Sauvegardes régulières',
+      'Toujours en ligne',
     ],
   },
   {
@@ -60,21 +58,20 @@ const formules = [
     desc: 'Pour les sites complexes ou les boutiques avancées qui demandent une veille poussée.',
     lien: 'https://buy.stripe.com/9B6fZg70a8XR9UedK6dAk09',
     feats: [
-      'Tout le suivi d\'une boutique en ligne',
-      'Surveillance de disponibilité avec alertes',
-      'Mises à jour techniques et dépendances',
-      'Sauvegardes rapprochées',
-      'Support par email prioritaire',
+      'Mises à jour 7 jours sur 7',
+      'Surveillance permanente',
+      'Site protégé et sécurisé',
+      'Sauvegardes régulières',
     ],
   },
 ];
 
 // Ce que couvre la maintenance (liste de la section distinction)
 const couvert = [
-  'Mises à jour de sécurité',
+  'Mises à jour régulières',
+  'Site protégé et sécurisé',
   'Sauvegardes régulières',
-  'Surveillance de la disponibilité',
-  'Correction des bugs techniques',
+  'Toujours en ligne',
 ];
 ---
 
@@ -140,24 +137,24 @@ const couvert = [
       <div class="grid sm:grid-cols-2 gap-5 lg:gap-6 items-stretch">
 
         <!-- 1. Maintenance -->
-        <div class="relative bg-cream rounded-2xl p-7 lg:p-8 border-2 border-sauge/40 flex flex-col">
+        <div class="relative bg-cream rounded-2xl p-7 lg:p-8 border-2 border-sauge/40 flex flex-col text-center">
           <span class="absolute -top-3 right-5 inline-block font-body text-[10px] font-semibold tracking-[0.16em] uppercase px-3 py-1 rounded-full bg-sauge text-cream shadow-[0_2px_8px_rgba(53,64,36,0.22)]">Obligatoire</span>
-          <span class="self-start inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-sauge/15 text-sauge mb-5">1 · Abonnement, en continu</span>
+          <span class="self-center inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-sauge/15 text-sauge mb-5">1 · Abonnement, en continu</span>
           <h3 class="font-display text-xl font-light text-brun mb-3">La maintenance</h3>
           <p class="font-body text-sm text-brun-mid leading-relaxed mb-5">
             Le socle technique qui garde votre site en ligne, rapide et protégé. Il tourne tout seul, en fond, sans rien vous demander.
           </p>
           <ul class="flex flex-col gap-2.5 flex-1 mb-5">
             {couvert.map((c) => (
-              <li class="feat-std flex items-start gap-3 font-body text-sm text-brun leading-snug">{c}</li>
+              <li class="feat-std flex items-start justify-center gap-3 font-body text-sm text-brun leading-snug">{c}</li>
             ))}
           </ul>
           <p class="font-body text-sm font-semibold text-sauge">Dès 9,99 € par mois, selon votre site.</p>
         </div>
 
         <!-- 2. Modifications -->
-        <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark flex flex-col">
-          <span class="self-start inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-ocre/12 text-ocre-dark mb-5">2 · À la demande, sur devis</span>
+        <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark flex flex-col text-center">
+          <span class="self-center inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-ocre/12 text-ocre-dark mb-5">2 · À la demande, sur devis</span>
           <h3 class="font-display text-xl font-light text-brun mb-3">Les modifications et retouches</h3>
           <p class="font-body text-sm text-brun-mid leading-relaxed mb-5">
             Tout ce qui change le contenu ou ajoute des fonctions : modifier un texte, remplacer une photo, ajouter une page ou une nouvelle fonctionnalité.
@@ -171,7 +168,7 @@ const couvert = [
       </div>
 
       <!-- Pourquoi la maintenance est indispensable -->
-      <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark mt-5 lg:mt-6">
+      <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark mt-5 lg:mt-6 text-center">
         <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Pourquoi c'est indispensable</p>
         <p class="font-body text-sm text-brun leading-relaxed">
           Un site internet n'est jamais figé. Les technologies évoluent, des failles de sécurité apparaissent, les sauvegardes doivent rester régulières. Sans entretien, un site se fragilise avec le temps. L'abonnement garantit qu'il reste fiable et disponible, mois après mois, même si vous n'y touchez jamais.
@@ -205,7 +202,7 @@ const couvert = [
       <!-- 3 cartes : une par type de site -->
       <div class="grid sm:grid-cols-3 gap-5 lg:gap-6 items-stretch" data-reveal data-delay="1">
         {formules.map((f) => (
-          <div class="bg-cream border-2 border-sauge/30 rounded-2xl p-6 lg:p-8 flex flex-col">
+          <div class="bg-cream border-2 border-sauge/30 rounded-2xl p-6 lg:p-8 flex flex-col text-center">
             <p class="font-body text-xs tracking-[0.22em] uppercase text-bois-mid mb-4">{f.type}</p>
             <div class="mb-5">
               <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2rem, 4vw, 2.6rem); letter-spacing: -0.02em;">
@@ -216,7 +213,7 @@ const couvert = [
             <p class="font-body text-sm text-brun-mid mb-6 leading-relaxed">{f.desc}</p>
             <ul class="flex flex-col gap-3 flex-1 mb-7">
               {f.feats.map((feat) => (
-                <li class="feat-std flex items-start gap-3 font-body text-sm text-brun-mid leading-snug">{feat}</li>
+                <li class="feat-std flex items-start justify-center gap-3 font-body text-sm text-brun-mid leading-snug">{feat}</li>
               ))}
             </ul>
             <a
