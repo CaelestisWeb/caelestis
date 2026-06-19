@@ -121,7 +121,10 @@ const couvert = [
         </h2>
       </div>
 
-      <div class="grid sm:grid-cols-2 gap-5 lg:gap-6 items-stretch">
+      <div class="grid sm:grid-cols-2 gap-5 lg:gap-6 items-start">
+
+        <!-- Colonne maintenance : la carte et le « pourquoi » liés ensemble -->
+        <div class="flex flex-col gap-5 lg:gap-6">
 
         <!-- 1. Maintenance -->
         <div class="relative bg-cream rounded-2xl p-7 lg:p-8 border-2 border-sauge/40 flex flex-col text-center">
@@ -139,6 +142,16 @@ const couvert = [
           <p class="font-body text-sm font-semibold text-sauge">Dès 9,99 € par mois, selon votre site.</p>
         </div>
 
+          <!-- Pourquoi la maintenance est indispensable (rattaché à la carte maintenance) -->
+          <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-sauge/30 text-center">
+            <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Pourquoi la maintenance est indispensable</p>
+            <p class="font-body text-sm text-brun leading-relaxed">
+              Un site internet n'est jamais figé. Les technologies évoluent, des failles de sécurité apparaissent, les sauvegardes doivent rester régulières. Sans entretien, un site se fragilise avec le temps. L'abonnement garantit qu'il reste fiable et disponible, mois après mois, même si vous n'y touchez jamais.
+            </p>
+          </div>
+
+        </div>
+
         <!-- 2. Modifications -->
         <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark flex flex-col text-center">
           <span class="self-center inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-ocre/12 text-ocre-dark mb-5">2 · À la demande, sur devis</span>
@@ -152,14 +165,6 @@ const couvert = [
           <p class="font-body text-sm font-semibold text-brun mt-5">Sur devis, sans engagement.</p>
         </div>
 
-      </div>
-
-      <!-- Pourquoi la maintenance est indispensable -->
-      <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark mt-5 lg:mt-6 text-center">
-        <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-3">Pourquoi c'est indispensable</p>
-        <p class="font-body text-sm text-brun leading-relaxed">
-          Un site internet n'est jamais figé. Les technologies évoluent, des failles de sécurité apparaissent, les sauvegardes doivent rester régulières. Sans entretien, un site se fragilise avec le temps. L'abonnement garantit qu'il reste fiable et disponible, mois après mois, même si vous n'y touchez jamais.
-        </p>
       </div>
 
     </div>
