@@ -512,6 +512,11 @@ const breadcrumbContact = {
     btn.addEventListener('click', () => activateTab(btn.dataset.tab ?? 'message'));
   });
 
+  /* Ouverture directe d'un onglet via l'URL (#devis, #appel, #message) —
+     permet aux CTA d'autres pages de pointer vers le bon formulaire. */
+  const hashTab = (location.hash || '').replace('#', '');
+  if (['message', 'appel', 'devis'].includes(hashTab)) activateTab(hashTab);
+
   /* ══════════════════════════════════════════
      ENVOI GÉNÉRIQUE
   ══════════════════════════════════════════ */
