@@ -114,51 +114,58 @@ const websiteSchema = {
   },
 };
 
+// FAQ — source unique : alimente le schema FAQPage (SEO) ET l'affichage
+const faqs = [
+  {
+    q: 'Quel est le délai pour créer un site internet ?',
+    a: 'En général, un site internet est livré en 2 à 6 semaines selon la complexité du projet et la rapidité de transmission des contenus (textes, photos et autres). Nous vous accompagnons à chaque étape avec un planning clair dès le départ.',
+  },
+  {
+    q: 'Et si je n\'ai pas encore mes textes ni mes photos ?',
+    a: 'C\'est très fréquent, et ce n\'est pas un frein. Nous vous accompagnons pour structurer vos contenus, nous pouvons rédiger les textes à partir de nos échanges et vous orienter sur les visuels. Pas besoin d\'arriver avec un dossier complet pour démarrer.',
+  },
+  {
+    q: 'Pourrai-je modifier le contenu de mon site moi-même ?',
+    a: 'Par défaut, c\'est nous qui gérons vos modifications : vous nous envoyez vos changements et on s\'en occupe rapidement. Votre site reste ainsi rapide et sécurisé, sans outil technique à gérer. Et si vous préférez être autonome, nous pouvons intégrer un espace simple pour éditer vos textes.',
+  },
+  {
+    q: 'Mon site sera-t-il adapté aux mobiles ?',
+    a: 'Oui, systématiquement. Chaque site s\'affiche parfaitement sur mobile, tablette et ordinateur. Comme la majorité de vos visiteurs viennent du téléphone, c\'est une priorité dès la conception.',
+  },
+  {
+    q: 'Mon site sera-t-il visible sur Google ?',
+    a: 'Oui. Chaque site repose sur des bases techniques saines, optimisées pour le référencement naturel : structure claire, pages rapides, contenus pensés pour vos mots-clés. Vous pouvez aussi aller plus loin avec un accompagnement SEO dédié pour gagner en visibilité dans le temps.',
+  },
+  {
+    q: 'Pourquoi faire appel à vous plutôt qu\'à un outil comme Wix ?',
+    a: 'Un site fait main est plus rapide, mieux référencé et vraiment à votre image, sans les limites ni les abonnements des outils en ligne. Vous gagnez du temps, un résultat professionnel et un interlocuteur unique qui reste disponible après la mise en ligne.',
+  },
+  {
+    q: 'Proposez-vous la maintenance du site après livraison ?',
+    a: 'Oui. Nous proposons un accompagnement après la mise en ligne : mises à jour, modifications de contenu, suivi SEO. On en discute ensemble selon vos besoins lors du premier appel.',
+  },
+  {
+    q: 'L\'hébergement est-il inclus ?',
+    a: 'Oui. Votre site est hébergé sur une infrastructure rapide et sécurisée, et son maintien en ligne est couvert par votre abonnement de maintenance. Aucun hébergeur séparé à gérer, aucune facture surprise.',
+  },
+  {
+    q: 'J\'ai déjà un site, pouvez-vous le refondre ?',
+    a: 'Bien sûr. Si votre site actuel est vieillissant, lent ou ne vous ressemble plus, nous le repensons entièrement : design moderne, performances et meilleure visibilité sur Google. On part de l\'existant et on en discute ensemble.',
+  },
+  {
+    q: 'Puis-je avoir un devis gratuit ?',
+    a: 'Oui, toujours, et sans engagement. Vous pouvez estimer votre projet en 2 minutes avec notre simulateur, ou nous écrire directement pour un échange personnalisé.',
+  },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Quel est le délai pour créer un site internet ?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'En général, un site internet est livré en 2 à 6 semaines selon la complexité du projet et la rapidité de transmission des contenus (textes, photos et autres). Nous vous accompagnons à chaque étape avec un planning clair dès le départ.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Et si je n\'ai pas encore mes textes ni mes photos ?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'C\'est très fréquent, et ce n\'est pas un frein. Nous vous accompagnons pour structurer vos contenus, nous pouvons rédiger les textes à partir de nos échanges et vous orienter sur les visuels. Pas besoin d\'arriver avec un dossier complet pour démarrer.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Mon site sera-t-il visible sur Google ?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Oui. Chaque site repose sur des bases techniques saines, optimisées pour le référencement naturel : structure claire, pages rapides, contenus pensés pour vos mots-clés. Vous pouvez aussi aller plus loin avec un accompagnement SEO dédié pour gagner en visibilité dans le temps.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Pourquoi faire appel à vous plutôt qu\'à un outil comme Wix ?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Un site fait main est plus rapide, mieux référencé et vraiment à votre image, sans les limites ni les abonnements des outils en ligne. Vous gagnez du temps, un résultat professionnel et un interlocuteur unique qui reste disponible après la mise en ligne.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Proposez-vous la maintenance du site après livraison ?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Oui. Nous proposons un accompagnement après la mise en ligne : mises à jour, modifications de contenu, suivi SEO. On en discute ensemble selon vos besoins lors du premier appel.',
-      },
-    },
-  ],
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
 };
 
 const organizationSchema = {
@@ -583,28 +590,7 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
 
       <dl class="divide-y divide-cream-dark" data-reveal data-delay="1">
 
-        {[
-          {
-            q: 'Quel est le délai pour créer un site internet ?',
-            a: 'En général, un site internet est livré en 2 à 6 semaines selon la complexité du projet et la rapidité de transmission des contenus (textes, photos et autres). Nous vous accompagnons à chaque étape avec un planning clair dès le départ.',
-          },
-          {
-            q: 'Et si je n\'ai pas encore mes textes ni mes photos ?',
-            a: 'C\'est très fréquent, et ce n\'est pas un frein. Nous vous accompagnons pour structurer vos contenus, nous pouvons rédiger les textes à partir de nos échanges et vous orienter sur les visuels. Pas besoin d\'arriver avec un dossier complet pour démarrer.',
-          },
-          {
-            q: 'Mon site sera-t-il visible sur Google ?',
-            a: 'Oui. Chaque site repose sur des bases techniques saines, optimisées pour le référencement naturel : structure claire, pages rapides, contenus pensés pour vos mots-clés. Vous pouvez aussi aller plus loin avec un accompagnement SEO dédié pour gagner en visibilité dans le temps.',
-          },
-          {
-            q: 'Pourquoi faire appel à vous plutôt qu\'à un outil comme Wix ?',
-            a: 'Un site fait main est plus rapide, mieux référencé et vraiment à votre image, sans les limites ni les abonnements des outils en ligne. Vous gagnez du temps, un résultat professionnel et un interlocuteur unique qui reste disponible après la mise en ligne.',
-          },
-          {
-            q: 'Proposez-vous la maintenance du site après livraison ?',
-            a: 'Oui. Nous proposons un accompagnement après la mise en ligne : mises à jour, modifications de contenu, suivi SEO. On en discute ensemble selon vos besoins lors du premier appel.',
-          },
-        ].map(({ q, a }) => (
+        {faqs.map(({ q, a }) => (
           <div class="faq-item">
             <dt>
               <button
@@ -789,7 +775,7 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
   }
 
   /* ── FAQ accordéon ── */
-  .faq-item.open .faq-answer { max-height: 300px; }
+  .faq-item.open .faq-answer { max-height: 360px; }
   .faq-item.open .faq-plus-v { transform: scaleY(0); opacity: 0; }
   .faq-item.open .faq-icon   { border-color: #889063; color: #889063; }
   .faq-btn:hover .faq-icon   { border-color: #889063; color: #889063; }
