@@ -140,13 +140,13 @@ const CHECKBOX_LABELS: Record<string, Record<string, string>> = {
 };
 
 function radioLabel(category: string, value: string, otherVal = ''): string {
-  if (!value) return '—';
+  if (!value) return 'non précisé';
   if (value === 'autre') return otherVal ? `Autre : ${esc(otherVal)}` : 'Autre';
   return esc(RADIO_LABELS[category]?.[value] ?? value);
 }
 
 function arrLabel(vals: string[], category: string, otherVal = ''): string {
-  if (vals.length === 0) return '—';
+  if (vals.length === 0) return 'non précisé';
   const map = CHECKBOX_LABELS[category] ?? {};
   return vals.map(v => {
     if (v === 'autre') return otherVal ? `Autre : ${esc(otherVal)}` : 'Autre';
@@ -160,7 +160,7 @@ function arrLabel(vals: string[], category: string, otherVal = ''): string {
 function eRow(label: string, value: string): string {
   return `<tr>
     <td style="padding:8px 16px 8px 0;border-bottom:1px solid #eef2f7;width:170px;min-width:130px;vertical-align:top;font-size:11px;color:#8fa3b8;letter-spacing:.05em;text-transform:uppercase;line-height:1.4;">${esc(label)}</td>
-    <td style="padding:8px 0;border-bottom:1px solid #eef2f7;font-size:13px;color:#2d3f54;line-height:1.65;">${value || '<span style="color:#ccc;">—</span>'}</td>
+    <td style="padding:8px 0;border-bottom:1px solid #eef2f7;font-size:13px;color:#2d3f54;line-height:1.65;">${value || '<span style="color:#ccc;">non précisé</span>'}</td>
   </tr>`;
 }
 
@@ -180,7 +180,7 @@ function buildAdminEmail(
   dateStr: string,
   attachedFilenames: string[],
 ): string {
-  const g  = (k: string, mx = 2000) => multiline(str(d[k], mx)) || '<span style="color:#ccc;">—</span>';
+  const g  = (k: string, mx = 2000) => multiline(str(d[k], mx)) || '<span style="color:#ccc;">non précisé</span>';
   const rl = (cat: string, k: string, otherK = '') => radioLabel(cat, str(d[k]), str(d[otherK]));
   const al = (k: string, cat: string, otherK = '') => arrLabel(toArr(d[k]), cat, str(d[otherK]));
 
@@ -256,7 +256,7 @@ function buildAdminEmail(
   <!-- En-tête -->
   <tr><td style="background:linear-gradient(135deg,#028183 0%,#1dbd8e 100%);padding:32px 36px;border-radius:8px 8px 0 0;">
     <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:500;">Caelestis · Questionnaire création</p>
-    <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#fff;letter-spacing:-.02em;">Nouveau questionnaire de création — ${esc(nominant)}</h1>
+    <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#fff;letter-spacing:-.02em;">Nouveau questionnaire de création : ${esc(nominant)}</h1>
     <p style="margin:6px 0 0;font-size:12px;color:rgba(255,255,255,.4);">${esc(dateStr)}</p>
   </td></tr>
 
@@ -290,7 +290,7 @@ function buildClientEmail(d: Record<string, unknown>, dateStr: string, filenames
   const prenom    = str(d['nom_dirigeant']) || str(d['nom_entreprise']) || 'Bonjour';
   const prenomEsc = esc(prenom);
 
-  const g  = (k: string, mx = 2000) => multiline(str(d[k], mx)) || '<span style="color:#bbb;">—</span>';
+  const g  = (k: string, mx = 2000) => multiline(str(d[k], mx)) || '<span style="color:#bbb;">non précisé</span>';
   const rl = (cat: string, k: string, otherK = '') => radioLabel(cat, str(d[k]), str(d[otherK]));
   const al = (k: string, cat: string, otherK = '') => arrLabel(toArr(d[k]), cat, str(d[otherK]));
 
@@ -416,10 +416,10 @@ function generateQuestionnairePDF(
     const W     = doc.page.width - 100; // largeur utile (marges 50 de chaque côté)
 
     /* ── helpers ── */
-    const clean = (k: string, mx = 1000) => str(d[k], mx) || '—';
+    const clean = (k: string, mx = 1000) => str(d[k], mx) || 'non précisé';
     const chips = (k: string, cat: string, otherK = '') => {
       const vals = toArr(d[k]);
-      if (!vals.length) return '—';
+      if (!vals.length) return 'non précisé';
       const map = CHECKBOX_LABELS[cat] ?? {};
       return vals.map(v => {
         if (v === 'autre') return str(d[otherK]) ? `Autre : ${str(d[otherK])}` : 'Autre';
@@ -507,7 +507,7 @@ function generateQuestionnairePDF(
     const statutVal   = str(d['statut_juridique']);
     const statutLabel = statutVal === 'autre'
       ? `Autre : ${clean('statut_autre')}`
-      : (RADIO_LABELS['statut_juridique']?.[statutVal] ?? (statutVal || '—'));
+      : (RADIO_LABELS['statut_juridique']?.[statutVal] ?? (statutVal || 'non précisé'));
     section('05', 'Informations légales', [
       ['Statut', statutLabel],
       ['SIRET',  clean('siret')],
@@ -558,10 +558,10 @@ function generateQuestionnaireDocx(
   const LIGHT = 'F5F8FB';
   const MUTED = '52647A';
 
-  const clean = (k: string, mx = 1000) => str(d[k], mx) || '—';
+  const clean = (k: string, mx = 1000) => str(d[k], mx) || 'non précisé';
   const chips = (k: string, cat: string, otherK = '') => {
     const vals = toArr(d[k]);
-    if (!vals.length) return '—';
+    if (!vals.length) return 'non précisé';
     const map = CHECKBOX_LABELS[cat] ?? {};
     return vals.map(v => {
       if (v === 'autre') return str(d[otherK]) ? `Autre : ${str(d[otherK])}` : 'Autre';
@@ -657,7 +657,7 @@ function generateQuestionnaireDocx(
     heading('Informations légales', '05'),
     dataRow('Statut', (() => {
       const v = str(d['statut_juridique']);
-      return v === 'autre' ? `Autre : ${clean('statut_autre')}` : (RADIO_LABELS['statut_juridique']?.[v] ?? (v || '—'));
+      return v === 'autre' ? `Autre : ${clean('statut_autre')}` : (RADIO_LABELS['statut_juridique']?.[v] ?? (v || 'non précisé'));
     })()),
     dataRow('SIRET',  clean('siret')),
     dataRow('N° TVA', clean('numero_tva')),
@@ -810,7 +810,7 @@ export const POST: APIRoute = async ({ request }) => {
         from:        '"Questionnaire Caelestis" <contact@caelestis.fr>',
         to:          'contact@caelestis.fr',
         replyTo:     emailContact,
-        subject:     `[Création] ${nominant} — questionnaire de création`,
+        subject:     `[Création] ${nominant} · questionnaire de création`,
         html:        buildAdminEmail(body, dateStr, filenames),
         attachments: [
           { filename: `questionnaire-${slug}-${dateSlug}.pdf`,  content: pdfBuffer,  contentType: 'application/pdf' },
@@ -820,7 +820,7 @@ export const POST: APIRoute = async ({ request }) => {
       }),
       /* Email client — confirmation */
       transporter.sendMail({
-        from:    '"Célestin — Caelestis" <contact@caelestis.fr>',
+        from:    '"Célestin de Caelestis" <contact@caelestis.fr>',
         to:      emailContact,
         replyTo: 'contact@caelestis.fr',
         subject: 'Votre questionnaire Caelestis a bien été reçu',

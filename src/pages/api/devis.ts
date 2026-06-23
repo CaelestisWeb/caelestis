@@ -122,13 +122,13 @@ const CHECKBOX_LABELS: Record<string, Record<string, string>> = {
 };
 
 function radioLabel(category: string, value: string, otherVal = ''): string {
-  if (!value) return '—';
+  if (!value) return 'non précisé';
   if (value === 'autre') return otherVal ? `Autre : ${esc(otherVal)}` : 'Autre';
   return esc(RADIO_LABELS[category]?.[value] ?? value);
 }
 
 function arrLabel(vals: string[], category: string, otherVal = ''): string {
-  if (vals.length === 0) return '—';
+  if (vals.length === 0) return 'non précisé';
   const map = CHECKBOX_LABELS[category] ?? {};
   return vals.map(v => {
     if (v === 'autre') return otherVal ? `Autre : ${esc(otherVal)}` : 'Autre';
@@ -142,7 +142,7 @@ function arrLabel(vals: string[], category: string, otherVal = ''): string {
 function eRow(label: string, value: string): string {
   return `<tr>
     <td style="padding:8px 16px 8px 0;border-bottom:1px solid #eef2f7;width:170px;min-width:130px;vertical-align:top;font-size:11px;color:#8fa3b8;letter-spacing:.05em;text-transform:uppercase;line-height:1.4;">${esc(label)}</td>
-    <td style="padding:8px 0;border-bottom:1px solid #eef2f7;font-size:13px;color:#2d3f54;line-height:1.65;">${value || '<span style="color:#ccc;">—</span>'}</td>
+    <td style="padding:8px 0;border-bottom:1px solid #eef2f7;font-size:13px;color:#2d3f54;line-height:1.65;">${value || '<span style="color:#ccc;">non précisé</span>'}</td>
   </tr>`;
 }
 
@@ -155,7 +155,7 @@ function eBlock(num: number | string, title: string, rows: string): string {
 }
 
 function buildAdminEmail(d: Record<string, unknown>, dateStr: string): string {
-  const g  = (k: string, mx = 2000) => multiline(str(d[k], mx)) || '<span style="color:#ccc;">—</span>';
+  const g  = (k: string, mx = 2000) => multiline(str(d[k], mx)) || '<span style="color:#ccc;">non précisé</span>';
   const rl = (cat: string, k: string, otherK = '') => radioLabel(cat, str(d[k]), str(d[otherK]));
   const al = (k: string, cat: string, otherK = '') => arrLabel(toArr(d[k]), cat, str(d[otherK]));
 
@@ -178,7 +178,7 @@ function buildAdminEmail(d: Record<string, unknown>, dateStr: string): string {
     .filter(Boolean);
   const pagesHtml = pagesList.length
     ? pagesList.map((p, i) => `${i+1}. ${esc(p)}`).join('<br>')
-    : '<span style="color:#ccc;">—</span>';
+    : '<span style="color:#ccc;">non précisé</span>';
 
   const sections = [
     eBlock(1, 'À propos du porteur', [
@@ -200,7 +200,7 @@ function buildAdminEmail(d: Record<string, unknown>, dateStr: string): string {
     ].join('')),
 
     eBlock(3, 'Vos services', [
-      eRow('Prestations',      services || '<span style="color:#ccc;">—</span>'),
+      eRow('Prestations',      services || '<span style="color:#ccc;">non précisé</span>'),
       eRow('Tarifs en ligne',  rl('affichage_tarifs', 'affichage_tarifs')),
     ].join('')),
 
@@ -238,7 +238,7 @@ function buildAdminEmail(d: Record<string, unknown>, dateStr: string): string {
 
   <tr><td style="background:linear-gradient(135deg,#028183 0%,#1dbd8e 100%);padding:32px 36px;border-radius:8px 8px 0 0;">
     <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:500;">Caelestis · Questionnaire devis</p>
-    <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#fff;letter-spacing:-.02em;">Nouvelle demande de devis — ${esc(nominant)}</h1>
+    <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#fff;letter-spacing:-.02em;">Nouvelle demande de devis : ${esc(nominant)}</h1>
     <p style="margin:6px 0 0;font-size:12px;color:rgba(255,255,255,.4);">${esc(dateStr)}</p>
   </td></tr>
 
@@ -270,13 +270,13 @@ function buildClientEmail(d: Record<string, unknown>, dateStr: string): string {
   const prenom    = str(d['nom_dirigeant']) || str(d['nom_entreprise']) || 'Bonjour';
   const prenomEsc = esc(prenom);
 
-  const g  = (k: string, mx = 2000) => multiline(str(d[k], mx)) || '<span style="color:#bbb;">—</span>';
+  const g  = (k: string, mx = 2000) => multiline(str(d[k], mx)) || '<span style="color:#bbb;">non précisé</span>';
   const rl = (cat: string, k: string, otherK = '') => radioLabel(cat, str(d[k]), str(d[otherK]));
   const al = (k: string, cat: string, otherK = '') => arrLabel(toArr(d[k]), cat, str(d[otherK]));
 
-  const services   = [1,2,3,4,5].map(n => str(d[`service_${n}`])).filter(Boolean).map((sv, i) => `${i+1}. ${esc(sv)}`).join('<br>') || '<span style="color:#bbb;">—</span>';
+  const services   = [1,2,3,4,5].map(n => str(d[`service_${n}`])).filter(Boolean).map((sv, i) => `${i+1}. ${esc(sv)}`).join('<br>') || '<span style="color:#bbb;">non précisé</span>';
   const pagesList  = [1,2,3,4,5,6,7,8].map(n => str(d[`page_${n}`])).filter(Boolean);
-  const pagesHtml  = pagesList.length ? pagesList.map((p, i) => `${i+1}. ${esc(p)}`).join('<br>') : '<span style="color:#bbb;">—</span>';
+  const pagesHtml  = pagesList.length ? pagesList.map((p, i) => `${i+1}. ${esc(p)}`).join('<br>') : '<span style="color:#bbb;">non précisé</span>';
   const boutique   = str(d['boutique_actif']);
   const boutiqueRows = boutique === 'oui' ? eRow('Nb de produits', g('boutique_nb_produits')) : '';
 
@@ -390,10 +390,10 @@ function generateDevisPDF(d: Record<string, unknown>, dateStr: string): Promise<
     const LIGHT = '#F5F8FB';
     const W     = doc.page.width - 100;
 
-    const clean  = (k: string, mx = 1000) => str(d[k], mx) || '—';
+    const clean  = (k: string, mx = 1000) => str(d[k], mx) || 'non précisé';
     const chips  = (k: string, cat: string, otherK = '') => {
       const vals = toArr(d[k]);
-      if (!vals.length) return '—';
+      if (!vals.length) return 'non précisé';
       const map = CHECKBOX_LABELS[cat] ?? {};
       return vals.map(v => {
         if (v === 'autre') return str(d[otherK]) ? `Autre : ${str(d[otherK])}` : 'Autre';
@@ -449,7 +449,7 @@ function generateDevisPDF(d: Record<string, unknown>, dateStr: string): Promise<
       ['Zone géographique', clean('zone_geo')],
     ]);
 
-    const services = [1,2,3,4,5].map(n => str(d[`service_${n}`])).filter(Boolean).join('  ·  ') || '—';
+    const services = [1,2,3,4,5].map(n => str(d[`service_${n}`])).filter(Boolean).join('  ·  ') || 'non précisé';
     section('03', 'Vos services', [
       ['Prestations',      services],
       ['Tarifs en ligne',  radio('affichage_tarifs', 'affichage_tarifs')],
@@ -462,7 +462,7 @@ function generateDevisPDF(d: Record<string, unknown>, dateStr: string): Promise<
       ['Type de site',     radio('type_site', 'type_site')],
       ['Objectifs',        chips('objectifs', 'objectifs', 'objectifs_autre')],
       ['Nb de pages',      radio('nb_pages', 'nb_pages')],
-      ['Pages souhaitées', pagesList.length ? pagesList.map((p,i) => `${i+1}. ${p}`).join('  |  ') : '—'],
+      ['Pages souhaitées', pagesList.length ? pagesList.map((p,i) => `${i+1}. ${p}`).join('  |  ') : 'non précisé'],
       ['Fonctionnalités',  chips('fonctionnalites', 'fonctionnalites', 'fonctionnalites_autre')],
       ['Boutique',         radio('boutique_actif', 'boutique_actif')],
       ...boutiqueRows,
@@ -506,10 +506,10 @@ function generateDevisDocx(d: Record<string, unknown>, dateStr: string): Promise
   const LIGHT = 'F5F8FB';
   const MUTED = '52647A';
 
-  const clean = (k: string, mx = 1000) => str(d[k], mx) || '—';
+  const clean = (k: string, mx = 1000) => str(d[k], mx) || 'non précisé';
   const chips = (k: string, cat: string, otherK = '') => {
     const vals = toArr(d[k]);
-    if (!vals.length) return '—';
+    if (!vals.length) return 'non précisé';
     const map = CHECKBOX_LABELS[cat] ?? {};
     return vals.map(v => {
       if (v === 'autre') return str(d[otherK]) ? `Autre : ${str(d[otherK])}` : 'Autre';
@@ -583,7 +583,7 @@ function generateDevisDocx(d: Record<string, unknown>, dateStr: string): Promise
     spacer(),
 
     heading('Vos services', '03'),
-    dataRow('Prestations',    [1,2,3,4,5].map(n => str(d[`service_${n}`])).filter(Boolean).join('  ·  ') || '—'),
+    dataRow('Prestations',    [1,2,3,4,5].map(n => str(d[`service_${n}`])).filter(Boolean).join('  ·  ') || 'non précisé'),
     dataRow('Tarifs en ligne', radio('affichage_tarifs', 'affichage_tarifs')),
     spacer(),
 
@@ -591,7 +591,7 @@ function generateDevisDocx(d: Record<string, unknown>, dateStr: string): Promise
     dataRow('Type de site',     radio('type_site', 'type_site')),
     dataRow('Objectifs',        chips('objectifs', 'objectifs', 'objectifs_autre')),
     dataRow('Nb de pages',      radio('nb_pages', 'nb_pages')),
-    dataRow('Pages souhaitées', [1,2,3,4,5,6,7,8].map(n => str(d[`page_${n}`])).filter(Boolean).map((p,i) => `${i+1}. ${p}`).join('  ·  ') || '—'),
+    dataRow('Pages souhaitées', [1,2,3,4,5,6,7,8].map(n => str(d[`page_${n}`])).filter(Boolean).map((p,i) => `${i+1}. ${p}`).join('  ·  ') || 'non précisé'),
     dataRow('Fonctionnalités',  chips('fonctionnalites', 'fonctionnalites', 'fonctionnalites_autre')),
     dataRow('Boutique',         radio('boutique_actif', 'boutique_actif')),
     ...(str(d['boutique_actif']) === 'oui' ? [dataRow('Nb produits', clean('boutique_nb_produits'))] : []),
@@ -713,7 +713,7 @@ export const POST: APIRoute = async ({ request }) => {
         from:        '"Devis Caelestis" <contact@caelestis.fr>',
         to:          'contact@caelestis.fr',
         replyTo:     emailContact,
-        subject:     `[Devis] ${nominant} — ${str(body['activite']).slice(0, 60) || 'demande de devis'}`,
+        subject:     `[Devis] ${nominant} · ${str(body['activite']).slice(0, 60) || 'demande de devis'}`,
         html:        buildAdminEmail(body, dateStr),
         attachments: [
           { filename: `devis-${slug}-${dateSlug}.pdf`,  content: pdfBuffer,  contentType: 'application/pdf' },
@@ -721,7 +721,7 @@ export const POST: APIRoute = async ({ request }) => {
         ],
       }),
       transporter.sendMail({
-        from:    '"Célestin — Caelestis" <contact@caelestis.fr>',
+        from:    '"Célestin de Caelestis" <contact@caelestis.fr>',
         to:      emailContact,
         replyTo: 'contact@caelestis.fr',
         subject: 'Votre demande de devis Caelestis a bien été reçue',

@@ -124,9 +124,9 @@ const QC_LABELS: Record<string, string> = {
 
 const Q2_LABELS: Record<string, Record<string, string>> = {
   vitrine:   {
-    simple:   'Simple — 1 à 4 pages',
-    standard: 'Standard — 4 à 6 pages',
-    complet:  'Complet — 6 pages et plus',
+    simple:   'Simple · 1 à 4 pages',
+    standard: 'Standard · 4 à 6 pages',
+    complet:  'Complet · 6 pages et plus',
   },
   boutique:  {
     small:  '0 à 10 produits',
@@ -247,7 +247,7 @@ const PRICE_ZONES: Record<string, [PriceZone, PriceZone, PriceZone, PriceZone]> 
 
 const GB_ADDON = 150;
 const GB_LABELS: Record<string, string> = {
-  yes: 'Oui — optimisation incluse (+150 €)',
+  yes: 'Oui, optimisation incluse (+150 €)',
   no:  'Non, pas pour l\'instant',
 };
 
@@ -280,7 +280,7 @@ function calculateEstimate(
 
 function getSummaryLine(type: string, q2: string, q3: string, qc: string, q2Other: string, q3Other: string, _qcOther: string): string {
   if (type === 'vitrine') {
-    const pages: Record<string, string> = { simple: '1–4 pages', standard: '4–6 pages', complet: '6 pages et +' };
+    const pages: Record<string, string> = { simple: '1 à 4 pages', standard: '4 à 6 pages', complet: '6 pages et +' };
     const cont:  Record<string, string> = {
       ready:    'contenus prêts',
       has_logo: 'logo existant, textes à rédiger',
@@ -289,7 +289,7 @@ function getSummaryLine(type: string, q2: string, q3: string, qc: string, q2Othe
     return `Site vitrine ${pages[q2] ?? esc(q2Other)}, ${cont[q3] ?? esc(q3Other)}.`;
   }
   if (type === 'boutique') {
-    const prods: Record<string, string> = { small: '0–10 produits', medium: '10–30 produits', large: '30–50 produits' };
+    const prods: Record<string, string> = { small: '0 à 10 produits', medium: '10 à 30 produits', large: '30 à 50 produits' };
     const stock: Record<string, string> = { starting: 'démarrage', existing: 'stock existant à importer', collective: 'boutique collective' };
     const vol:   Record<string, string> = { few: 'peu de contenu', moderate: 'volume modéré', rich: 'catalogue dense' };
     const v = vol[qc] ? `, ${vol[qc]}` : '';
@@ -376,7 +376,7 @@ function buildProspectEmail(p: {
         <table cellpadding="0" cellspacing="0" width="100%">
           <tr><td style="background-color:#3d4f28;padding:22px 24px 20px;border-radius:10px;text-align:center;">
             <p style="margin:0 0 10px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(237,227,212,0.5);">${typeLabel}</p>
-            <p class="em-price" style="margin:0;font-size:34px;font-weight:700;color:#EDE3D0;letter-spacing:-0.03em;line-height:1.1;">${p.low.toLocaleString('fr-FR')}&nbsp;€&ensp;<span style="font-weight:200;font-size:22px;color:rgba(237,227,212,0.35);">–</span>&ensp;${p.high.toLocaleString('fr-FR')}&nbsp;€</p>
+            <p class="em-price" style="margin:0;font-size:34px;font-weight:700;color:#EDE3D0;letter-spacing:-0.03em;line-height:1.1;">${p.low.toLocaleString('fr-FR')}&nbsp;€&ensp;<span style="font-weight:200;font-size:22px;color:rgba(237,227,212,0.35);">à</span>&ensp;${p.high.toLocaleString('fr-FR')}&nbsp;€</p>
             <p style="margin:10px 0 0;font-size:11px;color:rgba(237,227,212,0.32);letter-spacing:0.02em;">Estimation indicative · devis précis après échange</p>
           </td></tr>
         </table>
@@ -400,7 +400,7 @@ function buildProspectEmail(p: {
 
       <!-- CTA -->
       <tr><td class="em-pad" style="background-color:#FDFAF5;padding:24px 36px 28px;">
-        <p style="margin:0 0 20px;font-size:14px;color:#6B6040;line-height:1.7;">Cette fourchette est un premier repère. Pour un devis précis, je vous propose un <strong style="color:#3d4f28;">appel gratuit de 20 minutes</strong> — sans engagement.</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#6B6040;line-height:1.7;">Cette fourchette est un premier repère. Pour un devis précis, je vous propose un <strong style="color:#3d4f28;">appel gratuit de 20 minutes</strong>, sans engagement.</p>
         <table class="em-btn" cellpadding="0" cellspacing="0">
           <tr><td style="background-color:#3d4f28;padding:13px 30px;border-radius:8px;text-align:center;">
             <a href="https://caelestis.fr/contact" style="font-size:14px;font-weight:600;color:#EDE3D0;text-decoration:none;letter-spacing:0.03em;white-space:nowrap;">Discutons de votre projet →</a>
@@ -469,7 +469,7 @@ function buildAdminEmail(p: {
       <tr><td style="background-color:#FDFAF5;padding:24px 40px 0;">
         <p style="margin:0 0 14px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#889063;font-weight:600;border-bottom:1px solid #EDE3D0;padding-bottom:10px;">Coordonnées</p>
         <table cellpadding="0" cellspacing="0" width="100%">
-          ${[['Prénom', safePrenom], ['Entreprise', esc(p.company) || '—'], ['Activité', esc(p.activity)]].map(([label, value]) => `
+          ${[['Prénom', safePrenom], ['Entreprise', esc(p.company) || 'non précisé'], ['Activité', esc(p.activity)]].map(([label, value]) => `
           <tr>
             <td style="padding:8px 0;border-bottom:1px solid #EDE3D0;width:120px;vertical-align:top;">
               <p style="margin:0;font-size:11px;color:#A08060;letter-spacing:0.08em;text-transform:uppercase;">${label}</p>
@@ -659,17 +659,17 @@ export const POST: APIRoute = async ({ request }) => {
 
     const [prospectResult, adminResult] = await Promise.allSettled([
       transporter.sendMail({
-        from:    '"Célestin — Caelestis" <contact@caelestis.fr>',
+        from:    '"Célestin de Caelestis" <contact@caelestis.fr>',
         to:      email,
         replyTo: 'contact@caelestis.fr',
-        subject: `Votre estimation Caelestis — entre ${low.toLocaleString('fr-FR')} € et ${high.toLocaleString('fr-FR')} €`,
+        subject: `Votre estimation Caelestis : entre ${low.toLocaleString('fr-FR')} € et ${high.toLocaleString('fr-FR')} €`,
         html:    buildProspectEmail(prospectParams as Parameters<typeof buildProspectEmail>[0]),
       }),
       transporter.sendMail({
         from:    '"Simulateur Caelestis" <contact@caelestis.fr>',
         to:      'contact@caelestis.fr',
         replyTo: email,
-        subject: `[Simulateur] ${prenom} · ${activity} — ${low.toLocaleString('fr-FR')}€ / ${high.toLocaleString('fr-FR')}€`,
+        subject: `[Simulateur] ${prenom} · ${activity} · ${low.toLocaleString('fr-FR')}€ / ${high.toLocaleString('fr-FR')}€`,
         html:    buildAdminEmail({ ...baseParams, interest, date: dateStr } as Parameters<typeof buildAdminEmail>[0]),
       }),
     ]);
