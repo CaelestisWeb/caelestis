@@ -1,0 +1,10 @@
+content: suppression de tous les italiques et tirets (em-dash) des textes
+
+- italiques retires partout (footer, simulateur) + import police Lora italique supprime (perf)
+- tirets em-dash remplaces par ponctuation propre (virgule, deux-points, point, parentheses, middot)
+  dans : site-une-page, contact, services, simulateur, index, 404, footer, PriceSimulator,
+  DevisBrief, BaseLayout, cgv, mentions-legales, politique, questionnaires + alt d'images
+- horaires "Lun-Sam 9h-18h" -> "Du lundi au samedi, 9h a 18h"
+- traits d'union obligatoires conserves (Auvergne-Rhone-Alpes, e-mail, au-dela)
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>

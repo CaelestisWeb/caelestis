@@ -12,7 +12,7 @@ const breadcrumbContact = {
 
 ---
 <BaseLayout
-  title="Devis création de site internet — Contacter Caelestis"
+  title="Devis création de site internet · Contacter Caelestis"
   description="Discutons de votre projet. Devis gratuit et personnalisé pour votre site internet ou votre référencement SEO, en Auvergne-Rhône-Alpes. Réponse garantie sous 48h."
   schema={[breadcrumbContact]}
 >
@@ -66,7 +66,7 @@ const breadcrumbContact = {
 
         <div>
           <span class="block font-body text-[10px] tracking-[0.22em] uppercase text-sauge mb-1.5">Horaires</span>
-          <span class="font-display text-base font-light text-brun">Lun–Sam · 9h–18h</span>
+          <span class="font-display text-base font-light text-brun">Du lundi au samedi · 9h à 18h</span>
         </div>
       </div>
 
@@ -251,7 +251,7 @@ const breadcrumbContact = {
               <fieldset>
                 <legend class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Moment préféré <span class="text-ocre" aria-hidden="true">*</span><span class="sr-only">(requis)</span></legend>
                 <div class="flex flex-col xs:flex-row gap-2 sm:gap-3">
-                  {['Matin (9h–12h)', 'Après-midi (14h–18h)', 'Indifférent'].map((slot) => (
+                  {['Matin (9h à 12h)', 'Après-midi (14h à 18h)', 'Indifférent'].map((slot) => (
                     <label class="slot-label flex-1 flex items-center justify-center text-center px-3 py-2.5 border border-cream-dark bg-white/50 rounded-xl font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun min-h-[44px]">
                       <input type="radio" name="creneau" value={slot} class="sr-only" />
                       {slot}
@@ -329,7 +329,7 @@ const breadcrumbContact = {
                 <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
               </div>
               <p class="font-display text-xl font-light text-brun">Questionnaire envoyé !</p>
-              <p class="font-body text-sm text-brun-mid mt-2">Vérifiez votre boîte mail — votre questionnaire de devis vous y attend.</p>
+              <p class="font-body text-sm text-brun-mid mt-2">Vérifiez votre boîte mail : votre questionnaire de devis vous y attend.</p>
             </div>
 
             <form id="form-devis" class="space-y-5" novalidate>
@@ -625,7 +625,7 @@ const breadcrumbContact = {
 
   bindForm('form-message', 'error-message', 'success-message', 'Nous vous répondons sous 48h.');
   bindForm('form-appel',   'error-appel',   'success-appel',   'Nous vous confirmons le créneau sous 48h.');
-  bindForm('form-devis',   'error-devis',   'success-devis',   'Vérifiez votre boîte mail — votre questionnaire de devis vous y attend.');
+  bindForm('form-devis',   'error-devis',   'success-devis',   'Vérifiez votre boîte mail : votre questionnaire de devis vous y attend.');
 
   /* ══════════════════════════════════════════
      POPUP
@@ -661,7 +661,7 @@ const breadcrumbContact = {
 
   function showPopup(prenom: string, msg: string) {
     if (!popup || !popupCard) return;
-    if (thanksBody) thanksBody.textContent = `Merci ${prenom} — ${msg}`;
+    if (thanksBody) thanksBody.textContent = `Merci ${prenom}, ${msg}`;
     /* Mémorise l'élément focalisé avant l'ouverture pour le restaurer à la fermeture */
     previousFocus = document.activeElement as HTMLElement;
     popup.style.display = 'flex';
