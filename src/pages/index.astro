@@ -41,13 +41,18 @@ const localBusiness = {
   priceRange: '€€',
   currenciesAccepted: 'EUR',
   paymentAccepted: 'Virement bancaire, Carte bancaire',
-  areaServed: { '@type': 'Country', name: 'France' },
-  knowsAbout: ['Création de site web', 'Référencement naturel', 'SEO local Drôme', 'Développement Astro', 'Agence web Drôme', 'Création site internet Crest'],
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' },
+    { '@type': 'AdministrativeArea', name: 'Drôme' },
+    { '@type': 'AdministrativeArea', name: 'Ardèche' },
+    { '@type': 'Country', name: 'France' },
+  ],
+  knowsAbout: ['Création de site web', 'Référencement naturel', 'SEO local Auvergne-Rhône-Alpes', 'Agence web Auvergne-Rhône-Alpes', 'Développement Astro', 'Création site internet Drôme'],
   sameAs: ['https://share.google/IKYSIPaXxlTN0W5Zz'],
   serviceArea: {
     '@type': 'GeoCircle',
     geoMidpoint: { '@type': 'GeoCoordinates', latitude: '44.7308', longitude: '5.0197' },
-    geoRadius: '500000',
+    geoRadius: '220000',
   },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
@@ -192,7 +197,9 @@ const organizationSchema = {
     addressCountry: 'FR',
   },
   areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' },
     { '@type': 'AdministrativeArea', name: 'Drôme' },
+    { '@type': 'AdministrativeArea', name: 'Ardèche' },
     { '@type': 'Country', name: 'France' },
   ],
   foundingDate: '2024',
