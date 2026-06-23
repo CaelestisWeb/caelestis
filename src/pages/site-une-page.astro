@@ -40,14 +40,6 @@ const breadcrumb = {
   ],
 };
 
-// Ce qui est compris dans le Site une page
-const inclus = [
-  { t: 'Un design soigné, à votre image', d: 'Des couleurs et une mise en page choisies pour votre métier, loin des modèles génériques.' },
-  { t: 'Parfaitement lisible sur mobile', d: 'Votre site s\'adapte au téléphone, à la tablette et à l\'ordinateur, sans effort de votre part.' },
-  { t: 'Trouvable sur Google', d: 'Un référencement de base soigné, pour qu\'on vous trouve à votre nom et sur votre métier.' },
-  { t: 'Nom de domaine et mise en ligne', d: 'On s\'occupe de tout, de l\'adresse de votre site jusqu\'à sa mise en ligne.' },
-];
-
 // Les 3 temps du projet
 const etapes = [
   { n: '01', t: 'On échange', d: 'Un appel pour comprendre votre activité et ce que vous voulez montrer.' },
@@ -129,46 +121,18 @@ const anatomie = [
     </div>
   </section>
 
-  <!-- ── Ce qui est inclus ── -->
+  <!-- ── Ce que contient votre page (anatomie, fond vert) ── -->
   <section id="inclus" class="py-20 px-6 md:px-10 lg:px-20 bg-brun text-cream section-dark-depth relative overflow-hidden">
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute top-24 -left-24 w-72 h-72"></div>
     <div aria-hidden="true" class="light-blob light-blob-bois pointer-events-none absolute -bottom-10 right-0 w-80 h-80"></div>
 
-    <div class="max-w-5xl mx-auto relative">
+    <div class="max-w-3xl mx-auto relative">
       <div class="text-center mb-12" data-reveal>
-        <div class="inline-flex items-center gap-3 mb-4">
-          <span class="block w-8 h-px bg-sauge"></span>
-          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Ce qui est compris</p>
-          <span class="block w-8 h-px bg-sauge"></span>
-        </div>
-        <h2 class="font-display font-light leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem); color: rgba(237,227,212,0.94);">
-          Tout l'essentiel, rien de superflu.
-        </h2>
-      </div>
-
-      <div class="grid sm:grid-cols-2 gap-5 lg:gap-6" data-reveal data-delay="1">
-        {inclus.map((f) => (
-          <div class="bg-cream border border-cream-dark rounded-2xl p-6 lg:p-7 flex items-start gap-4">
-            <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
-            <div>
-              <h3 class="font-display text-lg font-light text-brun mb-1.5">{f.t}</h3>
-              <p class="font-body text-sm text-brun-mid leading-relaxed">{f.d}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Anatomie de la page ── -->
-  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
-    <div class="max-w-3xl mx-auto" data-reveal>
-      <div class="text-center mb-12">
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">L'anatomie de votre page</p>
-        <h2 class="font-display font-light text-brun leading-[1.15] mb-5" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+        <h2 class="font-display font-light leading-[1.15] mb-5" style="font-size: clamp(1.7rem, 3vw, 2.4rem); color: rgba(237,227,212,0.94);">
           Ce que contient votre page.
         </h2>
-        <p class="font-body text-base text-brun-mid leading-relaxed max-w-xl mx-auto">
+        <p class="font-body text-base leading-relaxed max-w-xl mx-auto" style="color: rgba(237,227,212,0.78);">
           De haut en bas, voici les sections que découvre votre visiteur en faisant défiler votre page.
         </p>
       </div>
@@ -176,8 +140,8 @@ const anatomie = [
       <div class="max-w-lg mx-auto space-y-2.5" data-reveal data-delay="1">
         {anatomie.map((s, i) => (
           <div
-            class={`rounded-xl px-5 py-3.5 ${i === 0 ? 'border border-transparent' : 'bg-cream/70 border border-cream-dark border-l-[3px] border-l-sauge'}`}
-            style={i === 0 ? 'background: linear-gradient(135deg, #889063, #6B7A4A); box-shadow: 0 6px 18px rgba(61,79,40,0.18);' : ''}
+            class={`rounded-xl px-5 py-3.5 ${i === 0 ? '' : 'bg-cream border-l-[3px] border-l-sauge'}`}
+            style={i === 0 ? 'background: linear-gradient(135deg, #9AA275, #6B7A4A); box-shadow: 0 6px 18px rgba(0,0,0,0.20);' : ''}
           >
             <h3 class={`font-display text-base font-light ${i === 0 ? 'text-cream' : 'text-brun'}`}>{s.t}</h3>
             <p class={`font-body text-xs leading-snug mt-0.5 ${i === 0 ? 'text-cream/85' : 'text-brun-mid'}`}>{s.d}</p>
@@ -185,7 +149,7 @@ const anatomie = [
         ))}
       </div>
 
-      <p class="text-center font-body text-sm text-brun-mid/80 mt-8 max-w-xl mx-auto" data-reveal data-delay="2">
+      <p class="text-center font-body text-sm mt-8 max-w-xl mx-auto" style="color: rgba(237,227,212,0.65);" data-reveal data-delay="2">
         On choisit ensemble les sections utiles à votre activité. Certaines sont optionnelles : votre page reste simple et lisible.
       </p>
     </div>
