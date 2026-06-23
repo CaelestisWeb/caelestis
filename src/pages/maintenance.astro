@@ -8,7 +8,7 @@ const schema = {
   name: 'Maintenance mensuelle de site internet · Caelestis',
   description: 'Abonnement mensuel de maintenance technique de site internet pour artisans, indépendants et petites entreprises en France : sécurité, sauvegardes et surveillance.',
   provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
-  areaServed: { '@type': 'Country', name: 'France' },
+  areaServed: [{ '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' }, { '@type': 'Country', name: 'France' }],
   offers: [
     { '@type': 'Offer', name: 'Maintenance site vitrine',      priceSpecification: { '@type': 'PriceSpecification', price: '9.99',  priceCurrency: 'EUR', unitText: 'MONTH' } },
     { '@type': 'Offer', name: 'Maintenance boutique en ligne',  priceSpecification: { '@type': 'PriceSpecification', price: '14.99', priceCurrency: 'EUR', unitText: 'MONTH' } },

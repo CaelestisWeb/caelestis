@@ -6,7 +6,7 @@ const servicesSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'Prestations Caelestis',
-  description: 'Sites web sur mesure et référencement naturel pour artisans, indépendants et petites entreprises partout en France. Agence basée à Crest, dans la Drôme.',
+  description: 'Sites web sur mesure et référencement naturel pour artisans, indépendants et petites entreprises en Auvergne-Rhône-Alpes. Agence basée à Crest, dans la Drôme.',
   url: 'https://caelestis.fr/services',
   numberOfItems: 5,
   itemListElement: [
@@ -18,7 +18,7 @@ const servicesSchema = {
         name: 'Site vitrine',
         description: "Votre activité présentée clairement, visible sur Google, lisible sur tout type d'écran.",
         provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
-        areaServed: { '@type': 'Country', name: 'France' },
+        areaServed: [{ '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' }, { '@type': 'Country', name: 'France' }],
         offers: {
           '@type': 'Offer',
           priceSpecification: {
@@ -37,7 +37,7 @@ const servicesSchema = {
         name: 'Boutique en ligne',
         description: 'Catalogue en ligne, paiement sécurisé, connecté à votre logiciel de gestion.',
         provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
-        areaServed: { '@type': 'Country', name: 'France' },
+        areaServed: [{ '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' }, { '@type': 'Country', name: 'France' }],
         offers: {
           '@type': 'Offer',
           priceSpecification: {
@@ -56,7 +56,7 @@ const servicesSchema = {
         name: 'Référencement naturel (SEO)',
         description: "Apparaître en tête des résultats quand vos clients vous cherchent. Référencement local et national.",
         provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
-        areaServed: { '@type': 'Country', name: 'France' },
+        areaServed: [{ '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' }, { '@type': 'Country', name: 'France' }],
       },
     },
     {
@@ -67,7 +67,7 @@ const servicesSchema = {
         name: 'Refonte de site existant',
         description: 'Votre site date ou ne vous ressemble plus ? On repart proprement sur de bonnes bases.',
         provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
-        areaServed: { '@type': 'Country', name: 'France' },
+        areaServed: [{ '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' }, { '@type': 'Country', name: 'France' }],
       },
     },
     {
@@ -78,7 +78,7 @@ const servicesSchema = {
         name: 'Maintenance & accompagnement',
         description: 'Évolutions, mises à jour, nouvelles pages — forfait mensuel ou à la tâche.',
         provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
-        areaServed: { '@type': 'Country', name: 'France' },
+        areaServed: [{ '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' }, { '@type': 'Country', name: 'France' }],
       },
     },
   ],
