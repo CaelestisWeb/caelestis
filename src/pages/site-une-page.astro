@@ -1,0 +1,218 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+
+const canonical = 'https://caelestis.fr/site-une-page';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Page unique',
+  serviceType: 'Création de site internet une page',
+  description: "Création d'un site internet professionnel en une seule page pour artisans, producteurs et indépendants. L'essentiel de votre activité, soigné et visible sur Google, à partir de 499,99 €.",
+  provider: {
+    '@type': 'LocalBusiness',
+    '@id': 'https://caelestis.fr/#business',
+    name: 'Caelestis',
+    url: 'https://caelestis.fr',
+    address: { '@type': 'PostalAddress', addressLocality: 'Crest', addressRegion: 'Drôme', postalCode: '26400', addressCountry: 'FR' },
+  },
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' },
+    { '@type': 'Country', name: 'France' },
+  ],
+  offers: {
+    '@type': 'Offer',
+    priceSpecification: {
+      '@type': 'PriceSpecification',
+      price: '499.99',
+      priceCurrency: 'EUR',
+    },
+  },
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Site une page', item: canonical },
+  ],
+};
+
+// Ce qui est compris dans le Site une page
+const inclus = [
+  { t: 'Une page complète et structurée', d: 'Présentation, services ou produits, à propos, contact — toute votre activité sur une seule page bien organisée.' },
+  { t: 'Un design soigné, à votre image', d: 'Des couleurs et une mise en page choisies pour votre métier, loin des modèles génériques.' },
+  { t: 'Parfaitement lisible sur mobile', d: 'Votre site s\'adapte au téléphone, à la tablette et à l\'ordinateur, sans effort de votre part.' },
+  { t: 'Contact en un geste', d: 'Formulaire, numéro cliquable, e-mail et itinéraire : vos visiteurs vous joignent immédiatement.' },
+  { t: 'Trouvable sur Google', d: 'Référencement de base soigné pour qu\'on vous trouve à votre nom et sur votre activité.' },
+  { t: 'Nom de domaine et mise en ligne', d: 'On s\'occupe de tout, de l\'adresse de votre site jusqu\'à sa mise en ligne accompagnée.' },
+];
+
+// Les 3 temps du projet
+const etapes = [
+  { n: '01', t: 'On échange', d: 'Un appel pour comprendre votre activité et ce que vous voulez montrer.' },
+  { n: '02', t: 'On crée la maquette', d: 'Vous découvrez à quoi ressemblera votre site avant tout engagement.' },
+  { n: '03', t: 'On met en ligne', d: 'Votre site est publié en quelques jours, prêt à vous faire connaître.' },
+];
+---
+
+<BaseLayout
+  title="Page unique · Site une page dès 499,99 € · Caelestis"
+  description="La Page unique : un site professionnel en une seule page, dès 499,99 €. L'essentiel de votre activité, soigné et visible sur Google, pour démarrer vite."
+  canonical={canonical}
+  schema={[schema, breadcrumb]}
+>
+
+  <!-- ── Hero ── -->
+  <section class="pt-20 pb-16 md:pt-24 px-6 md:px-10 lg:px-20 border-b border-cream-dark section-ambient overflow-hidden relative" style="isolation: isolate;">
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-20 -right-24 w-[420px] h-[420px]"></div>
+    <div aria-hidden="true" class="light-blob light-blob-ocre pointer-events-none absolute bottom-0 left-1/4 w-56 h-56"></div>
+
+    <div class="max-w-4xl mx-auto relative text-center">
+      <div class="inline-flex items-center gap-2 mb-6" data-reveal>
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Page unique · pour démarrer</p>
+      </div>
+      <h1
+        class="font-display font-light text-brun leading-[1.06] tracking-tight max-w-3xl mx-auto"
+        style="font-size: clamp(2.1rem, 5vw, 3.9rem);"
+        data-reveal data-delay="1"
+      >
+        Une seule page suffit<br class="hidden sm:block"> pour <span class="text-sauge">exister en ligne.</span>
+      </h1>
+      <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed mx-auto" data-reveal data-delay="2">
+        L'essentiel de votre activité, soigné sur une seule page. Une présence professionnelle, claire et trouvable sur Google — sans gros budget et mise en ligne en quelques jours.
+      </p>
+
+      <!-- Prix -->
+      <div class="mt-9 inline-flex flex-col items-center" data-reveal data-delay="2">
+        <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid/70 mb-1">À partir de</p>
+        <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.6rem, 6vw, 3.6rem); letter-spacing: -0.025em;">
+          <span class="text-sauge">499,99</span><span class="text-bois-mid text-2xl ml-1">€</span>
+        </p>
+      </div>
+
+      <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4" data-reveal data-delay="3">
+        <Button href="/contact#devis" variant="primary">Demander un devis</Button>
+        <Button href="#inclus" variant="outline">Voir ce qui est inclus</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pour qui ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20">
+    <div class="max-w-3xl mx-auto text-center" data-reveal>
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Pour qui</p>
+      <h2 class="font-display font-light text-brun leading-[1.15] mb-6" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+        Le premier pas, fait avec soin.
+      </h2>
+      <p class="font-body text-base text-brun-mid leading-relaxed">
+        Vous êtes artisan, producteur, créateur ou indépendant, et vous n'avez pas encore de site — ou seulement une page Facebook. La Page unique est pensée pour vous : une présence en ligne propre et professionnelle, qui va à l'essentiel, sans la complexité ni le coût d'un grand site. De quoi être visible, crédible et joignable, dès maintenant.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Ce qui est inclus ── -->
+  <section id="inclus" class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient relative overflow-hidden">
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute top-24 -left-24 w-72 h-72"></div>
+
+    <div class="max-w-5xl mx-auto relative">
+      <div class="text-center mb-12" data-reveal>
+        <div class="inline-flex items-center gap-3 mb-4">
+          <span class="block w-8 h-px bg-sauge"></span>
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Ce qui est compris</p>
+          <span class="block w-8 h-px bg-sauge"></span>
+        </div>
+        <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Tout l'essentiel, rien de superflu.
+        </h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-5 lg:gap-6" data-reveal data-delay="1">
+        {inclus.map((f) => (
+          <div class="bg-cream border border-cream-dark rounded-2xl p-6 lg:p-7 flex items-start gap-4">
+            <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
+            <div>
+              <h3 class="font-display text-lg font-light text-brun mb-1.5">{f.t}</h3>
+              <p class="font-body text-sm text-brun-mid leading-relaxed">{f.d}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Simple, rapide & au juste prix ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
+    <div class="max-w-4xl mx-auto" data-reveal>
+      <div class="text-center mb-12">
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Comment ça se passe</p>
+        <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Simple, rapide, sans surprise.
+        </h2>
+      </div>
+
+      <!-- 3 temps -->
+      <div class="grid sm:grid-cols-3 gap-5 lg:gap-6 mb-12" data-reveal data-delay="1">
+        {etapes.map((e) => (
+          <div class="text-center">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cream border border-sauge/50 font-display text-base text-sauge mb-4">{e.n}</span>
+            <h3 class="font-display text-lg font-light text-brun mb-2">{e.t}</h3>
+            <p class="font-body text-sm text-brun-mid leading-relaxed">{e.d}</p>
+          </div>
+        ))}
+      </div>
+
+      <!-- Le périmètre clair -->
+      <div class="max-w-2xl mx-auto bg-cream border border-cream-dark rounded-2xl p-7 lg:p-8 text-center" data-reveal data-delay="2">
+        <p class="font-body text-sm text-brun-mid leading-relaxed">
+          <span class="font-semibold text-brun">Un cadre clair :</span> une page soignée, avec un aller-retour de retouches compris pour ajuster ensemble le résultat. Au-delà — pages supplémentaires, vente en ligne, fonctions avancées — on bascule simplement vers un <a href="/services" class="text-sauge hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">site vitrine ou une boutique</a>, sur devis.
+        </p>
+        <div class="mt-6 pt-6 border-t border-cream-dark flex flex-col sm:flex-row items-center justify-center gap-x-8 gap-y-3">
+          <p class="font-body text-sm font-semibold text-sauge">499,99 € · 30 % d'acompte à la signature</p>
+          <span class="hidden sm:block text-bois-mid/30">·</span>
+          <p class="font-body text-sm text-brun-mid">
+            Maintenance en option, dès <a href="/maintenance" class="text-sauge hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">7,99 € / mois</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="relative py-20 px-6 md:px-10 lg:px-20 overflow-hidden section-ambient border-t border-cream-dark" data-reveal>
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-12 right-1/4 w-64 h-64"></div>
+    <div aria-hidden="true" class="light-blob light-blob-ocre pointer-events-none absolute -bottom-8 left-1/3 w-56 h-56"></div>
+
+    <div class="max-w-2xl mx-auto text-center relative">
+      <svg aria-hidden="true" class="mx-auto mb-6 opacity-20" width="48" height="66" viewBox="0 0 60 100" fill="none">
+        <path d="M30 0 C38 16 55 36 50 58 C44 78 30 100 30 100 C30 100 16 78 10 58 C5 36 22 16 30 0Z" fill="#354024"/>
+        <path d="M30 98 Q31.5 62 30 4" stroke="#889063" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M30 60 C26 54 20 52 16 56" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M30 60 C34 54 40 52 44 56" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <h2 class="font-display text-3xl md:text-4xl font-light text-brun mb-5 leading-[1.1]">
+        Prêt à exister<br><span class="text-sauge">en ligne&nbsp;?</span>
+      </h2>
+      <p class="font-body text-base text-brun-mid mb-10 leading-relaxed">
+        Décrivez votre activité en quelques lignes. On revient vers vous sous 48h, avec plaisir.
+      </p>
+      <Button href="/contact#devis" variant="primary">Demander un devis</Button>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* Pastille check sauge des fonctionnalités */
+  .sup-check {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='7.25' stroke='%23889063' stroke-width='1.5'/%3E%3Cpath d='M4.5 8.2 L6.8 10.5 L11.5 5.5' stroke='%23889063' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+</style>

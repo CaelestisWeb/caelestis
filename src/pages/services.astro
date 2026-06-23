@@ -8,7 +8,7 @@ const servicesSchema = {
   name: 'Prestations Caelestis',
   description: 'Sites web sur mesure et référencement naturel pour artisans, indépendants et petites entreprises en Auvergne-Rhône-Alpes. Agence basée à Crest, dans la Drôme.',
   url: 'https://caelestis.fr/services',
-  numberOfItems: 5,
+  numberOfItems: 6,
   itemListElement: [
     {
       '@type': 'ListItem',
@@ -81,6 +81,26 @@ const servicesSchema = {
         areaServed: [{ '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' }, { '@type': 'Country', name: 'France' }],
       },
     },
+    {
+      '@type': 'ListItem',
+      position: 6,
+      item: {
+        '@type': 'Service',
+        name: 'Page unique',
+        description: "L'essentiel de votre activité sur une seule page. La solution accessible pour démarrer simplement et être visible sur Google.",
+        url: 'https://caelestis.fr/site-une-page',
+        provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
+        areaServed: [{ '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' }, { '@type': 'Country', name: 'France' }],
+        offers: {
+          '@type': 'Offer',
+          priceSpecification: {
+            '@type': 'PriceSpecification',
+            price: '499.99',
+            priceCurrency: 'EUR',
+          },
+        },
+      },
+    },
   ],
 };
 
@@ -123,7 +143,7 @@ const etapes = [
 ---
 <BaseLayout
   title="Création de site internet · Tarifs & Prestations · Caelestis"
-  description="Site vitrine dès 800 €, boutique dès 1 200 €, sur mesure dès 2 500 €. Livraison en 2 à 6 semaines. Devis gratuit sous 48h pour artisans et indépendants."
+  description="Site une page dès 499,99 €, vitrine dès 800 €, boutique dès 1 200 €, sur mesure dès 2 500 €. Devis gratuit sous 48h pour artisans et indépendants."
   schema={[servicesSchema, breadcrumbServices]}
 >
 
@@ -520,6 +540,32 @@ const etapes = [
             <span class="block w-8 h-px bg-sauge"></span>
           </div>
         </div>
+
+        <!-- Offre d'entrée : Site une page (mise en avant) -->
+        <a href="/site-une-page" class="group block max-w-5xl mx-auto mb-5 rounded-2xl border border-sauge/40 bg-cream p-7 sm:p-8 lg:px-10 transition-all duration-300 hover:border-sauge/70 hover:shadow-[0_12px_30px_rgba(76,61,25,0.10)]" data-reveal>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8">
+            <div class="flex-1 min-w-0 text-center sm:text-left">
+              <div class="inline-flex items-center gap-2 mb-3">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
+                <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Pour démarrer</p>
+              </div>
+              <h3 class="font-display text-2xl font-light text-brun mb-1">Page unique</h3>
+              <p class="font-body text-sm font-medium text-brun mb-2.5">L'essentiel en une page</p>
+              <p class="font-body text-sm text-brun-mid leading-relaxed max-w-md">
+                Une présence professionnelle et soignée, pour démarrer simplement et vite.
+              </p>
+            </div>
+            <div class="shrink-0 text-center sm:text-right">
+              <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid/70 mb-1">À partir de</p>
+              <p class="font-display font-light text-brun leading-none mb-3" style="font-size: clamp(2rem, 4vw, 2.6rem); letter-spacing: -0.025em;">
+                <span class="text-sauge">499,99</span><span class="text-bois-mid text-lg ml-0.5">€</span>
+              </p>
+              <span class="inline-flex items-center gap-1.5 font-body text-sm font-medium text-sauge group-hover:gap-2.5 transition-all">
+                Découvrir l'offre <span aria-hidden="true">→</span>
+              </span>
+            </div>
+          </div>
+        </a>
 
         <!-- Trois typologies : Vitrine · Boutique · Sur mesure -->
         <div class="grid sm:grid-cols-3 gap-px bg-cream-dark border border-cream-dark rounded-2xl overflow-hidden max-w-5xl mx-auto" data-reveal data-delay="1">
