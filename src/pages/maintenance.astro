@@ -10,6 +10,7 @@ const schema = {
   provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
   areaServed: [{ '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' }, { '@type': 'Country', name: 'France' }],
   offers: [
+    { '@type': 'Offer', name: 'Maintenance site une page',     priceSpecification: { '@type': 'PriceSpecification', price: '7.99',  priceCurrency: 'EUR', unitText: 'MONTH' } },
     { '@type': 'Offer', name: 'Maintenance site vitrine',      priceSpecification: { '@type': 'PriceSpecification', price: '9.99',  priceCurrency: 'EUR', unitText: 'MONTH' } },
     { '@type': 'Offer', name: 'Maintenance boutique en ligne',  priceSpecification: { '@type': 'PriceSpecification', price: '14.99', priceCurrency: 'EUR', unitText: 'MONTH' } },
     { '@type': 'Offer', name: 'Maintenance site sur mesure',    priceSpecification: { '@type': 'PriceSpecification', price: '19.99', priceCurrency: 'EUR', unitText: 'MONTH' } },
@@ -28,6 +29,18 @@ const breadcrumb = {
 
 // Abonnement maintenance — un tarif par type de site (maintenance technique uniquement)
 const formules = [
+  {
+    type: 'Page unique',
+    prix: '7,99',
+    desc: 'Pour garder votre Page unique en ligne, rapide et sécurisée.',
+    lien: 'https://buy.stripe.com/9B63cugAK8XR0jE6hEdAk0c',
+    feats: [
+      '1 mise à jour par mois',
+      'Site protégé et sécurisé',
+      'Sauvegardes régulières',
+      'Toujours en ligne',
+    ],
+  },
   {
     type: 'Vitrine',
     prix: '9,99',
@@ -77,7 +90,7 @@ const couvert = [
 
 <BaseLayout
   title="Maintenance de site internet · Caelestis"
-  description="Abonnement de maintenance pour site vitrine, boutique en ligne et site sur mesure. Sécurité, sauvegardes et surveillance technique. Dès 9,99 € par mois, sans engagement."
+  description="Abonnement de maintenance pour site une page, vitrine, boutique en ligne et site sur mesure. Sécurité, sauvegardes et surveillance technique. Dès 7,99 € par mois, sans engagement."
   schema={[schema, breadcrumb]}
   noindex={true}
 >
@@ -136,7 +149,7 @@ const couvert = [
               <li class="feat-std flex items-start justify-center gap-3 font-body text-sm text-brun leading-snug">{c}</li>
             ))}
           </ul>
-          <p class="font-body text-sm font-semibold text-sauge">Dès 9,99 € par mois, selon votre site.</p>
+          <p class="font-body text-sm font-semibold text-sauge">Dès 7,99 € par mois, selon votre site.</p>
         </div>
 
         <!-- 2. Modifications -->
@@ -162,7 +175,7 @@ const couvert = [
 
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute top-40 -left-24 w-72 h-72"></div>
 
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-6xl mx-auto">
 
       <div class="text-center mb-12" data-reveal>
         <div class="inline-flex items-center gap-3 mb-4">
@@ -178,8 +191,8 @@ const couvert = [
         </p>
       </div>
 
-      <!-- 3 cartes : une par type de site -->
-      <div class="grid sm:grid-cols-3 gap-5 lg:gap-6 items-stretch" data-reveal data-delay="1">
+      <!-- 4 cartes : une par type de site -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 items-stretch" data-reveal data-delay="1">
         {formules.map((f) => (
           <div class="bg-cream border-2 border-sauge/30 rounded-2xl p-6 lg:p-8 flex flex-col text-center">
             <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">{f.type}</p>
