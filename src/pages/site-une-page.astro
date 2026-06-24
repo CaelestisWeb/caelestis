@@ -137,15 +137,12 @@ const anatomie = [
         </p>
       </div>
 
-      <div class="max-w-lg mx-auto space-y-2.5" data-reveal data-delay="1">
+      <div class="anat-list max-w-lg mx-auto space-y-2.5" data-reveal data-delay="1">
         {anatomie.map((s, i) => (
-          <div
-            class={`rounded-xl px-5 py-3.5 ${i === 0 ? '' : 'bg-cream border-l-[3px] border-l-sauge'}`}
-            style={i === 0 ? 'background: linear-gradient(135deg, #9AA275, #6B7A4A); box-shadow: 0 6px 18px rgba(0,0,0,0.20);' : ''}
-          >
-            <h3 class={`font-display text-base font-light ${i === 0 ? 'text-cream' : 'text-brun'}`}>{s.t}</h3>
-            <p class={`font-body text-xs leading-snug mt-0.5 ${i === 0 ? 'text-cream/85' : 'text-brun-mid'}`}>{s.d}</p>
-          </div>
+          <button type="button" class={`anat-block ${i === 0 ? 'is-selected' : ''}`} aria-pressed={i === 0 ? 'true' : 'false'}>
+            <span class="anat-title">{s.t}</span>
+            <span class="anat-desc">{s.d}</span>
+          </button>
         ))}
       </div>
 
@@ -239,4 +236,86 @@ const anatomie = [
     background-repeat: no-repeat;
     background-size: contain;
   }
+
+  /* ── Anatomie : cases sélectionnables au clic ── */
+  .anat-block {
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: 0;
+    border-left: 3px solid #889063;
+    border-radius: 12px;
+    padding: 14px 20px;
+    background: #EDE3D4;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: background 0.45s ease,
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.45s ease,
+                border-color 0.3s ease,
+                border-left-width 0.25s ease;
+  }
+  .anat-block .anat-title {
+    display: block;
+    font-family: 'Lora', serif;
+    font-weight: 300;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+    color: #3d4f28;
+    transition: color 0.3s ease;
+  }
+  .anat-block .anat-desc {
+    display: block;
+    margin-top: 3px;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: #6B6040;
+    transition: color 0.3s ease;
+  }
+  .anat-block:hover:not(.is-selected) {
+    border-left-width: 6px;
+    transform: translateX(3px);
+  }
+  .anat-block.is-selected {
+    background: linear-gradient(135deg, #9AA275, #6B7A4A);
+    border-left-color: transparent;
+    transform: scale(1.025);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
+  }
+  .anat-block.is-selected .anat-title { color: #EDE3D4; }
+  .anat-block.is-selected .anat-desc { color: rgba(237, 227, 212, 0.85); }
+  .anat-block:focus-visible {
+    outline: 2px solid #EDE3D4;
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .anat-block {
+      transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .anat-block:hover:not(.is-selected),
+    .anat-block.is-selected { transform: none; }
+  }
 </style>
+
+<script>
+  /* Anatomie : une seule section sélectionnée à la fois.
+     Délégation sur document : survit aux navigations View Transitions,
+     liée une seule fois grâce au flag window. */
+  if (!(window as Window & { __anatBound?: boolean }).__anatBound) {
+    (window as Window & { __anatBound?: boolean }).__anatBound = true;
+    document.addEventListener('click', (e) => {
+      const block = (e.target as HTMLElement).closest('.anat-block');
+      if (!block) return;
+      const list = block.closest('.anat-list');
+      if (!list) return;
+      list.querySelectorAll('.anat-block').forEach((x) => {
+        x.classList.remove('is-selected');
+        x.setAttribute('aria-pressed', 'false');
+      });
+      block.classList.add('is-selected');
+      block.setAttribute('aria-pressed', 'true');
+    });
+  }
+</script>
