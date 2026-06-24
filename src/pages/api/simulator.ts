@@ -261,7 +261,9 @@ const PRICE_ZONES: Record<string, [PriceZone, PriceZone, PriceZone, PriceZone]> 
   ],
 };
 
-const GB_ADDON = 150;
+const GB_ADDON_DEFAULT = 150;
+const GB_ADDON_BY_TYPE: Record<string, number> = { pageUnique: 100 };
+function gbAddon(dt: string): number { return GB_ADDON_BY_TYPE[dt] ?? GB_ADDON_DEFAULT; }
 const GB_LABELS: Record<string, string> = {
   yes: 'Oui, optimisation incluse (+150 €)',
   no:  'Non, pas pour l\'instant',
@@ -289,7 +291,7 @@ function calculateEstimate(
   const ratio   = maxS > 0 ? score / maxS : 0;
   const zoneIdx = ratio < 0.25 ? 0 : ratio < 0.5 ? 1 : ratio < 0.75 ? 2 : 3;
   const zone    = PRICE_ZONES[dt]?.[zoneIdx] ?? { low: 800, high: 1000 };
-  const gbBonus = gbVals.includes('yes') ? GB_ADDON : 0;
+  const gbBonus = gbVals.includes('yes') ? gbAddon(dt) : 0;
 
   return { low: zone.low + gbBonus, high: zone.high + gbBonus };
 }
@@ -656,7 +658,7 @@ export const POST: APIRoute = async ({ request }) => {
     const q3Label    = getAnswerLabels(q3Vals, q3Other, Q3_LABELS[dt] ?? {});
     const qcLabel    = getAnswerLabels(qcVals, qcOther, QC_LABELS);
     const q4Label    = getAnswerLabels(q4Vals, q4Other, Q4_LABELS);
-    const gbLabel    = gbVals.length > 0 ? (GB_LABELS[gbVals[0]] ?? gbVals[0]) : 'Non renseigné';
+    const gbLabel    = gbVals.length === 0 ? 'Non renseigné' : gbVals[0] === 'yes' ? `Oui, optimisation incluse (+${gbAddon(dt)} €)` : (GB_LABELS[gbVals[0]] ?? gbVals[0]);
     const q2Question = Q2_QUESTION[dt] ?? 'Détail';
     const q3Question = Q3_QUESTION[dt] ?? 'Détail';
     const qcQuestion = QC_QUESTION[dt] ?? 'Volume de contenu';
