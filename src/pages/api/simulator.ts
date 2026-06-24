@@ -67,7 +67,7 @@ function toArray(v: unknown): string[] {
 /* ══════════════════════════════════════════════════════════
    LISTES VALIDES
 ══════════════════════════════════════════════════════════ */
-const VALID_TYPES = new Set(['vitrine', 'boutique', 'surMesure']);
+const VALID_TYPES = new Set(['pageUnique', 'vitrine', 'boutique', 'surMesure']);
 const VALID_Q2    = new Set(['simple', 'standard', 'complet', 'small', 'medium', 'large', 'creation', 'refonte', 'ajout', 'autre']);
 const VALID_Q3    = new Set(['ready', 'has_logo', 'nothing', 'starting', 'existing', 'collective', 'simple', 'medium', 'complex', 'autre']);
 const VALID_QC    = new Set(['few', 'moderate', 'rich', 'brief', 'ideas', 'blank', 'autre']);
@@ -84,6 +84,7 @@ function validateArray(arr: string[], valid: Set<string>): boolean {
 function dominantType(types: string[]): string {
   if (types.includes('surMesure')) return 'surMesure';
   if (types.includes('boutique'))  return 'boutique';
+  if (types.includes('pageUnique')) return 'pageUnique';
   return 'vitrine';
 }
 
@@ -91,6 +92,7 @@ function dominantType(types: string[]): string {
    LABELS LISIBLES
 ══════════════════════════════════════════════════════════ */
 const TYPE_LABELS: Record<string, string> = {
+  pageUnique: 'Site une page',
   vitrine:   'Site vitrine',
   boutique:  'Boutique en ligne',
   surMesure: 'Site sur mesure',
@@ -103,6 +105,7 @@ const Q2_QUESTION: Record<string, string> = {
 };
 
 const Q3_QUESTION: Record<string, string> = {
+  pageUnique: 'Contenu disponible',
   vitrine:   'Contenu disponible',
   boutique:  'État du stock',
   surMesure: 'Complexité',
@@ -141,6 +144,11 @@ const Q2_LABELS: Record<string, Record<string, string>> = {
 };
 
 const Q3_LABELS: Record<string, Record<string, string>> = {
+  pageUnique: {
+    ready:    'Tout est prêt',
+    has_logo: 'Logo existant, textes à rédiger',
+    nothing:  'Tout est à créer',
+  },
   vitrine:   {
     ready:    'Tout est prêt',
     has_logo: 'Logo existant, textes à rédiger',
@@ -218,6 +226,7 @@ function maxScore(vals: string[], scores: Record<string, number>): number {
 
 // Score maximum atteignable par type (somme des valeurs max de chaque question)
 const MAX_SCORE: Record<string, number> = {
+  pageUnique: 100,   // offre a prix fixe (le score n'influe pas)
   vitrine:    550,   // 250 + 200 + 100
   boutique:  1100,   // 350 + 200 + 450 + 100
   surMesure: 1300,   // 400 + 350 + 450 + 100
@@ -225,6 +234,13 @@ const MAX_SCORE: Record<string, number> = {
 
 type PriceZone = { low: number; high: number };
 const PRICE_ZONES: Record<string, [PriceZone, PriceZone, PriceZone, PriceZone]> = {
+  // Site une page : offre a prix fixe 500 € (toutes les zones identiques)
+  pageUnique: [
+    { low: 500, high: 500 },
+    { low: 500, high: 500 },
+    { low: 500, high: 500 },
+    { low: 500, high: 500 },
+  ],
   vitrine: [
     { low:  800, high: 1000 },
     { low: 1000, high: 1200 },
@@ -279,6 +295,14 @@ function calculateEstimate(
 }
 
 function getSummaryLine(type: string, q2: string, q3: string, qc: string, q2Other: string, q3Other: string, _qcOther: string): string {
+  if (type === 'pageUnique') {
+    const cont: Record<string, string> = {
+      ready:    'contenus prêts',
+      has_logo: 'logo existant, textes à rédiger',
+      nothing:  'tout à construire ensemble',
+    };
+    return `Site une page, ${cont[q3] ?? esc(q3Other)}.`;
+  }
   if (type === 'vitrine') {
     const pages: Record<string, string> = { simple: '1 à 4 pages', standard: '4 à 6 pages', complet: '6 pages et +' };
     const cont:  Record<string, string> = {
@@ -327,9 +351,9 @@ function buildProspectEmail(p: {
 
   const rows = [
     ['Type de site',     typeLabel],
-    ...(dt !== 'surMesure' ? [[p.q2Question, esc(p.q2Label)]] : []),
+    ...((dt !== 'surMesure' && dt !== 'pageUnique') ? [[p.q2Question, esc(p.q2Label)]] : []),
     [p.q3Question,       esc(p.q3Label)],
-    ...(dt !== 'vitrine' ? [[p.qcQuestion, esc(p.qcLabel)]] : []),
+    ...((dt === 'boutique' || dt === 'surMesure') ? [[p.qcQuestion, esc(p.qcLabel)]] : []),
     ['Délai souhaité',   esc(p.q4Label)],
     ['Google Business',  esc(p.gbLabel)],
   ];
@@ -376,7 +400,7 @@ function buildProspectEmail(p: {
         <table cellpadding="0" cellspacing="0" width="100%">
           <tr><td style="background-color:#3d4f28;padding:22px 24px 20px;border-radius:10px;text-align:center;">
             <p style="margin:0 0 10px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(237,227,212,0.5);">${typeLabel}</p>
-            <p class="em-price" style="margin:0;font-size:34px;font-weight:700;color:#EDE3D0;letter-spacing:-0.03em;line-height:1.1;">${p.low.toLocaleString('fr-FR')}&nbsp;€&ensp;<span style="font-weight:200;font-size:22px;color:rgba(237,227,212,0.35);">à</span>&ensp;${p.high.toLocaleString('fr-FR')}&nbsp;€</p>
+            <p class="em-price" style="margin:0;font-size:34px;font-weight:700;color:#EDE3D0;letter-spacing:-0.03em;line-height:1.1;">${p.low === p.high ? `${p.low.toLocaleString('fr-FR')}&nbsp;€` : `${p.low.toLocaleString('fr-FR')}&nbsp;€&ensp;<span style="font-weight:200;font-size:22px;color:rgba(237,227,212,0.35);">à</span>&ensp;${p.high.toLocaleString('fr-FR')}&nbsp;€`}</p>
             <p style="margin:10px 0 0;font-size:11px;color:rgba(237,227,212,0.32);letter-spacing:0.02em;">Estimation indicative · devis précis après échange</p>
           </td></tr>
         </table>
@@ -460,7 +484,7 @@ function buildAdminEmail(p: {
       <tr><td style="background-color:#FDFAF5;padding:28px 40px 0;">
         <table cellpadding="0" cellspacing="0">
           <tr><td style="background-color:#3d4f28;padding:10px 22px;border-radius:99px;">
-            <p style="margin:0;font-size:14px;font-weight:500;color:#EDE3D0;">Entre ${p.low.toLocaleString('fr-FR')}&nbsp;€ et ${p.high.toLocaleString('fr-FR')}&nbsp;€ · ${typeLabel}</p>
+            <p style="margin:0;font-size:14px;font-weight:500;color:#EDE3D0;">${p.low === p.high ? `${p.low.toLocaleString('fr-FR')}&nbsp;€` : `Entre ${p.low.toLocaleString('fr-FR')}&nbsp;€ et ${p.high.toLocaleString('fr-FR')}&nbsp;€`} · ${typeLabel}</p>
           </td></tr>
         </table>
       </td></tr>
@@ -495,9 +519,9 @@ function buildAdminEmail(p: {
         <table cellpadding="0" cellspacing="0" width="100%">
           ${[
             ['Type de site',      typeLabel],
-            ...(dt !== 'surMesure' ? [[p.q2Question, esc(p.q2Label)]] : []),
+            ...((dt !== 'surMesure' && dt !== 'pageUnique') ? [[p.q2Question, esc(p.q2Label)]] : []),
             [p.q3Question,        esc(p.q3Label)],
-            ...(dt !== 'vitrine' ? [[p.qcQuestion, esc(p.qcLabel)]] : []),
+            ...((dt === 'boutique' || dt === 'surMesure') ? [[p.qcQuestion, esc(p.qcLabel)]] : []),
             ['Délai souhaité',    esc(p.q4Label)],
             ['Google Business',   esc(p.gbLabel)],
             ["Niveau d'intérêt",  esc(INTEREST_LABELS[p.interest] ?? `${p.interest}/5`)],
@@ -605,7 +629,7 @@ export const POST: APIRoute = async ({ request }) => {
     if (gbVals.length > 0 && !validateArray(gbVals, VALID_GB)) {
       return new Response(JSON.stringify({ error: 'Données invalides (Google Business).' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
-    if (dtCheck !== 'vitrine' && !validateArray(qcVals, VALID_QC)) {
+    if ((dtCheck === 'boutique' || dtCheck === 'surMesure') && !validateArray(qcVals, VALID_QC)) {
       return new Response(JSON.stringify({ error: 'Données invalides (contenu).' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
     if (!interest || interest < 1 || interest > 5) {
@@ -662,14 +686,14 @@ export const POST: APIRoute = async ({ request }) => {
         from:    '"Célestin de Caelestis" <contact@caelestis.fr>',
         to:      email,
         replyTo: 'contact@caelestis.fr',
-        subject: `Votre estimation Caelestis : entre ${low.toLocaleString('fr-FR')} € et ${high.toLocaleString('fr-FR')} €`,
+        subject: low === high ? `Votre estimation Caelestis : ${low.toLocaleString('fr-FR')} €` : `Votre estimation Caelestis : entre ${low.toLocaleString('fr-FR')} € et ${high.toLocaleString('fr-FR')} €`,
         html:    buildProspectEmail(prospectParams as Parameters<typeof buildProspectEmail>[0]),
       }),
       transporter.sendMail({
         from:    '"Simulateur Caelestis" <contact@caelestis.fr>',
         to:      'contact@caelestis.fr',
         replyTo: email,
-        subject: `[Simulateur] ${prenom} · ${activity} · ${low.toLocaleString('fr-FR')}€ / ${high.toLocaleString('fr-FR')}€`,
+        subject: `[Simulateur] ${prenom} · ${activity} · ${low === high ? `${low.toLocaleString('fr-FR')}€` : `${low.toLocaleString('fr-FR')}€ / ${high.toLocaleString('fr-FR')}€`}`,
         html:    buildAdminEmail({ ...baseParams, interest, date: dateStr } as Parameters<typeof buildAdminEmail>[0]),
       }),
     ]);

@@ -24,8 +24,19 @@
       <p class="sim-overline">Votre projet · 1 sur 4</p>
       <h2 class="sim-headline">Quel type de site<br>vous correspond&nbsp;?</h2>
       <div class="sim-cards-col">
-        <button class="sim-card" data-value="vitrine" aria-pressed="false">
+        <button class="sim-card" data-value="pageUnique" aria-pressed="false">
           <span class="sim-card-num">01</span>
+          <span class="sim-card-body">
+            <span class="sim-card-head">
+              <strong class="sim-card-title">Site une page</strong>
+              <span class="sim-badge">Pour démarrer</span>
+            </span>
+            <span class="sim-card-desc">Toute votre activité sur une seule page qui défile. L'essentiel pour démarrer simplement, à petit prix.</span>
+          </span>
+          <span class="sim-card-check" aria-hidden="true"></span>
+        </button>
+        <button class="sim-card" data-value="vitrine" aria-pressed="false">
+          <span class="sim-card-num">02</span>
           <span class="sim-card-body">
             <span class="sim-card-head">
               <strong class="sim-card-title">Site vitrine</strong>
@@ -36,7 +47,7 @@
           <span class="sim-card-check" aria-hidden="true"></span>
         </button>
         <button class="sim-card" data-value="boutique" aria-pressed="false">
-          <span class="sim-card-num">02</span>
+          <span class="sim-card-num">03</span>
           <span class="sim-card-body">
             <strong class="sim-card-title">Boutique en ligne</strong>
             <span class="sim-card-desc">Vendre vos produits ou services directement depuis votre site, avec paiement sécurisé et gestion des commandes</span>
@@ -44,7 +55,7 @@
           <span class="sim-card-check" aria-hidden="true"></span>
         </button>
         <button class="sim-card" data-value="surMesure" aria-pressed="false">
-          <span class="sim-card-num">03</span>
+          <span class="sim-card-num">04</span>
           <span class="sim-card-body">
             <strong class="sim-card-title">Site sur mesure</strong>
             <span class="sim-card-desc">Un projet avec des fonctionnalités avancées comme un espace client, un système de réservation ou des outils sur mesure.</span>
@@ -1001,13 +1012,17 @@
     function dominantType(): string {
       if (state.types.includes('surMesure')) return 'surMesure';
       if (state.types.includes('boutique'))  return 'boutique';
+      if (state.types.includes('pageUnique')) return 'pageUnique';
       return 'vitrine';
     }
 
     /* ══ Boutique et sur mesure ont une étape "contenu" en plus ══ */
 
     /* ══ Dernier stepNum ══ */
-    function maxStep(): number { return dominantType() === 'boutique' ? 8 : 7; }
+    function maxStep(): number {
+      const dt = dominantType();
+      return dt === 'boutique' ? 8 : dt === 'pageUnique' ? 6 : 7;
+    }
 
     /* ══ stepNum → ID HTML ══
        Vitrine   : 0 s0 | 1 s1 | 2 s2v | 3 s3v | 4 s5gb | 5 s4 | 6 s6 | 7 s5
@@ -1016,6 +1031,10 @@
     ══ */
     function stepId(n: number): string {
       const dt = dominantType();
+      if (dt === 'pageUnique') {
+        const m: Record<number, string> = { 0:'s0', 1:'s1', 2:'s3v', 3:'s5gb', 4:'s4', 5:'s6', 6:'s5' };
+        return m[n] ?? 's0';
+      }
       if (dt === 'vitrine') {
         const m: Record<number, string> = { 0:'s0', 1:'s1', 2:'s2v', 3:'s3v', 4:'s5gb', 5:'s4', 6:'s6', 7:'s5' };
         return m[n] ?? 's0';
@@ -1031,8 +1050,13 @@
 
     /* ══ Progression ══ */
     function getProgress(n: number): number {
-      if (dominantType() === 'boutique') {
+      const dt = dominantType();
+      if (dt === 'boutique') {
         const m: Record<number, number> = { 0:0, 1:11, 2:22, 3:34, 4:47, 5:60, 6:73, 7:86, 8:100 };
+        return m[n] ?? 0;
+      }
+      if (dt === 'pageUnique') {
+        const m: Record<number, number> = { 0:0, 1:16, 2:33, 3:50, 4:66, 5:83, 6:100 };
         return m[n] ?? 0;
       }
       // vitrine + surMesure
@@ -1054,13 +1078,19 @@
         target.style.display = 'block';
         void target.offsetHeight;
         target.classList.add('is-active');
+        if (id === 's3v') {
+          const ol = target.querySelector('.sim-overline');
+          if (ol) ol.textContent = dominantType() === 'pageUnique' ? 'Votre projet · 2 sur 4' : 'Votre projet · 3 sur 4';
+        }
         if (id === 's5gb') {
           const ol = target.querySelector('.sim-overline');
-          if (ol) ol.textContent = dominantType() === 'boutique' ? 'Votre projet · 5 sur 6' : 'Votre projet · 4 sur 5';
+          const dt = dominantType();
+          if (ol) ol.textContent = dt === 'boutique' ? 'Votre projet · 5 sur 6' : dt === 'pageUnique' ? 'Votre projet · 3 sur 4' : 'Votre projet · 4 sur 5';
         }
         if (id === 's4') {
           const ol = target.querySelector('.sim-overline');
-          if (ol) ol.textContent = dominantType() === 'boutique' ? 'Votre calendrier · 6 sur 6' : 'Votre calendrier · 5 sur 5';
+          const dt = dominantType();
+          if (ol) ol.textContent = dt === 'boutique' ? 'Votre calendrier · 6 sur 6' : dt === 'pageUnique' ? 'Votre calendrier · 4 sur 4' : 'Votre calendrier · 5 sur 5';
         }
       }
 
@@ -1070,22 +1100,19 @@
         progressBar.closest('[role="progressbar"]')?.setAttribute('aria-valuenow', String(pct));
       }
 
-      const isBoutique = dominantType() === 'boutique';
-      const intSt = isBoutique ? 8 : 7;
-      if (backBtn) backBtn.hidden = state.stepNum === 0 || state.stepNum >= intSt;
+      const dt = dominantType();
+      if (backBtn) backBtn.hidden = state.stepNum === 0 || state.stepNum >= ms;
 
       if (indicator) {
-        const total = isBoutique ? 6 : 5;
-        const lastQ = isBoutique ? 6 : 5;
+        const total = dt === 'boutique' ? 6 : dt === 'pageUnique' ? 4 : 5;
         indicator.textContent =
-          (state.stepNum >= 1 && state.stepNum <= lastQ) ? `${state.stepNum} / ${total}` : '';
+          (state.stepNum >= 1 && state.stepNum <= total) ? `${state.stepNum} / ${total}` : '';
       }
 
       if (simFooter) simFooter.style.visibility = state.stepNum === ms ? 'hidden' : 'visible';
 
-      const intStep = isBoutique ? 8 : 7; // stepNum de l'interlude
-      const frmStep = isBoutique ? 7 : 6; // stepNum du formulaire
-      if (state.stepNum === intStep && activityDisp) {
+      const frmStep = ms - 1; // stepNum du formulaire (s6)
+      if (state.stepNum === ms && activityDisp) {
         activityDisp.textContent = state.activity
           ? state.activity.charAt(0).toUpperCase() + state.activity.slice(1).toLowerCase()
           : 'votre projet';
@@ -1238,7 +1265,7 @@
           body: JSON.stringify({
             prenom, activity, company, email,
             types:   state.types,
-            q2Vals:  dominantType() === 'surMesure' ? ['creation'] : state.q2Vals,  q2Other: state.q2Other,
+            q2Vals:  dominantType() === 'surMesure' ? ['creation'] : dominantType() === 'pageUnique' ? ['simple'] : state.q2Vals,  q2Other: state.q2Other,
             q3Vals:  state.q3Vals,  q3Other: state.q3Other,
             qcVals:  state.qcVals,  qcOther: state.qcOther,
             q4Vals:  state.q4Vals,  q4Other: state.q4Other,
@@ -1256,7 +1283,7 @@
 
         /* GA4 — conversion simulateur (ne se déclenche que si le consentement cookies est donné) */
         window.caelTrack?.('generate_lead', { lead_source: 'simulateur', site_type: dominantType() });
-        state.stepNum = dominantType() === 'boutique' ? 8 : 7; render(); setLoad(false);
+        state.stepNum = maxStep(); render(); setLoad(false);
       } catch {
         showErr('Erreur réseau. Vérifiez votre connexion et réessayez.');
         setLoad(false);
