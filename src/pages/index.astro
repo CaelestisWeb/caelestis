@@ -62,6 +62,19 @@ const localBusiness = {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
+          name: 'Création de site une page',
+          description: 'Un site professionnel en une seule page. La solution accessible pour démarrer, visible sur Google.',
+        },
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          price: '500',
+          priceCurrency: 'EUR',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
           name: 'Création de site vitrine',
           description: 'Site web soigné, visible sur Google, adapté à votre activité. Idéal pour artisans, producteurs et indépendants.',
         },
@@ -214,13 +227,13 @@ const organizationSchema = {
 };
 
 // ── Preload hero image (LCP) ──
-const heroPreloadSm = await getImage({ src: imgHero, width: 360, format: 'webp', quality: 55 });
-const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp', quality: 55 });
+const heroPreloadSm = await getImage({ src: imgHero, width: 360, format: 'webp', quality: 65 });
+const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp', quality: 65 });
 
 ---
 <BaseLayout
   title="Création de site internet · Caelestis · Drôme & France"
-  description="Sites web soignés pour artisans, producteurs et indépendants, en Auvergne-Rhône-Alpes. Agence basée dans la Drôme. Livré en 2 à 6 semaines. Devis gratuit dès 800€."
+  description="Sites web soignés pour artisans, producteurs et indépendants, en Auvergne-Rhône-Alpes. Agence basée dans la Drôme. Livré en 2 à 6 semaines. Devis gratuit dès 500€."
   schema={[localBusiness, organizationSchema, websiteSchema, faqSchema]}
 >
 
@@ -229,6 +242,7 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
     slot="head"
     rel="preload"
     as="image"
+    media="(max-width: 1023px)"
     imagesrcset={`${heroPreloadSm.src} 360w, ${heroPreloadMd.src} 576w`}
     imagesizes="(max-width: 640px) 100vw, 576px"
     fetchpriority="high"
@@ -316,7 +330,7 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
           <span class="text-brun-mid/25">·</span>
           <span class="font-body text-xs text-brun-mid/75 tracking-[0.12em] uppercase">Devis gratuit</span>
           <span class="text-brun-mid/25">·</span>
-          <span class="font-body text-xs text-brun-mid/75 tracking-[0.12em] uppercase">À partir de 800€</span>
+          <span class="font-body text-xs text-brun-mid/75 tracking-[0.12em] uppercase">À partir de 500€</span>
         </div>
 
       </div>
@@ -480,23 +494,40 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
 
       </div>
 
+      <a href="/site-une-page" class="group block max-w-3xl mx-auto mb-6 rounded-2xl border border-sauge/40 bg-cream/60 p-5 md:p-7 transition-all duration-300 hover:border-sauge/70 hover:bg-cream hover:shadow-[0_8px_30px_rgba(53,64,36,0.08)]" data-reveal data-delay="1">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-7">
+          <div class="flex-1 min-w-0 text-center sm:text-left">
+            <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-2">Pour démarrer</p>
+            <h3 class="font-display text-xl font-light text-brun mb-1.5">Site une page</h3>
+            <p class="font-body text-sm text-brun-mid leading-relaxed">L'essentiel de votre activité, soigné sur une seule page. La solution accessible pour démarrer simplement.</p>
+          </div>
+          <div class="shrink-0 text-center sm:text-right">
+            <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid/70 mb-0.5">À partir de</p>
+            <p class="font-display font-light text-brun leading-none mb-2" style="font-size: clamp(1.8rem, 4vw, 2.3rem); letter-spacing: -0.02em;">
+              <span class="text-sauge">500</span><span class="text-bois-mid text-base ml-0.5">€</span>
+            </p>
+            <span class="inline-flex items-center gap-1.5 font-body text-sm font-medium text-sauge group-hover:gap-2.5 transition-all">Découvrir l'offre <span aria-hidden="true">→</span></span>
+          </div>
+        </div>
+      </a>
+
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6" id="service-cards" data-reveal data-delay="1">
 
-        <button type="button" data-service="0"
+        <button type="button" data-service="0" aria-pressed="false"
           class="service-card border-2 border-cream-dark rounded-2xl p-5 md:p-7 flex flex-col gap-4 text-center cursor-pointer transition-all duration-300 hover:border-sauge/40">
           <h3 class="font-display text-xl font-light text-brun">Site vitrine</h3>
           <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Votre activité en ligne, claire et lisible sur tous les écrans. Vos visiteurs comprennent ce que vous faites en quelques secondes et savent comment vous joindre.</p>
           <p class="service-price font-body text-xs text-sauge transition-colors duration-300">À partir de 800€</p>
         </button>
 
-        <button type="button" data-service="1"
+        <button type="button" data-service="1" aria-pressed="false"
           class="service-card border-2 border-cream-dark rounded-2xl p-5 md:p-7 flex flex-col gap-4 text-center cursor-pointer transition-all duration-300 hover:border-sauge/40">
           <h3 class="font-display text-xl font-light text-brun">Boutique en ligne</h3>
           <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Vendez vos produits directement depuis votre site. Catalogue en ligne, paiement sécurisé, connecté à vos outils de gestion.</p>
           <p class="service-price font-body text-xs text-sauge transition-colors duration-300">À partir de 1 200€</p>
         </button>
 
-        <button type="button" data-service="2"
+        <button type="button" data-service="2" aria-pressed="false"
           class="service-card border-2 border-cream-dark rounded-2xl p-5 md:p-7 flex flex-col gap-4 text-center cursor-pointer transition-all duration-300 hover:border-sauge/40">
           <h3 class="font-display text-xl font-light text-brun">Site sur mesure</h3>
           <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Un site entièrement conçu selon vos besoins, votre identité et vos objectifs. Une solution unique pensée pour valoriser votre activité et soutenir son développement.</p>
@@ -796,8 +827,14 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
       card.parentNode?.replaceChild(clone, card);
       clone.addEventListener('click', () => {
         const isActive = clone.classList.contains('active');
-        document.querySelectorAll('.service-card').forEach((c) => c.classList.remove('active'));
-        if (!isActive) clone.classList.add('active');
+        document.querySelectorAll('.service-card').forEach((c) => {
+          c.classList.remove('active');
+          c.setAttribute('aria-pressed', 'false');
+        });
+        if (!isActive) {
+          clone.classList.add('active');
+          clone.setAttribute('aria-pressed', 'true');
+        }
       });
     });
   }
