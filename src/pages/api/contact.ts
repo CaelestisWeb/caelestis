@@ -500,7 +500,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     /* ── 9. Envoi SMTP ── */
     const transporter = nodemailer.createTransport({
-      host: 'ssl0.ovh.net',
+      host: 'pro2.mail.ovh.net',
       port: 465,
       secure: true,
       auth: {
