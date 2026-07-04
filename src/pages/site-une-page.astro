@@ -167,7 +167,7 @@ const anatomie = [
       <div class="grid sm:grid-cols-3 gap-5 lg:gap-6 mb-12" data-reveal data-delay="1">
         {etapes.map((e) => (
           <div class="text-center">
-            <span class="inline-flex items-center justify-center w-12 h-12 rounded-full font-display text-base text-cream mb-4" style="background: #6B7A4A; box-shadow: 0 6px 16px rgba(61,79,40,0.22);">{e.n}</span>
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-full font-display text-base text-cream mb-4" style="background: #5A653A; box-shadow: 0 6px 16px rgba(61,79,40,0.22);">{e.n}</span>
             <h3 class="font-display text-lg font-light text-brun mb-2">{e.t}</h3>
             <p class="font-body text-sm text-brun-mid leading-relaxed">{e.d}</p>
           </div>
@@ -280,13 +280,13 @@ const anatomie = [
     transform: translateX(3px);
   }
   .anat-block.is-selected {
-    background: #6B7A4A;
+    background: #5A653A;
     border-left-color: transparent;
     transform: scale(1.025);
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
   }
   .anat-block.is-selected .anat-title { color: #EDE3D4; }
-  .anat-block.is-selected .anat-desc { color: rgba(237, 227, 212, 0.85); }
+  .anat-block.is-selected .anat-desc { color: rgba(237, 227, 212, 0.95); }
   .anat-block:focus-visible {
     outline: 2px solid #EDE3D4;
     outline-offset: 3px;

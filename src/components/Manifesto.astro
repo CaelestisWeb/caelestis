@@ -218,16 +218,16 @@
       const AudioCtx = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       let ctx: AudioContext | null = null;
 
-      if (AudioCtx) {
+      /* Création paresseuse au premier geste : les navigateurs bloquent
+         (warning console) tout AudioContext créé avant une interaction.
+         La garde `done` évite de recréer un contexte après la fin de
+         l'intro (ctx fermé), source de "Cannot resume a closed AudioContext". */
+      const unlock = () => {
+        if (done || ctx || !AudioCtx) return;
         ctx = new AudioCtx();
         ctx.resume().catch(() => {});
-
-        const unlock = () => {
-          ctx?.resume();
-          window.removeEventListener('mousemove',  unlock);
-          window.removeEventListener('touchstart', unlock);
-          window.removeEventListener('keydown',    unlock);
-        };
+      };
+      if (AudioCtx) {
         window.addEventListener('mousemove',  unlock, { passive: true, once: true });
         window.addEventListener('touchstart', unlock, { passive: true, once: true });
         window.addEventListener('keydown',    unlock, { once: true });
@@ -331,6 +331,7 @@
 
         /* Libère l'AudioContext pour éviter la fuite de ressource audio */
         ctx?.close().catch(() => {});
+        ctx = null;
 
         gsap.to([m0, m3, tagline, skipBtn].filter(Boolean), {
           opacity: 0,
