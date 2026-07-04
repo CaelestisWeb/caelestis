@@ -4,6 +4,7 @@
   role="dialog"
   aria-label="Consentement aux cookies"
   aria-modal="false"
+  aria-describedby="cookie-banner-desc"
   class="fixed bottom-0 left-0 right-0 z-[9990] translate-y-full opacity-0 pointer-events-none"
 >
   <div class="bg-cream/97 backdrop-blur-md border-t border-cream-dark/40 shadow-[0_-8px_32px_rgba(53,64,36,0.10)]">
@@ -12,10 +13,10 @@
       <!-- Texte -->
       <div class="flex-1 min-w-0">
         <div>
-          <p class="font-body text-[13px] text-brun leading-relaxed">
+          <p id="cookie-banner-desc" class="font-body text-[13px] text-brun leading-relaxed">
             <strong class="font-semibold">Ce site · Caelestis</strong> utilise des cookies techniques nécessaires
             à son fonctionnement et, avec votre accord, Google Analytics pour mesurer la fréquentation. Aucune publicité, aucune donnée revendue.
-            <a href="/politique-confidentialite" class="text-sauge underline underline-offset-2 hover:text-brun transition-colors ml-1">En savoir plus →</a>
+            <a href="/politique-confidentialite" class="text-[#5A653A] underline underline-offset-2 hover:text-brun transition-colors ml-1">En savoir plus →</a>
           </p>
         </div>
       </div>
@@ -30,7 +31,7 @@
         </button>
         <button
           id="cookie-accept"
-          class="font-body text-[12px] font-medium text-cream bg-sauge hover:bg-brun transition-colors duration-200 px-5 py-2 rounded-full cursor-pointer"
+          class="font-body text-[12px] font-medium text-cream bg-[#5A653A] hover:bg-brun transition-colors duration-200 px-5 py-2 rounded-full cursor-pointer"
         >
           Accepter
         </button>
