@@ -30,7 +30,8 @@
   --color-brun-mid:    #6B6040;   /* olive chaud — texte secondaire lisible */
 
   /* ── Végétaux maturés : mousse & lin ── */
-  --color-sauge:       #889063;   /* mousse — labels, accents végétaux */
+  --color-sauge:       #889063;   /* mousse — bordures, accents décoratifs (pas de texte) */
+  --color-sauge-text:  #5C6A40;   /* mousse foncée — textes sur fond clair (ratio 4.6:1 WCAG AA) */
   --color-sauge-pale:  #D8CDB0;   /* lin-mousse — fonds sections douces */
 
   /* ── Bois & matières organiques ── */
@@ -601,9 +602,10 @@ select:focus-visible {
   @page { margin: 1.5cm 2cm; size: A4; }
 }
 
-/* ── Accessibilité WCAG AA — labels « eyebrow » en sauge ──
-   Le sauge #889063 (2.66 sur crème) est trop clair pour du petit texte.
-   On fonce le texte des labels uppercase sur fond clair (#5C6440 = 4.93 ✅),
-   tout en gardant le sauge clair si le label est dans une section sombre. */
-.uppercase.text-sauge { color: #5C6440; }
-.bg-brun .uppercase.text-sauge { color: #889063; }
+/* ── Accessibilité WCAG AA — textes sauge ──
+   Le sauge #889063 est trop clair pour du TEXTE (2.66 sur crème, 2.64 sur vert forêt).
+   Tous les textes sauge passent en mousse foncée sur fond clair (4.7:1) et en
+   lin-mousse pâle sur les sections vert forêt (5.7:1).
+   Bordures, fonds décoratifs et logo restent sur --color-sauge, inchangés. */
+.text-sauge { color: var(--color-sauge-text); }
+.bg-brun .text-sauge { color: var(--color-sauge-pale); }
