@@ -300,12 +300,12 @@
         el.appendChild(cur);
 
         for (const ch of [...'Caelestis']) {
-          await wait(88 + Math.random() * 33);
+          await wait(55 + Math.random() * 20);
           el.insertBefore(document.createTextNode(ch), cur);
           playKey(0.07, 2800);
         }
 
-        await wait(250);
+        await wait(180);
 
         const dot = document.createElement('em');
         dot.className   = 'm-dot';
@@ -398,7 +398,7 @@
           /* Affichage instantané, pas d'animation — WCAG 2.3.3 */
           m0.style.opacity = '1';
           m0.textContent   = 'Pour ceux qui créent quelque chose de beau.';
-          await wait(1200);
+          await wait(800);
           m0.style.opacity = '0';
           await typeBrand(m3);
           finish();
@@ -411,33 +411,33 @@
         }
 
         /* ── m0 + m1 apparaissent ensemble, reveal éditorial ── */
-        await wait(400);
+        await wait(250);
 
         gsap.fromTo(m0,
           { opacity: 0, y: 28 },
-          { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }
+          { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }
         );
 
         /* Pause — phrase lisible */
-        await wait(2200);
+        await wait(1300);
 
         /* Fondu sortie */
         await new Promise<void>(resolve =>
           gsap.to(m0, {
             opacity: 0,
             y: -18,
-            duration: 0.5,
+            duration: 0.4,
             ease: 'power2.in',
             onComplete: resolve,
           })
         );
 
-        await wait(220);
+        await wait(150);
 
         /* ── Caelestis. — typewriter conservé ── */
         await typeBrand(m3);
         removeCursor(m3);
-        await wait(1600);
+        await wait(900);
 
         finish();
       })();
