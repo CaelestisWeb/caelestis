@@ -31,7 +31,8 @@
 
   /* ── Végétaux maturés : mousse & lin ── */
   --color-sauge:       #889063;   /* mousse — bordures, accents décoratifs (pas de texte) */
-  --color-sauge-text:  #566339;   /* mousse foncée — textes sur fond clair (4.7:1 sur fond chaud, 5.2:1 sur crème) */
+  --color-sauge-text:  #566339;   /* mousse foncée — petits textes sur fond clair (4.7:1 fond chaud, 5.2:1 crème) */
+  --color-sauge-vif:   #7A8354;   /* sauge vive — grands accents de titres (3.6:1, AA texte large) */
   --color-sauge-pale:  #D8CDB0;   /* lin-mousse — fonds sections douces */
 
   /* ── Bois & matières organiques ── */
@@ -609,6 +610,10 @@ select:focus-visible {
    Bordures, fonds décoratifs et logo restent sur --color-sauge, inchangés. */
 .text-sauge { color: var(--color-sauge-text); }
 .bg-brun .text-sauge { color: var(--color-sauge-pale); }
+/* Grands accents de titres : le seuil AA texte large (3:1) permet une sauge
+   plus vive et fraîche, proche de l'originale — garde la respiration du site */
+h1 .text-sauge, h2 .text-sauge { color: var(--color-sauge-vif); }
+.bg-brun h1 .text-sauge, .bg-brun h2 .text-sauge { color: var(--color-sauge-pale); }
 /* Même traitement pour les petits labels bois (tan #A08060 = 2.9 sur crème) */
 .text-bois-mid { color: #7A6248; }
 .bg-brun .text-bois-mid { color: #D8CDB0; }
