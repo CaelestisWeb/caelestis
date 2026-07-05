@@ -31,7 +31,7 @@
 
   /* ── Végétaux maturés : mousse & lin ── */
   --color-sauge:       #889063;   /* mousse — bordures, accents décoratifs (pas de texte) */
-  --color-sauge-text:  #5C6A40;   /* mousse foncée — textes sur fond clair (ratio 4.6:1 WCAG AA) */
+  --color-sauge-text:  #566339;   /* mousse foncée — textes sur fond clair (4.7:1 sur fond chaud, 5.2:1 sur crème) */
   --color-sauge-pale:  #D8CDB0;   /* lin-mousse — fonds sections douces */
 
   /* ── Bois & matières organiques ── */
@@ -609,3 +609,6 @@ select:focus-visible {
    Bordures, fonds décoratifs et logo restent sur --color-sauge, inchangés. */
 .text-sauge { color: var(--color-sauge-text); }
 .bg-brun .text-sauge { color: var(--color-sauge-pale); }
+/* Même traitement pour les petits labels bois (tan #A08060 = 2.9 sur crème) */
+.text-bois-mid { color: #7A6248; }
+.bg-brun .text-bois-mid { color: #D8CDB0; }

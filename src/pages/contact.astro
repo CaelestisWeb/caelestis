@@ -87,7 +87,7 @@ const breadcrumbContact = {
               role="tab"
               aria-selected={id === 'message' ? 'true' : 'false'}
               aria-controls={`panel-${id}`}
-              class={`tab-btn flex-1 flex items-center gap-2.5 px-4 py-3.5 min-h-[44px] border rounded-xl font-body text-sm transition-all duration-200 text-left ${id === 'message' ? 'border-sauge bg-sauge text-cream' : 'border-cream-dark text-brun-mid hover:border-sauge/40'}`}
+              class={`tab-btn flex-1 flex items-center gap-2.5 px-4 py-3.5 min-h-[44px] border rounded-xl font-body text-sm transition-all duration-200 text-left ${id === 'message' ? 'border-sauge bg-[#5A653A] text-cream' : 'border-cream-dark text-brun-mid hover:border-sauge/40'}`}
             >
               <span class="text-base leading-none" aria-hidden="true">{icon}</span>
               <span>{label}</span>
@@ -496,7 +496,7 @@ const breadcrumbContact = {
     tabBtns.forEach(btn => {
       const active = btn.dataset.tab === id;
       btn.classList.toggle('border-sauge',      active);
-      btn.classList.toggle('bg-sauge',          active);
+      btn.classList.toggle('bg-[#5A653A]',      active);
       btn.classList.toggle('text-cream',        active);
       btn.classList.toggle('border-cream-dark', !active);
       btn.classList.toggle('text-brun-mid',     !active);
