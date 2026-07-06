@@ -92,7 +92,7 @@ function dominantType(types: string[]): string {
    LABELS LISIBLES
 ══════════════════════════════════════════════════════════ */
 const TYPE_LABELS: Record<string, string> = {
-  pageUnique: 'Site une page',
+  pageUnique: 'Page unique',
   vitrine:   'Site vitrine',
   boutique:  'Boutique en ligne',
   surMesure: 'Site sur mesure',
@@ -303,7 +303,7 @@ function getSummaryLine(type: string, q2: string, q3: string, qc: string, q2Othe
       has_logo: 'logo existant, textes à rédiger',
       nothing:  'tout à construire ensemble',
     };
-    return `Site une page, ${cont[q3] ?? esc(q3Other)}.`;
+    return `Page unique, ${cont[q3] ?? esc(q3Other)}.`;
   }
   if (type === 'vitrine') {
     const pages: Record<string, string> = { simple: '1 à 4 pages', standard: '4 à 6 pages', complet: '6 pages et +' };
