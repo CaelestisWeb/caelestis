@@ -1,0 +1,409 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+
+const canonical = 'https://caelestis.fr/referencement-naturel';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Référencement naturel (SEO)',
+  serviceType: 'Référencement naturel et SEO local',
+  description: "Référencement naturel pour artisans, producteurs et indépendants : mots-clés, SEO local, fiche Google et suivi. Être trouvé sur Google par ses futurs clients, durablement et sans publicité.",
+  provider: {
+    '@type': 'LocalBusiness',
+    '@id': 'https://caelestis.fr/#business',
+    name: 'Caelestis',
+    url: 'https://caelestis.fr',
+    address: { '@type': 'PostalAddress', addressLocality: 'Crest', addressRegion: 'Drôme', postalCode: '26400', addressCountry: 'FR' },
+  },
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' },
+    { '@type': 'Country', name: 'France' },
+  ],
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Référencement naturel', item: canonical },
+  ],
+};
+
+// FAQ affichée en bas de page — le schéma reflète mot pour mot le contenu visible
+const faq = [
+  {
+    q: "Au bout de combien de temps voit-on des résultats ?",
+    a: "Comptez généralement de 3 à 6 mois pour des progrès visibles et durables. Le référencement naturel est un travail de fond : les résultats arrivent progressivement, mais ils restent. Méfiez-vous des promesses de première place en quelques jours.",
+  },
+  {
+    q: "Est-ce utile pour un petit artisan local ?",
+    a: "C'est même là que c'est le plus efficace. Sur une recherche locale (votre métier suivi de votre ville), vous ne concurrencez que les entreprises de votre secteur, pas la France entière. Une fiche Google soignée et un site bien optimisé font souvent une vraie différence.",
+  },
+  {
+    q: "Le référencement naturel, c'est de la publicité Google ?",
+    a: "Non. La publicité (Google Ads) s'arrête dès que vous cessez de payer. Le référencement naturel construit votre visibilité durablement : vous n'achetez pas votre place, vous la méritez.",
+  },
+  {
+    q: "Faut-il refaire mon site pour être bien référencé ?",
+    a: "Pas forcément. On commence par un audit : parfois quelques corrections suffisent, parfois le site freine vraiment (lenteur, structure). Dans tous les cas, vous savez à quoi vous en tenir avant de décider.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+// Les 5 piliers du référencement, du plus parlant au plus technique
+const piliers = [
+  { t: 'Les bons mots-clés', d: "On identifie les mots que tapent réellement vos futurs clients : votre métier, leurs besoins, leur ville. Votre site est construit pour répondre à ces recherches." },
+  { t: 'Le référencement local', d: "Être visible quand on cherche près de chez vous : votre ville, votre vallée, votre département. Pour un artisan, c'est là que tout se joue." },
+  { t: 'Votre fiche Google', d: "Création ou optimisation de votre fiche d'établissement : photos, services, horaires, avis. C'est elle qui apparaît sur Google Maps et à côté des résultats." },
+  { t: 'La technique et le contenu', d: "Un site rapide, bien structuré et compris par Google : titres, textes, images, données structurées, liens entre vos pages." },
+  { t: 'Le suivi', d: "On mesure ce qui compte : vos positions, vos visites, vos demandes de contact. Et on ajuste, mois après mois." },
+];
+
+// Les 3 temps de la mission
+const etapes = [
+  { n: '01', t: "L'audit", d: "On analyse votre présence actuelle : votre site, votre fiche Google, vos concurrents et les recherches de vos clients." },
+  { n: '02', t: 'Le plan d\'action', d: "Vous recevez un plan clair et chiffré : ce qu'on va faire, pourquoi, et ce que vous pouvez en attendre. Sans jargon." },
+  { n: '03', t: 'La mise en oeuvre', d: "On applique, on mesure, on ajuste. Vous suivez les progrès avec nous, en toute transparence." },
+];
+---
+
+<BaseLayout
+  title="Référencement naturel · SEO local & fiche Google · Caelestis"
+  description="Mots-clés, référencement local, fiche Google : soyez trouvé par vos futurs clients, durablement et sans publicité. SEO pour artisans et indépendants."
+  canonical={canonical}
+  schema={[schema, breadcrumb, faqSchema]}
+>
+
+  <!-- ── Hero ── -->
+  <section class="pt-20 pb-16 md:pt-24 px-6 md:px-10 lg:px-20 border-b border-cream-dark section-ambient overflow-hidden relative" style="isolation: isolate;">
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-20 -right-24 w-[420px] h-[420px]"></div>
+    <div aria-hidden="true" class="light-blob light-blob-ocre pointer-events-none absolute bottom-0 left-1/4 w-56 h-56"></div>
+
+    <div class="max-w-4xl mx-auto relative text-center">
+      <div class="inline-flex items-center gap-2 mb-6" data-reveal>
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Référencement naturel · SEO</p>
+      </div>
+      <h1
+        class="font-display font-light text-brun leading-[1.06] tracking-tight max-w-3xl mx-auto"
+        style="font-size: clamp(2.1rem, 5vw, 3.9rem);"
+        data-reveal data-delay="1"
+      >
+        Être trouvé par ceux qui<br class="hidden sm:block"> <span class="text-sauge">vous cherchent déjà.</span>
+      </h1>
+      <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed mx-auto" data-reveal data-delay="2">
+        Chaque jour, des gens tapent votre métier et votre ville sur Google. Le référencement naturel, c'est faire en sorte qu'ils tombent sur vous, durablement et sans publicité.
+      </p>
+
+      <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4" data-reveal data-delay="3">
+        <Button href="/contact#devis" variant="primary">Demander un audit</Button>
+        <Button href="#piliers" variant="outline">Voir comment on travaille</Button>
+      </div>
+      <p class="font-body text-xs text-brun-mid/75 mt-6" data-reveal data-delay="3">
+        Inclus dans nos créations de sites · disponible aussi pour votre site existant
+      </p>
+    </div>
+  </section>
+
+  <!-- ── En clair ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20" style="background-color: #E8DBC4;">
+    <div class="max-w-4xl mx-auto" data-reveal>
+      <div class="text-center">
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">En clair</p>
+        <h2 class="font-display font-light text-brun leading-[1.15] mb-6" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Remonter dans Google, sans payer de publicité.
+        </h2>
+        <p class="font-body text-base text-brun-mid leading-relaxed max-w-2xl mx-auto">
+          Quand quelqu'un cherche « paysagiste », « gîte » ou « céramiste » suivi de sa ville, Google choisit qui montrer en premier. Le référencement naturel, c'est l'ensemble du travail qui fait que ce soit vous : les bons mots, un site sain, une fiche Google soignée.
+        </p>
+        <p class="font-body text-base text-brun-mid leading-relaxed max-w-2xl mx-auto mt-5">
+          Contrairement à la publicité, rien ne s'éteint quand vous arrêtez de payer. C'est un investissement de fond : plus lent au départ, puis solide et rentable pour longtemps.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Les 5 piliers (fond vert, blocs interactifs) ── -->
+  <section id="piliers" class="py-20 px-6 md:px-10 lg:px-20 bg-brun text-cream section-dark-depth relative overflow-hidden">
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute top-24 -left-24 w-72 h-72"></div>
+    <div aria-hidden="true" class="light-blob light-blob-bois pointer-events-none absolute -bottom-10 right-0 w-80 h-80"></div>
+
+    <div class="max-w-3xl mx-auto relative">
+      <div class="text-center mb-12" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Notre méthode</p>
+        <h2 class="font-display font-light leading-[1.15] mb-5" style="font-size: clamp(1.7rem, 3vw, 2.4rem); color: rgba(237,227,212,0.94);">
+          Les 5 piliers de votre visibilité.
+        </h2>
+        <p class="font-body text-base leading-relaxed max-w-xl mx-auto" style="color: rgba(237,227,212,0.78);">
+          Pas de recette magique : cinq chantiers concrets, menés dans le bon ordre.
+        </p>
+      </div>
+
+      <div class="anat-list max-w-lg mx-auto space-y-2.5" data-reveal data-delay="1">
+        {piliers.map((s, i) => (
+          <button type="button" class={`anat-block ${i === 0 ? 'is-selected' : ''}`} aria-pressed={i === 0 ? 'true' : 'false'}>
+            <span class="anat-title">{s.t}</span>
+            <span class="anat-desc">{s.d}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Comment ça se passe ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
+    <div class="max-w-4xl mx-auto" data-reveal>
+      <div class="text-center mb-12">
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Comment ça se passe</p>
+        <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Un travail de fond, mené avec méthode.
+        </h2>
+      </div>
+
+      <!-- 3 temps -->
+      <div class="grid sm:grid-cols-3 gap-5 lg:gap-6 mb-12" data-reveal data-delay="1">
+        {etapes.map((e) => (
+          <div class="text-center">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-full font-display text-base text-cream mb-4" style="background: #5A653A; box-shadow: 0 6px 16px rgba(61,79,40,0.22);">{e.n}</span>
+            <h3 class="font-display text-lg font-light text-brun mb-2">{e.t}</h3>
+            <p class="font-body text-sm text-brun-mid leading-relaxed">{e.d}</p>
+          </div>
+        ))}
+      </div>
+
+      <!-- Le périmètre clair -->
+      <div class="max-w-2xl mx-auto bg-cream border border-cream-dark rounded-2xl p-7 lg:p-8 text-center" data-reveal data-delay="2">
+        <p class="font-display font-light text-brun leading-none" style="font-size: clamp(1.9rem, 4.5vw, 2.6rem); letter-spacing: -0.02em;">
+          <span class="text-sauge">Sur devis</span>
+        </p>
+        <p class="font-body text-sm text-brun-mid mt-2">selon votre site, votre zone et vos objectifs</p>
+
+        <ul class="mt-7 space-y-3 text-left max-w-md mx-auto">
+          <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
+            <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
+            <span>Chaque site créé par Caelestis part déjà optimisé : structure, vitesse, mots-clés.</span>
+          </li>
+          <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
+            <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
+            <span>Site existant, même créé ailleurs : audit d'abord, devis ensuite. Vous décidez en connaissance de cause.</span>
+          </li>
+          <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
+            <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
+            <span>Un engagement honnête : des résultats durables demandent plusieurs mois. Personne ne peut garantir la première place, méfiez-vous de ceux qui la promettent.</span>
+          </li>
+        </ul>
+
+        <p class="font-body text-sm text-brun-mid/80 mt-7 pt-6 border-t border-cream-dark">
+          Pas encore de site ? Le référencement est inclus dans <a href="/services" class="text-[#5C6A40] hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">nos créations de sites</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
+    <div class="max-w-2xl mx-auto" data-reveal>
+      <div class="text-center mb-10">
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Questions fréquentes</p>
+        <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Ce qu'on nous demande souvent.
+        </h2>
+      </div>
+
+      <div class="seo-faq">
+        {faq.map((f) => (
+          <details class="seo-faq-item">
+            <summary class="seo-faq-q">
+              <span>{f.q}</span>
+              <span class="seo-faq-marque" aria-hidden="true"></span>
+            </summary>
+            <p class="seo-faq-a">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="relative py-20 px-6 md:px-10 lg:px-20 overflow-hidden section-ambient border-t border-cream-dark" data-reveal>
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-12 right-1/4 w-64 h-64"></div>
+    <div aria-hidden="true" class="light-blob light-blob-ocre pointer-events-none absolute -bottom-8 left-1/3 w-56 h-56"></div>
+
+    <div class="max-w-2xl mx-auto text-center relative">
+      <svg aria-hidden="true" class="mx-auto mb-6 opacity-20" width="48" height="66" viewBox="0 0 60 100" fill="none">
+        <path d="M30 0 C38 16 55 36 50 58 C44 78 30 100 30 100 C30 100 16 78 10 58 C5 36 22 16 30 0Z" fill="#354024"/>
+        <path d="M30 98 Q31.5 62 30 4" stroke="#889063" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M30 60 C26 54 20 52 16 56" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M30 60 C34 54 40 52 44 56" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <h2 class="font-display text-3xl md:text-4xl font-light text-brun mb-5 leading-[1.1]">
+        Prêt à être<br><span class="text-sauge">trouvé&nbsp;?</span>
+      </h2>
+      <p class="font-body text-base text-brun-mid mb-10 leading-relaxed">
+        Décrivez votre activité et votre zone en quelques lignes. On vous répond sous 48h, avec un premier regard honnête sur votre visibilité.
+      </p>
+      <Button href="/contact#devis" variant="primary">Demander un audit</Button>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* Pastille check sauge */
+  .sup-check {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='7.25' stroke='%23889063' stroke-width='1.5'/%3E%3Cpath d='M4.5 8.2 L6.8 10.5 L11.5 5.5' stroke='%23889063' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  /* ── Piliers : cases sélectionnables (même langage que l'anatomie Page unique) ── */
+  .anat-block {
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: 0;
+    border-left: 3px solid #889063;
+    border-radius: 12px;
+    padding: 14px 20px;
+    background: #EDE3D4;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: background 0.45s ease,
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.45s ease,
+                border-color 0.3s ease,
+                border-left-width 0.25s ease;
+  }
+  .anat-block .anat-title {
+    display: block;
+    font-family: 'Lora', serif;
+    font-weight: 300;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+    color: #3d4f28;
+    transition: color 0.3s ease;
+  }
+  .anat-block .anat-desc {
+    display: block;
+    margin-top: 3px;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: #6B6040;
+    transition: color 0.3s ease;
+  }
+  .anat-block:hover:not(.is-selected) {
+    border-left-width: 6px;
+    transform: translateX(3px);
+  }
+  .anat-block.is-selected {
+    background: #5A653A;
+    border-left-color: transparent;
+    transform: scale(1.025);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
+  }
+  .anat-block.is-selected .anat-title { color: #EDE3D4; }
+  .anat-block.is-selected .anat-desc { color: rgba(237, 227, 212, 0.95); }
+  .anat-block:focus-visible {
+    outline: 2px solid #EDE3D4;
+    outline-offset: 3px;
+  }
+
+  /* ── FAQ : accordéons natifs, sobres ── */
+  .seo-faq { border-top: 1px solid var(--color-cream-dark); }
+  .seo-faq-item { border-bottom: 1px solid var(--color-cream-dark); }
+  .seo-faq-q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 4px;
+    cursor: pointer;
+    list-style: none;
+    font-family: 'Lora', serif;
+    font-weight: 400;
+    font-size: 1.02rem;
+    color: var(--color-brun);
+    transition: color 0.2s ease;
+  }
+  .seo-faq-q::-webkit-details-marker { display: none; }
+  .seo-faq-q:hover { color: var(--color-sauge-text); }
+  .seo-faq-marque {
+    position: relative;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+  }
+  .seo-faq-marque::before,
+  .seo-faq-marque::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    background: var(--color-sauge-text);
+    transition: transform 0.3s ease;
+  }
+  .seo-faq-marque::before { width: 14px; height: 1.5px; }
+  .seo-faq-marque::after  { width: 1.5px; height: 14px; }
+  .seo-faq-item[open] .seo-faq-marque::after { transform: rotate(90deg); }
+  .seo-faq-a {
+    padding: 0 4px 20px;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--color-brun-mid);
+    max-width: 60ch;
+  }
+  .seo-faq-q:focus-visible {
+    outline: 2px solid var(--color-sauge-text);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .anat-block {
+      transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .anat-block:hover:not(.is-selected),
+    .anat-block.is-selected { transform: none; }
+    .seo-faq-marque::before,
+    .seo-faq-marque::after { transition: none; }
+  }
+</style>
+
+<script>
+  /* Piliers : une seule case sélectionnée à la fois.
+     Même mécanisme que l'anatomie de la Page unique : délégation sur document,
+     liée une seule fois (survit aux View Transitions et aux deux pages). */
+  if (!(window as Window & { __anatBound?: boolean }).__anatBound) {
+    (window as Window & { __anatBound?: boolean }).__anatBound = true;
+    document.addEventListener('click', (e) => {
+      const block = (e.target as HTMLElement).closest('.anat-block');
+      if (!block) return;
+      const list = block.closest('.anat-list');
+      if (!list) return;
+      list.querySelectorAll('.anat-block').forEach((x) => {
+        x.classList.remove('is-selected');
+        x.setAttribute('aria-pressed', 'false');
+      });
+      block.classList.add('is-selected');
+      block.setAttribute('aria-pressed', 'true');
+    });
+  }
+</script>

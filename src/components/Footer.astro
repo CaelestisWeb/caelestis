@@ -14,7 +14,7 @@ const year = new Date().getFullYear();
           Votre travail mérite d'être trouvé.<br>On s'occupe de le mettre en lumière.
         </p>
         <p class="font-body text-sm leading-relaxed max-w-md md:max-w-xs mx-auto md:mx-0" style="color: rgba(237,227,212,0.75)">
-          Création de site, référencement naturel et accompagnement pour artisans, praticiens et professionnels engagés. Basé dans la Drôme, au service de toute <a href="/creation-site-internet-auvergne-rhone-alpes" class="text-cream hover:text-ocre transition-colors duration-200 underline decoration-cream-dark/40 underline-offset-2">l'Auvergne-Rhône-Alpes</a>.
+          Création de site, <a href="/referencement-naturel" class="text-cream hover:text-ocre transition-colors duration-200 underline decoration-cream-dark/40 underline-offset-2">référencement naturel</a> et accompagnement pour artisans, praticiens et professionnels engagés. Basé dans la Drôme, au service de toute <a href="/creation-site-internet-auvergne-rhone-alpes" class="text-cream hover:text-ocre transition-colors duration-200 underline decoration-cream-dark/40 underline-offset-2">l'Auvergne-Rhône-Alpes</a>.
         </p>
       </div>
 
@@ -56,11 +56,12 @@ const year = new Date().getFullYear();
           <p class="font-body text-xs tracking-widest uppercase mb-3 md:mb-4" style="color: rgba(237,227,212,0.75)">Navigation</p>
           <nav class="flex flex-row flex-wrap justify-center gap-x-4 gap-y-2 md:flex-col md:gap-2.5" aria-label="Navigation du site">
             {[
-              { href: '/',           label: 'Accueil'    },
-              { href: '/services',   label: 'Services'   },
-              { href: '/simulateur', label: 'Simulateur' },
-              { href: '/a-propos',   label: 'À propos'   },
-              { href: '/contact',    label: 'Contact'    },
+              { href: '/',                      label: 'Accueil'       },
+              { href: '/services',              label: 'Services'      },
+              { href: '/simulateur',            label: 'Simulateur'    },
+              { href: '/referencement-naturel', label: 'Référencement' },
+              { href: '/a-propos',              label: 'À propos'      },
+              { href: '/contact',               label: 'Contact'       },
             ].map(({ href, label }, i) => (
               <Fragment>
                 <a href={href} class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.82)">{label}</a>
