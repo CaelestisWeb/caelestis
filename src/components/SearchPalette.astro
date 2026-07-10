@@ -1,0 +1,405 @@
+---
+// ── Palette d'orientation ──
+// Loupe de recherche interne : le visiteur tape des mots-clés (tarifs, référencement,
+// contact...) et on l'aiguille vers la bonne page. 100 % statique, aucun backend,
+// aucune requête réseau. Mapping mots-clés → pages défini côté client (léger, réversible).
+// Ouverture : clic sur la loupe (navbar) ou raccourci Ctrl/Cmd + K.
+---
+
+<div id="orient-overlay" class="orient-overlay" hidden>
+  <div class="orient-backdrop" data-orient-close></div>
+  <div class="orient-panel">
+    <div class="orient-dialog" role="dialog" aria-modal="true" aria-labelledby="orient-label">
+      <h2 id="orient-label" class="sr-only">Rechercher une page du site</h2>
+
+      <div class="orient-search">
+        <svg viewBox="0 0 20 20" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <circle cx="8.5" cy="8.5" r="5.5"></circle>
+          <line x1="12.7" y1="12.7" x2="17" y2="17"></line>
+        </svg>
+        <input
+          id="orient-input"
+          type="text"
+          role="combobox"
+          aria-expanded="true"
+          aria-controls="orient-results"
+          aria-autocomplete="list"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder="Que cherchez-vous ? (tarifs, référencement, contact...)"
+        />
+        <button type="button" class="orient-esc" data-orient-close aria-label="Fermer la recherche">Échap</button>
+      </div>
+
+      <ul id="orient-results" class="orient-results" role="listbox" aria-label="Pages proposées"></ul>
+
+      <div class="orient-foot" aria-hidden="true">
+        <span><kbd>↑</kbd><kbd>↓</kbd> parcourir</span>
+        <span><kbd>Entrée</kbd> ouvrir</span>
+        <span><kbd>Échap</kbd> fermer</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .orient-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 14vh 20px 20px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .orient-overlay.is-open { opacity: 1; }
+  .orient-overlay[hidden] { display: none; }
+
+  .orient-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(28, 40, 24, 0.34);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .orient-panel {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    transform: translateY(-8px) scale(0.985);
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .orient-overlay.is-open .orient-panel { transform: none; }
+
+  .orient-dialog {
+    background: #F7F2E9;
+    border: 1px solid #E3D9C6;
+    border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(45, 40, 20, 0.28);
+    overflow: hidden;
+  }
+
+  .orient-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 18px;
+    border-bottom: 1px solid #EBE2D2;
+  }
+  .orient-search > svg { color: #7A8354; flex-shrink: 0; }
+  #orient-input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: none;
+    outline: none;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: 1rem;
+    color: #1C3828;
+  }
+  #orient-input::placeholder { color: #9C9078; }
+  .orient-esc {
+    flex-shrink: 0;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.03em;
+    color: #6B6040;
+    background: #EDE3D4;
+    border: 1px solid #E0D5C0;
+    border-radius: 7px;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+  .orient-esc:hover { color: #3D4F28; background: #E6DAC4; }
+
+  .orient-results {
+    list-style: none;
+    margin: 0;
+    padding: 8px;
+    max-height: 52vh;
+    overflow-y: auto;
+  }
+  .orient-results li { margin: 0; }
+  .orient-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: 'title arrow' 'desc arrow';
+    align-items: center;
+    column-gap: 12px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .orient-item-t {
+    grid-area: title;
+    font-family: 'Lora', serif;
+    font-weight: 400;
+    font-size: 0.98rem;
+    line-height: 1.25;
+    color: #2C3A22;
+  }
+  .orient-item-d {
+    grid-area: desc;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    color: #6B6040;
+    margin-top: 2px;
+  }
+  .orient-item-arrow {
+    grid-area: arrow;
+    color: #A8A088;
+    font-size: 1rem;
+    opacity: 0;
+    transform: translateX(-3px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .orient-item.is-active { background: #E8DBC4; }
+  .orient-item.is-active .orient-item-t { color: #3D4F28; }
+  .orient-item.is-active .orient-item-arrow {
+    opacity: 1;
+    transform: translateX(2px);
+    color: #5A653A;
+  }
+
+  .orient-empty {
+    padding: 22px 16px;
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: #6B6040;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .orient-empty a {
+    color: #566339;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .orient-foot {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    border-top: 1px solid #EBE2D2;
+    background: #F1EADD;
+  }
+  .orient-foot span {
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    color: #8A7F66;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .orient-foot kbd {
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: 0.62rem;
+    background: #EDE3D4;
+    border: 1px solid #E0D5C0;
+    border-radius: 5px;
+    padding: 1px 5px;
+    color: #6B6040;
+  }
+
+  /* ── Déclencheur loupe (navbar) ── */
+  .orient-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    color: #6B6040;
+    background: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+  .orient-trigger:hover { color: #3D4F28; background: #EDE3D4; }
+  .orient-trigger:focus-visible { outline: 2px solid #7A8354; outline-offset: 2px; }
+
+  @media (max-width: 767px) {
+    .orient-overlay { padding: 8vh 14px 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .orient-overlay, .orient-panel, .orient-item-arrow { transition: opacity 0.15s ease; }
+    .orient-panel { transform: none; }
+  }
+</style>
+
+<script>
+  (function () {
+    if ((window as Window & { __orientInit?: boolean }).__orientInit) return;
+    (window as Window & { __orientInit?: boolean }).__orientInit = true;
+
+    interface Dest { t: string; d: string; h: string; w: number; k: string[]; }
+
+    // Mapping mots-clés → pages. « w » = poids d'affichage par défaut (0 = masqué
+    // tant qu'on n'a pas tapé de mot-clé correspondant, réservé aux pages légales).
+    const DESTS: Dest[] = [
+      { t: 'Nos formules et tarifs', d: 'Page unique, vitrine, boutique, sur mesure', h: '/services', w: 10,
+        k: ['tarif','tarifs','prix','combien','cout','coût','budget','formule','formules','offre','offres','vitrine','boutique','ecommerce','e-commerce','commerce','vendre','sur mesure','prestation','prestations','catalogue','site vitrine'] },
+      { t: 'Estimer le prix de mon site', d: 'Quelques questions, une fourchette en 2 minutes', h: '/simulateur', w: 9,
+        k: ['simulateur','simulation','estimer','estimation','estimateur','calcul','calculer','calculette','fourchette','devis rapide'] },
+      { t: 'Référencement naturel (SEO)', d: 'Mots-clés, référencement local, fiche Google', h: '/referencement-naturel', w: 8,
+        k: ['referencement','référencement','seo','google','mots-cles','mots cles','mots clés','visible','visibilite','visibilité','trouve','trouvé','trouver','remonter','position','positionnement','fiche google','google business','google maps','maps','avis google','recherche google','indexation'] },
+      { t: 'Demander un devis', d: 'On vous répond sous 48 h', h: '/contact#devis', w: 7,
+        k: ['contact','contacter','devis','joindre','appeler','telephone','téléphone','email','mail','message','ecrire','écrire','rendez-vous','rdv','projet','demande','coordonnees','coordonnées'] },
+      { t: 'La Page unique, dès 500 €', d: "L'essentiel de votre activité sur une seule page", h: '/site-une-page', w: 6,
+        k: ['page unique','une page','500','petit budget','pas cher','abordable','accessible','demarrer','démarrer','simple','landing','onepage','one page'] },
+      { t: 'Qui est derrière Caelestis', d: 'Célestin, votre interlocuteur', h: '/a-propos', w: 5,
+        k: ['qui','propos','a propos','celestin','célestin','parcours','histoire','confiance','humain','interlocuteur','equipe','équipe','freelance','independant','indépendant','developpeur','développeur'] },
+      { t: 'Maintenance et sécurité', d: 'Votre site à jour, rapide et protégé', h: '/maintenance', w: 3,
+        k: ['maintenance','securite','sécurité','mise a jour','mise à jour','mises a jour','entretien','hebergement','hébergement','sauvegarde','protege','protégé','mensuel','abonnement','support'] },
+      { t: 'En Auvergne-Rhône-Alpes', d: 'Drôme, Ardèche et toute la région', h: '/creation-site-internet-auvergne-rhone-alpes', w: 2,
+        k: ['local','region','région','drome','drôme','ardeche','ardèche','valence','crest','auvergne','rhone','rhône','rhone-alpes','secteur','zone','proximite','proximité'] },
+      { t: 'Mentions légales', d: "Informations sur l'éditeur", h: '/mentions-legales', w: 0,
+        k: ['mentions','mentions legales','legal','légal','editeur','éditeur','siret'] },
+      { t: 'Confidentialité et RGPD', d: 'Cookies et données personnelles', h: '/politique-confidentialite', w: 0,
+        k: ['rgpd','confidentialite','confidentialité','cookies','donnees','données','vie privee','vie privée','privacy'] },
+      { t: 'Conditions générales (CGV)', d: 'Conditions de vente', h: '/cgv', w: 0,
+        k: ['cgv','conditions','conditions generales','vente'] },
+    ];
+
+    const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+    function scoreOf(dest: Dest, q: string): number {
+      const nq = norm(q).trim();
+      if (!nq) return dest.w > 0 ? dest.w : -1;
+      const tokens = nq.split(/\s+/).filter(Boolean);
+      const nk = dest.k.map(norm);
+      const hay = norm(dest.t + ' ' + dest.d) + ' ' + nk.join(' ');
+      let s = 0;
+      for (const tok of tokens) {
+        if (nk.indexOf(tok) !== -1) s += 12;
+        else if (nk.some(k => k.indexOf(tok) === 0)) s += 8;
+        else if (hay.indexOf(tok) !== -1) s += 4;
+        else return -1; // un mot ne correspond nulle part → on écarte (logique ET)
+      }
+      return s;
+    }
+
+    let activeIndex = 0;
+    let current: Dest[] = [];
+    let lastFocus: Element | null = null;
+
+    const byId = (id: string) => document.getElementById(id);
+    const overlay = () => byId('orient-overlay');
+    const isOpen = () => { const o = overlay(); return !!o && !o.hidden; };
+
+    function render(q: string) {
+      current = DESTS
+        .map(d => ({ d, s: scoreOf(d, q) }))
+        .filter(x => x.s >= 0)
+        .sort((a, b) => (b.s - a.s) || (b.d.w - a.d.w))
+        .slice(0, 6)
+        .map(x => x.d);
+      activeIndex = 0;
+      const ul = byId('orient-results');
+      const input = byId('orient-input');
+      if (!ul) return;
+      if (!current.length) {
+        ul.innerHTML = '<li class="orient-empty">Aucune page ne correspond. <a href="/contact#devis" data-orient-nav>Écrivez-nous</a>, on vous oriente.</li>';
+        input?.removeAttribute('aria-activedescendant');
+        return;
+      }
+      ul.innerHTML = current.map((r, i) =>
+        `<li role="option" id="orient-opt-${i}" aria-selected="${i === 0 ? 'true' : 'false'}">` +
+          `<a class="orient-item${i === 0 ? ' is-active' : ''}" href="${r.h}" data-orient-nav data-i="${i}">` +
+            `<span class="orient-item-t">${r.t}</span>` +
+            `<span class="orient-item-d">${r.d}</span>` +
+            `<span class="orient-item-arrow" aria-hidden="true">→</span>` +
+          `</a>` +
+        `</li>`
+      ).join('');
+      input?.setAttribute('aria-activedescendant', 'orient-opt-0');
+    }
+
+    function highlight() {
+      const items = document.querySelectorAll('.orient-item');
+      items.forEach((el, i) => {
+        const on = i === activeIndex;
+        el.classList.toggle('is-active', on);
+        el.parentElement?.setAttribute('aria-selected', on ? 'true' : 'false');
+        if (on) {
+          el.scrollIntoView({ block: 'nearest' });
+          byId('orient-input')?.setAttribute('aria-activedescendant', 'orient-opt-' + i);
+        }
+      });
+    }
+
+    function open() {
+      const o = overlay();
+      if (!o || isOpen()) return;
+      byId('mobile-menu')?.classList.add('hidden'); // ferme le menu mobile si ouvert
+      lastFocus = document.activeElement;
+      o.hidden = false;
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(() => o.classList.add('is-open'));
+      const input = byId('orient-input') as HTMLInputElement | null;
+      if (input) { input.value = ''; render(''); input.focus(); }
+    }
+
+    function close() {
+      const o = overlay();
+      if (!o || o.hidden) return;
+      o.classList.remove('is-open');
+      document.body.style.overflow = '';
+      let done = false;
+      const finish = () => { if (done) return; done = true; o.hidden = true; o.removeEventListener('transitionend', finish); };
+      o.addEventListener('transitionend', finish);
+      setTimeout(finish, 260);
+      if (lastFocus && (lastFocus as HTMLElement).focus) (lastFocus as HTMLElement).focus();
+    }
+
+    // ── Délégation globale (survit aux View Transitions) ──
+    document.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      if (t.closest('[data-orient-open]')) { e.preventDefault(); open(); return; }
+      if (t.closest('[data-orient-close]')) { e.preventDefault(); close(); return; }
+      if (t.closest('[data-orient-nav]')) { close(); /* le lien navigue normalement */ }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        isOpen() ? close() : open();
+        return;
+      }
+      if (!isOpen()) return;
+      const o = overlay();
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'ArrowDown') { e.preventDefault(); if (current.length) { activeIndex = (activeIndex + 1) % current.length; highlight(); } return; }
+      if (e.key === 'ArrowUp')   { e.preventDefault(); if (current.length) { activeIndex = (activeIndex - 1 + current.length) % current.length; highlight(); } return; }
+      if (e.key === 'Enter') {
+        const items = document.querySelectorAll<HTMLAnchorElement>('.orient-item');
+        if (items[activeIndex]) { e.preventDefault(); items[activeIndex].click(); }
+        return;
+      }
+      if (e.key === 'Tab' && o) {
+        // Piège à focus : on garde la tabulation dans le panneau (WCAG 2.4.3)
+        const focusables = Array.from(o.querySelectorAll<HTMLElement>('input, a[href], button'))
+          .filter(el => el.offsetParent !== null);
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    document.addEventListener('input', (e) => {
+      const t = e.target as HTMLElement;
+      if (t && t.id === 'orient-input') render((t as HTMLInputElement).value);
+    });
+  })();
+</script>
