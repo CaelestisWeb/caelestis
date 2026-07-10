@@ -231,10 +231,10 @@ const organizationSchema = {
 // le <link rel=preload> : garantit qu'un seul fichier est téléchargé (zéro doublon,
 // le preload ne concurrence plus l'image rendue). Largeurs plafonnées à la taille
 // réellement affichée (vignette ~364px), qualité 56 (photo décorative, petit format).
-const heroSm = await getImage({ src: imgHero, width: 360, format: 'webp', quality: 56 });
-const heroMd = await getImage({ src: imgHero, width: 480, format: 'webp', quality: 56 });
-const heroSrcset = `${heroSm.src} 360w, ${heroMd.src} 480w`;
-const heroSizes  = '(max-width: 640px) calc(100vw - 48px), 480px';
+const heroSm = await getImage({ src: imgHero, width: 340, format: 'webp', quality: 54 });
+const heroMd = await getImage({ src: imgHero, width: 440, format: 'webp', quality: 54 });
+const heroSrcset = `${heroSm.src} 340w, ${heroMd.src} 440w`;
+const heroSizes  = '(max-width: 640px) calc(100vw - 48px), 440px';
 
 // ── Hero desktop (colonne droite, ≥1024px) ──
 // Mêmes précautions : variantes réutilisées par le <img> ET un preload borné par
@@ -389,8 +389,8 @@ const heroDeskSizes  = '42vw';
           src={heroMd.src}
           srcset={heroSrcset}
           sizes={heroSizes}
-          width="480"
-          height="300"
+          width="440"
+          height="275"
           alt="Laptop ouvert dans un jardin verdoyant, création de site internet par Caelestis, Drôme"
           class="w-full h-full object-cover object-center"
           loading="eager"
