@@ -226,9 +226,15 @@ const organizationSchema = {
   sameAs: ['https://share.google/IKYSIPaXxlTN0W5Zz'],
 };
 
-// ── Preload hero image (LCP) ──
-const heroPreloadSm = await getImage({ src: imgHero, width: 360, format: 'webp', quality: 65 });
-const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp', quality: 65 });
+// ── Hero mobile (LCP) ──
+// Variantes générées UNE SEULE FOIS et réutilisées à l'identique par le <img> ET
+// le <link rel=preload> : garantit qu'un seul fichier est téléchargé (zéro doublon,
+// le preload ne concurrence plus l'image rendue). Largeurs plafonnées à la taille
+// réellement affichée (vignette ~364px), qualité 56 (photo décorative, petit format).
+const heroSm = await getImage({ src: imgHero, width: 360, format: 'webp', quality: 56 });
+const heroMd = await getImage({ src: imgHero, width: 480, format: 'webp', quality: 56 });
+const heroSrcset = `${heroSm.src} 360w, ${heroMd.src} 480w`;
+const heroSizes  = '(max-width: 640px) calc(100vw - 48px), 480px';
 
 ---
 <BaseLayout
@@ -243,8 +249,8 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
     rel="preload"
     as="image"
     media="(max-width: 1023px)"
-    imagesrcset={`${heroPreloadSm.src} 360w, ${heroPreloadMd.src} 576w`}
-    imagesizes="(max-width: 640px) 100vw, 576px"
+    imagesrcset={heroSrcset}
+    imagesizes={heroSizes}
     fetchpriority="high"
   />
 
@@ -357,15 +363,17 @@ const heroPreloadMd = await getImage({ src: imgHero, width: 576, format: 'webp',
     <!-- Photo hero mobile/tablette uniquement -->
     <div class="lg:hidden mt-10 w-full max-w-xl mx-auto px-0">
       <div class="img-zoom img-editorial overflow-hidden" style="aspect-ratio: 16/10; max-height: 360px; border-radius: 12px;">
-        <Image
-          src={imgHero}
+        <img
+          src={heroMd.src}
+          srcset={heroSrcset}
+          sizes={heroSizes}
+          width="480"
+          height="300"
           alt="Laptop ouvert dans un jardin verdoyant, création de site internet par Caelestis, Drôme"
           class="w-full h-full object-cover object-center"
           loading="eager"
           fetchpriority="high"
-          widths={[360, 576]}
-          sizes="(max-width: 640px) 100vw, 576px"
-          quality={65}
+          decoding="async"
         />
       </div>
     </div>
