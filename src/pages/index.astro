@@ -236,6 +236,17 @@ const heroMd = await getImage({ src: imgHero, width: 480, format: 'webp', qualit
 const heroSrcset = `${heroSm.src} 360w, ${heroMd.src} 480w`;
 const heroSizes  = '(max-width: 640px) calc(100vw - 48px), 480px';
 
+// ── Hero desktop (colonne droite, ≥1024px) ──
+// Mêmes précautions : variantes réutilisées par le <img> ET un preload borné par
+// media-query desktop. Les deux <img> hero sont en loading="lazy" pour que le
+// scanner de préchargement du navigateur n'aille PAS chercher l'image de l'autre
+// breakpoint (elle est en display:none) ; chaque preload media-scopé garantit que
+// seul le bon fichier est téléchargé, une fois, par appareil.
+const heroDeskMd = await getImage({ src: imgHero, width: 480, format: 'webp', quality: 55 });
+const heroDeskLg = await getImage({ src: imgHero, width: 640, format: 'webp', quality: 55 });
+const heroDeskSrcset = `${heroDeskMd.src} 480w, ${heroDeskLg.src} 640w`;
+const heroDeskSizes  = '42vw';
+
 ---
 <BaseLayout
   title="Création de site internet · Caelestis · Drôme & France"
@@ -251,6 +262,15 @@ const heroSizes  = '(max-width: 640px) calc(100vw - 48px), 480px';
     media="(max-width: 1023px)"
     imagesrcset={heroSrcset}
     imagesizes={heroSizes}
+    fetchpriority="high"
+  />
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    media="(min-width: 1024px)"
+    imagesrcset={heroDeskSrcset}
+    imagesizes={heroDeskSizes}
     fetchpriority="high"
   />
 
@@ -344,16 +364,18 @@ const heroSizes  = '(max-width: 640px) calc(100vw - 48px), 480px';
       <!-- Colonne droite : photo éditoriale (desktop) -->
       <div class="hidden lg:flex items-center justify-center h-full">
         <div class="img-zoom img-editorial w-full max-w-[500px]" style="height: min(72vh, 620px);">
-          <Image
-            src={imgHero}
+          <img
+            src={heroDeskLg.src}
+            srcset={heroDeskSrcset}
+            sizes={heroDeskSizes}
+            width="640"
+            height="794"
             alt="Laptop ouvert dans un jardin verdoyant, création de site internet par Caelestis, Drôme"
             class="w-full h-full object-cover object-center"
             data-parallax
-            loading="eager"
+            loading="lazy"
             fetchpriority="high"
-            widths={[480, 640]}
-            sizes="(max-width: 1024px) 0px, 42vw"
-            quality={55}
+            decoding="async"
           />
         </div>
       </div>
