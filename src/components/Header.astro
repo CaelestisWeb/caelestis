@@ -78,10 +78,10 @@ const current = Astro.url.pathname;
         <a
           href={href}
           aria-current={isActive ? 'page' : undefined}
-          class={`font-body text-base py-3.5 border-b border-cream-dark/40 hover:text-ocre transition-colors flex items-center justify-between ${isActive ? 'text-ocre' : 'text-brun'}`}
+          class={`relative font-body text-base py-3.5 border-b border-cream-dark/40 hover:text-ocre transition-colors flex items-center justify-center text-center ${isActive ? 'text-ocre' : 'text-brun'}`}
         >
           <span>{label}</span>
-          <span aria-hidden="true" class="text-bois-mid/40 text-xs">→</span>
+          <span aria-hidden="true" class="absolute right-0 text-bois-mid/40 text-xs">→</span>
         </a>
         );
       })}
