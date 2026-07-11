@@ -5,7 +5,7 @@ import Button from '../components/Button.astro';
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'Maintenance mensuelle de site internet · Caelestis',
+  name: 'Maintenance mensuelle de site internet, Caelestis',
   description: 'Abonnement mensuel de maintenance technique de site internet pour artisans, indépendants et petites entreprises en France : sécurité, sauvegardes et surveillance.',
   provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
   areaServed: [{ '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' }, { '@type': 'Country', name: 'France' }],
@@ -89,7 +89,7 @@ const couvert = [
 ---
 
 <BaseLayout
-  title="Maintenance de site internet · Caelestis"
+  title="Maintenance de site internet, Caelestis"
   description="Abonnement de maintenance pour votre site internet : sécurité, sauvegardes et surveillance technique. Dès 7,99 € par mois, sans engagement."
   schema={[schema, breadcrumb]}
   noindex={true}
@@ -139,7 +139,7 @@ const couvert = [
         <!-- 1. Maintenance -->
         <div class="relative bg-cream rounded-2xl p-7 lg:p-8 border-2 border-sauge/40 flex flex-col text-center">
           <span class="absolute -top-3 right-5 inline-block font-body text-[10px] font-semibold tracking-[0.16em] uppercase px-3 py-1 rounded-full bg-[#5A653A] text-cream shadow-[0_2px_8px_rgba(53,64,36,0.22)]">Obligatoire</span>
-          <span class="self-center inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-sauge/15 text-sauge mb-5">1 · Abonnement, en continu</span>
+          <span class="self-center inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-sauge/15 text-sauge mb-5">Abonnement, en continu</span>
           <h3 class="font-display text-xl font-light text-brun mb-3">La maintenance</h3>
           <p class="font-body text-sm text-brun-mid leading-relaxed mb-5">
             Le socle technique qui garde votre site en ligne, rapide et protégé. Il tourne tout seul, en fond, sans rien vous demander.
@@ -154,7 +154,7 @@ const couvert = [
 
         <!-- 2. Modifications -->
         <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark flex flex-col text-center">
-          <span class="self-center inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-ocre/12 text-ocre-dark mb-5">2 · À la demande, sur devis</span>
+          <span class="self-center inline-block font-body text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-ocre/12 text-ocre-dark mb-5">À la demande, sur devis</span>
           <h3 class="font-display text-xl font-light text-brun mb-3">Les modifications et retouches</h3>
           <p class="font-body text-sm text-brun-mid leading-relaxed mb-5">
             Tout ce qui change le contenu ou ajoute des fonctions : modifier un texte, remplacer une photo, ajouter une page ou une nouvelle fonctionnalité.
@@ -200,7 +200,7 @@ const couvert = [
               <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2rem, 4vw, 2.6rem); letter-spacing: -0.02em;">
                 {f.prix}<span class="text-bois-mid text-lg ml-1">€</span>
               </p>
-              <p class="font-body text-xs text-brun-mid/75 mt-2">par mois · sans engagement</p>
+              <p class="font-body text-xs text-brun-mid/75 mt-2">par mois, sans engagement</p>
             </div>
             <p class="font-body text-sm text-brun-mid mb-6 leading-relaxed">{f.desc}</p>
             <ul class="flex flex-col gap-3 flex-1 mb-7">
