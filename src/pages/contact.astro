@@ -263,9 +263,9 @@ const breadcrumbContact = {
               <!-- Jours disponibles — fieldset pour les checkboxes WCAG 1.3.1 -->
               <fieldset>
                 <legend class="font-body text-xs tracking-widest uppercase text-brun-mid mb-3">Jours disponibles</legend>
-                <div class="flex gap-2 flex-wrap">
+                <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
                   {['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'].map((jour) => (
-                    <label class="flex items-center justify-center w-12 min-h-[44px] border border-cream-dark bg-white/50 rounded-lg font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
+                    <label class="flex items-center justify-center w-full min-h-[44px] border border-cream-dark bg-white/50 rounded-lg font-body text-xs text-brun-mid cursor-pointer transition-all duration-200 hover:border-sauge/50 has-[:checked]:border-ocre has-[:checked]:bg-ocre/6 has-[:checked]:text-brun">
                       <input type="checkbox" name="jours" value={jour} class="sr-only" />
                       {jour}
                     </label>

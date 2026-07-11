@@ -96,7 +96,7 @@ const departements = [
       </div>
 
       <!-- Bande départements -->
-      <div class="mt-12 flex flex-wrap justify-center gap-2.5" data-reveal data-delay="1">
+      <div class="mt-12 grid grid-cols-3 justify-items-center gap-2.5 sm:flex sm:flex-wrap sm:justify-center max-w-xl mx-auto" data-reveal data-delay="1">
         {departements.map((d) => (
           <span class="font-body text-xs tracking-[0.08em] text-brun-mid border border-cream-dark rounded-full px-3.5 py-1.5">{d}</span>
         ))}
