@@ -44,7 +44,9 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- minimum-scale=1 : empêche le dézoom sous 100 % sur mobile (page toujours pleine),
+         SANS bloquer le zoom-avant (accessibilité WCAG 1.4.4 préservée, pas de user-scalable=no) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
     <!-- ── Reveal tactile — anti-flash + failsafe ──
          Sur pointeur grossier (mobile), GSAP n'est pas chargé : on pose .reveal-js
          AVANT le paint pour que les apparitions soient gérées en CSS/IO. Le failsafe
