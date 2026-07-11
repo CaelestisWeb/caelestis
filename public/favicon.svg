@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- Caelestis. — monogramme C + point, tracé géométrique (aucune dépendance police) -->
   <rect width="512" height="512" rx="112" fill="#3D4F28"/>
-  <path d="M 315.4 325.9 A 118 118 0 1 1 315.4 174.1" fill="none" stroke="#EDE3D4" stroke-width="56" stroke-linecap="round"/>
-  <circle cx="396" cy="362" r="34" fill="#EDE3D4"/>
+  <g transform="translate(109.69 399.44) scale(0.40984 -0.40984)">
+    <path d="M594 477Q583 567 532 615.5Q481 664 399 665Q347 665 303 642Q259 619 227 577.5Q195 536 177.5 479.5Q160 423 160 356Q160 265 192 194.5Q224 124 280.5 85Q337 46 409 46Q473 46 535.5 76.5Q598 107 639 163L672 135Q627 73 576 40Q525 7 474.5 -4.5Q424 -16 383 -16Q308 -16 245 11Q182 38 136.5 86.5Q91 135 66.5 199.5Q42 264 42 339Q42 409 64 476Q86 543 129 597.5Q172 652 237.5 684Q303 716 390 716Q441 716 489.5 702Q538 688 583 659L578 709L640 709L640 477Z" fill="#EDE3D4"/>
+  </g>
 </svg>
