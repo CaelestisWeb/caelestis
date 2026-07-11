@@ -1,6 +1,7 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
+import BrandMoment from '../components/BrandMoment.astro';
 import { Image } from 'astro:assets';
 import imgBureau from '../assets/images/photo-bureau.jpg';
 
@@ -120,9 +121,11 @@ const breadcrumbApropos = {
             <p>
               C'est donc pour cette raison que j'ai créé Caelestis : aider les artisans, indépendants et entrepreneurs à disposer d'une présence en ligne à la hauteur de leur savoir-faire.
             </p>
-            <p class="font-display font-light text-sauge text-lg">
-              Caelestis.
-            </p>
+          </div>
+
+          <!-- Moment de marque : la signature « Caelestis. » animée, en boucle -->
+          <div class="mt-10" data-reveal data-delay="3">
+            <BrandMoment />
           </div>
 
           <div class="mt-12 flex justify-center" data-reveal data-delay="3">

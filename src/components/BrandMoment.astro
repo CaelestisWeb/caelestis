@@ -1,0 +1,255 @@
+---
+// ── Moment de marque « Caelestis. » ──
+// Reprend l'animation de l'ancienne intro (phrase + « Caelestis. » à la machine
+// à écrire, curseur, point mousse) mais en BLOC CONTENU (pas plein écran), en
+// boucle tant qu'il est visible, MUET par défaut avec un bouton pour activer les
+// sons de clavier. Aucune dépendance (CSS transitions + JS natif). Sizing par
+// container queries → net à toute largeur. Coupé si « animations réduites ».
+---
+
+<figure class="bm-figure">
+  <div class="bm-stage">
+    <p class="bm-phrase" aria-hidden="true"></p>
+    <p class="bm-brand" aria-hidden="true"></p>
+    <span class="bm-tagline" aria-hidden="true">Création de site web</span>
+    <button class="bm-sound" type="button" aria-label="Activer le son de l'animation" aria-pressed="false">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z"/>
+        <path class="bm-wave" d="M16 9a4 4 0 0 1 0 6"/>
+        <line class="bm-slash" x1="16" y1="9" x2="20.5" y2="15"/>
+      </svg>
+    </button>
+  </div>
+  <figcaption class="sr-only">Caelestis. Pour ceux qui créent quelque chose de beau.</figcaption>
+</figure>
+
+<style is:global>
+  .bm-figure {
+    margin: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(61, 79, 40, 0.15);
+    box-shadow: 0 18px 44px rgba(45, 40, 20, 0.18);
+    container-type: inline-size;
+  }
+  .bm-stage {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: #2a3b18;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8% 9%;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .bm-phrase,
+  .bm-brand {
+    position: absolute;
+    left: 9%;
+    right: 9%;
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-weight: 300;
+    font-style: normal;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .bm-phrase {
+    font-size: clamp(0.95rem, 5.2cqw, 1.7rem);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: rgba(237, 227, 212, 0.90);
+  }
+  .bm-brand {
+    font-size: clamp(1.7rem, 11cqw, 3.4rem);
+    letter-spacing: -0.04em;
+    color: rgba(237, 227, 212, 0.97);
+  }
+
+  .bm-cursor {
+    display: inline;
+    margin-left: 1px;
+    color: rgba(136, 144, 99, 0.90);
+    font-weight: 300;
+    animation: bm-blink 0.70s step-end infinite;
+  }
+  @keyframes bm-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  .bm-dot { color: #889063; font-style: normal; }
+
+  .bm-tagline {
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Sans Variable', 'DM Sans', sans-serif;
+    font-size: clamp(0.48rem, 2.3cqw, 0.68rem);
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(237, 227, 212, 0.52);
+    white-space: nowrap;
+  }
+
+  .bm-sound {
+    position: absolute;
+    top: 6%;
+    right: 6%;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(237, 227, 212, 0.10);
+    border: 1px solid rgba(237, 227, 212, 0.20);
+    color: rgba(237, 227, 212, 0.78);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+  .bm-sound:hover { background: rgba(237, 227, 212, 0.18); color: #EDE3D4; }
+  .bm-sound:focus-visible { outline: 2px solid rgba(237, 227, 212, 0.65); outline-offset: 2px; }
+  .bm-wave  { opacity: 0; transition: opacity 0.2s ease; }
+  .bm-slash { opacity: 1; transition: opacity 0.2s ease; }
+  .bm-figure.bm-on .bm-wave  { opacity: 1; }
+  .bm-figure.bm-on .bm-slash { opacity: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bm-phrase, .bm-brand { transition: none; }
+    .bm-cursor { animation: none; }
+  }
+</style>
+
+<script>
+  (function () {
+    if ((window as Window & { __bmBound?: boolean }).__bmBound) return;
+    (window as Window & { __bmBound?: boolean }).__bmBound = true;
+
+    const PHRASE = 'Pour ceux qui créent quelque chose de beau.';
+
+    function initBlock(figure: HTMLElement) {
+      if (figure.dataset.bmReady) return;
+      figure.dataset.bmReady = '1';
+
+      const phraseEl = figure.querySelector('.bm-phrase') as HTMLElement;
+      const brandEl  = figure.querySelector('.bm-brand')  as HTMLElement;
+      const soundBtn = figure.querySelector('.bm-sound')  as HTMLButtonElement;
+      if (!phraseEl || !brandEl) return;
+
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ── Son (muet par défaut, activable) ── */
+      const AudioCtx = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      let soundOn = false;
+      let ctx: AudioContext | null = null;
+
+      function playKey(vol: number, freq: number) {
+        if (!soundOn || !ctx || ctx.state !== 'running') return;
+        const now = ctx.currentTime;
+        const v = vol * (0.78 + Math.random() * 0.44);
+        const f = freq + (Math.random() - 0.5) * 1400;
+        const n = Math.floor(ctx.sampleRate * 0.022);
+        const buf = ctx.createBuffer(1, n, ctx.sampleRate);
+        const d = buf.getChannelData(0);
+        for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2.8);
+        const src = ctx.createBufferSource(); src.buffer = buf;
+        const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = f;
+        const g1 = ctx.createGain();
+        g1.gain.setValueAtTime(v, now);
+        g1.gain.exponentialRampToValueAtTime(0.001, now + 0.022);
+        src.connect(hp); hp.connect(g1); g1.connect(ctx.destination); src.start(now);
+        const osc = ctx.createOscillator(); osc.type = 'sine';
+        osc.frequency.setValueAtTime(115 + Math.random() * 55, now);
+        osc.frequency.exponentialRampToValueAtTime(38, now + 0.040);
+        const g2 = ctx.createGain();
+        g2.gain.setValueAtTime(v * 0.30, now);
+        g2.gain.exponentialRampToValueAtTime(0.0001, now + 0.040);
+        osc.connect(g2); g2.connect(ctx.destination); osc.start(now); osc.stop(now + 0.040);
+      }
+
+      soundBtn?.addEventListener('click', () => {
+        soundOn = !soundOn;
+        if (soundOn && AudioCtx) {
+          if (!ctx) ctx = new AudioCtx();
+          ctx.resume().catch(() => {});
+        }
+        figure.classList.toggle('bm-on', soundOn);
+        soundBtn.setAttribute('aria-pressed', String(soundOn));
+        soundBtn.setAttribute('aria-label', soundOn ? "Couper le son de l'animation" : "Activer le son de l'animation");
+      });
+
+      /* ── Rendu statique si animations réduites (WCAG 2.3.3) ── */
+      if (reduce) {
+        brandEl.innerHTML = 'Caelestis<em class="bm-dot">.</em>';
+        brandEl.style.opacity = '1';
+        return;
+      }
+
+      const wait = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+      let stop = false;
+      let running = false;
+
+      async function typeBrand() {
+        brandEl.innerHTML = '';
+        brandEl.style.opacity = '1';
+        const cur = document.createElement('span');
+        cur.className = 'bm-cursor'; cur.textContent = '|';
+        brandEl.appendChild(cur);
+        for (const ch of [...'Caelestis']) {
+          if (stop) return;
+          await wait(60 + Math.random() * 22);
+          brandEl.insertBefore(document.createTextNode(ch), cur);
+          playKey(0.06, 2800);
+        }
+        await wait(180);
+        if (stop) return;
+        const dot = document.createElement('em');
+        dot.className = 'bm-dot'; dot.textContent = '.';
+        brandEl.insertBefore(dot, cur);
+        playKey(0.12, 2000);
+        await wait(700);
+        cur.remove();
+      }
+
+      async function loop() {
+        if (running) return;
+        running = true;
+        while (!stop) {
+          phraseEl.textContent = PHRASE;
+          brandEl.innerHTML = '';
+          brandEl.style.opacity = '0';
+          phraseEl.style.opacity = '0';
+          await wait(80);
+          if (stop) break;
+          phraseEl.style.opacity = '1';
+          await wait(1900);
+          if (stop) break;
+          phraseEl.style.opacity = '0';
+          await wait(560);
+          if (stop) break;
+          await typeBrand();
+          await wait(1600);
+          if (stop) break;
+          brandEl.style.opacity = '0';
+          await wait(680);
+        }
+        running = false;
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { stop = false; loop(); }
+          else { stop = true; }
+        });
+      }, { threshold: 0.35 });
+      io.observe(figure);
+    }
+
+    const initAll = () => document.querySelectorAll<HTMLElement>('.bm-figure').forEach(initBlock);
+    initAll();
+    document.addEventListener('astro:page-load', initAll);
+  })();
+</script>
