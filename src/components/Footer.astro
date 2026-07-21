@@ -23,10 +23,10 @@ const year = new Date().getFullYear();
         <div class="relative overflow-hidden" style="width: 200px; height: 148px; border-radius: 3px;">
           <!-- Lien overlay cliquable au-dessus de la carte -->
           <a
-            href="https://www.google.com/maps/place/Dr%C3%B4me/@44.7308,5.0197,9z"
+            href="https://www.google.com/maps/place/Auvergne-Rh%C3%B4ne-Alpes/@45.45,4.55,7z"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Voir la Drôme sur Google Maps"
+            aria-label="Voir l'Auvergne-Rhône-Alpes sur Google Maps"
             class="absolute inset-0 z-20 transition-colors duration-200 hover:bg-white/5"
           ></a>
           <!-- Dégradé décoratif -->
@@ -36,17 +36,17 @@ const year = new Date().getFullYear();
               linear-gradient(to right,  #354024 0%, transparent 15%, transparent 85%, #354024 100%);
           "></div>
           <iframe
-            src="https://maps.google.com/maps?q=Drome,+France&t=&z=9&ie=UTF8&iwloc=&output=embed&hl=fr"
+            src="https://maps.google.com/maps?q=Auvergne-Rhone-Alpes,+France&t=&z=7&ie=UTF8&iwloc=&output=embed&hl=fr"
             width="200"
             height="148"
             style="border:0; filter: grayscale(1) brightness(0.55) contrast(1.1) sepia(0.2); display:block;"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
             sandbox="allow-scripts allow-same-origin"
-            title="Drôme, France"
+            title="Auvergne-Rhône-Alpes, France"
           ></iframe>
         </div>
-        <p class="font-body text-xs tracking-[0.22em] uppercase" style="color: rgba(237,227,212,0.25)">Drôme, France</p>
+        <p class="font-body text-xs tracking-[0.18em] uppercase text-center" style="color: rgba(237,227,212,0.25); max-width: 200px;">Auvergne-Rhône-Alpes</p>
       </div>
 
       <!-- Nav + Contact groupés à droite -->
@@ -57,7 +57,7 @@ const year = new Date().getFullYear();
           <nav class="flex flex-row flex-wrap justify-center gap-x-4 gap-y-2 md:flex-col md:gap-2.5" aria-label="Navigation du site">
             {[
               { href: '/',                      label: 'Accueil'       },
-              { href: '/services',              label: 'Services'      },
+              { href: '/services',              label: 'Prestations'   },
               { href: '/simulateur',            label: 'Simulateur'    },
               { href: '/referencement-naturel', label: 'Référencement' },
               { href: '/a-propos',              label: 'À propos'      },

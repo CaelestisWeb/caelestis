@@ -531,13 +531,15 @@ const etapes = [
       <!-- Bloc tarif — trois typologies éditoriales -->
       <div data-reveal>
 
-        <!-- Header -->
-        <div class="text-center mb-12 lg:mb-16">
-          <div class="inline-flex items-center gap-3 mb-4">
-            <span class="block w-8 h-px bg-sauge"></span>
-            <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Comprendre nos offres</p>
-            <span class="block w-8 h-px bg-sauge"></span>
-          </div>
+        <!-- Famille 1 : créer votre site -->
+        <div class="text-center mb-12 lg:mb-14">
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Le site</p>
+          <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+            Créer votre site.
+          </h2>
+          <p class="font-body text-base text-brun-mid mt-4 max-w-xl mx-auto leading-relaxed">
+            Quatre formules, de la plus simple au sur mesure. Toutes livrées prêtes à l'emploi, avec les bases du référencement déjà en place.
+          </p>
         </div>
 
         <!-- Offre d'entrée : Site une page (mise en avant) -->
@@ -618,14 +620,6 @@ const etapes = [
           <p class="font-body text-sm text-brun-mid leading-relaxed">
             Après avoir échangé sur votre projet, nous vous transmettons un devis détaillé et personnalisé. Le tarif dépend de la structure du site, du nombre de pages, du contenu à mettre en valeur et des fonctionnalités envisagées.
           </p>
-          <div class="mt-5 flex flex-col items-center gap-2.5">
-            <a href="/referencement-naturel" class="inline-flex items-center gap-1.5 font-body text-sm font-medium text-[#5C6A40] hover:text-brun transition-colors">
-              Être visible sur Google&nbsp;? Découvrir le référencement naturel <span aria-hidden="true">→</span>
-            </a>
-            <a href="/maintenance" class="inline-flex items-center gap-1.5 font-body text-sm font-medium text-[#5C6A40] hover:text-brun transition-colors">
-              Et après la mise en ligne&nbsp;? Découvrir la maintenance <span aria-hidden="true">→</span>
-            </a>
-          </div>
           <p class="font-body text-sm font-semibold text-sauge leading-relaxed mt-5">
             30 % d'acompte à la signature, solde à la mise en ligne.
           </p>
@@ -636,22 +630,84 @@ const etapes = [
     </div>
   </section>
 
-  <!-- ── Prestation complémentaire : fiche Google ── -->
-  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
-    <a
-      href="/fiche-google-entreprise"
-      class="group block max-w-2xl mx-auto rounded-2xl border border-cream-dark bg-cream/60 p-6 md:p-8 text-center transition-all duration-300 hover:border-sauge/50 hover:bg-cream hover:shadow-[0_8px_30px_rgba(53,64,36,0.08)]"
-      data-reveal
-    >
-      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Aussi, même sans créer de site</p>
-      <h2 class="font-display font-light text-brun leading-[1.15] mb-4" style="font-size: clamp(1.5rem, 2.6vw, 2rem);">
-        Votre fiche Google d'établissement.
-      </h2>
-      <p class="font-body text-sm md:text-base text-brun-mid leading-relaxed">
-        C'est l'encadré qui s'affiche sur Google et sur Maps quand on cherche votre nom, ou votre métier dans votre ville : horaires, téléphone, itinéraire, photos et avis. Nous la créons, la récupérons si Google l'a générée sans vous, et la travaillons pour qu'elle donne envie de vous appeler. Une prestation courte, qui fonctionne <strong class="text-brun font-semibold">avec ou sans site internet</strong>.
-      </p>
-      <span class="inline-block mt-5 font-body text-sm font-medium text-[#5C6A40] group-hover:text-brun transition-colors">Découvrir la prestation fiche Google →</span>
-    </a>
+  <!-- ── Famille 2 : être trouvé sur Google ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
+    <div class="max-w-4xl mx-auto">
+
+      <div class="text-center mb-12" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">La visibilité</p>
+        <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Être trouvé sur Google.
+        </h2>
+        <p class="font-body text-base text-brun-mid mt-4 max-w-xl mx-auto leading-relaxed">
+          Un beau site ne sert à rien si personne ne le trouve. Ces deux prestations existent aussi seules, même si votre site a été créé ailleurs.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5" data-reveal data-delay="1">
+        <a href="/referencement-naturel" class="group flex flex-col rounded-2xl border border-cream-dark bg-cream p-7 transition-all duration-300 hover:border-sauge/60 hover:shadow-[0_12px_30px_rgba(76,61,25,0.10)]">
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Sur la durée</p>
+          <h3 class="font-display text-xl font-light text-brun mb-2.5">Référencement naturel</h3>
+          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
+            Les bons mots-clés, le référencement local, un site sain aux yeux de Google. Pour remonter dans les résultats et y rester, sans payer de publicité.
+          </p>
+          <span class="inline-flex items-center gap-1.5 mt-5 font-body text-sm font-medium text-[#5C6A40] group-hover:gap-2.5 transition-all">
+            Découvrir <span aria-hidden="true">→</span>
+          </span>
+        </a>
+
+        <a href="/fiche-google-entreprise" class="group flex flex-col rounded-2xl border border-cream-dark bg-cream p-7 transition-all duration-300 hover:border-sauge/60 hover:shadow-[0_12px_30px_rgba(76,61,25,0.10)]">
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Résultat rapide</p>
+          <h3 class="font-display text-xl font-light text-brun mb-2.5">Fiche Google</h3>
+          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
+            L'encadré qui s'affiche sur Google et sur Maps avec vos horaires, votre téléphone et vos avis. Il fonctionne <strong class="text-brun font-semibold">même sans site internet</strong>.
+          </p>
+          <span class="inline-flex items-center gap-1.5 mt-5 font-body text-sm font-medium text-[#5C6A40] group-hover:gap-2.5 transition-all">
+            Découvrir <span aria-hidden="true">→</span>
+          </span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Famille 3 : garder le site en forme ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
+    <div class="max-w-4xl mx-auto">
+
+      <div class="text-center mb-12" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Le suivi</p>
+        <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Garder votre site en forme.
+        </h2>
+      </div>
+
+      <a href="/maintenance" class="group block max-w-2xl mx-auto rounded-2xl border border-cream-dark bg-cream p-7 md:p-8 text-center transition-all duration-300 hover:border-sauge/60 hover:shadow-[0_12px_30px_rgba(76,61,25,0.10)]" data-reveal data-delay="1">
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Abonnement mensuel</p>
+        <h3 class="font-display text-xl font-light text-brun mb-2.5">Maintenance et sécurité</h3>
+        <p class="font-body text-sm md:text-base text-brun-mid leading-relaxed">
+          Mises à jour, sauvegardes et protection contre les failles. Votre site reste en ligne, rapide et sûr, sans que vous ayez à y penser. Dès <strong class="text-brun font-semibold">7,99 € par mois</strong>, sans engagement.
+        </p>
+        <span class="inline-flex items-center gap-1.5 mt-5 font-body text-sm font-medium text-[#5C6A40] group-hover:gap-2.5 transition-all">
+          Découvrir les formules <span aria-hidden="true">→</span>
+        </span>
+      </a>
+
+      <!-- Orientation : pour ceux qui ne savent pas par où commencer -->
+      <div class="mt-16 pt-12 border-t border-cream-dark max-w-2xl mx-auto text-center" data-reveal data-delay="2">
+        <p class="font-display font-light text-brun mb-3" style="font-size: clamp(1.3rem, 2.4vw, 1.7rem);">
+          Vous ne savez pas par où commencer&nbsp;?
+        </p>
+        <p class="font-body text-sm text-brun-mid mb-7 leading-relaxed">
+          Répondez à quelques questions, nous vous indiquons la formule adaptée et une fourchette de prix. En deux minutes, sans inscription.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          <Button href="/simulateur" variant="primary">Estimer mon projet</Button>
+          <Button href="/contact#devis" variant="outline">Demander un devis</Button>
+        </div>
+      </div>
+
+    </div>
   </section>
 
   <!-- ── Comment nous travaillons — 5 étapes enrichies ── -->
