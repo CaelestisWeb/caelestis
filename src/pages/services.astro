@@ -5,7 +5,7 @@ import Button from '../components/Button.astro';
 const servicesSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'Prestations Caelestis',
+  name: 'Services Caelestis',
   description: 'Sites web sur mesure et référencement naturel pour artisans, indépendants et petites entreprises en Auvergne-Rhône-Alpes. Agence basée à Crest, dans la Drôme.',
   url: 'https://caelestis.fr/services',
   numberOfItems: 6,
@@ -109,7 +109,7 @@ const breadcrumbServices = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
-    { '@type': 'ListItem', position: 2, name: 'Prestations', item: 'https://caelestis.fr/services' },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://caelestis.fr/services' },
   ],
 };
 
@@ -142,7 +142,7 @@ const etapes = [
 ];
 ---
 <BaseLayout
-  title="Création de site internet, Tarifs & Prestations, Caelestis"
+  title="Création de site internet, Tarifs & Services, Caelestis"
   description="Site une page dès 500 €, vitrine dès 800 €, boutique dès 1 200 €, sur mesure dès 2 500 €. Devis gratuit sous 48h pour artisans et indépendants."
   schema={[servicesSchema, breadcrumbServices]}
 >
@@ -228,7 +228,7 @@ const etapes = [
                   <div class="mk-body mk-body-s">Il renforce votre image et contribue au développement de votre entreprise.</div>
                   <div class="mk-btns">
                     <div class="mk-btn-p">Lancer mon projet</div>
-                    <div class="mk-btn-g">Nos prestations</div>
+                    <div class="mk-btn-g">Nos services</div>
                   </div>
                   <div class="mk-meta">
                     <span>Réponse sous 48h</span>
@@ -640,7 +640,7 @@ const etapes = [
           Être trouvé sur Google.
         </h2>
         <p class="font-body text-base text-brun-mid mt-4 max-w-xl mx-auto leading-relaxed">
-          Un beau site ne sert à rien si personne ne le trouve. Ces deux prestations existent aussi seules, même si votre site a été créé ailleurs.
+          Un beau site ne sert à rien si personne ne le trouve. Ces deux services existent aussi seuls, même si votre site a été créé ailleurs.
         </p>
       </div>
 
