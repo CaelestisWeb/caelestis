@@ -2,14 +2,14 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 
-const canonical = 'https://caelestis.fr/referencement-naturel';
+const canonical = 'https://caelestis.fr/fiche-google-entreprise';
 
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'Référencement naturel (SEO)',
-  serviceType: 'Référencement naturel et SEO local',
-  description: "Référencement naturel pour artisans, producteurs et indépendants : mots-clés, SEO local, fiche Google et suivi. Être trouvé sur Google par ses futurs clients, durablement et sans publicité.",
+  name: "Création et optimisation de fiche Google d'établissement",
+  serviceType: 'Référencement local et fiche Google Business Profile',
+  description: "Création, récupération et optimisation de votre fiche Google d'établissement : catégories, photos, horaires, description et avis. Pour être trouvé sur Google et sur Maps par les clients de votre secteur.",
   provider: {
     '@type': 'LocalBusiness',
     '@id': 'https://caelestis.fr/#business',
@@ -28,27 +28,27 @@ const breadcrumb = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
-    { '@type': 'ListItem', position: 2, name: 'Référencement naturel', item: canonical },
+    { '@type': 'ListItem', position: 2, name: 'Fiche Google', item: canonical },
   ],
 };
 
-// FAQ affichée en bas de page — le schéma reflète mot pour mot le contenu visible
+// FAQ affichée en bas de page, le schéma reprend mot pour mot le contenu visible
 const faq = [
   {
-    q: "Au bout de combien de temps voit-on des résultats ?",
-    a: "Comptez généralement de 3 à 6 mois pour des progrès visibles. Le référencement naturel est un travail de fond : les résultats arrivent progressivement, mais ils restent.",
+    q: "Je n'ai pas de site internet, est-ce que ça vaut le coup ?",
+    a: "Oui, et c'est même souvent le moyen le plus rapide d'exister en ligne. Une fiche bien remplie affiche votre téléphone, vos horaires, vos photos et l'itinéraire vers chez vous. Beaucoup d'artisans reçoivent leurs premiers appels par là, avant d'avoir un site.",
   },
   {
-    q: "Est-ce utile pour un petit artisan local ?",
-    a: "C'est même là que c'est le plus efficace. Sur une recherche locale (votre métier suivi de votre ville), vous ne concurrencez que les entreprises de votre secteur, pas la France entière. Une fiche Google soignée et un site bien optimisé font souvent une vraie différence.",
+    q: "Ma fiche existe déjà alors que je ne l'ai jamais créée, c'est normal ?",
+    a: "Oui, cela arrive souvent : Google crée parfois une fiche automatiquement à partir d'informations publiques. Le problème, c'est qu'elle est incomplète et que personne ne la contrôle. Nous la récupérons pour vous, afin que vous en repreniez la main.",
   },
   {
-    q: "Le référencement naturel, c'est de la publicité Google ?",
-    a: "Non. La publicité (Google Ads) s'arrête dès que vous cessez de payer. Le référencement naturel, lui, construit une visibilité qui reste : vous n'achetez pas votre place, vous la méritez.",
+    q: "En combien de temps ma fiche est-elle visible ?",
+    a: "La fiche elle-même se prépare en quelques jours. Ensuite, Google demande une vérification (par courrier, téléphone ou vidéo) qui prend de quelques jours à quelques semaines. Ce délai dépend de Google, pas de nous, et nous vous accompagnons pendant toute l'étape.",
   },
   {
-    q: "Faut-il refaire mon site pour être bien référencé ?",
-    a: "Pas forcément. On commence par un audit : parfois quelques corrections suffisent, parfois le site freine vraiment (lenteur, structure). Dans tous les cas, vous savez à quoi vous en tenir avant de décider.",
+    q: "Pouvez-vous faire supprimer un avis négatif ?",
+    a: "Non, et personne ne le peut. Un avis ne disparaît que s'il enfreint les règles de Google, auquel cas nous le signalons. La bonne réponse à un avis négatif, c'est une réponse posée et professionnelle, puis de nouveaux avis sincères qui rétablissent l'équilibre.",
   },
 ];
 
@@ -62,26 +62,26 @@ const faqSchema = {
   })),
 };
 
-// Les 5 piliers du référencement, du plus parlant au plus technique
-const piliers = [
-  { t: 'Les bons mots-clés', d: "On identifie les mots que tapent réellement vos futurs clients : votre métier, leurs besoins, leur ville. Votre site est construit pour répondre à ces recherches." },
-  { t: 'Le référencement local', d: "Être visible quand on cherche près de chez vous : votre ville, votre vallée, votre département. Pour un artisan, c'est là que tout se joue." },
-  { t: 'Votre fiche Google', d: "Création ou optimisation de votre fiche d'établissement : photos, services, horaires, avis. C'est elle qui apparaît sur Google Maps et à côté des résultats." },
-  { t: 'La technique et le contenu', d: "Un site rapide, bien structuré et compris par Google : titres, textes, images, données structurées, liens entre vos pages." },
-  { t: 'Le suivi', d: "On mesure ce qui compte : vos positions, vos visites, vos demandes de contact. Et on ajuste, mois après mois." },
+// Ce que contient la prestation
+const travaux = [
+  { t: 'Création ou récupération', d: "On crée votre fiche si elle n'existe pas, ou on récupère celle que Google a générée sans vous, pour que vous en soyez officiellement propriétaire." },
+  { t: 'Les bonnes catégories', d: "C'est le réglage le plus décisif : votre catégorie principale détermine sur quelles recherches vous apparaissez. On la choisit avec précision, pas au hasard." },
+  { t: 'Une fiche complète', d: "Services, horaires, jours fériés, zone d'intervention, description, moyens de paiement. Google met en avant les fiches complètes et à jour." },
+  { t: 'Vos vraies photos', d: "Votre lieu, vos réalisations, votre visage. Ce sont les premières choses que regardent les gens, et elles font souvent la différence avec le concurrent d'à côté." },
+  { t: 'Une méthode pour les avis', d: "Comment demander un avis au bon moment, et répondre à tous, y compris aux négatifs. Jamais de faux avis : c'est interdit et cela peut faire suspendre votre fiche." },
 ];
 
 // Les 3 temps de la mission
 const etapes = [
-  { n: '01', t: "L'audit", d: "On analyse votre présence actuelle : votre site, votre fiche Google, vos concurrents et les recherches de vos clients." },
-  { n: '02', t: 'Le plan d\'action', d: "Vous recevez un plan clair et chiffré : ce qu'on va faire, pourquoi, et ce que vous pouvez en attendre. Sans jargon." },
-  { n: '03', t: 'La mise en oeuvre', d: "On applique, on mesure, on ajuste. Vous suivez les progrès avec nous, en toute transparence." },
+  { n: '01', t: "On regarde l'existant", d: "Votre fiche actuelle si vous en avez une, celles de vos concurrents directs, et les recherches qui comptent dans votre secteur." },
+  { n: '02', t: 'On construit la fiche', d: "Création ou récupération, réglages, contenus, photos. Vous validez avant la mise en ligne, comme pour un site." },
+  { n: '03', t: 'On vous laisse les clés', d: "La fiche vous appartient. On vous montre comment publier et répondre aux avis, ou on continue de s'en occuper si vous préférez." },
 ];
 ---
 
 <BaseLayout
-  title="Référencement naturel, SEO local & fiche Google, Caelestis"
-  description="Mots-clés, référencement local, fiche Google : soyez trouvé par vos futurs clients, durablement et sans publicité. SEO pour artisans et indépendants."
+  title="Fiche Google d'établissement, création et optimisation, Caelestis"
+  description="Création, récupération et optimisation de votre fiche Google d'établissement : catégories, photos, horaires, avis. Soyez trouvé sur Google et sur Maps dans votre secteur."
   canonical={canonical}
   schema={[schema, breadcrumb, faqSchema]}
 >
@@ -94,25 +94,25 @@ const etapes = [
     <div class="max-w-4xl mx-auto relative text-center">
       <div class="inline-flex items-center gap-2 mb-6" data-reveal>
         <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Référencement naturel</p>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Fiche Google d'établissement</p>
       </div>
       <h1
         class="font-display font-light text-brun leading-[1.06] tracking-tight max-w-3xl mx-auto"
         style="font-size: clamp(2.1rem, 5vw, 3.9rem);"
         data-reveal data-delay="1"
       >
-        Être trouvé par ceux qui<br class="hidden sm:block"> <span class="text-sauge">vous cherchent déjà.</span>
+        Votre fiche Google,<br class="hidden sm:block"> <span class="text-sauge">la première chose qu'on voit de vous.</span>
       </h1>
       <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed mx-auto" data-reveal data-delay="2">
-        Chaque jour, des gens tapent votre métier et votre ville sur Google. Le référencement naturel, c'est faire en sorte qu'ils tombent sur vous, durablement et sans publicité.
+        Avant votre site, avant votre devanture, il y a ce petit encadré qui apparaît sur Google et sur Maps. Nous le créons ou le remettons d'aplomb, pour qu'il donne envie de vous appeler.
       </p>
 
       <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4" data-reveal data-delay="3">
-        <Button href="/contact#devis" variant="primary">Demander un audit</Button>
-        <Button href="#piliers" variant="outline">Voir comment on travaille</Button>
+        <Button href="/contact#devis" variant="primary">Faire vérifier ma fiche</Button>
+        <Button href="#travaux" variant="outline">Voir ce qu'on met en place</Button>
       </div>
       <p class="font-body text-xs text-brun-mid/75 mt-6" data-reveal data-delay="3">
-        Inclus dans nos créations de sites, disponible aussi pour votre site existant
+        Avec ou sans site internet, la fiche fonctionne seule
       </p>
     </div>
   </section>
@@ -123,47 +123,42 @@ const etapes = [
       <div class="text-center">
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">En clair</p>
         <h2 class="font-display font-light text-brun leading-[1.15] mb-6" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
-          Remonter dans Google, sans payer de publicité.
+          Ce qui s'affiche quand on cherche votre nom.
         </h2>
         <p class="font-body text-base text-brun-mid leading-relaxed max-w-2xl mx-auto">
-          Quand quelqu'un cherche « paysagiste », « gîte » ou « céramiste » suivi de sa ville, Google choisit qui montrer en premier. Le référencement naturel, c'est l'ensemble du travail qui fait que ce soit vous : les bons mots, un site sain, une fiche Google soignée.
+          Quand quelqu'un tape votre nom, ou votre métier suivi de sa ville, Google affiche un encadré : vos horaires, votre téléphone, l'itinéraire, vos photos et vos avis. C'est votre fiche d'établissement. Elle est gratuite, mais elle ne sert vraiment que si elle est complète et entretenue.
         </p>
         <p class="font-body text-base text-brun-mid leading-relaxed max-w-2xl mx-auto mt-5">
-          Contrairement à la publicité, rien ne s'éteint quand vous arrêtez de payer. C'est un investissement de fond : plus lent au départ, puis solide et rentable pour longtemps.
+          Pour un commerce ou un artisan, c'est souvent la page la plus vue de toute sa présence en ligne. Et c'est aussi l'un des cinq piliers du <a href="/referencement-naturel" class="text-[#5C6A40] hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">référencement naturel</a>, celui qui donne les résultats les plus rapides en local.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- ── Les 5 piliers (fond vert, blocs interactifs) ── -->
-  <section id="piliers" class="py-20 px-6 md:px-10 lg:px-20 bg-brun text-cream section-dark-depth relative overflow-hidden">
+  <!-- ── Ce qu'on met en place (fond vert, blocs interactifs) ── -->
+  <section id="travaux" class="py-20 px-6 md:px-10 lg:px-20 bg-brun text-cream section-dark-depth relative overflow-hidden">
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute top-24 -left-24 w-72 h-72"></div>
     <div aria-hidden="true" class="light-blob light-blob-bois pointer-events-none absolute -bottom-10 right-0 w-80 h-80"></div>
 
     <div class="max-w-3xl mx-auto relative">
       <div class="text-center mb-12" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Notre méthode</p>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">La prestation</p>
         <h2 class="font-display font-light leading-[1.15] mb-5" style="font-size: clamp(1.7rem, 3vw, 2.4rem); color: rgba(237,227,212,0.94);">
-          Les 5 piliers de votre visibilité.
+          Ce qu'on met en place.
         </h2>
         <p class="font-body text-base leading-relaxed max-w-xl mx-auto" style="color: rgba(237,227,212,0.78);">
-          Pas de recette magique : cinq chantiers concrets, menés dans le bon ordre.
+          Une fiche vraiment travaillée, pas trois champs remplis à la va-vite.
         </p>
       </div>
 
       <div class="anat-list max-w-lg mx-auto space-y-2.5" data-reveal data-delay="1">
-        {piliers.map((s, i) => (
+        {travaux.map((s, i) => (
           <button type="button" class={`anat-block ${i === 0 ? 'is-selected' : ''}`} aria-pressed={i === 0 ? 'true' : 'false'}>
             <span class="anat-title">{s.t}</span>
             <span class="anat-desc">{s.d}</span>
           </button>
         ))}
       </div>
-
-      <p class="text-center font-body text-sm mt-8 max-w-xl mx-auto" style="color: rgba(237,227,212,0.65);" data-reveal data-delay="2">
-        Votre fiche Google seule vous suffit pour l'instant ? Elle fait l'objet d'une
-        <a href="/fiche-google-entreprise" class="text-sauge hover:text-cream underline decoration-sauge/50 underline-offset-2 transition-colors">prestation dédiée</a>.
-      </p>
     </div>
   </section>
 
@@ -173,7 +168,7 @@ const etapes = [
       <div class="text-center mb-12">
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Comment ça se passe</p>
         <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
-          Un travail de fond, mené avec méthode.
+          Simple, et vous gardez la main.
         </h2>
       </div>
 
@@ -193,25 +188,25 @@ const etapes = [
         <p class="font-display font-light text-brun leading-none" style="font-size: clamp(1.9rem, 4.5vw, 2.6rem); letter-spacing: -0.02em;">
           <span class="text-sauge">Sur devis</span>
         </p>
-        <p class="font-body text-sm text-brun-mid mt-2">selon votre site, votre zone et vos objectifs</p>
+        <p class="font-body text-sm text-brun-mid mt-2">selon l'état de votre fiche et votre activité</p>
 
         <ul class="mt-7 space-y-3 text-left max-w-md mx-auto">
           <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
             <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
-            <span>Chaque site créé par Caelestis part déjà optimisé : structure, vitesse, mots-clés.</span>
+            <span>La fiche est créée à <strong class="font-semibold text-brun">votre nom</strong> et vous en gardez la propriété, même si nous cessons de travailler ensemble.</span>
           </li>
           <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
             <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
-            <span>Site existant, même créé ailleurs : audit d'abord, devis ensuite. Vous décidez en connaissance de cause.</span>
+            <span>La vérification par Google prend de quelques jours à quelques semaines. Ce délai lui appartient, nous vous accompagnons jusqu'au bout.</span>
           </li>
           <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
             <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
-            <span>Un engagement honnête : des résultats durables demandent plusieurs mois. Personne ne peut garantir la première place, méfiez-vous de ceux qui la promettent.</span>
+            <span>Jamais de faux avis ni de fausse adresse. C'est interdit par Google et cela peut faire suspendre votre fiche du jour au lendemain.</span>
           </li>
         </ul>
 
         <p class="font-body text-sm text-brun-mid/80 mt-7 pt-6 border-t border-cream-dark">
-          Pas encore de site ? Le référencement est inclus dans <a href="/services" class="text-[#5C6A40] hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">nos créations de sites</a>.
+          Pas encore de site pour aller avec ? On peut commencer par une <a href="/site-une-page" class="text-[#5C6A40] hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">page unique dès 500 €</a>.
         </p>
       </div>
     </div>
@@ -254,14 +249,14 @@ const etapes = [
         <path d="M30 60 C34 54 40 52 44 56" stroke="#4C3D19" stroke-width="1.2" stroke-linecap="round"/>
       </svg>
       <h2 class="font-display text-3xl md:text-4xl font-light text-brun mb-5 leading-[1.1]">
-        Prêt à être<br><span class="text-sauge">trouvé&nbsp;?</span>
+        Votre fiche est-elle<br><span class="text-sauge">à la hauteur&nbsp;?</span>
       </h2>
       <p class="font-body text-base text-brun-mid mb-10 leading-relaxed">
-        Décrivez votre activité et votre zone en quelques lignes. On vous répond sous 48h, avec un premier avis clair sur votre visibilité.
+        Donnez-nous le nom de votre entreprise et sa ville. Nous regardons votre fiche actuelle et nous vous disons franchement ce qui mérite d'être corrigé.
       </p>
-      <Button href="/contact#devis" variant="primary">Demander un audit</Button>
+      <Button href="/contact#devis" variant="primary">Faire vérifier ma fiche</Button>
       <p class="font-body text-xs text-brun-mid/75 mt-6">
-        Réponse sous 48h, sans engagement. Un accompagnement de proximité, partout en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">Auvergne-Rhône-Alpes</a>.
+        Réponse sous 48h, sans engagement. Partout en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">Auvergne-Rhône-Alpes</a>.
       </p>
     </div>
   </section>
@@ -279,7 +274,7 @@ const etapes = [
     background-size: contain;
   }
 
-  /* ── Piliers : cases sélectionnables (même langage que l'anatomie Page unique) ── */
+  /* ── Blocs sélectionnables (même langage que les autres pages service) ── */
   .anat-block {
     display: block;
     width: 100%;
@@ -396,9 +391,8 @@ const etapes = [
 </style>
 
 <script>
-  /* Piliers : une seule case sélectionnée à la fois.
-     Même mécanisme que l'anatomie de la Page unique : délégation sur document,
-     liée une seule fois (survit aux View Transitions et aux deux pages). */
+  /* Blocs : un seul sélectionné à la fois. Délégation sur document, liée une
+     seule fois (survit aux View Transitions et sert toutes les pages service). */
   if (!(window as Window & { __anatBound?: boolean }).__anatBound) {
     (window as Window & { __anatBound?: boolean }).__anatBound = true;
     document.addEventListener('click', (e) => {
