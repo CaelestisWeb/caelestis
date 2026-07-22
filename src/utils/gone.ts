@@ -17,10 +17,10 @@ const GONE_BODY = `<!doctype html>
 <head>
   <meta charset="utf-8">
   <meta name="robots" content="noindex">
-  <title>Page supprimée — Caelestis</title>
+  <title>Page supprimée, Caelestis</title>
 </head>
 <body>
-  <h1>410 — Cette page n'existe plus</h1>
+  <h1>Cette page n'existe plus</h1>
   <p>Ce contenu a été définitivement supprimé. <a href="https://caelestis.fr/">Retour à l'accueil</a>.</p>
 </body>
 </html>`;
