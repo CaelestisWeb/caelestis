@@ -21,6 +21,17 @@ const schema = {
     { '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' },
     { '@type': 'Country', name: 'France' },
   ],
+  offers: {
+    '@type': 'Offer',
+    price: '300',
+    priceCurrency: 'EUR',
+    priceSpecification: {
+      '@type': 'PriceSpecification',
+      price: '300',
+      priceCurrency: 'EUR',
+      valueAddedTaxIncluded: false,
+    },
+  },
 };
 
 const breadcrumb = {
@@ -81,7 +92,7 @@ const etapes = [
 
 <BaseLayout
   title="Fiche Google d'établissement, création et suivi, Caelestis"
-  description="Création, récupération et optimisation de votre fiche Google : catégories, photos, horaires, avis. Soyez trouvé sur Google et sur Maps dans votre secteur."
+  description="Création, récupération et optimisation de votre fiche Google d'établissement : catégories, photos, horaires, avis. 300 € une seule fois. Soyez trouvé sur Google et sur Maps."
   canonical={canonical}
   schema={[schema, breadcrumb, faqSchema]}
 >
@@ -185,10 +196,11 @@ const etapes = [
 
       <!-- Le périmètre clair -->
       <div class="max-w-2xl mx-auto bg-cream border border-cream-dark rounded-2xl p-7 lg:p-8 text-center" data-reveal data-delay="2">
-        <p class="font-display font-light text-brun leading-none" style="font-size: clamp(1.9rem, 4.5vw, 2.6rem); letter-spacing: -0.02em;">
-          <span class="text-sauge">Sur devis</span>
+        <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid/70 mb-1">Tarif</p>
+        <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.2rem, 5vw, 3rem); letter-spacing: -0.02em;">
+          <span class="text-sauge">300 €</span>
         </p>
-        <p class="font-body text-sm text-brun-mid mt-2">selon l'état de votre fiche et votre activité</p>
+        <p class="font-body text-sm text-brun-mid mt-2">une seule fois, création ou reprise complète de votre fiche</p>
 
         <ul class="mt-7 space-y-3 text-left max-w-md mx-auto">
           <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
