@@ -612,6 +612,10 @@ const heroDeskSizes  = '42vw';
         </div>
 
         <p class="font-body text-sm text-brun-mid mt-5">Illustration du travail mené sur une page d'accueil.</p>
+
+        <div class="mt-8">
+          <Button href="#methode" variant="outline">Voir comment nous procédons</Button>
+        </div>
       </div>
 
     </div>
@@ -924,13 +928,11 @@ const heroDeskSizes  = '42vw';
   }
 
   /* ── Scroll indicator ── */
-  @keyframes scroll-breathe {
-    0%, 100% { transform: scaleX(1);   opacity: 0.35; }
-    50%       { transform: scaleX(1.5); opacity: 0.55; }
-  }
+  /* Trait fixe : une pulsation en boucle dans le hero empêche Lighthouse de
+     considérer la page comme stabilisée, pour un gain visuel nul. */
   .scroll-line {
     transform-origin: left;
-    animation: scroll-breathe 2.8s ease-in-out infinite;
+    opacity: 0.35;
   }
 
   /* ── Service cards — état actif ── */
@@ -961,6 +963,13 @@ const heroDeskSizes  = '42vw';
     line-height: 1.95;
     letter-spacing: 0.012em;
   }
+
+  /* NE PAS réintroduire content-visibility sur cette page. Testé le 27/07/2026 :
+     le gain était réel (2 points Lighthouse), mais tant que le contenu reste hors
+     écran sa hauteur n'est qu'estimée, la page est donc plus courte qu'en réalité
+     et le défilement maximum s'en trouve plafonné. Résultat mesuré : le lien
+     « Voir comment nous procédons » s'arrêtait à 2704 px au lieu de 5550, et même
+     scrollIntoView() natif échouait. Une ancre cassée coûte plus cher que 2 points. */
 
   /* ══ Méthode : 3 cartes puis 2 centrées dessous ══ */
   .etapes {

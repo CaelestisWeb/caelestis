@@ -325,6 +325,8 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     raf(time: number): void;
     destroy(): void;
     on(event: string, callback: () => void): void;
+    scrollTo(cible: HTMLElement | number | string, opts?: { offset?: number; duration?: number }): void;
+    resize(): void;
   }
 
   let gsap: GsapType;
@@ -382,6 +384,26 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     gsap.ticker.add(lenisTicker);
     gsap.ticker.lagSmoothing(500, 33); /* laisse GSAP compenser les frames longues */
   }
+
+  /* ── Ancres internes : relais vers Lenis ──
+     Lenis pilote le défilement, le saut natif du navigateur est donc ignoré et
+     un lien #section s'arrête au mauvais endroit (mesuré : 2704 px au lieu de
+     5550). On délègue à Lenis, après un resize() car la page a grandi depuis
+     son initialisation (images, reveals). Ce module ne s'exécute qu'une fois, y
+     compris à travers les View Transitions : l'écouteur délégué n'est donc jamais
+     posé en double. */
+  document.addEventListener('click', (e) => {
+    const lien = (e.target as HTMLElement)?.closest?.('a[href^="#"]') as HTMLAnchorElement | null;
+    if (!lien || !lenis) return;
+    const id = lien.getAttribute('href')?.slice(1);
+    if (!id || id === 'main-content') return;   /* le skip-link doit rester natif */
+    const cible = document.getElementById(id);
+    if (!cible) return;
+    e.preventDefault();
+    lenis.resize();
+    lenis.scrollTo(cible, { offset: -16 });
+    history.replaceState(null, '', `#${id}`);
+  });
 
   function initAnimations(isFirstLoad = true) {
     ScrollTrigger.getAll().forEach((t) => t.kill());

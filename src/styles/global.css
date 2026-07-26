@@ -201,12 +201,6 @@
   50%       { transform: translateY(-7px) scale(1.008); }
 }
 
-@keyframes ambient-drift {
-  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.8; }
-  33%       { transform: scale(1.06) translate(2%, 1%); opacity: 1; }
-  66%       { transform: scale(0.96) translate(-1%, 2%); opacity: 0.7; }
-}
-
 @keyframes vt-fade-out {
   to { opacity: 0; }
 }
@@ -477,7 +471,14 @@ html.reveal-js [data-reveal][data-delay="5"] { transition-delay: 0.40s; }
   pointer-events: none;
   filter: blur(50px);   /* réduit de 80px → 50px : -40% charge GPU, imperceptible visuellement */
   contain: strict;      /* isolation du paint layer */
-  animation: ambient-drift 18s ease-in-out infinite;
+  /* Volontairement SANS animation : une boucle infinie dans le hero empêche
+     Lighthouse de considérer la page comme stabilisée et fait tourner le GPU en
+     continu pour une dérive imperceptible derrière un flou de 50 px.
+     MAIS l'animation promouvait ces disques en couche GPU : sans elle, le flou
+     repasse sur le fil principal et le Speed Index se dégrade (mesuré : 3,25 s
+     -> 4,28 s). D'où la promotion explicite ci-dessous, qui remplace l'animation
+     dans ce rôle. */
+  will-change: transform;
 }
 .light-blob:nth-child(2) { animation-delay: -6s; animation-duration: 22s; }
 .light-blob:nth-child(3) { animation-delay: -12s; animation-duration: 16s; }
