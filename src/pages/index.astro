@@ -525,7 +525,11 @@ const heroDeskSizes  = '42vw';
       </div>
 
       <!-- Le bénéfice, au premier scroll : ce que le site produit concrètement.
-           En trois repères visuels plutôt qu'en paragraphe. -->
+           En trois repères visuels plutôt qu'en paragraphe.
+           Titre réservé aux lecteurs d'écran : la section n'a pas de titre visible,
+           et sans lui on passerait du h1 du hero aux h3 des cartes, ce qui casse
+           la hiérarchie annoncée aux technologies d'assistance. -->
+      <h2 class="sr-only">Ce que votre site vous apporte</h2>
       <ul class="benefices" data-reveal data-delay="2">
         <li>
           <span class="b-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.35-4.35"/></svg></span>
@@ -1113,7 +1117,7 @@ const heroDeskSizes  = '42vw';
   /* Après : aéré, hiérarchisé, à la charte */
   .mk-new { background: var(--color-cream); color: var(--color-encre); text-align: center; align-items: center; }
   .mk-new .mk-bar { width: 100%; justify-content: center; }
-  .mk-new .mk-bar b { color: var(--color-encre); font-weight: 900; letter-spacing: -0.045em; }
+  .mk-new .mk-bar b { color: var(--color-encre); font-weight: 700; letter-spacing: -0.045em; }
   .mk-new .mk-bar i { opacity: 0.14; }
   .mk-new .mk-h { font-size: clamp(17px, 2.4vw, 25px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.1; margin-top: clamp(10px, 1.6vw, 18px); }
   .mk-new .mk-h em { font-style: normal; color: var(--color-brun); }

@@ -21,12 +21,6 @@
   src: url('../assets/fonts/satoshi-700.woff2') format('woff2');
   font-weight: 700; font-style: normal; font-display: swap;
 }
-@font-face {
-  font-family: 'Satoshi';
-  src: url('../assets/fonts/satoshi-900.woff2') format('woff2');
-  font-weight: 900; font-style: normal; font-display: swap;
-}
-
 /* ════════════════════════════════════════
    PALETTE CAELESTIS — FORÊT VIVANTE
    Vert forêt profond comme ton dominant.
