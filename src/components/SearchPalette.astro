@@ -91,7 +91,7 @@
     padding: 15px 18px;
     border-bottom: 1px solid #EBE2D2;
   }
-  .orient-search > svg { color: #7A8354; flex-shrink: 0; }
+  .orient-search > svg { color: #2E7452; flex-shrink: 0; }
   #orient-input {
     flex: 1;
     min-width: 0;
@@ -100,7 +100,7 @@
     outline: none;
     font-family: var(--font-body);
     font-size: 1rem;
-    color: #1C3828;
+    color: #12160F;
   }
   #orient-input::placeholder { color: #9C9078; }
   .orient-esc {
@@ -108,15 +108,15 @@
     font-family: var(--font-body);
     font-size: 0.72rem;
     letter-spacing: 0.03em;
-    color: #6B6040;
-    background: #EDE3D4;
+    color: #5C6259;
+    background: #FCFBF8;
     border: 1px solid #E0D5C0;
     border-radius: 7px;
     padding: 4px 8px;
     cursor: pointer;
     transition: color 0.2s ease, background 0.2s ease;
   }
-  .orient-esc:hover { color: #3D4F28; background: #E6DAC4; }
+  .orient-esc:hover { color: #255C41; background: #E6DAC4; }
 
   .orient-results {
     list-style: none;
@@ -150,7 +150,7 @@
     font-family: var(--font-body);
     font-size: 0.78rem;
     line-height: 1.3;
-    color: #6B6040;
+    color: #5C6259;
     margin-top: 2px;
   }
   .orient-item-arrow {
@@ -161,24 +161,24 @@
     transform: translateX(-3px);
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  .orient-item.is-active { background: #E8DBC4; }
-  .orient-item.is-active .orient-item-t { color: #3D4F28; }
+  .orient-item.is-active { background: #F4F2EC; }
+  .orient-item.is-active .orient-item-t { color: #255C41; }
   .orient-item.is-active .orient-item-arrow {
     opacity: 1;
     transform: translateX(2px);
-    color: #5A653A;
+    color: #255C41;
   }
 
   .orient-empty {
     padding: 22px 16px;
     font-family: var(--font-body);
     font-size: 0.88rem;
-    color: #6B6040;
+    color: #5C6259;
     text-align: center;
     line-height: 1.5;
   }
   .orient-empty a {
-    color: #566339;
+    color: #2E7452;
     text-decoration: underline;
     text-underline-offset: 2px;
   }
@@ -203,11 +203,11 @@
   .orient-foot kbd {
     font-family: var(--font-body);
     font-size: 0.68rem;
-    background: #EDE3D4;
+    background: #FCFBF8;
     border: 1px solid #E0D5C0;
     border-radius: 5px;
     padding: 1px 5px;
-    color: #6B6040;
+    color: #5C6259;
   }
 
   /* ── Déclencheur loupe (navbar) ── */
@@ -218,14 +218,14 @@
     width: 38px;
     height: 38px;
     border-radius: 9px;
-    color: #6B6040;
+    color: #5C6259;
     background: none;
     border: 1px solid transparent;
     cursor: pointer;
     transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   }
-  .orient-trigger:hover { color: #3D4F28; background: #EDE3D4; }
-  .orient-trigger:focus-visible { outline: 2px solid #7A8354; outline-offset: 2px; }
+  .orient-trigger:hover { color: #255C41; background: #FCFBF8; }
+  .orient-trigger:focus-visible { outline: 2px solid #2E7452; outline-offset: 2px; }
 
   @media (max-width: 767px) {
     .orient-overlay { padding: 8vh 14px 14px; }

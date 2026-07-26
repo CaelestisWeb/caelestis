@@ -383,67 +383,67 @@ function buildProspectEmail(p: {
     <table cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
 
       <!-- Barre accent -->
-      <tr><td height="4" style="background:linear-gradient(90deg,#3d4f28 0%,#7a9140 55%,#c8b46a 100%);font-size:0;line-height:0;mso-line-height-rule:exactly;"> </td></tr>
+      <tr><td height="4" style="background:linear-gradient(90deg,#255C41 0%,#7a9140 55%,#c8b46a 100%);font-size:0;line-height:0;mso-line-height-rule:exactly;"> </td></tr>
 
       <!-- Header -->
-      <tr><td class="em-pad" style="background-color:#3d4f28;padding:26px 36px 22px;">
-        <p style="margin:0 0 12px;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(237,227,212,0.45);font-weight:500;">Caelestis · Création de site web</p>
-        <p style="margin:0;font-size:24px;color:#EDE3D0;letter-spacing:-0.02em;line-height:1.25;"><span style="font-weight:300;">Votre estimation </span><strong style="font-weight:700;">personnalisée</strong></p>
+      <tr><td class="em-pad" style="background-color:#255C41;padding:26px 36px 22px;">
+        <p style="margin:0 0 12px;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(252, 251, 248,0.45);font-weight:500;">Caelestis · Création de site web</p>
+        <p style="margin:0;font-size:24px;color:#F4F2EC;letter-spacing:-0.02em;line-height:1.25;"><span style="font-weight:300;">Votre estimation </span><strong style="font-weight:700;">personnalisée</strong></p>
       </td></tr>
 
       <!-- Intro -->
-      <tr><td class="em-pad" style="background-color:#FDFAF5;padding:26px 36px 12px;">
-        <p style="margin:0 0 8px;font-size:16px;font-weight:600;color:#3d4f28;">Bonjour ${esc(p.prenom)},</p>
-        <p style="margin:0;font-size:14px;color:#6B6040;line-height:1.75;">Voici votre estimation pour <strong style="color:#3d4f28;">${safeActivity}</strong>. ${summaryLine}</p>
+      <tr><td class="em-pad" style="background-color:#FCFBF8;padding:26px 36px 12px;">
+        <p style="margin:0 0 8px;font-size:16px;font-weight:600;color:#255C41;">Bonjour ${esc(p.prenom)},</p>
+        <p style="margin:0;font-size:14px;color:#5C6259;line-height:1.75;">Voici votre estimation pour <strong style="color:#255C41;">${safeActivity}</strong>. ${summaryLine}</p>
       </td></tr>
 
       <!-- Bloc prix -->
-      <tr><td class="em-pad" style="background-color:#FDFAF5;padding:14px 36px 28px;">
+      <tr><td class="em-pad" style="background-color:#FCFBF8;padding:14px 36px 28px;">
         <table cellpadding="0" cellspacing="0" width="100%">
-          <tr><td style="background-color:#3d4f28;padding:22px 24px 20px;border-radius:10px;text-align:center;">
-            <p style="margin:0 0 10px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(237,227,212,0.5);">${typeLabel}</p>
-            <p class="em-price" style="margin:0;font-size:34px;font-weight:700;color:#EDE3D0;letter-spacing:-0.03em;line-height:1.1;">${p.low === p.high ? `${p.low.toLocaleString('fr-FR')}&nbsp;€` : `${p.low.toLocaleString('fr-FR')}&nbsp;€&ensp;<span style="font-weight:200;font-size:22px;color:rgba(237,227,212,0.35);">à</span>&ensp;${p.high.toLocaleString('fr-FR')}&nbsp;€`}</p>
-            <p style="margin:10px 0 0;font-size:11px;color:rgba(237,227,212,0.32);letter-spacing:0.02em;">Estimation indicative · devis précis après échange</p>
+          <tr><td style="background-color:#255C41;padding:22px 24px 20px;border-radius:10px;text-align:center;">
+            <p style="margin:0 0 10px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(252, 251, 248,0.5);">${typeLabel}</p>
+            <p class="em-price" style="margin:0;font-size:34px;font-weight:700;color:#F4F2EC;letter-spacing:-0.03em;line-height:1.1;">${p.low === p.high ? `${p.low.toLocaleString('fr-FR')}&nbsp;€` : `${p.low.toLocaleString('fr-FR')}&nbsp;€&ensp;<span style="font-weight:200;font-size:22px;color:rgba(252, 251, 248,0.35);">à</span>&ensp;${p.high.toLocaleString('fr-FR')}&nbsp;€`}</p>
+            <p style="margin:10px 0 0;font-size:11px;color:rgba(252, 251, 248,0.32);letter-spacing:0.02em;">Estimation indicative · devis précis après échange</p>
           </td></tr>
         </table>
       </td></tr>
 
       <!-- Résumé -->
       <tr><td class="em-pad" style="background-color:#F5EEE0;padding:20px 36px 22px;">
-        <p style="margin:0 0 14px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#889063;font-weight:600;">Vos réponses</p>
+        <p style="margin:0 0 14px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#B8C4BB;font-weight:600;">Vos réponses</p>
         <table cellpadding="0" cellspacing="0" width="100%">
           ${rows.map(([label, value]) => `
           <tr>
             <td class="rl" style="padding:9px 0;border-bottom:1px solid rgba(207,192,160,0.4);width:38%;vertical-align:middle;">
-              <p style="margin:0;font-size:11px;color:#A08060;letter-spacing:0.06em;text-transform:uppercase;">${label}</p>
+              <p style="margin:0;font-size:11px;color:#5C6259;letter-spacing:0.06em;text-transform:uppercase;">${label}</p>
             </td>
             <td class="rv" style="padding:9px 0;border-bottom:1px solid rgba(207,192,160,0.4);vertical-align:middle;">
-              <p style="margin:0;font-size:13px;color:#3d4f28;font-weight:500;line-height:1.4;">${value}</p>
+              <p style="margin:0;font-size:13px;color:#255C41;font-weight:500;line-height:1.4;">${value}</p>
             </td>
           </tr>`).join('')}
         </table>
       </td></tr>
 
       <!-- CTA -->
-      <tr><td class="em-pad" style="background-color:#FDFAF5;padding:24px 36px 28px;">
-        <p style="margin:0 0 20px;font-size:14px;color:#6B6040;line-height:1.7;">Cette fourchette est un premier repère. Pour un devis précis, je vous propose un <strong style="color:#3d4f28;">appel gratuit de 20 minutes</strong>, sans engagement.</p>
+      <tr><td class="em-pad" style="background-color:#FCFBF8;padding:24px 36px 28px;">
+        <p style="margin:0 0 20px;font-size:14px;color:#5C6259;line-height:1.7;">Cette fourchette est un premier repère. Pour un devis précis, je vous propose un <strong style="color:#255C41;">appel gratuit de 20 minutes</strong>, sans engagement.</p>
         <table class="em-btn" cellpadding="0" cellspacing="0">
-          <tr><td style="background-color:#3d4f28;padding:13px 30px;border-radius:8px;text-align:center;">
-            <a href="https://caelestis.fr/contact" style="font-size:14px;font-weight:600;color:#EDE3D0;text-decoration:none;letter-spacing:0.03em;white-space:nowrap;">Discutons de votre projet →</a>
+          <tr><td style="background-color:#255C41;padding:13px 30px;border-radius:8px;text-align:center;">
+            <a href="https://caelestis.fr/contact" style="font-size:14px;font-weight:600;color:#F4F2EC;text-decoration:none;letter-spacing:0.03em;white-space:nowrap;">Discutons de votre projet →</a>
           </td></tr>
         </table>
       </td></tr>
 
       <!-- Signature -->
-      <tr><td class="em-pad" style="background-color:#FDFAF5;padding:0 36px 28px;">
-        <p style="margin:0 0 2px;font-size:14px;color:#6B6040;">À très bientôt,</p>
-        <p style="margin:0 0 2px;font-size:15px;font-weight:700;color:#3d4f28;">Célestin</p>
-        <p style="margin:0;font-size:12px;color:#A08060;">Fondateur de Caelestis · 07&nbsp;69&nbsp;36&nbsp;27&nbsp;27</p>
+      <tr><td class="em-pad" style="background-color:#FCFBF8;padding:0 36px 28px;">
+        <p style="margin:0 0 2px;font-size:14px;color:#5C6259;">À très bientôt,</p>
+        <p style="margin:0 0 2px;font-size:15px;font-weight:700;color:#255C41;">Célestin</p>
+        <p style="margin:0;font-size:12px;color:#5C6259;">Fondateur de Caelestis · 07&nbsp;69&nbsp;36&nbsp;27&nbsp;27</p>
       </td></tr>
 
       <!-- Pied -->
       <tr><td class="em-pad" style="background-color:#2e3b1a;padding:16px 36px;">
-        <p style="margin:0;font-size:11px;color:rgba(237,227,212,0.30);line-height:1.6;">Vous recevez cet email suite à votre simulation sur <a href="https://caelestis.fr" style="color:rgba(237,227,212,0.52);text-decoration:none;">caelestis.fr</a> · contact@caelestis.fr</p>
+        <p style="margin:0;font-size:11px;color:rgba(252, 251, 248,0.30);line-height:1.6;">Vous recevez cet email suite à votre simulation sur <a href="https://caelestis.fr" style="color:rgba(252, 251, 248,0.52);text-decoration:none;">caelestis.fr</a> · contact@caelestis.fr</p>
       </td></tr>
 
     </table>
@@ -471,53 +471,53 @@ function buildAdminEmail(p: {
   return `<!DOCTYPE html>
 <html lang="fr">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
-<body style="margin:0;padding:0;background-color:#EDE3D0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#EDE3D0;padding:40px 20px;">
+<body style="margin:0;padding:0;background-color:#F4F2EC;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#F4F2EC;padding:40px 20px;">
   <tr><td align="center">
     <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
-      <tr><td style="background-color:#3d4f28;padding:32px 40px;border-radius:4px 4px 0 0;">
-        <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(237,227,212,0.45);">Caelestis · Simulateur</p>
-        <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#EDE3D0;">Nouveau prospect</h1>
-        <p style="margin:6px 0 0;font-size:12px;color:rgba(237,227,212,0.38);">${esc(p.date)}</p>
+      <tr><td style="background-color:#255C41;padding:32px 40px;border-radius:4px 4px 0 0;">
+        <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(252, 251, 248,0.45);">Caelestis · Simulateur</p>
+        <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#F4F2EC;">Nouveau prospect</h1>
+        <p style="margin:6px 0 0;font-size:12px;color:rgba(252, 251, 248,0.38);">${esc(p.date)}</p>
       </td></tr>
 
       <!-- Badge estimation -->
-      <tr><td style="background-color:#FDFAF5;padding:28px 40px 0;">
+      <tr><td style="background-color:#FCFBF8;padding:28px 40px 0;">
         <table cellpadding="0" cellspacing="0">
-          <tr><td style="background-color:#3d4f28;padding:10px 22px;border-radius:99px;">
-            <p style="margin:0;font-size:14px;font-weight:500;color:#EDE3D0;">${p.low === p.high ? `${p.low.toLocaleString('fr-FR')}&nbsp;€` : `Entre ${p.low.toLocaleString('fr-FR')}&nbsp;€ et ${p.high.toLocaleString('fr-FR')}&nbsp;€`} · ${typeLabel}</p>
+          <tr><td style="background-color:#255C41;padding:10px 22px;border-radius:99px;">
+            <p style="margin:0;font-size:14px;font-weight:500;color:#F4F2EC;">${p.low === p.high ? `${p.low.toLocaleString('fr-FR')}&nbsp;€` : `Entre ${p.low.toLocaleString('fr-FR')}&nbsp;€ et ${p.high.toLocaleString('fr-FR')}&nbsp;€`} · ${typeLabel}</p>
           </td></tr>
         </table>
       </td></tr>
 
       <!-- Coordonnées -->
-      <tr><td style="background-color:#FDFAF5;padding:24px 40px 0;">
-        <p style="margin:0 0 14px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#889063;font-weight:600;border-bottom:1px solid #EDE3D0;padding-bottom:10px;">Coordonnées</p>
+      <tr><td style="background-color:#FCFBF8;padding:24px 40px 0;">
+        <p style="margin:0 0 14px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#B8C4BB;font-weight:600;border-bottom:1px solid #F4F2EC;padding-bottom:10px;">Coordonnées</p>
         <table cellpadding="0" cellspacing="0" width="100%">
           ${[['Prénom', safePrenom], ['Entreprise', esc(p.company) || 'non précisé'], ['Activité', esc(p.activity)]].map(([label, value]) => `
           <tr>
-            <td style="padding:8px 0;border-bottom:1px solid #EDE3D0;width:120px;vertical-align:top;">
-              <p style="margin:0;font-size:11px;color:#A08060;letter-spacing:0.08em;text-transform:uppercase;">${label}</p>
+            <td style="padding:8px 0;border-bottom:1px solid #F4F2EC;width:120px;vertical-align:top;">
+              <p style="margin:0;font-size:11px;color:#5C6259;letter-spacing:0.08em;text-transform:uppercase;">${label}</p>
             </td>
-            <td style="padding:8px 0;border-bottom:1px solid #EDE3D0;">
-              <p style="margin:0;font-size:14px;color:#3d4f28;font-weight:500;">${value}</p>
+            <td style="padding:8px 0;border-bottom:1px solid #F4F2EC;">
+              <p style="margin:0;font-size:14px;color:#255C41;font-weight:500;">${value}</p>
             </td>
           </tr>`).join('')}
           <tr>
             <td style="padding:8px 0;vertical-align:top;">
-              <p style="margin:0;font-size:11px;color:#A08060;letter-spacing:0.08em;text-transform:uppercase;">Email</p>
+              <p style="margin:0;font-size:11px;color:#5C6259;letter-spacing:0.08em;text-transform:uppercase;">Email</p>
             </td>
             <td style="padding:8px 0;">
-              <a href="mailto:${safeEmail}" style="font-size:14px;color:#4C3D19;font-weight:500;text-decoration:none;">${safeEmail}</a>
+              <a href="mailto:${safeEmail}" style="font-size:14px;color:#255C41;font-weight:500;text-decoration:none;">${safeEmail}</a>
             </td>
           </tr>
         </table>
       </td></tr>
 
       <!-- Projet simulé -->
-      <tr><td style="background-color:#FDFAF5;padding:24px 40px 0;">
-        <p style="margin:0 0 14px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#889063;font-weight:600;border-bottom:1px solid #EDE3D0;padding-bottom:10px;">Projet simulé</p>
+      <tr><td style="background-color:#FCFBF8;padding:24px 40px 0;">
+        <p style="margin:0 0 14px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#B8C4BB;font-weight:600;border-bottom:1px solid #F4F2EC;padding-bottom:10px;">Projet simulé</p>
         <table cellpadding="0" cellspacing="0" width="100%">
           ${[
             ['Type de site',      typeLabel],
@@ -529,27 +529,27 @@ function buildAdminEmail(p: {
             ["Niveau d'intérêt",  esc(INTEREST_LABELS[p.interest] ?? `${p.interest}/5`)],
           ].map(([label, value]) => `
           <tr>
-            <td style="padding:8px 0;border-bottom:1px solid #EDE3D0;width:140px;vertical-align:top;">
-              <p style="margin:0;font-size:11px;color:#A08060;letter-spacing:0.08em;text-transform:uppercase;">${label}</p>
+            <td style="padding:8px 0;border-bottom:1px solid #F4F2EC;width:140px;vertical-align:top;">
+              <p style="margin:0;font-size:11px;color:#5C6259;letter-spacing:0.08em;text-transform:uppercase;">${label}</p>
             </td>
-            <td style="padding:8px 0;border-bottom:1px solid #EDE3D0;">
-              <p style="margin:0;font-size:13px;color:#3d4f28;font-weight:500;line-height:1.5;">${value}</p>
+            <td style="padding:8px 0;border-bottom:1px solid #F4F2EC;">
+              <p style="margin:0;font-size:13px;color:#255C41;font-weight:500;line-height:1.5;">${value}</p>
             </td>
           </tr>`).join('')}
         </table>
       </td></tr>
 
       <!-- CTA répondre -->
-      <tr><td style="background-color:#FDFAF5;padding:24px 40px 36px;">
+      <tr><td style="background-color:#FCFBF8;padding:24px 40px 36px;">
         <table cellpadding="0" cellspacing="0">
-          <tr><td style="background-color:#4C3D19;padding:14px 28px;border-radius:99px;">
-            <a href="mailto:${safeEmail}?subject=Suite%20%C3%A0%20votre%20simulation%20Caelestis&body=Bonjour%20${encodeURIComponent(p.prenom)}%2C%0A%0A" style="font-size:13px;font-weight:600;color:#EDE3D0;text-decoration:none;letter-spacing:0.04em;">Répondre à ${safePrenom} →</a>
+          <tr><td style="background-color:#255C41;padding:14px 28px;border-radius:99px;">
+            <a href="mailto:${safeEmail}?subject=Suite%20%C3%A0%20votre%20simulation%20Caelestis&body=Bonjour%20${encodeURIComponent(p.prenom)}%2C%0A%0A" style="font-size:13px;font-weight:600;color:#F4F2EC;text-decoration:none;letter-spacing:0.04em;">Répondre à ${safePrenom} →</a>
           </td></tr>
         </table>
       </td></tr>
 
-      <tr><td style="background-color:#3d4f28;padding:20px 40px;border-radius:0 0 4px 4px;">
-        <p style="margin:0;font-size:11px;color:rgba(237,227,212,0.32);">Envoyé via le simulateur de <strong style="color:rgba(237,227,212,0.55);">caelestis.fr</strong></p>
+      <tr><td style="background-color:#255C41;padding:20px 40px;border-radius:0 0 4px 4px;">
+        <p style="margin:0;font-size:11px;color:rgba(252, 251, 248,0.32);">Envoyé via le simulateur de <strong style="color:rgba(252, 251, 248,0.55);">caelestis.fr</strong></p>
       </td></tr>
 
     </table>

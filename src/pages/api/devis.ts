@@ -141,17 +141,17 @@ function arrLabel(vals: string[], category: string, otherVal = ''): string {
 ══════════════════════════════════════════════════════════ */
 function eRow(label: string, value: string): string {
   return `<tr>
-    <td style="padding:8px 16px 8px 0;border-bottom:1px solid #eef2f7;width:170px;min-width:130px;vertical-align:top;font-size:11px;color:#8fa3b8;letter-spacing:.05em;text-transform:uppercase;line-height:1.4;">${esc(label)}</td>
-    <td style="padding:8px 0;border-bottom:1px solid #eef2f7;font-size:13px;color:#2d3f54;line-height:1.65;">${value || '<span style="color:#ccc;">non précisé</span>'}</td>
+    <td style="padding:8px 16px 8px 0;border-bottom:1px solid #E6E4DC;width:170px;min-width:130px;vertical-align:top;font-size:11px;color:#8fa3b8;letter-spacing:.05em;text-transform:uppercase;line-height:1.4;">${esc(label)}</td>
+    <td style="padding:8px 0;border-bottom:1px solid #E6E4DC;font-size:13px;color:#12160F;line-height:1.65;">${value || '<span style="color:#ccc;">non précisé</span>'}</td>
   </tr>`;
 }
 
 function eBlock(num: number | string, title: string, rows: string): string {
   return `<tr><td style="background:#fff;padding:20px 36px 12px;">
-    <p style="margin:0 0 12px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#1dbd8e;padding-bottom:8px;border-bottom:2px solid #eef2f7;">${esc(String(num))}. ${esc(title)}</p>
+    <p style="margin:0 0 12px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#255C41;padding-bottom:8px;border-bottom:2px solid #E6E4DC;">${esc(String(num))}. ${esc(title)}</p>
     <table cellpadding="0" cellspacing="0" width="100%">${rows}</table>
   </td></tr>
-  <tr><td style="height:2px;background:#f5f8fb;"></td></tr>`;
+  <tr><td style="height:2px;background:#F4F2EC;"></td></tr>`;
 }
 
 function buildAdminEmail(d: Record<string, unknown>, dateStr: string): string {
@@ -187,7 +187,7 @@ function buildAdminEmail(d: Record<string, unknown>, dateStr: string): string {
       eRow('Activité',         g('activite')),
       eRow('Ville',            g('ville')),
       eRow('Téléphone',        g('telephone')),
-      eRow('Email', `<a href="mailto:${esc(emailClient)}" style="color:#1dbd8e;">${esc(emailClient)}</a>`),
+      eRow('Email', `<a href="mailto:${esc(emailClient)}" style="color:#255C41;">${esc(emailClient)}</a>`),
       eRow('Site actuel',      g('site_actuel')),
       eRow('Domaine souhaité', g('domaine_souhaite')),
     ].join('')),
@@ -231,12 +231,12 @@ function buildAdminEmail(d: Record<string, unknown>, dateStr: string): string {
   return `<!DOCTYPE html>
 <html lang="fr">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
-<body style="margin:0;padding:0;background:#f5f8fb;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f8fb;padding:32px 16px;">
+<body style="margin:0;padding:0;background:#F4F2EC;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#F4F2EC;padding:32px 16px;">
 <tr><td align="center">
 <table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%;">
 
-  <tr><td style="background:linear-gradient(135deg,#028183 0%,#1dbd8e 100%);padding:32px 36px;border-radius:8px 8px 0 0;">
+  <tr><td style="background:linear-gradient(135deg,#1B4733 0%,#255C41 100%);padding:32px 36px;border-radius:8px 8px 0 0;">
     <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:500;">Caelestis · Questionnaire devis</p>
     <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#fff;letter-spacing:-.02em;">Nouvelle demande de devis : ${esc(nominant)}</h1>
     <p style="margin:6px 0 0;font-size:12px;color:rgba(255,255,255,.4);">${esc(dateStr)}</p>
@@ -244,7 +244,7 @@ function buildAdminEmail(d: Record<string, unknown>, dateStr: string): string {
 
   <tr><td style="background:#fff;padding:20px 36px 8px;">
     <table cellpadding="0" cellspacing="0">
-      <tr><td style="background:#2d3f54;padding:12px 24px;border-radius:99px;">
+      <tr><td style="background:#12160F;padding:12px 24px;border-radius:99px;">
         <a href="mailto:${esc(emailClient)}?subject=Votre%20devis%20Caelestis&body=Bonjour%20${encodeURIComponent(nominant)}%2C%0A%0A" style="font-size:13px;font-weight:600;color:#fff;text-decoration:none;letter-spacing:.04em;">Répondre à ${esc(nominant)} →</a>
       </td></tr>
     </table>
@@ -252,7 +252,7 @@ function buildAdminEmail(d: Record<string, unknown>, dateStr: string): string {
 
   ${sections}
 
-  <tr><td style="background:#2d3f54;padding:20px 36px;border-radius:0 0 8px 8px;">
+  <tr><td style="background:#12160F;padding:20px 36px;border-radius:0 0 8px 8px;">
     <p style="margin:0;font-size:11px;color:rgba(255,255,255,.3);line-height:1.65;">Reçu via le questionnaire devis de <strong style="color:rgba(255,255,255,.6);">caelestis.fr</strong></p>
   </td></tr>
 
@@ -326,43 +326,43 @@ function buildClientEmail(d: Record<string, unknown>, dateStr: string): string {
   return `<!DOCTYPE html>
 <html lang="fr">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
-<body style="margin:0;padding:0;background:#f5f8fb;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f8fb;padding:32px 16px;">
+<body style="margin:0;padding:0;background:#F4F2EC;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#F4F2EC;padding:32px 16px;">
 <tr><td align="center">
 <table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%;">
 
-  <tr><td style="background:linear-gradient(135deg,#028183 0%,#1dbd8e 100%);padding:32px 36px;border-radius:8px 8px 0 0;">
+  <tr><td style="background:linear-gradient(135deg,#1B4733 0%,#255C41 100%);padding:32px 36px;border-radius:8px 8px 0 0;">
     <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:500;">Caelestis · Demande de devis</p>
     <h1 style="margin:10px 0 0;font-size:24px;font-weight:300;color:#fff;letter-spacing:-.02em;">Demande bien reçue ✓</h1>
     <p style="margin:8px 0 0;font-size:12px;color:rgba(255,255,255,.45);">${esc(dateStr)}</p>
   </td></tr>
 
   <tr><td style="background:#fff;padding:28px 36px 20px;">
-    <p style="margin:0 0 12px;font-size:15px;color:#2d3f54;">Bonjour <strong>${prenomEsc}</strong>,</p>
-    <p style="margin:0 0 12px;font-size:14px;color:#52647a;line-height:1.8;">J'ai bien reçu votre demande de devis. Je vous prépare une proposition personnalisée que vous recevrez <strong style="color:#2d3f54;">sous 48H</strong>.</p>
-    <p style="margin:0 0 4px;font-size:14px;color:#52647a;line-height:1.8;">Ci-dessous le récapitulatif de vos réponses. Si quelque chose est inexact ou si vous souhaitez ajouter une précision, répondez simplement à cet email.</p>
+    <p style="margin:0 0 12px;font-size:15px;color:#12160F;">Bonjour <strong>${prenomEsc}</strong>,</p>
+    <p style="margin:0 0 12px;font-size:14px;color:#5C6259;line-height:1.8;">J'ai bien reçu votre demande de devis. Je vous prépare une proposition personnalisée que vous recevrez <strong style="color:#12160F;">sous 48H</strong>.</p>
+    <p style="margin:0 0 4px;font-size:14px;color:#5C6259;line-height:1.8;">Ci-dessous le récapitulatif de vos réponses. Si quelque chose est inexact ou si vous souhaitez ajouter une précision, répondez simplement à cet email.</p>
   </td></tr>
 
-  <tr><td style="height:2px;background:#f5f8fb;"></td></tr>
+  <tr><td style="height:2px;background:#F4F2EC;"></td></tr>
 
   ${recap}
 
   <tr><td style="background:#fff;padding:20px 36px 28px;">
-    <table cellpadding="0" cellspacing="0" style="border-top:1px solid #eef2f7;padding-top:18px;width:100%;">
+    <table cellpadding="0" cellspacing="0" style="border-top:1px solid #E6E4DC;padding-top:18px;width:100%;">
       <tr>
         <td>
-          <p style="margin:0;font-size:14px;color:#2d3f54;font-weight:600;">Célestin</p>
+          <p style="margin:0;font-size:14px;color:#12160F;font-weight:600;">Célestin</p>
           <p style="margin:2px 0 0;font-size:12px;color:#8fa3b8;">Fondateur de Caelestis</p>
         </td>
         <td style="text-align:right;">
-          <p style="margin:0;font-size:13px;color:#52647a;">07 69 36 27 27</p>
-          <p style="margin:2px 0 0;font-size:12px;color:#1dbd8e;">caelestis.fr</p>
+          <p style="margin:0;font-size:13px;color:#5C6259;">07 69 36 27 27</p>
+          <p style="margin:2px 0 0;font-size:12px;color:#255C41;">caelestis.fr</p>
         </td>
       </tr>
     </table>
   </td></tr>
 
-  <tr><td style="background:#2d3f54;padding:18px 36px;border-radius:0 0 8px 8px;">
+  <tr><td style="background:#12160F;padding:18px 36px;border-radius:0 0 8px 8px;">
     <p style="margin:0;font-size:11px;color:rgba(255,255,255,.3);line-height:1.65;">Vous recevez cet email car vous avez complété le questionnaire de devis sur <strong style="color:rgba(255,255,255,.55);">caelestis.fr</strong>.<br>Caelestis · Drôme, France · contact@caelestis.fr</p>
   </td></tr>
 
@@ -384,10 +384,10 @@ function generateDevisPDF(d: Record<string, unknown>, dateStr: string): Promise<
     doc.on('end',  ()         => resolve(Buffer.concat(chunks)));
     doc.on('error', reject);
 
-    const TEAL  = '#028183';
-    const DARK  = '#2D3F54';
-    const MUTED = '#52647A';
-    const LIGHT = '#F5F8FB';
+    const TEAL  = '#1B4733';
+    const DARK  = '#12160F';
+    const MUTED = '#5C6259';
+    const LIGHT = '#F4F2EC';
     const W     = doc.page.width - 100;
 
     const clean  = (k: string, mx = 1000) => str(d[k], mx) || 'non précisé';

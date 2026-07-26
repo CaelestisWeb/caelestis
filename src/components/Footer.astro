@@ -10,10 +10,10 @@ const year = new Date().getFullYear();
         <a href="/" class="font-display text-xl font-medium tracking-[-0.02em] block mb-2 hover:text-ocre transition-colors duration-300">
           Caelestis<em class="not-italic" style="color: var(--color-sauge-pale);">.</em>
         </a>
-        <p class="font-display text-base font-light mb-2.5 md:mb-4" style="color: rgba(237,227,212,0.78)">
+        <p class="font-display text-base font-light mb-2.5 md:mb-4" style="color: rgba(252, 251, 248,0.78)">
           Votre travail mérite d'être trouvé.<br>On s'occupe de le mettre en lumière.
         </p>
-        <p class="font-body text-sm leading-relaxed max-w-md md:max-w-xs mx-auto md:mx-0" style="color: rgba(237,227,212,0.75)">
+        <p class="font-body text-sm leading-relaxed max-w-md md:max-w-xs mx-auto md:mx-0" style="color: rgba(252, 251, 248,0.75)">
           Création de site, <a href="/referencement-naturel" class="text-cream hover:text-ocre transition-colors duration-200 underline decoration-cream-dark/40 underline-offset-2">référencement naturel</a> et accompagnement pour artisans, praticiens et professionnels engagés. Basé dans la Drôme, au service de toute <a href="/creation-site-internet-auvergne-rhone-alpes" class="text-cream hover:text-ocre transition-colors duration-200 underline decoration-cream-dark/40 underline-offset-2">l'Auvergne-Rhône-Alpes</a>.
         </p>
       </div>
@@ -32,8 +32,8 @@ const year = new Date().getFullYear();
           <!-- Dégradé décoratif -->
           <div class="absolute inset-0 z-10 pointer-events-none" style="
             background:
-              linear-gradient(to bottom, #354024 0%, transparent 20%, transparent 80%, #354024 100%),
-              linear-gradient(to right,  #354024 0%, transparent 15%, transparent 85%, #354024 100%);
+              linear-gradient(to bottom, #1B4733 0%, transparent 20%, transparent 80%, #1B4733 100%),
+              linear-gradient(to right,  #1B4733 0%, transparent 15%, transparent 85%, #1B4733 100%);
           "></div>
           <iframe
             src="https://maps.google.com/maps?q=Auvergne-Rhone-Alpes,+France&t=&z=6&ie=UTF8&iwloc=&output=embed&hl=fr"
@@ -46,14 +46,14 @@ const year = new Date().getFullYear();
             title="Auvergne-Rhône-Alpes, France"
           ></iframe>
         </div>
-        <p class="font-body text-xs tracking-[0.18em] uppercase text-center" style="color: rgba(237,227,212,0.25); max-width: 200px;">Auvergne-Rhône-Alpes</p>
+        <p class="font-body text-xs tracking-[0.18em] uppercase text-center" style="color: rgba(252, 251, 248,0.25); max-width: 200px;">Auvergne-Rhône-Alpes</p>
       </div>
 
       <!-- Nav + Contact groupés à droite -->
       <div class="flex flex-col md:flex-row md:flex-wrap justify-center md:justify-end gap-7 md:gap-12">
         <!-- Navigation -->
         <div>
-          <p class="font-body text-xs tracking-widest uppercase mb-3 md:mb-4" style="color: rgba(237,227,212,0.75)">Navigation</p>
+          <p class="font-body text-xs tracking-widest uppercase mb-3 md:mb-4" style="color: rgba(252, 251, 248,0.75)">Navigation</p>
           <nav class="flex flex-row flex-wrap justify-center gap-x-4 gap-y-2 md:flex-col md:gap-2.5" aria-label="Navigation du site">
             {[
               { href: '/',                      label: 'Accueil'       },
@@ -65,7 +65,7 @@ const year = new Date().getFullYear();
               { href: '/contact',               label: 'Contact'       },
             ].map(({ href, label }, i) => (
               <Fragment>
-                <a href={href} class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.82)">{label}</a>
+                <a href={href} class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.82)">{label}</a>
                 {/* Force la 2e ligne sur mobile : « Accueil · Services · Simulateur » puis « À propos · Contact » */}
                 {i === 2 && <span class="basis-full h-0 md:hidden" aria-hidden="true"></span>}
               </Fragment>
@@ -75,16 +75,16 @@ const year = new Date().getFullYear();
 
         <!-- Contact -->
         <div>
-          <p class="font-body text-xs tracking-widest uppercase mb-3 md:mb-4" style="color: rgba(237,227,212,0.75)">Contact</p>
+          <p class="font-body text-xs tracking-widest uppercase mb-3 md:mb-4" style="color: rgba(252, 251, 248,0.75)">Contact</p>
           <div class="flex flex-row flex-wrap justify-center items-center gap-x-4 gap-y-1.5 md:flex-col md:items-start md:gap-2.5">
-            <a href="mailto:contact@caelestis.fr" class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.82)">
+            <a href="mailto:contact@caelestis.fr" class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.82)">
               contact@caelestis.fr
             </a>
-            <a href="tel:+33769362727" class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.82)">
+            <a href="tel:+33769362727" class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.82)">
               07 69 36 27 27
             </a>
-            <p class="font-body text-sm" style="color: rgba(237,227,212,0.82)">Drôme, France</p>
-            <p class="font-body text-xs md:mt-1" style="color: rgba(237,227,212,0.78)">Du lundi au samedi, 9h à 18h</p>
+            <p class="font-body text-sm" style="color: rgba(252, 251, 248,0.82)">Drôme, France</p>
+            <p class="font-body text-xs md:mt-1" style="color: rgba(252, 251, 248,0.78)">Du lundi au samedi, 9h à 18h</p>
           </div>
         </div>
       </div>
@@ -92,31 +92,31 @@ const year = new Date().getFullYear();
     </div>
 
     <!-- Bandeau CTA -->
-    <div class="border-t py-5 md:py-10 flex flex-row md:flex-col items-center justify-center gap-4 md:gap-5" style="border-color: rgba(237,227,212,0.08)">
-      <p class="font-display text-sm md:text-base font-light text-center" style="color: rgba(237,227,212,0.80)">
+    <div class="border-t py-5 md:py-10 flex flex-row md:flex-col items-center justify-center gap-4 md:gap-5" style="border-color: rgba(252, 251, 248,0.08)">
+      <p class="font-display text-sm md:text-base font-light text-center" style="color: rgba(252, 251, 248,0.80)">
         Une question, un conseil ?
       </p>
       <a
         href="/contact"
         class="font-body text-sm font-medium px-5 md:px-6 py-2 md:py-2.5 rounded-full border transition-colors duration-200 hover:bg-cream hover:text-brun whitespace-nowrap"
-        style="border-color: rgba(237,227,212,0.45); color: rgba(237,227,212,0.92);"
+        style="border-color: rgba(252, 251, 248,0.45); color: rgba(252, 251, 248,0.92);"
       >
         Écrivez-nous
       </a>
     </div>
 
     <!-- Bas de page -->
-    <div class="border-t pt-5 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-2.5 md:gap-3" style="border-color: rgba(237,227,212,0.08)">
-      <p class="font-body text-xs" style="color: rgba(237,227,212,0.78)">© {year} Caelestis. Tous droits réservés</p>
+    <div class="border-t pt-5 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-2.5 md:gap-3" style="border-color: rgba(252, 251, 248,0.08)">
+      <p class="font-body text-xs" style="color: rgba(252, 251, 248,0.78)">© {year} Caelestis. Tous droits réservés</p>
       <div class="grid grid-cols-2 justify-items-center gap-x-5 gap-y-2.5 md:flex md:flex-wrap md:justify-end">
-        <a href="/mentions-legales" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.78)">Mentions légales</a>
-        <a href="/politique-confidentialite" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.78)">Politique de confidentialité</a>
-        <a href="/cgv" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(237,227,212,0.78)">CGV</a>
+        <a href="/mentions-legales" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.78)">Mentions légales</a>
+        <a href="/politique-confidentialite" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.78)">Politique de confidentialité</a>
+        <a href="/cgv" class="font-body text-xs hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.78)">CGV</a>
         <!-- Lien CNIL requis : l'utilisateur doit pouvoir retirer son consentement facilement -->
         <button
           id="footer-cookie-btn"
           class="font-body text-xs hover:text-cream transition-colors duration-200 cursor-pointer bg-transparent border-0 p-0"
-          style="color: rgba(237,227,212,0.78)"
+          style="color: rgba(252, 251, 248,0.78)"
         >
           Gérer mes cookies
         </button>

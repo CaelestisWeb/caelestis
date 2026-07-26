@@ -37,34 +37,34 @@
 
 @theme {
   /* ── Fond : parchemin chaud — éditorial & respirant ── */
-  --color-cream:       #EDE3D4;   /* bone — fond principal, chaleureux */
-  --color-cream-dark:  #CFC0A0;   /* parchemin — séparateurs organiques */
+  --color-cream:       #FCFBF8;   /* bone — fond principal, chaleureux */
+  --color-cream-dark:  #E6E4DC;   /* parchemin — séparateurs organiques */
 
   /* ── Action : café noir — éléments forts & CTA ── */
-  --color-ocre:        #4C3D19;   /* café — boutons, actions, hiérarchie */
-  --color-ocre-dark:   #362A10;   /* café profond — hover premium */
+  --color-ocre:        #255C41;   /* café — boutons, actions, hiérarchie */
+  --color-ocre-dark:   #1B4733;   /* café profond — hover premium */
 
   /* ── Ton doré naturel — tan chaud ── */
-  --color-golden:      #CFBB99;   /* tan — highlights, détails chaleureux */
+  --color-golden:      #E6E4DC;   /* tan — highlights, détails chaleureux */
 
   /* ── Forêt mature : kombu deep green ── */
-  --color-brun:        #3d4f28;   /* vert forêt — texte, sections sombres */
-  --color-brun-mid:    #6B6040;   /* olive chaud — texte secondaire lisible */
+  --color-brun:        #255C41;   /* vert forêt — texte, sections sombres */
+  --color-brun-mid:    #5C6259;   /* olive chaud — texte secondaire lisible */
 
   /* ── Végétaux maturés : mousse & lin ── */
-  --color-sauge:       #889063;   /* mousse — bordures, accents décoratifs (pas de texte) */
-  --color-sauge-text:  #566339;   /* mousse foncée — petits textes sur fond clair (4.7:1 fond chaud, 5.2:1 crème) */
-  --color-sauge-vif:   #7A8354;   /* sauge vive — grands accents de titres (3.6:1, AA texte large) */
-  --color-sauge-pale:  #D8CDB0;   /* lin-mousse — fonds sections douces */
+  --color-sauge:       #B8C4BB;   /* mousse — bordures, accents décoratifs (pas de texte) */
+  --color-sauge-text:  #2E7452;   /* mousse foncée — petits textes sur fond clair (4.7:1 fond chaud, 5.2:1 crème) */
+  --color-sauge-vif:   #2E7452;   /* sauge vive — grands accents de titres (3.6:1, AA texte large) */
+  --color-sauge-pale:  #E3EFE8;   /* lin-mousse — fonds sections douces */
 
   /* ── Bois & matières organiques ── */
-  --color-bois:        #4C3D19;   /* café — accords profonds & dramatiques */
-  --color-bois-mid:    #A08060;   /* tan moyen — touches de chaleur */
-  --color-bois-pale:   #CFBB99;   /* tan clair — détails discrets */
+  --color-bois:        #255C41;   /* café — accords profonds & dramatiques */
+  --color-bois-mid:    #5C6259;   /* tan moyen — touches de chaleur */
+  --color-bois-pale:   #E6E4DC;   /* tan clair — détails discrets */
 
   /* ── Pierre chaude & encre ── */
-  --color-pierre:      #8A8470;   /* pierre chaude — gris-beige naturel */
-  --color-encre:       #2A1E0C;   /* encre brûlée — profondeur absolue */
+  --color-pierre:      #5C6259;   /* pierre chaude — gris-beige naturel */
+  --color-encre:       #12160F;   /* encre brûlée — profondeur absolue */
 
   --font-display: 'Satoshi', system-ui, -apple-system, sans-serif;
   --font-body:    'Satoshi', system-ui, -apple-system, sans-serif;
@@ -104,14 +104,14 @@
 
   /* Sélection — mousse dorée */
   ::selection {
-    background: rgba(136, 144, 99, 0.22);
-    color: #354024;
+    background: rgba(184, 196, 187, 0.22);
+    color: #1B4733;
   }
 
   body {
     font-family: var(--font-body);
-    background-color: #EDE3D4;
-    color: #1C3828;
+    background-color: #FCFBF8;
+    color: #12160F;
     line-height: 1.7;
     font-size: 17px;
     font-optical-sizing: auto;
@@ -158,17 +158,17 @@
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: rgba(76, 61, 25, 0.20);
+    background: rgba(37, 92, 65, 0.20);
     border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(76, 61, 25, 0.48);
+    background: rgba(37, 92, 65, 0.48);
   }
 
   /* Focus accessible — visible au clavier, invisible au clic souris */
   :focus { outline: none; }
   :focus-visible {
-    outline: 2px solid #889063;
+    outline: 2px solid #B8C4BB;
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -358,7 +358,7 @@ html.reveal-js [data-reveal][data-delay="5"] { transition-delay: 0.40s; }
   bottom: -3px;
   width: 100%;
   height: 1.5px;
-  background: #889063;
+  background: #B8C4BB;
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.34s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -384,10 +384,10 @@ html.reveal-js [data-reveal][data-delay="5"] { transition-delay: 0.40s; }
 #header.is-scrolled {
   border-bottom-color: transparent;
   box-shadow:
-    0 1px 0 rgba(76, 61, 25, 0.07),
-    0 8px 36px rgba(76, 61, 25, 0.09),
+    0 1px 0 rgba(37, 92, 65, 0.07),
+    0 8px 36px rgba(37, 92, 65, 0.09),
     inset 0 -1px 0 rgba(207, 192, 160, 0.55);
-  background-color: rgba(237, 227, 212, 0.92);
+  background-color: rgba(252, 251, 248, 0.92);
   backdrop-filter: blur(20px) saturate(1.2);
   -webkit-backdrop-filter: blur(20px) saturate(1.2);
 }
@@ -403,7 +403,7 @@ html.reveal-js [data-reveal][data-delay="5"] { transition-delay: 0.40s; }
   position: absolute;
   inset: -7px;
   border-radius: inherit;
-  border: 1.5px solid rgba(76, 61, 25, 0.32);
+  border: 1.5px solid rgba(37, 92, 65, 0.32);
   opacity: 0;
   transform: scale(0.93);
   transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
@@ -431,8 +431,8 @@ html.reveal-js [data-reveal][data-delay="5"] { transition-delay: 0.40s; }
   pointer-events: none;
   z-index: -1;
   background:
-    radial-gradient(ellipse 85% 65% at 8% 60%,  rgba(136, 144, 99, 0.09)  0%, transparent 58%),
-    radial-gradient(ellipse 60% 45% at 92% 15%,  rgba(76, 61, 25, 0.05)   0%, transparent 58%),
+    radial-gradient(ellipse 85% 65% at 8% 60%,  rgba(184, 196, 187, 0.09)  0%, transparent 58%),
+    radial-gradient(ellipse 60% 45% at 92% 15%,  rgba(37, 92, 65, 0.05)   0%, transparent 58%),
     radial-gradient(ellipse 40% 35% at 48% 88%,  rgba(207, 187, 153, 0.11) 0%, transparent 50%),
     radial-gradient(ellipse 30% 25% at 75% 50%,  rgba(160, 128, 96, 0.06)  0%, transparent 50%);
 }
@@ -450,7 +450,7 @@ html.reveal-js [data-reveal][data-delay="5"] { transition-delay: 0.40s; }
 
 /* ── Glassmorphism card ── */
 .glass-card {
-  background: rgba(237, 227, 212, 0.80);
+  background: rgba(252, 251, 248, 0.80);
   backdrop-filter: blur(10px) saturate(1.1);     /* réduit : 18→10px, meilleure perf GPU */
   -webkit-backdrop-filter: blur(10px) saturate(1.1);
   border: 1px solid rgba(207, 192, 160, 0.78);
@@ -464,8 +464,8 @@ html.reveal-js [data-reveal][data-delay="5"] { transition-delay: 0.40s; }
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(76, 61, 25, 0.10) 20%,
-    rgba(76, 61, 25, 0.10) 80%,
+    rgba(37, 92, 65, 0.10) 20%,
+    rgba(37, 92, 65, 0.10) 80%,
     transparent 100%
   );
 }
@@ -484,7 +484,7 @@ html.reveal-js [data-reveal][data-delay="5"] { transition-delay: 0.40s; }
 
 .light-blob-sauge {
   /* Mousse — halo végétal subtil */
-  background: radial-gradient(ellipse, rgba(136, 144, 99, 0.18) 0%, rgba(136, 144, 99, 0.05) 55%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(184, 196, 187, 0.18) 0%, rgba(184, 196, 187, 0.05) 55%, transparent 70%);
 }
 .light-blob-ocre {
   /* Tan doré — chaleur atmosphérique */
@@ -492,11 +492,11 @@ html.reveal-js [data-reveal][data-delay="5"] { transition-delay: 0.40s; }
 }
 .light-blob-cream {
   /* Bone clair — lumière naturelle diffuse */
-  background: radial-gradient(ellipse, rgba(237, 227, 212, 0.80) 0%, rgba(237, 227, 212, 0.22) 55%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(252, 251, 248, 0.80) 0%, rgba(252, 251, 248, 0.22) 55%, transparent 70%);
 }
 .light-blob-bois {
   /* Café — profondeur chaude */
-  background: radial-gradient(ellipse, rgba(76, 61, 25, 0.10) 0%, rgba(76, 61, 25, 0.03) 55%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(37, 92, 65, 0.10) 0%, rgba(37, 92, 65, 0.03) 55%, transparent 70%);
 }
 
 
@@ -536,7 +536,7 @@ select {
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 2px solid #4C3D19;
+  outline: 2px solid #255C41;
   outline-offset: 2px;
   border-radius: 10px;
 }
@@ -627,7 +627,7 @@ select:focus-visible {
 }
 
 /* ── Accessibilité WCAG AA — textes sauge ──
-   Le sauge #889063 est trop clair pour du TEXTE (2.66 sur crème, 2.64 sur vert forêt).
+   Le sauge #B8C4BB est trop clair pour du TEXTE (2.66 sur crème, 2.64 sur vert forêt).
    Tous les textes sauge passent en mousse foncée sur fond clair (4.7:1) et en
    lin-mousse pâle sur les sections vert forêt (5.7:1).
    Bordures, fonds décoratifs et logo restent sur --color-sauge, inchangés. */
@@ -637,9 +637,9 @@ select:focus-visible {
    plus vive et fraîche, proche de l'originale — garde la respiration du site */
 h1 .text-sauge, h2 .text-sauge { color: var(--color-sauge-vif); }
 .bg-brun h1 .text-sauge, .bg-brun h2 .text-sauge { color: var(--color-sauge-pale); }
-/* Même traitement pour les petits labels bois (tan #A08060 = 2.9 sur crème) */
-.text-bois-mid { color: #7A6248; }
-.bg-brun .text-bois-mid { color: #D8CDB0; }
+/* Même traitement pour les petits labels bois (tan #5C6259 = 2.9 sur crème) */
+.text-bois-mid { color: #5C6259; }
+.bg-brun .text-bois-mid { color: #E3EFE8; }
 
 /* ════════════════════════════════════════
    GRAISSE DES TITRES (direction V7)
