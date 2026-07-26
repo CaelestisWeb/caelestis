@@ -1,6 +1,19 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 const year = new Date().getFullYear();
+/* Le cookie publicitaire n'est décrit que s'il existe réellement : une politique
+   qui annonce un traitement inexistant est aussi fautive qu'une qui en omet un.
+   Ligne construite ici plutôt qu'en ligne dans le tableau : les sections sont des
+   templates littéraux, un backtick imbriqué y fermerait le template englobant. */
+const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID ?? '';
+const ligneCookiePub = metaPixelId
+  ? '<tr>'
+    + '<td style="padding:.5rem .75rem;font-family:monospace;font-size:.75rem;">_fbp</td>'
+    + '<td style="padding:.5rem .75rem;">Reconnaissance du navigateur pour vous reproposer nos services, uniquement si la finalité publicitaire a été acceptée, séparément de la mesure d\'audience</td>'
+    + '<td style="padding:.5rem .75rem;">3 mois</td>'
+    + '<td style="padding:.5rem .75rem;">Meta Platforms Ireland Ltd.</td>'
+    + '</tr>'
+  : '';
 ---
 <BaseLayout
   title="Politique de confidentialité, Caelestis"
@@ -187,12 +200,13 @@ const year = new Date().getFullYear();
                       <td style="padding:.5rem .75rem;">13 mois</td>
                       <td style="padding:.5rem .75rem;">Google Ireland Ltd.</td>
                     </tr>
-                    <tr>
+                    <tr style="border-bottom:1px solid rgba(90,64,48,0.08)">
                       <td style="padding:.5rem .75rem;font-family:monospace;font-size:.75rem;">_ga_CE8L11103N</td>
                       <td style="padding:.5rem .75rem;">Session et état de navigation, Google Analytics 4 (si consentement accepté)</td>
                       <td style="padding:.5rem .75rem;">13 mois</td>
                       <td style="padding:.5rem .75rem;">Google Ireland Ltd.</td>
                     </tr>
+                    ${ligneCookiePub}
                   </tbody>
                 </table>
               </div>

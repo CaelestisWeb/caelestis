@@ -12,6 +12,12 @@ import '../styles/global.css';
 import satoshiTitreUrl from '../assets/fonts/satoshi-700.woff2?url';
 import satoshiCorpsUrl from '../assets/fonts/satoshi-400.woff2?url';
 
+/* Identifiant du pixel Meta. Tant qu'il est vide, AUCUN script publicitaire
+   n'est présent dans la page : ni balise, ni requête, ni cookie. Renseigner
+   PUBLIC_META_PIXEL_ID dans Vercel suffit à activer l'ensemble du dispositif
+   (bandeau à deux finalités inclus). */
+const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID ?? '';
+
 interface Props {
   title: string;
   description: string;
@@ -81,11 +87,17 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         s.src='https://www.googletagmanager.com/gtag/js?id='+GA;
         document.head.appendChild(s);
       }
-      function consent(){
-        try{var d=JSON.parse(localStorage.getItem('caelestis-cookies')||'null');
-          return d&&d.exp&&Date.now()<d.exp?d.value:null;}catch(e){return null;}
+      /* Lit la finalite MESURE D AUDIENCE, dans le format courant comme dans
+         l ancien ({value:'accepted'}), pour ne pas redemander son consentement
+         a un visiteur qui l a deja donne. */
+      function consentMesure(){
+        try{
+          var d=JSON.parse(localStorage.getItem('caelestis-cookies')||'null');
+          if(!d||!d.exp||Date.now()>=d.exp)return false;
+          return typeof d.value==='string'?d.value==='accepted':!!d.mesure;
+        }catch(e){return false;}
       }
-      if(consent()==='accepted')load();
+      if(consentMesure())load();
       window.addEventListener('caelestis:consent-accepted',load);
       document.addEventListener('astro:page-load',function(){
         if(!loaded)return;
@@ -93,6 +105,42 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       });
     })();
     </script>
+
+    <!-- ── Traceur publicitaire — inexistant tant qu'aucun identifiant n'est configuré ──
+         Le bloc entier n'est rendu que si PUBLIC_META_PIXEL_ID est renseignée dans
+         Vercel. Même alors, le script Meta n'est chargé qu'après un consentement
+         EXPLICITE à la finalité publicitaire, distinct de la mesure d'audience.
+         Penser à ajouter connect.facebook.net à la CSP de vercel.json le jour de
+         l'activation, sinon le navigateur bloquera le chargement. -->
+    {metaPixelId && (
+      <script is:inline set:html={`
+      (function(){
+        var ID=${JSON.stringify(metaPixelId)};var loaded=false;
+        function load(){
+          if(loaded)return;loaded=true;
+          !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+          n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+          (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+          window.fbq('init',ID);window.fbq('track','PageView');
+        }
+        function consentPub(){
+          try{
+            var d=JSON.parse(localStorage.getItem('caelestis-cookies')||'null');
+            if(!d||!d.exp||Date.now()>=d.exp)return false;
+            return !!d.pub;
+          }catch(e){return false;}
+        }
+        if(consentPub())load();
+        window.addEventListener('caelestis:consent-pub',load);
+        document.addEventListener('astro:page-load',function(){
+          if(loaded&&window.fbq)window.fbq('track','PageView');
+        });
+      })();
+      `} />
+    )}
+
     <!-- ── SEO de base ── -->
     <meta name="description" content={description} />
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'} />
