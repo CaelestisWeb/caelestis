@@ -133,6 +133,36 @@ const websiteSchema = {
 };
 
 // FAQ — source unique : alimente le schema FAQPage (SEO) ET l'affichage
+/* Déroulé d'un projet. Chaque étape porte sa durée ET ce que le client a à faire :
+   ce qui fait reculer un prospect est l'inconnu, pas le prix. */
+const etapesMethode = [
+  {
+    n: '01', duree: '30 minutes', titre: 'Premier échange',
+    texte: 'Un appel ou une visio pour comprendre votre métier, vos clients et ce que le site doit vous apporter.',
+    vous: 'Nous raconter votre activité.',
+  },
+  {
+    n: '02', duree: 'Sous 48h', titre: 'Devis détaillé',
+    texte: 'Vous recevez une proposition écrite : pages prévues, contenu, délais et prix ferme. Vous décidez ensuite librement.',
+    vous: 'Lire et poser vos questions.',
+  },
+  {
+    n: '03', duree: '1 semaine', titre: "Maquette de l'accueil",
+    texte: "Nous concevons votre page d'accueil et vous la présentons. La suite démarre une fois qu'elle vous plaît.",
+    vous: 'Nous dire ce que vous en pensez.',
+  },
+  {
+    n: '04', duree: '2 à 4 semaines', titre: 'Conception du site',
+    texte: 'Rédaction, pages, photos, référencement et tests sur téléphone comme sur ordinateur. Un point d\'avancement chaque semaine.',
+    vous: 'Valider textes et visuels.',
+  },
+  {
+    n: '05', duree: 'Le jour J, puis après', titre: 'Mise en ligne et suivi',
+    texte: 'Nous publions le site, connectons votre nom de domaine et restons joignables par téléphone et par e-mail.',
+    vous: 'Nous appeler dès que besoin.',
+  },
+];
+
 const faqs = [
   {
     q: 'Quel est le délai pour créer un site internet ?',
@@ -169,6 +199,22 @@ const faqs = [
   {
     q: 'J\'ai déjà un site, pouvez-vous le refondre ?',
     a: 'Bien sûr. Si votre site actuel est vieillissant, lent ou ne vous ressemble plus, nous le repensons entièrement : design moderne, performances et meilleure visibilité sur Google. On part de l\'existant et on en discute ensemble.',
+  },
+  {
+    q: 'À qui appartient le site une fois payé ?',
+    a: 'À vous, entièrement. Le nom de domaine est déposé à votre nom, les contenus et le site vous appartiennent. Le jour où vous souhaitez confier votre site à quelqu\'un d\'autre, nous transmettons l\'ensemble des accès.',
+  },
+  {
+    q: 'Suis-je engagé sur la durée ?',
+    a: 'La création se règle une seule fois, en deux versements : 30 % à la signature, le solde à la mise en ligne. La maintenance est un abonnement mensuel dès 7,99 €, résiliable quand vous le souhaitez avec un mois de préavis.',
+  },
+  {
+    q: 'Combien de temps ce projet va-t-il me demander ?',
+    a: 'Comptez environ deux heures au total, réparties sur l\'ensemble du projet : le premier échange, la validation de la maquette, puis la relecture des textes. Nous nous chargeons de tout le reste.',
+  },
+  {
+    q: 'Comment vous joindre pendant le projet ?',
+    a: 'Par téléphone au 07 69 36 27 27 et par e-mail, du lundi au samedi de 9h à 18h. Vous gardez le même interlocuteur du premier appel jusqu\'après la mise en ligne.',
   },
   {
     q: 'Comment connaître le prix de mon projet ?',
@@ -351,12 +397,14 @@ const heroDeskSizes  = '42vw';
 
         </div>
 
-        <!-- Badges — ancrés en bas -->
-        <div class="flex items-center justify-center gap-4 mt-8 flex-wrap" data-reveal data-delay="2">
-          <span class="font-body text-xs text-brun-mid/75 tracking-[0.12em] uppercase">Réponse sous 48h</span>
-          <span class="font-body text-xs text-brun-mid/75 tracking-[0.12em] uppercase">Devis gratuit</span>
-          <span class="font-body text-xs text-brun-mid/75 tracking-[0.12em] uppercase">À partir de 500€</span>
-        </div>
+        <!-- Réassurance — ancrée en bas. Couleur pleine (sans opacité) pour
+             rester au-dessus du seuil de contraste AA à cette taille. -->
+        <ul class="trust font-body mt-8" data-reveal data-delay="2">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Réponse sous 48h</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Devis gratuit, sans engagement</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Tarifs affichés, dès 500 €</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Le site vous appartient</li>
+        </ul>
 
       </div>
 
@@ -411,13 +459,12 @@ const heroDeskSizes  = '42vw';
   <section class="pt-14 pb-6 md:py-14 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient overflow-hidden">
     <div class="max-w-6xl mx-auto">
 
-      <!-- Ligne métiers — centrée et statique desktop, défilante en boucle sur mobile -->
-      <div class="metiers mb-10" data-reveal>
-        <div class="metiers-track">
-          <span class="metiers-group font-body">Artisans,&nbsp;Créateurs,&nbsp;Projets engagés,&nbsp;Maraîchers,&nbsp;Producteurs locaux,&nbsp;Pépiniéristes,&nbsp;Praticiens bien-être,&nbsp;Éco-constructeurs,&nbsp;Gîtes de charme,&nbsp;Espaces verts</span>
-          <span class="metiers-group font-body" aria-hidden="true">Artisans,&nbsp;Créateurs,&nbsp;Projets engagés,&nbsp;Maraîchers,&nbsp;Producteurs locaux,&nbsp;Pépiniéristes,&nbsp;Praticiens bien-être,&nbsp;Éco-constructeurs,&nbsp;Gîtes de charme,&nbsp;Espaces verts</span>
-        </div>
-      </div>
+      <!-- Ligne métiers — pastilles statiques, centrées, qui passent à la ligne -->
+      <ul class="metiers font-body mb-10" data-reveal>
+        <li>Artisans</li><li>Créateurs</li><li>Projets engagés</li><li>Maraîchers</li>
+        <li>Producteurs locaux</li><li>Pépiniéristes</li><li>Praticiens bien-être</li>
+        <li>Éco-constructeurs</li><li>Gîtes de charme</li><li>Espaces verts</li>
+      </ul>
 
       <!-- Galerie portfolio — 5 photos, 2 grandes + 3 petites -->
       <!-- Bento grid responsive : 2×2 mobile → bento desktop -->
@@ -511,6 +558,66 @@ const heroDeskSizes  = '42vw';
   </section>
 
 
+  <!-- ─── LA DIFFÉRENCE : comparateur avant / après ─── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient" id="difference" aria-labelledby="diff-title">
+    <div class="max-w-4xl mx-auto text-center">
+
+      <p class="inline-block font-body text-xs tracking-[0.22em] uppercase text-sauge border border-sauge/40 rounded-full px-4 py-1.5 mb-8" data-reveal>
+        La différence
+      </p>
+
+      <h2 id="diff-title" class="font-display text-3xl md:text-4xl text-brun leading-[1.1] mb-5" data-reveal data-delay="1">
+        Ce que change une page bien conçue.
+      </h2>
+
+      <p class="font-body text-base text-brun-mid max-w-[54ch] mx-auto mb-10" data-reveal data-delay="1">
+        <span class="only-desk">Faites glisser le curseur. </span>Une même activité, deux pages. La hiérarchie, la lisibilité et le chemin vers le contact changent tout.
+      </p>
+
+      <div class="ba" data-reveal data-delay="2">
+        <div class="ba-legend" aria-hidden="true"><span class="l">Avant</span><span class="r">Après</span></div>
+
+        <div class="ba-stage">
+          <div class="ba-shot ba-old" data-label="Avant" aria-hidden="true">
+            <div class="mk mk-old">
+              <div class="mk-bar"><b>MON ENTREPRISE</b><i></i><i></i><i></i></div>
+              <div class="mk-h">BIENVENUE SUR NOTRE SITE INTERNET</div>
+              <span class="mk-l" style="width:96%"></span>
+              <span class="mk-l" style="width:92%"></span>
+              <span class="mk-l" style="width:88%"></span>
+              <span class="mk-l" style="width:94%"></span>
+              <span class="mk-l" style="width:71%"></span>
+              <div class="mk-row"><div class="mk-box"></div><div class="mk-box"></div><div class="mk-box"></div></div>
+              <span class="mk-cta">Cliquez ici</span>
+              <div class="mk-foot">Contact : rubrique « nous joindre »</div>
+            </div>
+          </div>
+
+          <div class="ba-shot ba-new" id="baNew" data-label="Après" aria-hidden="true">
+            <div class="mk mk-new">
+              <div class="mk-bar"><b>Fleurs &amp; Compagnie</b><i></i><i></i><i></i></div>
+              <span class="mk-pill">Artisan fleuriste, Crest</span>
+              <div class="mk-h">Des compositions <em>qui durent.</em></div>
+              <p class="mk-sub">Bouquets et créations florales sur commande, livrés dans toute la vallée de la Drôme.</p>
+              <span class="mk-cta">Demander un devis</span>
+              <div class="mk-row"><div class="mk-box"></div><div class="mk-box"></div></div>
+              <div class="mk-foot"><span class="mk-dot"></span>Réponse sous 48h, 04 75 00 00 00</div>
+            </div>
+          </div>
+
+          <input class="ba-range" id="baRange" type="range" min="0" max="100" value="38" step="0.5" aria-label="Comparer la page avant et après refonte" />
+          <div class="ba-handle" id="baHandle" aria-hidden="true">
+            <span class="ba-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></span>
+          </div>
+        </div>
+
+        <p class="font-body text-sm text-brun-mid mt-5">Illustration du travail mené sur une page d'accueil.</p>
+      </div>
+
+    </div>
+  </section>
+
+
   <!-- ─── SERVICES ─── -->
   <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
     <div class="max-w-6xl mx-auto">
@@ -531,7 +638,7 @@ const heroDeskSizes  = '42vw';
             <p class="font-body text-sm text-brun-mid leading-relaxed">L'essentiel de votre activité, soigné sur une seule page. La solution accessible pour démarrer simplement.</p>
           </div>
           <div class="shrink-0 text-center sm:text-right">
-            <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid/70 mb-0.5">À partir de</p>
+            <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-0.5">À partir de</p>
             <p class="font-display font-light text-brun leading-none mb-2" style="font-size: clamp(1.8rem, 4vw, 2.3rem); letter-spacing: -0.02em;">
               <span class="text-sauge">500</span><span class="text-bois-mid text-base ml-0.5">€</span>
             </p>
@@ -675,9 +782,45 @@ const heroDeskSizes  = '42vw';
 
       <!-- 2% FNE — intégré ici -->
       <div class="mt-16 pt-10 border-t text-center" style="border-color: rgba(252, 251, 248,0.10)" data-reveal>
-        <p class="font-body text-sm" style="color: rgba(252, 251, 248,0.68)">
+        <p class="font-body text-sm" style="color: rgba(252, 251, 248,0.80)">
           2&nbsp;% de chaque projet est reversé à <a href="https://www.fne.asso.fr" target="_blank" rel="noopener noreferrer" class="text-sauge hover:opacity-80 transition-opacity">France Nature Environnement</a>. Parce que construire quelque chose de beau ne s'arrête pas à soi.
         </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ─── MÉTHODE : le déroulé complet, durées et rôle du client ─── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark" id="methode" aria-labelledby="methode-title">
+    <div class="max-w-5xl mx-auto text-center">
+
+      <p class="inline-block font-body text-xs tracking-[0.22em] uppercase text-sauge border border-sauge/40 rounded-full px-4 py-1.5 mb-8" data-reveal>
+        La méthode
+      </p>
+
+      <h2 id="methode-title" class="font-display text-3xl md:text-4xl text-brun leading-[1.1] mb-5" data-reveal data-delay="1">
+        Un site construit ensemble.
+      </h2>
+
+      <p class="font-body text-base text-brun-mid max-w-[56ch] mx-auto mb-12" data-reveal data-delay="1">
+        Voici précisément comment se déroule un projet, du premier appel à la mise en ligne.
+      </p>
+
+      <ol class="etapes" data-reveal data-delay="2">
+        {etapesMethode.map(({ n, duree, titre, texte, vous }) => (
+          <li>
+            <span class="et-n" aria-hidden="true">{n}</span>
+            <span class="et-duree">{duree}</span>
+            <h3 class="font-display text-brun">{titre}</h3>
+            <p class="font-body">{texte}</p>
+            <p class="et-vous font-body"><b>De votre côté</b>{vous}</p>
+          </li>
+        ))}
+      </ol>
+
+      <div class="mt-12" data-reveal data-delay="2">
+        <Button href="/contact" variant="primary">Démarrer par un premier échange</Button>
       </div>
 
     </div>
@@ -736,7 +879,11 @@ const heroDeskSizes  = '42vw';
       <p class="font-body text-base text-brun-mid mb-10 leading-relaxed">
         Décrivez votre activité en quelques lignes.<br>Nous revenons vers vous sous 48h.
       </p>
-      <Button href="/contact" variant="primary">Lancer la conversation</Button>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <Button href="/contact" variant="primary">Lancer la conversation</Button>
+        <Button href="tel:+33769362727" variant="outline">Appeler le 07 69 36 27 27</Button>
+      </div>
+      <p class="font-body text-sm text-brun-mid mt-6">Du lundi au samedi, 9h à 18h. Devis gratuit, sans engagement.</p>
     </div>
   </section>
 
@@ -815,37 +962,201 @@ const heroDeskSizes  = '42vw';
     letter-spacing: 0.012em;
   }
 
-  /* ── Ligne métiers : centrée/statique desktop, défilante en boucle mobile ── */
-  .metiers { overflow: hidden; }
-  .metiers-track {
-    display: flex;
-    width: max-content;
-    animation: metiers-scroll 32s linear infinite;
+  /* ══ Méthode : 3 cartes puis 2 centrées dessous ══ */
+  .etapes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px;
+    list-style: none;
+    padding: 0;
+    text-align: center;
   }
-  .metiers-group {
-    flex-shrink: 0;
-    padding-right: 2.5rem;
-    font-size: 0.75rem;
-    color: rgba(37, 92, 65, 0.50);
-    letter-spacing: 0.08em;
-    white-space: nowrap;
+  .etapes li {
+    grid-column: span 2;
+    background: #fff;
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 18px;
+    padding: clamp(24px, 2.6vw, 32px);
+    transition: transform 0.4s cubic-bezier(.16,1,.3,1), box-shadow 0.4s;
   }
-  @keyframes metiers-scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
+  .etapes li:nth-child(4) { grid-column: 2 / 4; }
+  .etapes li:nth-child(5) { grid-column: 4 / 6; }
+  .etapes li:hover { transform: translateY(-4px); box-shadow: 0 4px 10px rgba(18,22,15,.05), 0 22px 52px rgba(18,22,15,.10); }
+  .et-n {
+    width: 42px; height: 42px; margin: 0 auto 16px;
+    border-radius: 13px; background: var(--color-brun); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
   }
-  /* Desktop : pas de défilement, une seule copie centrée */
-  @media (min-width: 640px) {
-    .metiers-track {
-      width: 100%;
-      animation: none;
-      justify-content: center;
+  .et-duree {
+    display: inline-block; margin-bottom: 12px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--color-brun); background: #E3EFE8;
+    padding: 5px 12px; border-radius: 999px;
+  }
+  .etapes h3 { font-size: 1.0625rem; margin-bottom: 9px; }
+  .etapes p { font-size: 0.9375rem; color: var(--color-brun-mid); line-height: 1.6; }
+  .et-vous {
+    margin-top: 14px; padding-top: 13px;
+    border-top: 1px solid var(--color-cream-dark);
+    font-size: 0.875rem; color: var(--color-brun-mid);
+  }
+  .et-vous b {
+    display: block; color: var(--color-encre); font-weight: 700;
+    font-size: 0.6875rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px;
+  }
+  @media (max-width: 940px) {
+    .etapes { grid-template-columns: 1fr; }
+    .etapes li, .etapes li:nth-child(4), .etapes li:nth-child(5) { grid-column: auto; }
+  }
+
+  /* ══ Comparateur avant / après ══ */
+  .ba { max-width: 860px; margin-inline: auto; }
+  .ba-legend { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px; }
+  .ba-legend span {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 999px;
+    background: #fff; border: 1px solid var(--color-cream-dark); color: var(--color-brun-mid);
+  }
+  .ba-legend span.r { background: var(--color-brun); border-color: var(--color-brun); color: #fff; }
+
+  .ba-stage {
+    position: relative; height: clamp(300px, 44vh, 420px);
+    border-radius: 16px; overflow: hidden; background: #fff;
+    border: 1px solid var(--color-cream-dark);
+    box-shadow: 0 1px 2px rgba(18,22,15,.03), 0 10px 32px rgba(18,22,15,.06);
+    touch-action: pan-y;
+  }
+  .ba-shot { position: absolute; inset: 0; text-align: left; user-select: none; overflow: hidden; }
+  .ba-new { clip-path: inset(0 0 0 var(--x, 38%)); }
+  .ba-range {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    opacity: 0; margin: 0; cursor: ew-resize; z-index: 6;
+    -webkit-appearance: none; appearance: none; background: transparent;
+  }
+  .ba-range:focus-visible { outline: none; }
+  .ba-range:focus-visible ~ .ba-handle .ba-knob { box-shadow: 0 0 0 4px #E3EFE8, 0 6px 18px rgba(18,22,15,.22); }
+  .ba-handle {
+    position: absolute; top: 0; bottom: 0; left: var(--x, 38%);
+    width: 2px; background: #fff; box-shadow: 0 0 0 1px rgba(18,22,15,.12);
+    z-index: 5; pointer-events: none;
+  }
+  .ba-knob {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--color-brun); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 18px rgba(18,22,15,.22);
+  }
+  .ba-knob svg { width: 20px; height: 20px; }
+
+  /* Wireframes */
+  .mk { height: 100%; padding: clamp(13px, 1.9vw, 20px); display: flex; flex-direction: column; gap: clamp(8px, 1.1vw, 12px); }
+  .mk-bar { display: flex; align-items: center; gap: 9px; }
+  .mk-bar b { font-size: 12px; letter-spacing: -0.02em; }
+  .mk-bar i { display: block; height: 7px; border-radius: 3px; background: currentColor; opacity: 0.22; }
+  .mk-bar i:nth-of-type(1) { width: 34px; } .mk-bar i:nth-of-type(2) { width: 26px; } .mk-bar i:nth-of-type(3) { width: 30px; }
+  .mk-l { display: block; height: 8px; border-radius: 4px; background: currentColor; opacity: 0.16; }
+  .mk-row { display: flex; gap: clamp(8px, 1.1vw, 12px); flex: 1; min-height: 0; }
+  .mk-row > div { flex: 1; height: 100%; }
+  .mk-cta { display: inline-block; font-size: 11px; font-weight: 700; padding: 7px 15px; }
+
+  /* Avant : dense, terne, sans hiérarchie */
+  .mk-old { background: #EFEFEA; color: #3A3D38; font-family: serif; }
+  .mk-old .mk-bar { border-bottom: 2px solid #9AA3A0; padding-bottom: 8px; margin-bottom: 2px; }
+  .mk-old .mk-bar b { color: #2B4E6E; }
+  .mk-old .mk-h { background: #2B4E6E; color: #fff; font-size: 13px; font-weight: 700; padding: 12px 10px; text-align: center; }
+  .mk-old .mk-l { height: 6px; opacity: 0.3; }
+  .mk-old .mk-box { background: #DEDED8; border: 1px solid #C2C2BA; height: 100%; min-height: 52px; }
+  .mk-old .mk-cta { background: #C9CCC6; color: #3A3D38; border: 1px solid #A9ADA6; align-self: flex-start; }
+  .mk-old .mk-foot { margin-top: auto; font-size: 9.5px; color: #797E78; }
+
+  /* Après : aéré, hiérarchisé, à la charte */
+  .mk-new { background: var(--color-cream); color: var(--color-encre); text-align: center; align-items: center; }
+  .mk-new .mk-bar { width: 100%; justify-content: center; }
+  .mk-new .mk-bar b { color: var(--color-encre); font-weight: 900; letter-spacing: -0.045em; }
+  .mk-new .mk-bar i { opacity: 0.14; }
+  .mk-new .mk-h { font-size: clamp(17px, 2.4vw, 25px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.1; margin-top: clamp(10px, 1.6vw, 18px); }
+  .mk-new .mk-h em { font-style: normal; color: var(--color-brun); }
+  .mk-new .mk-sub { font-size: 11.5px; color: var(--color-brun-mid); max-width: 34ch; margin-inline: auto; }
+  .mk-new .mk-row { width: 100%; }
+  .mk-new .mk-box { background: #E6E4DC; border-radius: 11px; height: 100%; min-height: 58px; position: relative; overflow: hidden; }
+  .mk-new .mk-box::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 12px; height: 7px; border-radius: 4px; background: var(--color-brun); opacity: 0.2; }
+  .mk-new .mk-cta { background: var(--color-brun); color: #fff; border-radius: 999px; align-self: center; }
+  .mk-new .mk-pill { align-self: center; font-size: 10px; font-weight: 600; color: var(--color-brun); background: #E3EFE8; padding: 5px 11px; border-radius: 999px; }
+  .mk-new .mk-foot { margin-top: auto; display: flex; gap: 7px; align-items: center; justify-content: center; font-size: 10px; color: var(--color-brun-mid); }
+  .mk-new .mk-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-brun); display: block; }
+
+  /* Sous 700px le comparateur s'empile : deux pages entières, sans curseur */
+  @media (max-width: 700px) {
+    .ba-legend, .ba-range, .ba-handle { display: none; }
+    .ba-stage { height: auto; border: 0; box-shadow: none; background: transparent; display: flex; flex-direction: column; gap: 14px; }
+    .ba-shot {
+      position: relative; inset: auto; height: 330px; border-radius: 14px;
+      border: 1px solid var(--color-cream-dark);
+      box-shadow: 0 1px 2px rgba(18,22,15,.03), 0 10px 32px rgba(18,22,15,.06);
     }
-    .metiers-group { padding-right: 0; }
-    .metiers-group[aria-hidden="true"] { display: none; }
+    .ba-new { clip-path: none; }
+    .ba-shot::before {
+      content: attr(data-label); position: absolute; top: 11px; left: 11px; z-index: 3;
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 999px;
+      background: #fff; border: 1px solid var(--color-cream-dark); color: var(--color-brun-mid);
+    }
+    .ba-new::before { background: var(--color-brun); border-color: var(--color-brun); color: #fff; }
+    .ba-shot .mk { padding-top: 46px; }
+    .ba-shot .mk-foot { flex-shrink: 0; padding-top: 4px; }
+    .only-desk { display: none; }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .metiers-track { animation: none; }
+
+  /* ── Réassurance du hero ── */
+  .trust {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 22px;
+    list-style: none;
+    padding: 0;
+  }
+  .trust li {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-brun-mid);
+    line-height: 1.3;
+  }
+  .trust svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-brun);
+    flex-shrink: 0;
+  }
+
+  /* ── Ligne métiers : pastilles statiques centrées, sur toutes les tailles.
+     Aucun défilement : le bandeau en boucle est banni de la charte, et une
+     animation infinie dans le viewport empêche Lighthouse de considérer la
+     page comme stabilisée (Speed Index dégradé). ── */
+  .metiers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    max-width: 880px;
+    margin-inline: auto;
+    list-style: none;
+    padding: 0;
+  }
+  .metiers li {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-brun-mid);
+    background: #fff;
+    border: 1px solid var(--color-cream-dark);
+    padding: 7px 15px;
+    border-radius: 999px;
+    line-height: 1.2;
   }
 
   /* ── Galerie bento ── */
@@ -931,4 +1242,23 @@ const heroDeskSizes  = '42vw';
   }
   bindFaq();
   document.addEventListener('astro:page-load', bindFaq);
+
+  /* ── Comparateur avant / après ── */
+  function bindComparateur() {
+    const range = document.getElementById('baRange') as HTMLInputElement | null;
+    const apres = document.getElementById('baNew');
+    const poignee = document.getElementById('baHandle');
+    if (!range || !apres || !poignee) return;
+    const clone = range.cloneNode(true) as HTMLInputElement;
+    range.parentNode?.replaceChild(clone, range);
+    const maj = () => {
+      const v = clone.value + '%';
+      apres.style.setProperty('--x', v);
+      poignee.style.left = v;
+    };
+    clone.addEventListener('input', maj);
+    maj();
+  }
+  bindComparateur();
+  document.addEventListener('astro:page-load', bindComparateur);
 </script>
