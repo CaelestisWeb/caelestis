@@ -4,8 +4,8 @@
   "description": "Création de site internet pour artisans et indépendants, partout en France.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#3d4f28",
-  "theme_color": "#3d4f28",
+  "background_color": "#FCFBF8",
+  "theme_color": "#255C41",
   "icons": [
     {
       "src": "/favicon-16.png",
