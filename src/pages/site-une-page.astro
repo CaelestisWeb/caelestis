@@ -31,6 +31,42 @@ const schema = {
   },
 };
 
+/* Les objections propres à cette offre : le doute porte presque toujours sur
+   la suffisance d'une seule page, et sur ce qu'on fait le jour où l'activité
+   grandit. Y répondre ici évite qu'elles restent muettes jusqu'au devis. */
+const faq = [
+  {
+    q: "Une seule page, est-ce vraiment suffisant ?",
+    a: "Pour une activité qui se présente simplement, oui. Un visiteur cherche trois choses : ce que vous faites, ce qui vous distingue, et comment vous joindre. Une page bien construite répond aux trois sans le forcer à naviguer. Si votre activité demande un catalogue, plusieurs lieux ou un blog, le site vitrine sera plus adapté et nous vous le dirons franchement.",
+  },
+  {
+    q: "Pourrai-je passer à un site plus grand plus tard ?",
+    a: "Oui, et sans repartir de zéro. Vos textes, vos photos, votre nom de domaine et votre identité visuelle sont conservés. Nous ajoutons les pages nécessaires et vous ne réglez que la différence avec la formule supérieure.",
+  },
+  {
+    q: "Une page unique est-elle bien référencée sur Google ?",
+    a: "Elle l'est sur votre activité et votre secteur, ce qui couvre l'essentiel des recherches locales. La limite apparaît quand vous visez plusieurs métiers ou plusieurs villes distinctes : chacun demande alors sa propre page pour se positionner.",
+  },
+  {
+    q: "Combien de temps avant qu'elle soit en ligne ?",
+    a: "Comptez deux à trois semaines à partir du moment où nous avons vos contenus. C'est la formule la plus rapide à livrer, puisqu'il n'y a qu'une page à concevoir et à valider.",
+  },
+  {
+    q: "Que se passe-t-il si je veux modifier un texte après la mise en ligne ?",
+    a: "Vous nous écrivez, nous le faisons. Les modifications de contenu courantes sont comprises dans l'abonnement de maintenance, sans supplément ni délai d'attente.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -65,7 +101,7 @@ const anatomie = [
   title="Page unique, site une page dès 500 €, Caelestis"
   description="La Page unique : un site professionnel en une seule page, dès 500 €. L'essentiel de votre activité, soigné et visible sur Google, pour démarrer vite."
   canonical={canonical}
-  schema={[schema, breadcrumb]}
+  schema={[schema, breadcrumb, faqSchema]}
 >
 
   <!-- ── Hero ── -->
@@ -203,6 +239,30 @@ const anatomie = [
     </div>
   </section>
 
+  <!-- ── FAQ : les objections propres à la formule ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark" aria-labelledby="faq-page-unique">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-12" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Questions fréquentes</p>
+        <h2 id="faq-page-unique" class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Ce qu'on nous demande souvent.
+        </h2>
+      </div>
+
+      <div class="seo-faq" data-reveal data-delay="1">
+        {faq.map((f) => (
+          <details class="seo-faq-item">
+            <summary class="seo-faq-q">
+              <span>{f.q}</span>
+              <span class="seo-faq-marque" aria-hidden="true"></span>
+            </summary>
+            <p class="seo-faq-a">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- ── CTA ── -->
   <section class="relative py-20 px-6 md:px-10 lg:px-20 overflow-hidden section-ambient border-t border-cream-dark" data-reveal>
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-12 right-1/4 w-64 h-64"></div>
@@ -228,6 +288,56 @@ const anatomie = [
 </BaseLayout>
 
 <style>
+  .seo-faq { border-top: 1px solid var(--color-cream-dark); }
+  .seo-faq-item { border-bottom: 1px solid var(--color-cream-dark); }
+  .seo-faq-q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 4px;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.02rem;
+    color: var(--color-brun);
+    transition: color 0.2s ease;
+  }
+  .seo-faq-q::-webkit-details-marker { display: none; }
+  .seo-faq-q:hover { color: var(--color-sauge-text); }
+  .seo-faq-marque {
+    position: relative;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+  }
+  .seo-faq-marque::before,
+  .seo-faq-marque::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    background: var(--color-sauge-text);
+    transition: transform 0.3s ease;
+  }
+  .seo-faq-marque::before { width: 14px; height: 1.5px; }
+  .seo-faq-marque::after  { width: 1.5px; height: 14px; }
+  .seo-faq-item[open] .seo-faq-marque::after { transform: rotate(90deg); }
+  .seo-faq-a {
+    padding: 0 4px 20px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--color-brun-mid);
+    max-width: 60ch;
+  }
+  .seo-faq-q:focus-visible {
+    outline: 2px solid var(--color-sauge-text);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
   /* Pastille check sauge des fonctionnalités */
   .sup-check {
     display: block;

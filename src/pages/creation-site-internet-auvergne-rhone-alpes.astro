@@ -28,6 +28,42 @@ const schema = {
   ],
 };
 
+/* Page d'atterrissage régionale : les questions qui s'y posent sont celles de
+   la distance. Un artisan de Haute-Savoie veut savoir s'il sera traité comme
+   un client de la Drôme, et si travailler à distance change quelque chose. */
+const faq = [
+  {
+    q: "Faut-il être en Auvergne-Rhône-Alpes pour travailler avec vous ?",
+    a: "Non. Nous sommes installés à Crest, dans la Drôme, et nous créons des sites pour toute la France. La région est simplement celle que nous connaissons le mieux, et celle où nous nous déplaçons le plus volontiers.",
+  },
+  {
+    q: "Est-ce que vous vous déplacez ?",
+    a: "Dans la Drôme et l'Ardèche, oui, avec plaisir. Au-delà, tout se fait par téléphone et par visio, et cela fonctionne très bien : la plupart des projets se déroulent ainsi de bout en bout, sans jamais nuire au résultat.",
+  },
+  {
+    q: "Un site créé à distance est-il aussi bon qu'un site fait sur place ?",
+    a: "Le résultat est identique. Ce qui compte est le temps passé à comprendre votre métier, pas les kilomètres parcourus. Un premier appel de trente minutes, une maquette que vous validez, des échanges réguliers : la distance ne change rien à cette méthode.",
+  },
+  {
+    q: "Connaissez-vous mon secteur d'activité ?",
+    a: "Nous travaillons surtout avec des artisans, des producteurs, des praticiens du bien-être et des métiers liés à la nature. Si votre activité sort de ce cadre, nous vous le disons dès le premier échange plutôt que d'accepter un projet que nous servirions mal.",
+  },
+  {
+    q: "Le référencement local fonctionne-t-il si vous êtes loin de chez moi ?",
+    a: "Oui, car il dépend de votre adresse à vous, pas de la nôtre. Ce sont votre fiche Google, votre ville et vos contenus qui déterminent votre position dans les recherches locales, et tout cela se travaille à distance.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -48,7 +84,7 @@ const departements = [
   title="Création de site internet en Auvergne-Rhône-Alpes, Caelestis"
   description="Agence web au service de l'Auvergne-Rhône-Alpes : création de site internet et référencement pour producteurs, artisans et créateurs. Basés dans la Drôme."
   canonical={canonical}
-  schema={[schema, breadcrumb]}
+  schema={[schema, breadcrumb, faqSchema]}
 >
 
   <!-- ── Hero ── -->
@@ -154,6 +190,34 @@ const departements = [
     </div>
   </section>
 
+  <!-- ── FAQ : les questions de la distance ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark" aria-labelledby="faq-aura">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-12" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Questions fréquentes</p>
+        <h2 id="faq-aura" class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Ce qu'on nous demande souvent.
+        </h2>
+      </div>
+
+      <div class="seo-faq" data-reveal data-delay="1">
+        {faq.map((f) => (
+          <details class="seo-faq-item">
+            <summary class="seo-faq-q">
+              <span>{f.q}</span>
+              <span class="seo-faq-marque" aria-hidden="true"></span>
+            </summary>
+            <p class="seo-faq-a">{f.a}</p>
+          </details>
+        ))}
+      </div>
+
+      <p class="font-body text-sm text-brun-mid text-center mt-10" data-reveal data-delay="1">
+        Votre question n'y est pas ? <a href="/contact" class="text-sauge underline underline-offset-2 hover:text-brun transition-colors">Écrivez-nous</a>, réponse sous 48h.
+      </p>
+    </div>
+  </section>
+
   <!-- ── CTA ── -->
   <section class="relative py-20 px-6 md:px-10 lg:px-20 overflow-hidden section-ambient border-t border-cream-dark" data-reveal>
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-12 right-1/4 w-64 h-64"></div>
@@ -171,3 +235,55 @@ const departements = [
   </section>
 
 </BaseLayout>
+
+<style>
+  .seo-faq { border-top: 1px solid var(--color-cream-dark); }
+  .seo-faq-item { border-bottom: 1px solid var(--color-cream-dark); }
+  .seo-faq-q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 4px;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.02rem;
+    color: var(--color-brun);
+    transition: color 0.2s ease;
+  }
+  .seo-faq-q::-webkit-details-marker { display: none; }
+  .seo-faq-q:hover { color: var(--color-sauge-text); }
+  .seo-faq-marque {
+    position: relative;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+  }
+  .seo-faq-marque::before,
+  .seo-faq-marque::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    background: var(--color-sauge-text);
+    transition: transform 0.3s ease;
+  }
+  .seo-faq-marque::before { width: 14px; height: 1.5px; }
+  .seo-faq-marque::after  { width: 1.5px; height: 14px; }
+  .seo-faq-item[open] .seo-faq-marque::after { transform: rotate(90deg); }
+  .seo-faq-a {
+    padding: 0 4px 20px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--color-brun-mid);
+    max-width: 60ch;
+  }
+  .seo-faq-q:focus-visible {
+    outline: 2px solid var(--color-sauge-text);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+</style>
