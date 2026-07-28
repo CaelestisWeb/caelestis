@@ -1,0 +1,385 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Diagnostic de site internet',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Navigateur web',
+  url: 'https://caelestis.fr/diagnostic',
+  description:
+    "Analyse gratuite et immédiate d'un site internet : vitesse, affichage mobile, sécurité, référencement et moyens de contact.",
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+  provider: { '@type': 'Organization', name: 'Caelestis', url: 'https://caelestis.fr' },
+};
+---
+
+<BaseLayout
+  title="Analysez votre site internet gratuitement, Caelestis"
+  description="Entrez l'adresse de votre site et obtenez en quelques secondes une analyse factuelle : vitesse, affichage mobile, sécurité, référencement, moyens de contact. Gratuit, sans inscription."
+  canonical="https://caelestis.fr/diagnostic"
+  schema={schema}
+>
+
+  <!-- ─── EN-TÊTE ─── -->
+  <section class="pt-28 md:pt-36 pb-10 px-6 md:px-10 lg:px-20">
+    <div class="max-w-3xl mx-auto text-center">
+
+      <p class="inline-block font-body text-xs tracking-[0.22em] uppercase text-sauge border border-sauge/40 rounded-full px-4 py-1.5 mb-8">
+        Diagnostic gratuit
+      </p>
+
+      <h1 class="font-display text-3xl md:text-5xl text-brun leading-[1.08] mb-6">
+        Votre site tient-il la route ?
+      </h1>
+
+      <p class="font-body text-lg text-brun-mid leading-relaxed max-w-[58ch] mx-auto">
+        Entrez son adresse. En quelques secondes, vous saurez ce qu'un visiteur
+        et ce que Google rencontrent réellement en arrivant chez vous.
+        Rien à installer, aucune inscription.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- ─── FORMULAIRE ─── -->
+  <section class="px-6 md:px-10 lg:px-20 pb-16">
+    <div class="max-w-2xl mx-auto">
+
+      <form id="diagForm" class="diag-form" novalidate>
+        <label for="diagUrl" class="sr-only">Adresse de votre site internet</label>
+        <input
+          type="text"
+          id="diagUrl"
+          name="url"
+          inputmode="url"
+          autocomplete="url"
+          spellcheck="false"
+          placeholder="mon-entreprise.fr"
+          aria-describedby="diagAide"
+          required
+        />
+        {/* Volontairement type="button" : un envoi de formulaire est capté par le
+            routeur de transitions de vue, qui recharge la page et efface le
+            résultat. On déclenche donc l'analyse au clic, la touche Entrée
+            étant gérée explicitement sur le champ. */}
+        <button type="button" id="diagBtn">
+          <span class="diag-btn-label">Analyser</span>
+        </button>
+      </form>
+
+      <p id="diagAide" class="font-body text-xs text-brun-mid text-center mt-4">
+        L'analyse porte sur la page d'accueil publique. Aucune donnée n'est conservée.
+      </p>
+
+      <div id="diagStatut" role="status" aria-live="polite" class="font-body text-sm text-center mt-6"></div>
+
+    </div>
+  </section>
+
+  <!-- ─── RÉSULTATS ─── -->
+  <section id="diagResultats" class="px-6 md:px-10 lg:px-20 pb-20" hidden>
+    <div class="max-w-3xl mx-auto">
+
+      <div id="diagEntete" class="border-b border-cream-dark pb-6 mb-8"></div>
+      <ul id="diagMesures" class="diag-mesures" hidden></ul>
+      <div id="diagConstats"></div>
+
+      <div class="mt-12 pt-10 border-t border-cream-dark text-center">
+        <h2 class="font-display text-2xl md:text-3xl text-brun leading-tight mb-4">
+          Vous voulez que je m'en occupe ?
+        </h2>
+        <p class="font-body text-base text-brun-mid max-w-[48ch] mx-auto mb-8">
+          Chacun de ces points se corrige. Décrivez votre activité, je vous dis
+          en un appel ce qui est prioritaire, dans quel délai et à quel prix.
+        </p>
+        <Button href="/contact" variant="primary">Parler de mon site</Button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── CE QUE L'ANALYSE REGARDE ─── -->
+  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-display text-2xl md:text-3xl text-brun leading-tight mb-8 text-center">
+        Ce que l'analyse regarde
+      </h2>
+      <ul class="diag-criteres font-body">
+        <li><b>La vitesse</b> : le temps que met votre page à répondre.</li>
+        <li><b>L'affichage mobile</b> : la page est-elle pensée pour un téléphone, ou seulement réduite.</li>
+        <li><b>La sécurité</b> : connexion chiffrée et certificat valide, sans quoi le navigateur affiche une alerte.</li>
+        <li><b>Le référencement</b> : titre, description, hiérarchie des titres, données structurées.</li>
+        <li><b>Les moyens de contact</b> : formulaire, téléphone cliquable, adresse email.</li>
+        <li><b>Les images</b> : leur description, qui conditionne leur visibilité et l'accessibilité.</li>
+        <li><b>L'entretien</b> : les signes qu'un site n'est plus tenu à jour.</li>
+      </ul>
+      <p class="font-body text-sm text-brun-mid mt-8 text-center max-w-[54ch] mx-auto">
+        Chaque point est mesuré, aucun n'est une appréciation de goût.
+        Ce diagnostic ne remplace pas un audit complet, il en donne les grandes lignes.
+      </p>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+
+  .diag-form { display: flex; gap: .6rem; flex-wrap: wrap; }
+
+  .diag-form input {
+    flex: 1 1 16rem;
+    min-width: 0;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: .95rem 1.15rem;
+    color: var(--color-encre);
+    background: var(--color-cream);
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 2px;
+    transition: border-color .3s ease;
+  }
+  .diag-form input:focus-visible {
+    outline: none;
+    border-color: var(--color-sauge-text);
+  }
+  .diag-form input::placeholder { color: color-mix(in srgb, var(--color-brun-mid) 60%, transparent); }
+
+  .diag-form button {
+    flex: 0 0 auto;
+    font-family: var(--font-body);
+    font-size: .95rem;
+    padding: .95rem 2rem;
+    color: var(--color-cream);
+    background: var(--color-brun);
+    border: 1px solid var(--color-brun);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color .3s ease, opacity .3s ease;
+  }
+  .diag-form button:hover:not(:disabled) { background: var(--color-ocre-dark); }
+  .diag-form button:disabled { opacity: .55; cursor: progress; }
+
+  .diag-mesures {
+    list-style: none; padding: 0; margin: 0 0 2.5rem;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem;
+  }
+  @media (min-width: 640px) { .diag-mesures { grid-template-columns: repeat(4, 1fr); } }
+
+  .diag-criteres { display: grid; gap: .85rem; }
+  .diag-criteres li {
+    position: relative; padding-left: 1.5rem;
+    color: var(--color-brun-mid); line-height: 1.6;
+  }
+  .diag-criteres li::before {
+    content: ''; position: absolute; left: 0; top: .62em;
+    width: .5rem; height: 1px; background: var(--color-sauge-text);
+  }
+  .diag-criteres b { color: var(--color-brun); font-weight: 500; }
+</style>
+
+<!-- Les éléments de résultat sont créés en JavaScript : ils ne portent donc pas
+     l'attribut de portée ajouté par Astro, et des styles scopés ne s'y
+     appliqueraient jamais. Ces règles sont globales, mais toutes cantonnées
+     sous les conteneurs de la page pour ne rien déborder ailleurs. -->
+<style is:global>
+  #diagMesures li {
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 2px;
+    padding: .85rem 1rem;
+    font-family: var(--font-body);
+    font-size: .72rem;
+    line-height: 1.35;
+    color: var(--color-brun-mid);
+  }
+  #diagMesures b {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--color-brun);
+    margin-bottom: .15rem;
+  }
+
+  #diagConstats .diag-constat {
+    padding: 1rem 0 1rem 1.05rem;
+    border-left: 3px solid var(--color-cream-dark);
+    margin-bottom: .85rem;
+  }
+  #diagConstats .diag-constat[data-gravite="critique"] { border-left-color: #9C3226; }
+  #diagConstats .diag-constat[data-gravite="moyen"]    { border-left-color: #A8722A; }
+
+  #diagConstats .diag-etiquette {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: .65rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--color-brun-mid);
+    margin-bottom: .3rem;
+  }
+  #diagConstats .diag-constat[data-gravite="critique"] .diag-etiquette { color: #9C3226; }
+  #diagConstats .diag-constat[data-gravite="moyen"] .diag-etiquette    { color: #A8722A; }
+
+  #diagConstats .diag-fait {
+    font-family: var(--font-body);
+    color: var(--color-brun);
+    font-weight: 500;
+    margin: 0 0 .2rem;
+  }
+  #diagConstats .diag-consequence {
+    font-family: var(--font-body);
+    color: var(--color-brun-mid);
+    font-size: .93rem;
+    margin: 0;
+    line-height: 1.55;
+  }
+</style>
+
+<script>
+/* Le branchement est enveloppé dans une fonction rappelée à chaque navigation :
+   le routeur de transitions de vue remplace le DOM, les écouteurs posés une
+   seule fois au chargement initial seraient perdus dès la première navigation
+   interne. */
+function brancherDiagnostic() {
+  const form      = document.getElementById('diagForm') as HTMLFormElement | null;
+  const champ     = document.getElementById('diagUrl') as HTMLInputElement | null;
+  const bouton    = document.getElementById('diagBtn') as HTMLButtonElement | null;
+  const statut    = document.getElementById('diagStatut');
+  const resultats = document.getElementById('diagResultats');
+  const entete    = document.getElementById('diagEntete');
+  const mesures   = document.getElementById('diagMesures');
+  const constats  = document.getElementById('diagConstats');
+
+  if (form && champ && bouton && statut && resultats && entete && mesures && constats) {
+    if (form.dataset.branche === 'oui') return;
+    form.dataset.branche = 'oui';
+    const LIBELLE = { critique: 'Bloquant', moyen: 'Important', mineur: 'À corriger' } as const;
+
+    const message = (texte: string, erreur = false) => {
+      statut.textContent = texte;
+      statut.style.color = erreur ? '#9C3226' : 'var(--color-brun-mid)';
+    };
+
+    /* Le contenu vient du serveur mais reste inséré via textContent :
+       aucune chaîne renvoyée par l'analyse n'est interprétée comme du HTML. */
+    const bloc = (tag: string, classe: string, texte: string) => {
+      const el = document.createElement(tag);
+      el.className = classe;
+      el.textContent = texte;
+      return el;
+    };
+
+    /* Ceinture et bretelles : si un envoi de formulaire survenait malgré
+       le bouton non soumettant, il ne doit jamais recharger la page. */
+    form.addEventListener('submit', (evenement) => {
+      evenement.preventDefault();
+      evenement.stopPropagation();
+      lancerAnalyse();
+    });
+
+    champ.addEventListener('keydown', (evenement) => {
+      if (evenement.key === 'Enter') {
+        evenement.preventDefault();
+        lancerAnalyse();
+      }
+    });
+
+    bouton.addEventListener('click', lancerAnalyse);
+
+    async function lancerAnalyse() {
+      const url = champ.value.trim();
+      if (!url) { message("Indiquez l'adresse de votre site.", true); champ.focus(); return; }
+
+      bouton.disabled = true;
+      const libelle = bouton.querySelector('.diag-btn-label');
+      if (libelle) libelle.textContent = 'Analyse en cours';
+      message('Mesure en cours, cela prend quelques secondes.');
+      resultats.hidden = true;
+
+      try {
+        const reponse = await fetch('/api/diagnostic', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ url }),
+        });
+        const donnees = await reponse.json();
+
+        if (!reponse.ok && donnees?.erreur) { message(donnees.erreur, true); return; }
+        if (donnees?.etat === 'refuse') { message(donnees.raison, true); return; }
+
+        message('');
+        entete.textContent = '';
+        mesures.textContent = '';
+        constats.textContent = '';
+
+        entete.appendChild(bloc('p', 'font-body text-xs tracking-[0.22em] uppercase text-sauge mb-2', 'Résultat'));
+        entete.appendChild(bloc('h2', 'font-display text-2xl md:text-3xl text-brun leading-tight', donnees.hote ?? url));
+
+        if (donnees.etat === 'injoignable') {
+          entete.appendChild(bloc('p', 'font-body text-base text-brun-mid mt-3', donnees.raison));
+          mesures.hidden = true;
+          resultats.hidden = false;
+          resultats.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+
+        if (donnees.etat === 'ok') {
+          const m = donnees.mesures;
+          const cases: [string, string][] = [
+            [`${(m.duree / 1000).toFixed(1)} s`, 'temps de réponse'],
+            [String(m.mots), "mots sur l'accueil"],
+            [String(m.images), `images, dont ${m.imagesSansAlt} sans description`],
+            [`${Math.round(m.poids / 1024)} Ko`, `de code, ${m.scripts} scripts externes`],
+          ];
+          for (const [valeur, legende] of cases) {
+            const li = document.createElement('li');
+            li.appendChild(bloc('b', '', valeur));
+            li.appendChild(document.createTextNode(legende));
+            mesures.appendChild(li);
+          }
+          mesures.hidden = false;
+        } else {
+          mesures.hidden = true;
+        }
+
+        const liste = donnees.constats ?? [];
+        const bloquants = liste.filter((c: any) => c.gravite === 'critique').length;
+
+        const titre = liste.length === 0
+          ? 'Aucun défaut technique majeur relevé sur la page d’accueil.'
+          : `${liste.length} point${liste.length > 1 ? 's' : ''} relevé${liste.length > 1 ? 's' : ''}${bloquants ? `, dont ${bloquants} bloquant${bloquants > 1 ? 's' : ''}` : ''}`;
+        constats.appendChild(bloc('h3', 'font-display text-xl text-brun mb-5', titre));
+
+        for (const c of liste) {
+          const item = document.createElement('div');
+          item.className = 'diag-constat';
+          item.setAttribute('data-gravite', c.gravite);
+          item.appendChild(bloc('span', 'diag-etiquette', LIBELLE[c.gravite as keyof typeof LIBELLE] ?? ''));
+          item.appendChild(bloc('p', 'diag-fait', c.fait));
+          item.appendChild(bloc('p', 'diag-consequence', c.consequence));
+          constats.appendChild(item);
+        }
+
+        resultats.hidden = false;
+        resultats.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch {
+        message("L'analyse n'a pas abouti. Vérifiez l'adresse et réessayez.", true);
+      } finally {
+        bouton.disabled = false;
+        const libelleFin = bouton.querySelector('.diag-btn-label');
+        if (libelleFin) libelleFin.textContent = 'Analyser';
+      }
+    }
+  }
+}
+
+brancherDiagnostic();
+document.addEventListener('astro:page-load', brancherDiagnostic);
+</script>
