@@ -282,12 +282,15 @@ const heroMd = await getImage({ src: imgHero, width: 440, format: 'webp', qualit
 const heroSrcset = `${heroSm.src} 340w, ${heroMd.src} 440w`;
 const heroSizes  = '(max-width: 640px) calc(100vw - 48px), 440px';
 
+/* Pixel transparent d'1 octet, servi comme source aux écrans qui n'affichent pas
+   la version concernée. Sans lui, le navigateur téléchargeait les DEUX variantes
+   du hero sur tous les appareils : ni display:none, ni loading="lazy", ni un
+   preload media-scopé n'empêchent le scanner de préchargement d'aller chercher
+   une image dont la balise porte un src. Une <source> qui ne correspond pas,
+   elle, n'est jamais chargée. Mesuré : 183 Ko avant, 65 Ko sur mobile après. */
+const PIXEL_VIDE = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+
 // ── Hero desktop (colonne droite, ≥1024px) ──
-// Mêmes précautions : variantes réutilisées par le <img> ET un preload borné par
-// media-query desktop. Les deux <img> hero sont en loading="lazy" pour que le
-// scanner de préchargement du navigateur n'aille PAS chercher l'image de l'autre
-// breakpoint (elle est en display:none) ; chaque preload media-scopé garantit que
-// seul le bon fichier est téléchargé, une fois, par appareil.
 const heroDeskMd = await getImage({ src: imgHero, width: 480, format: 'webp', quality: 55 });
 const heroDeskLg = await getImage({ src: imgHero, width: 640, format: 'webp', quality: 55 });
 const heroDeskSrcset = `${heroDeskMd.src} 480w, ${heroDeskLg.src} 640w`;
@@ -408,42 +411,51 @@ const heroDeskSizes  = '42vw';
 
       </div>
 
-      <!-- Colonne droite : photo éditoriale (desktop) -->
+      <!-- Colonne droite : photo éditoriale (desktop)
+           Le hero existe en deux versions, à deux endroits différents de la mise
+           en page. Masquer la seconde en CSS ne suffit pas : le navigateur la
+           télécharge quand même, et les deux fichiers partaient sur tous les
+           appareils (183 Ko au lieu de 65 sur mobile). D'où <picture> : une
+           source vide hors du bon écran, et le navigateur n'en charge qu'une. -->
       <div class="hidden lg:flex items-center justify-center h-full">
         <div class="img-zoom img-editorial w-full max-w-[500px]" style="height: min(72vh, 620px);">
-          <img
-            src={heroDeskLg.src}
-            srcset={heroDeskSrcset}
-            sizes={heroDeskSizes}
-            width="640"
-            height="794"
-            alt="Laptop ouvert dans un jardin verdoyant, création de site internet par Caelestis, Drôme"
-            class="w-full h-full object-cover object-center"
-            data-parallax
-            loading="lazy"
-            fetchpriority="high"
-            decoding="async"
-          />
+          <picture>
+            <source media="(max-width: 1023px)" srcset={PIXEL_VIDE} />
+            <source media="(min-width: 1024px)" srcset={heroDeskSrcset} sizes={heroDeskSizes} />
+            <img
+              src={heroDeskLg.src}
+              width="640"
+              height="794"
+              alt="Laptop ouvert dans un jardin verdoyant, création de site internet par Caelestis, Drôme"
+              class="w-full h-full object-cover object-center"
+              data-parallax
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
         </div>
       </div>
 
     </div>
 
-    <!-- Photo hero mobile/tablette uniquement -->
+    <!-- Photo hero mobile et tablette (même principe que ci-dessus) -->
     <div class="lg:hidden mt-10 w-full max-w-xl mx-auto px-0">
       <div class="img-zoom img-editorial overflow-hidden" style="aspect-ratio: 16/10; max-height: 360px; border-radius: 12px;">
-        <img
-          src={heroMd.src}
-          srcset={heroSrcset}
-          sizes={heroSizes}
-          width="440"
-          height="275"
-          alt="Laptop ouvert dans un jardin verdoyant, création de site internet par Caelestis, Drôme"
-          class="w-full h-full object-cover object-center"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        />
+        <picture>
+          <source media="(min-width: 1024px)" srcset={PIXEL_VIDE} />
+          <source media="(max-width: 1023px)" srcset={heroSrcset} sizes={heroSizes} />
+          <img
+            src={heroMd.src}
+            width="440"
+            height="275"
+            alt="Laptop ouvert dans un jardin verdoyant, création de site internet par Caelestis, Drôme"
+            class="w-full h-full object-cover object-center"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
       </div>
     </div>
 
@@ -479,7 +491,7 @@ const heroDeskSizes  = '42vw';
             widths={[200, 400, 760]}
             sizes="(max-width: 768px) 50vw, 50vw"
             loading="lazy"
-            quality={72}
+            quality={62}
           />
         </div>
 
@@ -492,7 +504,7 @@ const heroDeskSizes  = '42vw';
             widths={[200, 320, 480]}
             sizes="(max-width: 768px) 50vw, 33vw"
             loading="lazy"
-            quality={72}
+            quality={62}
           />
         </div>
 
@@ -505,7 +517,7 @@ const heroDeskSizes  = '42vw';
             widths={[200, 400, 760]}
             sizes="(max-width: 768px) 50vw, 50vw"
             loading="lazy"
-            quality={72}
+            quality={62}
           />
         </div>
 
@@ -518,7 +530,7 @@ const heroDeskSizes  = '42vw';
             widths={[200, 320, 480]}
             sizes="(max-width: 768px) 50vw, 33vw"
             loading="lazy"
-            quality={72}
+            quality={62}
           />
         </div>
 
