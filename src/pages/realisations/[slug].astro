@@ -1,0 +1,218 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+import { Image } from 'astro:assets';
+import { realisations } from '../../data/realisations';
+
+export function getStaticPaths() {
+  return realisations.map((realisation) => ({
+    params: { slug: realisation.slug },
+    props: { realisation },
+  }));
+}
+
+const { realisation } = Astro.props;
+const {
+  nom, metier, ville, url, annee, titre, situation,
+  besoins, reponses, livre, outils, temoignage, images,
+} = realisation;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: titre,
+  about: `${metier}, ${ville}`,
+  dateCreated: String(annee),
+  url: `https://caelestis.fr/realisations/${realisation.slug}`,
+  creator: { '@type': 'Organization', name: 'Caelestis', url: 'https://caelestis.fr' },
+};
+---
+
+<BaseLayout
+  title={`${nom}, ${metier} à ${ville}, réalisation Caelestis`}
+  description={`Étude de cas : ${titre.toLowerCase()}. Site vitrine et outils sur mesure réalisés par Caelestis pour ${nom}, ${metier.toLowerCase()} à ${ville}.`}
+  canonical={`https://caelestis.fr/realisations/${realisation.slug}`}
+  schema={schema}
+>
+
+  <!-- ─── EN-TÊTE ─── -->
+  <section class="pt-28 md:pt-36 pb-14 px-6 md:px-10 lg:px-20">
+    <div class="max-w-4xl mx-auto">
+
+      <nav aria-label="Fil d'ariane" class="font-body text-xs text-brun-mid mb-8">
+        <a href="/" class="hover:text-sauge-text transition-colors">Accueil</a>
+        <span class="mx-2 text-cream-dark" aria-hidden="true">/</span>
+        <span>Réalisations</span>
+        <span class="mx-2 text-cream-dark" aria-hidden="true">/</span>
+        <span class="text-brun">{nom}</span>
+      </nav>
+
+      <p class="inline-block font-body text-xs tracking-[0.22em] uppercase text-sauge border border-sauge/40 rounded-full px-4 py-1.5 mb-7">
+        {metier}, {ville}
+      </p>
+
+      <h1 class="font-display text-3xl md:text-5xl text-brun leading-[1.08] mb-6">
+        {titre}
+      </h1>
+
+      <p class="font-body text-lg text-brun-mid max-w-[62ch] leading-relaxed">
+        {situation}
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-4">
+        <Button href={url} variant="primary">Voir le site en ligne</Button>
+        <span class="font-body text-sm text-brun-mid">{annee}</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── VISUEL PRINCIPAL ─── -->
+  {images.length > 0 && (
+    <section class="px-6 md:px-10 lg:px-20 pb-16">
+      <figure class="max-w-5xl mx-auto">
+        <Image
+          src={images[0].src}
+          alt={images[0].alt}
+          widths={[640, 960, 1440]}
+          sizes="(max-width: 1024px) 100vw, 1024px"
+          class="w-full h-auto rounded-sm border border-cream-dark"
+          loading="eager"
+        />
+        <figcaption class="font-body text-sm text-brun-mid mt-3">{images[0].legende}</figcaption>
+      </figure>
+    </section>
+  )}
+
+  <!-- ─── CE QU'IL FALLAIT RÉSOUDRE ─── -->
+  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
+    <div class="max-w-4xl mx-auto grid md:grid-cols-[minmax(0,18rem)_1fr] gap-8 md:gap-14">
+      <h2 class="font-display text-2xl md:text-3xl text-brun leading-tight">
+        Ce qu'il fallait résoudre
+      </h2>
+      <ul class="cas-liste font-body">
+        {besoins.map((besoin) => <li>{besoin}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ─── CE QUI A ÉTÉ CONSTRUIT ─── -->
+  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
+    <div class="max-w-4xl mx-auto grid md:grid-cols-[minmax(0,18rem)_1fr] gap-8 md:gap-14">
+      <h2 class="font-display text-2xl md:text-3xl text-brun leading-tight">
+        Ce qui a été construit
+      </h2>
+      <ul class="cas-liste font-body">
+        {reponses.map((reponse) => <li>{reponse}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ─── SECOND VISUEL ─── -->
+  {images.length > 1 && (
+    <section class="px-6 md:px-10 lg:px-20 pb-4">
+      <figure class="max-w-5xl mx-auto">
+        <Image
+          src={images[1].src}
+          alt={images[1].alt}
+          widths={[640, 960, 1440]}
+          sizes="(max-width: 1024px) 100vw, 1024px"
+          class="w-full h-auto rounded-sm border border-cream-dark"
+          loading="lazy"
+        />
+        <figcaption class="font-body text-sm text-brun-mid mt-3">{images[1].legende}</figcaption>
+      </figure>
+    </section>
+  )}
+
+  <!-- ─── CE QUI TOURNE AUJOURD'HUI ─── -->
+  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark bg-brun text-cream section-dark-depth mt-16">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="font-display text-2xl md:text-3xl mb-8">Ce qui tourne aujourd'hui</h2>
+      <ul class="cas-livre font-body">
+        {livre.map((ligne) => <li>{ligne}</li>)}
+      </ul>
+      <p class="font-body text-sm text-cream/60 mt-9">
+        Constats vérifiables sur le site en ligne. Aucun chiffre de fréquentation ni de
+        chiffre d'affaires n'est avancé ici : ces données appartiennent au client.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── TÉMOIGNAGE ─── -->
+  {temoignage && (
+    <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
+      <blockquote class="max-w-3xl mx-auto text-center">
+        <p class="font-display text-xl md:text-2xl text-brun leading-relaxed">
+          « {temoignage.texte} »
+        </p>
+        <footer class="font-body text-sm text-brun-mid mt-6">{temoignage.auteur}</footer>
+      </blockquote>
+    </section>
+  )}
+
+  <!-- ─── OUTILS ─── -->
+  <section class="py-12 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
+    <div class="max-w-4xl mx-auto flex flex-wrap items-baseline gap-x-6 gap-y-3">
+      <span class="font-body text-xs tracking-[0.22em] uppercase text-brun-mid">Outils</span>
+      <ul class="flex flex-wrap gap-2">
+        {outils.map((outil) => (
+          <li class="font-body text-sm text-brun border border-cream-dark rounded-full px-3 py-1">{outil}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ─── APPEL À L'ACTION ─── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 text-center section-ambient border-t border-cream-dark">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="font-display text-3xl md:text-4xl text-brun leading-tight mb-5">
+        Un besoin proche du sien ?
+      </h2>
+      <p class="font-body text-base text-brun-mid mb-9">
+        Décrivez votre activité, je vous dis en un appel ce qui est réalisable,
+        dans quel délai et à quel prix.
+      </p>
+      <Button href="/contact" variant="primary">Parler de mon projet</Button>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .cas-liste { display: grid; gap: 1.05rem; }
+  .cas-liste li {
+    position: relative;
+    padding-left: 1.6rem;
+    color: var(--color-brun-mid);
+    line-height: 1.6;
+  }
+  .cas-liste li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.55rem;
+    height: 1px;
+    background: var(--color-sauge-text);
+  }
+
+  .cas-livre { display: grid; gap: 0.95rem; }
+  .cas-livre li {
+    position: relative;
+    padding-left: 1.9rem;
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--color-cream) 88%, transparent);
+  }
+  .cas-livre li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.45em;
+    width: 0.85rem;
+    height: 0.45rem;
+    border-left: 1.5px solid var(--color-sauge);
+    border-bottom: 1.5px solid var(--color-sauge);
+    transform: rotate(-45deg);
+  }
+</style>
