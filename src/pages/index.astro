@@ -7,6 +7,7 @@ import imgArtisan     from '../assets/images/atelier-botanique.jpg';
 import imgBougies     from '../assets/images/bougies-artisan.jpg';
 import imgYoga        from '../assets/images/yoga-soleil.jpg';
 import imgJardin      from '../assets/images/jardin-communautaire.jpg';
+import { realisations } from '../data/realisations';
 
 const localBusiness = {
   '@context': 'https://schema.org',
@@ -658,6 +659,51 @@ const heroDeskSizes  = '42vw';
   </section>
 
 
+  <!-- ─── RÉALISATIONS : la preuve avant le prix ─── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark" id="realisations" aria-labelledby="realisations-title">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="text-center mb-14" data-reveal>
+        <p class="inline-block font-body text-xs tracking-[0.22em] uppercase text-sauge border border-sauge/40 rounded-full px-4 py-1.5 mb-8">
+          Réalisations
+        </p>
+        <h2 id="realisations-title" class="font-display text-3xl md:text-4xl text-brun leading-[1.1] mb-5">
+          Des sites en ligne, pas des promesses.
+        </h2>
+        <p class="font-body text-base text-brun-mid max-w-[52ch] mx-auto">
+          Chaque projet est visible en ligne. Vous pouvez le consulter, le tester
+          et vérifier par vous-même ce qui a été livré.
+        </p>
+      </div>
+
+      <ul class={`grid gap-8 mx-auto ${realisations.length > 1 ? 'md:grid-cols-2 max-w-4xl' : 'max-w-xl'}`}>
+        {realisations.map((realisation, i) => (
+          <li data-reveal data-delay={String(i + 1)}>
+            <a href={`/realisations/${realisation.slug}`} class="reali-carte group">
+              <Image
+                src={realisation.images[0].src}
+                alt={realisation.images[0].alt}
+                widths={[400, 720]}
+                sizes="(max-width: 768px) 100vw, 420px"
+                class="reali-image"
+                loading="lazy"
+              />
+              <div class="reali-corps">
+                <p class="reali-meta font-body">{realisation.metier}, {realisation.ville}</p>
+                <h3 class="font-display text-xl text-brun leading-snug mb-2">{realisation.nom}</h3>
+                <p class="font-body text-sm text-brun-mid leading-relaxed mb-4">{realisation.accroche}</p>
+                <p class="reali-delai font-body">{realisation.delai}</p>
+                <span class="reali-lien font-body">Voir l'étude de cas</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+    </div>
+  </section>
+
+
   <!-- ─── SERVICES ─── -->
   <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
     <div class="max-w-6xl mx-auto">
@@ -680,45 +726,113 @@ const heroDeskSizes  = '42vw';
         </p>
       </div>
 
-      <a href="/site-une-page" class="group block max-w-3xl mx-auto mb-6 rounded-2xl border border-sauge/40 bg-cream/60 p-5 md:p-7 transition-all duration-300 hover:border-sauge/70 hover:bg-cream hover:shadow-[0_8px_30px_rgba(27, 71, 51,0.08)]" data-reveal data-delay="1">
-        <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-7">
-          <div class="flex-1 min-w-0 text-center sm:text-left">
-            <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-2">Pour démarrer</p>
-            <h3 class="font-display text-xl font-light text-brun mb-1.5">Page unique</h3>
-            <p class="font-body text-sm text-brun-mid leading-relaxed">L'essentiel de votre activité, soigné sur une seule page. La solution accessible pour démarrer simplement.</p>
-          </div>
-          <div class="shrink-0 text-center sm:text-right">
-            <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-0.5">À partir de</p>
-            <p class="font-display font-light text-brun leading-none mb-2" style="font-size: clamp(1.8rem, 4vw, 2.3rem); letter-spacing: -0.02em;">
-              <span class="text-sauge">500</span><span class="text-bois-mid text-base ml-0.5">€</span>
-            </p>
-            <span class="inline-flex items-center gap-1.5 font-body text-sm font-medium text-sauge group-hover:gap-2.5 transition-all">Découvrir l'offre <span aria-hidden="true">→</span></span>
-          </div>
+      <!-- Planche d'élévations : chaque formule est dessinée à l'échelle de ce
+           qu'elle produit. Les schémas sont décoratifs (aria-hidden), toute
+           l'information reste portée par le texte qui les accompagne. -->
+      <div class="max-w-5xl mx-auto" data-reveal data-delay="1">
+
+        <div class="flex items-end justify-between gap-6 pb-4">
+          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Ce que vous obtenez</p>
+          <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid">À partir de</p>
         </div>
-      </a>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6" id="service-cards" data-reveal data-delay="1">
+        <div class="grid grid-cols-2 sm:grid-cols-[0.82fr_1fr_1.22fr_1.4fr] gap-x-5 gap-y-9 sm:gap-x-7 lg:gap-x-9 border-t border-brun/60 pt-7">
 
-        <button type="button" data-service="0" aria-pressed="false"
-          class="service-card border-2 border-cream-dark rounded-2xl p-5 md:p-7 flex flex-col gap-4 text-center cursor-pointer transition-all duration-300 hover:border-sauge/40">
-          <h3 class="font-display text-xl font-light text-brun">Site vitrine</h3>
-          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Votre activité en ligne, claire et lisible sur tous les écrans. Vos visiteurs comprennent ce que vous faites en quelques secondes et savent comment vous joindre.</p>
-          <p class="service-price font-body text-xs text-sauge transition-colors duration-300">À partir de 800 €</p>
-        </button>
+          <a href="/site-une-page" class="plan-item flex flex-col">
+            <div class="h-[124px] sm:h-[212px]">
+              <div aria-hidden="true" class="plan-frame h-[104px] sm:h-[124px]">
+              <div class="bg-sauge-pale h-1.5"></div>
+              <div class="bg-sauge-pale flex-1"></div>
+              <div class="bg-sauge-pale h-[3px] w-4/5"></div>
+              <div class="bg-sauge-pale h-[3px] w-3/5"></div>
+              <div class="bg-sauge-pale h-3"></div>
+            </div>
+            </div>
+            <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Page unique</h3>
+            <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">L'essentiel de votre activité sur une seule page, pour démarrer simplement.</p>
+            <p class="font-body text-sm font-medium text-sauge mt-auto">500 €</p>
+          </a>
 
-        <button type="button" data-service="1" aria-pressed="false"
-          class="service-card border-2 border-cream-dark rounded-2xl p-5 md:p-7 flex flex-col gap-4 text-center cursor-pointer transition-all duration-300 hover:border-sauge/40">
-          <h3 class="font-display text-xl font-light text-brun">Boutique en ligne</h3>
-          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Vendez vos produits directement depuis votre site. Catalogue en ligne, paiement sécurisé, connecté à vos outils de gestion.</p>
-          <p class="service-price font-body text-xs text-sauge transition-colors duration-300">À partir de 1 200 €</p>
-        </button>
+          <a href="/services#site-vitrine" class="plan-item flex flex-col">
+            <div class="h-[124px] sm:h-[212px]">
+              <div aria-hidden="true" class="plan-frame h-[124px] sm:h-[152px]">
+              <div class="flex gap-1">
+                <div class="bg-sauge-pale h-1.5 flex-1"></div>
+                <div class="bg-sauge-pale h-1.5 flex-1"></div>
+                <div class="bg-sauge-pale h-1.5 flex-1"></div>
+                <div class="bg-sauge-pale h-1.5 flex-1"></div>
+              </div>
+              <div class="bg-sauge-pale h-8"></div>
+              <div class="flex gap-1.5 flex-1">
+                <div class="bg-sauge-pale flex-1"></div>
+                <div class="bg-sauge-pale flex-1"></div>
+              </div>
+              <div class="bg-sauge-pale h-[3px] w-3/4"></div>
+              <div class="bg-sauge-pale h-3"></div>
+            </div>
+            </div>
+            <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Site vitrine</h3>
+            <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Votre activité en ligne, claire et lisible sur tous les écrans.</p>
+            <p class="font-body text-sm font-medium text-sauge mt-auto">800 €</p>
+          </a>
 
-        <button type="button" data-service="2" aria-pressed="false"
-          class="service-card border-2 border-cream-dark rounded-2xl p-5 md:p-7 flex flex-col gap-4 text-center cursor-pointer transition-all duration-300 hover:border-sauge/40">
-          <h3 class="font-display text-xl font-light text-brun">Site sur mesure</h3>
-          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">Un site entièrement conçu selon vos besoins, votre identité et vos objectifs. Une solution unique pensée pour valoriser votre activité et soutenir son développement.</p>
-          <p class="service-price font-body text-xs text-sauge transition-colors duration-300">À partir de 2 500 €</p>
-        </button>
+          <a href="/services#boutique-en-ligne" class="plan-item flex flex-col">
+            <div class="h-[168px] sm:h-[212px]">
+              <div aria-hidden="true" class="plan-frame h-[146px] sm:h-[182px]">
+              <div class="flex gap-1">
+                <div class="bg-sauge-pale h-1.5 flex-1"></div>
+                <div class="bg-sauge-pale h-1.5 flex-1"></div>
+                <div class="bg-sauge-pale h-1.5 flex-1"></div>
+                <div class="bg-sauge h-1.5 w-4"></div>
+              </div>
+              <div class="bg-sauge-pale h-6"></div>
+              <div class="grid grid-cols-3 gap-1.5 flex-1">
+                <div class="bg-sauge-pale"></div>
+                <div class="bg-sauge-pale"></div>
+                <div class="bg-sauge-pale"></div>
+                <div class="bg-sauge-pale"></div>
+                <div class="bg-sauge-pale"></div>
+                <div class="bg-sauge-pale"></div>
+              </div>
+              <div class="bg-sauge h-2.5 w-2/5"></div>
+            </div>
+            </div>
+            <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Boutique en ligne</h3>
+            <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Vendez vos produits depuis votre site, avec un paiement sécurisé.</p>
+            <p class="font-body text-sm font-medium text-sauge mt-auto">1 200 €</p>
+          </a>
+
+          <a href="/services#site-sur-mesure" class="plan-item flex flex-col">
+            <div class="h-[168px] sm:h-[212px]">
+              <div aria-hidden="true" class="plan-frame h-[168px] sm:h-[212px]">
+              <div class="flex gap-1.5 h-10">
+                <div class="bg-sauge-pale w-[62%]"></div>
+                <div class="flex-1 border border-dashed border-sauge"></div>
+              </div>
+              <div class="bg-sauge-pale h-12"></div>
+              <div class="flex gap-1.5 flex-1">
+                <div class="w-[38%] flex flex-col gap-1.5">
+                  <div class="bg-sauge-pale flex-1"></div>
+                  <div class="flex-1 border border-dashed border-sauge"></div>
+                </div>
+                <div class="bg-sauge-pale flex-1"></div>
+              </div>
+              <div class="flex gap-1.5">
+                <div class="bg-sauge-pale h-3 flex-1"></div>
+                <div class="bg-sauge h-3 w-7"></div>
+              </div>
+            </div>
+            </div>
+            <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Site sur mesure</h3>
+            <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Entièrement conçu selon vos besoins, votre identité et vos objectifs.</p>
+            <p class="font-body text-sm font-medium text-sauge mt-auto">2 500 €</p>
+          </a>
+
+        </div>
+
+        <p class="font-body text-xs text-brun-mid text-center mt-9 max-w-xl mx-auto leading-relaxed">
+          Les zones en pointillé sont définies avec vous. Chaque schéma donne l'ampleur de la formule, la mise en page reste propre à votre activité.
+        </p>
 
       </div>
 
@@ -954,10 +1068,31 @@ const heroDeskSizes  = '42vw';
     opacity: 0.35;
   }
 
-  /* ── Service cards — état actif ── */
-  .service-card.active {
-    border-color: #B8C4BB;
-    background: rgba(184, 196, 187, 0.06);
+  /* ── Planche d'élévations, schémas des formules ──
+     Le cadre représente le site produit par la formule : bandes pleines pour
+     ce qui est acquis, pointillés pour ce qui se définit avec le client. */
+  .plan-frame {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 6px;
+    border: 1px solid #B8C4BB;
+    border-radius: 4px;
+    background: #FCFBF8;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .plan-item:hover .plan-frame,
+  .plan-item:focus-visible .plan-frame {
+    border-color: #255C41;
+    transform: translateY(-3px);
+  }
+  .plan-item:hover h3 { color: #2E7452; }
+  .plan-item h3 { transition: color 0.3s ease; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .plan-frame { transition: border-color 0.3s ease; }
+    .plan-item:hover .plan-frame,
+    .plan-item:focus-visible .plan-frame { transform: none; }
   }
 
   /* ── Carte paragraphe luxe ── */
@@ -1259,29 +1394,73 @@ const heroDeskSizes  = '42vw';
   .faq-item.open .faq-plus-v { transform: scaleY(0); opacity: 0; }
   .faq-item.open .faq-icon   { border-color: #B8C4BB; color: #B8C4BB; }
   .faq-btn:hover .faq-icon   { border-color: #B8C4BB; color: #B8C4BB; }
+
+  /* ── Réalisations ── */
+  .reali-carte {
+    display: block;
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 2px;
+    overflow: hidden;
+    background: var(--color-cream);
+    transition: border-color .35s ease, transform .35s ease;
+  }
+  .reali-carte:hover,
+  .reali-carte:focus-visible { border-color: var(--color-sauge); transform: translateY(-2px); }
+
+  /* La capture est cadrée par le haut : on montre l'en-tête du site, jamais un rognage au centre. */
+  .reali-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 1px solid var(--color-cream-dark);
+  }
+
+  .reali-corps { padding: 1.6rem 1.5rem 1.75rem; }
+
+  .reali-meta {
+    font-size: .7rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--color-sauge-text);
+    margin-bottom: .55rem;
+  }
+
+  .reali-delai {
+    display: inline-block;
+    font-size: .75rem;
+    color: var(--color-brun-mid);
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 999px;
+    padding: .2rem .7rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .reali-lien {
+    display: block;
+    font-size: .85rem;
+    color: var(--color-sauge-text);
+  }
+  .reali-lien::after {
+    content: '';
+    display: inline-block;
+    width: .9rem;
+    height: 1px;
+    background: currentColor;
+    margin-left: .5rem;
+    vertical-align: middle;
+    transition: width .35s ease;
+  }
+  .reali-carte:hover .reali-lien::after { width: 1.5rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reali-carte,
+    .reali-lien::after { transition: none; }
+    .reali-carte:hover { transform: none; }
+  }
 </style>
 
 <script>
   /* Ré-attaché après chaque navigation View Transitions (cloneNode purge les anciens listeners) */
-  function bindServiceCards() {
-    document.querySelectorAll<HTMLButtonElement>('.service-card').forEach((card) => {
-      const clone = card.cloneNode(true) as HTMLButtonElement;
-      card.parentNode?.replaceChild(clone, card);
-      clone.addEventListener('click', () => {
-        const isActive = clone.classList.contains('active');
-        document.querySelectorAll('.service-card').forEach((c) => {
-          c.classList.remove('active');
-          c.setAttribute('aria-pressed', 'false');
-        });
-        if (!isActive) {
-          clone.classList.add('active');
-          clone.setAttribute('aria-pressed', 'true');
-        }
-      });
-    });
-  }
-  bindServiceCards();
-  document.addEventListener('astro:page-load', bindServiceCards);
 
   /* ── FAQ ── */
   function bindFaq() {
