@@ -8,6 +8,7 @@ import imgBougies     from '../assets/images/bougies-artisan.jpg';
 import imgYoga        from '../assets/images/yoga-soleil.jpg';
 import imgJardin      from '../assets/images/jardin-communautaire.jpg';
 import { realisations } from '../data/realisations';
+import { euros, mensualite, DUREE_VITRINE } from '../utils/tarifs';
 
 const localBusiness = {
   '@context': 'https://schema.org',
@@ -207,7 +208,11 @@ const faqs = [
   },
   {
     q: 'Suis-je engagé sur la durée ?',
-    a: 'La création se règle une seule fois, en deux versements : 30 % à la signature, le solde à la mise en ligne. La maintenance est un abonnement mensuel dès 7,99 €, résiliable quand vous le souhaitez avec un mois de préavis.',
+    a: 'La création se règle une seule fois, en deux versements : 30 % à la signature, le solde à la mise en ligne. Vous pouvez aussi choisir de l\'étaler sur 6, 12 ou 24 mois. La maintenance est un abonnement mensuel dès 7,99 €, résiliable quand vous le souhaitez avec un mois de préavis.',
+  },
+  {
+    q: 'Puis-je payer mon site en plusieurs fois ?',
+    a: 'Oui. Chaque formule peut être réglée en une seule fois, ou étalée sur 6, 12 ou 24 mensualités, sans frais ni intérêts : le montant total reste identique. Un site vitrine à 800 € revient ainsi à 33,33 € par mois sur 24 mois. La durée est fixée avec vous à la signature du devis.',
   },
   {
     q: 'Combien de temps ce projet va-t-il me demander ?',
@@ -751,6 +756,7 @@ const heroDeskSizes  = '42vw';
             <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Page unique</h3>
             <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">L'essentiel de votre activité sur une seule page, pour démarrer simplement.</p>
             <p class="font-body text-sm font-medium text-sauge mt-auto">500 €</p>
+            <p class="font-body text-xs text-brun-mid mt-0.5">ou {euros(mensualite(500, DUREE_VITRINE))}&nbsp;€ par mois</p>
           </a>
 
           <a href="/services#site-vitrine" class="plan-item flex flex-col">
@@ -774,6 +780,7 @@ const heroDeskSizes  = '42vw';
             <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Site vitrine</h3>
             <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Votre activité en ligne, claire et lisible sur tous les écrans.</p>
             <p class="font-body text-sm font-medium text-sauge mt-auto">800 €</p>
+            <p class="font-body text-xs text-brun-mid mt-0.5">ou {euros(mensualite(800, DUREE_VITRINE))}&nbsp;€ par mois</p>
           </a>
 
           <a href="/services#boutique-en-ligne" class="plan-item flex flex-col">
@@ -800,6 +807,7 @@ const heroDeskSizes  = '42vw';
             <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Boutique en ligne</h3>
             <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Vendez vos produits depuis votre site, avec un paiement sécurisé.</p>
             <p class="font-body text-sm font-medium text-sauge mt-auto">1 200 €</p>
+            <p class="font-body text-xs text-brun-mid mt-0.5">ou {euros(mensualite(1200, DUREE_VITRINE))}&nbsp;€ par mois</p>
           </a>
 
           <a href="/services#site-sur-mesure" class="plan-item flex flex-col">
@@ -826,6 +834,7 @@ const heroDeskSizes  = '42vw';
             <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Site sur mesure</h3>
             <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Entièrement conçu selon vos besoins, votre identité et vos objectifs.</p>
             <p class="font-body text-sm font-medium text-sauge mt-auto">2 500 €</p>
+            <p class="font-body text-xs text-brun-mid mt-0.5">ou {euros(mensualite(2500, DUREE_VITRINE))}&nbsp;€ par mois</p>
           </a>
 
         </div>
@@ -837,9 +846,15 @@ const heroDeskSizes  = '42vw';
       </div>
 
       <!-- Note de modalité — rassurance sur le paiement -->
-      <p class="font-body text-xs sm:text-sm font-semibold text-sauge text-center mt-10" data-reveal data-delay="2">
-        30&nbsp;% d'acompte à la signature, solde à la mise en ligne.
-      </p>
+      <div class="text-center mt-10 max-w-xl mx-auto" data-reveal data-delay="2">
+        <p class="font-body text-xs sm:text-sm font-semibold text-sauge">
+          30&nbsp;% d'acompte à la signature, solde à la mise en ligne.
+        </p>
+        <p class="font-body text-xs sm:text-sm text-brun-mid mt-2.5 leading-relaxed">
+          Vous préférez lisser la dépense ? Chaque formule peut aussi se régler en 6, 12 ou 24 mensualités, sans frais ni intérêts. Les montants mensuels indiqués correspondent à 24 mois.
+          <a href="/services#paiement" class="text-[#2E7452] hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">Voir les mensualités</a>
+        </p>
+      </div>
 
       <!-- Être trouvé sur Google : les deux prestations, visibles dès l'accueil -->
       <div class="mt-14 text-center" data-reveal data-delay="2">

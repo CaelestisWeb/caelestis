@@ -1,0 +1,246 @@
+---
+// PaiementEchelonne.astro : module tarifaire affichant le prix total, puis son équivalent mensuel.
+// Les montants viennent de src/utils/tarifs.ts, source unique des prix du site.
+import { DUREES, FORMULES, euros, mensualite } from '../utils/tarifs';
+
+interface Props {
+  /** Titre du module. Laisser vide pour n'afficher que le tableau. */
+  titre?: string;
+  /** Classes supplémentaires sur le conteneur. */
+  class?: string;
+}
+
+const { titre = 'Payer en une fois, ou étaler.', class: extraClass = '' } = Astro.props;
+---
+
+<div class={`pe-module ${extraClass}`}>
+
+  {titre && (
+    <div class="text-center mb-9">
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Le paiement</p>
+      <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+        {titre}
+      </h2>
+      <p class="font-body text-base text-brun-mid mt-4 max-w-xl mx-auto leading-relaxed">
+        Chaque site peut être réglé en une seule fois, ou en 6, 12 ou 24 mensualités. Le montant total reste le même, sans frais ni intérêts.
+      </p>
+    </div>
+  )}
+
+  <div class="pe-scroll">
+    <table class="pe-table">
+      <caption class="sr-only">Montant mensuel de chaque formule selon la durée de paiement choisie</caption>
+      <thead>
+        <tr>
+          <th scope="col" class="pe-th pe-th-formule">Formule</th>
+          {DUREES.map((mois) => (
+            <th scope="col" class="pe-th pe-th-duree">
+              <span class="pe-duree-nb">{mois}</span>
+              <span class="pe-duree-mot">mois</span>
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {FORMULES.map((f) => (
+          <tr>
+            <th scope="row" class="pe-td pe-td-formule">
+              <a href={f.href} class="pe-lien">{f.nom}</a>
+              <span class="pe-prix-total">{euros(f.prix)}&nbsp;€ au total</span>
+            </th>
+            {DUREES.map((mois) => (
+              <td class="pe-td pe-td-montant" data-duree={`${mois} mois`}>
+                <span class="pe-montant">{euros(mensualite(f.prix, mois))}&nbsp;€</span>
+                <span class="pe-montant-unite">par mois</span>
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="pe-note">
+    Montants à partir de, hors options. La mensualité est calculée sur le tarif de votre devis, sans frais ni intérêts, et prélevée par virement ou par carte. La maintenance, à partir de 7,99&nbsp;€ par mois, reste facturée à part.
+  </p>
+
+</div>
+
+<style>
+  .pe-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 1rem;
+    background: var(--color-cream);
+  }
+
+  .pe-table {
+    width: 100%;
+    min-width: 30rem;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .pe-th {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brun-mid);
+    padding: 1.1rem 1rem 0.9rem;
+    border-bottom: 1px solid var(--color-cream-dark);
+    vertical-align: bottom;
+  }
+
+  .pe-th-duree {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .pe-duree-nb {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 300;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-brun);
+    margin-right: 0.3em;
+  }
+
+  .pe-td {
+    padding: 1.05rem 1rem;
+    border-bottom: 1px solid var(--color-cream-dark);
+    vertical-align: middle;
+  }
+
+  .pe-table tbody tr:last-child .pe-td {
+    border-bottom: none;
+  }
+
+  .pe-td-formule {
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 9.5rem;
+  }
+
+  .pe-lien {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-brun);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .pe-lien:hover,
+  .pe-lien:focus-visible {
+    color: var(--color-sauge-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .pe-prix-total {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--color-brun-mid);
+  }
+
+  .pe-td-montant {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .pe-montant {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--color-sauge-text);
+  }
+
+  .pe-montant-unite {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    color: var(--color-brun-mid);
+    margin-top: 0.1rem;
+  }
+
+  .pe-note {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--color-brun-mid);
+    text-align: center;
+    max-width: 40rem;
+    margin: 1.75rem auto 0;
+  }
+
+  @media (min-width: 640px) {
+    .pe-th,
+    .pe-td { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .pe-montant { font-size: 1.35rem; }
+  }
+
+  /* Sous 640 px, le tableau se déplie en fiches : les trois durées restent
+     visibles sans défilement horizontal, y compris celle de 24 mois. */
+  @media (max-width: 639px) {
+    .pe-scroll { overflow-x: visible; }
+
+    .pe-table { min-width: 0; display: block; }
+    .pe-table thead { display: none; }
+    .pe-table tbody { display: block; }
+
+    .pe-table tbody tr {
+      display: block;
+      padding: 1.15rem 1.15rem 1.35rem;
+      border-bottom: 1px solid var(--color-cream-dark);
+    }
+
+    .pe-table tbody tr:last-child { border-bottom: none; }
+
+    .pe-td { display: block; padding: 0; border-bottom: none; }
+
+    .pe-td-formule {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      min-width: 0;
+      padding-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid var(--color-cream-dark);
+    }
+
+    .pe-td-montant {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      text-align: left;
+      padding: 0.32rem 0;
+    }
+
+    .pe-td-montant::before {
+      content: attr(data-duree);
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: var(--color-brun-mid);
+    }
+
+    .pe-montant { display: inline; font-size: 1.15rem; }
+
+    .pe-montant-unite {
+      display: inline;
+      margin-left: 0.3em;
+      margin-top: 0;
+    }
+  }
+</style>

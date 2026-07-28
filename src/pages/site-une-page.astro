@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
+import { mentionMensuelle } from '../utils/tarifs';
 
 const canonical = 'https://caelestis.fr/site-une-page';
 
@@ -52,6 +53,10 @@ const faq = [
     a: "Comptez deux à trois semaines à partir du moment où nous avons vos contenus. C'est la formule la plus rapide à livrer, puisqu'il n'y a qu'une page à concevoir et à valider.",
   },
   {
+    q: "Puis-je régler ma page en plusieurs fois ?",
+    a: "Oui. Les 500 € peuvent être réglés en une seule fois, ou étalés sur 6, 12 ou 24 mensualités sans frais ni intérêts, soit 83,33 €, 41,67 € ou 20,83 € par mois. Le montant total ne change pas, et la durée est fixée avec vous à la signature du devis.",
+  },
+  {
     q: "Que se passe-t-il si je veux modifier un texte après la mise en ligne ?",
     a: "Vous nous écrivez, nous le faisons. Les modifications de contenu courantes sont comprises dans l'abonnement de maintenance, sans supplément ni délai d'attente.",
   },
@@ -99,7 +104,7 @@ const anatomie = [
 
 <BaseLayout
   title="Page unique, site une page dès 500 €, Caelestis"
-  description="La Page unique : un site professionnel en une seule page, dès 500 €. L'essentiel de votre activité, soigné et visible sur Google, pour démarrer vite."
+  description="La Page unique : un site professionnel en une seule page, dès 500 €, ou 20,83 € par mois. L'essentiel de votre activité, soigné et visible sur Google."
   canonical={canonical}
   schema={[schema, breadcrumb, faqSchema]}
 >
@@ -131,6 +136,7 @@ const anatomie = [
         <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.6rem, 6vw, 3.6rem); letter-spacing: -0.025em;">
           <span class="text-sauge">500</span><span class="text-bois-mid text-2xl ml-1">€</span>
         </p>
+        <p class="font-body text-sm text-brun-mid mt-2.5">{mentionMensuelle(500)}</p>
       </div>
 
       <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4" data-reveal data-delay="3">
@@ -224,7 +230,7 @@ const anatomie = [
           </li>
           <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
             <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
-            <span>30 % pour démarrer, le solde une fois votre site en ligne.</span>
+            <span>30&nbsp;% pour démarrer, le solde une fois votre site en ligne, ou 6, 12 ou 24 mensualités sans frais.</span>
           </li>
           <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
             <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
