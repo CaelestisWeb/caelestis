@@ -162,7 +162,13 @@ Seule correction sur le hero, qui ne relève pas de la structure : remplacer la 
 >
 > Vérifié en production : les six pages du silo répondent en 200, et les quatre anciennes URL redirigent en 301 directement vers leur destination finale, sans chaîne.
 >
-> **Restent les étapes 2, 4, 5 et 6** : preuve sociale sur l'accueil, `/ressources/`, regroupement des outils et enrichissement de `/a-propos`, densification du maillage.
+> **Étapes 2, 4, 5 et 6 réalisées et déployées le 29 juillet 2026, en fin de soirée.**
+>
+> Étape 2, avec une réserve d'honnêteté : aucun témoignage client ni avis Google de Caelestis n'existe en donnée vérifiable à ce jour. Plutôt que d'en inventer, l'accueil a reçu un bloc « Vérifiable avant de nous croire » construit sur les faits constatables des études de cas, placé juste avant le CTA final, plus un pont vers le diagnostic qui était orphelin. **Le jour où de vrais avis existent, ce bloc doit être complété par eux : la collecte est l'action prioritaire, elle ne dépend que de Célestin** (demander à Romane et à Caro, puis à chaque client livré).
+>
+> Étape 4 : `/ressources/` avec cinq guides (prix, Facebook, délais, ChatGPT, contenus à préparer), gabarit `GuideLayout.astro`, balisage Article, prix lus dans `tarifs.ts` pour ne jamais diverger. Étape 5 : `/outils/simulateur` et `/outils/diagnostic` avec 301, `/a-propos` enrichie des quatre engagements et des passerelles. Étape 6 : chaque page d'offre reçoit des liens contextuels depuis les guides, l'accueil et ses voisines ; palette de recherche et footer à jour.
+>
+> Incident corrigé au passage : les trois pages d'offre utilisaient une classe `bg-foret` inexistante, rendant leur section verte illisible (texte crème sur fond crème). Corrigé en `bg-brun section-dark-depth`, vérifié visuellement.
 
 **Étape 1, la plus rentable : les trois pages d'offre manquantes.**
 `/services/site-vitrine`, `/services/boutique-en-ligne`, `/services/site-sur-mesure`. Même gabarit que `/site-une-page`, qui fonctionne déjà. Chacune avec son prix, sa FAQ propre, ses cas d'usage, son balisage `Service` et `Offer`. C'est la seule étape qui débloque un chiffre d'affaires aujourd'hui invisible.
