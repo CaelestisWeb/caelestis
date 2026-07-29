@@ -219,9 +219,9 @@ function maxScore(vals: string[], scores: Record<string, number>): number {
    Le ratio score/scoreMax détermine la zone (quartile).
    Spreads : 200 a 400 € selon le type et la zone
    ─────────────────────────────────────────────────────────
-   Vitrine    : 1499–1700 / 1800–2000 / 2100–2400 / 2500–2800
-   Boutique   : 2499–2800 / 2900–3200 / 3400–3800 / 4000–4400
-   Sur mesure : 3499–3900 / 4100–4500 / 4800–5300 / 5600–6200
+   Vitrine    : 1499,99–1700 / 1800–2000 / 2100–2400 / 2500–2800
+   Boutique   : 2499,99–2800 / 2900–3200 / 3400–3800 / 4000–4400
+   Sur mesure : 3499,99–3900 / 4100–4500 / 4800–5300 / 5600–6200
 ══════════════════════════════════════════════════════════ */
 
 // Score maximum atteignable par type (somme des valeurs max de chaque question)
@@ -242,19 +242,19 @@ const PRICE_ZONES: Record<string, [PriceZone, PriceZone, PriceZone, PriceZone]> 
     { low: 999.99, high: 999.99 },
   ],
   vitrine: [
-    { low: 1499, high: 1700 },
+    { low: 1499.99, high: 1700 },
     { low: 1800, high: 2000 },
     { low: 2100, high: 2400 },
     { low: 2500, high: 2800 },
   ],
   boutique: [
-    { low: 2499, high: 2800 },
+    { low: 2499.99, high: 2800 },
     { low: 2900, high: 3200 },
     { low: 3400, high: 3800 },
     { low: 4000, high: 4400 },
   ],
   surMesure: [
-    { low: 3499, high: 3900 },
+    { low: 3499.99, high: 3900 },
     { low: 4100, high: 4500 },
     { low: 4800, high: 5300 },
     { low: 5600, high: 6200 },
@@ -290,7 +290,7 @@ function calculateEstimate(
   const maxS    = MAX_SCORE[dt] ?? 550;
   const ratio   = maxS > 0 ? score / maxS : 0;
   const zoneIdx = ratio < 0.25 ? 0 : ratio < 0.5 ? 1 : ratio < 0.75 ? 2 : 3;
-  const zone    = PRICE_ZONES[dt]?.[zoneIdx] ?? { low: 1499, high: 1700 };
+  const zone    = PRICE_ZONES[dt]?.[zoneIdx] ?? { low: 1499.99, high: 1700 };
   const gbBonus = gbVals.includes('yes') ? gbAddon(dt) : 0;
 
   return { low: zone.low + gbBonus, high: zone.high + gbBonus };
