@@ -1,7 +1,7 @@
 ---
 // PaiementEchelonne.astro : module tarifaire affichant le prix total, puis son équivalent mensuel.
 // Les montants viennent de src/utils/tarifs.ts, source unique des prix du site.
-import { DUREES, FORMULES, euros, mensualite } from '../utils/tarifs';
+import { DUREES, FORMULES, euros, acompte, mensualite } from '../utils/tarifs';
 
 interface Props {
   /** Titre du module. Laisser vide pour n'afficher que le tableau. */
@@ -11,6 +11,24 @@ interface Props {
 }
 
 const { titre = 'Payer en une fois, ou étaler.', class: extraClass = '' } = Astro.props;
+
+// Une colonne d'acompte, puis une colonne par durée proposée.
+const colonnes = [
+  { cle: 'acompte', titre: 'Acompte', precision: '30 %' },
+  ...DUREES.map((mois) => ({ cle: `m${mois}`, titre: String(mois), precision: 'mois' })),
+];
+
+const lignes = FORMULES.map((f) => ({
+  ...f,
+  cellules: [
+    { libelle: 'Acompte 30 %', montant: acompte(f.prix), unite: 'à la signature' },
+    ...DUREES.map((mois) => ({
+      libelle: `${mois} mois`,
+      montant: mensualite(f.prix, mois),
+      unite: 'par mois',
+    })),
+  ],
+}));
 ---
 
 <div class={`pe-module ${extraClass}`}>
@@ -22,36 +40,36 @@ const { titre = 'Payer en une fois, ou étaler.', class: extraClass = '' } = Ast
         {titre}
       </h2>
       <p class="font-body text-base text-brun-mid mt-4 max-w-xl mx-auto leading-relaxed">
-        Chaque site peut être réglé en une seule fois, ou en 3 ou 6 mensualités. Le montant total reste le même, sans frais ni intérêts.
+        Chaque site peut être réglé en une seule fois, ou en 30 % à la signature puis 3 ou 6 mensualités. Le montant total reste le même, sans frais ni intérêts.
       </p>
     </div>
   )}
 
   <div class="pe-scroll">
     <table class="pe-table">
-      <caption class="sr-only">Montant mensuel de chaque formule selon la durée de paiement choisie</caption>
+      <caption class="sr-only">Acompte et montant mensuel de chaque formule selon la durée de paiement choisie</caption>
       <thead>
         <tr>
           <th scope="col" class="pe-th pe-th-formule">Formule</th>
-          {DUREES.map((mois) => (
+          {colonnes.map((c) => (
             <th scope="col" class="pe-th pe-th-duree">
-              <span class="pe-duree-nb">{mois}</span>
-              <span class="pe-duree-mot">mois</span>
+              <span class="pe-duree-nb">{c.titre}</span>
+              <span class="pe-duree-mot">{c.precision}</span>
             </th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {FORMULES.map((f) => (
+        {lignes.map((f) => (
           <tr>
             <th scope="row" class="pe-td pe-td-formule">
               <a href={f.href} class="pe-lien">{f.nom}</a>
               <span class="pe-prix-total">{euros(f.prix)}&nbsp;€ au total</span>
             </th>
-            {DUREES.map((mois) => (
-              <td class="pe-td pe-td-montant" data-duree={`${mois} mois`}>
-                <span class="pe-montant">{euros(mensualite(f.prix, mois))}&nbsp;€</span>
-                <span class="pe-montant-unite">par mois</span>
+            {f.cellules.map((c) => (
+              <td class="pe-td pe-td-montant" data-duree={c.libelle}>
+                <span class="pe-montant">{euros(c.montant)}&nbsp;€</span>
+                <span class="pe-montant-unite">{c.unite}</span>
               </td>
             ))}
           </tr>
@@ -61,7 +79,7 @@ const { titre = 'Payer en une fois, ou étaler.', class: extraClass = '' } = Ast
   </div>
 
   <p class="pe-note">
-    Montants à partir de, hors options. La mensualité est calculée sur le tarif de votre devis, sans frais ni intérêts, et prélevée par virement ou par carte. La maintenance, à partir de 7,99&nbsp;€ par mois, reste facturée à part.
+    Montants à partir de, hors options. L'acompte lance la création, les mensualités couvrent le solde et sont calculées sur le tarif de votre devis, sans frais ni intérêts, le dernier versement ajustant les centimes. La maintenance, à partir de 7,99&nbsp;€ par mois, reste facturée à part.
   </p>
 
 </div>

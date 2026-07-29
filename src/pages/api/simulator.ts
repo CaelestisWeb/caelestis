@@ -217,11 +217,11 @@ function maxScore(vals: string[], scores: Record<string, number>): number {
 /* ══════════════════════════════════════════════════════════
    CALCUL DU PRIX — 4 zones par type
    Le ratio score/scoreMax détermine la zone (quartile).
-   Spreads : 200 € (vitrine/boutique) · 300 € (sur mesure)
+   Spreads : 200 a 400 € selon le type et la zone
    ─────────────────────────────────────────────────────────
-   Vitrine    : 800–1000 / 1000–1200 / 1200–1400 / 1400–1600
-   Boutique   : 1200–1400 / 1500–1700 / 1900–2100 / 2300–2500
-   Sur mesure : 2500–2800 / 2900–3200 / 3300–3600 / 3700–4000
+   Vitrine    : 1499–1700 / 1800–2000 / 2100–2400 / 2500–2800
+   Boutique   : 2499–2800 / 2900–3200 / 3400–3800 / 4000–4400
+   Sur mesure : 3499–3900 / 4100–4500 / 4800–5300 / 5600–6200
 ══════════════════════════════════════════════════════════ */
 
 // Score maximum atteignable par type (somme des valeurs max de chaque question)
@@ -234,30 +234,30 @@ const MAX_SCORE: Record<string, number> = {
 
 type PriceZone = { low: number; high: number };
 const PRICE_ZONES: Record<string, [PriceZone, PriceZone, PriceZone, PriceZone]> = {
-  // Site une page : offre a prix fixe 500 € (toutes les zones identiques)
+  // Site une page : offre a prix fixe 999 € (toutes les zones identiques)
   pageUnique: [
-    { low: 500, high: 500 },
-    { low: 500, high: 500 },
-    { low: 500, high: 500 },
-    { low: 500, high: 500 },
+    { low: 999, high: 999 },
+    { low: 999, high: 999 },
+    { low: 999, high: 999 },
+    { low: 999, high: 999 },
   ],
   vitrine: [
-    { low:  800, high: 1000 },
-    { low: 1000, high: 1200 },
-    { low: 1200, high: 1400 },
-    { low: 1400, high: 1600 },
+    { low: 1499, high: 1700 },
+    { low: 1800, high: 2000 },
+    { low: 2100, high: 2400 },
+    { low: 2500, high: 2800 },
   ],
   boutique: [
-    { low: 1200, high: 1400 },
-    { low: 1500, high: 1700 },
-    { low: 1900, high: 2100 },
-    { low: 2300, high: 2500 },
+    { low: 2499, high: 2800 },
+    { low: 2900, high: 3200 },
+    { low: 3400, high: 3800 },
+    { low: 4000, high: 4400 },
   ],
   surMesure: [
-    { low: 2500, high: 2800 },
-    { low: 2900, high: 3200 },
-    { low: 3300, high: 3600 },
-    { low: 3700, high: 4000 },
+    { low: 3499, high: 3900 },
+    { low: 4100, high: 4500 },
+    { low: 4800, high: 5300 },
+    { low: 5600, high: 6200 },
   ],
 };
 
@@ -290,7 +290,7 @@ function calculateEstimate(
   const maxS    = MAX_SCORE[dt] ?? 550;
   const ratio   = maxS > 0 ? score / maxS : 0;
   const zoneIdx = ratio < 0.25 ? 0 : ratio < 0.5 ? 1 : ratio < 0.75 ? 2 : 3;
-  const zone    = PRICE_ZONES[dt]?.[zoneIdx] ?? { low: 800, high: 1000 };
+  const zone    = PRICE_ZONES[dt]?.[zoneIdx] ?? { low: 1499, high: 1700 };
   const gbBonus = gbVals.includes('yes') ? gbAddon(dt) : 0;
 
   return { low: zone.low + gbBonus, high: zone.high + gbBonus };

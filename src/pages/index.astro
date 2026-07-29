@@ -8,7 +8,7 @@ import imgBougies     from '../assets/images/bougies-artisan.jpg';
 import imgYoga        from '../assets/images/yoga-soleil.jpg';
 import imgJardin      from '../assets/images/jardin-communautaire.jpg';
 import { realisations } from '../data/realisations';
-import { euros, mensualite, DUREE_VITRINE } from '../utils/tarifs';
+import { mentionMensuelle, formule } from '../utils/tarifs';
 
 const localBusiness = {
   '@context': 'https://schema.org',
@@ -69,7 +69,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '500',
+          price: '999',
           priceCurrency: 'EUR',
         },
       },
@@ -82,7 +82,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '800',
+          price: '1499',
           priceCurrency: 'EUR',
         },
       },
@@ -95,7 +95,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '1200',
+          price: '2499',
           priceCurrency: 'EUR',
         },
       },
@@ -108,7 +108,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '2500',
+          price: '3499',
           priceCurrency: 'EUR',
         },
       },
@@ -208,11 +208,11 @@ const faqs = [
   },
   {
     q: 'Suis-je engagé sur la durée ?',
-    a: 'La création se règle une seule fois, en deux versements : 30 % à la signature, le solde à la mise en ligne. Vous pouvez aussi choisir de l\'étaler sur 3 ou 6 mois. La maintenance est un abonnement mensuel dès 7,99 €, résiliable quand vous le souhaitez avec un mois de préavis.',
+    a: 'La création se règle une seule fois, en deux versements : 30 % à la signature, le solde à la mise en ligne. Vous pouvez aussi choisir de l\'étaler sur 3 ou 6 mensualités. La maintenance est un abonnement mensuel dès 7,99 €, résiliable quand vous le souhaitez avec un mois de préavis.',
   },
   {
     q: 'Puis-je payer mon site en plusieurs fois ?',
-    a: 'Oui. Chaque formule peut être réglée en une seule fois, ou étalée sur 3 ou 6 mensualités, sans frais ni intérêts : le montant total reste identique. Un site vitrine à 800 € revient ainsi à 133,33 € par mois sur 6 mois. La durée est fixée avec vous à la signature du devis.',
+    a: 'Oui. Chaque formule peut être réglée en une seule fois. Sinon, vous versez 30 % à la signature du devis, puis le solde en 3 ou 6 mensualités, sans frais ni intérêts : le montant total reste celui du devis. Le détail formule par formule est affiché sur la page Services.',
   },
   {
     q: 'Combien de temps ce projet va-t-il me demander ?',
@@ -305,7 +305,7 @@ const heroDeskSizes  = '42vw';
 ---
 <BaseLayout
   title="Création de site internet, Caelestis, Drôme & France"
-  description="Sites web soignés pour artisans, producteurs et indépendants, en Auvergne-Rhône-Alpes. Agence basée dans la Drôme. Devis gratuit, dès 500 €."
+  description="Sites web soignés pour artisans, producteurs et indépendants, en Auvergne-Rhône-Alpes. Agence basée dans la Drôme. Devis gratuit, dès 999 €."
   schema={[localBusiness, organizationSchema, websiteSchema, faqSchema]}
 >
 
@@ -411,7 +411,7 @@ const heroDeskSizes  = '42vw';
         <ul class="trust font-body mt-8" data-reveal data-delay="2">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Réponse sous 48h</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Devis gratuit, sans engagement</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Tarifs affichés, dès 500 €</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Tarifs affichés, dès 999 €</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Le site vous appartient</li>
         </ul>
 
@@ -755,8 +755,8 @@ const heroDeskSizes  = '42vw';
             </div>
             <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Page unique</h3>
             <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">L'essentiel de votre activité sur une seule page, pour démarrer simplement.</p>
-            <p class="font-body text-sm font-medium text-sauge mt-auto">500 €</p>
-            <p class="font-body text-xs text-brun-mid mt-0.5">ou {euros(mensualite(500, DUREE_VITRINE))}&nbsp;€ par mois</p>
+            <p class="font-body text-sm font-medium text-sauge mt-auto">999 €</p>
+            <p class="font-body text-xs text-brun-mid mt-0.5">{mentionMensuelle(formule('page-unique').prix)}</p>
           </a>
 
           <a href="/services#site-vitrine" class="plan-item flex flex-col">
@@ -779,8 +779,8 @@ const heroDeskSizes  = '42vw';
             </div>
             <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Site vitrine</h3>
             <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Votre activité en ligne, claire et lisible sur tous les écrans.</p>
-            <p class="font-body text-sm font-medium text-sauge mt-auto">800 €</p>
-            <p class="font-body text-xs text-brun-mid mt-0.5">ou {euros(mensualite(800, DUREE_VITRINE))}&nbsp;€ par mois</p>
+            <p class="font-body text-sm font-medium text-sauge mt-auto">1 499 €</p>
+            <p class="font-body text-xs text-brun-mid mt-0.5">{mentionMensuelle(formule('site-vitrine').prix)}</p>
           </a>
 
           <a href="/services#boutique-en-ligne" class="plan-item flex flex-col">
@@ -806,8 +806,8 @@ const heroDeskSizes  = '42vw';
             </div>
             <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Boutique en ligne</h3>
             <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Vendez vos produits depuis votre site, avec un paiement sécurisé.</p>
-            <p class="font-body text-sm font-medium text-sauge mt-auto">1 200 €</p>
-            <p class="font-body text-xs text-brun-mid mt-0.5">ou {euros(mensualite(1200, DUREE_VITRINE))}&nbsp;€ par mois</p>
+            <p class="font-body text-sm font-medium text-sauge mt-auto">2 499 €</p>
+            <p class="font-body text-xs text-brun-mid mt-0.5">{mentionMensuelle(formule('boutique-en-ligne').prix)}</p>
           </a>
 
           <a href="/services#site-sur-mesure" class="plan-item flex flex-col">
@@ -833,8 +833,8 @@ const heroDeskSizes  = '42vw';
             </div>
             <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Site sur mesure</h3>
             <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Entièrement conçu selon vos besoins, votre identité et vos objectifs.</p>
-            <p class="font-body text-sm font-medium text-sauge mt-auto">2 500 €</p>
-            <p class="font-body text-xs text-brun-mid mt-0.5">ou {euros(mensualite(2500, DUREE_VITRINE))}&nbsp;€ par mois</p>
+            <p class="font-body text-sm font-medium text-sauge mt-auto">3 499 €</p>
+            <p class="font-body text-xs text-brun-mid mt-0.5">{mentionMensuelle(formule('site-sur-mesure').prix)}</p>
           </a>
 
         </div>
@@ -851,7 +851,7 @@ const heroDeskSizes  = '42vw';
           30&nbsp;% d'acompte à la signature, solde à la mise en ligne.
         </p>
         <p class="font-body text-xs sm:text-sm text-brun-mid mt-2.5 leading-relaxed">
-          Vous préférez lisser la dépense ? Chaque formule peut aussi se régler en 3 ou 6 mensualités, sans frais ni intérêts. Les montants mensuels indiqués correspondent à 6 mois.
+          Vous préférez lisser la dépense ? Le solde peut être réparti en 3 ou 6 mensualités, sans frais ni intérêts. Les montants indiqués correspondent à 6 mois.
           <a href="/services#paiement" class="text-[#2E7452] hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">Voir les mensualités</a>
         </p>
       </div>
@@ -867,34 +867,46 @@ const heroDeskSizes  = '42vw';
         </p>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto mt-8" data-reveal data-delay="2">
-        <a href="/referencement-naturel" class="group flex flex-col rounded-2xl border border-cream-dark bg-cream/60 p-6 md:p-7 transition-all duration-300 hover:border-sauge/50 hover:bg-cream hover:shadow-[0_8px_30px_rgba(27, 71, 51,0.08)]">
-          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Sur la durée</p>
-          <h3 class="font-display text-xl font-light text-brun mb-2.5">Référencement naturel</h3>
-          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
-            Les bons mots-clés, le référencement <strong class="text-brun font-semibold">local</strong>, un site sain aux yeux de Google. Pour remonter dans les résultats et y rester, sans publicité.
-          </p>
-          <p class="font-display text-lg font-light text-brun mt-5 pt-4 border-t border-cream-dark">
-            <span class="text-sauge">Sur devis</span><span class="font-body text-xs text-brun-mid ml-2">selon vos besoins</span>
-          </p>
-          <span class="inline-flex items-center gap-1.5 mt-3 font-body text-sm font-medium text-[#2E7452] group-hover:gap-2.5 transition-all">Découvrir <span aria-hidden="true">→</span></span>
+      <!-- Deux prestations en lignes éditoriales : la section alterne ainsi le
+           dessin (planche des formules) et la ligne, sans répéter deux fois de
+           suite le même dispositif visuel. -->
+      <div class="max-w-4xl mx-auto mt-8 border-t border-brun/60" data-reveal data-delay="2">
+
+        <a href="/referencement-naturel" class="offre-ligne grid sm:grid-cols-[1fr_auto] items-start gap-x-10 gap-y-4 py-7 px-3 -mx-3 border-b border-cream-dark">
+          <div>
+            <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-2">Sur la durée</p>
+            <h3 class="font-display text-xl font-light text-brun mb-2">Référencement naturel</h3>
+            <p class="font-body text-sm text-brun-mid leading-relaxed">
+              Les bons mots-clés, le référencement <strong class="text-brun font-semibold">local</strong>, un site sain aux yeux de Google. Pour remonter dans les résultats et y rester, sans publicité.
+            </p>
+          </div>
+          <div class="sm:text-right sm:min-w-[9.5rem]">
+            <p class="font-display text-lg font-light text-sauge">Sur devis</p>
+            <p class="font-body text-xs text-brun-mid mt-0.5">selon vos besoins</p>
+            <span class="offre-lien inline-flex items-center gap-1.5 mt-3 font-body text-sm font-medium text-[#2E7452]">Découvrir <span aria-hidden="true">→</span></span>
+          </div>
         </a>
 
-        <a href="/fiche-google-entreprise" class="group flex flex-col rounded-2xl border border-cream-dark bg-cream/60 p-6 md:p-7 transition-all duration-300 hover:border-sauge/50 hover:bg-cream hover:shadow-[0_8px_30px_rgba(27, 71, 51,0.08)]">
-          <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Résultat rapide</p>
-          <h3 class="font-display text-xl font-light text-brun mb-2.5">Fiche Google</h3>
-          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
-            L'encadré qui s'affiche sur Google et sur Maps avec vos horaires, votre téléphone et vos avis. Il fonctionne <strong class="text-brun font-semibold">même sans site internet</strong>.
-          </p>
-          <p class="font-display text-lg font-light text-brun mt-5 pt-4 border-t border-cream-dark">
-            <span class="text-sauge">300 €</span><span class="font-body text-xs text-brun-mid ml-2">une seule fois</span>
-          </p>
-          <span class="inline-flex items-center gap-1.5 mt-3 font-body text-sm font-medium text-[#2E7452] group-hover:gap-2.5 transition-all">Découvrir <span aria-hidden="true">→</span></span>
+        <a href="/fiche-google-entreprise" class="offre-ligne grid sm:grid-cols-[1fr_auto] items-start gap-x-10 gap-y-4 py-7 px-3 -mx-3">
+          <div>
+            <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-2">Résultat rapide</p>
+            <h3 class="font-display text-xl font-light text-brun mb-2">Fiche Google</h3>
+            <p class="font-body text-sm text-brun-mid leading-relaxed">
+              L'encadré qui s'affiche sur Google et sur Maps avec vos horaires, votre téléphone et vos avis. Il fonctionne <strong class="text-brun font-semibold">même sans site internet</strong>.
+            </p>
+          </div>
+          <div class="sm:text-right sm:min-w-[9.5rem]">
+            <p class="font-display text-lg font-light text-sauge">300&nbsp;€</p>
+            <p class="font-body text-xs text-brun-mid mt-0.5">une seule fois</p>
+            <span class="offre-lien inline-flex items-center gap-1.5 mt-3 font-body text-sm font-medium text-[#2E7452]">Découvrir <span aria-hidden="true">→</span></span>
+          </div>
         </a>
+
       </div>
 
-      <!-- Bloc maintenance & sécurité -->
-      <a href="/maintenance" class="group block max-w-2xl mx-auto mt-6 rounded-2xl border border-cream-dark bg-cream/60 p-6 md:p-7 text-center transition-all duration-300 hover:border-sauge/50 hover:bg-cream hover:shadow-[0_8px_30px_rgba(27, 71, 51,0.08)]" data-reveal data-delay="2">
+      <!-- Maintenance et sécurité : bloc de texte, plus de carte, pour que la
+           section ne se termine pas sur un encadré isolé. -->
+      <div class="max-w-2xl mx-auto mt-12 text-center" data-reveal data-delay="2">
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Maintenance et sécurité</p>
         <p class="font-body text-sm md:text-base text-brun-mid leading-relaxed">
           Un site internet demande un suivi régulier pour rester sûr et performant dans le temps. C'est pourquoi un abonnement de maintenance, à partir de <strong class="text-brun font-semibold">7,99&nbsp;€ par mois</strong>, accompagne chaque site que nous créons.
@@ -902,8 +914,8 @@ const heroDeskSizes  = '42vw';
         <p class="font-body text-sm md:text-base text-brun-mid leading-relaxed mt-3">
           Il prend en charge les mises à jour, la protection contre les failles de sécurité et le bon fonctionnement de votre site au quotidien. Vos modifications et l'évolution de votre site, elles, restent un service à part, à la demande et sur devis.
         </p>
-        <span class="inline-block mt-4 font-body text-sm font-medium text-[#2E7452] group-hover:text-brun transition-colors">Découvrir les formules de maintenance →</span>
-      </a>
+        <a href="/maintenance" class="offre-lien inline-flex items-center gap-1.5 mt-5 font-body text-sm font-medium text-[#2E7452]">Découvrir les formules de maintenance <span aria-hidden="true">→</span></a>
+      </div>
 
       <!-- CTA fin de section tarifs -->
       <div class="mt-12 text-center" data-reveal data-delay="2">
@@ -1109,6 +1121,16 @@ const heroDeskSizes  = '42vw';
     .plan-item:hover .plan-frame,
     .plan-item:focus-visible .plan-frame { transform: none; }
   }
+
+  /* ── Lignes de prestation, alternative éditoriale à la carte ── */
+  .offre-ligne { transition: background-color 0.3s ease; }
+  .offre-ligne:hover,
+  .offre-ligne:focus-visible { background: rgba(227, 239, 232, 0.5); }
+  .offre-ligne h3 { transition: color 0.3s ease; }
+  .offre-ligne:hover h3 { color: #2E7452; }
+  .offre-lien { transition: gap 0.3s ease, color 0.3s ease; }
+  .offre-ligne:hover .offre-lien,
+  .offre-lien:hover { gap: 0.75rem; color: #255C41; }
 
   /* ── Carte paragraphe luxe ── */
   .para-card {

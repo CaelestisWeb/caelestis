@@ -18,14 +18,17 @@ export type Formule = {
 };
 
 export const FORMULES: readonly Formule[] = [
-  { id: 'page-unique',       nom: 'Page unique',       prix: 500,  href: '/site-une-page' },
-  { id: 'site-vitrine',      nom: 'Site vitrine',      prix: 800,  href: '/services#site-vitrine' },
-  { id: 'boutique-en-ligne', nom: 'Boutique en ligne', prix: 1200, href: '/services#boutique-en-ligne' },
-  { id: 'site-sur-mesure',   nom: 'Site sur mesure',   prix: 2500, href: '/services#site-sur-mesure' },
+  { id: 'page-unique',       nom: 'Page unique',       prix: 999,  href: '/site-une-page' },
+  { id: 'site-vitrine',      nom: 'Site vitrine',      prix: 1499, href: '/services#site-vitrine' },
+  { id: 'boutique-en-ligne', nom: 'Boutique en ligne', prix: 2499, href: '/services#boutique-en-ligne' },
+  { id: 'site-sur-mesure',   nom: 'Site sur mesure',   prix: 3499, href: '/services#site-sur-mesure' },
 ] as const;
 
 /** Durée mise en avant dans les mentions courtes, sous chaque prix. */
 export const DUREE_VITRINE = 6;
+
+/** Part du montant total réglée à la signature du devis. */
+export const TAUX_ACOMPTE = 0.3;
 
 /**
  * Formate un montant en euros à la française.
@@ -38,15 +41,30 @@ export function euros(montant: number): string {
   });
 }
 
-/** Mensualité sans frais ni intérêts, arrondie au centime. */
+/** Acompte réglé à la signature du devis, arrondi au centime. */
+export function acompte(prix: number): number {
+  return Math.round(prix * TAUX_ACOMPTE * 100) / 100;
+}
+
+/**
+ * Mensualité du solde une fois l'acompte versé, sans frais ni intérêts.
+ * Le total acompte + mensualités reste égal au montant du devis.
+ */
 export function mensualite(prix: number, mois: number): number {
-  return Math.round((prix / mois) * 100) / 100;
+  return Math.round(((prix - acompte(prix)) / mois) * 100) / 100;
 }
 
 /**
  * Mention courte à placer sous un prix affiché.
- * Exemple : « ou 83,33 € par mois sur 6 mois ».
+ * Exemple : « ou 30 % puis 6 x 93,33 € ».
  */
 export function mentionMensuelle(prix: number, mois: number = DUREE_VITRINE): string {
-  return `ou ${euros(mensualite(prix, mois))} € par mois sur ${mois} mois`;
+  return `ou 30 % puis ${mois} x ${euros(mensualite(prix, mois))} €`;
+}
+
+/** Retrouve une formule par son identifiant. */
+export function formule(id: Formule['id']): Formule {
+  const f = FORMULES.find((x) => x.id === id);
+  if (!f) throw new Error(`Formule inconnue : ${id}`);
+  return f;
 }
