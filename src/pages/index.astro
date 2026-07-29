@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import { Image, getImage } from 'astro:assets';
-import imgHero        from '../assets/images/laptop-jardin.jpg';
+import imgBureau      from '../assets/images/bureau-jardin-bandeau.jpg';
 import imgArtisan     from '../assets/images/atelier-botanique.jpg';
 import imgBougies     from '../assets/images/bougies-artisan.jpg';
 import imgYoga        from '../assets/images/yoga-soleil.jpg';
@@ -451,10 +451,9 @@ const organizationSchema = {
              sujet, travailler au milieu du vivant, parle à ces métiers. -->
         <div class="bento-cell bento-bureau img-zoom overflow-hidden">
           <Image
-            src={imgHero}
+            src={imgBureau}
             alt="Ordinateur portable ouvert sur une table de bois, dans un jardin planté"
-            class="w-full h-full object-cover"
-            style="object-position: center 58%;"
+            class="w-full h-full object-cover object-center"
             widths={[400, 600, 736]}
             sizes="(max-width: 767px) calc(100vw - 48px), (min-width: 1440px) 765px, 59vw"
             loading="lazy"
@@ -1291,7 +1290,7 @@ const organizationSchema = {
   .bento-gallery {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 160px 160px 176px;
+    grid-template-rows: 160px 160px 116px;
     gap: 8px;
   }
   /* Mobile : 2×2, puis le bandeau du bureau sur toute la largeur */
