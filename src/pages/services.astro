@@ -1,7 +1,22 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
+import { Image } from 'astro:assets';
 import { euros, formule } from '../utils/tarifs';
+
+/* Aperçus des quatre formules. Sites de démonstration créés pour illustrer
+   la différence entre les offres : aucune de ces entreprises n'existe. */
+import apercuPageUnique from '../assets/images/apercus/page-unique-ferme.jpg';
+import apercuVitrine from '../assets/images/apercus/vitrine-ecurie.jpg';
+import apercuBoutique from '../assets/images/apercus/boutique-miellerie.jpg';
+import apercuSurMesure from '../assets/images/apercus/sur-mesure-ebeniste.jpg';
+
+const apercus = {
+  'page-unique': { img: apercuPageUnique, titre: 'Une micro-ferme maraîchère', detail: 'Tout sur une page : les légumes de saison, les horaires de vente, le contact.' },
+  'vitrine': { img: apercuVitrine, titre: 'Un centre équestre', detail: 'Sept pages : pension, cours, installations, équipe, tarifs, contact.' },
+  'boutique': { img: apercuBoutique, titre: 'Une miellerie', detail: 'Catalogue, filtres, panier et calcul des frais de livraison.' },
+  'sur-mesure': { img: apercuSurMesure, titre: 'Un atelier d’ébénisterie', detail: 'Configurateur de mobilier avec estimation du prix et du délai en direct.' },
+};
 
 const servicesSchema = {
   '@context': 'https://schema.org',
@@ -519,6 +534,82 @@ const etapes = [
       filter: blur(5px);
       pointer-events: none;
     }
+
+    /* ── Aperçus des formules, présentés dans un cadre de navigateur ── */
+    .apercu-ouvrir { cursor: zoom-in; background: none; border: 0; padding: 0; }
+    .fenetre {
+      border: 1px solid var(--cream-dark, #E4DED2);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .apercu-ouvrir:hover .fenetre {
+      box-shadow: 0 10px 28px rgba(37, 92, 65, 0.14);
+      transform: translateY(-2px);
+    }
+    .apercu-ouvrir:focus-visible .fenetre {
+      outline: 2px solid #255C41;
+      outline-offset: 2px;
+    }
+    .fenetre-barre {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 11px;
+      background: #F2EFE8;
+      border-bottom: 1px solid var(--cream-dark, #E4DED2);
+    }
+    .fenetre-barre > span {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #CFC8B8; flex: none;
+    }
+    .fenetre-url {
+      flex: 1;
+      margin-left: 6px;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      color: #8A8375;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+    }
+    /* La capture est haute : on n'en montre que le haut, sans la déformer. */
+    .fenetre-ecran { height: 186px; overflow: hidden; }
+    .fenetre-ecran :global(img) { width: 100%; height: auto; display: block; }
+    /* Carte large : on borne la largeur pour garder la même échelle que les colonnes. */
+    .apercu-large .fenetre { max-width: 460px; margin: 0 auto; }
+
+    /* Visionneuse */
+    .visionneuse {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(28, 26, 21, 0.94);
+      display: none; flex-direction: column;
+    }
+    .visionneuse[open] { display: flex; }
+    .visionneuse-tete {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; padding: 16px 22px; flex: none;
+      background: #1C1A15;
+      border-bottom: 1px solid rgba(246, 242, 231, 0.14);
+    }
+    .visionneuse-titre { color: #F6F2E7; font-size: 14px; letter-spacing: 0.04em; }
+    .visionneuse-titre b { display: block; font-size: 12px; opacity: 0.62; font-weight: 400; margin-top: 3px; }
+    .visionneuse-fermer {
+      background: none; border: 1px solid rgba(246, 242, 231, 0.4); color: #F6F2E7;
+      padding: 9px 17px; cursor: pointer; font-size: 12px; letter-spacing: 0.14em;
+      text-transform: uppercase; flex: none;
+    }
+    .visionneuse-fermer:hover { background: #F6F2E7; color: #1C1A15; }
+    .visionneuse-corps { flex: 1; overflow-y: auto; padding: 0 22px 30px; }
+    .visionneuse-corps img {
+      display: block; width: 100%; max-width: 980px; margin: 0 auto;
+      border-radius: 6px;
+    }
+    @media (max-width: 640px) {
+      .fenetre-ecran { height: 150px; }
+    }
   </style>
 
   <!-- ── Tarif — trois typologies ── -->
@@ -544,8 +635,8 @@ const etapes = [
         </div>
 
         <!-- Offre d'entrée : Site une page (mise en avant) -->
-        <a href="/site-une-page" class="group block max-w-5xl mx-auto mb-5 rounded-2xl border border-sauge/40 bg-cream p-7 sm:p-8 lg:px-10 transition-all duration-300 hover:border-sauge/70 hover:shadow-[0_12px_30px_rgba(37, 92, 65,0.10)]" data-reveal>
-          <div class="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8">
+        <div class="group max-w-5xl mx-auto mb-5 rounded-2xl border border-sauge/40 bg-cream p-7 sm:p-8 lg:px-10 transition-all duration-300 hover:border-sauge/70 hover:shadow-[0_12px_30px_rgba(37, 92, 65,0.10)]" data-reveal>
+          <a href="/site-une-page" class="block flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8">
             <div class="flex-1 min-w-0 text-center sm:text-left">
               <div class="inline-flex items-center gap-2 mb-3">
                 <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
@@ -566,8 +657,31 @@ const etapes = [
                 Découvrir l'offre <span aria-hidden="true">→</span>
               </span>
             </div>
+          </a>
+
+          <!-- Aperçu du site de démonstration -->
+          <div class="mt-7 pt-7 border-t border-cream-dark">
+            <button
+              type="button"
+              class="apercu-ouvrir apercu-large block w-full text-left"
+              data-apercu="page-unique"
+              aria-label="Agrandir l'aperçu du site page unique"
+            >
+              <div class="fenetre">
+                <div class="fenetre-barre" aria-hidden="true">
+                  <span></span><span></span><span></span>
+                  <p class="fenetre-url">exemple, une micro-ferme maraîchère</p>
+                </div>
+                <div class="fenetre-ecran">
+                  <Image src={apercus['page-unique'].img} alt="Aperçu du site d'une micro-ferme maraîchère, réalisé en page unique" widths={[420, 700]} sizes="(max-width: 640px) 90vw, 640px" loading="lazy" />
+                </div>
+              </div>
+              <p class="font-body text-xs text-brun-mid mt-2.5 text-center">
+                {apercus['page-unique'].detail} <span class="text-sauge font-medium">Cliquez pour agrandir.</span>
+              </p>
+            </button>
           </div>
-        </a>
+        </div>
 
         <!-- Trois typologies : vitrine, boutique, sur mesure.
              Les id servent d'ancres depuis la planche des formules en page d'accueil. -->
@@ -585,6 +699,18 @@ const etapes = [
             <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
               Un site professionnel pour présenter votre activité, vos services et permettre à vos clients de vous contacter facilement.
             </p>
+            <button type="button" class="apercu-ouvrir w-full mt-6" data-apercu="vitrine" aria-label="Agrandir l'aperçu du site vitrine">
+              <div class="fenetre">
+                <div class="fenetre-barre" aria-hidden="true">
+                  <span></span><span></span><span></span>
+                  <p class="fenetre-url">exemple, un centre équestre</p>
+                </div>
+                <div class="fenetre-ecran">
+                  <Image src={apercus['vitrine'].img} alt="Aperçu du site d'un centre équestre, réalisé en site vitrine" widths={[320, 560]} sizes="(max-width: 640px) 90vw, 340px" loading="lazy" />
+                </div>
+              </div>
+              <p class="font-body text-xs text-brun-mid mt-2.5 leading-snug">{apercus['vitrine'].detail}</p>
+            </button>
           </div>
 
           <!-- Boutique en ligne -->
@@ -599,6 +725,18 @@ const etapes = [
             <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
               Vendez vos produits directement sur votre site grâce à une boutique simple, claire et facile à gérer au quotidien.
             </p>
+            <button type="button" class="apercu-ouvrir w-full mt-6" data-apercu="boutique" aria-label="Agrandir l'aperçu de la boutique en ligne">
+              <div class="fenetre">
+                <div class="fenetre-barre" aria-hidden="true">
+                  <span></span><span></span><span></span>
+                  <p class="fenetre-url">exemple, une miellerie</p>
+                </div>
+                <div class="fenetre-ecran">
+                  <Image src={apercus['boutique'].img} alt="Aperçu du site d'une miellerie, réalisé en boutique en ligne" widths={[320, 560]} sizes="(max-width: 640px) 90vw, 340px" loading="lazy" />
+                </div>
+              </div>
+              <p class="font-body text-xs text-brun-mid mt-2.5 leading-snug">{apercus['boutique'].detail}</p>
+            </button>
           </div>
 
           <!-- Site sur mesure -->
@@ -613,9 +751,28 @@ const etapes = [
             <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
               Un site entièrement adapté à votre projet, avec davantage de contenu, de fonctionnalités et un travail SEO plus approfondi.
             </p>
+            <button type="button" class="apercu-ouvrir w-full mt-6" data-apercu="sur-mesure" aria-label="Agrandir l'aperçu du site sur mesure">
+              <div class="fenetre">
+                <div class="fenetre-barre" aria-hidden="true">
+                  <span></span><span></span><span></span>
+                  <p class="fenetre-url">exemple, un atelier d'ébénisterie</p>
+                </div>
+                <div class="fenetre-ecran">
+                  <Image src={apercus['sur-mesure'].img} alt="Aperçu du site d'un atelier d'ébénisterie, réalisé sur mesure" widths={[320, 560]} sizes="(max-width: 640px) 90vw, 340px" loading="lazy" />
+                </div>
+              </div>
+              <p class="font-body text-xs text-brun-mid mt-2.5 leading-snug">{apercus['sur-mesure'].detail}</p>
+            </button>
           </div>
 
         </div>
+
+        <!-- Mention : les aperçus sont des démonstrations, pas des références clientes -->
+        <p class="font-body text-xs text-brun-mid text-center mt-8 max-w-2xl mx-auto leading-relaxed" data-reveal>
+          Les quatre aperçus ci-dessus sont des sites de démonstration, créés pour montrer
+          ce que change une formule par rapport à une autre. Les entreprises représentées n'existent pas.
+          Nos réalisations pour de vrais clients sont <a href="/realisations" class="text-sauge font-medium underline underline-offset-2">dans la page réalisations</a>.
+        </p>
 
         <!-- Note philosophie -->
         <div class="mt-10 pt-10 border-t border-cream-dark text-center max-w-2xl mx-auto" data-reveal data-delay="2">
@@ -920,5 +1077,64 @@ const etapes = [
       <Button href="/contact" variant="primary">Nous contacter</Button>
     </div>
   </section>
+
+  <!-- ── Visionneuse des aperçus ── -->
+  <div class="visionneuse" id="visionneuse" role="dialog" aria-modal="true" aria-labelledby="visionneuseTitre">
+    <div class="visionneuse-tete">
+      <p class="visionneuse-titre" id="visionneuseTitre">
+        <span id="visionneuseNom">Aperçu</span>
+        <b id="visionneuseDetail">Site de démonstration</b>
+      </p>
+      <button type="button" class="visionneuse-fermer" id="visionneuseFermer">Fermer</button>
+    </div>
+    <div class="visionneuse-corps">
+      <img id="visionneuseImage" src="" alt="">
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ apercusData: {
+    'page-unique': { src: apercuPageUnique.src, titre: apercus['page-unique'].titre, detail: apercus['page-unique'].detail, formule: 'Page unique' },
+    'vitrine': { src: apercuVitrine.src, titre: apercus['vitrine'].titre, detail: apercus['vitrine'].detail, formule: 'Site vitrine' },
+    'boutique': { src: apercuBoutique.src, titre: apercus['boutique'].titre, detail: apercus['boutique'].detail, formule: 'Boutique en ligne' },
+    'sur-mesure': { src: apercuSurMesure.src, titre: apercus['sur-mesure'].titre, detail: apercus['sur-mesure'].detail, formule: 'Site sur mesure' },
+  } }}>
+    (function () {
+      var vue = document.getElementById('visionneuse');
+      if (!vue) return;
+      var img = document.getElementById('visionneuseImage');
+      var nom = document.getElementById('visionneuseNom');
+      var det = document.getElementById('visionneuseDetail');
+      var corps = vue.querySelector('.visionneuse-corps');
+      var declencheur = null;
+
+      function ouvrir(cle, bouton) {
+        var d = apercusData[cle];
+        if (!d) return;
+        declencheur = bouton;
+        img.src = d.src;
+        img.alt = "Aperçu complet du site de démonstration : " + d.titre;
+        nom.textContent = d.formule + ", " + d.titre;
+        det.textContent = d.detail;
+        corps.scrollTop = 0;
+        vue.setAttribute('open', '');
+        document.body.style.overflow = 'hidden';
+        document.getElementById('visionneuseFermer').focus();
+      }
+      function fermer() {
+        vue.removeAttribute('open');
+        document.body.style.overflow = '';
+        if (declencheur) declencheur.focus();
+      }
+
+      document.querySelectorAll('.apercu-ouvrir').forEach(function (b) {
+        b.addEventListener('click', function () { ouvrir(b.dataset.apercu, b); });
+      });
+      document.getElementById('visionneuseFermer').addEventListener('click', fermer);
+      vue.addEventListener('click', function (e) { if (e.target === vue || e.target === corps) fermer(); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && vue.hasAttribute('open')) fermer();
+      });
+    })();
+  </script>
 
 </BaseLayout>
