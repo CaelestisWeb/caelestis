@@ -110,8 +110,10 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
          Le bloc entier n'est rendu que si PUBLIC_META_PIXEL_ID est renseignée dans
          Vercel. Même alors, le script Meta n'est chargé qu'après un consentement
          EXPLICITE à la finalité publicitaire, distinct de la mesure d'audience.
-         Penser à ajouter connect.facebook.net à la CSP de vercel.json le jour de
-         l'activation, sinon le navigateur bloquera le chargement. -->
+         La CSP de vercel.json autorise déjà connect.facebook.net (script) et
+         www.facebook.com (envoi des événements) : tant que la variable reste
+         vide, aucune requête n'est émise vers ces domaines. Il ne reste donc
+         qu'un seul geste pour activer le dispositif, côté Vercel. -->
     {metaPixelId && (
       <script is:inline set:html={`
       (function(){
