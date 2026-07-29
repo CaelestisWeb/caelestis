@@ -66,3 +66,7 @@ Règle accessibilité en place : les labels eyebrow `.text-sauge` sont forcés �
 ## Historique utile
 
 - Une exploration de refonte « V2 Awwwards » a été stoppée en juillet 2026 sans direction validée (maquettes archivées dans `C:\dev\caelestis-v2-directions`). Ne pas relancer sans demander ce qui coinçait.
+
+## Décisions de session
+
+- **29/07/2026, doctrine images de l'accueil** : une image doit être soit une preuve (capture de site livré, avant/après), soit un ancrage réel (Célestin, la Drôme, un client). L'ambiance est tolérée uniquement si la photo est impeccable et nette à la taille d'affichage (source 1600 px minimum pour un bandeau pleine largeur). La photo « bureau au jardin » (736×258, floue par construction) a été retirée, bento réduit à 4 photos sur 2 rangées. À terme, remplacer progressivement les photos d'ambiance du bento par des captures de vraies réalisations.
