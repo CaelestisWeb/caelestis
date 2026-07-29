@@ -1215,7 +1215,7 @@ const heroDeskSizes  = '42vw';
   .ba-legend span.r { background: var(--color-brun); border-color: var(--color-brun); color: #fff; }
 
   .ba-stage {
-    position: relative; aspect-ratio: 1280 / 860;
+    position: relative; aspect-ratio: 1280 / 960;
     border-radius: 16px; overflow: hidden; background: #fff;
     border: 1px solid var(--color-cream-dark);
     box-shadow: 0 1px 2px rgba(18,22,15,.03), 0 10px 32px rgba(18,22,15,.06);
@@ -1248,12 +1248,13 @@ const heroDeskSizes  = '42vw';
   /* Sous 700px le comparateur s'empile : deux pages entières, sans curseur */
   @media (max-width: 700px) {
     .ba-legend, .ba-range, .ba-handle { display: none; }
-    .ba-stage { height: auto; border: 0; box-shadow: none; background: transparent; display: flex; flex-direction: column; gap: 14px; }
+    .ba-stage { height: auto; aspect-ratio: auto; border: 0; box-shadow: none; background: transparent; display: flex; flex-direction: column; gap: 14px; }
     .ba-shot {
-      position: relative; inset: auto; aspect-ratio: 1280 / 860; border-radius: 14px;
+      position: relative; inset: auto; aspect-ratio: 1280 / 960; border-radius: 14px;
       border: 1px solid var(--color-cream-dark);
       box-shadow: 0 1px 2px rgba(18,22,15,.03), 0 10px 32px rgba(18,22,15,.06);
     }
+    .ba-shot img { position: absolute; inset: 0; }
     .ba-new { clip-path: none; }
     .ba-shot::before {
       content: attr(data-label); position: absolute; top: 11px; left: 11px; z-index: 3;
