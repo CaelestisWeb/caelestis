@@ -610,6 +610,170 @@ const etapes = [
     @media (max-width: 640px) {
       .fenetre-ecran { height: 150px; }
     }
+
+    /* ════════════════════════════════════════
+       TARIFS — quatre blocs de même taille.
+       Le bloc accent (site vitrine) inverse la palette : fond forêt, texte crème.
+       Toutes les couleurs sont reprises de la charte, aucune valeur inventée.
+    ════════════════════════════════════════ */
+    /* Les deux rangées font la même hauteur : les quatre blocs sont identiques. */
+    @media (min-width: 640px) {
+      .tf-grille { grid-auto-rows: 1fr; }
+    }
+    .tf-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: #FCFBF8;
+      border: 1px solid #E6E4DC;
+      border-radius: 18px;
+      padding: 30px 28px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .tf-card:hover {
+      border-color: rgba(46, 116, 82, 0.45);
+      box-shadow: 0 12px 30px rgba(37, 92, 65, 0.10);
+      transform: translateY(-2px);
+    }
+    .tf-card-accent {
+      background: #255C41;
+      border-color: #255C41;
+    }
+    .tf-card-accent:hover {
+      border-color: #1B4733;
+      box-shadow: 0 14px 34px rgba(27, 71, 51, 0.24);
+    }
+
+    .tf-kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: #2E7452;
+    }
+    .tf-card-accent .tf-kicker { color: rgba(252, 251, 248, 0.74); }
+
+    .tf-nom {
+      font-family: var(--font-display, 'Satoshi', system-ui, sans-serif);
+      font-weight: 300;
+      font-size: 1.6rem;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #255C41;
+      margin-top: 10px;
+    }
+    .tf-card-accent .tf-nom { color: #FCFBF8; }
+
+    .tf-prix {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid #E6E4DC;
+    }
+    .tf-card-accent .tf-prix { border-top-color: rgba(252, 251, 248, 0.2); }
+    .tf-num {
+      font-family: var(--font-display, 'Satoshi', system-ui, sans-serif);
+      font-weight: 300;
+      font-size: clamp(2rem, 3.6vw, 2.5rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-variant-numeric: lining-nums tabular-nums;
+      color: #255C41;
+    }
+    .tf-card-accent .tf-num { color: #FCFBF8; }
+    .tf-from {
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #5C6259;
+    }
+    .tf-card-accent .tf-from { color: rgba(252, 251, 248, 0.72); }
+
+    .tf-desc {
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: #5C6259;
+      margin-top: 16px;
+    }
+    .tf-card-accent .tf-desc { color: rgba(252, 251, 248, 0.84); }
+
+    .tf-ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .tf-ul li {
+      display: flex;
+      gap: 11px;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #5C6259;
+    }
+    .tf-card-accent .tf-ul li { color: rgba(252, 251, 248, 0.88); }
+    .tf-check {
+      flex: 0 0 auto;
+      width: 16px;
+      height: 16px;
+      margin-top: 4px;
+      border-radius: 50%;
+      border: 1px solid rgba(46, 116, 82, 0.55);
+      position: relative;
+    }
+    .tf-check::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #2E7452;
+    }
+    .tf-card-accent .tf-check { border-color: rgba(252, 251, 248, 0.45); }
+    .tf-card-accent .tf-check::after { background: rgba(252, 251, 248, 0.8); }
+
+    /* L'aperçu pousse le lien en bas : les quatre blocs gardent la même hauteur. */
+    .tf-apercu {
+      display: block;
+      width: 100%;
+      margin-top: 24px;
+      text-align: left;
+    }
+    .tf-legende {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: #5C6259;
+      margin-top: 10px;
+    }
+    .tf-card-accent .tf-legende { color: rgba(252, 251, 248, 0.76); }
+
+    .tf-lien {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 22px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #2E7452;
+      transition: gap 0.25s ease;
+    }
+    .tf-lien:hover { gap: 14px; }
+    .tf-card-accent .tf-lien { color: #FCFBF8; }
+    .tf-lien:focus-visible {
+      outline: 2px solid #255C41;
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+    .tf-card-accent .tf-lien:focus-visible { outline-color: #FCFBF8; }
+
+    @media (max-width: 640px) {
+      .tf-card { padding: 26px 22px; }
+    }
   </style>
 
   <!-- ── Tarif — trois typologies ── -->
@@ -634,135 +798,125 @@ const etapes = [
           </p>
         </div>
 
-        <!-- Offre d'entrée : Site une page (mise en avant) -->
-        <div class="group max-w-5xl mx-auto mb-5 rounded-2xl border border-sauge/40 bg-cream p-7 sm:p-8 lg:px-10 transition-all duration-300 hover:border-sauge/70 hover:shadow-[0_12px_30px_rgba(37, 92, 65,0.10)]" data-reveal>
-          <a href="/site-une-page" class="block flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8">
-            <div class="flex-1 min-w-0 text-center sm:text-left">
-              <div class="inline-flex items-center gap-2 mb-3">
-                <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
-                <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Pour démarrer</p>
-              </div>
-              <h3 class="font-display text-2xl font-light text-brun mb-1">Page unique</h3>
-              <p class="font-body text-sm font-medium text-brun mb-2.5">L'essentiel en une page</p>
-              <p class="font-body text-sm text-brun-mid leading-relaxed max-w-md">
-                Une présence professionnelle et soignée, pour démarrer simplement et vite.
-              </p>
-            </div>
-            <div class="shrink-0 text-center sm:text-right">
-              <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-1">À partir de</p>
-              <p class="font-display font-light text-brun leading-none mb-1.5" style="font-size: clamp(2rem, 4vw, 2.6rem); letter-spacing: -0.025em;">
-                <span class="text-sauge">{euros(formule('page-unique').prix)}</span><span class="text-bois-mid text-lg ml-0.5">€</span>
-              </p>
-              <span class="inline-flex items-center gap-1.5 font-body text-sm font-medium text-sauge group-hover:gap-2.5 transition-all">
-                Découvrir l'offre <span aria-hidden="true">→</span>
-              </span>
-            </div>
-          </a>
+        <!-- Quatre formules, quatre blocs de même taille.
+             Le site vitrine porte l'accent (fond forêt) : c'est la formule la plus demandée.
+             Les id servent d'ancres depuis la planche des formules en page d'accueil. -->
+        <div class="tf-grille grid sm:grid-cols-2 gap-4 lg:gap-5 max-w-5xl mx-auto" data-reveal data-delay="1">
 
-          <!-- Aperçu du site de démonstration -->
-          <div class="mt-7 pt-7 border-t border-cream-dark">
-            <button
-              type="button"
-              class="apercu-ouvrir apercu-large block w-full text-left"
-              data-apercu="page-unique"
-              aria-label="Agrandir l'aperçu du site page unique"
-            >
+          <!-- Page unique -->
+          <div id="page-unique" class="tf-card scroll-mt-28">
+            <p class="tf-kicker">Pour démarrer</p>
+            <h3 class="tf-nom">Page unique</h3>
+            <div class="tf-prix">
+              <span class="tf-num">{euros(formule('page-unique').prix)}&nbsp;€</span>
+              <span class="tf-from">à partir de</span>
+            </div>
+            <p class="tf-desc">L'essentiel de votre activité sur une seule page qui défile, pour être présent vite et simplement.</p>
+            <ul class="tf-ul">
+              <li><span class="tf-check" aria-hidden="true"></span><span>Tout tient sur une page, sans menu à chercher.</span></li>
+              <li><span class="tf-check" aria-hidden="true"></span><span>Visible sur Google dès la mise en ligne.</span></li>
+              <li><span class="tf-check" aria-hidden="true"></span><span>La formule la plus rapide à livrer.</span></li>
+            </ul>
+            <button type="button" class="apercu-ouvrir tf-apercu" data-apercu="page-unique" aria-label="Agrandir l'aperçu du site page unique">
               <div class="fenetre">
                 <div class="fenetre-barre" aria-hidden="true">
                   <span></span><span></span><span></span>
                   <p class="fenetre-url">exemple, une micro-ferme maraîchère</p>
                 </div>
                 <div class="fenetre-ecran">
-                  <Image src={apercus['page-unique'].img} alt="Aperçu du site d'une micro-ferme maraîchère, réalisé en page unique" widths={[420, 700]} sizes="(max-width: 640px) 90vw, 640px" loading="lazy" />
+                  <Image src={apercus['page-unique'].img} alt="Aperçu du site d'une micro-ferme maraîchère, réalisé en page unique" widths={[420, 700]} sizes="(max-width: 640px) 90vw, 440px" loading="lazy" />
                 </div>
               </div>
-              <p class="font-body text-xs text-brun-mid mt-2.5 text-center">
-                {apercus['page-unique'].detail} <span class="text-sauge font-medium">Cliquez pour agrandir.</span>
-              </p>
+              <p class="tf-legende">{apercus['page-unique'].detail}</p>
             </button>
+            <a href="/site-une-page" class="tf-lien">Découvrir l'offre <span aria-hidden="true">→</span></a>
           </div>
-        </div>
 
-        <!-- Trois typologies : vitrine, boutique, sur mesure.
-             Les id servent d'ancres depuis la planche des formules en page d'accueil. -->
-        <div class="grid sm:grid-cols-3 gap-px bg-cream-dark border border-cream-dark rounded-2xl overflow-hidden max-w-5xl mx-auto" data-reveal data-delay="1">
-
-          <!-- Site vitrine -->
-          <div id="site-vitrine" class="scroll-mt-28 bg-cream p-7 sm:p-8 lg:p-10 flex flex-col text-center items-center">
-            <p class="font-body text-xs tracking-[0.22em] uppercase text-bois-mid mb-4">Site vitrine</p>
-            <div class="mb-5">
-              <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-1">À partir de</p>
-              <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.4rem, 5vw, 3.5rem); letter-spacing: -0.025em;">
-                <span class="text-sauge">{euros(formule('site-vitrine').prix)}</span><span class="text-bois-mid text-2xl ml-0.5">€</span>
-              </p>
+          <!-- Site vitrine — formule mise en avant -->
+          <div id="site-vitrine" class="tf-card tf-card-accent scroll-mt-28">
+            <p class="tf-kicker">Le plus demandé</p>
+            <h3 class="tf-nom">Site vitrine</h3>
+            <div class="tf-prix">
+              <span class="tf-num">{euros(formule('site-vitrine').prix)}&nbsp;€</span>
+              <span class="tf-from">à partir de</span>
             </div>
-            <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
-              Un site professionnel pour présenter votre activité, vos services et permettre à vos clients de vous contacter facilement.
-            </p>
-            <button type="button" class="apercu-ouvrir w-full mt-6" data-apercu="vitrine" aria-label="Agrandir l'aperçu du site vitrine">
+            <p class="tf-desc">Un site professionnel pour présenter votre activité, vos services et permettre à vos clients de vous contacter facilement.</p>
+            <ul class="tf-ul">
+              <li><span class="tf-check" aria-hidden="true"></span><span>Plusieurs pages : activité, services, réalisations.</span></li>
+              <li><span class="tf-check" aria-hidden="true"></span><span>Formulaire de contact et coordonnées partout.</span></li>
+              <li><span class="tf-check" aria-hidden="true"></span><span>Les bases du référencement en place.</span></li>
+            </ul>
+            <button type="button" class="apercu-ouvrir tf-apercu" data-apercu="vitrine" aria-label="Agrandir l'aperçu du site vitrine">
               <div class="fenetre">
                 <div class="fenetre-barre" aria-hidden="true">
                   <span></span><span></span><span></span>
                   <p class="fenetre-url">exemple, un centre équestre</p>
                 </div>
                 <div class="fenetre-ecran">
-                  <Image src={apercus['vitrine'].img} alt="Aperçu du site d'un centre équestre, réalisé en site vitrine" widths={[320, 560]} sizes="(max-width: 640px) 90vw, 340px" loading="lazy" />
+                  <Image src={apercus['vitrine'].img} alt="Aperçu du site d'un centre équestre, réalisé en site vitrine" widths={[420, 700]} sizes="(max-width: 640px) 90vw, 440px" loading="lazy" />
                 </div>
               </div>
-              <p class="font-body text-xs text-brun-mid mt-2.5 leading-snug">{apercus['vitrine'].detail}</p>
+              <p class="tf-legende">{apercus['vitrine'].detail}</p>
             </button>
+            <a href="/contact#devis" class="tf-lien">Demander un devis <span aria-hidden="true">→</span></a>
           </div>
 
           <!-- Boutique en ligne -->
-          <div id="boutique-en-ligne" class="scroll-mt-28 bg-cream p-7 sm:p-8 lg:p-10 flex flex-col text-center items-center">
-            <p class="font-body text-xs tracking-[0.22em] uppercase text-bois-mid mb-4">Boutique en ligne</p>
-            <div class="mb-5">
-              <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-1">À partir de</p>
-              <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.4rem, 5vw, 3.5rem); letter-spacing: -0.025em;">
-                <span class="text-sauge">{euros(formule('boutique-en-ligne').prix)}</span><span class="text-bois-mid text-2xl ml-0.5">€</span>
-              </p>
+          <div id="boutique-en-ligne" class="tf-card scroll-mt-28">
+            <p class="tf-kicker">Pour vendre</p>
+            <h3 class="tf-nom">Boutique en ligne</h3>
+            <div class="tf-prix">
+              <span class="tf-num">{euros(formule('boutique-en-ligne').prix)}&nbsp;€</span>
+              <span class="tf-from">à partir de</span>
             </div>
-            <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
-              Vendez vos produits directement sur votre site grâce à une boutique simple, claire et facile à gérer au quotidien.
-            </p>
-            <button type="button" class="apercu-ouvrir w-full mt-6" data-apercu="boutique" aria-label="Agrandir l'aperçu de la boutique en ligne">
+            <p class="tf-desc">Vendez vos produits directement sur votre site grâce à une boutique simple, claire et facile à gérer au quotidien.</p>
+            <ul class="tf-ul">
+              <li><span class="tf-check" aria-hidden="true"></span><span>Votre catalogue de produits en ligne.</span></li>
+              <li><span class="tf-check" aria-hidden="true"></span><span>Paiement sécurisé pour vos clients.</span></li>
+              <li><span class="tf-check" aria-hidden="true"></span><span>Commandes simples à suivre au quotidien.</span></li>
+            </ul>
+            <button type="button" class="apercu-ouvrir tf-apercu" data-apercu="boutique" aria-label="Agrandir l'aperçu de la boutique en ligne">
               <div class="fenetre">
                 <div class="fenetre-barre" aria-hidden="true">
                   <span></span><span></span><span></span>
                   <p class="fenetre-url">exemple, une miellerie</p>
                 </div>
                 <div class="fenetre-ecran">
-                  <Image src={apercus['boutique'].img} alt="Aperçu du site d'une miellerie, réalisé en boutique en ligne" widths={[320, 560]} sizes="(max-width: 640px) 90vw, 340px" loading="lazy" />
+                  <Image src={apercus['boutique'].img} alt="Aperçu du site d'une miellerie, réalisé en boutique en ligne" widths={[420, 700]} sizes="(max-width: 640px) 90vw, 440px" loading="lazy" />
                 </div>
               </div>
-              <p class="font-body text-xs text-brun-mid mt-2.5 leading-snug">{apercus['boutique'].detail}</p>
+              <p class="tf-legende">{apercus['boutique'].detail}</p>
             </button>
+            <a href="/contact#devis" class="tf-lien">Demander un devis <span aria-hidden="true">→</span></a>
           </div>
 
           <!-- Site sur mesure -->
-          <div id="site-sur-mesure" class="scroll-mt-28 bg-cream p-7 sm:p-8 lg:p-10 flex flex-col text-center items-center">
-            <p class="font-body text-xs tracking-[0.22em] uppercase text-bois-mid mb-4">Site sur mesure</p>
-            <div class="mb-5">
-              <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-1">À partir de</p>
-              <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.4rem, 5vw, 3.5rem); letter-spacing: -0.025em;">
-                <span class="text-sauge">{euros(formule('site-sur-mesure').prix)}</span><span class="text-bois-mid text-2xl ml-0.5">€</span>
-              </p>
+          <div id="site-sur-mesure" class="tf-card scroll-mt-28">
+            <p class="tf-kicker">Pour aller plus loin</p>
+            <h3 class="tf-nom">Site sur mesure</h3>
+            <div class="tf-prix">
+              <span class="tf-num">{euros(formule('site-sur-mesure').prix)}&nbsp;€</span>
+              <span class="tf-from">à partir de</span>
             </div>
-            <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
-              Un site entièrement adapté à votre projet, avec davantage de contenu, de fonctionnalités et un travail SEO plus approfondi.
-            </p>
-            <button type="button" class="apercu-ouvrir w-full mt-6" data-apercu="sur-mesure" aria-label="Agrandir l'aperçu du site sur mesure">
+            <p class="tf-desc">Un site entièrement adapté à votre projet, avec davantage de contenu, de fonctionnalités et un travail SEO plus approfondi.</p>
+            <ul class="tf-ul">
+              <li><span class="tf-check" aria-hidden="true"></span><span>Davantage de pages et de contenu.</span></li>
+              <li><span class="tf-check" aria-hidden="true"></span><span>Des fonctionnalités adaptées à votre métier.</span></li>
+              <li><span class="tf-check" aria-hidden="true"></span><span>Un travail de référencement approfondi.</span></li>
+            </ul>
+            <button type="button" class="apercu-ouvrir tf-apercu" data-apercu="sur-mesure" aria-label="Agrandir l'aperçu du site sur mesure">
               <div class="fenetre">
                 <div class="fenetre-barre" aria-hidden="true">
                   <span></span><span></span><span></span>
                   <p class="fenetre-url">exemple, un atelier d'ébénisterie</p>
                 </div>
                 <div class="fenetre-ecran">
-                  <Image src={apercus['sur-mesure'].img} alt="Aperçu du site d'un atelier d'ébénisterie, réalisé sur mesure" widths={[320, 560]} sizes="(max-width: 640px) 90vw, 340px" loading="lazy" />
+                  <Image src={apercus['sur-mesure'].img} alt="Aperçu du site d'un atelier d'ébénisterie, réalisé sur mesure" widths={[420, 700]} sizes="(max-width: 640px) 90vw, 440px" loading="lazy" />
                 </div>
               </div>
-              <p class="font-body text-xs text-brun-mid mt-2.5 leading-snug">{apercus['sur-mesure'].detail}</p>
+              <p class="tf-legende">{apercus['sur-mesure'].detail}</p>
             </button>
+            <a href="/contact#devis" class="tf-lien">Demander un devis <span aria-hidden="true">→</span></a>
           </div>
 
         </div>
