@@ -170,7 +170,7 @@ const etapesMethode = [
 const faqs = [
   {
     q: 'Quel est le délai pour créer un site internet ?',
-    a: 'En général, un site internet est livré en 2 à 6 semaines selon la complexité du projet et la rapidité de transmission des contenus (textes, photos et autres). Nous vous accompagnons à chaque étape avec un planning clair dès le départ.',
+    a: 'En général, un site internet est livré en 2 à 8 semaines selon la complexité du projet et la rapidité de transmission des contenus (textes, photos et autres). Nous vous accompagnons à chaque étape avec un planning clair dès le départ.',
   },
   {
     q: 'Et si je n\'ai pas encore mes textes ni mes photos ?',
@@ -364,9 +364,9 @@ const organizationSchema = {
            au-dessus du seuil de contraste AA à cette taille. -->
       <ul class="trust trust-rule font-body mt-12 pt-7" data-reveal data-delay="2">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Réponse sous 48h</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>En ligne en 2 à 8 semaines</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Devis gratuit, sans engagement</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Tarifs affichés, dès 1 000 €</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Le site vous appartient</li>
       </ul>
 
     </div>
@@ -674,7 +674,7 @@ const organizationSchema = {
 
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-9 sm:gap-x-7 lg:gap-x-9 border-t border-brun/60 pt-7">
 
-          <a href="/site-une-page" class="plan-item flex flex-col items-center text-center">
+          <a href={formule('page-unique').href} class="plan-item flex flex-col items-center text-center">
             <div class="h-[124px] sm:h-[212px] w-full flex items-end">
               <div aria-hidden="true" class="plan-frame w-full h-[104px] sm:h-[124px]">
               <div class="bg-sauge-pale h-1.5"></div>
@@ -684,13 +684,13 @@ const organizationSchema = {
               <div class="bg-sauge-pale h-3"></div>
             </div>
             </div>
-            <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Page unique</h3>
-            <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">L'essentiel de votre activité sur une seule page, pour démarrer simplement.</p>
+            <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">{formule('page-unique').nom}</h3>
+            <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">{formule('page-unique').baseline}</p>
             <p class="font-body text-[0.6875rem] tracking-[0.16em] uppercase text-brun-mid mt-auto mb-1">À partir de</p>
             <p class="font-body text-sm font-medium text-sauge">{euros(formule('page-unique').prix)}&nbsp;€</p>
           </a>
 
-          <a href="/services#site-vitrine" class="plan-item flex flex-col items-center text-center">
+          <a href={formule('site-vitrine').href} class="plan-item flex flex-col items-center text-center">
             <div class="h-[124px] sm:h-[212px] w-full flex items-end">
               <div aria-hidden="true" class="plan-frame w-full h-[124px] sm:h-[152px]">
               <div class="flex gap-1">
@@ -708,13 +708,13 @@ const organizationSchema = {
               <div class="bg-sauge-pale h-3"></div>
             </div>
             </div>
-            <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Site vitrine</h3>
-            <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Votre activité en ligne, claire et lisible sur tous les écrans.</p>
+            <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">{formule('site-vitrine').nom}</h3>
+            <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">{formule('site-vitrine').baseline}</p>
             <p class="font-body text-[0.6875rem] tracking-[0.16em] uppercase text-brun-mid mt-auto mb-1">À partir de</p>
             <p class="font-body text-sm font-medium text-sauge">{euros(formule('site-vitrine').prix)}&nbsp;€</p>
           </a>
 
-          <a href="/services#boutique-en-ligne" class="plan-item flex flex-col items-center text-center">
+          <a href={formule('boutique-en-ligne').href} class="plan-item flex flex-col items-center text-center">
             <div class="h-[168px] sm:h-[212px] w-full flex items-end">
               <div aria-hidden="true" class="plan-frame w-full h-[146px] sm:h-[182px]">
               <div class="flex gap-1">
@@ -735,13 +735,13 @@ const organizationSchema = {
               <div class="bg-sauge h-2.5 w-2/5"></div>
             </div>
             </div>
-            <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Boutique en ligne</h3>
-            <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Vendez vos produits depuis votre site, avec un paiement sécurisé.</p>
+            <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">{formule('boutique-en-ligne').nom}</h3>
+            <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">{formule('boutique-en-ligne').baseline}</p>
             <p class="font-body text-[0.6875rem] tracking-[0.16em] uppercase text-brun-mid mt-auto mb-1">À partir de</p>
             <p class="font-body text-sm font-medium text-sauge">{euros(formule('boutique-en-ligne').prix)}&nbsp;€</p>
           </a>
 
-          <a href="/services#site-sur-mesure" class="plan-item flex flex-col items-center text-center">
+          <a href={formule('site-sur-mesure').href} class="plan-item flex flex-col items-center text-center">
             <div class="h-[168px] sm:h-[212px] w-full flex items-end">
               <div aria-hidden="true" class="plan-frame w-full h-[168px] sm:h-[212px]">
               <div class="flex gap-1.5 h-10">
@@ -762,8 +762,8 @@ const organizationSchema = {
               </div>
             </div>
             </div>
-            <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Site sur mesure</h3>
-            <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Entièrement conçu selon vos besoins, votre identité et vos objectifs.</p>
+            <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">{formule('site-sur-mesure').nom}</h3>
+            <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">{formule('site-sur-mesure').baseline}</p>
             <p class="font-body text-[0.6875rem] tracking-[0.16em] uppercase text-brun-mid mt-auto mb-1">À partir de</p>
             <p class="font-body text-sm font-medium text-sauge">{euros(formule('site-sur-mesure').prix)}&nbsp;€</p>
           </a>

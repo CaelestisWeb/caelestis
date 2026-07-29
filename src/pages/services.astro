@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import AppelFinal from '../components/AppelFinal.astro';
 import { Image } from 'astro:assets';
-import { euros, formule } from '../utils/tarifs';
+import { euros, formule, FORMULES } from '../utils/tarifs';
 
 /* Aperçus des quatre formules. Sites de démonstration créés pour illustrer
    la différence entre les offres : aucune de ces entreprises n'existe. */
@@ -12,11 +12,37 @@ import apercuVitrine from '../assets/images/apercus/vitrine-ecurie.jpg';
 import apercuBoutique from '../assets/images/apercus/boutique-miellerie.jpg';
 import apercuSurMesure from '../assets/images/apercus/sur-mesure-ebeniste.jpg';
 
+/* Les quatre sites de démonstration, un par formule. `url` s'affiche dans la
+   barre de la fenêtre dessinée, `alt` décrit l'image aux lecteurs d'écran. */
 const apercus = {
-  'page-unique': { img: apercuPageUnique, titre: 'Une micro-ferme maraîchère', detail: 'Tout sur une page : les légumes de saison, les horaires de vente, le contact.' },
-  'vitrine': { img: apercuVitrine, titre: 'Un centre équestre', detail: 'Sept pages : pension, cours, installations, équipe, tarifs, contact.' },
-  'boutique': { img: apercuBoutique, titre: 'Une miellerie', detail: 'Catalogue, filtres, panier et calcul des frais de livraison.' },
-  'sur-mesure': { img: apercuSurMesure, titre: 'Un atelier d’ébénisterie', detail: 'Configurateur de mobilier avec estimation du prix et du délai en direct.' },
+  'page-unique': {
+    img: apercuPageUnique,
+    titre: 'Une micro-ferme maraîchère',
+    url: 'exemple, une micro-ferme maraîchère',
+    alt: "Aperçu du site d'une micro-ferme maraîchère, réalisé en page unique",
+    detail: 'Tout sur une page : les légumes de saison, les horaires de vente, le contact.',
+  },
+  'vitrine': {
+    img: apercuVitrine,
+    titre: 'Un centre équestre',
+    url: 'exemple, un centre équestre',
+    alt: "Aperçu du site d'un centre équestre, réalisé en site vitrine",
+    detail: 'Sept pages : pension, cours, installations, équipe, tarifs, contact.',
+  },
+  'boutique': {
+    img: apercuBoutique,
+    titre: 'Une miellerie',
+    url: 'exemple, une miellerie',
+    alt: "Aperçu du site d'une miellerie, réalisé en boutique en ligne",
+    detail: 'Catalogue, filtres, panier et calcul des frais de livraison.',
+  },
+  'sur-mesure': {
+    img: apercuSurMesure,
+    titre: 'Un atelier d’ébénisterie',
+    url: "exemple, un atelier d'ébénisterie",
+    alt: "Aperçu du site d'un atelier d'ébénisterie, réalisé sur mesure",
+    detail: 'Configurateur de mobilier avec estimation du prix et du délai en direct.',
+  },
 };
 
 const servicesSchema = {
@@ -189,7 +215,7 @@ const etapes = [
           Un site internet qui reflète vraiment<br class="hidden sm:block"> <span class="text-sauge">votre activité.</span>
         </h1>
         <p class="font-body text-lg text-brun-mid mt-8 max-w-xl leading-relaxed mx-auto" data-reveal data-delay="2">
-          En 2 à 6 semaines, nous construisons ensemble un site sobre, authentique et durable. Un site qui raconte votre histoire, met en lumière votre travail et transforme les visiteurs en futurs clients.
+          En 2 à 8 semaines, nous construisons ensemble un site sobre, authentique et durable. Un site qui raconte votre histoire, met en lumière votre travail et transforme les visiteurs en futurs clients.
         </p>
 
         <!-- CTA + ligne d'info discrète -->
@@ -803,123 +829,35 @@ const etapes = [
              Le site vitrine porte l'accent (fond forêt) : c'est la formule la plus demandée.
              Les id servent d'ancres depuis la planche des formules en page d'accueil. -->
         <div class="tf-grille grid sm:grid-cols-2 gap-4 lg:gap-5 max-w-5xl mx-auto" data-reveal data-delay="1">
-
-          <!-- Page unique -->
-          <div id="page-unique" class="tf-card scroll-mt-28">
-            <p class="tf-kicker">Pour démarrer</p>
-            <h3 class="tf-nom">Page unique</h3>
-            <div class="tf-prix">
-              <span class="tf-num">{euros(formule('page-unique').prix)}&nbsp;€</span>
-              <span class="tf-from">à partir de</span>
-            </div>
-            <p class="tf-desc">L'essentiel de votre activité sur une seule page qui défile, pour être présent vite et simplement.</p>
-            <ul class="tf-ul">
-              <li><span class="tf-check" aria-hidden="true"></span><span>Tout tient sur une page, sans menu à chercher.</span></li>
-              <li><span class="tf-check" aria-hidden="true"></span><span>Visible sur Google dès la mise en ligne.</span></li>
-              <li><span class="tf-check" aria-hidden="true"></span><span>La formule la plus rapide à livrer.</span></li>
-            </ul>
-            <button type="button" class="apercu-ouvrir tf-apercu" data-apercu="page-unique" aria-label="Agrandir l'aperçu du site page unique">
-              <div class="fenetre">
-                <div class="fenetre-barre" aria-hidden="true">
-                  <span></span><span></span><span></span>
-                  <p class="fenetre-url">exemple, une micro-ferme maraîchère</p>
-                </div>
-                <div class="fenetre-ecran">
-                  <Image src={apercus['page-unique'].img} alt="Aperçu du site d'une micro-ferme maraîchère, réalisé en page unique" widths={[420, 700]} sizes="(max-width: 640px) 90vw, 440px" loading="lazy" />
-                </div>
+          {FORMULES.map((f) => (
+            <div id={f.id} class={'tf-card scroll-mt-28' + (f.accent ? ' tf-card-accent' : '')}>
+              <p class="tf-kicker">{f.kicker}</p>
+              <h3 class="tf-nom">{f.nom}</h3>
+              <div class="tf-prix">
+                <span class="tf-num">{euros(f.prix)}&nbsp;€</span>
+                <span class="tf-from">à partir de</span>
               </div>
-              <p class="tf-legende">{apercus['page-unique'].detail}</p>
-            </button>
-            <a href="/site-une-page" class="tf-lien">Découvrir l'offre <span aria-hidden="true">→</span></a>
-          </div>
-
-          <!-- Site vitrine — formule mise en avant -->
-          <div id="site-vitrine" class="tf-card tf-card-accent scroll-mt-28">
-            <p class="tf-kicker">Le plus demandé</p>
-            <h3 class="tf-nom">Site vitrine</h3>
-            <div class="tf-prix">
-              <span class="tf-num">{euros(formule('site-vitrine').prix)}&nbsp;€</span>
-              <span class="tf-from">à partir de</span>
+              <p class="tf-desc">{f.resume}</p>
+              <ul class="tf-ul">
+                {f.points.map((p) => (
+                  <li><span class="tf-check" aria-hidden="true"></span><span>{p}</span></li>
+                ))}
+              </ul>
+              <button type="button" class="apercu-ouvrir tf-apercu" data-apercu={f.apercu} aria-label={"Agrandir l'aperçu du site : " + f.nom}>
+                <div class="fenetre">
+                  <div class="fenetre-barre" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                    <p class="fenetre-url">{apercus[f.apercu].url}</p>
+                  </div>
+                  <div class="fenetre-ecran">
+                    <Image src={apercus[f.apercu].img} alt={apercus[f.apercu].alt} widths={[420, 700]} sizes="(max-width: 640px) 90vw, 440px" loading="lazy" />
+                  </div>
+                </div>
+                <p class="tf-legende">{apercus[f.apercu].detail}</p>
+              </button>
+              <a href={f.action.href} class="tf-lien">{f.action.libelle} <span aria-hidden="true">→</span></a>
             </div>
-            <p class="tf-desc">Un site professionnel pour présenter votre activité, vos services et permettre à vos clients de vous contacter facilement.</p>
-            <ul class="tf-ul">
-              <li><span class="tf-check" aria-hidden="true"></span><span>Plusieurs pages : activité, services, réalisations.</span></li>
-              <li><span class="tf-check" aria-hidden="true"></span><span>Formulaire de contact et coordonnées partout.</span></li>
-              <li><span class="tf-check" aria-hidden="true"></span><span>Les bases du référencement en place.</span></li>
-            </ul>
-            <button type="button" class="apercu-ouvrir tf-apercu" data-apercu="vitrine" aria-label="Agrandir l'aperçu du site vitrine">
-              <div class="fenetre">
-                <div class="fenetre-barre" aria-hidden="true">
-                  <span></span><span></span><span></span>
-                  <p class="fenetre-url">exemple, un centre équestre</p>
-                </div>
-                <div class="fenetre-ecran">
-                  <Image src={apercus['vitrine'].img} alt="Aperçu du site d'un centre équestre, réalisé en site vitrine" widths={[420, 700]} sizes="(max-width: 640px) 90vw, 440px" loading="lazy" />
-                </div>
-              </div>
-              <p class="tf-legende">{apercus['vitrine'].detail}</p>
-            </button>
-            <a href="/contact#devis" class="tf-lien">Demander un devis <span aria-hidden="true">→</span></a>
-          </div>
-
-          <!-- Boutique en ligne -->
-          <div id="boutique-en-ligne" class="tf-card scroll-mt-28">
-            <p class="tf-kicker">Pour vendre</p>
-            <h3 class="tf-nom">Boutique en ligne</h3>
-            <div class="tf-prix">
-              <span class="tf-num">{euros(formule('boutique-en-ligne').prix)}&nbsp;€</span>
-              <span class="tf-from">à partir de</span>
-            </div>
-            <p class="tf-desc">Vendez vos produits directement sur votre site grâce à une boutique simple, claire et facile à gérer au quotidien.</p>
-            <ul class="tf-ul">
-              <li><span class="tf-check" aria-hidden="true"></span><span>Votre catalogue de produits en ligne.</span></li>
-              <li><span class="tf-check" aria-hidden="true"></span><span>Paiement sécurisé pour vos clients.</span></li>
-              <li><span class="tf-check" aria-hidden="true"></span><span>Commandes simples à suivre au quotidien.</span></li>
-            </ul>
-            <button type="button" class="apercu-ouvrir tf-apercu" data-apercu="boutique" aria-label="Agrandir l'aperçu de la boutique en ligne">
-              <div class="fenetre">
-                <div class="fenetre-barre" aria-hidden="true">
-                  <span></span><span></span><span></span>
-                  <p class="fenetre-url">exemple, une miellerie</p>
-                </div>
-                <div class="fenetre-ecran">
-                  <Image src={apercus['boutique'].img} alt="Aperçu du site d'une miellerie, réalisé en boutique en ligne" widths={[420, 700]} sizes="(max-width: 640px) 90vw, 440px" loading="lazy" />
-                </div>
-              </div>
-              <p class="tf-legende">{apercus['boutique'].detail}</p>
-            </button>
-            <a href="/contact#devis" class="tf-lien">Demander un devis <span aria-hidden="true">→</span></a>
-          </div>
-
-          <!-- Site sur mesure -->
-          <div id="site-sur-mesure" class="tf-card scroll-mt-28">
-            <p class="tf-kicker">Pour aller plus loin</p>
-            <h3 class="tf-nom">Site sur mesure</h3>
-            <div class="tf-prix">
-              <span class="tf-num">{euros(formule('site-sur-mesure').prix)}&nbsp;€</span>
-              <span class="tf-from">à partir de</span>
-            </div>
-            <p class="tf-desc">Un site entièrement adapté à votre projet, avec davantage de contenu, de fonctionnalités et un travail SEO plus approfondi.</p>
-            <ul class="tf-ul">
-              <li><span class="tf-check" aria-hidden="true"></span><span>Davantage de pages et de contenu.</span></li>
-              <li><span class="tf-check" aria-hidden="true"></span><span>Des fonctionnalités adaptées à votre métier.</span></li>
-              <li><span class="tf-check" aria-hidden="true"></span><span>Un travail de référencement approfondi.</span></li>
-            </ul>
-            <button type="button" class="apercu-ouvrir tf-apercu" data-apercu="sur-mesure" aria-label="Agrandir l'aperçu du site sur mesure">
-              <div class="fenetre">
-                <div class="fenetre-barre" aria-hidden="true">
-                  <span></span><span></span><span></span>
-                  <p class="fenetre-url">exemple, un atelier d'ébénisterie</p>
-                </div>
-                <div class="fenetre-ecran">
-                  <Image src={apercus['sur-mesure'].img} alt="Aperçu du site d'un atelier d'ébénisterie, réalisé sur mesure" widths={[420, 700]} sizes="(max-width: 640px) 90vw, 440px" loading="lazy" />
-                </div>
-              </div>
-              <p class="tf-legende">{apercus['sur-mesure'].detail}</p>
-            </button>
-            <a href="/contact#devis" class="tf-lien">Demander un devis <span aria-hidden="true">→</span></a>
-          </div>
-
+          ))}
         </div>
 
         <!-- Mention : les aperçus sont des démonstrations, pas des références clientes -->
