@@ -6,7 +6,7 @@
  */
 
 /** Durées de paiement échelonné proposées, en mois. */
-export const DUREES = [6, 12, 24] as const;
+export const DUREES = [3, 6] as const;
 
 export type Formule = {
   /** Identifiant technique, sert d'ancre. */
@@ -25,7 +25,7 @@ export const FORMULES: readonly Formule[] = [
 ] as const;
 
 /** Durée mise en avant dans les mentions courtes, sous chaque prix. */
-export const DUREE_VITRINE = 24;
+export const DUREE_VITRINE = 6;
 
 /**
  * Formate un montant en euros à la française.
@@ -45,7 +45,7 @@ export function mensualite(prix: number, mois: number): number {
 
 /**
  * Mention courte à placer sous un prix affiché.
- * Exemple : « ou 20,83 € par mois sur 24 mois ».
+ * Exemple : « ou 83,33 € par mois sur 6 mois ».
  */
 export function mentionMensuelle(prix: number, mois: number = DUREE_VITRINE): string {
   return `ou ${euros(mensualite(prix, mois))} € par mois sur ${mois} mois`;
