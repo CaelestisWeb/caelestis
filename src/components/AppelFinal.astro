@@ -1,0 +1,64 @@
+---
+/**
+ * AppelFinal.astro : le bloc d'appel à l'action qui ferme les pages de service.
+ *
+ * Les pages Services, Page unique, Référencement naturel, Fiche Google et
+ * Maintenance répétaient le même gabarit (feuille dessinée, titre en deux
+ * temps, accroche, bouton, mention). Seuls les mots changeaient : ils sont
+ * devenus des propriétés, le reste vit ici.
+ *
+ * La mention sous le bouton passe par le slot par défaut, ce qui permet d'y
+ * glisser des liens. Sans contenu, elle n'est pas rendue du tout.
+ */
+import Button from './Button.astro';
+
+interface Props {
+  /** Première ligne du titre. */
+  titre: string;
+  /** Seconde ligne, mise en couleur. Optionnelle : titre sur une seule ligne. */
+  titreAccent?: string;
+  /** Accroche sous le titre. Optionnelle : certaines pages vont droit au bouton. */
+  texte?: string;
+  /** Destination du bouton. */
+  href: string;
+  /** Libellé du bouton, formulé dans les mots de la page. */
+  libelle: string;
+}
+
+const { titre, titreAccent, texte, href, libelle } = Astro.props;
+
+/* Sans accroche, le titre respire davantage avant le bouton. */
+const margeTitre = texte ? 'mb-5' : 'mb-10';
+---
+
+<section class="relative py-20 px-6 md:px-10 lg:px-20 overflow-hidden section-ambient border-t border-cream-dark" data-reveal>
+  <!-- Blobs atmosphériques -->
+  <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-12 right-1/4 w-64 h-64"></div>
+  <div aria-hidden="true" class="light-blob light-blob-ocre pointer-events-none absolute -bottom-8 left-1/3 w-56 h-56"></div>
+
+  <div class="max-w-2xl mx-auto text-center relative">
+    <!-- Feuille : la signature végétale de fin de page -->
+    <svg aria-hidden="true" class="mx-auto mb-6 opacity-20" width="48" height="66" viewBox="0 0 60 100" fill="none">
+      <path d="M30 0 C38 16 55 36 50 58 C44 78 30 100 30 100 C30 100 16 78 10 58 C5 36 22 16 30 0Z" fill="#1B4733"/>
+      <path d="M30 98 Q31.5 62 30 4" stroke="#B8C4BB" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M30 60 C26 54 20 52 16 56" stroke="#255C41" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M30 60 C34 54 40 52 44 56" stroke="#255C41" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+
+    <h2 class={`font-display text-3xl md:text-4xl font-light text-brun ${margeTitre} leading-[1.1]`}>
+      {titre}{titreAccent && <><br /><span class="text-sauge">{titreAccent}</span></>}
+    </h2>
+
+    {texte && (
+      <p class="font-body text-base text-brun-mid mb-10 leading-relaxed">{texte}</p>
+    )}
+
+    <Button href={href} variant="primary">{libelle}</Button>
+
+    {Astro.slots.has('default') && (
+      <p class="font-body text-xs text-brun-mid mt-6">
+        <slot />
+      </p>
+    )}
+  </div>
+</section>
