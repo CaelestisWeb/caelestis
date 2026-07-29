@@ -11,20 +11,40 @@ import Button from '../../components/Button.astro';
 import { Image } from 'astro:assets';
 import { realisations } from '../../data/realisations';
 
+/* Le hub référence les mêmes identifiants que les études de cas
+   (`#etude-de-cas`) et que la fiche d'entreprise (`#business`) : les moteurs
+   IA reconstituent ainsi un seul graphe, au lieu de trois descriptions
+   séparées qui parlent des mêmes objets sans le savoir. */
 const schema = [
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
+    '@id': 'https://caelestis.fr/realisations#collection',
     name: 'Réalisations Caelestis',
+    headline: 'Les sites livrés par Caelestis',
     description:
       "Les sites livrés par Caelestis, avec pour chacun ce qui coinçait, ce qui a été construit et ce qui tourne aujourd'hui.",
     url: 'https://caelestis.fr/realisations',
-    hasPart: realisations.map((r) => ({
-      '@type': 'CreativeWork',
-      name: r.titre,
-      about: `${r.metier}, ${r.ville}`,
-      url: `https://caelestis.fr/realisations/${r.slug}`,
-    })),
+    mainEntityOfPage: 'https://caelestis.fr/realisations',
+    inLanguage: 'fr-FR',
+    publisher: { '@id': 'https://caelestis.fr/#business' },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: realisations.length,
+      itemListElement: realisations.map((r, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `https://caelestis.fr/realisations/${r.slug}`,
+        item: {
+          '@id': `https://caelestis.fr/realisations/${r.slug}#etude-de-cas`,
+          '@type': 'CreativeWork',
+          name: r.titre,
+          about: `${r.metier}, ${r.ville}`,
+          url: `https://caelestis.fr/realisations/${r.slug}`,
+          creator: { '@id': 'https://caelestis.fr/#business' },
+        },
+      })),
+    },
   },
   {
     '@context': 'https://schema.org',
