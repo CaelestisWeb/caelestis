@@ -573,15 +573,57 @@ const pageContact = {
 
       /* ── Efface toutes les erreurs précédentes ── */
       form!.querySelectorAll('.field-error').forEach(el => el.classList.remove('field-error'));
+      form!.querySelectorAll('[aria-invalid="true"]').forEach(el => {
+        el.removeAttribute('aria-invalid');
+        el.removeAttribute('aria-describedby');
+      });
       hideErr();
 
-      /* ── Marque un champ invalide en rouge et efface dès la prochaine saisie ── */
+      /* Libellé visible d'un champ, lu dans le DOM pour rester synchronisé
+         avec le formulaire même si le texte change. La légende du fieldset
+         passe avant le label parent : sur un groupe de boutons radio, c'est
+         « Moment préféré » qu'il faut annoncer, pas « Matin (9h à 12h) ». */
+      function libelleChamp(el: HTMLElement): string {
+        const source =
+          (el.id ? form!.querySelector(`label[for="${el.id}"]`) : null) ??
+          el.closest('fieldset')?.querySelector('legend') ??
+          el.closest('label');
+        const txt = (source?.textContent ?? '')
+          .replace(/\*/g, '')
+          .replace(/\(requis\)/gi, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+        return txt.slice(0, 40);
+      }
+
+      const champsFautifs: string[] = [];
+
+      /* ── Marque un champ invalide : bordure rouge, aria-invalid et lien vers
+         le message d'erreur, pour que le champ fautif soit annoncé et pas
+         seulement signalé par la couleur. Tout s'efface à la prochaine saisie. ── */
       function markInvalid(name: string) {
         const el = form!.querySelector(`[name="${name}"]`) as HTMLElement | null;
         if (!el) return;
         const target = el.closest('fieldset') ?? el;
         target.classList.add('field-error');
-        const clear = () => target.classList.remove('field-error');
+
+        /* Un groupe de cases ou de boutons radio porte plusieurs contrôles */
+        const controles = Array.from(form!.querySelectorAll<HTMLElement>(`[name="${name}"]`));
+        controles.forEach(c => {
+          c.setAttribute('aria-invalid', 'true');
+          c.setAttribute('aria-describedby', errorId);
+        });
+
+        const libelle = libelleChamp(el);
+        if (libelle && !champsFautifs.includes(libelle)) champsFautifs.push(libelle);
+
+        const clear = () => {
+          target.classList.remove('field-error');
+          controles.forEach(c => {
+            c.removeAttribute('aria-invalid');
+            c.removeAttribute('aria-describedby');
+          });
+        };
         el.addEventListener('input',  clear, { once: true });
         el.addEventListener('change', clear, { once: true });
       }
@@ -615,8 +657,20 @@ const pageContact = {
         { showErr('Nom d\'entreprise trop long (200 caractères max).'); return; }
 
       if (hasError) {
-        showErr('Veuillez remplir tous les champs obligatoires (*).');
-        form.querySelector<HTMLElement>('.field-error')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        /* Le message nomme les champs concernés : l'information ne repose plus
+           sur la seule couleur de bordure. */
+        showErr(
+          champsFautifs.length === 1
+            ? `Merci de compléter le champ « ${champsFautifs[0]} ».`
+            : champsFautifs.length > 1
+              ? `Merci de compléter les champs suivants : ${champsFautifs.join(', ')}.`
+              : 'Veuillez remplir tous les champs obligatoires (*).'
+        );
+        /* Le focus part sur le premier champ fautif : l'utilisateur au clavier
+           ou au lecteur d'écran arrive directement dessus. */
+        const premier = form.querySelector<HTMLElement>('[aria-invalid="true"]');
+        premier?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        premier?.focus({ preventScroll: true });
         return;
       }
 
