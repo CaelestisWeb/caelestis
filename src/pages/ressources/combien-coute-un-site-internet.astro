@@ -1,0 +1,96 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+import { FORMULES, euros } from '../../utils/tarifs';
+
+/* Les prix affichés ici sont lus dans tarifs.ts, la source unique : le guide
+   ne peut pas se retrouver en décalage avec la page Services. */
+const [pageUnique, vitrine, boutique, surMesure] = FORMULES;
+---
+
+<GuideLayout
+  titre="Combien coûte un site internet pour un artisan ou un indépendant ?"
+  titleTag="Prix d'un site internet en 2026, les vrais chiffres, Caelestis"
+  description="Les vrais prix d'un site professionnel en 2026 : de 999,99 € pour une page unique à 3 499,99 € pour du sur mesure, ce qui fait varier le montant, et les coûts qui suivent."
+  slug="combien-coute-un-site-internet"
+  date="2026-07-29"
+  chapo="Pour un site professionnel réalisé par une agence, comptez entre 1 000 et 3 500 € selon l'ampleur du projet. Voici nos prix réels, ce qui fait varier le montant, et les coûts qui continuent après la mise en ligne."
+>
+  <h2>Les prix, sans détour</h2>
+  <p>
+    Beaucoup d'agences cachent leurs tarifs jusqu'au devis. Voici les nôtres,
+    les mêmes que sur notre <a href="/services">page Services</a> :
+  </p>
+  <table>
+    <thead>
+      <tr><th>Formule</th><th>À partir de</th><th>Pour quoi faire</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a href="/services/site-une-page">{pageUnique.nom}</a></td>
+        <td>{euros(pageUnique.prix)}&nbsp;€</td>
+        <td>Exister en ligne avec l'essentiel, sur une seule page qui défile.</td>
+      </tr>
+      <tr>
+        <td><a href="/services/site-vitrine">{vitrine.nom}</a></td>
+        <td>{euros(vitrine.prix)}&nbsp;€</td>
+        <td>Présenter plusieurs services et vos réalisations, page par page.</td>
+      </tr>
+      <tr>
+        <td><a href="/services/boutique-en-ligne">{boutique.nom}</a></td>
+        <td>{euros(boutique.prix)}&nbsp;€</td>
+        <td>Vendre vos produits en direct, sans commission de plateforme.</td>
+      </tr>
+      <tr>
+        <td><a href="/services/site-sur-mesure">{surMesure.nom}</a></td>
+        <td>{euros(surMesure.prix)}&nbsp;€</td>
+        <td>Réservation, configurateur ou tout outil propre à votre métier.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Ces montants s'entendent à partir de : c'est le prix d'un projet courant de la formule,
+    pas un prix d'appel. Ce qui les fait monter est listé plus bas, et annoncé dans le devis,
+    jamais découvert en cours de route.
+  </p>
+
+  <h2>Pourquoi de tels écarts entre les prestataires ?</h2>
+  <p>
+    Pour la même demande, vous recevrez des propositions de 300 € et d'autres de 10 000 €.
+    L'écart ne tient pas au bavardage commercial mais à ce qui est réellement fait :
+  </p>
+  <ul>
+    <li><strong>Le contenu.</strong> Reprendre vos textes tels quels coûte moins cher que les retravailler pour qu'ils convainquent et se positionnent sur Google. C'est pourtant là que se joue le résultat.</li>
+    <li><strong>La conception.</strong> Un gabarit rempli en une journée et un design pensé pour votre métier ne demandent pas le même travail, et ne produisent pas le même effet sur vos clients.</li>
+    <li><strong>La technique.</strong> Vitesse de chargement, affichage mobile, référencement de base, conformité RGPD : invisibles au premier regard, décisifs sur la durée.</li>
+    <li><strong>Ce qui vous appartient à la fin.</strong> Chez certains prestataires, vous louez votre site à vie. Chez nous, il est à vous au paiement complet : code, contenus et nom de domaine.</li>
+  </ul>
+
+  <h2>Ce qui fait varier le prix d'un projet</h2>
+  <p>
+    Trois facteurs, dans l'ordre d'impact : le nombre de pages réellement utiles,
+    l'état de vos contenus (photos et textes prêts, ou tout à construire),
+    et les fonctionnalités particulières comme une réservation ou un catalogue fourni.
+    Notre <a href="/outils/simulateur">simulateur de prix</a> vous donne une estimation
+    en deux minutes, sans laisser votre adresse email.
+  </p>
+
+  <h2>Les coûts qui continuent après la mise en ligne</h2>
+  <p>
+    Un site engendre des frais récurrents modestes mais réels. Il faut compter
+    le nom de domaine (une quinzaine d'euros par an), l'hébergement, et la maintenance
+    si vous la déléguez : mises à jour, sauvegardes, petites modifications de contenu.
+    Un prestataire honnête vous les chiffre avant la signature. Méfiez-vous des offres
+    où le site est bon marché et l'abonnement obligatoire coûteux : sur trois ans,
+    l'addition dépasse souvent celle d'un site acheté une fois et possédé pour de bon.
+  </p>
+
+  <h2>Comment payer moins sans le regretter</h2>
+  <p>
+    Le meilleur levier n'est pas de négocier, c'est de bien dimensionner. Une activité
+    qui se présente simplement n'a pas besoin de dix pages : une
+    <a href="/services/site-une-page">page unique</a> bien construite fait le travail
+    pour {euros(pageUnique.prix)}&nbsp;€, et vous pourrez passer à la formule supérieure plus tard
+    en ne payant que la différence. À l'inverse, économiser sur les photos ou sur le contenu
+    se paye ensuite : c'est ce que vos visiteurs regardent en premier.
+  </p>
+</GuideLayout>

@@ -1,13 +1,13 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PriceSimulator from '../components/PriceSimulator.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PriceSimulator from '../../components/PriceSimulator.astro';
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Accueil',                      item: 'https://caelestis.fr' },
-    { '@type': 'ListItem', position: 2, name: 'Simulateur de prix site internet', item: 'https://caelestis.fr/simulateur' },
+    { '@type': 'ListItem', position: 2, name: 'Simulateur de prix site internet', item: 'https://caelestis.fr/outils/simulateur' },
   ],
 };
 
@@ -16,7 +16,7 @@ const webAppSchema = {
   '@type': 'WebApplication',
   name: 'Simulateur de prix : création de site internet',
   applicationCategory: 'BusinessApplication',
-  url: 'https://caelestis.fr/simulateur',
+  url: 'https://caelestis.fr/outils/simulateur',
   description: 'Outil gratuit pour estimer le coût de création de votre site internet en 2 minutes. Pour artisans, producteurs, praticiens et indépendants en Auvergne-Rhône-Alpes.',
   operatingSystem: 'Any',
   inLanguage: 'fr-FR',
@@ -46,7 +46,7 @@ const webAppSchema = {
 <BaseLayout
   title="Combien coûte un site internet ? Simulateur, Caelestis"
   description="Estimez le prix de votre site internet en 2 minutes. Gratuit et sans engagement, pour artisans, producteurs et indépendants en Auvergne-Rhône-Alpes."
-  canonical="https://caelestis.fr/simulateur"
+  canonical="https://caelestis.fr/outils/simulateur"
   schema={[breadcrumbSchema, webAppSchema]}
 >
 

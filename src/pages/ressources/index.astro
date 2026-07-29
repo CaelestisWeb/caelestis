@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AppelFinal from '../../components/AppelFinal.astro';
+import { guides } from '../../data/guides';
+
+/* L'index des guides : la porte d'entrée du contenu qui fait citer Caelestis
+   par les moteurs, classiques ou IA. Peu de guides, mais utiles : cinq
+   réponses complètes valent mieux que trente pages creuses. */
+
+const canonical = 'https://caelestis.fr/ressources';
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${canonical}#page`,
+  url: canonical,
+  name: 'Ressources et guides',
+  description:
+    "Des réponses complètes aux questions qui précèdent un projet de site internet : prix, délais, contenus, visibilité sur Google et dans les moteurs IA.",
+  inLanguage: 'fr-FR',
+  isPartOf: { '@id': 'https://caelestis.fr/#site' },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: guides.length,
+    itemListElement: guides.map((guide, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: guide.titre,
+      url: `https://caelestis.fr/ressources/${guide.slug}`,
+    })),
+  },
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Ressources', item: canonical },
+  ],
+};
+---
+
+<BaseLayout
+  title="Ressources : guides pratiques avant de créer votre site, Caelestis"
+  description="Prix réels, délais, contenus à préparer, visibilité dans ChatGPT : des réponses complètes aux questions qui précèdent un projet de site internet."
+  canonical={canonical}
+  schema={[collectionSchema, breadcrumb]}
+>
+
+  <!-- ── En-tête ── -->
+  <section class="pt-20 pb-14 md:pt-24 px-6 md:px-10 lg:px-20 border-b border-cream-dark section-ambient overflow-hidden relative" style="isolation: isolate;">
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-20 -right-24 w-[380px] h-[380px]"></div>
+    <div class="max-w-4xl mx-auto relative text-center">
+      <div class="inline-flex items-center gap-2 mb-6" data-reveal>
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Ressources</p>
+      </div>
+      <h1
+        class="font-display font-light text-brun leading-[1.06] tracking-tight max-w-3xl mx-auto"
+        style="font-size: clamp(2.1rem, 5vw, 3.6rem);"
+        data-reveal data-delay="1"
+      >
+        Les réponses qu'on cherche<br class="hidden sm:block"> <span class="text-sauge">avant de se lancer.</span>
+      </h1>
+      <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed mx-auto" data-reveal data-delay="2">
+        Prix réels, délais, contenus à préparer, visibilité sur Google et dans les
+        assistants IA : des guides complets, écrits sans jargon et sans rien vous vendre.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Liste des guides ── -->
+  <section class="py-16 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
+    <div class="max-w-3xl mx-auto">
+      <ul class="divide-y divide-cream-dark border-y border-cream-dark" role="list">
+        {guides.map((guide, i) => (
+          <li data-reveal data-delay={String(i % 3)}>
+            <a href={`/ressources/${guide.slug}`} class="group flex items-start justify-between gap-6 py-7">
+              <div>
+                <p class="font-body text-xs tracking-[0.18em] uppercase text-sauge mb-2">{guide.question}</p>
+                <h2 class="font-display text-xl text-brun leading-snug mb-2 group-hover:text-sauge-text transition-colors">
+                  {guide.titre}
+                </h2>
+                <p class="font-body text-sm text-brun-mid leading-relaxed max-w-[62ch]">{guide.description}</p>
+              </div>
+              <span aria-hidden="true" class="shrink-0 mt-1 text-sauge transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <AppelFinal
+    titre="La réponse n'est"
+    titreAccent="pas dans la liste ?"
+    texte="Posez-nous votre question directement : nous répondons sous 48 heures, que vous deveniez client ou non."
+    href="/contact"
+    libelle="Poser ma question"
+  />
+
+</BaseLayout>

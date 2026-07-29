@@ -1,0 +1,174 @@
+---
+/**
+ * GuideLayout.astro : le squelette commun des guides de /ressources/.
+ *
+ * Les guides sont le carburant de la visibilité dans les moteurs IA : des
+ * réponses complètes aux questions que les prospects posent réellement, avant
+ * même de chercher un prestataire. Chaque guide suit les mêmes règles :
+ * la réponse d'abord, l'argumentation ensuite, et des sections qui restent
+ * exactes lues isolément, car c'est ainsi qu'un moteur les extrait.
+ *
+ * Le contenu vit dans le slot ; ce composant porte le decorum, le balisage
+ * Article + BreadcrumbList et l'appel final vers le contact.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AppelFinal from './AppelFinal.astro';
+
+interface Props {
+  /** Titre H1, formulé comme la question du lecteur. */
+  titre: string;
+  /** Balise title (si différente du H1). */
+  titleTag?: string;
+  description: string;
+  slug: string;
+  /** Date de publication, au format AAAA-MM-JJ. */
+  date: string;
+  /** Accroche sous le H1 : la réponse courte, en deux phrases. */
+  chapo: string;
+}
+
+const { titre, titleTag, description, slug, date, chapo } = Astro.props;
+const canonical = `https://caelestis.fr/ressources/${slug}`;
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': `${canonical}#article`,
+  headline: titre,
+  description,
+  url: canonical,
+  mainEntityOfPage: canonical,
+  inLanguage: 'fr-FR',
+  datePublished: date,
+  dateModified: date,
+  author: {
+    '@type': 'Person',
+    name: 'Célestin Fruleux',
+    url: 'https://caelestis.fr/a-propos',
+  },
+  publisher: { '@id': 'https://caelestis.fr/#business' },
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Ressources', item: 'https://caelestis.fr/ressources' },
+    { '@type': 'ListItem', position: 3, name: titre, item: canonical },
+  ],
+};
+
+const dateAffichee = new Date(`${date}T12:00:00`).toLocaleDateString('fr-FR', {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+---
+
+<BaseLayout
+  title={titleTag ?? `${titre}, Caelestis`}
+  description={description}
+  canonical={canonical}
+  schema={[articleSchema, breadcrumb]}
+>
+
+  <!-- ── En-tête du guide ── -->
+  <section class="pt-20 pb-14 md:pt-24 px-6 md:px-10 lg:px-20 border-b border-cream-dark section-ambient overflow-hidden relative" style="isolation: isolate;">
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-20 -right-24 w-[380px] h-[380px]"></div>
+    <div class="max-w-3xl mx-auto relative">
+      <nav aria-label="Fil d'ariane" class="font-body text-xs text-brun-mid mb-8" data-reveal>
+        <a href="/" class="hover:text-sauge-text transition-colors">Accueil</a>
+        <span class="mx-2 text-cream-dark" aria-hidden="true">/</span>
+        <a href="/ressources" class="hover:text-sauge-text transition-colors">Ressources</a>
+      </nav>
+      <h1
+        class="font-display font-light text-brun leading-[1.08] tracking-tight mb-7"
+        style="font-size: clamp(1.9rem, 4.4vw, 3.3rem);"
+        data-reveal data-delay="1"
+      >
+        {titre}
+      </h1>
+      <p class="font-body text-lg text-brun-mid leading-relaxed" data-reveal data-delay="2">
+        {chapo}
+      </p>
+      <p class="font-body text-xs text-brun-mid mt-7" data-reveal data-delay="2">
+        Publié le {dateAffichee}, par <a href="/a-propos" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">Célestin, Caelestis</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Corps du guide ── -->
+  <article class="py-16 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
+    <div class="guide-prose max-w-3xl mx-auto">
+      <slot />
+    </div>
+  </article>
+
+  <AppelFinal
+    titre="Une question sur"
+    titreAccent="votre projet ?"
+    texte="Décrivez votre activité en quelques lignes, nous vous répondons sous 48 heures. Devis gratuit, sans engagement."
+    href="/contact#devis"
+    libelle="Parler de mon projet"
+  />
+
+</BaseLayout>
+
+<style is:global>
+  /* Prose des guides : lisible, aérée, mesure maîtrisée. Les sélecteurs sont
+     bornés à .guide-prose pour ne rien imposer au reste du site. */
+  .guide-prose h2 {
+    font-family: var(--font-display, inherit);
+    font-weight: 400;
+    color: var(--color-brun, #3E3228);
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.2;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+  .guide-prose h2:first-child { margin-top: 0; }
+  .guide-prose h3 {
+    font-family: var(--font-display, inherit);
+    font-weight: 500;
+    color: var(--color-brun, #3E3228);
+    font-size: 1.15rem;
+    line-height: 1.3;
+    margin-top: 2rem;
+    margin-bottom: 0.6rem;
+  }
+  .guide-prose p, .guide-prose li {
+    color: var(--color-brun-mid, #6B5D4F);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+  .guide-prose p + p { margin-top: 1rem; }
+  .guide-prose ul, .guide-prose ol {
+    margin: 1rem 0 1rem 1.1rem;
+    display: grid;
+    gap: 0.55rem;
+  }
+  .guide-prose ul { list-style: disc; }
+  .guide-prose ol { list-style: decimal; }
+  .guide-prose a {
+    color: var(--color-sauge-text, #4F7359);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(107, 143, 113, 0.4);
+    transition: text-decoration-color 0.2s ease;
+  }
+  .guide-prose a:hover { text-decoration-color: currentColor; }
+  .guide-prose strong { color: var(--color-brun, #3E3228); font-weight: 600; }
+  .guide-prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.4rem 0;
+    font-size: 0.95rem;
+  }
+  .guide-prose th, .guide-prose td {
+    text-align: left;
+    padding: 0.65rem 0.8rem;
+    border-bottom: 1px solid var(--color-cream-dark, #E8E2D6);
+    color: var(--color-brun-mid, #6B5D4F);
+    vertical-align: top;
+  }
+  .guide-prose th { color: var(--color-brun, #3E3228); font-weight: 600; }
+</style>

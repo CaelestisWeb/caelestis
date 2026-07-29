@@ -113,13 +113,15 @@ const pageContact = {
       <!-- ── Formulaire — centré et resserré ── -->
       <div class="max-w-xl w-full min-w-0 mx-auto order-1 sm:order-2" data-reveal data-delay="1">
 
-        <!-- Sélecteur -->
-        <div class="flex flex-col sm:flex-row gap-3 mb-8" role="tablist" aria-label="Type de contact">
+        <!-- Sélecteur : une question posée, trois réponses qui annoncent
+             chacune ce qui se passe ensuite. -->
+        <p class="font-display text-xl sm:text-2xl font-light text-brun mb-4">Que préférez-vous&nbsp;?</p>
+        <div class="grid sm:grid-cols-3 gap-3 mb-8" role="tablist" aria-label="Type de contact">
           {[
-            { id: 'message', label: 'Rédiger un message', icon: '✉' },
-            { id: 'appel',   label: 'Réserver un appel',  icon: '☎' },
-            { id: 'devis',   label: 'Obtenir un devis',   icon: '◈'  },
-          ].map(({ id, label, icon }) => (
+            { id: 'message', label: 'Écrire un message', detail: 'Écrivez-nous, on vous répond avec plaisir.' },
+            { id: 'appel',   label: 'Être rappelé',      detail: 'On vous rappelle quand cela vous arrange.' },
+            { id: 'devis',   label: 'Recevoir un devis', detail: 'On vous envoie un devis clair et chiffré sous 48 heures.' },
+          ].map(({ id, label, detail }) => (
             <button
               type="button"
               id={`tab-${id}`}
@@ -127,10 +129,10 @@ const pageContact = {
               role="tab"
               aria-selected={id === 'message' ? 'true' : 'false'}
               aria-controls={`panel-${id}`}
-              class={`tab-btn flex-1 flex items-center gap-2.5 px-4 py-3.5 min-h-[44px] border rounded-xl font-body text-sm transition-all duration-200 text-left ${id === 'message' ? 'border-sauge bg-[#255C41] text-cream' : 'border-cream-dark text-brun-mid hover:border-sauge/40'}`}
+              class={`tab-btn${id === 'message' ? ' is-active' : ''}`}
             >
-              <span class="text-base leading-none" aria-hidden="true">{icon}</span>
-              <span>{label}</span>
+              <span class="tab-titre">{label}</span>
+              <span class="tab-detail">{detail}</span>
             </button>
           ))}
         </div>
@@ -143,7 +145,7 @@ const pageContact = {
             <div class="mb-7 pb-7 border-b border-cream-dark flex items-end justify-between gap-6">
               <div>
                 <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-1.5">Message</p>
-                <p class="font-display text-2xl font-light text-brun">Une question&nbsp;?<br>Une demande&nbsp;?<br>N'hésitez pas&nbsp;!</p>
+                <p class="font-display text-2xl font-light text-brun">Écrivez-nous,<br>on vous lit.</p>
               </div>
               <PlanteFormulaire id="plant-message" prefixe="msg" />
             </div>
@@ -418,6 +420,34 @@ const pageContact = {
 </BaseLayout>
 
 <style is:global>
+  /* ── Sélecteur de contact : trois réponses à « Que préférez-vous ? » ──
+     Chaque case annonce ce qui se passe ensuite, l'active passe en fond forêt. */
+  .tab-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-height: 44px;
+    padding: 15px 17px;
+    text-align: left;
+    border: 1px solid #E6E4DC;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+  }
+  .tab-btn:hover { border-color: rgba(46, 116, 82, 0.45); transform: translateY(-1px); }
+  .tab-btn.is-active { background: #255C41; border-color: #255C41; }
+  .tab-btn:focus-visible { outline: 2px solid #255C41; outline-offset: 3px; }
+
+  .tab-titre { font-size: 0.92rem; font-weight: 500; color: #255C41; line-height: 1.3; }
+  .tab-btn.is-active .tab-titre { color: #FCFBF8; }
+  .tab-detail { font-size: 0.78rem; line-height: 1.45; color: #5C6259; }
+  .tab-btn.is-active .tab-detail { color: rgba(252, 251, 248, 0.84); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tab-btn:hover { transform: none; }
+  }
+
   /* Radio dot visible quand coché */
   label:has(input[type="radio"]:checked) .radio-dot { opacity: 1; }
 
@@ -472,11 +502,8 @@ const pageContact = {
   function activateTab(id: string) {
     tabBtns.forEach(btn => {
       const active = btn.dataset.tab === id;
-      btn.classList.toggle('border-sauge',      active);
-      btn.classList.toggle('bg-[#255C41]',      active);
-      btn.classList.toggle('text-cream',        active);
-      btn.classList.toggle('border-cream-dark', !active);
-      btn.classList.toggle('text-brun-mid',     !active);
+      /* Un seul état à basculer : l'apparence vit dans la feuille de style. */
+      btn.classList.toggle('is-active', active);
       /* WCAG 4.1.2 — mise à jour de aria-selected */
       btn.setAttribute('aria-selected', String(active));
     });
