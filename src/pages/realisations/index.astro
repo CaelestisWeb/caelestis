@@ -1,0 +1,164 @@
+---
+/**
+ * Hub des réalisations.
+ *
+ * Règle de contenu : deux projets livrés, deux projets affichés. Aucune
+ * réalisation inventée, aucun logo de client fictif, aucun chiffre de
+ * fréquentation que le client ne nous a pas communiqué par écrit.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+import { Image } from 'astro:assets';
+import { realisations } from '../../data/realisations';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Réalisations Caelestis',
+    description:
+      "Les sites livrés par Caelestis, avec pour chacun ce qui coinçait, ce qui a été construit et ce qui tourne aujourd'hui.",
+    url: 'https://caelestis.fr/realisations',
+    hasPart: realisations.map((r) => ({
+      '@type': 'CreativeWork',
+      name: r.titre,
+      about: `${r.metier}, ${r.ville}`,
+      url: `https://caelestis.fr/realisations/${r.slug}`,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+      { '@type': 'ListItem', position: 2, name: 'Réalisations', item: 'https://caelestis.fr/realisations' },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Réalisations, les sites livrés par Caelestis"
+  description="Les sites créés par Caelestis, en Drôme et en Auvergne-Rhône-Alpes : ce qui coinçait chez le client, ce qui a été construit, et ce qui tourne aujourd'hui. Faits vérifiables uniquement."
+  canonical="https://caelestis.fr/realisations"
+  schema={schema}
+>
+
+  <!-- ─── EN-TÊTE ─── -->
+  <section class="pt-28 md:pt-36 pb-12 px-6 md:px-10 lg:px-20">
+    <div class="max-w-4xl mx-auto">
+
+      <nav aria-label="Fil d'ariane" class="font-body text-xs text-brun-mid mb-8">
+        <a href="/" class="hover:text-sauge-text transition-colors">Accueil</a>
+        <span class="mx-2 text-cream-dark" aria-hidden="true">/</span>
+        <span class="text-brun">Réalisations</span>
+      </nav>
+
+      <h1 class="font-display text-3xl md:text-5xl text-brun leading-[1.08] mb-6">
+        Ce que nous avons livré, et ce que ça change
+      </h1>
+
+      <p class="font-body text-lg text-brun-mid max-w-[62ch] leading-relaxed">
+        Caelestis a livré {realisations.length} sites en 2026, pour un salon de
+        prothésie ongulaire et pour un atelier de bijoux, tous deux dans la Drôme.
+        Chaque étude de cas décrit la même chose : ce qui coinçait avant, ce qui a
+        été construit, et ce qui fonctionne aujourd'hui sans que le client ait à
+        nous rappeler.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- ─── LISTE DES RÉALISATIONS ─── -->
+  <section class="pb-8 px-6 md:px-10 lg:px-20">
+    <div class="max-w-5xl mx-auto grid gap-14 md:gap-20">
+
+      {realisations.map((realisation, index) => (
+        <article class={`grid gap-7 md:gap-14 items-center ${
+          index % 2 === 0 ? 'md:grid-cols-[1.45fr_1fr]' : 'md:grid-cols-[1fr_1.45fr]'
+        }`}>
+
+          <a
+            href={`/realisations/${realisation.slug}`}
+            class={`block group overflow-hidden rounded-sm border border-cream-dark ${
+              index % 2 === 0 ? '' : 'md:order-2'
+            }`}
+          >
+            <Image
+              src={realisation.images[0].src}
+              alt={realisation.images[0].alt}
+              widths={[480, 720, 1040]}
+              sizes="(max-width: 768px) 100vw, 620px"
+              class="w-full h-auto transition-transform duration-700 group-hover:scale-[1.02]"
+              loading={index === 0 ? 'eager' : 'lazy'}
+            />
+          </a>
+
+          <div class={index % 2 === 0 ? '' : 'md:order-1'}>
+            <p class="font-body text-xs tracking-[0.22em] uppercase text-brun-mid mb-4">
+              {realisation.metier}, {realisation.ville}
+            </p>
+
+            <h2 class="font-display text-2xl md:text-3xl text-brun leading-tight mb-4">
+              <a href={`/realisations/${realisation.slug}`} class="hover:text-sauge-text transition-colors">
+                {realisation.titre}
+              </a>
+            </h2>
+
+            <p class="font-body text-base text-brun-mid leading-relaxed mb-5">
+              {realisation.accroche}
+            </p>
+
+            <p class="font-body text-sm text-sauge-text mb-7">{realisation.delai}</p>
+
+            <a
+              href={`/realisations/${realisation.slug}`}
+              class="inline-flex items-center gap-2 font-body text-sm font-medium text-sauge hover:gap-3 transition-all"
+            >
+              Lire l'étude de cas
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+        </article>
+      ))}
+
+    </div>
+  </section>
+
+  <!-- ─── HONNÊTETÉ DU PORTFOLIO ─── -->
+  <section class="py-14 md:py-16 px-6 md:px-10 lg:px-20 border-t border-cream-dark mt-6 section-ambient">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-display text-2xl md:text-3xl text-brun leading-tight mb-5">
+        Pourquoi si peu de projets affichés ?
+      </h2>
+      <p class="font-body text-base text-brun-mid leading-relaxed mb-4">
+        Parce que ce sont ceux qui sont réellement en ligne. Caelestis a démarré
+        en 2026 : plutôt que de remplir cette page avec des maquettes jamais
+        livrées ou des logos empruntés, nous n'y mettons que des sites que vous
+        pouvez ouvrir, tester et juger vous-même.
+      </p>
+      <p class="font-body text-base text-brun-mid leading-relaxed">
+        Vous n'y trouverez pas non plus de pourcentage de croissance ni de
+        chiffre d'affaires. Ces données appartiennent aux clients, et un résultat
+        invérifiable ne prouve rien. Ce qui est écrit ici est constatable sur les
+        sites eux-mêmes.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── APPEL À L'ACTION ─── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 text-center border-t border-cream-dark">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="font-display text-3xl md:text-4xl text-brun leading-tight mb-5">
+        Votre activité mérite le même soin
+      </h2>
+      <p class="font-body text-base text-brun-mid mb-9">
+        Décrivez votre métier et ce que vous attendez d'un site. Je vous dis en un
+        appel ce qui est réalisable, dans quel délai et à quel prix.
+      </p>
+      <Button href="/contact" variant="primary">Parler de mon projet</Button>
+    </div>
+  </section>
+
+</BaseLayout>
