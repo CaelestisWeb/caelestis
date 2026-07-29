@@ -30,7 +30,7 @@ const filArianeDiagnostic = {
 
 <BaseLayout
   title="Analysez votre site internet gratuitement, Caelestis"
-  description="Entrez l'adresse de votre site et obtenez en quelques secondes une analyse factuelle : vitesse, affichage mobile, sécurité, référencement, moyens de contact. Gratuit, sans inscription."
+  description="Entrez l'adresse de votre site et obtenez en quelques secondes une analyse factuelle : vitesse, mobile, sécurité, référencement. Gratuit, sans inscription."
   canonical="https://caelestis.fr/diagnostic"
   schema={[schema, filArianeDiagnostic]}
 >
@@ -99,15 +99,38 @@ const filArianeDiagnostic = {
       <ul id="diagMesures" class="diag-mesures" hidden></ul>
       <div id="diagConstats"></div>
 
-      <div class="mt-12 pt-10 border-t border-cream-dark text-center">
-        <h2 class="font-display text-2xl md:text-3xl text-brun leading-tight mb-4">
-          Vous voulez que je m'en occupe ?
-        </h2>
-        <p class="font-body text-base text-brun-mid max-w-[48ch] mx-auto mb-8">
-          Chacun de ces points se corrige. Décrivez votre activité, je vous dis
-          en un appel ce qui est prioritaire, dans quel délai et à quel prix.
+      <div class="mt-12 pt-10 border-t border-cream-dark">
+        <div class="text-center">
+          <h2 class="font-display text-2xl md:text-3xl text-brun leading-tight mb-4">
+            Vous voulez que je m'en occupe ?
+          </h2>
+          <p class="font-body text-base text-brun-mid max-w-[52ch] mx-auto mb-8">
+            Chacun de ces points se corrige. Laissez-moi votre adresse et je vous
+            renvoie l'ordre dans lequel les traiter, avec le temps que cela demande.
+          </p>
+        </div>
+
+        <form id="leadForm" class="lead-form" novalidate>
+          <div class="lead-champs">
+            <label class="sr-only" for="leadNom">Votre nom ou celui de votre entreprise</label>
+            <input type="text" id="leadNom" name="nom" autocomplete="organization" placeholder="Votre nom ou votre entreprise" />
+
+            <label class="sr-only" for="leadEmail">Votre adresse email</label>
+            <input type="email" id="leadEmail" name="email" autocomplete="email" placeholder="vous@votre-entreprise.fr" required />
+          </div>
+          <button type="button" id="leadBtn"><span class="lead-btn-label">Recevoir les priorités</span></button>
+        </form>
+
+        <p id="leadStatut" role="status" aria-live="polite" class="font-body text-sm text-center mt-4"></p>
+
+        <p class="font-body text-xs text-brun-mid text-center mt-3 max-w-[52ch] mx-auto">
+          Votre adresse ne sert qu'à vous répondre. Aucune inscription à une liste,
+          aucune revente, et vous pouvez demander sa suppression à tout moment.
         </p>
-        <Button href="/contact" variant="primary">Parler de mon site</Button>
+
+        <div class="text-center mt-8">
+          <Button href="/contact" variant="outline">Ou me parler directement</Button>
+        </div>
       </div>
 
     </div>
@@ -157,8 +180,12 @@ const filArianeDiagnostic = {
     border-radius: 2px;
     transition: border-color .3s ease;
   }
+  /* Le contour système est remplacé, jamais supprimé : un simple changement
+     de teinte de bordure ne suffit pas (WCAG 2.4.11, contraste 3:1 attendu
+     pour un indicateur de focus). L'anneau reprend le vert de la charte. */
   .diag-form input:focus-visible {
-    outline: none;
+    outline: 2px solid var(--color-sauge-text);
+    outline-offset: 2px;
     border-color: var(--color-sauge-text);
   }
   .diag-form input::placeholder { color: color-mix(in srgb, var(--color-brun-mid) 60%, transparent); }
@@ -183,6 +210,42 @@ const filArianeDiagnostic = {
     display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem;
   }
   @media (min-width: 640px) { .diag-mesures { grid-template-columns: repeat(4, 1fr); } }
+
+  .lead-form {
+    display: flex; gap: .6rem; flex-wrap: wrap;
+    max-width: 42rem; margin-inline: auto;
+  }
+  .lead-champs { display: grid; gap: .6rem; flex: 1 1 20rem; min-width: 0; }
+  @media (min-width: 640px) { .lead-champs { grid-template-columns: 1fr 1fr; } }
+
+  .lead-form input {
+    font-family: var(--font-body);
+    font-size: .95rem;
+    padding: .85rem 1.05rem;
+    color: var(--color-encre);
+    background: var(--color-cream);
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 2px;
+    min-width: 0;
+    transition: border-color .3s ease;
+  }
+  .lead-form input:focus-visible { outline: none; border-color: var(--color-sauge-text); }
+  .lead-form input::placeholder { color: color-mix(in srgb, var(--color-brun-mid) 60%, transparent); }
+
+  .lead-form button {
+    flex: 0 0 auto;
+    font-family: var(--font-body);
+    font-size: .95rem;
+    padding: .85rem 1.8rem;
+    color: var(--color-cream);
+    background: var(--color-brun);
+    border: 1px solid var(--color-brun);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color .3s ease, opacity .3s ease;
+  }
+  .lead-form button:hover:not(:disabled) { background: var(--color-ocre-dark); }
+  .lead-form button:disabled { opacity: .55; cursor: progress; }
 
   .diag-criteres { display: grid; gap: .85rem; }
   .diag-criteres li {
@@ -274,6 +337,13 @@ function brancherDiagnostic() {
   form.dataset.branche = 'oui';
   const LIBELLE = { critique: 'Bloquant', moyen: 'Important', mineur: 'À corriger' } as const;
 
+  /* Contexte de la dernière analyse, joint à la demande de rappel : sans lui,
+     un email arrive sans qu'on sache de quel site il parle. */
+  let dernierSite = '';
+  let dernierResume = '';
+
+  brancherRappel(() => ({ site: dernierSite, resume: dernierResume }));
+
   const message = (texte: string, erreur = false) => {
     statut.textContent = texte;
     statut.style.color = erreur ? '#9C3226' : 'var(--color-brun-mid)';
@@ -339,6 +409,13 @@ function brancherDiagnostic() {
       entete.appendChild(bloc('p', 'font-body text-xs tracking-[0.22em] uppercase text-sauge mb-2', 'Résultat'));
       entete.appendChild(bloc('h2', 'font-display text-2xl md:text-3xl text-brun leading-tight', donnees.hote ?? url));
 
+      dernierSite = donnees.hote ?? url;
+      const nbConstats = (donnees.constats ?? []).length;
+      const nbBloquants = (donnees.constats ?? []).filter((c: any) => c.gravite === 'critique').length;
+      dernierResume = donnees.etat === 'injoignable'
+        ? 'adresse injoignable'
+        : `${nbConstats} point(s) relevé(s), dont ${nbBloquants} bloquant(s)`;
+
       if (donnees.etat === 'injoignable') {
         entete.appendChild(bloc('p', 'font-body text-base text-brun-mid mt-3', donnees.raison));
         mesures.hidden = true;
@@ -394,6 +471,78 @@ function brancherDiagnostic() {
       if (libelleFin) libelleFin.textContent = 'Analyser';
     }
   }
+}
+
+/**
+ * Demande de rappel, affichée sous les résultats.
+ *
+ * Même contrainte que le formulaire d'analyse : le bouton n'est pas soumettant,
+ * un envoi de formulaire serait capté par le routeur de transitions de vue.
+ */
+function brancherRappel(contexte: () => { site: string; resume: string }) {
+  const form = document.getElementById('leadForm') as HTMLFormElement | null;
+  const champNom = document.getElementById('leadNom') as HTMLInputElement | null;
+  const champEmail = document.getElementById('leadEmail') as HTMLInputElement | null;
+  const bouton = document.getElementById('leadBtn') as HTMLButtonElement | null;
+  const statut = document.getElementById('leadStatut');
+
+  if (!form || !champNom || !champEmail || !bouton || !statut) return;
+  if (form.dataset.branche === 'oui') return;
+  form.dataset.branche = 'oui';
+
+  const dire = (texte: string, erreur = false) => {
+    statut.textContent = texte;
+    statut.style.color = erreur ? '#9C3226' : 'var(--color-sauge-text)';
+  };
+
+  async function envoyer() {
+    const email = champEmail!.value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) {
+      dire('Indiquez une adresse email valide.', true);
+      champEmail!.focus();
+      return;
+    }
+
+    bouton!.disabled = true;
+    const libelle = bouton!.querySelector('.lead-btn-label');
+    if (libelle) libelle.textContent = 'Envoi';
+    dire('');
+
+    const { site, resume } = contexte();
+
+    try {
+      const reponse = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email, nom: champNom!.value.trim(), site, resume }),
+      });
+      const donnees = await reponse.json();
+
+      if (!reponse.ok) {
+        dire(donnees?.erreur ?? "L'envoi n'a pas abouti.", true);
+        return;
+      }
+
+      form!.hidden = true;
+      dire('Merci. Je vous réponds sous 48 heures ouvrées, avec l’ordre dans lequel traiter ces points.');
+    } catch {
+      dire("L'envoi n'a pas abouti. Réessayez dans un instant.", true);
+    } finally {
+      bouton!.disabled = false;
+      const fin = bouton!.querySelector('.lead-btn-label');
+      if (fin) fin.textContent = 'Recevoir les priorités';
+    }
+  }
+
+  form.addEventListener('submit', (evenement) => {
+    evenement.preventDefault();
+    evenement.stopPropagation();
+    envoyer();
+  });
+  champEmail.addEventListener('keydown', (evenement) => {
+    if (evenement.key === 'Enter') { evenement.preventDefault(); envoyer(); }
+  });
+  bouton.addEventListener('click', envoyer);
 }
 
 brancherDiagnostic();

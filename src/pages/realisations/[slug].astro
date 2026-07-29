@@ -13,7 +13,7 @@ export function getStaticPaths() {
 
 const { realisation } = Astro.props;
 const {
-  nom, metier, ville, url, annee, titre, situation,
+  nom, metier, ville, url, annee, titre, accroche, situation,
   besoins, reponses, livre, outils, temoignage, images,
 } = realisation;
 
@@ -71,9 +71,12 @@ const filAriane = {
 const schema = [etudeDeCas, filAriane];
 ---
 
+<!-- Gabarits de title et de description calibrés pour rester sous 65 et 165
+     caractères, y compris avec un nom de commune long. L'accroche porte la
+     substance, la marque suit. -->
 <BaseLayout
-  title={`${nom}, ${metier} à ${ville}, réalisation Caelestis`}
-  description={`Étude de cas : ${titre.toLowerCase()}. Site vitrine et outils sur mesure réalisés par Caelestis pour ${nom}, ${metier.toLowerCase()} à ${ville}.`}
+  title={`${nom}, ${metier} à ${ville}`}
+  description={`${accroche} L'étude de cas complète, réalisée par Caelestis en ${annee}.`}
   canonical={`https://caelestis.fr/realisations/${realisation.slug}`}
   schema={schema}
 >
