@@ -269,125 +269,129 @@ function brancherDiagnostic() {
   const mesures   = document.getElementById('diagMesures');
   const constats  = document.getElementById('diagConstats');
 
-  if (form && champ && bouton && statut && resultats && entete && mesures && constats) {
-    if (form.dataset.branche === 'oui') return;
-    form.dataset.branche = 'oui';
-    const LIBELLE = { critique: 'Bloquant', moyen: 'Important', mineur: 'À corriger' } as const;
+  if (!form || !champ || !bouton || !statut || !resultats || !entete || !mesures || !constats) return;
+  if (form.dataset.branche === 'oui') return;
+  form.dataset.branche = 'oui';
+  const LIBELLE = { critique: 'Bloquant', moyen: 'Important', mineur: 'À corriger' } as const;
 
-    const message = (texte: string, erreur = false) => {
-      statut.textContent = texte;
-      statut.style.color = erreur ? '#9C3226' : 'var(--color-brun-mid)';
-    };
+  const message = (texte: string, erreur = false) => {
+    statut.textContent = texte;
+    statut.style.color = erreur ? '#9C3226' : 'var(--color-brun-mid)';
+  };
 
-    /* Le contenu vient du serveur mais reste inséré via textContent :
-       aucune chaîne renvoyée par l'analyse n'est interprétée comme du HTML. */
-    const bloc = (tag: string, classe: string, texte: string) => {
-      const el = document.createElement(tag);
-      el.className = classe;
-      el.textContent = texte;
-      return el;
-    };
+  /* Le contenu vient du serveur mais reste inséré via textContent :
+     aucune chaîne renvoyée par l'analyse n'est interprétée comme du HTML. */
+  const bloc = (tag: string, classe: string, texte: string) => {
+    const el = document.createElement(tag);
+    el.className = classe;
+    el.textContent = texte;
+    return el;
+  };
 
-    /* Ceinture et bretelles : si un envoi de formulaire survenait malgré
-       le bouton non soumettant, il ne doit jamais recharger la page. */
-    form.addEventListener('submit', (evenement) => {
+  /* Ceinture et bretelles : si un envoi de formulaire survenait malgré
+     le bouton non soumettant, il ne doit jamais recharger la page. */
+  form.addEventListener('submit', (evenement) => {
+    evenement.preventDefault();
+    evenement.stopPropagation();
+    lancerAnalyse();
+  });
+
+  champ.addEventListener('keydown', (evenement) => {
+    if (evenement.key === 'Enter') {
       evenement.preventDefault();
-      evenement.stopPropagation();
       lancerAnalyse();
-    });
+    }
+  });
 
-    champ.addEventListener('keydown', (evenement) => {
-      if (evenement.key === 'Enter') {
-        evenement.preventDefault();
-        lancerAnalyse();
-      }
-    });
+  bouton.addEventListener('click', lancerAnalyse);
 
-    bouton.addEventListener('click', lancerAnalyse);
+  async function lancerAnalyse() {
+    /* Redondant avec la garde d'entrée, mais nécessaire : une déclaration de
+       fonction étant remontée, le compilateur ne peut pas savoir qu'elle ne
+       s'exécute qu'après la vérification ci-dessus. */
+    if (!champ || !bouton || !resultats || !entete || !mesures || !constats) return;
 
-    async function lancerAnalyse() {
-      const url = champ.value.trim();
-      if (!url) { message("Indiquez l'adresse de votre site.", true); champ.focus(); return; }
+    const url = champ.value.trim();
+    if (!url) { message("Indiquez l'adresse de votre site.", true); champ.focus(); return; }
 
-      bouton.disabled = true;
-      const libelle = bouton.querySelector('.diag-btn-label');
-      if (libelle) libelle.textContent = 'Analyse en cours';
-      message('Mesure en cours, cela prend quelques secondes.');
-      resultats.hidden = true;
+    bouton.disabled = true;
+    const libelle = bouton.querySelector('.diag-btn-label');
+    if (libelle) libelle.textContent = 'Analyse en cours';
+    message('Mesure en cours, cela prend quelques secondes.');
+    resultats.hidden = true;
 
-      try {
-        const reponse = await fetch('/api/diagnostic', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ url }),
-        });
-        const donnees = await reponse.json();
+    try {
+      const reponse = await fetch('/api/diagnostic', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ url }),
+      });
+      const donnees = await reponse.json();
 
-        if (!reponse.ok && donnees?.erreur) { message(donnees.erreur, true); return; }
-        if (donnees?.etat === 'refuse') { message(donnees.raison, true); return; }
+      if (!reponse.ok && donnees?.erreur) { message(donnees.erreur, true); return; }
+      if (donnees?.etat === 'refuse') { message(donnees.raison, true); return; }
 
-        message('');
-        entete.textContent = '';
-        mesures.textContent = '';
-        constats.textContent = '';
+      message('');
+      entete.textContent = '';
+      mesures.textContent = '';
+      constats.textContent = '';
 
-        entete.appendChild(bloc('p', 'font-body text-xs tracking-[0.22em] uppercase text-sauge mb-2', 'Résultat'));
-        entete.appendChild(bloc('h2', 'font-display text-2xl md:text-3xl text-brun leading-tight', donnees.hote ?? url));
+      entete.appendChild(bloc('p', 'font-body text-xs tracking-[0.22em] uppercase text-sauge mb-2', 'Résultat'));
+      entete.appendChild(bloc('h2', 'font-display text-2xl md:text-3xl text-brun leading-tight', donnees.hote ?? url));
 
-        if (donnees.etat === 'injoignable') {
-          entete.appendChild(bloc('p', 'font-body text-base text-brun-mid mt-3', donnees.raison));
-          mesures.hidden = true;
-          resultats.hidden = false;
-          resultats.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          return;
-        }
-
-        if (donnees.etat === 'ok') {
-          const m = donnees.mesures;
-          const cases: [string, string][] = [
-            [`${(m.duree / 1000).toFixed(1)} s`, 'temps de réponse'],
-            [String(m.mots), "mots sur l'accueil"],
-            [String(m.images), `images, dont ${m.imagesSansAlt} sans description`],
-            [`${Math.round(m.poids / 1024)} Ko`, `de code, ${m.scripts} scripts externes`],
-          ];
-          for (const [valeur, legende] of cases) {
-            const li = document.createElement('li');
-            li.appendChild(bloc('b', '', valeur));
-            li.appendChild(document.createTextNode(legende));
-            mesures.appendChild(li);
-          }
-          mesures.hidden = false;
-        } else {
-          mesures.hidden = true;
-        }
-
-        const liste = donnees.constats ?? [];
-        const bloquants = liste.filter((c: any) => c.gravite === 'critique').length;
-
-        const titre = liste.length === 0
-          ? 'Aucun défaut technique majeur relevé sur la page d’accueil.'
-          : `${liste.length} point${liste.length > 1 ? 's' : ''} relevé${liste.length > 1 ? 's' : ''}${bloquants ? `, dont ${bloquants} bloquant${bloquants > 1 ? 's' : ''}` : ''}`;
-        constats.appendChild(bloc('h3', 'font-display text-xl text-brun mb-5', titre));
-
-        for (const c of liste) {
-          const item = document.createElement('div');
-          item.className = 'diag-constat';
-          item.setAttribute('data-gravite', c.gravite);
-          item.appendChild(bloc('span', 'diag-etiquette', LIBELLE[c.gravite as keyof typeof LIBELLE] ?? ''));
-          item.appendChild(bloc('p', 'diag-fait', c.fait));
-          item.appendChild(bloc('p', 'diag-consequence', c.consequence));
-          constats.appendChild(item);
-        }
-
+      if (donnees.etat === 'injoignable') {
+        entete.appendChild(bloc('p', 'font-body text-base text-brun-mid mt-3', donnees.raison));
+        mesures.hidden = true;
         resultats.hidden = false;
         resultats.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } catch {
-        message("L'analyse n'a pas abouti. Vérifiez l'adresse et réessayez.", true);
-      } finally {
-        bouton.disabled = false;
-        const libelleFin = bouton.querySelector('.diag-btn-label');
-        if (libelleFin) libelleFin.textContent = 'Analyser';
+        return;
       }
+
+      if (donnees.etat === 'ok') {
+        const m = donnees.mesures;
+        const cases: [string, string][] = [
+          [`${(m.duree / 1000).toFixed(1)} s`, 'temps de réponse'],
+          [String(m.mots), "mots sur l'accueil"],
+          [String(m.images), `images, dont ${m.imagesSansAlt} sans description`],
+          [`${Math.round(m.poids / 1024)} Ko`, `de code, ${m.scripts} scripts externes`],
+        ];
+        for (const [valeur, legende] of cases) {
+          const li = document.createElement('li');
+          li.appendChild(bloc('b', '', valeur));
+          li.appendChild(document.createTextNode(legende));
+          mesures.appendChild(li);
+        }
+        mesures.hidden = false;
+      } else {
+        mesures.hidden = true;
+      }
+
+      const liste = donnees.constats ?? [];
+      const bloquants = liste.filter((c: any) => c.gravite === 'critique').length;
+
+      const titre = liste.length === 0
+        ? 'Aucun défaut technique majeur relevé sur la page d’accueil.'
+        : `${liste.length} point${liste.length > 1 ? 's' : ''} relevé${liste.length > 1 ? 's' : ''}${bloquants ? `, dont ${bloquants} bloquant${bloquants > 1 ? 's' : ''}` : ''}`;
+      constats.appendChild(bloc('h3', 'font-display text-xl text-brun mb-5', titre));
+
+      for (const c of liste) {
+        const item = document.createElement('div');
+        item.className = 'diag-constat';
+        item.setAttribute('data-gravite', c.gravite);
+        item.appendChild(bloc('span', 'diag-etiquette', LIBELLE[c.gravite as keyof typeof LIBELLE] ?? ''));
+        item.appendChild(bloc('p', 'diag-fait', c.fait));
+        item.appendChild(bloc('p', 'diag-consequence', c.consequence));
+        constats.appendChild(item);
+      }
+
+      resultats.hidden = false;
+      resultats.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch {
+      message("L'analyse n'a pas abouti. Vérifiez l'adresse et réessayez.", true);
+    } finally {
+      bouton.disabled = false;
+      const libelleFin = bouton.querySelector('.diag-btn-label');
+      if (libelleFin) libelleFin.textContent = 'Analyser';
     }
   }
 }
