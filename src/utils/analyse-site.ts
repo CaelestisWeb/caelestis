@@ -370,9 +370,18 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
       'Un visiteur sur téléphone doit le recopier à la main, ce que beaucoup ne font pas.');
   }
 
-  if (!/<form[\s>]/i.test(html) && !/href=["']mailto:/i.test(html)) {
-    ajouter('critique', "Aucun formulaire ni adresse email cliquable sur la page d'accueil.",
-      "Un visiteur convaincu n'a aucun moyen simple de laisser une demande.");
+  /* Un chemin de conversion peut très bien vivre sur une page dédiée : un bouton
+     vers /contact ou /reservation compte autant qu'un formulaire sur l'accueil.
+     Ne compter que les formulaires produirait un faux bloquant sur des sites
+     parfaitement fonctionnels. */
+  const lienConversion =
+    /href=["'][^"']*\/?(contact|devis|reservation|reserver|rendez-vous|rdv|booking|prendre-rdv|nous-joindre)/i.test(html);
+  if (!/<form[\s>]/i.test(html) && !/href=["']mailto:/i.test(html) && !lienConversion) {
+    ajouter('critique', "Aucun moyen de vous contacter depuis la page d'accueil.",
+      "Ni formulaire, ni adresse email, ni lien vers une page de contact ou de rendez-vous. Un visiteur convaincu n'a aucun moyen simple de laisser une demande.");
+  } else if (!/<form[\s>]/i.test(html) && !/href=["']mailto:/i.test(html)) {
+    ajouter('mineur', "La page d'accueil renvoie vers une page de contact, sans formulaire direct.",
+      'Chaque clic supplémentaire avant le formulaire fait perdre une part des demandes.');
   }
 
   if (!/application\/ld\+json/i.test(html)) {
