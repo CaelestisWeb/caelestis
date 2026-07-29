@@ -1,0 +1,36 @@
+---
+/**
+ * PlanteFormulaire.astro : la tige qui pousse à mesure qu'un formulaire se remplit.
+ *
+ * Les trois formulaires de la page Contact affichaient chacun leur copie du
+ * même dessin. Le script d'animation cible les parties par identifiant
+ * (`${prefixe}-stem`, `-leaf-l`, `-leaf-r`, `-flower`) : le préfixe reste donc
+ * une propriété, et les identifiants produits sont exactement les mêmes.
+ */
+
+interface Props {
+  /** Préfixe des identifiants des parties animées : msg, appel, fp. */
+  prefixe: string;
+  /** Identifiant du conteneur, utilisé par le script de progression. */
+  id: string;
+}
+
+const { prefixe, id } = Astro.props;
+---
+
+<div id={id} aria-hidden="true" class="flex-shrink-0" style="width:50px;height:78px">
+  <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full overflow-visible">
+    <ellipse cx="40" cy="125" rx="18" ry="4.5" fill="rgba(78,100,64,0.12)"/>
+    <rect id={`${prefixe}-stem`} x="38" y="18" width="4" height="103" rx="2" fill="rgba(78,100,64,0.45)"/>
+    <ellipse id={`${prefixe}-leaf-l`} cx="26" cy="89" rx="16" ry="7" fill="rgba(78,100,64,0.28)" transform="rotate(-35 26 89)"/>
+    <ellipse id={`${prefixe}-leaf-r`} cx="54" cy="66" rx="16" ry="7" fill="rgba(78,100,64,0.22)" transform="rotate(35 54 66)"/>
+    <g id={`${prefixe}-flower`}>
+      <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(0   40 18)"/>
+      <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(72  40 18)"/>
+      <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(144 40 18)"/>
+      <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(216 40 18)"/>
+      <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(288 40 18)"/>
+      <circle cx="40" cy="18" r="5" fill="rgba(46, 116, 82,0.55)"/>
+    </g>
+  </svg>
+</div>

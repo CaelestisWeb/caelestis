@@ -1,5 +1,7 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PlanteFormulaire from '../components/PlanteFormulaire.astro';
+import FormulaireEnvoye from '../components/FormulaireEnvoye.astro';
 
 const breadcrumbContact = {
   '@context': 'https://schema.org',
@@ -143,31 +145,10 @@ const pageContact = {
                 <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-1.5">Message</p>
                 <p class="font-display text-2xl font-light text-brun">Une question&nbsp;?<br>Une demande&nbsp;?<br>N'hésitez pas&nbsp;!</p>
               </div>
-              <div id="plant-message" aria-hidden="true" class="flex-shrink-0" style="width:50px;height:78px">
-                <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full overflow-visible">
-                  <ellipse cx="40" cy="125" rx="18" ry="4.5" fill="rgba(78,100,64,0.12)"/>
-                  <rect id="msg-stem" x="38" y="18" width="4" height="103" rx="2" fill="rgba(78,100,64,0.45)"/>
-                  <ellipse id="msg-leaf-l" cx="26" cy="89" rx="16" ry="7" fill="rgba(78,100,64,0.28)" transform="rotate(-35 26 89)"/>
-                  <ellipse id="msg-leaf-r" cx="54" cy="66" rx="16" ry="7" fill="rgba(78,100,64,0.22)" transform="rotate(35 54 66)"/>
-                  <g id="msg-flower">
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(0   40 18)"/>
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(72  40 18)"/>
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(144 40 18)"/>
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(216 40 18)"/>
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(288 40 18)"/>
-                    <circle cx="40" cy="18" r="5" fill="rgba(46, 116, 82,0.55)"/>
-                  </g>
-                </svg>
-              </div>
+              <PlanteFormulaire id="plant-message" prefixe="msg" />
             </div>
 
-            <div id="success-message" role="status" aria-live="polite" class="hidden text-center py-12">
-              <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-5">
-                <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-              </div>
-              <p class="font-display text-xl font-light text-brun">Message envoyé !</p>
-              <p class="font-body text-sm text-brun-mid mt-2">Nous vous répondons sous 48h.</p>
-            </div>
+            <FormulaireEnvoye id="success-message" titre="Message envoyé !" suite="Nous vous répondons sous 48h." />
 
             <form id="form-message" class="space-y-5" novalidate>
               <input type="hidden" name="formType" value="message" />
@@ -233,31 +214,10 @@ const pageContact = {
                 <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-1.5">Appel</p>
                 <p class="font-display text-2xl font-light text-brun">Parlons-en<br>directement.</p>
               </div>
-              <div id="plant-appel" aria-hidden="true" class="flex-shrink-0" style="width:50px;height:78px">
-                <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full overflow-visible">
-                  <ellipse cx="40" cy="125" rx="18" ry="4.5" fill="rgba(78,100,64,0.12)"/>
-                  <rect id="appel-stem" x="38" y="18" width="4" height="103" rx="2" fill="rgba(78,100,64,0.45)"/>
-                  <ellipse id="appel-leaf-l" cx="26" cy="89" rx="16" ry="7" fill="rgba(78,100,64,0.28)" transform="rotate(-35 26 89)"/>
-                  <ellipse id="appel-leaf-r" cx="54" cy="66" rx="16" ry="7" fill="rgba(78,100,64,0.22)" transform="rotate(35 54 66)"/>
-                  <g id="appel-flower">
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(0   40 18)"/>
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(72  40 18)"/>
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(144 40 18)"/>
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(216 40 18)"/>
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(288 40 18)"/>
-                    <circle cx="40" cy="18" r="5" fill="rgba(46, 116, 82,0.55)"/>
-                  </g>
-                </svg>
-              </div>
+              <PlanteFormulaire id="plant-appel" prefixe="appel" />
             </div>
 
-            <div id="success-appel" role="status" aria-live="polite" class="hidden text-center py-12">
-              <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-5">
-                <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-              </div>
-              <p class="font-display text-xl font-light text-brun">Demande reçue !</p>
-              <p class="font-body text-sm text-brun-mid mt-2">Nous vous confirmons le créneau sous 48h.</p>
-            </div>
+            <FormulaireEnvoye id="success-appel" titre="Demande reçue !" suite="Nous vous confirmons le créneau sous 48h." />
 
             <form id="form-appel" class="space-y-5" novalidate>
               <input type="hidden" name="formType" value="appel" />
@@ -344,31 +304,10 @@ const pageContact = {
                 <p class="font-display text-2xl font-light text-brun">Votre projet,<br>chiffré sous 48h.</p>
               </div>
               <!-- Plante germinale -->
-              <div id="form-plant" aria-hidden="true" class="flex-shrink-0" style="width:50px;height:78px">
-                <svg viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full overflow-visible">
-                  <ellipse cx="40" cy="125" rx="18" ry="4.5" fill="rgba(78,100,64,0.12)"/>
-                  <rect id="fp-stem" x="38" y="18" width="4" height="103" rx="2" fill="rgba(78,100,64,0.45)"/>
-                  <ellipse id="fp-leaf-l" cx="26" cy="89" rx="16" ry="7" fill="rgba(78,100,64,0.28)" transform="rotate(-35 26 89)"/>
-                  <ellipse id="fp-leaf-r" cx="54" cy="66" rx="16" ry="7" fill="rgba(78,100,64,0.22)" transform="rotate(35 54 66)"/>
-                  <g id="fp-flower">
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(0   40 18)"/>
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(72  40 18)"/>
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(144 40 18)"/>
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(216 40 18)"/>
-                    <ellipse cx="40" cy="11" rx="5" ry="7.5" fill="rgba(46, 116, 82,0.28)" transform="rotate(288 40 18)"/>
-                    <circle cx="40" cy="18" r="5" fill="rgba(46, 116, 82,0.55)"/>
-                  </g>
-                </svg>
-              </div>
+              <PlanteFormulaire id="form-plant" prefixe="fp" />
             </div>
 
-            <div id="success-devis" role="status" aria-live="polite" class="hidden text-center py-12">
-              <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-5">
-                <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-              </div>
-              <p class="font-display text-xl font-light text-brun">Questionnaire envoyé !</p>
-              <p class="font-body text-sm text-brun-mid mt-2">Vérifiez votre boîte mail : votre questionnaire de devis vous y attend.</p>
-            </div>
+            <FormulaireEnvoye id="success-devis" titre="Questionnaire envoyé !" suite="Vérifiez votre boîte mail : votre questionnaire de devis vous y attend." />
 
             <form id="form-devis" class="space-y-5" novalidate>
               <input type="hidden" name="formType" value="devis" />

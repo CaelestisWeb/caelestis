@@ -1,0 +1,29 @@
+---
+/**
+ * FormulaireEnvoye.astro : le message de confirmation qui remplace un
+ * formulaire une fois l'envoi réussi.
+ *
+ * Masqué au chargement, il est révélé par bindForm() qui le retrouve par son
+ * identifiant. Le rôle « status » et aria-live annoncent la confirmation aux
+ * lecteurs d'écran sans déplacer le focus.
+ */
+
+interface Props {
+  /** Identifiant attendu par bindForm : success-message, success-appel, success-devis. */
+  id: string;
+  /** Confirmation, dans les mots du formulaire concerné. */
+  titre: string;
+  /** Ce qui se passe ensuite pour la personne. */
+  suite: string;
+}
+
+const { id, titre, suite } = Astro.props;
+---
+
+<div id={id} role="status" aria-live="polite" class="hidden text-center py-12">
+  <div class="w-12 h-12 rounded-full bg-sauge/15 flex items-center justify-center mx-auto mb-5">
+    <svg class="w-6 h-6 text-sauge" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+  </div>
+  <p class="font-display text-xl font-light text-brun">{titre}</p>
+  <p class="font-body text-sm text-brun-mid mt-2">{suite}</p>
+</div>
