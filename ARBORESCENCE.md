@@ -158,6 +158,10 @@ Seule correction sur le hero, qui ne relève pas de la structure : remplacer la 
 
 ## 5. Plan d'exécution, par rendement décroissant
 
+> **En attente au 29 juillet 2026, 21 h.** Une autre session refond le bloc tarifs de `/services` (235 lignes modifiées, non commitées, variantes explorées dans `variantes-tarifs.html`). Les ancres `#site-vitrine`, `#boutique-en-ligne` et `#site-sur-mesure` ont d'ailleurs été ajoutées volontairement le matin même (commit `5d59a5b`). **Ne pas commencer l'étape 1 avant que cette refonte soit commitée**, sous peine d'écraser du travail en cours sur le même fichier.
+>
+> Les deux approches se complètent et ne s'opposent pas : `/services` devient la page de comparaison des quatre formules, chaque page d'offre traite une intention de recherche distincte. C'est le modèle Junto.
+
 **Étape 1, la plus rentable : les trois pages d'offre manquantes.**
 `/services/site-vitrine`, `/services/boutique-en-ligne`, `/services/site-sur-mesure`. Même gabarit que `/site-une-page`, qui fonctionne déjà. Chacune avec son prix, sa FAQ propre, ses cas d'usage, son balisage `Service` et `Offer`. C'est la seule étape qui débloque un chiffre d'affaires aujourd'hui invisible.
 
