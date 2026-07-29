@@ -1,0 +1,255 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+import AppelFinal from '../../components/AppelFinal.astro';
+import { euros, formule } from '../../utils/tarifs';
+
+const canonical = 'https://caelestis.fr/services/site-vitrine';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${canonical}#service`,
+  name: 'Site vitrine',
+  serviceType: 'Création de site internet vitrine',
+  description:
+    "Création d'un site internet vitrine de plusieurs pages pour artisans, producteurs et indépendants : activité, services, réalisations et contact. Visible sur Google, à partir de 1 499,99 €.",
+  url: canonical,
+  provider: { '@id': 'https://caelestis.fr/#business' },
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' },
+    { '@type': 'Country', name: 'France' },
+  ],
+  offers: {
+    '@type': 'Offer',
+    priceSpecification: {
+      '@type': 'PriceSpecification',
+      price: '1499.99',
+      priceCurrency: 'EUR',
+      valueAddedTaxIncluded: true,
+      description: 'Prix de départ',
+    },
+  },
+};
+
+/* Les objections propres à cette formule : le nombre de pages, la frontière
+   avec la page unique, et ce qui se passe quand l'activité grandit. Elles se
+   posent en rendez-vous, autant y répondre avant. */
+const faq = [
+  {
+    q: 'Combien de pages comprend un site vitrine ?',
+    a: "Cinq à huit pages en général : votre activité, vos services détaillés, vos réalisations, qui vous êtes et le contact. Le nombre exact se décide ensemble au cadrage, à partir de ce que vous avez réellement à montrer. Une page qui n'a rien à dire dessert le site plutôt qu'elle ne le sert.",
+  },
+  {
+    q: 'Quelle différence avec la page unique ?',
+    a: "Une page unique présente une activité qui se raconte simplement. Le site vitrine devient nécessaire dès que vous avez plusieurs services distincts, plusieurs lieux, ou des réalisations à détailler. Chaque page peut alors se positionner sur sa propre recherche Google, ce qu'une page unique ne peut pas faire.",
+  },
+  {
+    q: 'Combien de temps avant la mise en ligne ?',
+    a: "Comptez trois à cinq semaines à partir du moment où nous avons vos contenus. Le délai dépend surtout de la disponibilité de vos textes et de vos photos, et de la rapidité des allers-retours de validation.",
+  },
+  {
+    q: 'Pourrai-je ajouter des pages plus tard ?',
+    a: "Oui. Le site est construit pour accueillir de nouvelles pages sans être refait. Vous ne payez que le travail de la page ajoutée, jamais une refonte complète.",
+  },
+  {
+    q: 'Puis-je modifier les textes moi-même ?',
+    a: "Vous nous écrivez et nous le faisons : les modifications de contenu courantes sont comprises dans la maintenance. Si vous préférez la main, un espace d'administration peut être ajouté, c'est alors un site sur mesure.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://caelestis.fr/services' },
+    { '@type': 'ListItem', position: 3, name: 'Site vitrine', item: canonical },
+  ],
+};
+
+/* Les pages qui composent un site vitrine, dans l'ordre où un visiteur les
+   parcourt. Le nombre s'ajuste, l'ordre beaucoup moins. */
+const pages = [
+  { t: 'Accueil', d: 'Votre promesse, ce que vous faites et pour qui, avec un chemin clair vers le contact.' },
+  { t: 'Vos services', d: "Une page par prestation quand elles sont distinctes : c'est ce qui permet d'être trouvé sur chacune." },
+  { t: 'Réalisations', d: 'Vos chantiers, vos produits, vos clients. La preuve que vous savez faire, en images et en mots.' },
+  { t: 'Qui sommes-nous', d: "Votre parcours, votre équipe, vos valeurs. C'est la page qui transforme un prestataire en personne." },
+  { t: 'Contact', d: 'Formulaire court, téléphone cliquable, adresse et itinéraire. Le moins de friction possible.' },
+];
+
+const inclus = [
+  'Plusieurs pages : activité, services, réalisations.',
+  'Formulaire de contact et coordonnées sur toutes les pages.',
+  'Les bases du référencement en place dès la mise en ligne.',
+  'Affichage soigné sur téléphone, tablette et ordinateur.',
+  'Votre fiche Google reliée au site.',
+];
+---
+
+<BaseLayout
+  title="Site vitrine, plusieurs pages dès 1 499,99 €, Caelestis"
+  description="Le site vitrine : plusieurs pages pour présenter votre activité, vos services et vos réalisations, dès 1 499,99 €. Visible sur Google, livré en trois à cinq semaines."
+  canonical={canonical}
+  schema={[schema, breadcrumb, faqSchema]}
+>
+
+  <!-- ── Hero ── -->
+  <section class="pt-20 pb-16 md:pt-24 px-6 md:px-10 lg:px-20 border-b border-cream-dark section-ambient overflow-hidden relative" style="isolation: isolate;">
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-20 -right-24 w-[420px] h-[420px]"></div>
+    <div aria-hidden="true" class="light-blob light-blob-ocre pointer-events-none absolute bottom-0 left-1/4 w-56 h-56"></div>
+
+    <div class="max-w-4xl mx-auto relative text-center">
+      <div class="inline-flex items-center gap-2 mb-6" data-reveal>
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Site vitrine, le plus demandé</p>
+      </div>
+      <h1
+        class="font-display font-light text-brun leading-[1.06] tracking-tight max-w-3xl mx-auto"
+        style="font-size: clamp(2.1rem, 5vw, 3.9rem);"
+        data-reveal data-delay="1"
+      >
+        Toute votre activité,<br class="hidden sm:block"> <span class="text-sauge">page après page.</span>
+      </h1>
+      <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed mx-auto" data-reveal data-delay="2">
+        Un site professionnel de plusieurs pages pour présenter votre activité, vos services et vos réalisations, et permettre à vos clients de vous joindre facilement.
+      </p>
+
+      <!-- Prix -->
+      <div class="mt-9 inline-flex flex-col items-center" data-reveal data-delay="2">
+        <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-1">À partir de</p>
+        <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.6rem, 6vw, 3.6rem); letter-spacing: -0.025em;">
+          <span class="text-sauge">{euros(formule('site-vitrine').prix)}</span><span class="text-bois-mid text-2xl ml-1">€</span>
+        </p>
+      </div>
+
+      <div class="mt-10 flex flex-wrap justify-center gap-4" data-reveal data-delay="3">
+        <Button href="/contact#devis" variant="primary">Demander un devis</Button>
+        <Button href="/simulateur" variant="outline">Estimer mon projet</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── En clair : c'est quoi ? ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-display font-light text-brun leading-tight mb-8" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);" data-reveal>
+        Un site qui a de la place<br class="hidden sm:block"> pour tout dire.
+      </h2>
+      <div class="space-y-5 font-body text-base text-brun-mid leading-relaxed" data-reveal data-delay="1">
+        <p>
+          Un site vitrine, ce sont plusieurs pages reliées entre elles, chacune consacrée à un sujet.
+          Un centre équestre y présente la pension, les cours, les installations, l'équipe et ses tarifs :
+          cinq pages, cinq occasions d'être trouvé sur Google.
+        </p>
+        <p>
+          C'est la différence avec <a href="/services/site-une-page" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">la page unique</a>,
+          qui présente une activité d'un seul tenant. Dès que vous avez plusieurs prestations distinctes,
+          chacune mérite sa page, sans quoi elles se font de l'ombre entre elles.
+        </p>
+        <p>
+          Si vous vendez des produits en ligne, c'est vers <a href="/services/boutique-en-ligne" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">la boutique</a> qu'il faut regarder.
+          Et si votre métier demande un outil particulier, réservation, configurateur ou espace client, ce sera <a href="/services/site-sur-mesure" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">un site sur mesure</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Les pages de votre site ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 bg-foret text-cream">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="font-display font-light leading-tight mb-4" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);" data-reveal>
+        Les pages de votre site.
+      </h2>
+      <p class="font-body text-base text-cream/70 leading-relaxed mb-12 max-w-2xl" data-reveal data-delay="1">
+        Cinq à huit pages en général. Le nombre se décide au cadrage, à partir de ce que vous avez réellement à montrer.
+      </p>
+
+      <ol class="space-y-0" role="list">
+        {pages.map((p, i) => (
+          <li class="grid grid-cols-[auto_1fr] gap-6 py-6 border-b border-cream/15" data-reveal data-delay={String(i % 3)}>
+            <span class="font-display text-cream/35 text-xl leading-none pt-1" style="font-variant-numeric: tabular-nums;">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div>
+              <h3 class="font-display text-lg text-cream mb-1.5">{p.t}</h3>
+              <p class="font-body text-sm text-cream/70 leading-relaxed">{p.d}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ── Ce qui est compris ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-display font-light text-brun leading-tight mb-10" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);" data-reveal>
+        Ce qui est compris.
+      </h2>
+
+      <ul class="space-y-4 mb-12" role="list">
+        {inclus.map((item, i) => (
+          <li class="flex items-start gap-4 font-body text-base text-brun-mid leading-relaxed" data-reveal data-delay={String(i % 3)}>
+            <svg aria-hidden="true" class="shrink-0 mt-1.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-sauge, #6B8F71);">
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="border-t border-cream-dark pt-8">
+        <p class="font-body text-sm text-brun-mid leading-relaxed">
+          <strong class="text-brun font-medium">Trois à cinq semaines</strong> entre le premier échange et la mise en ligne,
+          à partir du moment où nous avons vos contenus. Le devis annonce un prix ferme et une date, avant que le travail commence.
+          Voir <a href="/realisations" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">ce que nous avons déjà livré</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ : les objections propres à la formule ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-display font-light text-brun leading-tight mb-10" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);" data-reveal>
+        Ce qu'on nous demande souvent.
+      </h2>
+
+      <div class="divide-y divide-cream-dark border-y border-cream-dark">
+        {faq.map((f, i) => (
+          <details class="group py-5" data-reveal data-delay={String(i % 3)}>
+            <summary class="flex items-start justify-between gap-6 cursor-pointer list-none font-display text-lg text-brun leading-snug">
+              <span>{f.q}</span>
+              <span aria-hidden="true" class="shrink-0 mt-1 text-sauge transition-transform duration-300 group-open:rotate-45">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              </span>
+            </summary>
+            <p class="font-body text-base text-brun-mid leading-relaxed mt-4 pr-10">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <AppelFinal
+    titre="Votre activité mérite"
+    titreAccent="mieux qu'une page."
+    texte="Parlons de vos pages, de vos contenus et du calendrier. Devis gratuit, réponse sous 48 heures."
+    href="/contact#devis"
+    libelle="Demander un devis"
+  />
+
+</BaseLayout>

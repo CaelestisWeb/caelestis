@@ -1,0 +1,260 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+import AppelFinal from '../../components/AppelFinal.astro';
+import { euros, formule } from '../../utils/tarifs';
+
+const canonical = 'https://caelestis.fr/services/site-sur-mesure';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${canonical}#service`,
+  name: 'Site sur mesure',
+  serviceType: 'Création de site internet sur mesure',
+  description:
+    "Création d'un site internet sur mesure avec des fonctionnalités adaptées au métier : réservation, configurateur, espace client, et un travail de référencement approfondi. À partir de 3 499,99 €.",
+  url: canonical,
+  provider: { '@id': 'https://caelestis.fr/#business' },
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' },
+    { '@type': 'Country', name: 'France' },
+  ],
+  offers: {
+    '@type': 'Offer',
+    priceSpecification: {
+      '@type': 'PriceSpecification',
+      price: '3499.99',
+      priceCurrency: 'EUR',
+      valueAddedTaxIncluded: true,
+      description: 'Prix de départ',
+    },
+  },
+};
+
+/* Sur cette formule, le doute ne porte pas sur le produit mais sur le prix :
+   pourquoi il est ouvert, comment il se fixe, et à qui appartient ce qui est
+   construit. Y répondre ici évite un devis qui reste sans réponse. */
+const faq = [
+  {
+    q: "Qu'est-ce qui justifie un site sur mesure ?",
+    a: "Une fonctionnalité que les formules standard ne couvrent pas : réserver un créneau en ligne, configurer un produit et voir le prix évoluer, consulter un espace client, gérer plusieurs langues ou plusieurs établissements. Si votre besoin tient dans des pages classiques, le site vitrine suffira et coûtera moins cher.",
+  },
+  {
+    q: 'Comment le prix est-il fixé ?',
+    a: "Le prix de départ couvre un site complet avec une fonctionnalité principale sur mesure. Au-delà, chaque brique est chiffrée séparément après le cadrage, et le devis annonce un montant ferme avant que le travail commence. Aucun dépassement n'apparaît en cours de route : ce qui n'était pas prévu fait l'objet d'un avenant que vous validez.",
+  },
+  {
+    q: 'Combien de temps faut-il prévoir ?',
+    a: "Six à huit semaines pour un projet courant, davantage si les fonctionnalités sont nombreuses. Le calendrier est posé au cadrage, avec les dates auxquelles nous avons besoin de vos contenus et de vos validations. C'est votre disponibilité qui détermine le rythme, plus que la technique.",
+  },
+  {
+    q: 'À qui appartient le site une fois livré ?',
+    a: "À vous, entièrement, dès le paiement complet : le code, les contenus, le nom de domaine et les accès. Vous pouvez le confier à quelqu'un d'autre à tout moment, sans nous demander l'autorisation et sans rien racheter.",
+  },
+  {
+    q: 'Pourrai-je faire évoluer le site ensuite ?',
+    a: "Oui, c'est même l'intérêt du sur mesure : il est construit pour être repris. Les évolutions se chiffrent à l'heure ou au forfait selon leur ampleur, et la maintenance courante reste comprise dans l'abonnement.",
+  },
+  {
+    q: 'Un exemple concret de fonctionnalité sur mesure ?',
+    a: "Un salon de prothésie ongulaire de Crest réserve ses rendez-vous en ligne 24 heures sur 24, avec impossibilité de double réservation et rappels automatiques. Le détail de ce projet est publié dans nos réalisations, avec ce qui a été construit et ce que cela a changé.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://caelestis.fr/services' },
+    { '@type': 'ListItem', position: 3, name: 'Site sur mesure', item: canonical },
+  ],
+};
+
+/* Fonctionnalités déjà construites ou couramment demandées. Rien d'inventé :
+   la réservation et l'espace de gestion sont en service chez un client. */
+const possibles = [
+  { t: 'Réservation en ligne', d: "Créneaux, durées, acompte, rappels automatiques. En service chez un salon de Crest, ouvert jour et nuit." },
+  { t: 'Configurateur', d: "Le client compose son produit et voit le prix et le délai évoluer en direct. Utile en menuiserie, en mobilier, en aménagement." },
+  { t: 'Espace de gestion', d: "Vous modifiez vos contenus, vos tarifs ou vos disponibilités vous-même, sans nous solliciter." },
+  { t: 'Plusieurs lieux ou langues', d: "Une page par établissement, ou un site accessible dans plusieurs langues, sans dupliquer le travail." },
+  { t: 'Connexion à vos outils', d: "Agenda, logiciel de caisse, comptabilité : ce que vous utilisez déjà continue de fonctionner." },
+];
+
+const inclus = [
+  'Davantage de pages et de contenu.',
+  'Des fonctionnalités adaptées à votre métier.',
+  'Un travail de référencement approfondi.',
+  'Un cadrage détaillé avant la première ligne de code.',
+  'La propriété complète du site au paiement final.',
+];
+---
+
+<BaseLayout
+  title="Site sur mesure, fonctionnalités dédiées dès 3 499,99 €, Caelestis"
+  description="Le site sur mesure : réservation, configurateur, espace client et référencement approfondi, dès 3 499,99 €. Construit pour votre métier, livré en six à huit semaines."
+  canonical={canonical}
+  schema={[schema, breadcrumb, faqSchema]}
+>
+
+  <!-- ── Hero ── -->
+  <section class="pt-20 pb-16 md:pt-24 px-6 md:px-10 lg:px-20 border-b border-cream-dark section-ambient overflow-hidden relative" style="isolation: isolate;">
+    <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-20 -right-24 w-[420px] h-[420px]"></div>
+    <div aria-hidden="true" class="light-blob light-blob-ocre pointer-events-none absolute bottom-0 left-1/4 w-56 h-56"></div>
+
+    <div class="max-w-4xl mx-auto relative text-center">
+      <div class="inline-flex items-center gap-2 mb-6" data-reveal>
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-sauge"></span>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge">Site sur mesure, pour aller plus loin</p>
+      </div>
+      <h1
+        class="font-display font-light text-brun leading-[1.06] tracking-tight max-w-3xl mx-auto"
+        style="font-size: clamp(2.1rem, 5vw, 3.9rem);"
+        data-reveal data-delay="1"
+      >
+        Un site qui fait<br class="hidden sm:block"> <span class="text-sauge">ce que votre métier demande.</span>
+      </h1>
+      <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed mx-auto" data-reveal data-delay="2">
+        Quand une réservation, un configurateur ou un espace client change vraiment votre quotidien, le site se construit autour de cet outil plutôt que l'inverse.
+      </p>
+
+      <!-- Prix -->
+      <div class="mt-9 inline-flex flex-col items-center" data-reveal data-delay="2">
+        <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-1">À partir de</p>
+        <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.6rem, 6vw, 3.6rem); letter-spacing: -0.025em;">
+          <span class="text-sauge">{euros(formule('site-sur-mesure').prix)}</span><span class="text-bois-mid text-2xl ml-1">€</span>
+        </p>
+      </div>
+
+      <div class="mt-10 flex flex-wrap justify-center gap-4" data-reveal data-delay="3">
+        <Button href="/contact#devis" variant="primary">Demander un devis</Button>
+        <Button href="/simulateur" variant="outline">Estimer mon projet</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── En clair : c'est quoi ? ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-display font-light text-brun leading-tight mb-8" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);" data-reveal>
+        Quand le standard<br class="hidden sm:block"> ne suffit plus.
+      </h2>
+      <div class="space-y-5 font-body text-base text-brun-mid leading-relaxed" data-reveal data-delay="1">
+        <p>
+          Un atelier d'ébénisterie dont les clients veulent connaître le prix d'un meuble avant d'appeler.
+          Un salon qui perd des rendez-vous parce que personne ne décroche pendant une prestation.
+          Dans ces situations, ce n'est pas une page de plus qu'il faut : c'est un outil.
+        </p>
+        <p>
+          Le sur mesure part donc du problème, pas du site. Nous cadrons ce que l'outil doit faire,
+          ce qu'il doit empêcher, et qui s'en sert au quotidien. Le site se construit ensuite autour.
+        </p>
+        <p>
+          Si votre besoin tient dans des pages classiques, nous vous orientons vers
+          <a href="/services/site-vitrine" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">le site vitrine</a>,
+          et si vous vendez des produits, vers <a href="/services/boutique-en-ligne" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">la boutique</a>.
+          Le sur mesure ne se recommande que quand il se justifie.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Ce qu'on peut construire ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 bg-foret text-cream">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="font-display font-light leading-tight mb-4" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);" data-reveal>
+        Ce qu'on peut construire.
+      </h2>
+      <p class="font-body text-base text-cream/70 leading-relaxed mb-12 max-w-2xl" data-reveal data-delay="1">
+        Quelques exemples parmi les plus demandés. Le vôtre n'y figure probablement pas : c'est le principe.
+      </p>
+
+      <ol class="space-y-0" role="list">
+        {possibles.map((p, i) => (
+          <li class="grid grid-cols-[auto_1fr] gap-6 py-6 border-b border-cream/15" data-reveal data-delay={String(i % 3)}>
+            <span class="font-display text-cream/35 text-xl leading-none pt-1" style="font-variant-numeric: tabular-nums;">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div>
+              <h3 class="font-display text-lg text-cream mb-1.5">{p.t}</h3>
+              <p class="font-body text-sm text-cream/70 leading-relaxed">{p.d}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ── Ce qui est compris ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-display font-light text-brun leading-tight mb-10" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);" data-reveal>
+        Ce qui est compris.
+      </h2>
+
+      <ul class="space-y-4 mb-12" role="list">
+        {inclus.map((item, i) => (
+          <li class="flex items-start gap-4 font-body text-base text-brun-mid leading-relaxed" data-reveal data-delay={String(i % 3)}>
+            <svg aria-hidden="true" class="shrink-0 mt-1.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-sauge, #6B8F71);">
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="border-t border-cream-dark pt-8">
+        <p class="font-body text-sm text-brun-mid leading-relaxed">
+          <strong class="text-brun font-medium">Six à huit semaines</strong> pour un projet courant, davantage si les fonctionnalités sont nombreuses.
+          Le calendrier est posé au cadrage, avec les dates auxquelles nous avons besoin de vos contenus.
+          Voir <a href="/realisations/fee-des-ongles" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">un exemple de réservation sur mesure déjà en service</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ : les objections propres à la formule ── -->
+  <section class="py-20 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-display font-light text-brun leading-tight mb-10" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);" data-reveal>
+        Ce qu'on nous demande souvent.
+      </h2>
+
+      <div class="divide-y divide-cream-dark border-y border-cream-dark">
+        {faq.map((f, i) => (
+          <details class="group py-5" data-reveal data-delay={String(i % 3)}>
+            <summary class="flex items-start justify-between gap-6 cursor-pointer list-none font-display text-lg text-brun leading-snug">
+              <span>{f.q}</span>
+              <span aria-hidden="true" class="shrink-0 mt-1 text-sauge transition-transform duration-300 group-open:rotate-45">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              </span>
+            </summary>
+            <p class="font-body text-base text-brun-mid leading-relaxed mt-4 pr-10">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <AppelFinal
+    titre="Racontez-nous"
+    titreAccent="ce qui vous bloque."
+    texte="Un appel suffit pour savoir si le sur mesure se justifie, ou si une formule plus simple ferait l'affaire. Devis gratuit, réponse sous 48 heures."
+    href="/contact#devis"
+    libelle="Demander un devis"
+  />
+
+</BaseLayout>

@@ -17,8 +17,12 @@ export type Formule = {
   /** Prix de départ en euros, hors options. */
   prix: number;
   /**
-   * Où en savoir plus sur la formule. Depuis l'accueil, c'est cette
-   * destination : la page dédiée quand elle existe, sinon l'ancre dans Services.
+   * Où en savoir plus sur la formule : sa page dédiée.
+   *
+   * Les quatre formules en ont une depuis le 29/07/2026. Auparavant, trois
+   * d'entre elles n'étaient que des ancres dans la page Services : une ancre
+   * n'a ni titre, ni description, ni balisage, elle ne peut donc ni se
+   * positionner sur sa requête ni être citée par un moteur IA.
    */
   href: string;
   /**
@@ -45,8 +49,8 @@ export const FORMULES: readonly Formule[] = [
     id: 'page-unique',
     nom: 'Page unique',
     prix: 999.99,
-    href: '/site-une-page',
-    action: { href: '/site-une-page', libelle: "Découvrir l'offre" },
+    href: '/services/site-une-page',
+    action: { href: '/services/site-une-page', libelle: "Découvrir l'offre" },
     kicker: 'Pour démarrer',
     baseline: "L'essentiel de votre activité sur une seule page, pour démarrer simplement.",
     resume: "L'essentiel de votre activité sur une seule page qui défile, pour être présent vite et simplement.",
@@ -61,8 +65,8 @@ export const FORMULES: readonly Formule[] = [
     id: 'site-vitrine',
     nom: 'Site vitrine',
     prix: 1499.99,
-    href: '/services#site-vitrine',
-    action: { href: '/contact#devis', libelle: 'Demander un devis' },
+    href: '/services/site-vitrine',
+    action: { href: '/services/site-vitrine', libelle: "Découvrir l'offre" },
     kicker: 'Le plus demandé',
     baseline: 'Votre activité en ligne, claire et lisible sur tous les écrans.',
     resume: 'Un site professionnel pour présenter votre activité, vos services et permettre à vos clients de vous contacter facilement.',
@@ -78,8 +82,8 @@ export const FORMULES: readonly Formule[] = [
     id: 'boutique-en-ligne',
     nom: 'Boutique en ligne',
     prix: 2499.99,
-    href: '/services#boutique-en-ligne',
-    action: { href: '/contact#devis', libelle: 'Demander un devis' },
+    href: '/services/boutique-en-ligne',
+    action: { href: '/services/boutique-en-ligne', libelle: "Découvrir l'offre" },
     kicker: 'Pour vendre',
     baseline: 'Vendez vos produits depuis votre site, avec un paiement sécurisé.',
     resume: 'Vendez vos produits directement sur votre site grâce à une boutique simple, claire et facile à gérer au quotidien.',
@@ -94,8 +98,8 @@ export const FORMULES: readonly Formule[] = [
     id: 'site-sur-mesure',
     nom: 'Site sur mesure',
     prix: 3499.99,
-    href: '/services#site-sur-mesure',
-    action: { href: '/contact#devis', libelle: 'Demander un devis' },
+    href: '/services/site-sur-mesure',
+    action: { href: '/services/site-sur-mesure', libelle: "Découvrir l'offre" },
     kicker: 'Pour aller plus loin',
     baseline: 'Entièrement conçu selon vos besoins, votre identité et vos objectifs.',
     resume: 'Un site entièrement adapté à votre projet, avec davantage de contenu, de fonctionnalités et un travail SEO plus approfondi.',
