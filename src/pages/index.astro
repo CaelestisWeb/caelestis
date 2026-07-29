@@ -277,28 +277,7 @@ const organizationSchema = {
 };
 
 // ── Hero mobile (LCP) ──
-// Variantes générées UNE SEULE FOIS et réutilisées à l'identique par le <img> ET
-// le <link rel=preload> : garantit qu'un seul fichier est téléchargé (zéro doublon,
-// le preload ne concurrence plus l'image rendue). Largeurs plafonnées à la taille
-// réellement affichée (vignette ~364px), qualité 56 (photo décorative, petit format).
-const heroSm = await getImage({ src: imgHero, width: 340, format: 'webp', quality: 54 });
-const heroMd = await getImage({ src: imgHero, width: 440, format: 'webp', quality: 54 });
-const heroSrcset = `${heroSm.src} 340w, ${heroMd.src} 440w`;
-const heroSizes  = '(max-width: 640px) calc(100vw - 48px), 440px';
 
-/* Pixel transparent d'1 octet, servi comme source aux écrans qui n'affichent pas
-   la version concernée. Sans lui, le navigateur téléchargeait les DEUX variantes
-   du hero sur tous les appareils : ni display:none, ni loading="lazy", ni un
-   preload media-scopé n'empêchent le scanner de préchargement d'aller chercher
-   une image dont la balise porte un src. Une <source> qui ne correspond pas,
-   elle, n'est jamais chargée. Mesuré : 183 Ko avant, 65 Ko sur mobile après. */
-const PIXEL_VIDE = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-
-// ── Hero desktop (colonne droite, ≥1024px) ──
-const heroDeskMd = await getImage({ src: imgHero, width: 480, format: 'webp', quality: 55 });
-const heroDeskLg = await getImage({ src: imgHero, width: 640, format: 'webp', quality: 55 });
-const heroDeskSrcset = `${heroDeskMd.src} 480w, ${heroDeskLg.src} 640w`;
-const heroDeskSizes  = '42vw';
 
 ---
 <BaseLayout
@@ -306,26 +285,6 @@ const heroDeskSizes  = '42vw';
   description="Sites web soignés pour artisans, producteurs et indépendants, en Auvergne-Rhône-Alpes. Agence basée dans la Drôme. Devis gratuit, dès 999,99 €."
   schema={[localBusiness, organizationSchema, websiteSchema, faqSchema]}
 >
-
-  <!-- Preload hero image pour améliorer le LCP -->
-  <link
-    slot="head"
-    rel="preload"
-    as="image"
-    media="(max-width: 1023px)"
-    imagesrcset={heroSrcset}
-    imagesizes={heroSizes}
-    fetchpriority="high"
-  />
-  <link
-    slot="head"
-    rel="preload"
-    as="image"
-    media="(min-width: 1024px)"
-    imagesrcset={heroDeskSrcset}
-    imagesizes={heroDeskSizes}
-    fetchpriority="high"
-  />
 
   <!-- ─── FIL BOTANIQUE ─── -->
   <div class="vine-wrap" aria-hidden="true">
@@ -368,99 +327,48 @@ const heroDeskSizes  = '42vw';
            style="top: 40%; left: 38%; opacity: 0.4;"></div>
     </div>
 
-    <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center lg:items-stretch relative z-10">
+    <!-- Premier écran typographique : aucune photo. La respiration vient des
+         halos de lumière et du filet de réassurance, pas d'une image d'illustration.
+         Décision de Célestin le 29/07/2026, après relevé sur sept sites d'agence. -->
+    <div class="max-w-3xl mx-auto w-full text-center relative z-10">
 
-      <!-- Colonne gauche : texte -->
-      <div class="text-center flex flex-col">
+      <!-- Eyebrow -->
+      <p class="font-body text-xs tracking-[0.22em] uppercase mb-8 text-sauge" data-reveal>
+        Création de site web en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/30 underline-offset-2 hover:decoration-sauge transition-colors">Auvergne-Rhône-Alpes</a>
+      </p>
 
-        <!-- Eyebrow — ancré en haut -->
-        <p class="font-body text-xs tracking-[0.22em] uppercase mb-8 text-sauge" data-reveal>
-          Création de site web en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/30 underline-offset-2 hover:decoration-sauge transition-colors">Auvergne-Rhône-Alpes</a>
-        </p>
+      <!-- H1 : le titre porte désormais l'écran seul, il gagne en échelle sans
+           dépasser le plafond de 68 px fixé pour les titres. -->
+      <h1
+        class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-8 hero-title"
+        style="font-size: clamp(2.1rem, 5vw, 4.2rem);"
+      >
+        <span class="sl"><span>Valorisez votre activité</span></span>
+        <span class="sl"><span class="text-sauge whitespace-nowrap">avec votre site web.</span></span>
+      </h1>
 
-        <!-- Bloc principal — centré entre eyebrow et badges -->
-        <div class="flex-1 flex flex-col justify-center">
+      <!-- Sous-titre -->
+      <p class="font-body text-base md:text-lg leading-relaxed max-w-[34rem] mb-9 text-brun-mid mx-auto" data-reveal data-delay="1">
+        Obtenez une présence en ligne à la hauteur de votre travail.<br>
+        Pour les artisans, praticiens et indépendants qui créent, cultivent et bâtissent avec passion.
+      </p>
 
-          <!-- H1 -->
-          <h1
-            class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-7 hero-title"
-            style="font-size: clamp(2rem, 4.4vw, 3.8rem);"
-          >
-            <span class="sl"><span>Valorisez votre activité</span></span>
-            <span class="sl"><span class="text-sauge whitespace-nowrap">avec votre site web.</span></span>
-          </h1>
-
-          <!-- Sous-titre -->
-          <p class="font-body text-base leading-relaxed max-w-[500px] mb-5 text-brun-mid mx-auto" data-reveal data-delay="1">
-            Obtenez une présence en ligne à la hauteur de votre travail.<br>
-            Pour les artisans, praticiens et indépendants qui créent, cultivent et bâtissent avec passion.
-          </p>
-
-          <!-- Boutons CTA -->
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-3" data-reveal data-delay="2">
-            <Button href="/contact" variant="primary">Parler de mon projet</Button>
-            <Button href="/simulateur" variant="outline">Estimer mon projet</Button>
-          </div>
-
-        </div>
-
-        <!-- Réassurance — ancrée en bas. Couleur pleine (sans opacité) pour
-             rester au-dessus du seuil de contraste AA à cette taille. -->
-        <ul class="trust font-body mt-8" data-reveal data-delay="2">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Réponse sous 48h</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Devis gratuit, sans engagement</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Tarifs affichés, dès 1 000 €</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Le site vous appartient</li>
-        </ul>
-
+      <!-- Boutons CTA -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3" data-reveal data-delay="2">
+        <Button href="/contact" variant="primary">Parler de mon projet</Button>
+        <Button href="/simulateur" variant="outline">Estimer mon projet</Button>
       </div>
 
-      <!-- Colonne droite : photo éditoriale (desktop)
-           Le hero existe en deux versions, à deux endroits différents de la mise
-           en page. Masquer la seconde en CSS ne suffit pas : le navigateur la
-           télécharge quand même, et les deux fichiers partaient sur tous les
-           appareils (183 Ko au lieu de 65 sur mobile). D'où <picture> : une
-           source vide hors du bon écran, et le navigateur n'en charge qu'une. -->
-      <div class="hidden lg:flex items-center justify-center h-full">
-        <div class="img-zoom img-editorial w-full max-w-[500px]" style="height: min(72vh, 620px);">
-          <picture>
-            <source media="(max-width: 1023px)" srcset={PIXEL_VIDE} />
-            <source media="(min-width: 1024px)" srcset={heroDeskSrcset} sizes={heroDeskSizes} />
-            <img
-              src={heroDeskLg.src}
-              width="640"
-              height="794"
-              alt="Laptop ouvert dans un jardin verdoyant, création de site internet par Caelestis, Drôme"
-              class="w-full h-full object-cover object-center"
-              data-parallax
-              loading="eager"
-              fetchpriority="high"
-              decoding="async"
-            />
-          </picture>
-        </div>
-      </div>
+      <!-- Réassurance, posée sur un filet : sans photo, c'est ce filet qui
+           structure le bas de l'écran. Couleur pleine (sans opacité) pour rester
+           au-dessus du seuil de contraste AA à cette taille. -->
+      <ul class="trust trust-rule font-body mt-12 pt-7" data-reveal data-delay="2">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Réponse sous 48h</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Devis gratuit, sans engagement</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Tarifs affichés, dès 1 000 €</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Le site vous appartient</li>
+      </ul>
 
-    </div>
-
-    <!-- Photo hero mobile et tablette (même principe que ci-dessus) -->
-    <div class="lg:hidden mt-10 w-full max-w-xl mx-auto px-0">
-      <div class="img-zoom img-editorial overflow-hidden" style="aspect-ratio: 16/10; max-height: 360px; border-radius: 12px;">
-        <picture>
-          <source media="(min-width: 1024px)" srcset={PIXEL_VIDE} />
-          <source media="(max-width: 1023px)" srcset={heroSrcset} sizes={heroSizes} />
-          <img
-            src={heroMd.src}
-            width="440"
-            height="275"
-            alt="Laptop ouvert dans un jardin verdoyant, création de site internet par Caelestis, Drôme"
-            class="w-full h-full object-cover object-center"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-          />
-        </picture>
-      </div>
     </div>
 
     <!-- Scroll indicator -->
@@ -482,7 +390,7 @@ const heroDeskSizes  = '42vw';
         <li>Éco-constructeurs</li><li>Gîtes de charme</li><li>Espaces verts</li>
       </ul>
 
-      <!-- Galerie portfolio — 5 photos, 2 grandes + 3 petites -->
+      <!-- Galerie portfolio : 5 photos, une grande, trois petites, un bandeau bas -->
       <!-- Bento grid responsive : 2×2 mobile → bento desktop -->
       <div class="bento-gallery" data-reveal data-delay="1">
 
@@ -533,6 +441,22 @@ const heroDeskSizes  = '42vw';
             class="w-full h-full object-cover object-center"
             widths={[200, 400, 760]}
             sizes="(max-width: 767px) 50vw, (min-width: 1440px) 377px, 29vw"
+            loading="lazy"
+            quality={62}
+          />
+        </div>
+
+        <!-- Bureau au jardin : bandeau bas, cinquième photo de la planche.
+             Elle occupait le premier écran, elle a été redescendue ici où le
+             sujet, travailler au milieu du vivant, parle à ces métiers. -->
+        <div class="bento-cell bento-bureau img-zoom overflow-hidden">
+          <Image
+            src={imgHero}
+            alt="Ordinateur portable ouvert sur une table de bois, dans un jardin planté"
+            class="w-full h-full object-cover"
+            style="object-position: center 58%;"
+            widths={[400, 760, 1180]}
+            sizes="(max-width: 767px) calc(100vw - 48px), (min-width: 1440px) 1160px, 92vw"
             loading="lazy"
             quality={62}
           />
@@ -1054,6 +978,12 @@ const heroDeskSizes  = '42vw';
     min-height: 100vh;       /* fallback navigateurs anciens */
     min-height: 100dvh;      /* hauteur dynamique réelle (mobile) */
   }
+  /* Sans photo, un premier écran pleine hauteur laisse trop d'air autour du
+     texte sur grand écran. On le raccourcit pour que la section suivante
+     affleure : le vide est réduit et le scroll devient une invitation. */
+  @media (min-width: 1024px) {
+    .hero-screen { min-height: min(88vh, 820px); }
+  }
 
   /* ── Fil botanique — visible desktop uniquement ── */
   .vine-wrap {
@@ -1309,6 +1239,13 @@ const heroDeskSizes  = '42vw';
     list-style: none;
     padding: 0;
   }
+  /* Filet de séparation au-dessus de la réassurance. Il tient lieu de repère
+     structurel dans un premier écran sans image, et s'efface vers les bords
+     pour ne pas trancher la composition. */
+  .trust-rule {
+    border-top: 1px solid transparent;
+    border-image: linear-gradient(to right, transparent, var(--color-cream-dark) 22%, var(--color-cream-dark) 78%, transparent) 1;
+  }
   .trust li {
     display: inline-flex;
     align-items: center;
@@ -1354,26 +1291,28 @@ const heroDeskSizes  = '42vw';
   .bento-gallery {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 160px 160px;
+    grid-template-rows: 160px 160px 176px;
     gap: 8px;
   }
-  /* Mobile : 2×2 simple, toutes les cellules dans l'ordre naturel */
+  /* Mobile : 2×2, puis le bandeau du bureau sur toute la largeur */
   .bento-jardin  { grid-column: 1; grid-row: 1; }
   .bento-yoga    { grid-column: 2; grid-row: 1; }
   .bento-artisan { grid-column: 1; grid-row: 2; }
   .bento-bougies { grid-column: 2; grid-row: 2; }
+  .bento-bureau  { grid-column: 1 / 3; grid-row: 3; }
 
   /* Desktop : bento avec yoga portrait pleine hauteur */
   @media (min-width: 768px) {
     .bento-gallery {
       grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 210px 180px;
+      grid-template-rows: 210px 180px 268px;
       gap: 10px;
     }
     .bento-jardin  { grid-column: 1 / 3; grid-row: 1; }
     .bento-yoga    { grid-column: 3;     grid-row: 1 / 3; }
     .bento-artisan { grid-column: 1;     grid-row: 2; }
     .bento-bougies { grid-column: 2;     grid-row: 2; }
+    .bento-bureau  { grid-column: 1 / 4; grid-row: 3; }
   }
 
   .bento-cell {
