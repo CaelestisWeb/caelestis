@@ -52,11 +52,15 @@ const PUB_ACTIVE = PIXEL_META !== '';
         )}
       </div>
 
-      <!-- Boutons — refus aussi accessible que l'acceptation (CNIL) -->
+      <!-- Boutons : refuser doit être aussi simple ET aussi visible qu'accepter
+           (lignes directrices CNIL). Les deux boutons partagent donc exactement
+           la même forme, la même taille et le même poids visuel : deux aplats
+           pleins, seule la teinte les distingue. Ne jamais repasser l'un des
+           deux en bouton fantôme. -->
       <div class="flex items-center gap-3 flex-shrink-0">
         <button
           id="cookie-decline"
-          class="font-body text-[12px] font-medium text-brun-mid border border-cream-dark hover:border-brun hover:text-brun transition-colors duration-200 px-4 py-2 rounded-full cursor-pointer"
+          class="font-body text-[12px] font-medium text-cream bg-[#5C6259] hover:bg-[#454A43] transition-colors duration-200 px-5 py-2 rounded-full cursor-pointer"
         >
           {PUB_ACTIVE ? 'Tout refuser' : 'Refuser'}
         </button>
