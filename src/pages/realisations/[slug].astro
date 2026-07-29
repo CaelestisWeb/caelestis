@@ -17,15 +17,58 @@ const {
   besoins, reponses, livre, outils, temoignage, images,
 } = realisation;
 
-const schema = {
+const pageUrl = `https://caelestis.fr/realisations/${realisation.slug}`;
+
+// Une étude de cas est le contenu le plus cité par les moteurs IA quand on
+// leur demande « qui a déjà fait ce genre de site ». Elle est donc décrite
+// finement : qui a fait le travail (Caelestis, par identifiant partagé avec
+// toutes les autres pages), pour qui, où, avec quoi, et ce qui est en service.
+// Le témoignage n'est volontairement PAS balisé en Review : un avis publié sur
+// son propre site à son propre sujet n'est pas reconnu par les moteurs, et le
+// baliser ainsi serait au mieux ignoré, au pire trompeur.
+const etudeDeCas = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
+  '@id': `${pageUrl}#etude-de-cas`,
   name: titre,
-  about: `${metier}, ${ville}`,
-  dateCreated: String(annee),
-  url: `https://caelestis.fr/realisations/${realisation.slug}`,
-  creator: { '@type': 'Organization', name: 'Caelestis', url: 'https://caelestis.fr' },
+  headline: titre,
+  description: situation,
+  url: pageUrl,
+  mainEntityOfPage: pageUrl,
+  inLanguage: 'fr-FR',
+  dateCreated: `${annee}-01-01`,
+  datePublished: `${annee}-01-01`,
+  ...(images[0] ? { image: new URL(images[0].src.src, 'https://caelestis.fr').href } : {}),
+  creator: { '@id': 'https://caelestis.fr/#business' },
+  author: { '@id': 'https://caelestis.fr/#business' },
+  keywords: outils.join(', '),
+  about: {
+    '@type': 'LocalBusiness',
+    name: nom,
+    description: metier,
+    url,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: ville,
+      addressRegion: 'Drôme',
+      addressCountry: 'FR',
+    },
+  },
+  // Ce qui est réellement en service aujourd'hui, constatable par n'importe qui.
+  workExample: livre.map((element) => ({ '@type': 'CreativeWork', name: element })),
 };
+
+const filAriane = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Réalisations', item: 'https://caelestis.fr/realisations' },
+    { '@type': 'ListItem', position: 3, name: nom, item: pageUrl },
+  ],
+};
+
+const schema = [etudeDeCas, filAriane];
 ---
 
 <BaseLayout

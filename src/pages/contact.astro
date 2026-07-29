@@ -10,11 +10,49 @@ const breadcrumbContact = {
   ],
 };
 
+// Quand un moteur IA répond « comment les joindre », c'est cette page qu'il
+// doit pouvoir citer avec les bonnes coordonnées. Elles sont donc déclarées
+// ici, rattachées à l'entité unique du site par son identifiant, et non
+// redéclarées en double : une seule entreprise, une seule fiche.
+const pageContact = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  '@id': 'https://caelestis.fr/contact#page',
+  url: 'https://caelestis.fr/contact',
+  name: 'Contacter Caelestis',
+  description:
+    'Demander un devis gratuit pour la création d\'un site internet ou une prestation de référencement naturel. Réponse sous 48 heures.',
+  inLanguage: 'fr-FR',
+  mainEntity: {
+    '@type': 'ProfessionalService',
+    '@id': 'https://caelestis.fr/#business',
+    name: 'Caelestis',
+    url: 'https://caelestis.fr',
+    email: 'contact@caelestis.fr',
+    telephone: '+33769362727',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Crest',
+      addressRegion: 'Drôme',
+      postalCode: '26400',
+      addressCountry: 'FR',
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'Demande de devis',
+      email: 'contact@caelestis.fr',
+      telephone: '+33769362727',
+      availableLanguage: 'fr',
+      areaServed: 'FR',
+    },
+  },
+};
+
 ---
 <BaseLayout
   title="Devis création de site internet, Contacter Caelestis"
   description="Discutons de votre projet. Devis gratuit et personnalisé pour votre site internet ou votre référencement SEO, partout en France. Réponse garantie sous 48h."
-  schema={[breadcrumbContact]}
+  schema={[breadcrumbContact, pageContact]}
 >
 
   <!-- ─── INTRO ÉDITORIALE ─── -->
