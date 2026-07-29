@@ -20,8 +20,7 @@ export default defineConfig({
         !page.includes('/demos/') &&
         !page.includes('/api/') &&
         !page.includes('/questionnaire-client') &&
-        !page.includes('/questionnaire-devis') &&
-        !page.includes('/maintenance'),
+        !page.includes('/questionnaire-devis'),
       changefreq: 'monthly',
       priority: 0.7,
       // Priorités différenciées par importance stratégique

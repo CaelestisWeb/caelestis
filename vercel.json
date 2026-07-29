@@ -118,7 +118,7 @@
       ]
     },
     {
-      "source": "/(cgv|mentions-legales|politique-confidentialite|demos/.*|questionnaire-devis|questionnaire-client|maintenance)",
+      "source": "/(cgv|mentions-legales|politique-confidentialite|demos/.*|questionnaire-devis|questionnaire-client)",
       "headers": [
         {
           "key": "X-Robots-Tag",
