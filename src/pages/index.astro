@@ -8,7 +8,7 @@ import imgBougies     from '../assets/images/bougies-artisan.jpg';
 import imgYoga        from '../assets/images/yoga-soleil.jpg';
 import imgJardin      from '../assets/images/jardin-communautaire.jpg';
 import { realisations } from '../data/realisations';
-import { mentionMensuelle, formule } from '../utils/tarifs';
+import { euros, formule } from '../utils/tarifs';
 
 const localBusiness = {
   '@context': 'https://schema.org',
@@ -69,7 +69,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '999',
+          price: '999.99',
           priceCurrency: 'EUR',
         },
       },
@@ -82,7 +82,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '1499',
+          price: '1499.99',
           priceCurrency: 'EUR',
         },
       },
@@ -95,7 +95,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '2499',
+          price: '2499.99',
           priceCurrency: 'EUR',
         },
       },
@@ -108,7 +108,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '3499',
+          price: '3499.99',
           priceCurrency: 'EUR',
         },
       },
@@ -208,11 +208,7 @@ const faqs = [
   },
   {
     q: 'Suis-je engagé sur la durée ?',
-    a: 'La création se règle une seule fois, en deux versements : 30 % à la signature, le solde à la mise en ligne. Vous pouvez aussi choisir de l\'étaler sur 3 ou 6 mensualités. La maintenance est un abonnement mensuel dès 7,99 €, résiliable quand vous le souhaitez avec un mois de préavis.',
-  },
-  {
-    q: 'Puis-je payer mon site en plusieurs fois ?',
-    a: 'Oui. Chaque formule peut être réglée en une seule fois. Sinon, vous versez 30 % à la signature du devis, puis le solde en 3 ou 6 mensualités, sans frais ni intérêts : le montant total reste celui du devis. Le détail formule par formule est affiché sur la page Services.',
+    a: 'La création se règle une seule fois, en deux versements : 30 % à la signature, le solde à la mise en ligne. La maintenance est un abonnement mensuel dès 7,99 €, résiliable quand vous le souhaitez avec un mois de préavis.',
   },
   {
     q: 'Combien de temps ce projet va-t-il me demander ?',
@@ -305,7 +301,7 @@ const heroDeskSizes  = '42vw';
 ---
 <BaseLayout
   title="Création de site internet, Caelestis, Drôme & France"
-  description="Sites web soignés pour artisans, producteurs et indépendants, en Auvergne-Rhône-Alpes. Agence basée dans la Drôme. Devis gratuit, dès 999 €."
+  description="Sites web soignés pour artisans, producteurs et indépendants, en Auvergne-Rhône-Alpes. Agence basée dans la Drôme. Devis gratuit, dès 999,99 €."
   schema={[localBusiness, organizationSchema, websiteSchema, faqSchema]}
 >
 
@@ -411,7 +407,7 @@ const heroDeskSizes  = '42vw';
         <ul class="trust font-body mt-8" data-reveal data-delay="2">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Réponse sous 48h</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Devis gratuit, sans engagement</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Tarifs affichés, dès 999 €</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Tarifs affichés, dès 999,99 €</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Le site vous appartient</li>
         </ul>
 
@@ -741,11 +737,11 @@ const heroDeskSizes  = '42vw';
           <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid">À partir de</p>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-[0.82fr_1fr_1.22fr_1.4fr] gap-x-5 gap-y-9 sm:gap-x-7 lg:gap-x-9 border-t border-brun/60 pt-7">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-5 gap-y-9 sm:gap-x-7 lg:gap-x-9 border-t border-brun/60 pt-7">
 
-          <a href="/site-une-page" class="plan-item flex flex-col">
-            <div class="h-[124px] sm:h-[212px]">
-              <div aria-hidden="true" class="plan-frame h-[104px] sm:h-[124px]">
+          <a href="/site-une-page" class="plan-item flex flex-col items-center text-center">
+            <div class="h-[124px] sm:h-[212px] w-full flex items-end">
+              <div aria-hidden="true" class="plan-frame w-full h-[104px] sm:h-[124px]">
               <div class="bg-sauge-pale h-1.5"></div>
               <div class="bg-sauge-pale flex-1"></div>
               <div class="bg-sauge-pale h-[3px] w-4/5"></div>
@@ -755,13 +751,12 @@ const heroDeskSizes  = '42vw';
             </div>
             <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Page unique</h3>
             <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">L'essentiel de votre activité sur une seule page, pour démarrer simplement.</p>
-            <p class="font-body text-sm font-medium text-sauge mt-auto">999 €</p>
-            <p class="font-body text-xs text-brun-mid mt-0.5">{mentionMensuelle(formule('page-unique').prix)}</p>
+            <p class="font-body text-sm font-medium text-sauge mt-auto">{euros(formule('page-unique').prix)}&nbsp;€</p>
           </a>
 
-          <a href="/services#site-vitrine" class="plan-item flex flex-col">
-            <div class="h-[124px] sm:h-[212px]">
-              <div aria-hidden="true" class="plan-frame h-[124px] sm:h-[152px]">
+          <a href="/services#site-vitrine" class="plan-item flex flex-col items-center text-center">
+            <div class="h-[124px] sm:h-[212px] w-full flex items-end">
+              <div aria-hidden="true" class="plan-frame w-full h-[124px] sm:h-[152px]">
               <div class="flex gap-1">
                 <div class="bg-sauge-pale h-1.5 flex-1"></div>
                 <div class="bg-sauge-pale h-1.5 flex-1"></div>
@@ -779,13 +774,12 @@ const heroDeskSizes  = '42vw';
             </div>
             <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Site vitrine</h3>
             <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Votre activité en ligne, claire et lisible sur tous les écrans.</p>
-            <p class="font-body text-sm font-medium text-sauge mt-auto">1 499 €</p>
-            <p class="font-body text-xs text-brun-mid mt-0.5">{mentionMensuelle(formule('site-vitrine').prix)}</p>
+            <p class="font-body text-sm font-medium text-sauge mt-auto">{euros(formule('site-vitrine').prix)}&nbsp;€</p>
           </a>
 
-          <a href="/services#boutique-en-ligne" class="plan-item flex flex-col">
-            <div class="h-[168px] sm:h-[212px]">
-              <div aria-hidden="true" class="plan-frame h-[146px] sm:h-[182px]">
+          <a href="/services#boutique-en-ligne" class="plan-item flex flex-col items-center text-center">
+            <div class="h-[168px] sm:h-[212px] w-full flex items-end">
+              <div aria-hidden="true" class="plan-frame w-full h-[146px] sm:h-[182px]">
               <div class="flex gap-1">
                 <div class="bg-sauge-pale h-1.5 flex-1"></div>
                 <div class="bg-sauge-pale h-1.5 flex-1"></div>
@@ -806,13 +800,12 @@ const heroDeskSizes  = '42vw';
             </div>
             <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Boutique en ligne</h3>
             <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Vendez vos produits depuis votre site, avec un paiement sécurisé.</p>
-            <p class="font-body text-sm font-medium text-sauge mt-auto">2 499 €</p>
-            <p class="font-body text-xs text-brun-mid mt-0.5">{mentionMensuelle(formule('boutique-en-ligne').prix)}</p>
+            <p class="font-body text-sm font-medium text-sauge mt-auto">{euros(formule('boutique-en-ligne').prix)}&nbsp;€</p>
           </a>
 
-          <a href="/services#site-sur-mesure" class="plan-item flex flex-col">
-            <div class="h-[168px] sm:h-[212px]">
-              <div aria-hidden="true" class="plan-frame h-[168px] sm:h-[212px]">
+          <a href="/services#site-sur-mesure" class="plan-item flex flex-col items-center text-center">
+            <div class="h-[168px] sm:h-[212px] w-full flex items-end">
+              <div aria-hidden="true" class="plan-frame w-full h-[168px] sm:h-[212px]">
               <div class="flex gap-1.5 h-10">
                 <div class="bg-sauge-pale w-[62%]"></div>
                 <div class="flex-1 border border-dashed border-sauge"></div>
@@ -833,8 +826,7 @@ const heroDeskSizes  = '42vw';
             </div>
             <h3 class="font-display text-lg font-light text-brun mt-4 mb-1">Site sur mesure</h3>
             <p class="font-body text-xs text-brun-mid leading-relaxed mb-2">Entièrement conçu selon vos besoins, votre identité et vos objectifs.</p>
-            <p class="font-body text-sm font-medium text-sauge mt-auto">3 499 €</p>
-            <p class="font-body text-xs text-brun-mid mt-0.5">{mentionMensuelle(formule('site-sur-mesure').prix)}</p>
+            <p class="font-body text-sm font-medium text-sauge mt-auto">{euros(formule('site-sur-mesure').prix)}&nbsp;€</p>
           </a>
 
         </div>
@@ -846,15 +838,9 @@ const heroDeskSizes  = '42vw';
       </div>
 
       <!-- Note de modalité — rassurance sur le paiement -->
-      <div class="text-center mt-10 max-w-xl mx-auto" data-reveal data-delay="2">
-        <p class="font-body text-xs sm:text-sm font-semibold text-sauge">
-          30&nbsp;% d'acompte à la signature, solde à la mise en ligne.
-        </p>
-        <p class="font-body text-xs sm:text-sm text-brun-mid mt-2.5 leading-relaxed">
-          Vous préférez lisser la dépense ? Le solde peut être réparti en 3 ou 6 mensualités, sans frais ni intérêts. Les montants indiqués correspondent à 6 mois.
-          <a href="/services#paiement" class="text-[#2E7452] hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">Voir les mensualités</a>
-        </p>
-      </div>
+      <p class="font-body text-xs sm:text-sm font-semibold text-sauge text-center mt-10" data-reveal data-delay="2">
+        30&nbsp;% d'acompte à la signature, solde à la mise en ligne.
+      </p>
 
       <!-- Être trouvé sur Google : les deux prestations, visibles dès l'accueil -->
       <div class="mt-14 text-center" data-reveal data-delay="2">

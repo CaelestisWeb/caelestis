@@ -234,12 +234,12 @@ const MAX_SCORE: Record<string, number> = {
 
 type PriceZone = { low: number; high: number };
 const PRICE_ZONES: Record<string, [PriceZone, PriceZone, PriceZone, PriceZone]> = {
-  // Site une page : offre a prix fixe 999 € (toutes les zones identiques)
+  // Site une page : offre a prix fixe 999,99 € (toutes les zones identiques)
   pageUnique: [
-    { low: 999, high: 999 },
-    { low: 999, high: 999 },
-    { low: 999, high: 999 },
-    { low: 999, high: 999 },
+    { low: 999.99, high: 999.99 },
+    { low: 999.99, high: 999.99 },
+    { low: 999.99, high: 999.99 },
+    { low: 999.99, high: 999.99 },
   ],
   vitrine: [
     { low: 1499, high: 1700 },

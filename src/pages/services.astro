@@ -1,8 +1,7 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
-import PaiementEchelonne from '../components/PaiementEchelonne.astro';
-import { mentionMensuelle, formule } from '../utils/tarifs';
+import { euros, formule } from '../utils/tarifs';
 
 const servicesSchema = {
   '@context': 'https://schema.org',
@@ -25,7 +24,7 @@ const servicesSchema = {
           '@type': 'Offer',
           priceSpecification: {
             '@type': 'PriceSpecification',
-            price: '1499',
+            price: '1499.99',
             priceCurrency: 'EUR',
           },
         },
@@ -44,7 +43,7 @@ const servicesSchema = {
           '@type': 'Offer',
           priceSpecification: {
             '@type': 'PriceSpecification',
-            price: '2499',
+            price: '2499.99',
             priceCurrency: 'EUR',
           },
         },
@@ -97,7 +96,7 @@ const servicesSchema = {
           '@type': 'Offer',
           priceSpecification: {
             '@type': 'PriceSpecification',
-            price: '999',
+            price: '999.99',
             priceCurrency: 'EUR',
           },
         },
@@ -124,7 +123,7 @@ const etapes = [
   {
     num: '02',
     title: 'Définir vos besoins',
-    desc: "À partir de nos échanges, nous vous proposons une solution adaptée à votre activité. Le devis détaille simplement ce qui sera réalisé et vous permet d'avancer en toute sérénité. Après signature du devis, un acompte de 30 % permet de lancer la création de votre site. Le reste est réglé une fois le site terminé et validé ensemble, ou étalé en 3 ou 6 mensualités si vous préférez lisser la dépense."
+    desc: "À partir de nos échanges, nous vous proposons une solution adaptée à votre activité. Le devis détaille simplement ce qui sera réalisé et vous permet d'avancer en toute sérénité. Après signature du devis, un acompte de 30 % permet de lancer la création de votre site. Le reste est réglé une fois le site terminé et validé ensemble."
   },
   {
     num: '03',
@@ -145,7 +144,7 @@ const etapes = [
 ---
 <BaseLayout
   title="Création de site internet, Tarifs & Services, Caelestis"
-  description="Site une page dès 999 €, vitrine dès 1 499 €, boutique dès 2 499 €, sur mesure dès 3 499 €. Paiement possible en 3 ou 6 fois. Devis gratuit sous 48h."
+  description="Site une page dès 999,99 €, vitrine dès 1 499,99 €, boutique dès 2 499,99 €, sur mesure dès 3 499,99 €. Devis gratuit sous 48h."
   schema={[servicesSchema, breadcrumbServices]}
 >
 
@@ -235,7 +234,7 @@ const etapes = [
                   <div class="mk-meta">
                     <span>Réponse sous 48h</span>
                     <span>Devis gratuit</span>
-                    <span>À partir de 999 €</span>
+                    <span>À partir de 999,99 €</span>
                   </div>
                 </div>
                 <div class="mk-hero-img">
@@ -561,9 +560,8 @@ const etapes = [
             <div class="shrink-0 text-center sm:text-right">
               <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-1">À partir de</p>
               <p class="font-display font-light text-brun leading-none mb-1.5" style="font-size: clamp(2rem, 4vw, 2.6rem); letter-spacing: -0.025em;">
-                <span class="text-sauge">999</span><span class="text-bois-mid text-lg ml-0.5">€</span>
+                <span class="text-sauge">{euros(formule('page-unique').prix)}</span><span class="text-bois-mid text-lg ml-0.5">€</span>
               </p>
-              <p class="font-body text-xs text-brun-mid mb-3">{mentionMensuelle(formule('page-unique').prix)}</p>
               <span class="inline-flex items-center gap-1.5 font-body text-sm font-medium text-sauge group-hover:gap-2.5 transition-all">
                 Découvrir l'offre <span aria-hidden="true">→</span>
               </span>
@@ -581,9 +579,8 @@ const etapes = [
             <div class="mb-5">
               <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-1">À partir de</p>
               <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.4rem, 5vw, 3.5rem); letter-spacing: -0.025em;">
-                <span class="text-sauge">1&nbsp;499</span><span class="text-bois-mid text-2xl ml-0.5">€</span>
+                <span class="text-sauge">{euros(formule('site-vitrine').prix)}</span><span class="text-bois-mid text-2xl ml-0.5">€</span>
               </p>
-              <p class="font-body text-xs text-brun-mid mt-2">{mentionMensuelle(formule('site-vitrine').prix)}</p>
             </div>
             <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
               Un site professionnel pour présenter votre activité, vos services et permettre à vos clients de vous contacter facilement.
@@ -596,9 +593,8 @@ const etapes = [
             <div class="mb-5">
               <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-1">À partir de</p>
               <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.4rem, 5vw, 3.5rem); letter-spacing: -0.025em;">
-                <span class="text-sauge">2&nbsp;499</span><span class="text-bois-mid text-2xl ml-0.5">€</span>
+                <span class="text-sauge">{euros(formule('boutique-en-ligne').prix)}</span><span class="text-bois-mid text-2xl ml-0.5">€</span>
               </p>
-              <p class="font-body text-xs text-brun-mid mt-2">{mentionMensuelle(formule('boutique-en-ligne').prix)}</p>
             </div>
             <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
               Vendez vos produits directement sur votre site grâce à une boutique simple, claire et facile à gérer au quotidien.
@@ -611,9 +607,8 @@ const etapes = [
             <div class="mb-5">
               <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-1">À partir de</p>
               <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.4rem, 5vw, 3.5rem); letter-spacing: -0.025em;">
-                <span class="text-sauge">3&nbsp;499</span><span class="text-bois-mid text-2xl ml-0.5">€</span>
+                <span class="text-sauge">{euros(formule('site-sur-mesure').prix)}</span><span class="text-bois-mid text-2xl ml-0.5">€</span>
               </p>
-              <p class="font-body text-xs text-brun-mid mt-2">{mentionMensuelle(formule('site-sur-mesure').prix)}</p>
             </div>
             <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
               Un site entièrement adapté à votre projet, avec davantage de contenu, de fonctionnalités et un travail SEO plus approfondi.
@@ -628,15 +623,10 @@ const etapes = [
             Après avoir échangé sur votre projet, nous vous transmettons un devis détaillé et personnalisé. Le tarif dépend de la structure du site, du nombre de pages, du contenu à mettre en valeur et des fonctionnalités envisagées.
           </p>
           <p class="font-body text-sm font-semibold text-sauge leading-relaxed mt-5">
-            30&nbsp;% d'acompte à la signature, puis le solde à la mise en ligne ou étalé sur 3 ou 6 mois.
+            30&nbsp;% d'acompte à la signature, solde à la mise en ligne.
           </p>
         </div>
 
-      </div>
-
-      <!-- Paiement échelonné : le même prix, réparti dans le temps -->
-      <div id="paiement" class="scroll-mt-28 mt-16 lg:mt-20 pt-14 lg:pt-16 border-t border-cream-dark max-w-5xl mx-auto" data-reveal data-delay="2">
-        <PaiementEchelonne />
       </div>
 
     </div>

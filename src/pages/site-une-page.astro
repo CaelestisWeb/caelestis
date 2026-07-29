@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
-import { mentionMensuelle, formule } from '../utils/tarifs';
+import { euros, formule } from '../utils/tarifs';
 
 const canonical = 'https://caelestis.fr/site-une-page';
 
@@ -10,7 +10,7 @@ const schema = {
   '@type': 'Service',
   name: 'Page unique',
   serviceType: 'Création de site internet une page',
-  description: "Création d'un site internet professionnel en une seule page pour artisans, producteurs et indépendants. L'essentiel de votre activité, soigné et visible sur Google, à partir de 999 €.",
+  description: "Création d'un site internet professionnel en une seule page pour artisans, producteurs et indépendants. L'essentiel de votre activité, soigné et visible sur Google, à partir de 999,99 €.",
   provider: {
     '@type': 'LocalBusiness',
     '@id': 'https://caelestis.fr/#business',
@@ -26,7 +26,7 @@ const schema = {
     '@type': 'Offer',
     priceSpecification: {
       '@type': 'PriceSpecification',
-      price: '999',
+      price: '999.99',
       priceCurrency: 'EUR',
     },
   },
@@ -51,10 +51,6 @@ const faq = [
   {
     q: "Combien de temps avant qu'elle soit en ligne ?",
     a: "Comptez deux à trois semaines à partir du moment où nous avons vos contenus. C'est la formule la plus rapide à livrer, puisqu'il n'y a qu'une page à concevoir et à valider.",
-  },
-  {
-    q: "Puis-je régler ma page en plusieurs fois ?",
-    a: "Oui. Vous versez 30 % à la signature du devis, puis le solde en 3 ou 6 mensualités, sans frais ni intérêts. Le montant total ne change pas, et la durée est arrêtée avec vous au moment de la signature.",
   },
   {
     q: "Que se passe-t-il si je veux modifier un texte après la mise en ligne ?",
@@ -103,8 +99,8 @@ const anatomie = [
 ---
 
 <BaseLayout
-  title="Page unique, site une page dès 999 €, Caelestis"
-  description="La Page unique : un site professionnel en une seule page, dès 999 €, ou 30 % puis 6 versements de 116,55 €. L'essentiel de votre activité, soigné et visible sur Google."
+  title="Page unique, site une page dès 999,99 €, Caelestis"
+  description="La Page unique : un site professionnel en une seule page, dès 999,99 €. L'essentiel de votre activité, soigné et visible sur Google."
   canonical={canonical}
   schema={[schema, breadcrumb, faqSchema]}
 >
@@ -134,9 +130,8 @@ const anatomie = [
       <div class="mt-9 inline-flex flex-col items-center" data-reveal data-delay="2">
         <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-1">À partir de</p>
         <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.6rem, 6vw, 3.6rem); letter-spacing: -0.025em;">
-          <span class="text-sauge">999</span><span class="text-bois-mid text-2xl ml-1">€</span>
+          <span class="text-sauge">{euros(formule('page-unique').prix)}</span><span class="text-bois-mid text-2xl ml-1">€</span>
         </p>
-        <p class="font-body text-sm text-brun-mid mt-2.5">{mentionMensuelle(formule('page-unique').prix)}</p>
       </div>
 
       <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4" data-reveal data-delay="3">
@@ -219,7 +214,7 @@ const anatomie = [
       <!-- Le périmètre clair -->
       <div class="max-w-2xl mx-auto bg-cream border border-cream-dark rounded-2xl p-7 lg:p-8 text-center" data-reveal data-delay="2">
         <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.2rem, 5vw, 3rem); letter-spacing: -0.02em;">
-          <span class="text-sauge">999 €</span>
+          <span class="text-sauge">{euros(formule('page-unique').prix)}&nbsp;€</span>
         </p>
         <p class="font-body text-sm text-brun-mid mt-2">votre page, prête en quelques jours</p>
 
@@ -230,7 +225,7 @@ const anatomie = [
           </li>
           <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
             <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
-            <span>30&nbsp;% pour démarrer, le solde une fois votre site en ligne, ou un règlement en 3 ou 6 mensualités sans frais.</span>
+            <span>30&nbsp;% pour démarrer, le solde une fois votre site en ligne.</span>
           </li>
           <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
             <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
