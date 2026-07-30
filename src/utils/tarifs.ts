@@ -48,7 +48,7 @@ export const FORMULES: readonly Formule[] = [
   {
     id: 'page-unique',
     nom: 'Page unique',
-    prix: 999.99,
+    prix: 1000,
     href: '/services/site-une-page',
     action: { href: '/services/site-une-page', libelle: "Découvrir l'offre" },
     kicker: 'Pour démarrer',
@@ -64,7 +64,7 @@ export const FORMULES: readonly Formule[] = [
   {
     id: 'site-vitrine',
     nom: 'Site vitrine',
-    prix: 1499.99,
+    prix: 1800,
     href: '/services/site-vitrine',
     action: { href: '/services/site-vitrine', libelle: "Découvrir l'offre" },
     kicker: 'Le plus demandé',
@@ -81,7 +81,7 @@ export const FORMULES: readonly Formule[] = [
   {
     id: 'boutique-en-ligne',
     nom: 'Boutique en ligne',
-    prix: 2499.99,
+    prix: 2500,
     href: '/services/boutique-en-ligne',
     action: { href: '/services/boutique-en-ligne', libelle: "Découvrir l'offre" },
     kicker: 'Pour vendre',
@@ -97,7 +97,7 @@ export const FORMULES: readonly Formule[] = [
   {
     id: 'site-sur-mesure',
     nom: 'Site sur mesure',
-    prix: 3499.99,
+    prix: 3500,
     href: '/services/site-sur-mesure',
     action: { href: '/services/site-sur-mesure', libelle: "Découvrir l'offre" },
     kicker: 'Pour aller plus loin',

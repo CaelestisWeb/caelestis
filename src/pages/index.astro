@@ -70,7 +70,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '999.99',
+          price: '1000',
           priceCurrency: 'EUR',
         },
       },
@@ -83,7 +83,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '1499.99',
+          price: '1800',
           priceCurrency: 'EUR',
         },
       },
@@ -96,7 +96,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '2499.99',
+          price: '2500',
           priceCurrency: 'EUR',
         },
       },
@@ -109,7 +109,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '3499.99',
+          price: '3500',
           priceCurrency: 'EUR',
         },
       },
@@ -170,6 +170,10 @@ const faqs = [
   {
     q: 'Quel est le délai pour créer un site internet ?',
     a: 'En général, un site internet est livré en 2 à 8 semaines selon la complexité du projet et la rapidité de transmission des contenus (textes, photos et autres). Nous vous accompagnons à chaque étape avec un planning clair dès le départ.',
+  },
+  {
+    q: 'Les prix affichés sont-ils hors taxes ?',
+    a: "Non, ce sont des prix nets : il n'y a pas de TVA à ajouter. Caelestis relève de la franchise en base de TVA (article 293 B du Code général des impôts), donc le montant annoncé est exactement celui que vous réglez. La plupart des agences affichent des tarifs hors taxes, auxquels s'ajoutent 20 % : un site annoncé à 1 990 € hors taxes est facturé 2 388 €.",
   },
   {
     q: 'Et si je n\'ai pas encore mes textes ni mes photos ?',
@@ -281,7 +285,7 @@ const organizationSchema = {
 ---
 <BaseLayout
   title="Création de site internet, Caelestis, Drôme & France"
-  description="Sites web soignés pour artisans, producteurs et indépendants, en Auvergne-Rhône-Alpes. Agence basée dans la Drôme. Devis gratuit, dès 999,99 €."
+  description="Sites web soignés pour artisans, producteurs et indépendants, en Auvergne-Rhône-Alpes. Agence basée dans la Drôme. Devis gratuit, dès 1 000 €."
   schema={[localBusiness, organizationSchema, websiteSchema, faqSchema]}
 >
 
