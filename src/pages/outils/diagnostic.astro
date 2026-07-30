@@ -10,7 +10,7 @@ const schema = {
   operatingSystem: 'Navigateur web',
   url: 'https://caelestis.fr/outils/diagnostic',
   description:
-    "Analyse gratuite et immédiate d'un site internet : vitesse, affichage mobile, sécurité, référencement et moyens de contact.",
+    "Audit gratuit et immédiat d'un site internet : plus de 65 points de contrôle répartis en huit familles, vitesse, affichage mobile, sécurité, référencement, contenu, conversion, lisibilité et conformité, avec une note sur 100.",
   inLanguage: 'fr-FR',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
   // Rattaché à l'entité unique du site plutôt qu'à une organisation anonyme :
@@ -29,8 +29,8 @@ const filArianeDiagnostic = {
 ---
 
 <BaseLayout
-  title="Analysez votre site internet gratuitement, Caelestis"
-  description="Entrez l'adresse de votre site et obtenez en quelques secondes une analyse factuelle : vitesse, mobile, sécurité, référencement. Gratuit, sans inscription."
+  title="Diagnostic gratuit de votre site internet, Caelestis"
+  description="Plus de 65 points de contrôle sur votre site en quelques secondes : vitesse, référencement, conversion, conformité. Une note sur 100 et les points à corriger."
   canonical="https://caelestis.fr/outils/diagnostic"
   schema={[schema, filArianeDiagnostic]}
 >
@@ -48,9 +48,9 @@ const filArianeDiagnostic = {
       </h1>
 
       <p class="font-body text-lg text-brun-mid leading-relaxed max-w-[58ch] mx-auto">
-        Entrez son adresse. En quelques secondes, vous saurez ce qu'un visiteur
-        et ce que Google rencontrent réellement en arrivant chez vous.
-        Rien à installer, aucune inscription.
+        Entrez son adresse. En quelques secondes, plus de 65 points de contrôle
+        sont passés sur huit familles, de la vitesse à la conformité légale,
+        et chacune reçoit sa note. Rien à installer, aucune inscription.
       </p>
 
     </div>
@@ -95,8 +95,10 @@ const filArianeDiagnostic = {
   <section id="diagResultats" class="px-6 md:px-10 lg:px-20 pb-20" hidden>
     <div class="max-w-3xl mx-auto">
 
-      <div id="diagEntete" class="border-b border-cream-dark pb-6 mb-8"></div>
-      <ul id="diagMesures" class="diag-mesures" hidden></ul>
+      <div id="diagEntete" class="pb-6 mb-8 border-b border-cream-dark"></div>
+      <div id="diagNote" class="diag-note" hidden></div>
+      <ul id="diagFamilles" class="diag-familles" hidden></ul>
+      <p id="diagBrut" class="diag-brut" hidden></p>
       <div id="diagConstats"></div>
 
       <div class="mt-12 pt-10 border-t border-cream-dark">
@@ -139,21 +141,27 @@ const filArianeDiagnostic = {
   <!-- ─── CE QUE L'ANALYSE REGARDE ─── -->
   <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
     <div class="max-w-3xl mx-auto">
-      <h2 class="font-display text-2xl md:text-3xl text-brun leading-tight mb-8 text-center">
-        Ce que l'analyse regarde
+      <h2 class="font-display text-2xl md:text-3xl text-brun leading-tight mb-4 text-center">
+        Les huit familles passées au crible
       </h2>
+      <p class="font-body text-base text-brun-mid text-center max-w-[54ch] mx-auto mb-10">
+        Chaque famille est notée sur 100. Un point relevé coûte des points à sa
+        famille selon sa gravité, et la note générale en découle.
+      </p>
       <ul class="diag-criteres font-body">
-        <li><b>La vitesse</b> : le temps que met votre page à répondre.</li>
-        <li><b>L'affichage mobile</b> : la page est-elle pensée pour un téléphone, ou seulement réduite.</li>
-        <li><b>La sécurité</b> : connexion chiffrée et certificat valide, sans quoi le navigateur affiche une alerte.</li>
-        <li><b>Le référencement</b> : titre, description, hiérarchie des titres, données structurées.</li>
-        <li><b>Les moyens de contact</b> : formulaire, téléphone cliquable, adresse email.</li>
-        <li><b>Les images</b> : leur description, qui conditionne leur visibilité et l'accessibilité.</li>
-        <li><b>L'entretien</b> : les signes qu'un site n'est plus tenu à jour.</li>
+        <li><b>Vitesse</b> : temps de réponse, poids du code, compression, scripts bloquants, serveurs tiers appelés, format des images.</li>
+        <li><b>Mobile</b> : affichage adapté au téléphone, zoom autorisé, largeur figée, mise en page en tableaux, images qui font sauter le contenu.</li>
+        <li><b>Sécurité</b> : connexion chiffrée, validité du certificat, contenu mixte, redirection de la version non sécurisée, en-têtes de protection, versions de logiciels exposées.</li>
+        <li><b>Référencement</b> : titre, description, hiérarchie des titres, adresse de référence, robots.txt, plan de site, données structurées, doublons d'adresse, page d'erreur, accès des moteurs de réponse par IA.</li>
+        <li><b>Contenu</b> : volume de texte, ancrage géographique, preuves et avis, réalisations, textes de gabarit oubliés, fraîcheur des mentions.</li>
+        <li><b>Conversion</b> : moyens de contact, téléphone cliquable, bouton visible en haut de page, longueur du formulaire, horaires, adresse, repères de prix.</li>
+        <li><b>Lisibilité</b> : description des images, libellés de formulaire, langue déclarée, contenus intégrés, balises abandonnées, mise en forme dispersée dans le code.</li>
+        <li><b>Confiance</b> : mentions légales, consentement aux traceurs, politique de confidentialité, conditions de vente, polices et vidéos chargées chez des tiers.</li>
       </ul>
-      <p class="font-body text-sm text-brun-mid mt-8 text-center max-w-[54ch] mx-auto">
-        Chaque point est mesuré, aucun n'est une appréciation de goût.
-        Ce diagnostic ne remplace pas un audit complet, il en donne les grandes lignes.
+      <p class="font-body text-sm text-brun-mid mt-10 text-center max-w-[56ch] mx-auto">
+        Chaque point est mesuré sur votre page, aucun n'est une appréciation de goût.
+        L'analyse porte sur la page d'accueil et sur les fichiers techniques du site.
+        Un audit complet examine ensuite chaque page, les concurrents et les chiffres de fréquentation.
       </p>
     </div>
   </section>
@@ -205,11 +213,34 @@ const filArianeDiagnostic = {
   .diag-form button:hover:not(:disabled) { background: var(--color-ocre-dark); }
   .diag-form button:disabled { opacity: .55; cursor: progress; }
 
-  .diag-mesures {
-    list-style: none; padding: 0; margin: 0 0 2.5rem;
+  /* Note générale : le seul chiffre de la page qui a droit à cette taille.
+     C'est ce que le visiteur retient, et ce qui donne son sens au reste. */
+  .diag-note {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1.4rem 2rem;
+    padding: 1.6rem 1.75rem;
+    border: 1px solid var(--color-cream-dark);
+    border-left-width: 4px;
+    border-radius: 2px;
+    margin-bottom: 1.75rem;
+  }
+  .diag-note[data-niveau="bon"]    { border-left-color: var(--color-sauge-text); }
+  .diag-note[data-niveau="moyen"]  { border-left-color: #A8722A; }
+  .diag-note[data-niveau="faible"] { border-left-color: #9C3226; }
+
+  /* Huit familles, deux lignes de quatre sur grand écran. */
+  .diag-familles {
+    list-style: none; padding: 0; margin: 0 0 1.25rem;
     display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem;
   }
-  @media (min-width: 640px) { .diag-mesures { grid-template-columns: repeat(4, 1fr); } }
+  @media (min-width: 640px) { .diag-familles { grid-template-columns: repeat(4, 1fr); } }
+
+  .diag-brut {
+    font-family: var(--font-body);
+    font-size: .78rem;
+    line-height: 1.65;
+    color: var(--color-brun-mid);
+    margin: 0 0 2.75rem;
+  }
 
   .lead-form {
     display: flex; gap: .6rem; flex-wrap: wrap;
@@ -264,22 +295,105 @@ const filArianeDiagnostic = {
      appliqueraient jamais. Ces règles sont globales, mais toutes cantonnées
      sous les conteneurs de la page pour ne rien déborder ailleurs. -->
 <style is:global>
-  #diagMesures li {
-    border: 1px solid var(--color-cream-dark);
-    border-radius: 2px;
-    padding: .85rem 1rem;
+  /* ── Note générale ── */
+  #diagNote .diag-note-chiffre {
+    display: flex; align-items: baseline; gap: .5rem;
+    flex: 0 0 auto;
+  }
+  #diagNote .diag-note-chiffre b {
+    font-family: var(--font-display);
+    font-size: 3.4rem;
+    font-weight: 400;
+    line-height: .9;
+    color: var(--color-brun);
+  }
+  @media (min-width: 640px) { #diagNote .diag-note-chiffre b { font-size: 4.2rem; } }
+  #diagNote[data-niveau="moyen"] .diag-note-chiffre b  { color: #A8722A; }
+  #diagNote[data-niveau="faible"] .diag-note-chiffre b { color: #9C3226; }
+  #diagNote .diag-note-chiffre span {
     font-family: var(--font-body);
-    font-size: .72rem;
-    line-height: 1.35;
+    font-size: .7rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
     color: var(--color-brun-mid);
   }
-  #diagMesures b {
+  #diagNote .diag-note-verdict {
+    flex: 1 1 18rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--color-brun);
+    margin: 0;
+  }
+
+  /* ── Cases des huit familles ── */
+  #diagFamilles li {
+    border: 1px solid var(--color-cream-dark);
+    border-top-width: 3px;
+    border-radius: 2px;
+    padding: .8rem .9rem .85rem;
+  }
+  #diagFamilles li[data-niveau="bon"]    { border-top-color: var(--color-sauge-text); }
+  #diagFamilles li[data-niveau="moyen"]  { border-top-color: #A8722A; }
+  #diagFamilles li[data-niveau="faible"] { border-top-color: #9C3226; }
+
+  #diagFamilles b {
     display: block;
     font-family: var(--font-display);
-    font-size: 1.35rem;
+    font-size: 1.75rem;
     font-weight: 400;
+    line-height: 1;
     color: var(--color-brun);
-    margin-bottom: .15rem;
+    margin-bottom: .35rem;
+  }
+  #diagFamilles li[data-niveau="moyen"] b  { color: #A8722A; }
+  #diagFamilles li[data-niveau="faible"] b { color: #9C3226; }
+
+  #diagFamilles .diag-f-nom {
+    display: block;
+    font-family: var(--font-body);
+    font-size: .66rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--color-brun);
+  }
+  #diagFamilles .diag-f-detail {
+    display: block;
+    font-family: var(--font-body);
+    font-size: .72rem;
+    line-height: 1.3;
+    color: var(--color-brun-mid);
+    margin-top: .2rem;
+  }
+
+  /* ── Groupes de constats, une section par famille ── */
+  #diagConstats .diag-groupe { margin-bottom: 2.25rem; }
+  #diagConstats .diag-groupe-titre {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: .5rem;
+    margin: 0 0 .5rem;
+    border-bottom: 1px solid var(--color-cream-dark);
+  }
+  #diagConstats .diag-groupe-nom {
+    font-family: var(--font-body);
+    font-size: .72rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--color-brun);
+  }
+  #diagConstats .diag-groupe-note {
+    font-family: var(--font-body);
+    font-size: .72rem;
+    color: var(--color-brun-mid);
+    white-space: nowrap;
+  }
+  #diagConstats .diag-groupe[data-niveau="faible"] .diag-groupe-note { color: #9C3226; }
+  #diagConstats .diag-groupe-reste {
+    font-family: var(--font-body);
+    font-size: .82rem;
+    color: var(--color-brun-mid);
+    margin: .6rem 0 0 1.05rem;
   }
 
   #diagConstats .diag-constat {
@@ -329,13 +443,21 @@ function brancherDiagnostic() {
   const statut    = document.getElementById('diagStatut');
   const resultats = document.getElementById('diagResultats');
   const entete    = document.getElementById('diagEntete');
-  const mesures   = document.getElementById('diagMesures');
+  const noteBloc  = document.getElementById('diagNote');
+  const familles  = document.getElementById('diagFamilles');
+  const brut      = document.getElementById('diagBrut');
   const constats  = document.getElementById('diagConstats');
 
-  if (!form || !champ || !bouton || !statut || !resultats || !entete || !mesures || !constats) return;
+  if (!form || !champ || !bouton || !statut || !resultats || !entete) return;
+  if (!noteBloc || !familles || !brut || !constats) return;
   if (form.dataset.branche === 'oui') return;
   form.dataset.branche = 'oui';
+
   const LIBELLE = { critique: 'Bloquant', moyen: 'Important', mineur: 'À corriger' } as const;
+  /* Au-delà de ce nombre, les points restants d'une même famille sont annoncés
+     sans être détaillés : une liste de trente lignes ne se lit plus. */
+  const PLAFOND_PAR_FAMILLE = 8;
+  const niveau = (note: number) => (note >= 80 ? 'bon' : note >= 50 ? 'moyen' : 'faible');
 
   /* Contexte de la dernière analyse, joint à la demande de rappel : sans lui,
      un email arrive sans qu'on sache de quel site il parle. */
@@ -379,7 +501,8 @@ function brancherDiagnostic() {
     /* Redondant avec la garde d'entrée, mais nécessaire : une déclaration de
        fonction étant remontée, le compilateur ne peut pas savoir qu'elle ne
        s'exécute qu'après la vérification ci-dessus. */
-    if (!champ || !bouton || !resultats || !entete || !mesures || !constats) return;
+    if (!champ || !bouton || !resultats || !entete || !constats) return;
+    if (!noteBloc || !familles || !brut) return;
 
     const url = champ.value.trim();
     if (!url) { message("Indiquez l'adresse de votre site.", true); champ.focus(); return; }
@@ -403,62 +526,130 @@ function brancherDiagnostic() {
 
       message('');
       entete.textContent = '';
-      mesures.textContent = '';
+      noteBloc.textContent = '';
+      familles.textContent = '';
+      brut.textContent = '';
       constats.textContent = '';
+      noteBloc.hidden = true;
+      familles.hidden = true;
+      brut.hidden = true;
 
       entete.appendChild(bloc('p', 'font-body text-xs tracking-[0.22em] uppercase text-sauge mb-2', 'Résultat'));
       entete.appendChild(bloc('h2', 'font-display text-2xl md:text-3xl text-brun leading-tight', donnees.hote ?? url));
 
+      const liste: any[] = donnees.constats ?? [];
+      const bloquants = liste.filter((c: any) => c.gravite === 'critique').length;
+
       dernierSite = donnees.hote ?? url;
-      const nbConstats = (donnees.constats ?? []).length;
-      const nbBloquants = (donnees.constats ?? []).filter((c: any) => c.gravite === 'critique').length;
-      dernierResume = donnees.etat === 'injoignable'
-        ? 'adresse injoignable'
-        : `${nbConstats} point(s) relevé(s), dont ${nbBloquants} bloquant(s)`;
+      if (donnees.etat === 'injoignable') {
+        dernierResume = 'adresse injoignable';
+      } else if (donnees.etat === 'ok') {
+        const plusFaibles = [...(donnees.familles ?? [])]
+          .sort((a: any, b: any) => a.note - b.note)
+          .slice(0, 3)
+          .map((f: any) => `${f.libelle} ${f.note}`)
+          .join(', ');
+        dernierResume =
+          `Note générale ${donnees.note} sur 100. ${liste.length} point(s) relevé(s) sur ` +
+          `${donnees.mesures?.controles ?? 0} contrôles, dont ${bloquants} bloquant(s). ` +
+          `Familles les plus basses : ${plusFaibles}.`;
+      } else {
+        dernierResume = `${liste.length} point(s) relevé(s), dont ${bloquants} bloquant(s)`;
+      }
 
       if (donnees.etat === 'injoignable') {
         entete.appendChild(bloc('p', 'font-body text-base text-brun-mid mt-3', donnees.raison));
-        mesures.hidden = true;
         resultats.hidden = false;
         resultats.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
       }
 
       if (donnees.etat === 'ok') {
-        const m = donnees.mesures;
-        const cases: [string, string][] = [
-          [`${(m.duree / 1000).toFixed(1)} s`, 'temps de réponse'],
-          [String(m.mots), "mots sur l'accueil"],
-          [String(m.images), `images, dont ${m.imagesSansAlt} sans description`],
-          [`${Math.round(m.poids / 1024)} Ko`, `de code, ${m.scripts} scripts externes`],
-        ];
-        for (const [valeur, legende] of cases) {
+        /* ── Note générale et verdict ── */
+        noteBloc.setAttribute('data-niveau', niveau(donnees.note));
+        const chiffre = document.createElement('div');
+        chiffre.className = 'diag-note-chiffre';
+        chiffre.appendChild(bloc('b', '', String(donnees.note)));
+        chiffre.appendChild(bloc('span', '', 'sur 100'));
+        noteBloc.appendChild(chiffre);
+        noteBloc.appendChild(bloc('p', 'diag-note-verdict', donnees.verdict ?? ''));
+        noteBloc.hidden = false;
+
+        /* ── Les huit familles ── */
+        for (const f of donnees.familles ?? []) {
           const li = document.createElement('li');
-          li.appendChild(bloc('b', '', valeur));
-          li.appendChild(document.createTextNode(legende));
-          mesures.appendChild(li);
+          li.setAttribute('data-niveau', niveau(f.note));
+          li.appendChild(bloc('b', '', String(f.note)));
+          li.appendChild(bloc('span', 'diag-f-nom', f.libelle));
+          const detail = f.points === 0
+            ? 'rien à signaler'
+            : f.bloquants > 0
+              ? `${f.points} point${f.points > 1 ? 's' : ''}, dont ${f.bloquants} bloquant${f.bloquants > 1 ? 's' : ''}`
+              : `${f.points} point${f.points > 1 ? 's' : ''}`;
+          li.appendChild(bloc('span', 'diag-f-detail', detail));
+          familles.appendChild(li);
         }
-        mesures.hidden = false;
-      } else {
-        mesures.hidden = true;
+        familles.hidden = false;
+
+        /* ── Mesures brutes, en une phrase pour ne pas concurrencer les notes ── */
+        const m = donnees.mesures;
+        if (m) {
+          const p = (n: number, singulier: string, pluriel = singulier + 's') =>
+            `${n} ${n > 1 ? pluriel : singulier}`;
+          brut.textContent =
+            `Page reçue en ${(m.duree / 1000).toFixed(1).replace('.', ',')} seconde${m.duree >= 2000 ? 's' : ''}, ` +
+            `${Math.round(m.poids / 1024)} Ko de code, ${p(m.balises, 'balise')}, ${p(m.mots, 'mot')}, ` +
+            `${p(m.images, 'image')} dont ${m.imagesSansAlt} sans description, ${p(m.scripts, 'script')}, ` +
+            `${p(m.domainesTiers, 'serveur extérieur', 'serveurs extérieurs')}, ` +
+            `${p(m.pages, 'page')} ${m.pages > 1 ? 'atteignables' : 'atteignable'} depuis l'accueil. ` +
+            `${p(m.controles, 'contrôle')} passé${m.controles > 1 ? 's' : ''}.`;
+          brut.hidden = false;
+        }
       }
 
-      const liste = donnees.constats ?? [];
-      const bloquants = liste.filter((c: any) => c.gravite === 'critique').length;
-
       const titre = liste.length === 0
-        ? 'Aucun défaut technique majeur relevé sur la page d’accueil.'
+        ? "Aucun défaut relevé sur les points contrôlés."
         : `${liste.length} point${liste.length > 1 ? 's' : ''} relevé${liste.length > 1 ? 's' : ''}${bloquants ? `, dont ${bloquants} bloquant${bloquants > 1 ? 's' : ''}` : ''}`;
-      constats.appendChild(bloc('h3', 'font-display text-xl text-brun mb-5', titre));
+      constats.appendChild(bloc('h3', 'font-display text-xl md:text-2xl text-brun mb-6', titre));
 
-      for (const c of liste) {
+      const carte = (c: any) => {
         const item = document.createElement('div');
         item.className = 'diag-constat';
         item.setAttribute('data-gravite', c.gravite);
         item.appendChild(bloc('span', 'diag-etiquette', LIBELLE[c.gravite as keyof typeof LIBELLE] ?? ''));
         item.appendChild(bloc('p', 'diag-fait', c.fait));
         item.appendChild(bloc('p', 'diag-consequence', c.consequence));
-        constats.appendChild(item);
+        return item;
+      };
+
+      if (donnees.etat === 'ok') {
+        /* Regroupement par famille : le visiteur voit de quel côté son site
+           décroche, au lieu d'une liste continue où tout se vaut. */
+        for (const f of donnees.familles ?? []) {
+          const propres = liste.filter((c: any) => c.famille === f.cle);
+          if (propres.length === 0) continue;
+
+          const groupe = document.createElement('section');
+          groupe.className = 'diag-groupe';
+          groupe.setAttribute('data-niveau', niveau(f.note));
+
+          const enteteGroupe = document.createElement('h4');
+          enteteGroupe.className = 'diag-groupe-titre';
+          enteteGroupe.appendChild(bloc('span', 'diag-groupe-nom', f.libelle));
+          enteteGroupe.appendChild(bloc('span', 'diag-groupe-note', `${f.note} sur 100`));
+          groupe.appendChild(enteteGroupe);
+
+          for (const c of propres.slice(0, PLAFOND_PAR_FAMILLE)) groupe.appendChild(carte(c));
+
+          const reste = propres.length - PLAFOND_PAR_FAMILLE;
+          if (reste > 0) {
+            groupe.appendChild(bloc('p', 'diag-groupe-reste',
+              `Et ${reste} autre${reste > 1 ? 's' : ''} point${reste > 1 ? 's' : ''} de moindre importance dans cette famille.`));
+          }
+          constats.appendChild(groupe);
+        }
+      } else {
+        for (const c of liste) constats.appendChild(carte(c));
       }
 
       resultats.hidden = false;
