@@ -69,4 +69,6 @@ Règle accessibilité en place : les labels eyebrow `.text-sauge` sont forcés �
 
 ## Décisions de session
 
-- **29/07/2026, doctrine images de l'accueil** : une image doit être soit une preuve (capture de site livré, avant/après), soit un ancrage réel (Célestin, la Drôme, un client). L'ambiance est tolérée uniquement si la photo est impeccable et nette à la taille d'affichage (source 1600 px minimum pour un bandeau pleine largeur). La photo « bureau au jardin » (736×258, floue par construction) a été retirée, bento réduit à 4 photos sur 2 rangées. À terme, remplacer progressivement les photos d'ambiance du bento par des captures de vraies réalisations.
+- **29/07/2026, doctrine images de l'accueil** : une image doit être soit une preuve (capture de site livré, avant/après), soit un ancrage réel (Célestin, la Drôme, un client). L'ambiance est tolérée uniquement si la photo est nette à la taille d'affichage.
+  - **Critère greppable, la réserve de pixels** : `pixels de la source / pixels de la surface affichée` doit valoir au moins 4. Les quatre photos du bento sont entre 3,9 et 4,4. La photo « bureau au jardin » retirée était à 0,93 (736×258 pour une surface de 765×268) : aucune marge, donc molle à l'affichage et impossible à sauver sur écran haute densité. Un bandeau pleine largeur réclame donc une source d'au moins 1600 px de large.
+  - Bento réduit à 4 photos sur 2 rangées. À terme, remplacer progressivement les photos d'ambiance par des captures de vraies réalisations.
