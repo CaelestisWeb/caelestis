@@ -390,6 +390,20 @@
   .b-chip-input { position:absolute;opacity:0;width:0;height:0;pointer-events:none; }
   .b-check-grid { display:grid;grid-template-columns:1fr 1fr;gap:6px; }
   @media (min-width:560px) { .b-check-grid { grid-template-columns:repeat(3,1fr); } }
+  /* .6rem et .625rem tombent à 9,6 et 10 px : sur un téléphone, les libellés
+     qui annoncent chaque section du questionnaire n'étaient plus lisibles.
+     L'interlettrage se resserre en compensation, la largeur ne bouge pas. */
+  /* La condition porte sur le pointeur autant que sur la largeur : une tablette
+     de 768px est tenue en main, pas posée sur un bureau. */
+  @media (max-width:639px), (hover: none) and (pointer: coarse) {
+    .brief-overline { font-size:.6875rem; letter-spacing:.16em; }
+    .b-overline     { font-size:.6875rem; letter-spacing:.14em; }
+    /* 16 px minimum sur écran tactile, sinon Safari iOS zoome la page au focus
+       et n'en ressort jamais. La règle générale est dans global.css, mais
+       .b-input et .b-textarea, scopés par Astro, la battent en spécificité :
+       le correctif doit être répété ici. */
+    .b-input, .b-textarea, .b-select { font-size: 16px; }
+  }
   .b-check { display:flex;align-items:center;gap:9px;padding:8px 11px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:.8125rem;color:var(--brun-mid);background:rgba(252, 251, 248,.6);transition:border-color .18s ease,background .18s ease,color .18s ease;-webkit-tap-highlight-color:transparent;user-select:none; }
   .b-check:hover { border-color:var(--sauge);background:rgba(184, 196, 187,.08);color:var(--brun); }
   .b-check:has(.b-check-input:checked) { border-color:var(--brun);background:rgba(37, 92, 65,.07);color:var(--brun);font-weight:500; }

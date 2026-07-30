@@ -84,7 +84,9 @@
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-body);
-    font-size: clamp(0.58rem, 2.7cqw, 0.72rem);
+    /* Plancher relevé de 0,58 à 0,6875rem : dans un conteneur étroit (mobile),
+       la borne basse s'appliquait et la signature tombait à 9,28px. */
+    font-size: clamp(0.6875rem, 2.7cqw, 0.8rem);
     font-weight: 400;
     letter-spacing: 0.28em;
     text-transform: uppercase;

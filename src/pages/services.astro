@@ -602,6 +602,14 @@ const etapes = [
       text-overflow: ellipsis;
       text-align: left;
     }
+    /* 9 px tient sur un écran d'ordinateur où la fausse fenêtre est petite ;
+       sur mobile la carte occupe toute la largeur et l'étiquette, qui porte le
+       métier illustré, devenait illisible. La barre a la place de l'agrandir.
+       La condition porte sur le pointeur autant que sur la largeur : une
+       tablette de 768px est tenue à bout de bras, pas posée sur un bureau. */
+    @media (max-width: 767px), (hover: none) and (pointer: coarse) {
+      .fenetre-url { font-size: 11px; }
+    }
     /* La capture est haute : on n'en montre que le haut, sans la déformer. */
     .fenetre-ecran { height: 186px; overflow: hidden; }
     .fenetre-ecran :global(img) { width: 100%; height: auto; display: block; }
@@ -718,6 +726,12 @@ const etapes = [
       color: #5C6259;
     }
     .tf-card-accent .tf-from { color: rgba(252, 251, 248, 0.72); }
+    /* 0,68rem tombe à 10,88px, trop peu pour un écran tenu en main. Placé après
+       la règle de base : à spécificité égale, une media query ne l'emporte pas,
+       seul l'ordre compte. */
+    @media (max-width: 767px), (hover: none) and (pointer: coarse) {
+      .tf-from { font-size: 0.75rem; }
+    }
 
     .tf-desc {
       font-size: 0.92rem;
@@ -966,7 +980,7 @@ const etapes = [
         <p class="font-body text-sm text-brun-mid mb-7 leading-relaxed">
           Répondez à quelques questions, nous vous indiquons la formule adaptée et une fourchette de prix. En deux minutes, sans inscription.
         </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+        <div class="cta-pair flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <Button href="/outils/simulateur" variant="primary">Estimer mon projet</Button>
           <Button href="/contact#devis" variant="outline">Demander un devis</Button>
         </div>

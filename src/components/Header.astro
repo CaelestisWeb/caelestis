@@ -61,7 +61,7 @@ const estActive = (e: { href?: string; prefixe?: string }) => {
           <line x1="0" y1="8"  x2="22" y2="8"  stroke="currentColor" stroke-width="1.5"/>
           <line x1="0" y1="15" x2="22" y2="15" stroke="currentColor" stroke-width="1.5"/>
         </svg>
-        <span class="text-[10px] tracking-[0.18em] uppercase text-brun-mid font-body leading-none" aria-hidden="true">Menu</span>
+        <span class="text-[11px] tracking-[0.16em] uppercase text-brun-mid font-body leading-none" aria-hidden="true">Menu</span>
       </button>
       <button type="button" data-orient-open class="orient-trigger" aria-label="Rechercher une page" aria-keyshortcuts="Control+K">
         <svg viewBox="0 0 20 20" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
@@ -215,6 +215,14 @@ const estActive = (e: { href?: string; prefixe?: string }) => {
     display: inline-flex;
     align-items: center;
     gap: 3px;
+  }
+  /* `flex: none` et `nowrap` : à 1024px la barre est juste, et les entrées,
+     rétrécissables par défaut, se laissaient comprimer sous leur largeur de
+     contenu. Le chevron de « Services » et le groupe « Outils » basculaient
+     alors sur une deuxième ligne, sous le reste du menu. */
+  nav[aria-label="Navigation principale"] > * {
+    flex: none;
+    white-space: nowrap;
   }
 
   .nav-chevron {

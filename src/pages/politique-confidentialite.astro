@@ -177,8 +177,8 @@ const ligneCookiePub = metaPixelId
                 Aucune donnée publicitaire ni revente de données n'est effectuée.
               </p>
               <h3 style="font-weight:600;color:#5C6259;margin-top:1rem;margin-bottom:.5rem;">Détail des cookies déposés</h3>
-              <div style="overflow-x:auto;">
-                <table style="width:100%;border-collapse:collapse;font-size:.8125rem;">
+              <div class="cookies-scroll" style="overflow-x:auto;">
+                <table class="cookies-table" style="width:100%;border-collapse:collapse;font-size:.8125rem;">
                   <thead>
                     <tr style="border-bottom:1px solid rgba(90,64,48,0.15)">
                       <th style="text-align:left;padding:.5rem .75rem;font-weight:600;color:#5C6259;">Nom</th>
@@ -297,3 +297,25 @@ const ligneCookiePub = metaPixelId
     </div>
   </section>
 </BaseLayout>
+
+<!-- `is:global` obligatoire : le tableau est injecté par `set:html`, le style
+     scopé d'Astro ne l'atteindrait pas. -->
+<style is:global>
+  /* Sur un écran de 360 px, les quatre colonnes demandaient 365 px : la colonne
+     « Émetteur » sortait du cadre et n'était atteignable qu'en faisant défiler
+     le tableau latéralement, ce que rien n'indiquait. On resserre les cellules
+     pour que le tableau tienne en entier. Le conteneur reste défilable, en
+     filet de sécurité pour les écrans encore plus étroits. */
+  @media (max-width: 640px) {
+    .cookies-table { font-size: .75rem; }
+    .cookies-table th,
+    .cookies-table td { padding: .45rem .35rem !important; }
+    /* `anywhere` et non `break-all` : les noms de cookies se coupent d'abord au
+       tiret (« caelestis- / cookies ») au lieu d'être hachés au milieu.
+       La largeur plancher évite que la colonne soit réduite à quatre lettres
+       par ligne, ce que le calcul automatique faisait sans elle. */
+    .cookies-table th:first-child,
+    .cookies-table td:first-child { min-width: 5.8rem; }
+    .cookies-table td[style*="monospace"] { font-size: .6875rem; overflow-wrap: anywhere; }
+  }
+</style>

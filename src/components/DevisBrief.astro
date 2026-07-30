@@ -446,6 +446,20 @@
   .b-service-num { font-family:var(--font-display);font-size:.8125rem;color:var(--sauge);width:18px;text-align:right;flex-shrink:0; }
   .b-pages-grid { display:grid;grid-template-columns:1fr;gap:7px; }
   @media (min-width:560px) { .b-pages-grid { grid-template-columns:1fr 1fr; } }
+  /* .6rem et .625rem tombent à 9,6 et 10 px : sur un téléphone, les libellés
+     qui annoncent chaque section du questionnaire n'étaient plus lisibles.
+     L'interlettrage se resserre en compensation, la largeur ne bouge pas. */
+  /* La condition porte sur le pointeur autant que sur la largeur : une tablette
+     de 768px est tenue en main, pas posée sur un bureau. */
+  @media (max-width:639px), (hover: none) and (pointer: coarse) {
+    .brief-overline { font-size:.6875rem; letter-spacing:.16em; }
+    .b-overline     { font-size:.6875rem; letter-spacing:.14em; }
+    /* 16 px minimum sur écran tactile, sinon Safari iOS zoome la page au focus
+       et n'en ressort jamais. La règle générale est dans global.css, mais
+       .b-input et .b-textarea, scopés par Astro, la battent en spécificité :
+       le correctif doit être répété ici. */
+    .b-input, .b-textarea, .b-select { font-size: 16px; }
+  }
   .b-page-row { display:flex;align-items:center;gap:10px; }
   .b-page-num { font-family:var(--font-display);font-size:.8125rem;color:var(--sauge);width:18px;text-align:right;flex-shrink:0; }
   .b-reveal { margin-top:6px;animation:b-fadein .22s ease both; }

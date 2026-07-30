@@ -335,9 +335,12 @@ const organizationSchema = {
          Décision de Célestin le 29/07/2026, après relevé sur sept sites d'agence. -->
     <div class="max-w-3xl mx-auto w-full text-center relative z-10">
 
-      <!-- Eyebrow -->
-      <p class="font-body text-xs tracking-[0.22em] uppercase mb-8 text-sauge" data-reveal>
-        Création de site web en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/30 underline-offset-2 hover:decoration-sauge transition-colors">Auvergne-Rhône-Alpes</a>
+      <!-- Eyebrow. `whitespace-nowrap` sur le nom de région : sans lui, à 375px
+           la ligne se coupait au tiret et affichait « AUVERGNE- » puis
+           « RHÔNE-ALPES » seul en dessous. Le retour se fait maintenant avant
+           « Auvergne », entre deux mots. -->
+      <p class="font-body text-xs tracking-[0.22em] uppercase mb-8 text-sauge [text-wrap:balance]" data-reveal>
+        Création de site web en <a href="/creation-site-internet-auvergne-rhone-alpes" class="whitespace-nowrap underline decoration-sauge/30 underline-offset-2 hover:decoration-sauge transition-colors">Auvergne-Rhône-Alpes</a>
       </p>
 
       <!-- H1 : le titre porte désormais l'écran seul, il gagne en échelle sans
@@ -357,7 +360,7 @@ const organizationSchema = {
       </p>
 
       <!-- Boutons CTA -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3" data-reveal data-delay="2">
+      <div class="cta-pair flex flex-col sm:flex-row items-center justify-center gap-3" data-reveal data-delay="2">
         <Button href="/contact" variant="primary">Parler de mon projet</Button>
         <Button href="/outils/simulateur" variant="outline">Estimer mon projet</Button>
       </div>
@@ -532,7 +535,7 @@ const organizationSchema = {
       </h2>
 
       <p class="font-body text-base text-brun-mid max-w-[54ch] mx-auto mb-10" data-reveal data-delay="1">
-        <span class="only-desk">Faites glisser le curseur. </span>Un producteur d'huiles essentielles, deux sites. À gauche, ce que l'on trouve encore par milliers. À droite, la même activité, reprise à zéro.
+        <span class="only-desk">Faites glisser le curseur. </span>Un producteur d'huiles essentielles, deux sites. <span class="only-desk">À gauche, ce que l'on trouve encore par milliers. À droite, la même activité, reprise à zéro.</span><span class="only-mob">Au-dessus, ce que l'on trouve encore par milliers. En dessous, la même activité, reprise à zéro.</span>
       </p>
 
       <div class="ba" data-reveal data-delay="2">
@@ -645,7 +648,7 @@ const organizationSchema = {
       <div class="text-center mt-12" data-reveal data-delay="2">
         <a
           href="/realisations"
-          class="inline-flex items-center gap-2 font-body text-sm font-medium text-sauge hover:gap-3 transition-all"
+          class="tap-44 inline-flex items-center gap-2 font-body text-sm font-medium text-sauge hover:gap-3 transition-all"
         >
           Voir toutes les réalisations
           <span aria-hidden="true">→</span>
@@ -854,7 +857,7 @@ const organizationSchema = {
         <p class="font-body text-sm md:text-base text-brun-mid leading-relaxed mt-3">
           Il prend en charge les mises à jour, la protection contre les failles de sécurité et le bon fonctionnement de votre site au quotidien. Vos modifications et l'évolution de votre site, elles, restent un service à part, à la demande et sur devis.
         </p>
-        <a href="/maintenance" class="offre-lien inline-flex items-center gap-1.5 mt-5 font-body text-sm font-medium text-[#2E7452]">Découvrir les formules de maintenance <span aria-hidden="true">→</span></a>
+        <a href="/maintenance" class="tap-44 offre-lien inline-flex items-center gap-1.5 mt-5 font-body text-sm font-medium text-[#2E7452]">Découvrir les formules de maintenance <span aria-hidden="true">→</span></a>
       </div>
 
       <!-- CTA fin de section tarifs -->
@@ -862,7 +865,7 @@ const organizationSchema = {
         <p class="font-display text-xl md:text-2xl font-light text-brun mb-6">
           Prêt à donner vie à votre projet&nbsp;?
         </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+        <div class="cta-pair flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <Button href="/contact#devis" variant="primary">Demander un devis</Button>
           <Button href="/outils/simulateur" variant="outline">Estimer mon projet</Button>
         </div>
@@ -1019,7 +1022,7 @@ const organizationSchema = {
       <p class="font-body text-base text-brun-mid mb-10 leading-relaxed">
         Décrivez votre activité en quelques lignes.<br>Nous revenons vers vous sous 48h.
       </p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+      <div class="cta-pair flex flex-col sm:flex-row items-center justify-center gap-3">
         <Button href="/contact" variant="primary">Parler de mon projet</Button>
         <Button href="tel:+33769362727" variant="outline">Appeler le 07 69 36 27 27</Button>
       </div>
@@ -1041,6 +1044,15 @@ const organizationSchema = {
      affleure : le vide est réduit et le scroll devient une invitation. */
   @media (min-width: 1024px) {
     .hero-screen { min-height: min(88vh, 820px); }
+  }
+
+  /* La deuxième ligne du titre est en `whitespace-nowrap` pour tenir d'un seul
+     tenant. Le plancher du clamp valant 2,1rem, elle mesure 287px dès 320px de
+     large alors qu'il n'en reste que 272 : « web. » sortait de l'écran et se
+     faisait rogner. Sous 360px on rend donc le retour à la ligne possible ;
+     au-delà, la ligne unique voulue est conservée. */
+  @media (max-width: 359px) {
+    .hero-title .sl > span { white-space: normal; }
   }
 
   /* ── Fil botanique — visible desktop uniquement ── */
@@ -1233,6 +1245,10 @@ const organizationSchema = {
   }
   .ba-knob svg { width: 20px; height: 20px; }
 
+  /* Déclaré AVANT la media query : à spécificité égale, c'est la dernière règle
+     écrite qui gagne. Placé après, ce `none` annulait la version mobile. */
+  .only-mob { display: none; }
+
   /* Sous 700px le comparateur s'empile : deux pages entières, sans curseur */
   @media (max-width: 700px) {
     .ba-legend, .ba-range, .ba-handle { display: none; }
@@ -1252,6 +1268,10 @@ const organizationSchema = {
     }
     .ba-new::before { background: var(--color-brun); border-color: var(--color-brun); color: #fff; }
     .only-desk { display: none; }
+    /* Sous 700px le comparateur n'est plus côte à côte mais empilé : la consigne
+       « à gauche / à droite » devenait fausse, elle est remplacée par sa version
+       verticale. */
+    .only-mob { display: inline; }
   }
 
   /* ── Bénéfice au premier scroll : 3 repères, pas un paragraphe ── */
@@ -1312,6 +1332,18 @@ const organizationSchema = {
     font-weight: 500;
     color: var(--color-brun-mid);
     line-height: 1.3;
+  }
+  /* Sur mobile les quatre repères passent chacun sur sa ligne. Centrés
+     individuellement, leurs coches se décalaient les unes par rapport aux
+     autres. La colonne `max-content` est centrée en bloc, les items restant
+     alignés à gauche : les quatre coches se superposent. */
+  @media (max-width: 639px) {
+    .trust {
+      display: grid;
+      grid-template-columns: max-content;
+      justify-content: center;
+      gap: 9px;
+    }
   }
   .trust svg {
     width: 14px;

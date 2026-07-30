@@ -212,6 +212,16 @@ const filArianeDiagnostic = {
   }
   .diag-form button:hover:not(:disabled) { background: var(--color-ocre-dark); }
   .diag-form button:disabled { opacity: .55; cursor: progress; }
+  /* Le champ hérite des 10px d'arrondi imposés à tous les champs du site par
+     global.css, règle plus spécifique que le `border-radius: 2px` ci-dessus.
+     Le bouton, lui, gardait ses angles vifs : accolés c'était déjà bancal, mais
+     une fois empilés sur mobile la paire devenait franchement dépareillée.
+     Sur mobile le bouton prend aussi toute la largeur : à 122px et aligné à
+     gauche sous un champ pleine largeur, il avait l'air inachevé. */
+  .diag-form button { border-radius: 10px; }
+  @media (max-width: 639px) {
+    .diag-form button { flex: 1 1 100%; }
+  }
 
   /* Note générale : le seul chiffre de la page qui a droit à cette taille.
      C'est ce que le visiteur retient, et ce qui donne son sens au reste. */

@@ -94,6 +94,54 @@
     nav a, button, [role="button"], [role="tab"], .tap-44 {
       min-height: 44px;
     }
+    /* Une cible de 44 px de haut ne suffit pas : un <a> blocifié colle son
+       texte tout en haut de la boîte, alors qu'un <button> ou un <span> voisin
+       reste centré. C'est ce qui décalait le chevron sous « Services » et
+       faisait tomber « Outils » plus bas que les autres entrées du menu.
+       Le centrage n'est posé que sur les liens de navigation, pas sur les
+       liens en pleine phrase. */
+    nav a:not(p a) {
+      display: inline-flex;
+      align-items: center;
+    }
+    /* Le libellé d'une rubrique dépliante est un <span>, pas un lien : il
+       n'hérite d'aucune hauteur de cible et se centrait donc seul. */
+    .nav-groupe > span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+    /* Les liens du pied de page ne sont ni dans un <nav> ni des <button> pour
+       la moitié d'entre eux : les liens légaux tombaient à 16 px de haut et le
+       bloc contact à 20 px, sous le minimum de 24 px du WCAG 2.5.8.
+       `:not(p a)` épargne les liens en pleine phrase du paragraphe de marque,
+       qui doivent rester dans la coulée de texte (et que le WCAG dispense).
+       `inline-flex` + centrage : sans lui, un <a> aligne son texte en haut de
+       ses 44 px quand un <button> le centre, et « CGV » ne tombait pas sur la
+       même ligne que « Gérer mes cookies ». */
+    footer a:not(p a),
+    footer button {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+    /* Le fil d'Ariane est une navigation, pas une phrase : ses liens doivent
+       rester atteignables au doigt (15 px de haut mesurés). Ils sont inline,
+       `min-height` n'a donc aucun effet sur eux. En passant le <nav> en flex,
+       ses enfants sont blocifiés, la hauteur de cible s'applique enfin, et le
+       centrage garde les séparateurs « / » sur la même ligne optique. */
+    nav[aria-label="Fil d'ariane"] {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    /* Sans ce centrage, le texte du lien se colle en haut de sa boîte de 44 px
+       (un bloc n'aligne pas son contenu verticalement) et le « / », lui centré,
+       se retrouvait quatorze pixels plus bas. */
+    nav[aria-label="Fil d'ariane"] a {
+      display: inline-flex;
+      align-items: center;
+    }
   }
 
   /* Sélection — mousse dorée */
@@ -534,6 +582,53 @@ select:focus-visible {
   outline: 2px solid #255C41;
   outline-offset: 2px;
   border-radius: 10px;
+}
+
+
+/* ════════════════════════════════════════
+   CHAMPS DE SAISIE SUR ÉCRAN TACTILE
+   Safari iOS zoome automatiquement la page
+   dès qu'un champ de saisie fait moins de
+   16 px, et ne dézoome jamais tout seul :
+   l'utilisateur se retrouve coincé dans un
+   formulaire agrandi qu'il doit repincer.
+   Les champs du site sont en 14 px (et en
+   14,88 px dans le simulateur), on les
+   remonte à 16 px sur pointeur grossier.
+   Hors @layer, pour battre les utilitaires
+   Tailwind (text-sm) sans !important.
+════════════════════════════════════════ */
+
+@media (hover: none) and (pointer: coarse) {
+  input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="file"]),
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+
+/* ════════════════════════════════════════
+   PAIRES DE BOUTONS EMPILÉES
+   Deux boutons côte à côte sur desktop
+   passent l'un sous l'autre sur mobile.
+   Dimensionnés par leur contenu, ils s'y
+   retrouvent de largeurs différentes, et
+   la pile paraît bancale. Sous 640px ils
+   partagent la même largeur, plafonnée
+   pour ne pas devenir des barres pleines.
+════════════════════════════════════════ */
+
+@media (max-width: 639px) {
+  .cta-pair {
+    width: 100%;
+    max-width: 18rem;
+    margin-inline: auto;
+  }
+  .cta-pair > a,
+  .cta-pair > button {
+    width: 100%;
+  }
 }
 
 
