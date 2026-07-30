@@ -1,19 +1,60 @@
 ---
+/* Navigation à deux niveaux.
+   `href` absent : l'entrée n'est qu'un bouton d'ouverture, parce qu'aucune page
+   ne lui correspond. C'est le cas d'Outils, qui regroupe deux pages sans avoir
+   d'index à lui. Une entrée avec `href` reste cliquable en plus d'ouvrir son
+   panneau : /services est une vraie page, on ne la rend pas inaccessible.
+   `prefixe` sert à repérer la rubrique active quand l'URL courante est un
+   enfant : /outils/diagnostic doit allumer Outils. */
 const nav = [
-  { href: '/',             label: 'Accueil'      },
-  { href: '/services',     label: 'Services'     },
+  { href: '/', label: 'Accueil' },
+  {
+    href: '/services',
+    label: 'Services',
+    prefixe: '/services',
+    enfants: [
+      { href: '/services',                        label: "Toutes les offres" },
+      { href: '/services/site-une-page',           label: 'Page unique' },
+      { href: '/services/site-vitrine',            label: 'Site vitrine' },
+      { href: '/services/boutique-en-ligne',       label: 'Boutique en ligne' },
+      { href: '/services/site-sur-mesure',         label: 'Site sur mesure' },
+      { href: '/services/referencement-naturel',   label: 'Référencement naturel' },
+      { href: '/services/fiche-google-entreprise', label: 'Fiche Google' },
+    ],
+  },
   { href: '/realisations', label: 'Réalisations' },
-  { href: '/outils/simulateur',   label: 'Simulateur'   },
-  { href: '/a-propos',     label: 'À propos'     },
-  { href: '/contact',      label: 'Contact'      },
+  {
+    label: 'Outils',
+    prefixe: '/outils',
+    enfants: [
+      { href: '/outils/simulateur', label: 'Estimer mon projet' },
+      { href: '/outils/diagnostic', label: 'Analyser mon site' },
+    ],
+  },
+  { href: '/ressources', label: 'Ressources' },
+  { href: '/a-propos',   label: 'À propos' },
+  { href: '/contact',    label: 'Contact' },
 ];
 const current = Astro.url.pathname;
+
+/** Une entrée est active si c'est la page courante, ou si la page courante est
+    l'un de ses enfants. L'accueil est le seul cas d'égalité stricte. */
+const estActive = (e: { href?: string; prefixe?: string }) => {
+  if (e.prefixe) return current === e.prefixe || current.startsWith(`${e.prefixe}/`);
+  if (!e.href) return false;
+  return e.href === '/' ? current === '/' : current.startsWith(e.href);
+};
 ---
 <header id="header" class="sticky top-0 z-50 bg-cream/80 backdrop-blur-md border-b border-cream-dark/60">
-  <div class="w-full px-6 md:px-10 lg:px-16 h-16 flex items-center md:grid md:grid-cols-[auto_1fr_auto] gap-0">
+  <!-- Le passage à la navigation déployée se fait à `lg` (1024px) et non à `md` :
+       à 768px, la barre demande ~810px (logo + six liens + loupe + CTA), si bien
+       que « À propos » et le bouton « Parler de mon projet » passaient sur deux
+       lignes et débordaient de la barre. Toute la tablette portrait reste donc
+       sur le menu burger. Ne pas redescendre à `md` sans raccourcir les libellés. -->
+  <div class="w-full px-6 md:px-10 lg:px-16 h-16 flex items-center lg:grid lg:grid-cols-[auto_1fr_auto] gap-0">
 
-    <!-- Mobile : menu + loupe — gauche sur mobile (caché desktop) -->
-    <div class="md:hidden flex items-center -ml-2">
+    <!-- Mobile et tablette : menu + loupe — à gauche -->
+    <div class="lg:hidden flex items-center -ml-2">
       <button id="menu-toggle" class="text-brun flex flex-col items-center justify-center gap-1.5 w-11 h-16" aria-label="Ouvrir le menu" aria-expanded="false">
         <svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
           <line x1="0" y1="1"  x2="22" y2="1"  stroke="currentColor" stroke-width="1.5"/>
@@ -30,31 +71,71 @@ const current = Astro.url.pathname;
       </button>
     </div>
 
-    <!-- Logo — droite sur mobile (ml-auto), gauche sur desktop (md:ml-0) -->
-    <a href="/" class="font-display text-xl font-medium text-brun tracking-[-0.02em] hover:text-ocre transition-colors duration-300 flex items-center ml-auto md:ml-0">
+    <!-- Logo — droite sur mobile et tablette (ml-auto), gauche sur desktop (lg:ml-0) -->
+    <a href="/" class="font-display text-xl font-medium text-brun tracking-[-0.02em] hover:text-ocre transition-colors duration-300 flex items-center ml-auto lg:ml-0">
       Caelestis<em class="text-ocre not-italic">.</em>
     </a>
 
     <!-- Desktop nav — parfaitement centré -->
-    <nav class="hidden md:flex items-center justify-center gap-4 lg:gap-9" aria-label="Navigation principale">
-      {nav.map(({ href, label }) => {
-        const isActive = href === '/' ? current === '/' : current.startsWith(href);
+    <nav class="hidden lg:flex items-center justify-center gap-5 xl:gap-9" aria-label="Navigation principale">
+      {nav.map((entree) => {
+        const { href, label, enfants } = entree;
+        const isActive = estActive(entree);
+        const couleur = isActive ? 'text-ocre is-active' : 'text-brun-mid';
+        const id = `sous-${label.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z]+/g, '-')}`;
+
+        if (!enfants) return (
+          <a
+            href={href}
+            aria-current={isActive ? 'page' : undefined}
+            class={`nav-link font-body text-sm font-medium transition-colors hover:text-ocre ${couleur}`}
+          >
+            {label}
+          </a>
+        );
+
         return (
-        <a
-          href={href}
-          aria-current={isActive ? 'page' : undefined}
-          class={`nav-link font-body text-sm font-medium transition-colors hover:text-ocre ${
-            isActive ? 'text-ocre is-active' : 'text-brun-mid'
-          }`}
-        >
-          {label}
-        </a>
+          <div class="nav-groupe" data-nav-groupe>
+            {href ? (
+              <a
+                href={href}
+                aria-current={current === href ? 'page' : undefined}
+                class={`nav-link font-body text-sm font-medium transition-colors hover:text-ocre ${couleur}`}
+              >
+                {label}
+              </a>
+            ) : (
+              <span class={`font-body text-sm font-medium ${couleur}`}>{label}</span>
+            )}
+            <button
+              type="button"
+              class={`nav-chevron ${couleur}`}
+              aria-expanded="false"
+              aria-controls={id}
+              aria-label={`Afficher les pages de la rubrique ${label}`}
+            >
+              <svg viewBox="0 0 12 12" width="9" height="9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2 4.5 L6 8.5 L10 4.5" />
+              </svg>
+            </button>
+            <div id={id} class="nav-panneau" hidden>
+              {enfants.map((e) => (
+                <a
+                  href={e.href}
+                  aria-current={current === e.href ? 'page' : undefined}
+                  class={`nav-sous-lien ${current === e.href ? 'est-courant' : ''}`}
+                >
+                  {e.label}
+                </a>
+              ))}
+            </div>
+          </div>
         );
       })}
     </nav>
 
     <!-- Loupe + CTA — extrême droite (desktop uniquement) -->
-    <div class="hidden md:flex items-center gap-2.5">
+    <div class="hidden lg:flex items-center gap-2.5">
       <button type="button" data-orient-open class="orient-trigger" aria-label="Rechercher une page (Ctrl + K)" aria-keyshortcuts="Control+K">
         <svg viewBox="0 0 20 20" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
           <circle cx="8.5" cy="8.5" r="5.5"/>
@@ -70,16 +151,47 @@ const current = Astro.url.pathname;
     </div>
   </div>
 
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden md:hidden bg-cream border-t border-cream-dark">
+  <!-- Menu mobile et tablette.
+       `max-height` + défilement interne : en paysage sur téléphone (375×667 par
+       exemple), les six entrées plus le CTA dépassent la hauteur d'écran. -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-cream border-t border-cream-dark max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain">
     <nav class="px-6 py-4 flex flex-col" aria-label="Navigation mobile">
-      {nav.map(({ href, label }) => {
-        const isActive = href === '/' ? current === '/' : current.startsWith(href);
+      {nav.map((entree) => {
+        const { href, label, enfants } = entree;
+        const isActive = estActive(entree);
+        const teinte = isActive ? 'text-ocre' : 'text-brun';
+
+        /* Rubriques à enfants : <details> plutôt qu'un panneau piloté en JS.
+           Le dépliage est natif, utilisable au clavier, et reste ouvrable même
+           si le script ne s'exécute pas. La rubrique de la page courante est
+           dépliée d'entrée. */
+        if (enfants) return (
+          <details class="menu-repli border-b border-cream-dark/40" open={isActive}>
+            <summary class={`font-body text-base py-3.5 flex items-center justify-center gap-2 cursor-pointer ${teinte}`}>
+              <span>{label}</span>
+              <svg class="menu-repli-fleche" viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2 4.5 L6 8.5 L10 4.5" />
+              </svg>
+            </summary>
+            <div class="flex flex-col pb-2">
+              {enfants.map((e) => (
+                <a
+                  href={e.href}
+                  aria-current={current === e.href ? 'page' : undefined}
+                  class={`font-body text-sm py-2.5 text-center hover:text-ocre transition-colors ${current === e.href ? 'text-ocre' : 'text-brun-mid'}`}
+                >
+                  {e.label}
+                </a>
+              ))}
+            </div>
+          </details>
+        );
+
         return (
         <a
           href={href}
           aria-current={isActive ? 'page' : undefined}
-          class={`relative font-body text-base py-3.5 border-b border-cream-dark/40 hover:text-ocre transition-colors flex items-center justify-center text-center ${isActive ? 'text-ocre' : 'text-brun'}`}
+          class={`relative font-body text-base py-3.5 border-b border-cream-dark/40 hover:text-ocre transition-colors flex items-center justify-center text-center ${teinte}`}
         >
           <span>{label}</span>
           <span aria-hidden="true" class="absolute right-0 text-bois-mid/40 text-xs">→</span>
@@ -97,6 +209,87 @@ const current = Astro.url.pathname;
 </header>
 
 <style is:global>
+  /* ── Navigation à deux niveaux, écran large ── */
+  .nav-groupe {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .nav-chevron {
+    background: none;
+    border: none;
+    padding: 4px 2px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+    border-radius: 4px;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .nav-chevron[aria-expanded='true'] { transform: rotate(180deg); }
+  .nav-groupe:hover .nav-chevron,
+  .nav-chevron:hover { color: var(--color-ocre); }
+
+  .nav-panneau {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 14rem;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    background: var(--color-cream);
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 0.85rem;
+    box-shadow: 0 14px 34px rgba(37, 92, 65, 0.13);
+    z-index: 60;
+  }
+  /* `hidden` seul ne suffit pas face à `display: flex`, il faut le forcer. */
+  .nav-panneau[hidden] { display: none; }
+
+  /* Pont invisible entre l'entrée et son panneau : sans lui, le curseur qui
+     traverse les 14px d'écart déclenche un mouseleave et le panneau se ferme
+     avant d'être atteint. */
+  .nav-panneau::before {
+    content: '';
+    position: absolute;
+    top: -14px;
+    left: 0;
+    right: 0;
+    height: 14px;
+  }
+
+  .nav-sous-lien {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--color-brun-mid);
+    padding: 0.55rem 0.75rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.18s ease, color 0.18s ease;
+  }
+  .nav-sous-lien:hover,
+  .nav-sous-lien:focus-visible {
+    background: var(--color-sauge-pale);
+    color: var(--color-brun);
+  }
+  .nav-sous-lien.est-courant { color: var(--color-ocre); font-weight: 500; }
+
+  /* ── Replis du menu mobile ── */
+  .menu-repli summary { list-style: none; }
+  .menu-repli summary::-webkit-details-marker { display: none; }
+  .menu-repli[open] .menu-repli-fleche { transform: rotate(180deg); }
+  .menu-repli-fleche { transition: transform 0.2s ease; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-chevron,
+    .menu-repli-fleche { transition: none; }
+  }
+
   /* ── Bouton son forêt ── */
   .sound-btn {
     background: none;
@@ -185,6 +378,62 @@ const current = Astro.url.pathname;
     });
   }
 
+  /* ── Panneaux de navigation, écran large ──
+     Ouverture au survol pour la souris, au clic et au clavier pour le reste.
+     Fermeture sur Échap, au clic à l'extérieur, et dès que le focus quitte la
+     rubrique : sans ce dernier cas, un panneau ouvert au clavier restait
+     affiché en tabulant vers la rubrique suivante. */
+  function bindNavGroupes() {
+    const groupes = Array.from(document.querySelectorAll<HTMLElement>('[data-nav-groupe]'));
+    if (!groupes.length) return;
+    const finPointeur = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+    const etat = groupes.map((groupe) => {
+      const chevron = groupe.querySelector<HTMLButtonElement>('.nav-chevron');
+      const panneau = groupe.querySelector<HTMLElement>('.nav-panneau');
+      if (!chevron || !panneau) return null;
+
+      const definir = (ouvert: boolean) => {
+        panneau.hidden = !ouvert;
+        chevron.setAttribute('aria-expanded', String(ouvert));
+      };
+      definir(false);
+
+      chevron.addEventListener('click', (e) => {
+        e.preventDefault();
+        const ouvert = chevron.getAttribute('aria-expanded') === 'true';
+        groupes.forEach((g) => {
+          const c = g.querySelector<HTMLButtonElement>('.nav-chevron');
+          const p = g.querySelector<HTMLElement>('.nav-panneau');
+          if (c && p && g !== groupe) { p.hidden = true; c.setAttribute('aria-expanded', 'false'); }
+        });
+        definir(!ouvert);
+      });
+
+      groupe.addEventListener('mouseenter', () => { if (finPointeur.matches) definir(true); });
+      groupe.addEventListener('mouseleave', () => { if (finPointeur.matches) definir(false); });
+
+      groupe.addEventListener('keydown', (e) => {
+        if ((e as KeyboardEvent).key !== 'Escape') return;
+        if (panneau.hidden) return;
+        definir(false);
+        chevron.focus();
+      });
+
+      groupe.addEventListener('focusout', () => {
+        /* Le focus n'est déplacé qu'après cet événement, d'où le report. */
+        setTimeout(() => { if (!groupe.contains(document.activeElement)) definir(false); }, 0);
+      });
+
+      return { groupe, definir };
+    }).filter(Boolean) as { groupe: HTMLElement; definir: (o: boolean) => void }[];
+
+    document.addEventListener('click', (e) => {
+      const cible = e.target as Node;
+      etat.forEach(({ groupe, definir }) => { if (!groupe.contains(cible)) definir(false); });
+    });
+  }
+
   /* ── Scroll shadow ── */
   function updateScrolled() {
     document.getElementById('header')?.classList.toggle('is-scrolled', window.scrollY > 24);
@@ -217,6 +466,7 @@ const current = Astro.url.pathname;
   }
 
   bindMenuToggle();
+  bindNavGroupes();
   bindSoundBtns();
   syncSoundBtn();
 
@@ -227,6 +477,7 @@ const current = Astro.url.pathname;
     /* Ferme le menu si ouvert avant la navigation */
     document.getElementById('mobile-menu')?.classList.add('hidden');
     bindMenuToggle();
+    bindNavGroupes();
     updateScrolled();
     window.removeEventListener('scroll', updateScrolled);
     window.addEventListener('scroll', updateScrolled, { passive: true });
