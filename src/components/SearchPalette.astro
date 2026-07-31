@@ -12,7 +12,7 @@
     <div class="orient-dialog" role="dialog" aria-modal="true" aria-labelledby="orient-label">
       <h2 id="orient-label" class="sr-only">Rechercher une page du site</h2>
 
-      <div class="orient-search">
+      <form class="orient-search" id="orient-form" role="search" action="/outils/diagnostic">
         <svg viewBox="0 0 20 20" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
           <circle cx="8.5" cy="8.5" r="5.5"></circle>
           <line x1="12.7" y1="12.7" x2="17" y2="17"></line>
@@ -21,6 +21,7 @@
           id="orient-input"
           type="text"
           role="combobox"
+          aria-label="Rechercher une page du site"
           aria-expanded="true"
           aria-controls="orient-results"
           aria-autocomplete="list"
@@ -31,7 +32,7 @@
           placeholder="Que cherchez-vous ? (tarifs, référencement, contact...)"
         />
         <button type="button" class="orient-esc" data-orient-close aria-label="Fermer la recherche">Échap</button>
-      </div>
+      </form>
 
       <ul id="orient-results" class="orient-results" role="listbox" aria-label="Pages proposées"></ul>
 
@@ -408,6 +409,13 @@
     document.addEventListener('input', (e) => {
       const t = e.target as HTMLElement;
       if (t && t.id === 'orient-input') render((t as HTMLInputElement).value);
+    });
+
+    // La recherche est pilotée au clavier (Entrée ouvre le résultat surligné) :
+    // on empêche toute soumission classique du formulaire, qui rechargerait la
+    // page. Le formulaire reste un vrai <form role="search"> pour l'accessibilité.
+    document.addEventListener('submit', (e) => {
+      if ((e.target as HTMLElement | null)?.id === 'orient-form') e.preventDefault();
     });
   })();
 </script>
