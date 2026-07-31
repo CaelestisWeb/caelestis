@@ -148,7 +148,7 @@ const Q2_LABELS: Record<string, Record<string, string>> = {
     large:  '30 à 50 produits',
   },
   surMesure: {
-    creation: 'Création from scratch',
+    creation: 'Création complète',
     refonte:  'Refonte d\'un site existant',
     ajout:    'Ajout de fonctionnalités',
   },
