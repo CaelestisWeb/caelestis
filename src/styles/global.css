@@ -160,6 +160,19 @@
     hanging-punctuation: first last;
   }
 
+  /* ── Recentrage optique des intertitres en capitales ──
+     Une lettre suivie d'un letter-spacing traîne un blanc après la dernière
+     lettre. Quand le texte est centré, ce blanc final le déséquilibre et le
+     tire visuellement vers la gauche de la moitié de l'espacement. On compense
+     par un retrait de première ligne égal à cette moitié.
+     Cadré volontairement : uniquement les intertitres d'un bloc `text-center`,
+     jamais les badges à bordure (équilibrés par leur padding) ni les
+     intertitres alignés à gauche. La valeur 0.11em couvre le cas dominant
+     (0.22em) ; l'écart résiduel sur 0.16 à 0.18em reste sous le demi-pixel. */
+  .text-center :is(p, span, h2, h3, h4)[class*="tracking-"][class*="uppercase"]:not([class*="inline-block"]):not([class*="border"]) {
+    text-indent: 0.11em;
+  }
+
   /* ── Grain texture papier — couche naturelle fixe ── */
   body::after {
     content: '';
