@@ -19,6 +19,7 @@
  */
 
 import { lookup } from 'node:dns/promises';
+import { connect as tlsConnect } from 'node:tls';
 
 export type Gravite = 'critique' | 'moyen' | 'mineur';
 
@@ -84,6 +85,9 @@ const DELAI_PAGE_MS = 7000;
 const DELAI_SONDE_MS = 3000;
 const POIDS_MAX = 2 * 1024 * 1024; // au-delà, on cesse de lire : c'est déjà un constat en soi
 const POIDS_SONDE_MAX = 512 * 1024;
+/* Seuils d'alerte sur la date d'expiration du certificat de sécurité. */
+const CERT_EXPIRE_CRITIQUE_JOURS = 7;
+const CERT_EXPIRE_PROCHE_JOURS = 21;
 const REDIRECTIONS_MAX = 4;
 const UA = 'Mozilla/5.0 (compatible; CaelestisDiagnostic/1.0; +https://caelestis.fr)';
 
@@ -313,6 +317,50 @@ async function sonder(url: URL, finAu: number, avecCorps = true): Promise<Sonde 
   }
 }
 
+/**
+ * Lit la date d'expiration du certificat de sécurité et renvoie le nombre de
+ * jours qui restent avant son échéance. Le fetch ordinaire n'expose pas cette
+ * information : on ouvre une connexion sécurisée dédiée le temps de lire le
+ * certificat présenté, puis on la referme aussitôt.
+ *
+ * Faillible et silencieuse : toute erreur, tout dépassement de budget renvoie
+ * null, et aucun constat n'en est alors tiré. `rejectUnauthorized: false` :
+ * un certificat déjà invalide est repéré en amont par l'échec du fetch ; ici on
+ * veut seulement lire une date, sans que la lecture échoue pour autant.
+ */
+async function sonderCertificat(hostname: string, finAu: number): Promise<number | null> {
+  const reste = finAu - Date.now();
+  if (reste < 500) return null;
+  if (!(await hotePublic(hostname))) return null;
+
+  return new Promise((resolve) => {
+    let fini = false;
+    const rendre = (valeur: number | null) => {
+      if (fini) return;
+      fini = true;
+      try { socket.destroy(); } catch { /* connexion déjà fermée */ }
+      resolve(valeur);
+    };
+    const socket = tlsConnect(
+      {
+        host: hostname,
+        port: 443,
+        servername: hostname,
+        timeout: Math.min(reste, DELAI_SONDE_MS),
+        rejectUnauthorized: false,
+      },
+      () => {
+        const cert = socket.getPeerCertificate();
+        const expire = cert?.valid_to ? Date.parse(cert.valid_to) : NaN;
+        if (Number.isNaN(expire)) return rendre(null);
+        rendre(Math.round((expire - Date.now()) / 86_400_000));
+      },
+    );
+    socket.on('error', () => rendre(null));
+    socket.on('timeout', () => rendre(null));
+  });
+}
+
 /* ══════════════════════════════════════════════════════════
    LECTURE DE LA PAGE
 ══════════════════════════════════════════════════════════ */
@@ -456,13 +504,14 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   const urlVariante = new URL(base); urlVariante.hostname = varianteHote; urlVariante.pathname = '/';
   const urlHttpNu = new URL(base); urlHttpNu.protocol = 'http:'; urlHttpNu.pathname = '/';
 
-  const [robots, planSite, page404, versionHttp, varianteWww, favicon] = await Promise.all([
+  const [robots, planSite, page404, versionHttp, varianteWww, favicon, certExpire] = await Promise.all([
     sonder(new URL('/robots.txt', base), finAu),
     sonder(new URL('/sitemap.xml', base), finAu),
     sonder(new URL('/caelestis-controle-page-absente', base), finAu),
     httpsDisponible ? sonder(urlHttpNu, finAu, false) : Promise.resolve(null),
     sonder(urlVariante, finAu, false),
     sonder(new URL('/favicon.ico', base), finAu, false),
+    httpsDisponible ? sonderCertificat(base.hostname, finAu) : Promise.resolve(null),
   ]);
 
   /* ── Mesures brutes ── */
@@ -813,6 +862,18 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   verifier('securite', 'critique', !httpsDisponible,
     "Le site n'est pas accessible en connexion sécurisée.",
     "Les navigateurs affichent un avertissement avant l'ouverture de la page, et Google déclasse les sites non sécurisés.");
+
+  /* L'expiration n'est comptée comme contrôle que si le certificat a pu être lu :
+     une lecture qui n'aboutit pas ne doit produire ni constat ni reproche. */
+  if (certExpire !== null) {
+    controle();
+    if (certExpire >= 0 && certExpire <= CERT_EXPIRE_PROCHE_JOURS) {
+      const echeance = certExpire === 0 ? "aujourd'hui" : certExpire === 1 ? 'demain' : `dans ${certExpire} jours`;
+      ajouter('securite', certExpire <= CERT_EXPIRE_CRITIQUE_JOURS ? 'critique' : 'moyen',
+        `Le certificat de sécurité du site expire ${echeance}.`,
+        "À son expiration, les navigateurs bloquent l'accès derrière un écran d'avertissement rouge, pour tous les visiteurs en même temps. Le renouvellement est souvent automatique, mais ce délai si court invite à le vérifier sans attendre.");
+    }
+  }
 
   verifier('securite', 'critique', formulaireNonChiffre,
     'Un formulaire envoie ses données en clair, sans chiffrement.',
