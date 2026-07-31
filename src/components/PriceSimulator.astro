@@ -358,6 +358,47 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
       </div>
     </div>
 
+    <!-- ══ s4v — Richesse des pages (vitrine) ══
+         Le nombre de pages ne dit rien de ce qu'il y a dedans : six pages en
+         texte brut ne demandent pas le meme travail que six pages pleines de
+         galeries et de formulaires. Cette question separe les deux. -->
+    <div class="sim-step" id="s4v" data-branch-q="qc" data-overline-prefix="Votre projet">
+      <p class="sim-overline">Votre projet</p>
+      <h2 class="sim-headline">Que contiennent<br>ces pages&nbsp;?</h2>
+      <div class="sim-cards-col">
+        <button class="sim-card" data-value="basique" aria-pressed="false">
+          <span class="sim-card-num">01</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Surtout du texte</strong>
+            <span class="sim-card-desc">Vos prestations expliquées, quelques photos d'illustration, un formulaire de contact.</span>
+          </span>
+          <span class="sim-card-check" aria-hidden="true"></span>
+        </button>
+        <button class="sim-card" data-value="galerie" aria-pressed="false">
+          <span class="sim-card-num">02</span>
+          <span class="sim-card-body">
+            <span class="sim-card-head">
+              <strong class="sim-card-title">Galeries photo et formulaires</strong>
+              <span class="sim-badge">Le plus courant</span>
+            </span>
+            <span class="sim-card-desc">Vos réalisations en images, des témoignages, plusieurs formulaires selon la demande.</span>
+          </span>
+          <span class="sim-card-check" aria-hidden="true"></span>
+        </button>
+        <button class="sim-card" data-value="dense" aria-pressed="false">
+          <span class="sim-card-num">03</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Beaucoup de contenu à structurer</strong>
+            <span class="sim-card-desc">Plusieurs galeries, un blog, des fiches détaillées, du contenu qui demande une vraie organisation.</span>
+          </span>
+          <span class="sim-card-check" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="sim-step-actions">
+        <button class="sim-continue sim-btn-primary" disabled>Continuer →</button>
+      </div>
+    </div>
+
     <!-- ══ s4b — Volume de contenu (boutique) ══ -->
     <div class="sim-step" id="s4b" data-branch-q="qc" data-overline-prefix="Votre projet">
       <p class="sim-overline">Votre projet</p>
@@ -1091,7 +1132,7 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
        Le dernier écran (s5) est la confirmation, il ne compte pas comme étape. */
     const PARCOURS: Record<string, string[]> = {
       pageUnique: ['s0', 's1', 's2p', 's3v', 's5gb', 's4', 's6', 's5'],
-      vitrine:    ['s0', 's1', 's2v', 's3v', 's5gb', 's4', 's6', 's5'],
+      vitrine:    ['s0', 's1', 's2v', 's3v', 's4v', 's5gb', 's4', 's6', 's5'],
       boutique:   ['s0', 's1', 's2b', 's3b', 's4b', 's5gb', 's4', 's6', 's5'],
       surMesure:  ['s0', 's1', 's3s', 's4s', 's4', 's6', 's5'],
     };
@@ -1194,7 +1235,7 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
     });
 
     /* ══ Questions branchées — mono-select ══ */
-    const BRANCH_IDS = ['s2p','s2v','s2b','s3v','s3b','s3s','s4b','s4s','s5gb','s4'];
+    const BRANCH_IDS = ['s2p','s2v','s2b','s3v','s3b','s3s','s4v','s4b','s4s','s5gb','s4'];
 
     BRANCH_IDS.forEach(sid => {
       const stepEl = document.getElementById(sid);

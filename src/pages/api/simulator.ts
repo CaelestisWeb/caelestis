@@ -71,7 +71,7 @@ function toArray(v: unknown): string[] {
 const VALID_TYPES = new Set(['pageUnique', 'vitrine', 'boutique', 'surMesure']);
 const VALID_Q2    = new Set(['essentiel', 'enrichie', 'riche', 'simple', 'standard', 'complet', 'small', 'medium', 'large', 'creation', 'refonte', 'ajout', 'autre']);
 const VALID_Q3    = new Set(['ready', 'has_logo', 'nothing', 'starting', 'existing', 'collective', 'simple', 'medium', 'complex', 'autre']);
-const VALID_QC    = new Set(['few', 'moderate', 'rich', 'brief', 'ideas', 'blank', 'autre']);
+const VALID_QC    = new Set(['basique', 'galerie', 'dense', 'few', 'moderate', 'rich', 'brief', 'ideas', 'blank', 'autre']);
 const VALID_Q4    = new Set(['slow', 'soon', 'urgent', 'autre']);
 const VALID_GB    = new Set(['creation', 'refonte', 'no']);
 
@@ -114,11 +114,15 @@ const Q3_QUESTION: Record<string, string> = {
 };
 
 const QC_QUESTION: Record<string, string> = {
+  vitrine:   'Richesse des pages',
   boutique:  'Volume de contenu',
   surMesure: 'Maturité du projet',
 };
 
 const QC_LABELS: Record<string, string> = {
+  basique:  'Pages surtout en texte',
+  galerie:  'Galeries photo et formulaires',
+  dense:    'Beaucoup de contenu à structurer',
   few:      'Peu de contenu',
   moderate: 'Volume modéré',
   rich:     'Contenu riche / volume important',
@@ -215,15 +219,28 @@ const Q2_SCORES: Record<string, Record<string, number>> = {
 const Q3_SCORES: Record<string, Record<string, number>> = {
   pageUnique: { ready: 0, has_logo:     75, nothing:       150, autre:  75 },
   vitrine:   { ready: 0, has_logo:     100, nothing:       200, autre: 100 },
-  boutique:  { starting: 0, collective: 100, existing:     200, autre: 125 },
+  /* Le regroupement de producteurs est le cas le plus lourd, devant le stock a
+     importer : stocks separes, repartition des ventes, fiche par producteur.
+     Il etait scoré sous le stock existant, ce qui le sous-facturait. */
+  boutique:  { starting: 0, existing:   200, collective:    250, autre: 125 },
   surMesure: { simple: 0, medium: 200, complex: 450, autre: 225 },
 };
+/* qc mesure la richesse du contenu, la ou q2 ne mesure qu'un volume (nombre de
+   pages, nombre de produits). Sans elle, une vitrine de six pages en texte brut
+   coutait autant que six pages pleines de galeries et de formulaires. */
 const QC_SCORES: Record<string, Record<string, number>> = {
+  vitrine:   { basique: 0, galerie: 125, dense: 250, autre: 125 },
   boutique:  { few: 0, moderate: 200, rich: 450, autre: 200 },
   surMesure: { brief: 0, ideas: 175, blank: 350, autre: 200 },
 };
-const Q4_SCORES: Record<string, number> = {
-  slow: 0, soon: 50, urgent: 100, autre: 50,
+/* L'urgence est proportionnelle : elle vaut environ 15 % du score maximum de
+   chaque formule. Un bareme fixe la rendait deux fois plus lourde sur une
+   vitrine (18 %) que sur une boutique (9 %), sans raison. */
+const Q4_SCORES: Record<string, Record<string, number>> = {
+  pageUnique: { slow: 0, soon: 50, urgent: 100, autre:  50 },
+  vitrine:    { slow: 0, soon: 60, urgent: 125, autre:  60 },
+  boutique:   { slow: 0, soon: 90, urgent: 185, autre:  90 },
+  surMesure:  { slow: 0, soon: 70, urgent: 140, autre:  70 },
 };
 
 function maxScore(vals: string[], scores: Record<string, number>): number {
@@ -253,9 +270,9 @@ function maxScore(vals: string[], scores: Record<string, number>): number {
    compter ici rendrait la derniere zone mathematiquement inatteignable. */
 const MAX_SCORE: Record<string, number> = {
   pageUnique: 650,   // q2 400 + q3 150 + q4 100
-  vitrine:    550,   // q2 250 + q3 200 + q4 100
-  boutique:  1100,   // q2 350 + q3 200 + qc 450 + q4 100
-  surMesure:  900,   // q3 450 + qc 350 + q4 100
+  vitrine:    825,   // q2 250 + q3 200 + qc 250 + q4 125
+  boutique:  1235,   // q2 350 + q3 250 + qc 450 + q4 185
+  surMesure:  940,   // q3 450 + qc 350 + q4 140
 };
 
 type PriceZone = { low: number; high: number };
@@ -341,7 +358,7 @@ function calculateEstimate(
   const score = maxScore(q2Vals, q2s)
               + maxScore(q3Vals, q3s)
               + maxScore(qcVals, qcs)
-              + maxScore(q4Vals, Q4_SCORES);
+              + maxScore(q4Vals, Q4_SCORES[dt] ?? Q4_SCORES.vitrine);
 
   const maxS    = MAX_SCORE[dt] ?? 550;
   const ratio   = maxS > 0 ? score / maxS : 0;
@@ -374,7 +391,13 @@ function getSummaryLine(type: string, q2: string, q3: string, qc: string, q2Othe
       has_logo: 'logo existant, textes à rédiger',
       nothing:  'tout à construire ensemble',
     };
-    return `Site vitrine ${pages[q2] ?? esc(q2Other)}, ${cont[q3] ?? esc(q3Other)}.`;
+    const richesse: Record<string, string> = {
+      basique: 'surtout du texte',
+      galerie: 'avec galeries et formulaires',
+      dense:   'beaucoup de contenu à structurer',
+    };
+    const r = richesse[qc] ? `${richesse[qc]}, ` : '';
+    return `Site vitrine ${pages[q2] ?? esc(q2Other)}, ${r}${cont[q3] ?? esc(q3Other)}.`;
   }
   if (type === 'boutique') {
     const prods: Record<string, string> = { small: '0 à 10 produits', medium: '10 à 30 produits', large: '30 à 50 produits' };
@@ -417,7 +440,7 @@ function buildProspectEmail(p: {
     ['Type de site',     typeLabel],
     ...(dt !== 'surMesure' ? [[p.q2Question, esc(p.q2Label)]] : []),
     [p.q3Question,       esc(p.q3Label)],
-    ...((dt === 'boutique' || dt === 'surMesure') ? [[p.qcQuestion, esc(p.qcLabel)]] : []),
+    ...(dt !== 'pageUnique' ? [[p.qcQuestion, esc(p.qcLabel)]] : []),
     ['Délai souhaité',   esc(p.q4Label)],
     ['Google Business',  esc(p.gbLabel)],
   ];
@@ -585,7 +608,7 @@ function buildAdminEmail(p: {
             ['Type de site',      typeLabel],
             ...(dt !== 'surMesure' ? [[p.q2Question, esc(p.q2Label)]] : []),
             [p.q3Question,        esc(p.q3Label)],
-            ...((dt === 'boutique' || dt === 'surMesure') ? [[p.qcQuestion, esc(p.qcLabel)]] : []),
+            ...(dt !== 'pageUnique' ? [[p.qcQuestion, esc(p.qcLabel)]] : []),
             ['Délai souhaité',    esc(p.q4Label)],
             ['Google Business',   esc(p.gbLabel)],
             ["Niveau d'intérêt",  esc(INTEREST_LABELS[p.interest] ?? `${p.interest}/5`)],
@@ -693,7 +716,7 @@ export const POST: APIRoute = async ({ request }) => {
     if (gbVals.length > 0 && !validateArray(gbVals, VALID_GB)) {
       return new Response(JSON.stringify({ error: 'Données invalides (Google Business).' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
-    if ((dtCheck === 'boutique' || dtCheck === 'surMesure') && !validateArray(qcVals, VALID_QC)) {
+    if (dtCheck !== 'pageUnique' && !validateArray(qcVals, VALID_QC)) {
       return new Response(JSON.stringify({ error: 'Données invalides (contenu).' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
     if (!interest || interest < 1 || interest > 5) {
