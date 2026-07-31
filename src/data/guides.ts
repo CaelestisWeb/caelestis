@@ -21,7 +21,7 @@ export type Guide = {
 
 export const guides: readonly Guide[] = [
   {
-    slug: 'combien-coute-un-site-internet',
+    slug: 'tarifs',
     titre: 'Combien coûte un site internet pour un artisan ou un indépendant ?',
     question: 'Combien ça coûte, vraiment ?',
     description:
