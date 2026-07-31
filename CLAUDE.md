@@ -12,12 +12,14 @@
 
 | Offre | Tarif |
 |---|---|
-| Site une page | dès 500 € |
-| Site vitrine | dès 800 € |
-| Boutique en ligne | dès 1 200 € |
-| Sur mesure | dès 2 500 € |
+| Site une page | dès 1 000 € |
+| Site vitrine | dès 2 000 € |
+| Boutique en ligne | dès 2 500 € |
+| Sur mesure | dès 3 500 € |
 
-Réponse sous 48h · Devis gratuit · Livraison 2 à 6 semaines.
+Grille relevée dans le code réel (source de vérité vivante) le 31/07/2026, cohérente sur toutes les pages : services, métas, simulateur, guide `/ressources/tarifs`. Les anciens montants 500/800/1 200/2 500 € étaient périmés. Maintenance en abonnement dès 7,99 €/mois.
+
+Réponse sous 48h · Devis gratuit · Livraison 2 à 8 semaines.
 Email : caelestis-pro@hotmail.com (envois : contact@caelestis.fr) · Tél : 07 69 36 27 27 · Du lundi au vendredi, 9h à 18h.
 
 ## Stack
