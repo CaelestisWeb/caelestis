@@ -64,7 +64,7 @@ export const FORMULES: readonly Formule[] = [
   {
     id: 'site-vitrine',
     nom: 'Site vitrine',
-    prix: 1800,
+    prix: 2000,
     href: '/services/site-vitrine',
     action: { href: '/services/site-vitrine', libelle: "Découvrir l'offre" },
     kicker: 'Le plus demandé',
