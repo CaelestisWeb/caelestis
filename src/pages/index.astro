@@ -404,10 +404,12 @@ const organizationSchema = {
         <li>Praticiens bien-être</li><li>Projets engagés</li>
       </ul>
 
-      <!-- Galerie portfolio : 4 photos, une grande, deux petites, un portrait pleine hauteur.
-           La cinquième (bureau au jardin) a été retirée : source 736×258 affichée plus large,
-           donc floue par construction. Ne réintroduire une photo ici qu'en 1600 px et nette. -->
-      <!-- Bento grid responsive : 2×2 mobile → bento desktop -->
+      <!-- Galerie portfolio : 4 photos, toutes en portrait, affichées en portrait.
+           Frise de 4 colonnes sur desktop, 2×2 sur mobile : chaque sujet est visible
+           en entier, aucune source portrait n'est écrasée dans une cellule paysage.
+           La cinquième (bureau au jardin) a été retirée : réserve de pixels sous le
+           seuil (0,93), floue par construction. Ne réintroduire une photo ici qu'à
+           réserve de pixels ≥ 4 à la taille d'affichage. -->
       <div class="bento-gallery" data-reveal data-delay="1">
 
         <!-- Jardin communautaire -->
@@ -416,21 +418,21 @@ const organizationSchema = {
             src={imgJardin}
             alt="Jardin maraîcher et espace vert verdoyant"
             class="w-full h-full object-cover object-center"
-            widths={[200, 400, 600, 736]}
-            sizes="(max-width: 767px) 50vw, (min-width: 1440px) 765px, 59vw"
+            widths={[200, 300, 440, 560]}
+            sizes="(max-width: 767px) 50vw, (min-width: 1440px) 273px, 22vw"
             loading="lazy"
             quality={62}
           />
         </div>
 
-        <!-- Yoga : portrait pleine hauteur (bento desktop) -->
+        <!-- Yoga au coucher de soleil -->
         <div class="bento-cell bento-yoga img-zoom overflow-hidden">
           <Image
             src={imgYoga}
             alt="Praticien bien-être, yoga au coucher de soleil"
             class="w-full h-full object-cover object-center"
-            widths={[200, 400, 760]}
-            sizes="(max-width: 767px) 50vw, (min-width: 1440px) 377px, 29vw"
+            widths={[200, 300, 440, 560]}
+            sizes="(max-width: 767px) 50vw, (min-width: 1440px) 273px, 22vw"
             loading="lazy"
             quality={62}
           />
@@ -441,9 +443,9 @@ const organizationSchema = {
           <Image
             src={imgArtisan}
             alt="Artisane dans son atelier botanique, créatrice indépendante"
-            class="w-full h-full object-cover object-center"
-            widths={[200, 400, 760]}
-            sizes="(max-width: 767px) 50vw, (min-width: 1440px) 377px, 29vw"
+            class="w-full h-full object-cover"
+            widths={[200, 300, 440, 560]}
+            sizes="(max-width: 767px) 50vw, (min-width: 1440px) 273px, 22vw"
             loading="lazy"
             quality={62}
           />
@@ -455,8 +457,8 @@ const organizationSchema = {
             src={imgBougies}
             alt="Atelier de bougies artisanales, artisan"
             class="w-full h-full object-cover object-center"
-            widths={[200, 400, 760]}
-            sizes="(max-width: 767px) 50vw, (min-width: 1440px) 377px, 29vw"
+            widths={[200, 300, 440, 560]}
+            sizes="(max-width: 767px) 50vw, (min-width: 1440px) 273px, 22vw"
             loading="lazy"
             quality={62}
           />
@@ -1378,29 +1380,25 @@ const organizationSchema = {
   }
 
   /* ── Galerie bento ── */
+  /* Frise de portraits : les quatre sources sont en portrait, on les affiche
+     en portrait pour ne rien écraser. Mobile 2×2, desktop 4 colonnes en ligne. */
   .bento-gallery {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 160px 160px;
     gap: 8px;
   }
-  /* Mobile : 2×2 */
-  .bento-jardin  { grid-column: 1; grid-row: 1; }
-  .bento-yoga    { grid-column: 2; grid-row: 1; }
-  .bento-artisan { grid-column: 1; grid-row: 2; }
-  .bento-bougies { grid-column: 2; grid-row: 2; }
+  .bento-cell { aspect-ratio: 3 / 4; }
 
-  /* Desktop : bento avec yoga portrait pleine hauteur (deux rangées) */
+  /* L'atelier est la plus verticale des sources (0,56) : on recentre pour
+     garder les mains et les coupelles dans le cadre. */
+  .bento-artisan :global(img) { object-position: center 38%; }
+
   @media (min-width: 768px) {
     .bento-gallery {
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 240px 240px;
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
     }
-    .bento-jardin  { grid-column: 1 / 3; grid-row: 1; }
-    .bento-yoga    { grid-column: 3;     grid-row: 1 / 3; }
-    .bento-artisan { grid-column: 1;     grid-row: 2; }
-    .bento-bougies { grid-column: 2;     grid-row: 2; }
+    .bento-cell { aspect-ratio: 2 / 3; }
   }
 
   .bento-cell {
