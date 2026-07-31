@@ -1,0 +1,129 @@
+---
+/**
+ * AutresFormules.astro : le maillage entre les quatre pages de formules.
+ *
+ * Depuis le 01/08/2026, les formules ne sont plus listées une par une dans le
+ * menu Services : il ne reste que « Toutes les offres ». Une page de formule
+ * n'était donc plus reliée qu'à /services, et un visiteur arrivé de Google sur
+ * la boutique en ligne n'avait aucun moyen de découvrir le site vitrine sans
+ * repasser par la case départ. Ce bloc rétablit le lien latéral.
+ *
+ * Les trois autres formules sont lues dans tarifs.ts : ni les noms, ni les
+ * prix, ni les accroches ne sont réécrits ici.
+ */
+import { euros, FORMULES, type Formule } from '../utils/tarifs';
+
+interface Props {
+  /** La formule de la page courante, la seule à ne pas être proposée. */
+  courante: Formule['id'];
+}
+
+const { courante } = Astro.props;
+const autres = FORMULES.filter((f) => f.id !== courante);
+---
+
+<section class="py-20 px-6 md:px-10 lg:px-20">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-10 lg:mb-12" data-reveal>
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Comparer</p>
+      <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);">
+        Les autres formules.
+      </h2>
+      <p class="font-body text-base text-brun-mid mt-4 max-w-xl mx-auto leading-relaxed">
+        Cette formule ne correspond pas tout à fait à votre projet ? Voici les trois autres, avec leur prix de départ et ce qu'elles apportent.
+      </p>
+    </div>
+
+    <div class="af-grille grid sm:grid-cols-3 gap-4 lg:gap-5" data-reveal data-delay="1">
+      {autres.map((f) => (
+        <a href={f.href} class="af-carte">
+          <h3 class="af-nom">{f.nom}</h3>
+          <p class="af-prix">dès {euros(f.prix)}&nbsp;€</p>
+          <p class="af-texte">{f.baseline}</p>
+          <span class="af-lien">Découvrir <span aria-hidden="true">→</span></span>
+        </a>
+      ))}
+    </div>
+
+    <p class="font-body text-sm text-brun-mid text-center mt-8" data-reveal data-delay="2">
+      <a href="/services" class="text-sauge font-medium underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">
+        Voir les quatre formules côte à côte
+      </a>
+    </p>
+
+  </div>
+</section>
+
+<style>
+  /* Reprise fidèle des blocs de tarif de la page Services : mêmes rayons,
+     mêmes teintes, même relief au survol. Une carte de formule doit se
+     reconnaître d'une page à l'autre. */
+  @media (min-width: 640px) {
+    .af-grille { grid-auto-rows: 1fr; }
+  }
+
+  .af-carte {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #FCFBF8;
+    border: 1px solid #E6E4DC;
+    border-radius: 18px;
+    padding: 26px 24px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .af-carte:hover {
+    border-color: rgba(46, 116, 82, 0.45);
+    box-shadow: 0 12px 30px rgba(37, 92, 65, 0.10);
+    transform: translateY(-2px);
+  }
+  .af-carte:focus-visible {
+    outline: 2px solid #255C41;
+    outline-offset: 3px;
+  }
+
+  .af-nom {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: 1.35rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #255C41;
+  }
+
+  /* Le prix reste au fil du texte, à hauteur de l'accroche : c'est un repère
+     de comparaison collé à sa formule, pas un chiffre de vitrine. */
+  .af-prix {
+    font-size: 0.82rem;
+    color: #2E7452;
+    font-weight: 500;
+    font-variant-numeric: lining-nums tabular-nums;
+    margin-top: 6px;
+  }
+
+  .af-texte {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #5C6259;
+    margin-top: 14px;
+    flex: 1;
+  }
+
+  .af-lien {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #2E7452;
+    transition: gap 0.25s ease;
+  }
+  .af-carte:hover .af-lien { gap: 14px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .af-carte, .af-lien { transition: none; }
+    .af-carte:hover { transform: none; }
+  }
+</style>

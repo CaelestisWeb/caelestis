@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 import AppelFinal from '../../components/AppelFinal.astro';
+import AutresFormules from '../../components/AutresFormules.astro';
 import { euros, formule } from '../../utils/tarifs';
 
 const canonical = 'https://caelestis.fr/services/site-sur-mesure';
@@ -248,6 +249,8 @@ const inclus = [
       </div>
     </div>
   </section>
+
+  <AutresFormules courante="site-sur-mesure" />
 
   <AppelFinal
     titre="Racontez-nous"
