@@ -41,31 +41,31 @@ const socials = [
 
       <!-- Carte centrée — masquée sur tablette md où elle écrase, visible lg+ -->
       <div class="hidden lg:flex flex-col items-center gap-3">
+        <!-- Repère régional décoratif, dessiné maison (SVG) : aucune iframe
+             Google Maps, donc aucune requête tierce ni dépôt de cookie Google
+             avant consentement (CNIL), et rien à charger côté performance. Le
+             lien vers la carte reste disponible pour qui veut situer la région. -->
         <div class="relative overflow-hidden" style="width: 200px; height: 148px; border-radius: 3px;">
-          <!-- Lien overlay cliquable au-dessus de la carte -->
           <a
             href="https://www.google.com/maps/place/Auvergne-Rh%C3%B4ne-Alpes/@45.45,4.55,7z"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Voir l'Auvergne-Rhône-Alpes sur Google Maps (nouvelle fenêtre)"
+            aria-label="Situer l'Auvergne-Rhône-Alpes sur Google Maps (nouvelle fenêtre)"
             class="absolute inset-0 z-20 transition-colors duration-200 hover:bg-white/5"
           ></a>
-          <!-- Dégradé décoratif -->
-          <div class="absolute inset-0 z-10 pointer-events-none" style="
-            background:
-              linear-gradient(to bottom, #1B4733 0%, transparent 20%, transparent 80%, #1B4733 100%),
-              linear-gradient(to right,  #1B4733 0%, transparent 15%, transparent 85%, #1B4733 100%);
-          "></div>
-          <iframe
-            src="https://maps.google.com/maps?q=Auvergne-Rhone-Alpes,+France&t=&z=6&ie=UTF8&iwloc=&output=embed&hl=fr"
-            width="200"
-            height="148"
-            style="border:0; filter: grayscale(1) brightness(0.55) contrast(1.1) sepia(0.2); display:block;"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            sandbox="allow-scripts allow-same-origin"
-            title="Auvergne-Rhône-Alpes, France"
-          ></iframe>
+          <svg viewBox="0 0 200 148" width="200" height="148" aria-hidden="true" style="position:absolute;inset:0;display:block;">
+            <rect width="200" height="148" fill="#1B4733"/>
+            <g fill="none" stroke="#2E7452" stroke-width="1" opacity="0.45" stroke-linecap="round">
+              <path d="M-10 38 C 40 20, 82 52, 132 33 S 210 28, 222 44"/>
+              <path d="M-10 66 C 50 52, 92 84, 142 62 S 206 58, 222 70"/>
+              <path d="M-10 96 C 45 84, 96 116, 150 92 S 206 90, 222 100"/>
+              <path d="M-10 122 C 55 112, 102 138, 156 120 S 206 118, 222 126"/>
+            </g>
+            <g transform="translate(100,64)">
+              <path d="M0 -15 C 8.5 -15, 13 -8.5, 13 -2 C 13 6.5, 0 21, 0 21 C 0 21, -13 6.5, -13 -2 C -13 -8.5, -8.5 -15, 0 -15 Z" fill="#B8C4BB"/>
+              <circle cx="0" cy="-2" r="4.2" fill="#1B4733"/>
+            </g>
+          </svg>
         </div>
         <p class="font-body text-xs tracking-[0.18em] uppercase text-center" style="color: rgba(252, 251, 248,0.78); max-width: 200px;">Auvergne-Rhône-Alpes</p>
       </div>
