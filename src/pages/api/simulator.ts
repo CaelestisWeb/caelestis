@@ -72,7 +72,7 @@ const VALID_Q2    = new Set(['simple', 'standard', 'complet', 'small', 'medium',
 const VALID_Q3    = new Set(['ready', 'has_logo', 'nothing', 'starting', 'existing', 'collective', 'simple', 'medium', 'complex', 'autre']);
 const VALID_QC    = new Set(['few', 'moderate', 'rich', 'brief', 'ideas', 'blank', 'autre']);
 const VALID_Q4    = new Set(['slow', 'soon', 'urgent', 'autre']);
-const VALID_GB    = new Set(['yes', 'no']);
+const VALID_GB    = new Set(['creation', 'refonte', 'no']);
 
 function validateArray(arr: string[], valid: Set<string>): boolean {
   return arr.length > 0 && arr.every(v => valid.has(v));
@@ -191,12 +191,15 @@ function getAnswerLabels(vals: string[], otherText: string, map: Record<string, 
 /* ══════════════════════════════════════════════════════════
    SCORING — points additifs par réponse (MAX si multi-select)
 ══════════════════════════════════════════════════════════ */
+/* q2 n'existe que pour la vitrine (nombre de pages) et la boutique (nombre de
+   produits). La page unique et le sur mesure ne posent pas cette question :
+   aucun bareme ici, toute valeur recue y vaut donc 0 point. */
 const Q2_SCORES: Record<string, Record<string, number>> = {
   vitrine:   { simple: 0, standard: 150, complet:          250, autre: 150 },
   boutique:  { small:  0, medium:   175, large:            350, autre: 200 },
-  surMesure: { creation: 0, refonte: 200, ajout: 400, autre: 200 },
 };
 const Q3_SCORES: Record<string, Record<string, number>> = {
+  pageUnique: { ready: 0, has_logo:    100, nothing:       200, autre: 100 },
   vitrine:   { ready: 0, has_logo:     100, nothing:       200, autre: 100 },
   boutique:  { starting: 0, collective: 100, existing:     200, autre: 125 },
   surMesure: { simple: 0, medium: 200, complex: 450, autre: 225 },
@@ -216,63 +219,80 @@ function maxScore(vals: string[], scores: Record<string, number>): number {
 
 /* ══════════════════════════════════════════════════════════
    CALCUL DU PRIX — 4 zones par type
-   Le ratio score/scoreMax détermine la zone (quartile).
-   Spreads : 200 a 400 € selon le type et la zone
+   Le ratio score/scoreMax determine la zone (quartile).
    ─────────────────────────────────────────────────────────
-   Vitrine    : 2000-2100 / 2100-2400 / 2500-2800 / 2900-3300
-   Boutique   : 2500-2800 / 2900-3200 / 3400-3800 / 4000-4400
-   Sur mesure : 3500-3900 / 4100-4500 / 4800-5300 / 5600-6200
+   Chaque formule va de son prix plancher au double de ce plancher :
+   la zone 1 part du prix affiche sur la page de l'offre, la zone 4
+   s'arrete a son double. Une estimation qui commencerait sous le prix
+   annonce serait un mensonge, au-dessus une incoherence.
 
-   Grille alignee sur les prix planchers du 31/07/2026 (1 000 / 2 000 /
-   2 500 / 3 500 €). La premiere zone de chaque type part exactement du
-   prix affiche sur la page de l'offre : une estimation qui commencerait
-   sous le prix annonce serait un mensonge, au-dessus une incoherence.
+   Page unique : 1000-1250 / 1250-1500 / 1500-1750 / 1750-2000
+   Vitrine     : 2000-2500 / 2500-3000 / 3000-3500 / 3500-4000
+   Boutique    : 2500-3100 / 3100-3800 / 3800-4400 / 4400-5000
+   Sur mesure  : 3500-4400 / 4400-5300 / 5300-6200 / 6200-7000
+
+   Grille alignee sur les prix planchers du 31/07/2026
+   (1 000 / 2 000 / 2 500 / 3 500 €).
 ══════════════════════════════════════════════════════════ */
 
-// Score maximum atteignable par type (somme des valeurs max de chaque question)
+/* Score maximum atteignable par type : somme des valeurs max des questions
+   REELLEMENT posees. La question q2 n'est posee ni pour la page unique ni
+   pour le sur mesure (le front envoie une valeur neutre a 0 point) : la
+   compter ici rendrait la derniere zone mathematiquement inatteignable. */
 const MAX_SCORE: Record<string, number> = {
-  pageUnique: 100,   // offre a prix fixe (le score n'influe pas)
-  vitrine:    550,   // 250 + 200 + 100
-  boutique:  1100,   // 350 + 200 + 450 + 100
-  surMesure: 1300,   // 400 + 350 + 450 + 100
+  pageUnique: 300,   // q3 200 + q4 100
+  vitrine:    550,   // q2 250 + q3 200 + q4 100
+  boutique:  1100,   // q2 350 + q3 200 + qc 450 + q4 100
+  surMesure:  900,   // q3 450 + qc 350 + q4 100
 };
 
 type PriceZone = { low: number; high: number };
 const PRICE_ZONES: Record<string, [PriceZone, PriceZone, PriceZone, PriceZone]> = {
-  // Site une page : offre a prix fixe 1 000 € (toutes les zones identiques)
   pageUnique: [
-    { low: 1000, high: 1000 },
-    { low: 1000, high: 1000 },
-    { low: 1000, high: 1000 },
-    { low: 1000, high: 1000 },
+    { low: 1000, high: 1250 },
+    { low: 1250, high: 1500 },
+    { low: 1500, high: 1750 },
+    { low: 1750, high: 2000 },
   ],
   vitrine: [
-    { low: 2000, high: 2100 },
-    { low: 2100, high: 2400 },
-    { low: 2500, high: 2800 },
-    { low: 2900, high: 3300 },
+    { low: 2000, high: 2500 },
+    { low: 2500, high: 3000 },
+    { low: 3000, high: 3500 },
+    { low: 3500, high: 4000 },
   ],
   boutique: [
-    { low: 2500, high: 2800 },
-    { low: 2900, high: 3200 },
-    { low: 3400, high: 3800 },
-    { low: 4000, high: 4400 },
+    { low: 2500, high: 3100 },
+    { low: 3100, high: 3800 },
+    { low: 3800, high: 4400 },
+    { low: 4400, high: 5000 },
   ],
   surMesure: [
-    { low: 3500, high: 3900 },
-    { low: 4100, high: 4500 },
-    { low: 4800, high: 5300 },
-    { low: 5600, high: 6200 },
+    { low: 3500, high: 4400 },
+    { low: 4400, high: 5300 },
+    { low: 5300, high: 6200 },
+    { low: 6200, high: 7000 },
   ],
 };
 
-const GB_ADDON_DEFAULT = 150;
-const GB_ADDON_BY_TYPE: Record<string, number> = { pageUnique: 100 };
-function gbAddon(dt: string): number { return GB_ADDON_BY_TYPE[dt] ?? GB_ADDON_DEFAULT; }
-const GB_LABELS: Record<string, string> = {
-  yes: 'Oui, optimisation incluse (+150 €)',
-  no:  'Non, pas pour l\'instant',
+/* Fiche Google Business : un supplement, pas un pourcentage. Creer une fiche
+   depuis zero (verification de l'etablissement, categories, photos, horaires)
+   demande plus de travail que reprendre une fiche existante.
+   Le sur mesure l'inclut : c'est un argument de vente de la formule haute. */
+const GB_ADDONS: Record<string, number> = {
+  creation: 300,
+  refonte:  200,
+  no:         0,
 };
+function gbAddon(dt: string, choice: string): number {
+  if (dt === 'surMesure') return 0;
+  return GB_ADDONS[choice] ?? 0;
+}
+const GB_LABELS: Record<string, string> = {
+  creation: 'Création de la fiche Google Business (+300 €)',
+  refonte:  'Refonte de la fiche existante (+200 €)',
+  no:       'Non, pas pour l\'instant',
+};
+const GB_LABEL_INCLUS = 'Incluse dans la formule sur mesure';
 
 function calculateEstimate(
   types:  string[],
@@ -295,8 +315,8 @@ function calculateEstimate(
   const maxS    = MAX_SCORE[dt] ?? 550;
   const ratio   = maxS > 0 ? score / maxS : 0;
   const zoneIdx = ratio < 0.25 ? 0 : ratio < 0.5 ? 1 : ratio < 0.75 ? 2 : 3;
-  const zone    = PRICE_ZONES[dt]?.[zoneIdx] ?? { low: 2000, high: 2100 };
-  const gbBonus = gbVals.includes('yes') ? gbAddon(dt) : 0;
+  const zone    = PRICE_ZONES[dt]?.[zoneIdx] ?? PRICE_ZONES.vitrine[0];
+  const gbBonus = gbAddon(dt, gbVals[0] ?? 'no');
 
   return { low: zone.low + gbBonus, high: zone.high + gbBonus };
 }
@@ -663,7 +683,9 @@ export const POST: APIRoute = async ({ request }) => {
     const q3Label    = getAnswerLabels(q3Vals, q3Other, Q3_LABELS[dt] ?? {});
     const qcLabel    = getAnswerLabels(qcVals, qcOther, QC_LABELS);
     const q4Label    = getAnswerLabels(q4Vals, q4Other, Q4_LABELS);
-    const gbLabel    = gbVals.length === 0 ? 'Non renseigné' : gbVals[0] === 'yes' ? `Oui, optimisation incluse (+${gbAddon(dt)} €)` : (GB_LABELS[gbVals[0]] ?? gbVals[0]);
+    const gbLabel    = dt === 'surMesure' ? GB_LABEL_INCLUS
+                     : gbVals.length === 0 ? 'Non renseigné'
+                     : (GB_LABELS[gbVals[0]] ?? gbVals[0]);
     const q2Question = Q2_QUESTION[dt] ?? 'Détail';
     const q3Question = Q3_QUESTION[dt] ?? 'Détail';
     const qcQuestion = QC_QUESTION[dt] ?? 'Volume de contenu';
