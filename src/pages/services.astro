@@ -51,7 +51,7 @@ const servicesSchema = {
   name: 'Services Caelestis',
   description: 'Sites web sur mesure et référencement naturel pour artisans, indépendants et petites entreprises en Auvergne-Rhône-Alpes. Agence basée à Crest, dans la Drôme.',
   url: 'https://caelestis.fr/services',
-  numberOfItems: 6,
+  numberOfItems: 7,
   itemListElement: [
     {
       '@type': 'ListItem',
@@ -139,6 +139,26 @@ const servicesSchema = {
           priceSpecification: {
             '@type': 'PriceSpecification',
             price: '1000',
+            priceCurrency: 'EUR',
+          },
+        },
+      },
+    },
+    {
+      '@type': 'ListItem',
+      position: 7,
+      item: {
+        '@type': 'Service',
+        name: 'Site sur mesure',
+        description: 'Un site entièrement adapté à votre projet, avec davantage de contenu, de fonctionnalités et un travail de référencement approfondi.',
+        url: 'https://caelestis.fr/services/site-sur-mesure',
+        provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
+        areaServed: [{ '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' }, { '@type': 'Country', name: 'France' }],
+        offers: {
+          '@type': 'Offer',
+          priceSpecification: {
+            '@type': 'PriceSpecification',
+            price: '3500',
             priceCurrency: 'EUR',
           },
         },
@@ -1187,7 +1207,11 @@ const etapes = [
       <button type="button" class="visionneuse-fermer" id="visionneuseFermer">Fermer</button>
     </div>
     <div class="visionneuse-corps">
-      <img id="visionneuseImage" src="" alt="">
+      <!-- Placeholder transparent d'1px : un src="" se résout contre l'URL de la
+           page et provoque une requête parasite. Le script remplit src et alt
+           à l'ouverture de la visionneuse. alt vide tant qu'aucun aperçu n'est
+           chargé : l'image n'a alors rien à décrire. -->
+      <img id="visionneuseImage" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" decoding="async">
     </div>
   </div>
 
