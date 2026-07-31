@@ -113,6 +113,21 @@ export const FORMULES: readonly Formule[] = [
 ] as const;
 
 /**
+ * Supplément pour la fiche Google Business, en euros.
+ *
+ * Cette prestation se vend en plus du site. Créer une fiche depuis zéro
+ * (validation de l'établissement, catégories, description, photos, horaires)
+ * demande plus de travail que reprendre une fiche qui existe déjà.
+ *
+ * La formule sur mesure la comprend : son supplément est nul, et c'est un
+ * argument de vente annoncé sur la page comme dans le simulateur.
+ */
+export const FICHE_GOOGLE = {
+  creation: 300,
+  refonte: 200,
+} as const;
+
+/**
  * Formate un montant en euros à la française.
  * Les centimes ne sont affichés que lorsqu'ils existent.
  */

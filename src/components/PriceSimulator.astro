@@ -1,5 +1,9 @@
 ---
-// PriceSimulator.astro — Branches par type de site, 4 questions, option Autre
+/* Simulateur d'estimation. Le parcours se ramifie selon le type de site :
+   4 à 6 questions, puis le formulaire. Le calcul du prix se fait côté serveur
+   dans src/pages/api/simulator.ts, jamais ici : un prix calculé dans le
+   navigateur serait modifiable par le visiteur. */
+import { FICHE_GOOGLE } from '../utils/tarifs';
 ---
 
 <div id="simulator" class="sim-wrap" aria-label="Simulateur de prix Caelestis">
@@ -21,7 +25,7 @@
 
     <!-- ══ s1 — Type de site (single select) ══ -->
     <div class="sim-step" id="s1" data-overline-prefix="Votre projet">
-      <p class="sim-overline">Votre projet, étape 1 sur 4</p>
+      <p class="sim-overline">Votre projet</p>
       <h2 class="sim-headline">Quel type de site<br>vous correspond&nbsp;?</h2>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="pageUnique" aria-pressed="false">
@@ -72,7 +76,7 @@
 
     <!-- s2v — Nombre de pages -->
     <div class="sim-step" id="s2v" data-branch-q="q2" data-overline-prefix="Votre projet">
-      <p class="sim-overline">Votre projet, étape 2 sur 4</p>
+      <p class="sim-overline">Votre projet</p>
       <h2 class="sim-headline">Sur combien de pages<br>souhaitez-vous présenter<br>votre activité&nbsp;?</h2>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="simple" aria-pressed="false">
@@ -110,7 +114,7 @@
 
     <!-- s3v — Contenu prêt ? -->
     <div class="sim-step" id="s3v" data-branch-q="q3" data-overline-prefix="Votre projet">
-      <p class="sim-overline">Votre projet, étape 3 sur 4</p>
+      <p class="sim-overline">Votre projet</p>
       <h2 class="sim-headline">Côté contenus,<br>où en êtes-vous&nbsp;?</h2>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="ready" aria-pressed="false">
@@ -161,7 +165,7 @@
 
     <!-- s2b — Nombre de produits -->
     <div class="sim-step" id="s2b" data-branch-q="q2" data-overline-prefix="Votre projet">
-      <p class="sim-overline">Votre projet, étape 2 sur 5</p>
+      <p class="sim-overline">Votre projet</p>
       <h2 class="sim-headline">Combien de produits<br>souhaitez-vous vendre&nbsp;?</h2>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="small" aria-pressed="false">
@@ -210,7 +214,7 @@
 
     <!-- s3b — Gestion des produits -->
     <div class="sim-step" id="s3b" data-branch-q="q3" data-overline-prefix="Votre projet">
-      <p class="sim-overline">Votre projet, étape 3 sur 5</p>
+      <p class="sim-overline">Votre projet</p>
       <h2 class="sim-headline">Comment gérez-vous<br>vos produits aujourd'hui&nbsp;?</h2>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="starting" aria-pressed="false">
@@ -261,7 +265,7 @@
 
     <!-- s3s — Complexité technique -->
     <div class="sim-step" id="s3s" data-branch-q="q3" data-overline-prefix="Votre projet">
-      <p class="sim-overline">Votre projet, étape 2 sur 4</p>
+      <p class="sim-overline">Votre projet</p>
       <h2 class="sim-headline">Quel niveau de complexité<br>envisagez-vous&nbsp;?</h2>
       <p class="sim-intro-sub">La formule sur mesure comprend la création ou la reprise de votre fiche Google Business, sans supplément.</p>
       <div class="sim-cards-col">
@@ -311,7 +315,7 @@
 
     <!-- ══ s4b — Volume de contenu (boutique) ══ -->
     <div class="sim-step" id="s4b" data-branch-q="qc" data-overline-prefix="Votre projet">
-      <p class="sim-overline">Votre projet, étape 4 sur 5</p>
+      <p class="sim-overline">Votre projet</p>
       <h2 class="sim-headline">Quel volume de contenu<br>éditorial prévoyez-vous&nbsp;?</h2>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="few" aria-pressed="false">
@@ -360,7 +364,7 @@
 
     <!-- ══ s4s — Maturité du projet (sur mesure) ══ -->
     <div class="sim-step" id="s4s" data-branch-q="qc" data-overline-prefix="Votre projet">
-      <p class="sim-overline">Votre projet, étape 3 sur 4</p>
+      <p class="sim-overline">Votre projet</p>
       <h2 class="sim-headline">Où en êtes-vous<br>dans votre réflexion&nbsp;?</h2>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="brief" aria-pressed="false">
@@ -418,7 +422,7 @@
           <span class="sim-card-body">
             <span class="sim-card-head">
               <strong class="sim-card-title">Je n'en ai pas, créez-la</strong>
-              <span class="sim-badge">+300 €</span>
+              <span class="sim-badge">+{FICHE_GOOGLE.creation}&nbsp;€</span>
             </span>
             <span class="sim-card-desc">Création complète : validation de l'établissement, catégories, description, photos et horaires.</span>
           </span>
@@ -429,7 +433,7 @@
           <span class="sim-card-body">
             <span class="sim-card-head">
               <strong class="sim-card-title">J'en ai une, reprenez-la</strong>
-              <span class="sim-badge">+200 €</span>
+              <span class="sim-badge">+{FICHE_GOOGLE.refonte}&nbsp;€</span>
             </span>
             <span class="sim-card-desc">Votre fiche existe déjà, je la reprends en entier pour qu'elle ressorte mieux dans les recherches locales.</span>
           </span>
@@ -451,7 +455,7 @@
 
     <!-- ══ s4 — Délai (universel) ══ -->
     <div class="sim-step" id="s4" data-branch-q="q4" data-overline-prefix="Votre calendrier">
-      <p class="sim-overline">Votre calendrier, étape 4 sur 4</p>
+      <p class="sim-overline">Votre calendrier</p>
       <h2 class="sim-headline">Dans quel délai<br>souhaitez-vous lancer&nbsp;?</h2>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="slow" aria-pressed="false">

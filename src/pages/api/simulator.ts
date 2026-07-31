@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import nodemailer from 'nodemailer';
+import { formule, FICHE_GOOGLE, type Formule } from '../../utils/tarifs';
 
 export const prerender = false;
 
@@ -226,13 +227,11 @@ function maxScore(vals: string[], scores: Record<string, number>): number {
    s'arrete a son double. Une estimation qui commencerait sous le prix
    annonce serait un mensonge, au-dessus une incoherence.
 
+   Au 31/07/2026, avec les prix en vigueur dans tarifs.ts :
    Page unique : 1000-1250 / 1250-1500 / 1500-1750 / 1750-2000
    Vitrine     : 2000-2500 / 2500-3000 / 3000-3500 / 3500-4000
    Boutique    : 2500-3100 / 3100-3800 / 3800-4400 / 4400-5000
    Sur mesure  : 3500-4400 / 4400-5300 / 5300-6200 / 6200-7000
-
-   Grille alignee sur les prix planchers du 31/07/2026
-   (1 000 / 2 000 / 2 500 / 3 500 €).
 ══════════════════════════════════════════════════════════ */
 
 /* Score maximum atteignable par type : somme des valeurs max des questions
@@ -247,49 +246,68 @@ const MAX_SCORE: Record<string, number> = {
 };
 
 type PriceZone = { low: number; high: number };
-const PRICE_ZONES: Record<string, [PriceZone, PriceZone, PriceZone, PriceZone]> = {
-  pageUnique: [
-    { low: 1000, high: 1250 },
-    { low: 1250, high: 1500 },
-    { low: 1500, high: 1750 },
-    { low: 1750, high: 2000 },
-  ],
-  vitrine: [
-    { low: 2000, high: 2500 },
-    { low: 2500, high: 3000 },
-    { low: 3000, high: 3500 },
-    { low: 3500, high: 4000 },
-  ],
-  boutique: [
-    { low: 2500, high: 3100 },
-    { low: 3100, high: 3800 },
-    { low: 3800, high: 4400 },
-    { low: 4400, high: 5000 },
-  ],
-  surMesure: [
-    { low: 3500, high: 4400 },
-    { low: 4400, high: 5300 },
-    { low: 5300, high: 6200 },
-    { low: 6200, high: 7000 },
-  ],
+
+/* Le simulateur nomme les formules autrement que tarifs.ts, pour des raisons
+   historiques de front. Cette table fait le pont, et evite de recopier ici
+   des prix qui finiraient par diverger de ceux affiches sur les offres. */
+const FORMULE_ID: Record<string, Formule['id']> = {
+  pageUnique: 'page-unique',
+  vitrine:    'site-vitrine',
+  boutique:   'boutique-en-ligne',
+  surMesure:  'site-sur-mesure',
 };
 
-/* Fiche Google Business : un supplement, pas un pourcentage. Creer une fiche
-   depuis zero (verification de l'etablissement, categories, photos, horaires)
-   demande plus de travail que reprendre une fiche existante.
+/* Seules les trois bornes intermediaires sont ecrites ici. Le plancher (le
+   prix affiche sur la page de l'offre) et le plafond (son double) viennent de
+   tarifs.ts : changer un prix la-bas suffit, le simulateur ne peut plus
+   annoncer un prix de depart different de celui de l'offre. */
+const PALIERS: Record<string, [number, number, number]> = {
+  pageUnique: [1250, 1500, 1750],
+  vitrine:    [2500, 3000, 3500],
+  boutique:   [3100, 3800, 4400],
+  surMesure:  [4400, 5300, 6200],
+};
+
+function construireZones(type: string): [PriceZone, PriceZone, PriceZone, PriceZone] {
+  const plancher = formule(FORMULE_ID[type]).prix;
+  const plafond  = plancher * 2;
+  /* Les bornes sont ramenees dans l'intervalle puis remises en ordre. Si un
+     prix bouge dans tarifs.ts sans que les paliers ci-dessus soient revus,
+     l'estimation reste coherente (jamais un minimum au-dessus d'un maximum)
+     au lieu d'annoncer une fourchette absurde au prospect. */
+  const [a, b, c] = PALIERS[type]
+    .map(v => Math.min(Math.max(v, plancher), plafond))
+    .sort((x, y) => x - y);
+  return [
+    { low: plancher, high: a },
+    { low: a,        high: b },
+    { low: b,        high: c },
+    { low: c,        high: plafond },
+  ];
+}
+
+const PRICE_ZONES: Record<string, [PriceZone, PriceZone, PriceZone, PriceZone]> = {
+  pageUnique: construireZones('pageUnique'),
+  vitrine:    construireZones('vitrine'),
+  boutique:   construireZones('boutique'),
+  surMesure:  construireZones('surMesure'),
+};
+
+/* Fiche Google Business : un supplement, pas un pourcentage. Les montants
+   viennent de tarifs.ts, le front affiche les memes sur ses etiquettes.
    Le sur mesure l'inclut : c'est un argument de vente de la formule haute. */
 const GB_ADDONS: Record<string, number> = {
-  creation: 300,
-  refonte:  200,
-  no:         0,
+  creation: FICHE_GOOGLE.creation,
+  refonte:  FICHE_GOOGLE.refonte,
+  no:       0,
 };
 function gbAddon(dt: string, choice: string): number {
   if (dt === 'surMesure') return 0;
   return GB_ADDONS[choice] ?? 0;
 }
 const GB_LABELS: Record<string, string> = {
-  creation: 'Création de la fiche Google Business (+300 €)',
-  refonte:  'Refonte de la fiche existante (+200 €)',
+  creation: `Création de la fiche Google Business (+${FICHE_GOOGLE.creation} €)`,
+  refonte:  `Refonte de la fiche existante (+${FICHE_GOOGLE.refonte} €)`,
   no:       'Non, pas pour l\'instant',
 };
 const GB_LABEL_INCLUS = 'Incluse dans la formule sur mesure';
