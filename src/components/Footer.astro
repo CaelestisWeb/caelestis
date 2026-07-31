@@ -34,13 +34,19 @@ const socials = [
         <p class="font-display text-base font-light mb-2.5 md:mb-4" style="color: rgba(252, 251, 248,0.78)">
           Votre travail mérite d'être trouvé.<br>On s'occupe de le mettre en lumière.
         </p>
-        <p class="font-body text-sm leading-relaxed max-w-md md:max-w-xs mx-auto md:mx-0" style="color: rgba(252, 251, 248,0.75)">
+        <!-- Sur lg, largeur resserrée : la colonne de droite ne pèse plus que ses
+             quatre lignes de contact, un paragraphe large de ce côté creusait un
+             vide deux fois plus grand entre la carte et le bloc contact. -->
+        <p class="font-body text-sm leading-relaxed max-w-md md:max-w-xs lg:max-w-[15.5rem] mx-auto md:mx-0" style="color: rgba(252, 251, 248,0.75)">
           Création de site, <a href="/services/referencement-naturel" class="text-cream hover:text-ocre transition-colors duration-200 underline decoration-cream-dark/40 underline-offset-2">référencement naturel</a> et accompagnement pour artisans, praticiens et professionnels engagés. Basé dans la Drôme, au service de toute <a href="/creation-site-internet-auvergne-rhone-alpes" class="text-cream hover:text-ocre transition-colors duration-200 underline decoration-cream-dark/40 underline-offset-2">l'Auvergne-Rhône-Alpes</a>.
         </p>
       </div>
 
       <!-- Carte centrée — masquée sur tablette md où elle écrase, visible lg+ -->
-      <div class="hidden lg:flex flex-col items-center gap-3">
+      <!-- `mt-1.5` : le rectangle plein démarre à ras de sa boîte alors que les
+           textes des deux autres colonnes portent un demi-interligne au-dessus.
+           Sans ce décalage, la carte paraît accrochée plus haut qu'elles. -->
+      <div class="hidden lg:flex flex-col items-center gap-3 lg:mt-1.5">
         <!-- Repère régional décoratif, dessiné maison (SVG) : aucune iframe
              Google Maps, donc aucune requête tierce ni dépôt de cookie Google
              avant consentement (CNIL), et rien à charger côté performance. Le
@@ -73,9 +79,12 @@ const socials = [
       <!-- Contact, aligné à droite (la navigation vit désormais pleine largeur
            sous la carte, pour tenir sur une seule ligne centrée). -->
       <div class="flex justify-center md:justify-end">
-        <div>
+        <!-- Fer à droite à partir de md : le bord droit du bloc rejoint celui des
+             mentions légales du bas de page, sinon les lignes restent en drapeau
+             et la colonne paraît flotter loin de la carte. -->
+        <div class="md:text-right">
           <p class="font-body text-xs tracking-widest uppercase mb-3 md:mb-4" style="color: rgba(252, 251, 248,0.75)">Contact</p>
-          <div class="flex flex-row flex-wrap justify-center items-center gap-x-4 gap-y-1.5 md:flex-col md:items-start md:gap-2.5">
+          <div class="flex flex-row flex-wrap justify-center items-center gap-x-4 gap-y-1.5 md:flex-col md:items-end md:gap-2.5">
             <a href="mailto:contact@caelestis.fr" class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.82)">
               contact@caelestis.fr
             </a>
@@ -83,7 +92,7 @@ const socials = [
               07 69 36 27 27
             </a>
             <p class="font-body text-sm" style="color: rgba(252, 251, 248,0.82)">Drôme, France</p>
-            <p class="font-body text-xs md:mt-1" style="color: rgba(252, 251, 248,0.78)">Du lundi au samedi, 9h à 18h</p>
+            <p class="font-body text-xs lg:text-sm md:mt-1" style="color: rgba(252, 251, 248,0.78)">Du lundi au samedi, 9h à 18h</p>
 
             {socials.length > 0 && (
               <div class="flex items-center gap-3 mt-2 md:mt-3">
