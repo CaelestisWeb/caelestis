@@ -536,7 +536,16 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     (b) => !/\bwidth\s*=/i.test(b) || !/\bheight\s*=/i.test(b),
   ).length;
   const imagesSansLazy = blocsImages.filter((b) => !/\bloading\s*=/i.test(b)).length;
-  const imagesFormatDate = blocsImages.filter((b) => /\.(jpe?g|png)\b/i.test(b)).length;
+  /* Une image servie par un optimiseur (Next/Image, Vercel, Cloudflare, Astro,
+     Cloudinary, imgix, weserv) est délivrée en WebP ou AVIF par négociation de
+     format : le « .jpg » qui reste dans l'URL source ne reflète pas le format
+     réellement reçu. Ne la compter comme non optimisée serait un faux positif,
+     puisqu'un `<img>` d'Astro déjà converti apparaît, lui, en .webp. */
+  const optimiseurImage =
+    /\/_next\/image|\/_vercel\/image|\/cdn-cgi\/image|\/_image\?|images\.weserv\.nl|res\.cloudinary\.com|[a-z0-9-]+\.imgix\.net/i;
+  const imagesFormatDate = blocsImages.filter(
+    (b) => /\.(jpe?g|png)\b/i.test(b) && !optimiseurImage.test(b),
+  ).length;
   const scripts = compter(/<script[^>]+src=/gi, html);
   /* Seuls les scripts du `head` bloquent réellement le premier affichage :
      compter ceux du corps de page exagérerait le constat. */
@@ -561,6 +570,21 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     const d = m[1].toLowerCase();
     if (!d.endsWith(domaineBase)) domainesTiers.add(d);
   }
+
+  /* « Scripts externes » au sens coûteux : ceux qui font vraiment attendre le
+     visiteur, c'est-à-dire les scripts tiers (autre domaine, connexion et cache
+     séparés) ou bloquants (ni async, ni defer, ni module). Les chunks d'un
+     framework moderne (Next, Astro, SvelteKit), servis depuis le même domaine et
+     chargés en async, sont multiplexés en HTTP/2, mis en cache et n'attendent
+     pas le rendu : les compter comme « trop de scripts » pénalise un site bien
+     construit. Le cas des scripts bloquants du head est déjà couvert à part. */
+  const scriptsCouteux = (html.match(/<script\b[^>]*\bsrc=[^>]*>/gi) ?? []).filter((t) => {
+    const src = t.match(/src=["']([^"']+)/i)?.[1] ?? '';
+    const hote = src.match(/^https?:\/\/([^/"'?\s]+)/i)?.[1]?.toLowerCase();
+    const tiers = !!hote && !hote.endsWith(domaineBase);
+    const differe = /\b(?:async|defer)\b/i.test(t) || /type=["']module["']/i.test(t);
+    return tiers || !differe;
+  }).length;
 
   /* Pages internes distinctes accessibles depuis l'accueil : c'est le nombre de
      portes d'entrée que le site offre à Google. */
@@ -674,6 +698,8 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     'Resort', 'BedAndBreakfast', 'Hotel', 'SportsActivityLocation', 'HealthClub',
     'DanceSchool', 'Photographer', 'EntertainmentBusiness', 'ChildCare',
     'Preschool', 'School', 'AutoRepair', 'AutomotiveBusiness', 'ShoppingCenter',
+    'JewelryStore', 'ClothingStore', 'ShoeStore', 'FurnitureStore', 'BookStore',
+    'HardwareStore', 'ArtGallery', 'Bakery', 'ButcherShop',
   ];
   const ficheEntreprise = new RegExp(
     `"@type"\\s*:\\s*(?:\\[\\s*)?"(?:${TYPES_ENTREPRISE.join('|')})"`,
@@ -793,9 +819,9 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
       'Une page bien construite tient sous 250 Ko de code. Le surplus retarde le premier affichage.');
   }
 
-  verifier('vitesse', 'moyen', scripts > SEUILS.scriptsNombreux,
-    `La page charge ${scripts} scripts externes et ${feuilles} fichiers de mise en forme.`,
-    'Chaque fichier est une attente supplémentaire avant que la page devienne utilisable.');
+  verifier('vitesse', 'moyen', scriptsCouteux > SEUILS.scriptsNombreux,
+    `La page charge ${scriptsCouteux} scripts tiers ou bloquants et ${feuilles} fichiers de mise en forme.`,
+    'Chaque fichier tiers ou bloquant est une attente supplémentaire avant que la page devienne utilisable.');
 
   verifier('vitesse', 'moyen', scriptsBloquants >= 3,
     `${scriptsBloquants} scripts sont chargés sans différé, en haut de page.`,
