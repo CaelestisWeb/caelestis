@@ -501,8 +501,9 @@ export const POST: APIRoute = async ({ request }) => {
     /* ── 9. Envoi SMTP ── */
     const transporter = nodemailer.createTransport({
       host: 'pro2.mail.ovh.net',
-      port: 465,
-      secure: true,
+      port: 587,
+      secure: false,      // STARTTLS : le port 465 (SSL implicite) ne répond plus côté OVH
+      requireTLS: true,
       auth: {
         user: 'contact@caelestis.fr',
         pass: smtpPassword,
