@@ -71,6 +71,14 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       }catch(_){}
     })();
     </script>
+    <!-- ── Failsafe sans JavaScript ──
+         Les éléments [data-reveal] partent à opacity:0 et ne sont révélés que
+         par le JS (GSAP sur desktop, IntersectionObserver sur mobile). Si le
+         script ne s'exécute pas (JS désactivé, moteur qui ne l'exécute pas),
+         ce noscript garantit que 100 % du contenu reste visible et lisible. -->
+    <noscript>
+      <style>[data-reveal]{opacity:1 !important;transform:none !important;}</style>
+    </noscript>
     <!-- ── GA4 — chargé uniquement après consentement CNIL ── -->
     <script is:inline>
     (function(){
