@@ -25,7 +25,7 @@ export const guides: readonly Guide[] = [
     titre: 'Combien coûte un site internet pour un artisan ou un indépendant ?',
     question: 'Combien ça coûte, vraiment ?',
     description:
-      'Les vrais prix d\'un site professionnel en 2026 : de 1 000 € pour une page unique à 3 500 € pour du sur mesure, ce qui fait varier le montant, et les coûts qui suivent.',
+      'Le prix médian d\'un site professionnel en France tourne autour de 5 200 €. Les fourchettes réelles par type de site, ce qui fait varier un devis, et nos tarifs de 1 000 à 3 500 €.',
     date: '2026-07-29',
   },
   {

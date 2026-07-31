@@ -2,95 +2,153 @@
 import GuideLayout from '../../components/GuideLayout.astro';
 import { FORMULES, euros } from '../../utils/tarifs';
 
-/* Les prix affichés ici sont lus dans tarifs.ts, la source unique : le guide
-   ne peut pas se retrouver en décalage avec la page Services. */
+/* Guide au format hybride : d'abord ce que fait le marché, chiffres attribués à
+   leur source, puis notre positionnement dans un encart nettement séparé. Ainsi
+   la page ne s'auto-proclame pas référence : elle cite, puis elle se situe.
+
+   Les prix Caelestis sont lus dans tarifs.ts, la source unique : le guide ne
+   peut pas se retrouver en décalage avec la page Services. */
 const [pageUnique, vitrine, boutique, surMesure] = FORMULES;
 ---
 
 <GuideLayout
   titre="Combien coûte un site internet pour un artisan ou un indépendant ?"
-  titleTag="Prix d'un site internet en 2026, les vrais chiffres, Caelestis"
-  description="Les vrais prix d'un site professionnel en 2026 : de 1 000 € pour une page unique à 3 500 € pour du sur mesure, ce qui fait varier le montant, et les coûts qui suivent."
+  titleTag="Prix d'un site internet en 2026, les chiffres réels, Caelestis"
+  description="Prix médian d'un site professionnel en France : environ 5 200 €. Les fourchettes réelles par type de site, et nos tarifs de 1 000 à 3 500 €."
   slug="tarifs"
   date="2026-07-29"
-  chapo="Pour un site professionnel réalisé par une agence, comptez entre 1 000 et 3 500 € selon l'ampleur du projet. Voici nos prix réels, ce qui fait varier le montant, et les coûts qui continuent après la mise en ligne."
+  chapo="Sur le marché français, un site professionnel réalisé par une agence se situe le plus souvent entre 2 000 et 8 000 €, avec un prix médian d'environ 5 200 € tous types confondus. Nos formules démarrent plus bas, de 1 000 à 3 500 €. Voici les chiffres du marché, ce qui fait varier un devis, et les frais qui continuent après la mise en ligne."
 >
-  <h2>Les prix, sans détour</h2>
+  <h2>Ce que coûte un site, sur le marché</h2>
   <p>
-    Beaucoup d'agences cachent leurs tarifs jusqu'au devis. Voici les nôtres,
-    les mêmes que sur notre <a href="/services">page Services</a> :
+    Commençons par les chiffres du marché, pas par les nôtres. Les comparateurs
+    qui recensent de vrais devis d'agences situent le prix médian d'un site
+    professionnel autour de 5 200 €, tous types de projets confondus
+    (comparateur <a href="https://www.lafabriquedunet.fr/agences/pages/agences-site-internet/tarifs" target="_blank" rel="noopener nofollow">La Fabrique du Net</a>).
+  </p>
+  <p>
+    Les fourchettes sont larges, parce qu'un « site » ne recouvre pas la même
+    chose d'un projet à l'autre. Voici ce qu'on relève en 2026 selon le type :
   </p>
   <table>
     <thead>
-      <tr><th>Formule</th><th>À partir de</th><th>Pour quoi faire</th></tr>
+      <tr><th>Type de site</th><th>Fourchette relevée sur le marché</th></tr>
     </thead>
     <tbody>
-      <tr>
-        <td><a href="/services/site-une-page">{pageUnique.nom}</a></td>
-        <td>{euros(pageUnique.prix)}&nbsp;€</td>
-        <td>Exister en ligne avec l'essentiel, sur une seule page qui défile.</td>
-      </tr>
-      <tr>
-        <td><a href="/services/site-vitrine">{vitrine.nom}</a></td>
-        <td>{euros(vitrine.prix)}&nbsp;€</td>
-        <td>Présenter plusieurs services et vos réalisations, page par page.</td>
-      </tr>
-      <tr>
-        <td><a href="/services/boutique-en-ligne">{boutique.nom}</a></td>
-        <td>{euros(boutique.prix)}&nbsp;€</td>
-        <td>Vendre vos produits en direct, sans commission de plateforme.</td>
-      </tr>
-      <tr>
-        <td><a href="/services/site-sur-mesure">{surMesure.nom}</a></td>
-        <td>{euros(surMesure.prix)}&nbsp;€</td>
-        <td>Réservation, configurateur ou tout outil propre à votre métier.</td>
-      </tr>
+      <tr><td>Site vitrine, chez un indépendant</td><td>1 500 à 3 000 €</td></tr>
+      <tr><td>Site vitrine, en agence</td><td>2 000 à 8 000 €</td></tr>
+      <tr><td>Petite boutique en ligne</td><td>2 000 à 6 000 €</td></tr>
+      <tr><td>E-commerce riche ou sur mesure</td><td>15 000 € et au-delà</td></tr>
     </tbody>
   </table>
   <p>
-    Ces montants s'entendent à partir de : c'est le prix d'un projet courant de la formule,
-    pas un prix d'appel. Ce qui les fait monter est listé plus bas, et annoncé dans le devis,
-    jamais découvert en cours de route.
+    Ces fourchettes sont recoupées entre plusieurs comparateurs et places de
+    marché de prestataires (Codeur, Wix, La Fabrique du Net). Elles s'entendent
+    hors options et hors contenu à produire, ce qui explique déjà une bonne
+    partie des écarts.
   </p>
 
   <h2>Pourquoi de tels écarts entre les prestataires ?</h2>
   <p>
-    Pour la même demande, vous recevrez des propositions de 300 € et d'autres de 10 000 €.
-    L'écart ne tient pas au bavardage commercial mais à ce qui est réellement fait :
+    Pour la même demande, vous recevrez des propositions à 500 € et d'autres à
+    10 000 €. L'écart ne tient pas au bavardage commercial, mais à ce qui est
+    réellement fait :
   </p>
   <ul>
     <li><strong>Le contenu.</strong> Reprendre vos textes tels quels coûte moins cher que les retravailler pour qu'ils convainquent et se positionnent sur Google. C'est pourtant là que se joue le résultat.</li>
     <li><strong>La conception.</strong> Un gabarit rempli en une journée et un design pensé pour votre métier ne demandent pas le même travail, et ne produisent pas le même effet sur vos clients.</li>
     <li><strong>La technique.</strong> Vitesse de chargement, affichage mobile, référencement de base, conformité RGPD : invisibles au premier regard, décisifs sur la durée.</li>
-    <li><strong>Ce qui vous appartient à la fin.</strong> Chez certains prestataires, vous louez votre site à vie. Chez nous, il est à vous au paiement complet : code, contenus et nom de domaine.</li>
+    <li><strong>Ce qui vous appartient à la fin.</strong> Chez certains prestataires, vous louez votre site à vie. Ailleurs, il devient le vôtre au paiement complet : code, contenus et nom de domaine.</li>
   </ul>
+
+  <div class="guide-caelestis">
+    <p class="guide-caelestis__label">Chez Caelestis</p>
+    <p>
+      Nous nous situons volontairement dans le bas de ces fourchettes, sans
+      rogner sur ce qui compte : le contenu retravaillé, un design pensé pour
+      votre métier, et un site qui vous appartient au dernier versement. Nos
+      prix sont les mêmes que sur notre <a href="/services">page Services</a> :
+    </p>
+    <table>
+      <thead>
+        <tr><th>Formule</th><th>À partir de</th><th>Pour quoi faire</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/services/site-une-page">{pageUnique.nom}</a></td>
+          <td>{euros(pageUnique.prix)}&nbsp;€</td>
+          <td>Exister en ligne avec l'essentiel, sur une seule page qui défile.</td>
+        </tr>
+        <tr>
+          <td><a href="/services/site-vitrine">{vitrine.nom}</a></td>
+          <td>{euros(vitrine.prix)}&nbsp;€</td>
+          <td>Présenter plusieurs services et vos réalisations, page par page.</td>
+        </tr>
+        <tr>
+          <td><a href="/services/boutique-en-ligne">{boutique.nom}</a></td>
+          <td>{euros(boutique.prix)}&nbsp;€</td>
+          <td>Vendre vos produits en direct, sans commission de plateforme.</td>
+        </tr>
+        <tr>
+          <td><a href="/services/site-sur-mesure">{surMesure.nom}</a></td>
+          <td>{euros(surMesure.prix)}&nbsp;€</td>
+          <td>Réservation, configurateur ou tout outil propre à votre métier.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Ces montants s'entendent à partir de : c'est le prix d'un projet courant
+      de la formule, pas un prix d'appel. Ce qui les fait monter est annoncé
+      dans le devis, jamais découvert en cours de route.
+    </p>
+  </div>
 
   <h2>Ce qui fait varier le prix d'un projet</h2>
   <p>
-    Trois facteurs, dans l'ordre d'impact : le nombre de pages réellement utiles,
-    l'état de vos contenus (photos et textes prêts, ou tout à construire),
-    et les fonctionnalités particulières comme une réservation ou un catalogue fourni.
-    Notre <a href="/outils/simulateur">simulateur de prix</a> vous donne une estimation
-    en deux minutes, sans laisser votre adresse email.
+    Trois facteurs, dans l'ordre d'impact : le nombre de pages réellement
+    utiles, l'état de vos contenus (photos et textes prêts, ou tout à
+    construire), et les fonctionnalités particulières comme une réservation ou
+    un catalogue fourni. Notre <a href="/outils/simulateur">simulateur de prix</a>
+    vous donne une estimation en deux minutes, sans laisser votre adresse email.
   </p>
 
-  <h2>Les coûts qui continuent après la mise en ligne</h2>
+  <h2>Les frais qui continuent après la mise en ligne</h2>
   <p>
-    Un site engendre des frais récurrents modestes mais réels. Il faut compter
-    le nom de domaine (une quinzaine d'euros par an), l'hébergement, et la maintenance
-    si vous la déléguez : mises à jour, sauvegardes, petites modifications de contenu.
-    Un prestataire honnête vous les chiffre avant la signature. Méfiez-vous des offres
-    où le site est bon marché et l'abonnement obligatoire coûteux : sur trois ans,
-    l'addition dépasse souvent celle d'un site acheté une fois et possédé pour de bon.
+    Un site engendre des frais récurrents modestes mais réels. Sur le marché,
+    comptez le nom de domaine (une quinzaine d'euros par an), l'hébergement
+    (autour de 30 € par mois selon les prestataires), et la maintenance si vous
+    la déléguez, facturée le plus souvent de 35 à 500 € par mois selon le niveau
+    de service. Un prestataire honnête vous les chiffre avant la signature.
+  </p>
+  <p>
+    Méfiez-vous des offres où le site est bon marché et l'abonnement obligatoire
+    coûteux : sur trois ans, l'addition dépasse souvent celle d'un site acheté
+    une fois et possédé pour de bon. Chez nous, la maintenance courante est
+    offerte les six premiers mois, puis proposée à part : jamais imposée pour
+    utiliser un site que vous avez déjà payé.
   </p>
 
-  <h2>Comment payer moins sans le regretter</h2>
+  <h2>Bien dimensionner pour payer le juste prix</h2>
   <p>
-    Le meilleur levier n'est pas de négocier, c'est de bien dimensionner. Une activité
-    qui se présente simplement n'a pas besoin de dix pages : une
-    <a href="/services/site-une-page">page unique</a> bien construite fait le travail
-    pour {euros(pageUnique.prix)}&nbsp;€, et vous pourrez passer à la formule supérieure plus tard
-    en ne payant que la différence. À l'inverse, économiser sur les photos ou sur le contenu
-    se paye ensuite : c'est ce que vos visiteurs regardent en premier.
+    Le meilleur levier n'est pas de négocier, c'est de bien dimensionner. Une
+    activité qui se présente simplement n'a pas besoin de dix pages : une
+    <a href="/services/site-une-page">page unique</a> bien construite fait le
+    travail pour {euros(pageUnique.prix)}&nbsp;€, et vous pourrez passer à la
+    formule supérieure plus tard en ne payant que la différence. À l'inverse,
+    économiser sur les photos ou sur le contenu se paye ensuite : c'est ce que
+    vos visiteurs regardent en premier.
   </p>
+
+  <div class="guide-sources">
+    <p class="guide-sources__title">Sources</p>
+    <ul>
+      <li><a href="https://www.lafabriquedunet.fr/agences/pages/agences-site-internet/tarifs" target="_blank" rel="noopener nofollow">La Fabrique du Net</a>, comparateur de devis d'agences (prix médian et fourchettes par type).</li>
+      <li><a href="https://www.codeur.com/pages/combien-coute-site-ecommerce" target="_blank" rel="noopener nofollow">Codeur</a>, place de marché de prestataires (fourchettes boutique et coûts de maintenance).</li>
+      <li><a href="https://fr.wix.com/blog/prix-site-ecommerce" target="_blank" rel="noopener nofollow">Wix</a>, guide des prix d'un site e-commerce.</li>
+    </ul>
+    <p style="font-size: 0.85rem; margin-top: 0.8rem;">
+      Chiffres relevés en 2026. Les fourchettes du marché évoluent ; nos prix,
+      eux, sont ceux affichés sur ce site.
+    </p>
+  </div>
 </GuideLayout>

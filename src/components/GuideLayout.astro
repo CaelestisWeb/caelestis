@@ -171,4 +171,55 @@ const dateAffichee = new Date(`${date}T12:00:00`).toLocaleDateString('fr-FR', {
     vertical-align: top;
   }
   .guide-prose th { color: var(--color-brun, #3E3228); font-weight: 600; }
-</style>
+
+  /* Encart « Chez Caelestis » : sépare visuellement notre positionnement de la
+     donnée marché qui le précède. Le lecteur, comme le moteur, voit d'un coup
+     d'œil ce qui relève du marché et ce qui nous est propre. */
+  .guide-prose .guide-caelestis {
+    margin: 2.75rem 0;
+    padding: 1.5rem 1.6rem;
+    border: 1px solid var(--color-cream-dark, #E8E2D6);
+    border-left: 3px solid var(--color-sauge-text, #4F7359);
+    border-radius: 4px;
+    background: rgba(107, 143, 113, 0.05);
+  }
+  .guide-prose .guide-caelestis > :first-child { margin-top: 0; }
+  .guide-prose .guide-caelestis > :last-child { margin-bottom: 0; }
+  .guide-prose .guide-caelestis__label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-body, inherit);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-sauge-text, #4F7359);
+    margin-bottom: 0.9rem;
+  }
+  .guide-prose .guide-caelestis__label::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--color-sauge-text, #4F7359);
+    flex-shrink: 0;
+  }
+
+  /* Bloc « Sources » de fin de guide : ce qui rend une réponse citable plutôt
+     qu'auto-proclamée. Discret, mais présent. */
+  .guide-prose .guide-sources {
+    margin-top: 3rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--color-cream-dark, #E8E2D6);
+  }
+  .guide-prose .guide-sources__title {
+    font-family: var(--font-body, inherit);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-sauge-text, #4F7359);
+    margin-bottom: 0.7rem;
+  }
+  .guide-prose .guide-sources ul { margin: 0; list-style: none; }
+  .guide-prose .guide-sources li { font-size: 0.85rem; line-height: 1.55; }
+</style></style>
