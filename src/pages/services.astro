@@ -670,9 +670,14 @@ const etapes = [
       text-transform: uppercase; flex: none;
     }
     .visionneuse-fermer:hover { background: #F6F2E7; color: #1C1A15; }
-    @media (max-width: 520px) {
-      .visionneuse-parcourir span { display: none; }
-      .visionneuse-parcourir { padding: 9px 12px; }
+    /* Sur mobile, l'en-tête passe à la ligne : le titre garde toute la première
+       rangée, les deux boutons descendent dessous. « Parcourir le site » reste
+       ainsi lisible en toutes lettres plutôt que réduit à une icône. */
+    @media (max-width: 560px) {
+      .visionneuse-tete { flex-wrap: wrap; gap: 12px 14px; }
+      .visionneuse-titre { flex: 1 1 100%; }
+      .visionneuse-actions { flex: 1 1 100%; justify-content: flex-end; }
+      .visionneuse-parcourir, .visionneuse-fermer { padding: 10px 16px; }
     }
     .visionneuse-corps { flex: 1; overflow-y: auto; padding: 0 22px 30px; }
     .visionneuse-corps img {
