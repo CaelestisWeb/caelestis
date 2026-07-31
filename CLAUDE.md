@@ -20,7 +20,7 @@
 Grille relevée dans le code réel (source de vérité vivante) le 31/07/2026, cohérente sur toutes les pages : services, métas, simulateur, guide `/ressources/tarifs`. Les anciens montants 500/800/1 200/2 500 € étaient périmés. Maintenance en abonnement dès 7,99 €/mois.
 
 Réponse sous 48h · Devis gratuit · Livraison 2 à 8 semaines.
-Email : caelestis-pro@hotmail.com (envois : contact@caelestis.fr) · Tél : 07 69 36 27 27 · Du lundi au vendredi, 9h à 18h.
+Email : caelestis-pro@hotmail.com (envois : contact@caelestis.fr) · Tél : 07 69 36 27 27 · Du lundi au samedi, 9h à 18h (horaires cohérents sur tout le site : contact, accueil, footer).
 
 ## Stack
 
