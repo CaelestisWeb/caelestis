@@ -34,24 +34,23 @@ Routes 410 Gone (`src/utils/gone.ts` + routes catch-all author/category/tag/feed
 
 ## Charte graphique RÉELLE (relevée dans src/styles/global.css)
 
-**Typographies** : `Lora` (serif, display/titres) + `DM Sans Variable` (corps). Auto-hébergées.
+**Typographie** : `Satoshi` (display ET corps), auto-hébergée en `src/assets/fonts/*.woff2` (poids 300/400/500/700), zéro requête tierce, hors liste noire. `@theme` dans `src/styles/global.css` est la source de vérité, ne pas dupliquer les hex ailleurs sans les y relever.
+
+Palette « forêt vivante » réelle (relevée dans `@theme`, `global.css`, le 31/07/2026) :
 
 | Variable | Hex | Usage |
 |---|---|---|
-| `--color-cream` | `#EDE3D4` | fond principal chaleureux |
-| `--color-cream-dark` | `#CFC0A0` | séparateurs organiques |
-| `--color-ocre` | `#4C3D19` | boutons, actions (café) |
-| `--color-ocre-dark` | `#362A10` | hover premium |
-| `--color-golden` | `#CFBB99` | highlights |
-| `--color-brun` | `#3d4f28` | texte, sections sombres (vert forêt) |
-| `--color-brun-mid` | `#6B6040` | texte secondaire |
-| `--color-sauge` | `#889063` | bordures, accents décoratifs (PAS de texte sur fond clair) |
-| `--color-sauge-text` | `#5C6A40` | textes sauge sur fond clair (WCAG AA 4.6:1) |
-| `--color-sauge-pale` | `#D8CDB0` | fonds de sections douces |
-| `--color-pierre` | `#8A8470` | gris-beige naturel |
-| `--color-encre` | `#2A1E0C` | profondeur absolue |
+| `--color-cream` | `#FCFBF8` | fond principal, parchemin chaud |
+| `--color-cream-dark` | `#E6E4DC` | séparateurs organiques |
+| `--color-ocre` / `--color-brun` / `--color-bois` | `#255C41` | vert forêt : CTA, texte, sections sombres |
+| `--color-ocre-dark` | `#1B4733` | vert profond, hover premium |
+| `--color-brun-mid` / `--color-pierre` | `#5C6259` | olive chaud, texte secondaire |
+| `--color-sauge` | `#B8C4BB` | mousse : bordures et accents (PAS de texte sur fond clair) |
+| `--color-sauge-text` / `--color-sauge-vif` | `#2E7452` | mousse foncée : textes et accents sur fond clair |
+| `--color-sauge-pale` | `#E3EFE8` | lin-mousse : fonds de sections douces |
+| `--color-encre` | `#12160F` | encre brûlée, profondeur absolue |
 
-Règle accessibilité en place : les labels eyebrow `.text-sauge` sont forcés à `#5C6440` sur fond clair, sauge clair conservé sur `.bg-brun`.
+Règle accessibilité en place : `.text-sauge` (accent décoratif `#B8C4BB`) ne porte jamais de texte sur fond clair ; les petits textes verts utilisent `--color-sauge-text` `#2E7452`. L'ancienne charte (Lora + DM Sans, palette olive `#889063`/`#EDE3D4`) est périmée.
 
 ## Règles rédactionnelles (strictes, comme partout)
 
