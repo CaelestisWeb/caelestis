@@ -116,7 +116,7 @@ function buildEmailHtml(params: {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nouvelle demande · Caelestis</title>
+  <title>Nouvelle demande, Caelestis</title>
 </head>
 <body style="margin:0;padding:0;background-color:#E3EFE8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
 
@@ -128,7 +128,7 @@ function buildEmailHtml(params: {
           <!-- ─── EN-TÊTE ─── -->
           <tr>
             <td style="background-color:#12160F;padding:32px 40px;border-radius:4px 4px 0 0;">
-              <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(242,247,240,0.45);font-weight:500;">Caelestis · Création de site web</p>
+              <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(242,247,240,0.45);font-weight:500;">Caelestis, Création de site web</p>
               <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#F4F2EC;letter-spacing:-0.02em;">Nouvelle demande reçue</h1>
               <p style="margin:6px 0 0;font-size:12px;color:rgba(242,247,240,0.38);">${safeDate}</p>
             </td>
@@ -264,7 +264,7 @@ function buildDevisInviteEmail(prenom: string, dateStr: string): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Votre questionnaire de devis · Caelestis</title>
+  <title>Votre questionnaire de devis, Caelestis</title>
 </head>
 <body style="margin:0;padding:0;background-color:#E3EFE8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
 
@@ -276,7 +276,7 @@ function buildDevisInviteEmail(prenom: string, dateStr: string): string {
           <!-- ─── EN-TÊTE ─── -->
           <tr>
             <td style="background-color:#12160F;padding:32px 40px;border-radius:4px 4px 0 0;">
-              <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(242,247,240,0.45);font-weight:500;">Caelestis · Création de site web</p>
+              <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(242,247,240,0.45);font-weight:500;">Caelestis, Création de site web</p>
               <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#F4F2EC;letter-spacing:-0.02em;">Votre questionnaire de devis</h1>
               <p style="margin:6px 0 0;font-size:12px;color:rgba(242,247,240,0.38);">${safeDate}</p>
             </td>
@@ -516,7 +516,7 @@ export const POST: APIRoute = async ({ request }) => {
       hour: '2-digit', minute: '2-digit',
     });
 
-    const subject = `[Caelestis] ${typeInfo.label} · ${prenom}${societe ? ' · ' + societe : ''}`;
+    const subject = `[Caelestis] ${typeInfo.label}, ${prenom}${societe ? ', ' + societe : ''}`;
     const html    = buildEmailHtml({ type, prenom, email, societe, projet, date: dateStr, extras });
 
     await transporter.sendMail({
@@ -532,7 +532,7 @@ export const POST: APIRoute = async ({ request }) => {
       await transporter.sendMail({
         from:    '"Caelestis" <contact@caelestis.fr>',
         to:      email,
-        subject: 'Votre questionnaire de devis · Caelestis',
+        subject: 'Votre questionnaire de devis, Caelestis',
         html:    buildDevisInviteEmail(prenom, dateStr),
       });
     }

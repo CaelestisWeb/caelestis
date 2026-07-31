@@ -151,7 +151,7 @@ function arrLabel(vals: string[], category: string, otherVal = ''): string {
   return vals.map(v => {
     if (v === 'autre') return otherVal ? `Autre : ${esc(otherVal)}` : 'Autre';
     return esc(map[v] ?? v);
-  }).join(' &nbsp;·&nbsp; ');
+  }).join(', ');
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -255,7 +255,7 @@ function buildAdminEmail(
 
   <!-- En-tête -->
   <tr><td style="background:linear-gradient(135deg,#1B4733 0%,#255C41 100%);padding:32px 36px;border-radius:8px 8px 0 0;">
-    <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:500;">Caelestis · Questionnaire création</p>
+    <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:500;">Caelestis, Questionnaire création</p>
     <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#fff;letter-spacing:-.02em;">Nouveau questionnaire de création : ${esc(nominant)}</h1>
     <p style="margin:6px 0 0;font-size:12px;color:rgba(255,255,255,.4);">${esc(dateStr)}</p>
   </td></tr>
@@ -353,7 +353,7 @@ function buildClientEmail(d: Record<string, unknown>, dateStr: string, filenames
 <table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%;">
 
   <tr><td style="background:linear-gradient(135deg,#1B4733 0%,#255C41 100%);padding:32px 36px;border-radius:8px 8px 0 0;">
-    <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:500;">Caelestis · Questionnaire de création</p>
+    <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:500;">Caelestis, Questionnaire de création</p>
     <h1 style="margin:10px 0 0;font-size:24px;font-weight:300;color:#fff;letter-spacing:-.02em;">Questionnaire bien reçu ✓</h1>
     <p style="margin:8px 0 0;font-size:12px;color:rgba(255,255,255,.45);">${esc(dateStr)}</p>
   </td></tr>
@@ -384,7 +384,7 @@ function buildClientEmail(d: Record<string, unknown>, dateStr: string, filenames
   </td></tr>
 
   <tr><td style="background:#12160F;padding:18px 36px;border-radius:0 0 8px 8px;">
-    <p style="margin:0;font-size:11px;color:rgba(255,255,255,.3);line-height:1.65;">Vous recevez cet email car vous avez complété le questionnaire de création sur <strong style="color:rgba(255,255,255,.55);">caelestis.fr</strong>.<br>Caelestis · Drôme, France · contact@caelestis.fr</p>
+    <p style="margin:0;font-size:11px;color:rgba(255,255,255,.3);line-height:1.65;">Vous recevez cet email car vous avez complété le questionnaire de création sur <strong style="color:rgba(255,255,255,.55);">caelestis.fr</strong>.<br>Caelestis, Drôme, France, contact@caelestis.fr</p>
   </td></tr>
 
 </table>
@@ -424,7 +424,7 @@ function generateQuestionnairePDF(
       return vals.map(v => {
         if (v === 'autre') return str(d[otherK]) ? `Autre : ${str(d[otherK])}` : 'Autre';
         return map[v] ?? v;
-      }).join('  ·  ');
+      }).join(', ');
     };
     const radio = (cat: string, k: string, otherK = '') => radioLabel(cat, str(d[k]), str(d[otherK])).replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'");
 
@@ -432,7 +432,7 @@ function generateQuestionnairePDF(
     doc.rect(0, 0, doc.page.width, 90).fill(TEAL);
     doc.fillColor('#FFFFFF')
        .fontSize(9).font('Helvetica')
-       .text('CAELESTIS · QUESTIONNAIRE CLIENT', 50, 22, { characterSpacing: 1.5 });
+       .text('CAELESTIS, QUESTIONNAIRE CLIENT', 50, 22, { characterSpacing: 1.5 });
     const nom = str(d['nom_dirigeant']) || str(d['nom_entreprise']) || 'Client';
     doc.fontSize(20).font('Helvetica-Bold')
        .text(nom, 50, 36);
@@ -535,7 +535,7 @@ function generateQuestionnairePDF(
       doc.rect(0, doc.page.height - 30, doc.page.width, 30).fill(DARK);
       doc.fillColor('white').fontSize(7).font('Helvetica')
          .text(
-           `Caelestis · questionnaire création · caelestis.fr · contact@caelestis.fr   |   Page ${i + 1} / ${totalPages}`,
+           `Caelestis, questionnaire création, caelestis.fr, contact@caelestis.fr   |   Page ${i + 1} / ${totalPages}`,
            50, doc.page.height - 19,
            { align: 'center', width: W },
          );
@@ -566,7 +566,7 @@ function generateQuestionnaireDocx(
     return vals.map(v => {
       if (v === 'autre') return str(d[otherK]) ? `Autre : ${str(d[otherK])}` : 'Autre';
       return map[v] ?? v;
-    }).join('  ·  ');
+    }).join(', ');
   };
   const radio = (cat: string, k: string, otherK = '') =>
     radioLabel(cat, str(d[k]), str(d[otherK]))
@@ -677,7 +677,7 @@ function generateQuestionnaireDocx(
 
     /* Pied de page */
     new Paragraph({
-      children: [new TextRun({ text: 'Caelestis · caelestis.fr · contact@caelestis.fr · 07 69 36 27 27', color: MUTED, size: 16, font: 'Calibri' })],
+      children: [new TextRun({ text: 'Caelestis, caelestis.fr, contact@caelestis.fr, 07 69 36 27 27', color: MUTED, size: 16, font: 'Calibri' })],
       alignment: AlignmentType.CENTER,
       spacing: { before: 400 },
       border: { top: { style: BorderStyle.SINGLE, size: 1, color: 'E8EDF2' } },
@@ -810,7 +810,7 @@ export const POST: APIRoute = async ({ request }) => {
         from:        '"Questionnaire Caelestis" <contact@caelestis.fr>',
         to:          'contact@caelestis.fr',
         replyTo:     emailContact,
-        subject:     `[Création] ${nominant} · questionnaire de création`,
+        subject:     `[Création] ${nominant}, questionnaire de création`,
         html:        buildAdminEmail(body, dateStr, filenames),
         attachments: [
           { filename: `questionnaire-${slug}-${dateSlug}.pdf`,  content: pdfBuffer,  contentType: 'application/pdf' },

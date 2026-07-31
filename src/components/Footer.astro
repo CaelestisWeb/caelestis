@@ -90,7 +90,7 @@ const socials = [
             ].map(({ href, label }, i) => (
               <Fragment>
                 <a href={href} class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.82)">{label}</a>
-                {/* Force la 2e ligne sur mobile : « Accueil · Services · Simulateur » puis « À propos · Contact » */}
+                {/* Force la 2e ligne sur mobile : « Accueil, Services, Simulateur » puis « À propos, Contact » */}
                 {i === 2 && <span class="basis-full h-0 md:hidden" aria-hidden="true"></span>}
               </Fragment>
             ))}

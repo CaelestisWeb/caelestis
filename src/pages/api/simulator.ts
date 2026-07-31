@@ -128,9 +128,9 @@ const QC_LABELS: Record<string, string> = {
 
 const Q2_LABELS: Record<string, Record<string, string>> = {
   vitrine:   {
-    simple:   'Simple · 1 à 4 pages',
-    standard: 'Standard · 4 à 6 pages',
-    complet:  'Complet · 6 pages et plus',
+    simple:   'Simple, 1 à 4 pages',
+    standard: 'Standard, 4 à 6 pages',
+    complet:  'Complet, 6 pages et plus',
   },
   boutique:  {
     small:  '0 à 10 produits',
@@ -181,12 +181,12 @@ const INTEREST_LABELS: Record<number, string> = {
   5: 'Prêt à lancer (5/5)',
 };
 
-/* Génère un label lisible pour un tableau de valeurs (joint par " · ") */
+/* Génère un label lisible pour un tableau de valeurs (joint par ", ") */
 function getAnswerLabels(vals: string[], otherText: string, map: Record<string, string>): string {
   return vals.map(v => {
     if (v === 'autre') return otherText ? `Autre : ${otherText}` : 'Autre (non précisé)';
     return map[v] ?? v;
-  }).join(' · ');
+  }).join(', ');
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -390,7 +390,7 @@ function buildProspectEmail(p: {
   low: number; high: number;
 }) {
   const dt           = dominantType(p.types);
-  const typeLabel    = esc(p.types.map(t => TYPE_LABELS[t] ?? t).join(' · '));
+  const typeLabel    = esc(p.types.map(t => TYPE_LABELS[t] ?? t).join(', '));
   const safeActivity = esc(p.activity);
   const summaryLine  = getSummaryLine(dt, p.q2Primary, p.q3Primary, p.qcPrimary, p.q2Other, p.q3Other, p.qcOther);
 
@@ -430,7 +430,7 @@ function buildProspectEmail(p: {
 
       <!-- Header -->
       <tr><td class="em-pad" style="background-color:#255C41;padding:26px 36px 22px;">
-        <p style="margin:0 0 12px;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(252, 251, 248,0.45);font-weight:500;">Caelestis · Création de site web</p>
+        <p style="margin:0 0 12px;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(252, 251, 248,0.45);font-weight:500;">Caelestis, Création de site web</p>
         <p style="margin:0;font-size:24px;color:#F4F2EC;letter-spacing:-0.02em;line-height:1.25;"><span style="font-weight:300;">Votre estimation </span><strong style="font-weight:700;">personnalisée</strong></p>
       </td></tr>
 
@@ -446,7 +446,7 @@ function buildProspectEmail(p: {
           <tr><td style="background-color:#255C41;padding:22px 24px 20px;border-radius:10px;text-align:center;">
             <p style="margin:0 0 10px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(252, 251, 248,0.5);">${typeLabel}</p>
             <p class="em-price" style="margin:0;font-size:34px;font-weight:700;color:#F4F2EC;letter-spacing:-0.03em;line-height:1.1;">${p.low === p.high ? `${p.low.toLocaleString('fr-FR')}&nbsp;€` : `${p.low.toLocaleString('fr-FR')}&nbsp;€&ensp;<span style="font-weight:200;font-size:22px;color:rgba(252, 251, 248,0.35);">à</span>&ensp;${p.high.toLocaleString('fr-FR')}&nbsp;€`}</p>
-            <p style="margin:10px 0 0;font-size:11px;color:rgba(252, 251, 248,0.32);letter-spacing:0.02em;">Estimation indicative · devis précis après échange</p>
+            <p style="margin:10px 0 0;font-size:11px;color:rgba(252, 251, 248,0.32);letter-spacing:0.02em;">Estimation indicative, devis précis après échange</p>
           </td></tr>
         </table>
       </td></tr>
@@ -481,12 +481,12 @@ function buildProspectEmail(p: {
       <tr><td class="em-pad" style="background-color:#FCFBF8;padding:0 36px 28px;">
         <p style="margin:0 0 2px;font-size:14px;color:#5C6259;">À très bientôt,</p>
         <p style="margin:0 0 2px;font-size:15px;font-weight:700;color:#255C41;">Célestin</p>
-        <p style="margin:0;font-size:12px;color:#5C6259;">Fondateur de Caelestis · 07&nbsp;69&nbsp;36&nbsp;27&nbsp;27</p>
+        <p style="margin:0;font-size:12px;color:#5C6259;">Fondateur de Caelestis, 07&nbsp;69&nbsp;36&nbsp;27&nbsp;27</p>
       </td></tr>
 
       <!-- Pied -->
       <tr><td class="em-pad" style="background-color:#2e3b1a;padding:16px 36px;">
-        <p style="margin:0;font-size:11px;color:rgba(252, 251, 248,0.30);line-height:1.6;">Vous recevez cet email suite à votre simulation sur <a href="https://caelestis.fr" style="color:rgba(252, 251, 248,0.52);text-decoration:none;">caelestis.fr</a> · contact@caelestis.fr</p>
+        <p style="margin:0;font-size:11px;color:rgba(252, 251, 248,0.30);line-height:1.6;">Vous recevez cet email suite à votre simulation sur <a href="https://caelestis.fr" style="color:rgba(252, 251, 248,0.52);text-decoration:none;">caelestis.fr</a>, contact@caelestis.fr</p>
       </td></tr>
 
     </table>
@@ -507,7 +507,7 @@ function buildAdminEmail(p: {
   low: number; high: number; interest: number; date: string;
 }) {
   const dt         = dominantType(p.types);
-  const typeLabel  = esc(p.types.map(t => TYPE_LABELS[t] ?? t).join(' · '));
+  const typeLabel  = esc(p.types.map(t => TYPE_LABELS[t] ?? t).join(', '));
   const safeEmail  = esc(p.email);
   const safePrenom = esc(p.prenom);
 
@@ -520,7 +520,7 @@ function buildAdminEmail(p: {
     <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
       <tr><td style="background-color:#255C41;padding:32px 40px;border-radius:4px 4px 0 0;">
-        <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(252, 251, 248,0.45);">Caelestis · Simulateur</p>
+        <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(252, 251, 248,0.45);">Caelestis, Simulateur</p>
         <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#F4F2EC;">Nouveau prospect</h1>
         <p style="margin:6px 0 0;font-size:12px;color:rgba(252, 251, 248,0.38);">${esc(p.date)}</p>
       </td></tr>
@@ -529,7 +529,7 @@ function buildAdminEmail(p: {
       <tr><td style="background-color:#FCFBF8;padding:28px 40px 0;">
         <table cellpadding="0" cellspacing="0">
           <tr><td style="background-color:#255C41;padding:10px 22px;border-radius:99px;">
-            <p style="margin:0;font-size:14px;font-weight:500;color:#F4F2EC;">${p.low === p.high ? `${p.low.toLocaleString('fr-FR')}&nbsp;€` : `Entre ${p.low.toLocaleString('fr-FR')}&nbsp;€ et ${p.high.toLocaleString('fr-FR')}&nbsp;€`} · ${typeLabel}</p>
+            <p style="margin:0;font-size:14px;font-weight:500;color:#F4F2EC;">${p.low === p.high ? `${p.low.toLocaleString('fr-FR')}&nbsp;€` : `Entre ${p.low.toLocaleString('fr-FR')}&nbsp;€ et ${p.high.toLocaleString('fr-FR')}&nbsp;€`}, ${typeLabel}</p>
           </td></tr>
         </table>
       </td></tr>
@@ -740,7 +740,7 @@ export const POST: APIRoute = async ({ request }) => {
         from:    '"Simulateur Caelestis" <contact@caelestis.fr>',
         to:      'contact@caelestis.fr',
         replyTo: email,
-        subject: `[Simulateur] ${prenom} · ${activity} · ${low === high ? `${low.toLocaleString('fr-FR')}€` : `${low.toLocaleString('fr-FR')}€ / ${high.toLocaleString('fr-FR')}€`}`,
+        subject: `[Simulateur] ${prenom}, ${activity}, ${low === high ? `${low.toLocaleString('fr-FR')}€` : `${low.toLocaleString('fr-FR')}€ / ${high.toLocaleString('fr-FR')}€`}`,
         html:    buildAdminEmail({ ...baseParams, interest, date: dateStr } as Parameters<typeof buildAdminEmail>[0]),
       }),
     ]);

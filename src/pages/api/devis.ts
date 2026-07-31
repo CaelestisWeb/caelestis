@@ -133,7 +133,7 @@ function arrLabel(vals: string[], category: string, otherVal = ''): string {
   return vals.map(v => {
     if (v === 'autre') return otherVal ? `Autre : ${esc(otherVal)}` : 'Autre';
     return esc(map[v] ?? v);
-  }).join(' &nbsp;·&nbsp; ');
+  }).join(', ');
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -237,7 +237,7 @@ function buildAdminEmail(d: Record<string, unknown>, dateStr: string): string {
 <table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%;">
 
   <tr><td style="background:linear-gradient(135deg,#1B4733 0%,#255C41 100%);padding:32px 36px;border-radius:8px 8px 0 0;">
-    <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:500;">Caelestis · Questionnaire devis</p>
+    <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:500;">Caelestis, Questionnaire devis</p>
     <h1 style="margin:8px 0 0;font-size:22px;font-weight:300;color:#fff;letter-spacing:-.02em;">Nouvelle demande de devis : ${esc(nominant)}</h1>
     <p style="margin:6px 0 0;font-size:12px;color:rgba(255,255,255,.4);">${esc(dateStr)}</p>
   </td></tr>
@@ -332,7 +332,7 @@ function buildClientEmail(d: Record<string, unknown>, dateStr: string): string {
 <table width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%;">
 
   <tr><td style="background:linear-gradient(135deg,#1B4733 0%,#255C41 100%);padding:32px 36px;border-radius:8px 8px 0 0;">
-    <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:500;">Caelestis · Demande de devis</p>
+    <p style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:500;">Caelestis, Demande de devis</p>
     <h1 style="margin:10px 0 0;font-size:24px;font-weight:300;color:#fff;letter-spacing:-.02em;">Demande bien reçue ✓</h1>
     <p style="margin:8px 0 0;font-size:12px;color:rgba(255,255,255,.45);">${esc(dateStr)}</p>
   </td></tr>
@@ -363,7 +363,7 @@ function buildClientEmail(d: Record<string, unknown>, dateStr: string): string {
   </td></tr>
 
   <tr><td style="background:#12160F;padding:18px 36px;border-radius:0 0 8px 8px;">
-    <p style="margin:0;font-size:11px;color:rgba(255,255,255,.3);line-height:1.65;">Vous recevez cet email car vous avez complété le questionnaire de devis sur <strong style="color:rgba(255,255,255,.55);">caelestis.fr</strong>.<br>Caelestis · Drôme, France · contact@caelestis.fr</p>
+    <p style="margin:0;font-size:11px;color:rgba(255,255,255,.3);line-height:1.65;">Vous recevez cet email car vous avez complété le questionnaire de devis sur <strong style="color:rgba(255,255,255,.55);">caelestis.fr</strong>.<br>Caelestis, Drôme, France, contact@caelestis.fr</p>
   </td></tr>
 
 </table>
@@ -398,7 +398,7 @@ function generateDevisPDF(d: Record<string, unknown>, dateStr: string): Promise<
       return vals.map(v => {
         if (v === 'autre') return str(d[otherK]) ? `Autre : ${str(d[otherK])}` : 'Autre';
         return map[v] ?? v;
-      }).join('  ·  ');
+      }).join(', ');
     };
     const radio  = (cat: string, k: string, otherK = '') =>
       radioLabel(cat, str(d[k]), str(d[otherK]))
@@ -407,7 +407,7 @@ function generateDevisPDF(d: Record<string, unknown>, dateStr: string): Promise<
     doc.rect(0, 0, doc.page.width, 90).fill(TEAL);
     doc.fillColor('#FFFFFF')
        .fontSize(9).font('Helvetica')
-       .text('CAELESTIS · QUESTIONNAIRE DEVIS', 50, 22, { characterSpacing: 1.5 });
+       .text('CAELESTIS, QUESTIONNAIRE DEVIS', 50, 22, { characterSpacing: 1.5 });
     const nom = str(d['nom_dirigeant']) || str(d['nom_entreprise']) || 'Client';
     doc.fontSize(20).font('Helvetica-Bold').text(nom, 50, 36);
     doc.fontSize(8).font('Helvetica').text(dateStr, 50, 62, { characterSpacing: 0.5 });
@@ -449,7 +449,7 @@ function generateDevisPDF(d: Record<string, unknown>, dateStr: string): Promise<
       ['Zone géographique', clean('zone_geo')],
     ]);
 
-    const services = [1,2,3,4,5].map(n => str(d[`service_${n}`])).filter(Boolean).join('  ·  ') || 'non précisé';
+    const services = [1,2,3,4,5].map(n => str(d[`service_${n}`])).filter(Boolean).join(', ') || 'non précisé';
     section('03', 'Vos services', [
       ['Prestations',      services],
       ['Tarifs en ligne',  radio('affichage_tarifs', 'affichage_tarifs')],
@@ -487,7 +487,7 @@ function generateDevisPDF(d: Record<string, unknown>, dateStr: string): Promise<
       doc.rect(0, doc.page.height - 30, doc.page.width, 30).fill(DARK);
       doc.fillColor('white').fontSize(7).font('Helvetica')
          .text(
-           `Caelestis · questionnaire devis · caelestis.fr · contact@caelestis.fr   |   Page ${i + 1} / ${totalPages}`,
+           `Caelestis, questionnaire devis, caelestis.fr, contact@caelestis.fr   |   Page ${i + 1} / ${totalPages}`,
            50, doc.page.height - 19,
            { align: 'center', width: W },
          );
@@ -514,7 +514,7 @@ function generateDevisDocx(d: Record<string, unknown>, dateStr: string): Promise
     return vals.map(v => {
       if (v === 'autre') return str(d[otherK]) ? `Autre : ${str(d[otherK])}` : 'Autre';
       return map[v] ?? v;
-    }).join('  ·  ');
+    }).join(', ');
   };
   const radio = (cat: string, k: string, otherK = '') =>
     radioLabel(cat, str(d[k]), str(d[otherK]))
@@ -583,7 +583,7 @@ function generateDevisDocx(d: Record<string, unknown>, dateStr: string): Promise
     spacer(),
 
     heading('Vos services', '03'),
-    dataRow('Prestations',    [1,2,3,4,5].map(n => str(d[`service_${n}`])).filter(Boolean).join('  ·  ') || 'non précisé'),
+    dataRow('Prestations',    [1,2,3,4,5].map(n => str(d[`service_${n}`])).filter(Boolean).join(', ') || 'non précisé'),
     dataRow('Tarifs en ligne', radio('affichage_tarifs', 'affichage_tarifs')),
     spacer(),
 
@@ -591,7 +591,7 @@ function generateDevisDocx(d: Record<string, unknown>, dateStr: string): Promise
     dataRow('Type de site',     radio('type_site', 'type_site')),
     dataRow('Objectifs',        chips('objectifs', 'objectifs', 'objectifs_autre')),
     dataRow('Nb de pages',      radio('nb_pages', 'nb_pages')),
-    dataRow('Pages souhaitées', [1,2,3,4,5,6,7,8].map(n => str(d[`page_${n}`])).filter(Boolean).map((p,i) => `${i+1}. ${p}`).join('  ·  ') || 'non précisé'),
+    dataRow('Pages souhaitées', [1,2,3,4,5,6,7,8].map(n => str(d[`page_${n}`])).filter(Boolean).map((p,i) => `${i+1}. ${p}`).join(', ') || 'non précisé'),
     dataRow('Fonctionnalités',  chips('fonctionnalites', 'fonctionnalites', 'fonctionnalites_autre')),
     dataRow('Boutique',         radio('boutique_actif', 'boutique_actif')),
     ...(str(d['boutique_actif']) === 'oui' ? [dataRow('Nb produits', clean('boutique_nb_produits'))] : []),
@@ -611,7 +611,7 @@ function generateDevisDocx(d: Record<string, unknown>, dateStr: string): Promise
     spacer(),
 
     new Paragraph({
-      children: [new TextRun({ text: 'Caelestis · caelestis.fr · contact@caelestis.fr · 07 69 36 27 27', color: MUTED, size: 16, font: 'Calibri' })],
+      children: [new TextRun({ text: 'Caelestis, caelestis.fr, contact@caelestis.fr, 07 69 36 27 27', color: MUTED, size: 16, font: 'Calibri' })],
       alignment: AlignmentType.CENTER, spacing: { before: 400 },
       border: { top: { style: BorderStyle.SINGLE, size: 1, color: 'E8EDF2' } },
     }),
@@ -713,7 +713,7 @@ export const POST: APIRoute = async ({ request }) => {
         from:        '"Devis Caelestis" <contact@caelestis.fr>',
         to:          'contact@caelestis.fr',
         replyTo:     emailContact,
-        subject:     `[Devis] ${nominant} · ${str(body['activite']).slice(0, 60) || 'demande de devis'}`,
+        subject:     `[Devis] ${nominant}, ${str(body['activite']).slice(0, 60) || 'demande de devis'}`,
         html:        buildAdminEmail(body, dateStr),
         attachments: [
           { filename: `devis-${slug}-${dateSlug}.pdf`,  content: pdfBuffer,  contentType: 'application/pdf' },
