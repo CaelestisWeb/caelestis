@@ -149,20 +149,33 @@ const filArianeDiagnostic = {
         famille selon sa gravité, et la note générale en découle.
       </p>
       <ul class="diag-criteres font-body">
-        <li><b>Vitesse</b> : temps de réponse, poids du code, compression, scripts bloquants, serveurs tiers appelés, format des images.</li>
-        <li><b>Mobile</b> : affichage adapté au téléphone, zoom autorisé, largeur figée, mise en page en tableaux, images qui font sauter le contenu.</li>
-        <li><b>Sécurité</b> : connexion chiffrée, validité du certificat, contenu mixte, redirection de la version non sécurisée, en-têtes de protection, versions de logiciels exposées.</li>
-        <li><b>Référencement</b> : titre, description, hiérarchie des titres, adresse de référence, robots.txt, plan de site, données structurées, doublons d'adresse, page d'erreur, accès des moteurs de réponse par IA.</li>
-        <li><b>Contenu</b> : volume de texte, ancrage géographique, preuves et avis, réalisations, textes de gabarit oubliés, fraîcheur des mentions.</li>
-        <li><b>Conversion</b> : moyens de contact, téléphone cliquable, bouton visible en haut de page, longueur du formulaire, horaires, adresse, repères de prix.</li>
-        <li><b>Lisibilité</b> : description des images, libellés de formulaire, langue déclarée, contenus intégrés, balises abandonnées, mise en forme dispersée dans le code.</li>
-        <li><b>Confiance</b> : mentions légales, consentement aux traceurs, politique de confidentialité, conditions de vente, polices et vidéos chargées chez des tiers.</li>
+        <li><b>Vitesse</b> : temps de réponse, poids de la page, compression, scripts qui retardent l'affichage, services extérieurs appelés, format des images.</li>
+        <li><b>Mobile</b> : affichage adapté au téléphone, zoom autorisé, largeur figée, mise en page dépassée, images qui font sauter le contenu au chargement.</li>
+        <li><b>Sécurité</b> : connexion chiffrée, certificat valide, éléments encore chargés sans protection, redirection de l'ancienne adresse non sécurisée, versions de logiciels laissées en clair.</li>
+        <li><b>Référencement</b> : présence dans Google (autorisée ou bloquée sans le savoir), titre et description affichés dans les résultats, bonne adresse déclarée, plan du site, fiche d'informations, lien vers votre fiche Google, accès des moteurs de réponse comme ChatGPT.</li>
+        <li><b>Contenu</b> : volume de texte, ville et zone d'intervention, avis et références, réalisations, textes d'exemple oubliés, fraîcheur des mentions.</li>
+        <li><b>Conversion</b> : moyens de vous contacter, téléphone cliquable, bouton visible sans faire défiler, longueur du formulaire, horaires, adresse, repères de prix.</li>
+        <li><b>Lisibilité</b> : description des images, libellés de formulaire, langue de la page déclarée, cartes et vidéos intégrées, code laissé à l'abandon.</li>
+        <li><b>Confiance</b> : mentions légales, accord demandé avant les traceurs, politique de confidentialité, conditions de vente, polices et vidéos chargées chez des tiers.</li>
       </ul>
       <p class="font-body text-sm text-brun-mid mt-10 text-center max-w-[56ch] mx-auto">
         Chaque point est mesuré sur votre page, aucun n'est une appréciation de goût.
         L'analyse porte sur la page d'accueil et sur les fichiers techniques du site.
         Un audit complet examine ensuite chaque page, les concurrents et les chiffres de fréquentation.
       </p>
+
+      <div class="diag-astuce font-body">
+        <p class="diag-astuce-titre">Vérifier vous-même votre présence dans Google</p>
+        <p>
+          Le diagnostic contrôle si Google a le droit d'afficher votre site et si
+          rien ne l'en empêche à votre insu. Pour voir les pages qu'il connaît déjà,
+          tapez dans la barre de recherche Google&nbsp;:
+          <span class="diag-code">site:votre-domaine.fr</span>. Le nombre de résultats
+          correspond aux pages actuellement présentes dans Google. Aucun résultat pour
+          un site en ligne depuis plusieurs semaines signale un blocage à lever en
+          priorité, et c'est justement ce que le diagnostic cherche à repérer.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -298,6 +311,38 @@ const filArianeDiagnostic = {
     width: .5rem; height: 1px; background: var(--color-sauge-text);
   }
   .diag-criteres b { color: var(--color-brun); font-weight: 500; }
+
+  /* Encart d'aide sur l'indexation. Le diagnostic ne peut pas interroger l'index
+     de Google de façon fiable depuis un serveur (Google bloque ces requêtes
+     automatiques) : plutôt qu'un chiffre incertain, on donne au visiteur la
+     méthode que les professionnels emploient eux-mêmes pour le vérifier. */
+  .diag-astuce {
+    max-width: 40rem;
+    margin: 2.5rem auto 0;
+    padding: 1.25rem 1.4rem;
+    background: var(--color-cream);
+    border: 1px solid var(--color-cream-dark);
+    border-left: 3px solid var(--color-sauge-text);
+    border-radius: 2px;
+    color: var(--color-brun-mid);
+    line-height: 1.6;
+    font-size: .95rem;
+  }
+  .diag-astuce-titre {
+    color: var(--color-brun);
+    font-weight: 500;
+    margin: 0 0 .5rem;
+  }
+  .diag-astuce p:last-child { margin: 0; }
+  .diag-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .88em;
+    background: var(--color-cream-dark);
+    color: var(--color-brun);
+    padding: .1rem .4rem;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
 </style>
 
 <!-- Les éléments de résultat sont créés en JavaScript : ils ne portent donc pas

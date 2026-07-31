@@ -604,14 +604,86 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   const jsonLd = [...html.matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)]
     .map((m) => m[1])
     .join(' ');
-  const ficheEntreprise = /"@type"\s*:\s*"(?:LocalBusiness|Organization|ProfessionalService|Store|HomeAndConstructionBusiness|GardenStore|Restaurant|LodgingBusiness)/i.test(
-    jsonLd,
-  );
+  /* Types schema.org qui décrivent bien une entreprise ou un établissement.
+     Au-delà des types génériques, on accepte les sous-types LocalBusiness
+     courants chez les artisans, praticiens, métiers de bouche, du tourisme et
+     de la beauté : un salon déclaré « NailSalon » décrit parfaitement son
+     établissement, ne pas le reconnaître serait un faux négatif. La valeur peut
+     être une chaîne ("@type":"NailSalon") ou un tableau
+     ("@type":["NailSalon","LocalBusiness"]). */
+  const TYPES_ENTREPRISE = [
+    'LocalBusiness', 'Organization', 'ProfessionalService', 'Store',
+    'HomeAndConstructionBusiness', 'GardenStore', 'Restaurant', 'LodgingBusiness',
+    'NailSalon', 'BeautySalon', 'HairSalon', 'DaySpa', 'HealthAndBeautyBusiness',
+    'MedicalBusiness', 'Dentist', 'Physician', 'VeterinaryCare', 'Optician',
+    'FoodEstablishment', 'Bakery', 'CafeOrCoffeeShop', 'BarOrPub', 'Winery',
+    'Brewery', 'Distillery', 'IceCreamShop', 'Florist', 'PetStore',
+    'Electrician', 'Plumber', 'RoofingContractor', 'GeneralContractor',
+    'HVACBusiness', 'Locksmith', 'MovingCompany', 'HousePainter',
+    'LegalService', 'Attorney', 'Notary', 'AccountingService', 'InsuranceAgency',
+    'FinancialService', 'RealEstateAgent', 'TravelAgency', 'Campground',
+    'Resort', 'BedAndBreakfast', 'Hotel', 'SportsActivityLocation', 'HealthClub',
+    'DanceSchool', 'Photographer', 'EntertainmentBusiness', 'ChildCare',
+    'Preschool', 'School', 'AutoRepair', 'AutomotiveBusiness', 'ShoppingCenter',
+  ];
+  const ficheEntreprise = new RegExp(
+    `"@type"\\s*:\\s*(?:\\[\\s*)?"(?:${TYPES_ENTREPRISE.join('|')})"`,
+    'i',
+  ).test(jsonLd);
 
   const noindex =
     /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(html) ||
     enTete('x-robots-tag').includes('noindex');
-  const canonique = /<link[^>]+rel=["']canonical["']/i.test(html);
+  /* « nofollow » global : la page interdit à Google de suivre ses propres
+     liens. Il lit l'accueil mais ne va jamais voir les autres pages. */
+  const nofollow =
+    /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*nofollow/i.test(html) ||
+    enTete('x-robots-tag').includes('nofollow');
+
+  /* Adresse de référence (canonical). On garde l'URL, pas seulement sa présence :
+     une adresse de référence qui pointe ailleurs peut retirer la page elle-même
+     des résultats au profit d'une autre. */
+  const canoniqueHref =
+    extraire(/<link[^>]+rel=["']canonical["'][^>]*href=["']([^"']+)["']/i, html) ??
+    extraire(/<link[^>]+href=["']([^"']+)["'][^>]*rel=["']canonical["']/i, html);
+  const canonique = canoniqueHref !== null;
+  /* Ne sont retenus que les deux cas nets d'un mauvais réglage : l'adresse de
+     référence désigne un autre domaine, ou renvoie vers l'ancienne version non
+     sécurisée. Une simple différence de chemin sur le même domaine est souvent
+     légitime (accueil qui pointe vers « / ») et n'est pas signalée. */
+  let canoniqueDetourne = false;
+  if (canoniqueHref) {
+    try {
+      const cible = new URL(canoniqueHref, base);
+      if (racine(cible.hostname) !== domaineBase) canoniqueDetourne = true;
+      else if (httpsDisponible && cible.protocol === 'http:') canoniqueDetourne = true;
+    } catch {
+      /* adresse de référence illisible : aucun constat n'en est tiré */
+    }
+  }
+
+  /* Titre qui ne dit rien : mot d'attente générique, ou simple reprise du nom
+     de domaine. Google l'affiche tel quel en tête du résultat. */
+  const GENERIQUES_TITRE = new Set([
+    'accueil', 'home', 'bienvenue', 'welcome', 'site', 'mon site', 'nouveau site',
+    'index', 'untitled', 'sans titre', 'document', "page d'accueil", 'site internet',
+    'site web', 'votre site', 'my site', 'my website', 'test',
+  ]);
+  const titreGenerique = (() => {
+    if (!titre) return false;
+    const t = titre.toLowerCase().replace(/\s+/g, ' ').trim();
+    if (GENERIQUES_TITRE.has(t)) return true;
+    const nu = t.replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
+    return nu === domaineBase || nu === base.hostname.replace(/^www\./, '') || t === domaineBase.split('.')[0];
+  })();
+
+  /* Lien vers la fiche Google (Maps, avis) : signal de référencement local et
+     porte vers les avis, souvent le premier résultat sur une recherche locale. */
+  const aFicheGoogle =
+    /(?:google\.[a-z.]+\/maps|maps\.google\.|maps\.app\.goo\.gl|\bg\.page\b|goo\.gl\/maps|business\.google\.|search\.google\.com\/local|\/maps\/place\/)/i.test(
+      html,
+    );
+
   const langue = extraire(/<html[^>]*\slang=["']([^"']+)["']/i, html);
   const generateur = extraire(/<meta[^>]+name=["']generator["'][^>]+content=["']([^"']*)["']/i, html);
   const estWordpress = /wp-content|wp-includes/i.test(html);
@@ -673,7 +745,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   }
 
   verifier('vitesse', 'moyen', scripts > SEUILS.scriptsNombreux,
-    `La page charge ${scripts} scripts externes et ${feuilles} feuilles de style.`,
+    `La page charge ${scripts} scripts externes et ${feuilles} fichiers de mise en forme.`,
     'Chaque fichier est une attente supplémentaire avant que la page devienne utilisable.');
 
   verifier('vitesse', 'moyen', scriptsBloquants >= 3,
@@ -747,8 +819,8 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     "Le navigateur affiche un avertissement au moment de l'envoi, et les informations saisies circulent lisiblement sur le réseau.");
 
   verifier('securite', 'moyen', contenuMixte,
-    'La page mêle des ressources sécurisées et non sécurisées.',
-    "Le cadenas du navigateur disparaît ou se barre, alors même que le certificat est valide.");
+    'Une partie de la page (image, script) se charge encore sans connexion sécurisée.',
+    "Le petit cadenas du navigateur disparaît ou se barre, alors même que le site est bien en connexion sécurisée par ailleurs. Le visiteur croit à un site non protégé.");
 
   if (versionHttp) {
     verifier('securite', 'moyen', versionHttp.statut === 200,
@@ -766,7 +838,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     "C'est la technique utilisée pour faire cliquer un visiteur sur autre chose que ce qu'il croit voir.");
 
   verifier('securite', 'mineur', entetes ? !enTete('content-security-policy') : false,
-    "Aucune politique de sécurité du contenu n'est déclarée.",
+    "La page ne limite pas les contenus extérieurs qu'elle a le droit de charger.",
     "Si un script étranger parvient à s'insérer dans une page, rien ne l'empêche de s'exécuter.");
 
   verifier('securite', 'mineur',
@@ -780,16 +852,23 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
 
   /* ══ RÉFÉRENCEMENT ════════════════════════════════════ */
   verifier('referencement', 'critique', noindex,
-    'Le site demande explicitement aux moteurs de recherche de ne pas le référencer.',
-    "Tant que cette instruction est en place, aucune page ne peut apparaître dans Google, quel que soit le travail fait par ailleurs.");
+    "Le code du site demande à Google de ne pas l'afficher dans les résultats de recherche.",
+    "Tant que cette consigne est en place, aucune page ne peut apparaître dans Google, quel que soit le reste du travail. C'est souvent un réglage oublié après la mise en ligne.");
+
+  verifier('referencement', 'moyen', nofollow && !noindex,
+    "Le code demande à Google de ne suivre aucun lien de la page.",
+    "Google lit votre page d'accueil mais s'interdit d'aller voir les autres. Vos pages de services restent invisibles tant qu'il ne les trouve pas par un autre chemin.");
 
   controle();
   if (!titre) {
-    ajouter('referencement', 'critique', "La page n'a aucun titre de référencement.",
-      "C'est la ligne cliquable affichée dans Google. Sans elle, le moteur en invente une.");
+    ajouter('referencement', 'critique', "La page n'a pas de titre affiché dans Google.",
+      "C'est la ligne bleue cliquable en tête d'un résultat de recherche. Sans elle, Google en fabrique une avec des bouts de page, souvent bancale.");
+  } else if (titreGenerique) {
+    ajouter('referencement', 'moyen', `Le titre affiché dans Google ne dit rien de précis : « ${titre} ».`,
+      "Il ne mentionne ni votre métier ni votre ville. Sur la page de résultats, rien ne distingue votre site des autres, et rien n'incite à cliquer dessus.");
   } else if (titre.length < SEUILS.titreMin || titre.length > SEUILS.titreMax) {
-    ajouter('referencement', 'moyen', `Le titre de référencement fait ${titre.length} caractères.`,
-      `En dessous de ${SEUILS.titreMin} caractères il est sous-exploité, au-delà de ${SEUILS.titreMax} Google le coupe.`);
+    ajouter('referencement', 'moyen', `Le titre affiché dans Google fait ${titre.length} caractères.`,
+      `En dessous de ${SEUILS.titreMin} il n'exploite pas la place disponible, au-delà de ${SEUILS.titreMax} Google le coupe en plein milieu.`);
   }
 
   controle();
@@ -814,20 +893,29 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     "La page n'a aucun titre de section.",
     "Le texte se présente comme un bloc unique : ni Google ni le visiteur pressé ne peuvent en repérer les sujets.");
 
-  verifier('referencement', 'moyen', !canonique,
-    "Aucune adresse de référence n'est déclarée pour la page.",
-    "Si la même page est joignable par plusieurs adresses, Google choisit lui-même laquelle référencer, et divise sa valeur entre elles.");
+  controle();
+  if (!canonique) {
+    ajouter('referencement', 'moyen', "La page n'indique pas à Google sa bonne adresse.",
+      "Si elle est joignable par plusieurs adresses (avec ou sans www, avec ou sans barre finale), Google choisit lui-même laquelle garder et répartit sa valeur entre elles au lieu de la concentrer.");
+  } else if (canoniqueDetourne) {
+    ajouter('referencement', 'critique', "La page désigne une autre adresse comme sa version officielle.",
+      "Elle demande à Google d'afficher cette autre adresse à sa place. Si ce réglage est une erreur, c'est la page d'accueil elle-même qui disparaît des résultats.");
+  }
 
   /* Deux issues distinctes, un seul contrôle : soit rien n'est déclaré, soit
      des données existent sans décrire l'entreprise elle-même. */
   controle();
   if (jsonLd.trim() === '') {
-    ajouter('referencement', 'moyen', 'Le site ne déclare aucune donnée structurée.',
-      "Ce sont ces informations, adresse, horaires, note, qui alimentent l'encadré affiché à côté des résultats Google. Sans elles, votre résultat reste une ligne de texte.");
+    ajouter('referencement', 'moyen', "Le site ne fournit à Google aucune fiche d'informations à afficher.",
+      "Ce sont ces informations (adresse, horaires, note) qui remplissent l'encadré affiché à côté de votre résultat. Sans elles, votre résultat reste une simple ligne de texte.");
   } else if (!ficheEntreprise) {
-    ajouter('referencement', 'mineur', "Les données structurées ne décrivent pas l'entreprise.",
-      "Le code déclare bien des informations pour Google, mais aucune fiche d'établissement : ni adresse, ni horaires, ni zone desservie.");
+    ajouter('referencement', 'mineur', "Les informations fournies à Google ne décrivent pas votre établissement.",
+      "Le code transmet bien des informations, mais aucune fiche d'entreprise : ni adresse, ni horaires, ni zone desservie.");
   }
+
+  verifier('referencement', 'mineur', !aFicheGoogle && !estBoutique,
+    "Aucun lien vers votre fiche Google (Maps, avis) depuis la page d'accueil.",
+    "Sur une recherche locale, la fiche Google est souvent le premier résultat et l'endroit où s'affichent vos avis. Un lien depuis le site aide Google à relier votre site et votre établissement.");
 
   controle();
   if (pagesInternes.size === 0) {

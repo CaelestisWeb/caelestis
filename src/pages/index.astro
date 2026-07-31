@@ -83,7 +83,7 @@ const localBusiness = {
         },
         priceSpecification: {
           '@type': 'PriceSpecification',
-          price: '1800',
+          price: '2000',
           priceCurrency: 'EUR',
         },
       },
@@ -343,14 +343,19 @@ const organizationSchema = {
         Création de site web en <a href="/creation-site-internet-auvergne-rhone-alpes" class="whitespace-nowrap underline decoration-sauge/30 underline-offset-2 hover:decoration-sauge transition-colors">Auvergne-Rhône-Alpes</a>
       </p>
 
-      <!-- H1 : le titre porte désormais l'écran seul, il gagne en échelle sans
-           dépasser le plafond de 68 px fixé pour les titres. -->
+      <!-- H1 : promesse orientée client, choisie le 31/07/2026 après relevé des
+           heros d'agences web (bénéfice concret « valorise / attire » plutôt que
+           description de la prestation). Trois lignes en escalier, l'accent sauge
+           couronne le bénéfice commercial. Taille plafonnée sous les 68 px fixés
+           pour les titres ; le titre est plus long que l'ancien, d'où le clamp
+           ramené à 3,6 rem pour tenir en trois lignes propres. -->
       <h1
         class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-8 hero-title"
-        style="font-size: clamp(2.1rem, 5vw, 4.2rem);"
+        style="font-size: clamp(1.95rem, 4.4vw, 3.6rem);"
       >
-        <span class="sl"><span>Valorisez votre activité</span></span>
-        <span class="sl"><span class="text-sauge whitespace-nowrap">avec votre site web.</span></span>
+        <span class="sl"><span>Un site web qui valorise</span></span>
+        <span class="sl"><span>votre savoir-faire</span></span>
+        <span class="sl"><span class="text-sauge">et attire vos futurs clients.</span></span>
       </h1>
 
       <!-- Sous-titre -->
