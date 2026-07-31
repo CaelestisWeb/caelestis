@@ -69,7 +69,7 @@ function toArray(v: unknown): string[] {
    LISTES VALIDES
 ══════════════════════════════════════════════════════════ */
 const VALID_TYPES = new Set(['pageUnique', 'vitrine', 'boutique', 'surMesure']);
-const VALID_Q2    = new Set(['simple', 'standard', 'complet', 'small', 'medium', 'large', 'creation', 'refonte', 'ajout', 'autre']);
+const VALID_Q2    = new Set(['essentiel', 'enrichie', 'riche', 'simple', 'standard', 'complet', 'small', 'medium', 'large', 'creation', 'refonte', 'ajout', 'autre']);
 const VALID_Q3    = new Set(['ready', 'has_logo', 'nothing', 'starting', 'existing', 'collective', 'simple', 'medium', 'complex', 'autre']);
 const VALID_QC    = new Set(['few', 'moderate', 'rich', 'brief', 'ideas', 'blank', 'autre']);
 const VALID_Q4    = new Set(['slow', 'soon', 'urgent', 'autre']);
@@ -100,6 +100,7 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 const Q2_QUESTION: Record<string, string> = {
+  pageUnique: 'Contenu de la page',
   vitrine:   'Nombre de pages',
   boutique:  'Nombre de produits',
   surMesure: 'Type de projet',
@@ -127,6 +128,11 @@ const QC_LABELS: Record<string, string> = {
 };
 
 const Q2_LABELS: Record<string, Record<string, string>> = {
+  pageUnique: {
+    essentiel: "L'essentiel",
+    enrichie:  'Galerie et formulaire de contact',
+    riche:     'Page très complète, réservation en ligne',
+  },
   vitrine:   {
     simple:   'Simple, 1 à 4 pages',
     standard: 'Standard, 4 à 6 pages',
@@ -192,15 +198,22 @@ function getAnswerLabels(vals: string[], otherText: string, map: Record<string, 
 /* ══════════════════════════════════════════════════════════
    SCORING — points additifs par réponse (MAX si multi-select)
 ══════════════════════════════════════════════════════════ */
-/* q2 n'existe que pour la vitrine (nombre de pages) et la boutique (nombre de
-   produits). La page unique et le sur mesure ne posent pas cette question :
-   aucun bareme ici, toute valeur recue y vaut donc 0 point. */
+/* q2 mesure l'ampleur de la commande : ce que contient la page unique, le
+   nombre de pages d'une vitrine, le nombre de produits d'une boutique. Le sur
+   mesure ne pose pas cette question, aucun bareme n'y figure donc.
+
+   Pour la page unique, c'est volontairement le poste le plus lourd (400 sur
+   650) : une page avec reservation en ligne, galerie fournie et beaucoup de
+   texte represente plus de travail qu'une vitrine de quatre pages presque
+   vides. C'est la richesse de la page qui doit pousser le prix vers le haut,
+   pas seulement le fait d'etre presse. */
 const Q2_SCORES: Record<string, Record<string, number>> = {
+  pageUnique: { essentiel: 0, enrichie: 150, riche:        400, autre: 150 },
   vitrine:   { simple: 0, standard: 150, complet:          250, autre: 150 },
   boutique:  { small:  0, medium:   175, large:            350, autre: 200 },
 };
 const Q3_SCORES: Record<string, Record<string, number>> = {
-  pageUnique: { ready: 0, has_logo:    100, nothing:       200, autre: 100 },
+  pageUnique: { ready: 0, has_logo:     75, nothing:       150, autre:  75 },
   vitrine:   { ready: 0, has_logo:     100, nothing:       200, autre: 100 },
   boutique:  { starting: 0, collective: 100, existing:     200, autre: 125 },
   surMesure: { simple: 0, medium: 200, complex: 450, autre: 225 },
@@ -239,7 +252,7 @@ function maxScore(vals: string[], scores: Record<string, number>): number {
    pour le sur mesure (le front envoie une valeur neutre a 0 point) : la
    compter ici rendrait la derniere zone mathematiquement inatteignable. */
 const MAX_SCORE: Record<string, number> = {
-  pageUnique: 300,   // q3 200 + q4 100
+  pageUnique: 650,   // q2 400 + q3 150 + q4 100
   vitrine:    550,   // q2 250 + q3 200 + q4 100
   boutique:  1100,   // q2 350 + q3 200 + qc 450 + q4 100
   surMesure:  900,   // q3 450 + qc 350 + q4 100
@@ -341,12 +354,18 @@ function calculateEstimate(
 
 function getSummaryLine(type: string, q2: string, q3: string, qc: string, q2Other: string, q3Other: string, _qcOther: string): string {
   if (type === 'pageUnique') {
+    const ampleur: Record<string, string> = {
+      essentiel: "l'essentiel",
+      enrichie:  'avec galerie et formulaire',
+      riche:     'très complète, avec réservation en ligne',
+    };
     const cont: Record<string, string> = {
       ready:    'contenus prêts',
       has_logo: 'logo existant, textes à rédiger',
       nothing:  'tout à construire ensemble',
     };
-    return `Page unique, ${cont[q3] ?? esc(q3Other)}.`;
+    const a = ampleur[q2] ? `${ampleur[q2]}, ` : '';
+    return `Page unique ${a}${cont[q3] ?? esc(q3Other)}.`;
   }
   if (type === 'vitrine') {
     const pages: Record<string, string> = { simple: '1 à 4 pages', standard: '4 à 6 pages', complet: '6 pages et +' };
@@ -396,7 +415,7 @@ function buildProspectEmail(p: {
 
   const rows = [
     ['Type de site',     typeLabel],
-    ...((dt !== 'surMesure' && dt !== 'pageUnique') ? [[p.q2Question, esc(p.q2Label)]] : []),
+    ...(dt !== 'surMesure' ? [[p.q2Question, esc(p.q2Label)]] : []),
     [p.q3Question,       esc(p.q3Label)],
     ...((dt === 'boutique' || dt === 'surMesure') ? [[p.qcQuestion, esc(p.qcLabel)]] : []),
     ['Délai souhaité',   esc(p.q4Label)],
@@ -564,7 +583,7 @@ function buildAdminEmail(p: {
         <table cellpadding="0" cellspacing="0" width="100%">
           ${[
             ['Type de site',      typeLabel],
-            ...((dt !== 'surMesure' && dt !== 'pageUnique') ? [[p.q2Question, esc(p.q2Label)]] : []),
+            ...(dt !== 'surMesure' ? [[p.q2Question, esc(p.q2Label)]] : []),
             [p.q3Question,        esc(p.q3Label)],
             ...((dt === 'boutique' || dt === 'surMesure') ? [[p.qcQuestion, esc(p.qcLabel)]] : []),
             ['Délai souhaité',    esc(p.q4Label)],

@@ -72,6 +72,51 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
       </div>
     </div>
 
+    <!-- ══════════ BRANCHE PAGE UNIQUE ══════════ -->
+
+    <!-- s2p — Ce que contient la page.
+         C'est le poste le plus lourd du calcul pour cette formule : une page
+         qui embarque une réservation en ligne et une galerie fournie demande
+         plus de travail qu'une vitrine de quatre pages presque vides. Sans
+         cette question, le prix ne dépendait que de l'urgence, et le plafond
+         de 2 000 € tombait beaucoup trop souvent. -->
+    <div class="sim-step" id="s2p" data-branch-q="q2" data-overline-prefix="Votre projet">
+      <p class="sim-overline">Votre projet</p>
+      <h2 class="sim-headline">Que doit contenir<br>votre page&nbsp;?</h2>
+      <div class="sim-cards-col">
+        <button class="sim-card" data-value="essentiel" aria-pressed="false">
+          <span class="sim-card-num">01</span>
+          <span class="sim-card-body">
+            <span class="sim-card-head">
+              <strong class="sim-card-title">L'essentiel</strong>
+              <span class="sim-badge">Le plus courant</span>
+            </span>
+            <span class="sim-card-desc">Qui vous êtes, ce que vous proposez, vos coordonnées. Une page qui va droit au but.</span>
+          </span>
+          <span class="sim-card-check" aria-hidden="true"></span>
+        </button>
+        <button class="sim-card" data-value="enrichie" aria-pressed="false">
+          <span class="sim-card-num">02</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Avec galerie et formulaire</strong>
+            <span class="sim-card-desc">Vos photos mises en valeur, un formulaire de contact, plusieurs sections détaillées à structurer.</span>
+          </span>
+          <span class="sim-card-check" aria-hidden="true"></span>
+        </button>
+        <button class="sim-card" data-value="riche" aria-pressed="false">
+          <span class="sim-card-num">03</span>
+          <span class="sim-card-body">
+            <strong class="sim-card-title">Page très complète</strong>
+            <span class="sim-card-desc">Réservation ou prise de rendez-vous en ligne, galerie fournie, beaucoup de texte. Tout tient sur une page, mais il y a du monde dessus.</span>
+          </span>
+          <span class="sim-card-check" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="sim-step-actions">
+        <button class="sim-continue sim-btn-primary" disabled>Continuer →</button>
+      </div>
+    </div>
+
     <!-- ══════════ BRANCHE VITRINE ══════════ -->
 
     <!-- s2v — Nombre de pages -->
@@ -1045,7 +1090,7 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
        est incluse, il n'y a donc ni supplément à facturer ni choix à demander.
        Le dernier écran (s5) est la confirmation, il ne compte pas comme étape. */
     const PARCOURS: Record<string, string[]> = {
-      pageUnique: ['s0', 's1', 's3v', 's5gb', 's4', 's6', 's5'],
+      pageUnique: ['s0', 's1', 's2p', 's3v', 's5gb', 's4', 's6', 's5'],
       vitrine:    ['s0', 's1', 's2v', 's3v', 's5gb', 's4', 's6', 's5'],
       boutique:   ['s0', 's1', 's2b', 's3b', 's4b', 's5gb', 's4', 's6', 's5'],
       surMesure:  ['s0', 's1', 's3s', 's4s', 's4', 's6', 's5'],
@@ -1149,7 +1194,7 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
     });
 
     /* ══ Questions branchées — mono-select ══ */
-    const BRANCH_IDS = ['s2v','s2b','s3v','s3b','s3s','s4b','s4s','s5gb','s4'];
+    const BRANCH_IDS = ['s2p','s2v','s2b','s3v','s3b','s3s','s4b','s4s','s5gb','s4'];
 
     BRANCH_IDS.forEach(sid => {
       const stepEl = document.getElementById(sid);
@@ -1268,7 +1313,9 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
           body: JSON.stringify({
             prenom, activity, company, email,
             types:   state.types,
-            q2Vals:  dominantType() === 'surMesure' ? ['creation'] : dominantType() === 'pageUnique' ? ['simple'] : state.q2Vals,  q2Other: state.q2Other,
+            /* Le sur mesure ne pose pas cette question : on envoie une valeur
+               neutre qui vaut 0 point, le serveur l'exige non vide. */
+            q2Vals:  dominantType() === 'surMesure' ? ['creation'] : state.q2Vals,  q2Other: state.q2Other,
             q3Vals:  state.q3Vals,  q3Other: state.q3Other,
             qcVals:  state.qcVals,  qcOther: state.qcOther,
             q4Vals:  state.q4Vals,  q4Other: state.q4Other,
