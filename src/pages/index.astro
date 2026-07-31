@@ -399,14 +399,18 @@ const organizationSchema = {
         Vous cultivez, vous élevez, vous fabriquez, vous accueillez
       </p>
 
-      <!-- Ligne métiers : pastilles statiques, centrées, qui passent à la ligne.
-           Exemples ouverts, jamais une liste fermée : un boulanger ou un ébéniste
-           doit s'y reconnaître aussi bien qu'un maraîcher. -->
+      <!-- Ligne métiers : cinq familles larges, volontairement englobantes.
+           La liste nominative de 14 métiers a été retirée le 01/08/2026 : elle
+           tenait sur cinq lignes en mobile et fermait la porte à tout métier non
+           cité. Cinq entrées suffisent à ce que chacun se reconnaisse dans l'une
+           d'elles. Ne pas rallonger : au-delà de six, le retour à la ligne
+           mobile redevient illisible. -->
       <ul class="metiers font-body mb-10" data-reveal>
-        <li>Artisans</li><li>Producteurs</li><li>Créateurs</li><li>Indépendants</li>
-        <li>Maraîchers</li><li>Boulangers</li><li>Apiculteurs</li><li>Brasseurs</li>
-        <li>Ébénistes</li><li>Paysagistes</li><li>Écuries</li><li>Gîtes</li>
-        <li>Praticiens bien-être</li><li>Projets engagés</li>
+        <li>Artisans et créateurs</li>
+        <li>Producteurs</li>
+        <li>Métiers de passion</li>
+        <li>Lieux d'accueil</li>
+        <li>Indépendants</li>
       </ul>
 
       <!-- Galerie portfolio : 4 photos, toutes en portrait, affichées en portrait.
@@ -1367,21 +1371,48 @@ const organizationSchema = {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     max-width: 880px;
     margin-inline: auto;
     list-style: none;
     padding: 0;
   }
   .metiers li {
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-brun-mid);
     background: #fff;
     border: 1px solid var(--color-cream-dark);
-    padding: 7px 15px;
+    padding: 9px 18px;
     border-radius: 999px;
     line-height: 1.2;
+    /* Chaque famille tient sur une ligne : une pastille coupée en deux mots
+       superposés casse la lecture de la rangée. La plus longue mesure environ
+       195 px, elle passe donc à deux par ligne dès 375 px de large. */
+    white-space: nowrap;
+  }
+  /* Sous 380 px (iPhone SE, pliables refermés), 272 px utiles ne suffisent plus
+     à loger deux pastilles à 14 px : on resserre d'un cran pour conserver le
+     pavage à deux par ligne plutôt qu'une colonne de cinq. */
+  @media (max-width: 380px) {
+    .metiers { gap: 8px; }
+    .metiers li {
+      font-size: 0.8125rem;
+      padding: 8px 14px;
+    }
+  }
+  @media (min-width: 768px) {
+    .metiers li {
+      font-size: 0.9375rem;
+      padding: 10px 22px;
+    }
+  }
+  /* Plage tablette : les cinq pastilles réclament environ 860 px pour tenir sur
+     une seule rangée. Entre les deux, la largeur libre en laisse passer quatre
+     et abandonne la cinquième seule sur sa ligne. On borne la rangée pour
+     obtenir un pavage 3 + 2, franc plutôt que bancal. */
+  @media (min-width: 600px) and (max-width: 880px) {
+    .metiers { max-width: 520px; }
   }
 
   /* ── Galerie bento ── */
