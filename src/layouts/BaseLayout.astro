@@ -285,6 +285,23 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <AmbientForest />
     <CookieBanner />
 
+    <!-- ── Barre d'action mobile et tablette ──
+         Sous 1024px, le bouton « Parler de mon projet » du header est masqué :
+         un visiteur qui descend les dix-huit écrans de l'accueil n'a plus aucun
+         moyen d'agir sans ouvrir le menu. Relevé le 31/07/2026 sur qonto.com,
+         payfit.com et wedezign.fr : les trois portent une action permanente sur
+         mobile. C'est le pilier « CTA à un clic » de la grille de conversion.
+         Volontairement le MÊME libellé que partout ailleurs sur le site : un
+         CTA unique répété convertit mieux que plusieurs formulations. -->
+    <div id="cta-mobile" aria-hidden="true" data-etat="cache">
+      <a href="tel:+33769362727" class="cta-mobile-tel" aria-label="Appeler Caelestis au 07 69 36 27 27">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+      </a>
+      <a href="/contact" class="cta-mobile-action">Parler de mon projet</a>
+    </div>
+
     <!-- ── Oiseau fixe bas-droite — même sync que navbar ── -->
     <button
       class="sound-btn fixed-bird"
@@ -352,6 +369,81 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         top: -10px;
         font-size: 11px;
         gap: 4px;
+      }
+
+      /* ── Barre d'action mobile et tablette ── */
+      /* Le masquage passe par une media query et NON par la classe `lg:hidden` :
+         `#cta-mobile` pèse 1-0-0 en spécificité et écrasait l'utilitaire de
+         Tailwind (0-1-0), la barre s'affichait donc aussi en desktop, où le
+         header porte déjà son bouton. */
+      #cta-mobile { display: none; }
+      @media (max-width: 1023px) {
+        #cta-mobile { display: flex; }
+      }
+      #cta-mobile {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 9986;            /* sous le bandeau cookies (9990), au-dessus de l'oiseau (9985) */
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+        background: rgba(252, 251, 248, 0.94);
+        backdrop-filter: blur(14px) saturate(1.1);
+        -webkit-backdrop-filter: blur(14px) saturate(1.1);
+        border-top: 1px solid var(--color-cream-dark);
+        box-shadow: 0 -6px 24px rgba(37, 92, 65, 0.07);
+        transform: translateY(110%);
+        transition: transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      #cta-mobile[data-etat="visible"] { transform: translateY(0); }
+
+      .cta-mobile-tel {
+        flex: none;
+        width: 48px;
+        height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        border: 1px solid var(--color-cream-dark);
+        color: #255C41;
+        background: #FCFBF8;
+      }
+      .cta-mobile-action {
+        flex: 1;
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background: #255C41;
+        color: var(--color-cream);
+        font-family: var(--font-body);
+        font-size: 0.9375rem;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+      }
+
+      /* Placé APRÈS la règle de base : à spécificité égale, une media query ne
+         l'emporte pas, seul l'ordre compte. Sur tablette, un bouton étiré sur
+         680 px fait bâclé, on borne le groupe et on le centre. */
+      @media (min-width: 640px) {
+        #cta-mobile {
+          justify-content: center;
+          padding-inline: 24px;
+        }
+        .cta-mobile-action { flex: 0 1 22rem; }
+      }
+
+      /* Quand la barre est là, l'oiseau remonte pour ne pas être avalé. */
+      body:has(#cta-mobile[data-etat="visible"]) .fixed-bird {
+        bottom: calc(4.9rem + env(safe-area-inset-bottom, 0px));
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #cta-mobile { transition: none; }
       }
     </style>
   </body>
@@ -719,4 +811,92 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     initLenis();
     initAnimations(false);   /* navigation : pas de ré-animation d'entrée (anti-flash) */
   });
+
+  /* ═══════════════════════════════════════════════════════
+     Barre d'action mobile et tablette
+
+     Elle n'apparaît qu'une fois le premier écran dépassé : tant que le CTA du
+     hero est visible, la doubler n'apporte rien et mange de la hauteur utile.
+     Elle s'efface quand le pied de page ou la section d'appel finale arrive à
+     l'écran, pour ne pas recouvrir le vrai bouton, et reste absente tant que le
+     bandeau de consentement occupe le bas de l'écran.
+  ═══════════════════════════════════════════════════════ */
+  (function barreActionMobile() {
+    let observateurs: IntersectionObserver[] = [];
+    let sentinelle: HTMLElement | null = null;
+
+    function init() {
+      const barre = document.getElementById('cta-mobile');
+      if (!barre) return;
+      /* `astro:page-load` se déclenche AUSSI au premier chargement : sans ce
+         nettoyage, chaque navigation empilerait une sentinelle et un jeu
+         d'observateurs de plus, et deux états concurrents se disputeraient la
+         barre. */
+      observateurs.forEach((o) => o.disconnect());
+      observateurs = [];
+      sentinelle?.remove();
+      sentinelle = null;
+
+      /* Sur une page dont le formulaire EST le contenu, la barre ferait doublon. */
+      const cheminsExclus = ['/contact', '/questionnaire-client', '/questionnaire-devis'];
+      if (cheminsExclus.includes(location.pathname.replace(/\/$/, ''))) {
+        barre.dataset.etat = 'cache';
+        return;
+      }
+
+      let depasseLeHero = false;
+      let finEnVue = false;
+
+      const cookiesEnCours = () => {
+        const b = document.getElementById('cookie-banner');
+        return !!b && !b.classList.contains('translate-y-full');
+      };
+
+      const majEtat = () => {
+        const visible = depasseLeHero && !finEnVue && !cookiesEnCours();
+        barre.dataset.etat = visible ? 'visible' : 'cache';
+        /* aria-hidden suit l'état visuel : rien d'annoncé tant que c'est masqué,
+           et rien d'atteignable au clavier hors écran. */
+        barre.setAttribute('aria-hidden', visible ? 'false' : 'true');
+        barre.querySelectorAll('a').forEach((a) => {
+          if (visible) a.removeAttribute('tabindex');
+          else a.setAttribute('tabindex', '-1');
+        });
+      };
+
+      /* Sentinelle : un écran de haut, en tête de page. */
+      sentinelle = document.createElement('div');
+      sentinelle.setAttribute('aria-hidden', 'true');
+      sentinelle.dataset.sentinelleCta = '';
+      sentinelle.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:88vh;pointer-events:none';
+      document.body.appendChild(sentinelle);
+
+      const obsHaut = new IntersectionObserver(([e]) => {
+        depasseLeHero = !e.isIntersecting;
+        majEtat();
+      }, { threshold: 0 });
+      obsHaut.observe(sentinelle);
+      observateurs.push(obsHaut);
+
+      const fin = document.querySelector('footer');
+      if (fin) {
+        const obsBas = new IntersectionObserver(([e]) => {
+          finEnVue = e.isIntersecting;
+          majEtat();
+        }, { rootMargin: '0px 0px -25% 0px' });
+        obsBas.observe(fin);
+        observateurs.push(obsBas);
+      }
+
+      window.addEventListener('caelestis:consent-accepted', majEtat);
+      document.addEventListener('click', (ev) => {
+        if ((ev.target as HTMLElement)?.closest?.('#cookie-banner')) setTimeout(majEtat, 60);
+      });
+
+      majEtat();
+    }
+
+    init();
+    document.addEventListener('astro:page-load', init);
+  })();
 </script>
