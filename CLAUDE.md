@@ -6,7 +6,7 @@
 
 **Caelestis** : agence de création de sites internet + référencement naturel (SEO), basée dans la Drôme (Auvergne-Rhône-Alpes). Fondateur : Célestin.
 **Cible** : artisans, producteurs et indépendants, niche nature/environnement (paysagistes, agriculture, éco-construction, bureaux d'études, énergies renouvelables, associations).
-**Positionnement copy** : « Valorisez votre activité avec votre site web. » · « Une présence en ligne à la hauteur de votre travail. »
+**Positionnement copy** : « Un site web qui valorise votre savoir-faire et attire vos futurs clients. » · « Clair, soigné et bien référencé, à la hauteur de votre travail. »
 
 ## Offres et coordonnées (source de vérité)
 
