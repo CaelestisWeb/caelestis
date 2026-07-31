@@ -402,15 +402,17 @@ const organizationSchema = {
       <!-- Ligne métiers : cinq familles larges, volontairement englobantes.
            La liste nominative de 14 métiers a été retirée le 01/08/2026 : elle
            tenait sur cinq lignes en mobile et fermait la porte à tout métier non
-           cité. Cinq entrées suffisent à ce que chacun se reconnaisse dans l'une
-           d'elles. Ne pas rallonger : au-delà de six, le retour à la ligne
-           mobile redevient illisible. -->
+           cité. Les statuts remplacent les métiers ; ce sont les quatre verbes
+           de l'accroche au-dessus qui portent encore le geste, donc un maraîcher
+           ou un apiculteur se reconnaît là, pas dans les pastilles. Ne pas
+           rallonger : au-delà de six, le retour à la ligne mobile redevient
+           illisible. -->
       <ul class="metiers font-body mb-10" data-reveal>
-        <li>Artisans et créateurs</li>
-        <li>Producteurs</li>
-        <li>Métiers de passion</li>
-        <li>Lieux d'accueil</li>
+        <li>Artisans</li>
+        <li>Commerçants</li>
         <li>Indépendants</li>
+        <li>Lieux d'accueil</li>
+        <li>Métiers de passion</li>
       </ul>
 
       <!-- Galerie portfolio : 4 photos, toutes en portrait, affichées en portrait.
@@ -1390,16 +1392,6 @@ const organizationSchema = {
        superposés casse la lecture de la rangée. La plus longue mesure environ
        195 px, elle passe donc à deux par ligne dès 375 px de large. */
     white-space: nowrap;
-  }
-  /* Sous 380 px (iPhone SE, pliables refermés), 272 px utiles ne suffisent plus
-     à loger deux pastilles à 14 px : on resserre d'un cran pour conserver le
-     pavage à deux par ligne plutôt qu'une colonne de cinq. */
-  @media (max-width: 380px) {
-    .metiers { gap: 8px; }
-    .metiers li {
-      font-size: 0.8125rem;
-      padding: 8px 14px;
-    }
   }
   @media (min-width: 768px) {
     .metiers li {
