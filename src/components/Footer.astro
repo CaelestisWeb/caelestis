@@ -1,5 +1,18 @@
 ﻿---
 const year = new Date().getFullYear();
+
+// Réseaux sociaux réellement en ligne. On n'affiche une icône que pour un compte
+// qui existe vraiment : lier un réseau inexistant (ou un homonyme) fait fuir.
+// Facebook seul pour l'instant ; ajouter Instagram / TikTok / LinkedIn ici dès
+// que les comptes sont créés (une ligne par réseau, la mise en page suit).
+const socials = [
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/CaelestisWeb',
+    // Glyphe « f » monochrome (simple-icons), conforme à la charte : SVG fin, pas d'emoji.
+    path: 'M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z',
+  },
+];
 ---
 <footer class="bg-brun text-cream">
   <!-- `pb-24` sur mobile : le bouton flottant des sons de forêt est fixé en bas
@@ -91,6 +104,23 @@ const year = new Date().getFullYear();
             </a>
             <p class="font-body text-sm" style="color: rgba(252, 251, 248,0.82)">Drôme, France</p>
             <p class="font-body text-xs md:mt-1" style="color: rgba(252, 251, 248,0.78)">Du lundi au samedi, 9h à 18h</p>
+
+            {socials.length > 0 && (
+              <div class="flex items-center gap-3 mt-2 md:mt-3">
+                {socials.map(({ label, href, path }) => (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Caelestis sur ${label} (nouvelle fenêtre)`}
+                    class="inline-flex items-center justify-center w-9 h-9 rounded-full border transition-colors duration-200 hover:bg-cream hover:text-brun"
+                    style="border-color: rgba(252, 251, 248,0.30); color: rgba(252, 251, 248,0.82);"
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true"><path d={path} /></svg>
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
