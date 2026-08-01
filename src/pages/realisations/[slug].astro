@@ -69,14 +69,32 @@ const filAriane = {
 };
 
 const schema = [etudeDeCas, filAriane];
+
+/* Le métier est saisi capitalisé dans les données (« Prothésiste ongulaire »).
+   Il passe ici au milieu d'une phrase, donc en minuscule, avec l'élision qui
+   s'impose devant une voyelle : « site internet d'apiculteur », jamais
+   « de apiculteur ». Le h muet est traité comme une voyelle (« d'horticulteur »). */
+const metierEnPhrase = metier.charAt(0).toLowerCase() + metier.slice(1);
+const article = /^[aàâeéèêëiîïoôuùûyh]/i.test(metierEnPhrase) ? "d'" : 'de ';
 ---
 
 <!-- Gabarits de title et de description calibrés pour rester sous 60 et 155
-     caractères, y compris avec un nom de commune long. L'accroche porte la
-     substance, la marque suit. -->
+     caractères, y compris avec un nom de commune long.
+
+     Le MÉTIER ouvre le title, avant le nom du client : c'est le mot que tape
+     un prospect (« site internet de prothésiste »), et personne ne cherche le
+     nom d'une enseigne qu'il ne connaît pas encore. Chaque étude de cas
+     devient ainsi la page métier de son métier, sans qu'aucune page ait à
+     être inventée : la couverture s'étend d'elle-même à chaque client livré.
+     Décision de Célestin, 01/08/2026.
+
+     La ville sort du title faute de place, mais elle n'est pas perdue : les
+     accroches la portent déjà (« à Crest », « dans la Drôme »), donc elle
+     reste dans la description. Vérifier ce point en écrivant toute nouvelle
+     accroche. -->
 <BaseLayout
-  title={`${nom}, ${metier} à ${ville}`}
-  description={`${accroche} L'étude de cas complète, ${annee}.`}
+  title={`Site internet ${article}${metierEnPhrase}, ${nom}`}
+  description={`${accroche} Étude de cas ${annee}, le site est en ligne.`}
   canonical={`https://caelestis.fr/realisations/${realisation.slug}`}
   schema={schema}
 >
