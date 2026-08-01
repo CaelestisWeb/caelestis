@@ -12,7 +12,7 @@ const schema = {
   '@type': 'Service',
   name: 'Page unique',
   serviceType: 'Création de site internet une page',
-  description: "Création d'un site internet professionnel en une seule page pour artisans, producteurs et indépendants. L'essentiel de votre activité, soigné et visible sur Google, à partir de 1 000 €.",
+  description: `Création d'un site internet professionnel en une seule page pour artisans, producteurs et indépendants. L'essentiel de votre activité, soigné et visible sur Google, à partir de ${euros(formule('page-unique').prix)} €.`,
   provider: {
     '@type': 'LocalBusiness',
     '@id': 'https://caelestis.fr/#business',
@@ -28,7 +28,7 @@ const schema = {
     '@type': 'Offer',
     priceSpecification: {
       '@type': 'PriceSpecification',
-      price: '1000',
+      price: String(formule('page-unique').prix),
       priceCurrency: 'EUR',
     },
   },
@@ -101,8 +101,8 @@ const anatomie = [
 ---
 
 <BaseLayout
-  title="Site une page dès 1 000 €, la formule Page unique"
-  description="Toute votre activité sur une seule page, soignée et visible sur Google. La formule pour démarrer, livrée en deux à trois semaines, dès 1 000 €."
+  title={`Site une page dès ${euros(formule('page-unique').prix)} €, la formule Page unique`}
+  description={`Toute votre activité sur une seule page, soignée et visible sur Google. La formule pour démarrer, livrée en deux à trois semaines, dès ${euros(formule('page-unique').prix)} €.`}
   canonical={canonical}
   schema={[schema, breadcrumb, faqSchema]}
 >

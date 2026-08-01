@@ -14,7 +14,7 @@ const schema = {
   name: 'Boutique en ligne',
   serviceType: 'Création de boutique en ligne',
   description:
-    "Création d'une boutique en ligne pour producteurs, artisans et commerçants : catalogue, paiement sécurisé et suivi des commandes. À partir de 2 500 €.",
+    `Création d'une boutique en ligne pour producteurs, artisans et commerçants : catalogue, paiement sécurisé et suivi des commandes. À partir de ${euros(formule('boutique-en-ligne').prix)} €.`,
   url: canonical,
   provider: { '@id': 'https://caelestis.fr/#business' },
   areaServed: [
@@ -25,7 +25,7 @@ const schema = {
     '@type': 'Offer',
     priceSpecification: {
       '@type': 'PriceSpecification',
-      price: '2500',
+      price: String(formule('boutique-en-ligne').prix),
       priceCurrency: 'EUR',
       valueAddedTaxIncluded: true,
       description: 'Prix de départ',
@@ -105,7 +105,7 @@ const inclus = [
 ---
 
 <BaseLayout
-  title="Création de boutique en ligne dès 2 500 €, Caelestis"
+  title={`Création de boutique en ligne dès ${euros(formule('boutique-en-ligne').prix)} €, Caelestis`}
   description="Vendez vos produits en direct : catalogue, paiement sécurisé, suivi des commandes. Aucune commission, ouverte en cinq à huit semaines."
   canonical={canonical}
   schema={[schema, breadcrumb, faqSchema]}

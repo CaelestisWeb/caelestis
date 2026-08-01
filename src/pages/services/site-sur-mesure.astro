@@ -14,7 +14,7 @@ const schema = {
   name: 'Site sur mesure',
   serviceType: 'Création de site internet sur mesure',
   description:
-    "Création d'un site internet sur mesure avec des fonctionnalités adaptées au métier : réservation, configurateur, espace client, et un travail de référencement approfondi. À partir de 3 500 €.",
+    `Création d'un site internet sur mesure avec des fonctionnalités adaptées au métier : réservation, configurateur, espace client, et un travail de référencement approfondi. À partir de ${euros(formule('site-sur-mesure').prix)} €.`,
   url: canonical,
   provider: { '@id': 'https://caelestis.fr/#business' },
   areaServed: [
@@ -25,7 +25,7 @@ const schema = {
     '@type': 'Offer',
     priceSpecification: {
       '@type': 'PriceSpecification',
-      price: '3500',
+      price: String(formule('site-sur-mesure').prix),
       priceCurrency: 'EUR',
       valueAddedTaxIncluded: true,
       description: 'Prix de départ',
@@ -103,7 +103,7 @@ const inclus = [
 ---
 
 <BaseLayout
-  title="Site internet sur mesure dès 3 500 €, Caelestis"
+  title={`Site internet sur mesure dès ${euros(formule('site-sur-mesure').prix)} €, Caelestis`}
   description="Réservation, configurateur, espace client : le site construit autour de l'outil dont votre métier a besoin. Livré en six à huit semaines."
   canonical={canonical}
   schema={[schema, breadcrumb, faqSchema]}
