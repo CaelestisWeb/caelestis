@@ -34,6 +34,8 @@ Routes 410 Gone (`src/utils/gone.ts` + routes catch-all author/category/tag/feed
 
 ## Charte graphique RÉELLE (relevée dans src/styles/global.css)
 
+> Charte complète, logos et gabarits imprimés : dossier `identite/` (`CHARTE-GRAPHIQUE.md` pour le texte, `charte-caelestis.html` pour la planche visuelle autonome, `logo/` pour les SVG et PNG). Régénération : `node identite/build-logos.mjs` puis `node identite/build-charte.mjs`.
+
 **Typographie** : `Satoshi` (display ET corps), auto-hébergée en `src/assets/fonts/*.woff2` (poids 300/400/500/700), zéro requête tierce, hors liste noire. `@theme` dans `src/styles/global.css` est la source de vérité, ne pas dupliquer les hex ailleurs sans les y relever.
 
 Palette « forêt vivante » réelle (relevée dans `@theme`, `global.css`, le 31/07/2026) :
@@ -80,5 +82,19 @@ Règle accessibilité en place : `.text-sauge` (accent décoratif `#B8C4BB`) ne 
 
 - **01/08/2026, ciblage de la section « Pour qui » de l'accueil** : la liste de 14 métiers nommés (Maraîchers, Boulangers, Apiculteurs, Brasseurs, Ébénistes, Paysagistes, Écuries, Gîtes, Praticiens bien-être…) est remplacée par cinq statuts larges : **Artisans, Commerçants, Indépendants, Lieux d'accueil, Métiers de passion**. Deux motifs : la liste tenait sur cinq lignes en mobile, et elle fermait la porte à tout métier non cité. Choix assumé d'élargir au-delà de la niche métiers de la nature, pour toucher plus large en accueil.
   - **Le geste métier est porté par l'accroche**, pas par les pastilles : « Vous cultivez, vous élevez, vous fabriquez, vous accueillez » reste au-dessus, c'est là qu'un maraîcher ou un apiculteur se reconnaît. Ne pas supprimer cette accroche sans réintroduire un signal métier ailleurs dans la section.
-  - **Ne pas dépasser six pastilles** : au-delà, le retour à la ligne mobile redevient illisible. `white-space: nowrap` sur `.metiers li` interdit qu'un libellé se coupe en deux, donc tout libellé plus long que « Métiers de passion » (156 px à 14 px) casse le pavage en mobile.
-  - **Pavage mesuré** : 2+2+1 à 320 px, 3+2 de 375 à 768 px, rangée unique dès 900 px, aucun débordement horizontal. Le palier `@media (min-width: 600px) and (max-width: 880px) { .metiers { max-width: 520px } }` existe pour cette seule raison : sans lui, la plage tablette laisse une pastille orpheline en 4+1.
+  - **Ne pas dépasser six pastilles** : au-delà, le retour à la ligne mobile redevient illisible. `white-space: nowrap` sur `.metiers li` interdit qu'un libellé se coupe en deux, donc tout libellé plus long que « Métiers de passion » (137 px en mobile) casse le pavage.
+  - **Pavage mesuré sur huit largeurs** (320, 375, 414, 500, 640, 768, 841, 1280) : 2+2+1 à 320 px, franc 3+2 de 375 à 840 px, rangée unique dès 841 px, aucun débordement horizontal nulle part. Hauteur du bloc : 75 px en mobile, contre 177 px avec l'ancienne liste.
+  - **Le palier `@media (max-width: 840px) { .metiers { max-width: 420px } }` porte tout le pavage** : sans lui, la plage 480 à 840 px loge quatre pastilles et abandonne la cinquième seule sur sa ligne. La borne 840 vient de la mesure : les cinq pastilles réclament 737 px de rangée, soit 817 px de fenêtre avec les marges de section ; 840 laisse une marge de sécurité de 24 px.
+  - **Corps de 13 px assumé en mobile** (0,8125rem, la taille d'origine des pastilles) : à 14 px, trois pastilles ne tiennent plus sur une ligne à 375 px et le bloc repasse à trois lignes, soit 130 px de haut. C'est le seul réglage qui achète le 3+2.
+
+- **01/08/2026, répartition des mots-clés entre les pages** : « création de site internet » figurait dans le title de quatre pages (accueil, `/services`, page régionale, `/contact`) qui se disputaient le même résultat. Une seule le porte désormais, la page régionale, dont c'est l'adresse. Répartition retenue, à ne pas défaire sans arbitrage :
+  - **Accueil** : « Agence web en Auvergne-Rhône-Alpes, Caelestis ». Le terme « agence web » n'apparaissait dans aucun title alors que c'est l'une des deux requêtes principales du métier. Il est adossé au pied de page (« Agence web indépendante : création de site… »), donc présent sur toutes les pages sans bourrage.
+  - **`/creation-site-internet-auvergne-rhone-alpes`** : garde « Création de site internet en Auvergne-Rhône-Alpes ».
+  - **`/services`** : page du prix (« Tarifs et formules de création de site »), plus la requête générique.
+  - **`/contact`** : « devis ». **`/a-propos`** : « développeur web freelance », qui n'existait que dans le JSON-LD.
+  - **Pages offre** : le prix entre dans le title (dès 1 000, 2 000, 2 500, 3 500 €, 7,99 €/mois). Il trie les visiteurs avant le clic.
+  - **Zone géographique** : arbitrage de Célestin, priorité à la région, pas à la ville. Aucune page ville n'est ouverte.
+- **01/08/2026, gabarits de métadonnées** : title ≤ 60 signes, description ≤ 155, et l'argument décisif (prix, délai, garantie) placé **avant le 120e signe**, car c'est là que Google coupe en mobile. Onze descriptions dépassaient et perdaient leur argument. Le gabarit des études de cas (`realisations/[slug].astro`) visait 165, ramené à 155.
+  - **Piège typographique** : dans les **métas**, le site pose une espace insécable **uniquement** entre le nombre et le €. Dans le **contenu**, il en pose aussi avant `?` `:` `!`. Un remplacement de chaîne qui ignore cette différence échoue silencieusement.
+  - **Contrôle** : `npm run build` puis relevé sur `.vercel/output/static/**/*.html`, jamais sur les sources. C'est ce que reçoit Google.
+- **01/08/2026, chantiers SEO laissés ouverts** : **aucune page métier** (paysagiste, apiculteur, viticulteur, maraîcher, pépiniériste : la niche est revendiquée dans le texte mais aucun de ces mots ne porte de page), **aucune page ville** (« Valence » apparaît une seule fois sur tout le site, dans une énumération de huit villes, ce qui ne classe pas). Décision de Célestin : métas d'abord, ces pages plus tard.
