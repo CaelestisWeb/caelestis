@@ -33,21 +33,28 @@ const OPAQUES = new Set(['script', 'style', 'pre', 'code', 'textarea', 'kbd', 's
 const NBSP = ' ';
 
 /** Applique les règles à un fragment de texte nu (hors balises). */
+/**
+ * Toutes les règles s'écrivent en lookaround : le remplacement ne porte QUE sur
+ * l'espace, sans consommer les caractères qui l'entourent.
+ *
+ * Ce n'est pas un détail de style. Avec des groupes capturants, une citation
+ * comme « …vers Crest ? » enchaîne deux corrections qui se chevauchent : la
+ * première consomme le point d'interrogation en le soudant à « Crest », si bien
+ * qu'il n'est plus disponible pour servir d'appui au guillemet fermant, dont
+ * l'espace reste sécable. Le cas est rare et parfaitement silencieux.
+ */
 function corrigerTexte(t) {
   return (
     t
-      /* Espace ordinaire avant ; : ? ! » → insécable.
-         La classe qui précède exclut une espace (pas de double espace à traiter)
-         et les caractères d'un émoticône, pour ne pas figer « :) ». */
-      .replace(/([^\s])[ \t]+([;:?!»])/g, `$1${NBSP}$2`)
+      /* Espace ordinaire avant ; : ? ! » → insécable. */
+      .replace(/(?<=\S)[ \t]+(?=[;:?!»])/g, NBSP)
       /* Espace ordinaire après un guillemet ouvrant → insécable. */
-      .replace(/(«)[ \t]+/g, `$1${NBSP}`)
-      /* Nombre et son unité : 1 000 €, 48 h, 30 %. Le séparateur de milliers
-         est traité en amont par ailleurs ; ici on soude le dernier groupe. */
-      .replace(/(\d)[ \t]+(€|%|h\b|km\b|Ko\b|Mo\b|min\b)/g, `$1${NBSP}$2`)
-      /* Séparateur de milliers : 1 000 → insécable, sinon « 1 » finit une ligne
-         et « 000 € » commence la suivante. */
-      .replace(/(\d)[ \t](\d{3})(?!\d)/g, `$1${NBSP}$2`)
+      .replace(/(?<=«)[ \t]+/g, NBSP)
+      /* Nombre et son unité : 1 000 €, 48 h, 30 %. */
+      .replace(/(?<=\d)[ \t]+(?=€|%|h\b|km\b|Ko\b|Mo\b|min\b)/g, NBSP)
+      /* Séparateur de milliers : sans lui, « 1 » finit une ligne et « 000 € »
+         commence la suivante. */
+      .replace(/(?<=\d)[ \t](?=\d{3}(?!\d))/g, NBSP)
   );
 }
 
@@ -55,10 +62,29 @@ function corrigerTexte(t) {
  * Parcourt le HTML en distinguant balises et texte, et n'applique la correction
  * qu'au texte du corps de page situé hors d'une balise opaque.
  */
+/**
+ * Fin d'une balise ouverte en `debut`, en tenant compte des guillemets.
+ *
+ * Un `>` peut parfaitement se trouver DANS une valeur d'attribut : un
+ * placeholder qui contient une flèche, un title rédigé, un `d=` de tracé SVG.
+ * S'arrêter au premier `>` rencontré coupe alors la balise en deux et décale
+ * tout ce qui suit : le reste du document est lu comme du texte ou, pire,
+ * comme l'intérieur d'une balise jamais refermée.
+ */
+function finDeBalise(html, debut) {
+  let guillemet = null;
+  for (let j = debut + 1; j < html.length; j += 1) {
+    const c = html[j];
+    if (guillemet) { if (c === guillemet) guillemet = null; continue; }
+    if (c === '"' || c === "'") { guillemet = c; continue; }
+    if (c === '>') return j;
+  }
+  return -1;
+}
+
 export function typographierHtml(html) {
   let sortie = '';
   let i = 0;
-  let profondeurOpaque = 0;
   let dansHead = false;
 
   while (i < html.length) {
@@ -67,19 +93,19 @@ export function typographierHtml(html) {
     /* Reste du document : du texte pur. */
     if (debut === -1) {
       const texte = html.slice(i);
-      sortie += profondeurOpaque > 0 || dansHead ? texte : corrigerTexte(texte);
+      sortie += dansHead ? texte : corrigerTexte(texte);
       break;
     }
 
     /* Texte qui précède la prochaine balise. */
     if (debut > i) {
       const texte = html.slice(i, debut);
-      sortie += profondeurOpaque > 0 || dansHead ? texte : corrigerTexte(texte);
+      sortie += dansHead ? texte : corrigerTexte(texte);
     }
 
     /* La balise elle-même est recopiée telle quelle : ses attributs ne sont
        jamais retouchés (un title="…" ou un alt="…" reste intact). */
-    const fin = html.indexOf('>', debut);
+    const fin = finDeBalise(html, debut);
     if (fin === -1) { sortie += html.slice(debut); break; }
 
     const balise = html.slice(debut, fin + 1);
@@ -87,15 +113,19 @@ export function typographierHtml(html) {
     i = fin + 1;
 
     const nom = balise.match(/^<\/?\s*([a-zA-Z][a-zA-Z0-9-]*)/);
-    if (nom) {
-      const t = nom[1].toLowerCase();
-      const fermante = balise[1] === '/';
-      const autoFermante = balise.endsWith('/>');
-      if (t === 'head') dansHead = !fermante;
-      if (OPAQUES.has(t) && !autoFermante) {
-        if (fermante) profondeurOpaque = Math.max(0, profondeurOpaque - 1);
-        else profondeurOpaque += 1;
-      }
+    if (!nom) continue;
+
+    const t = nom[1].toLowerCase();
+    const fermante = balise[1] === '/';
+    if (t === 'head') { dansHead = !fermante; continue; }
+
+    /* Balise opaque : plutôt que compter une profondeur, on saute d'un bloc
+       jusqu'à sa fermeture et on recopie l'intérieur sans y toucher. Un
+       compteur, lui, reste coincé à jamais si une fermeture manque à l'appel,
+       et le reste de la page cesse silencieusement d'être corrigé. */
+    if (OPAQUES.has(t) && !fermante && !balise.endsWith('/>')) {
+      const ferm = html.toLowerCase().indexOf(`</${t}`, i);
+      if (ferm !== -1) { sortie += html.slice(i, ferm); i = ferm; }
     }
   }
 
