@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
+import typographieFrancaise from './integrations/typographie-francaise.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -34,6 +35,10 @@ export default defineConfig({
         return item;
       },
     }),
+    /* Espaces insécables devant ; : ? ! » et entre un nombre et son unité.
+       Posées au build : invisibles dans l'éditeur, elles ne survivraient pas
+       dans les sources. Voir integrations/typographie-francaise.mjs. */
+    typographieFrancaise(),
   ],
   // Normaliser les URLs : pas de slash final (évite /page vs /page/)
   trailingSlash: 'never',
