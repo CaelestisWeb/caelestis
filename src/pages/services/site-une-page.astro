@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 import AppelFinal from '../../components/AppelFinal.astro';
 import AutresFormules from '../../components/AutresFormules.astro';
-import { euros, formule } from '../../utils/tarifs';
+import { euros, formule, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../../utils/tarifs';
 
 const canonical = 'https://caelestis.fr/services/site-une-page';
 
@@ -231,7 +231,7 @@ const anatomie = [
           </li>
           <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
             <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
-            <span>Maintenance <strong class="font-semibold text-brun">obligatoire</strong> à <a href="/maintenance" class="text-[#2E7452] hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">7,99 € par mois</a>&nbsp;: votre site reste en ligne, rapide et sécurisé.</span>
+            <span>Maintenance <strong class="font-semibold text-brun">obligatoire</strong>, offerte les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois puis <a href="/maintenance" class="text-[#2E7452] hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">{euros(MAINTENANCE_MIN)} € par mois</a>&nbsp;: votre site reste en ligne, rapide et sécurisé.</span>
           </li>
         </ul>
 

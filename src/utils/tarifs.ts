@@ -113,6 +113,44 @@ export const FORMULES: readonly Formule[] = [
 ] as const;
 
 /**
+ * Abonnement de maintenance, en euros par mois, une ligne par formule.
+ *
+ * Grille arrêtée le 31/07/2026. Elle succède à celle de juin (7,99 / 9,99 /
+ * 14,99 / 19,99), restée en ligne un mois de plus faute d'avoir été portée ici :
+ * le montant vivait en dur à six endroits du site, et rien ne signalait l'écart.
+ * C'est précisément ce que cette table empêche.
+ *
+ * Les centimes sont assumés : un abonnement mensuel ne suit pas la règle des
+ * montants ronds qui s'applique au prix des sites. Décision de Célestin.
+ *
+ * La maintenance est obligatoire et OFFERTE LES SIX PREMIERS MOIS : l'abonnement
+ * ne démarre qu'au septième. Toute page qui annonce un montant doit le dire dans
+ * la même phrase, sinon l'obligation se lit comme une contrainte sèche.
+ */
+export const MAINTENANCE: Record<Formule['id'], number> = {
+  'page-unique': 9.99,
+  'site-vitrine': 14.99,
+  'boutique-en-ligne': 19.99,
+  'site-sur-mesure': 24.99,
+} as const;
+
+/** Le montant d'appel : la formule la moins chère. */
+export const MAINTENANCE_MIN = Math.min(...Object.values(MAINTENANCE));
+
+/** Nombre de mois offerts avant la première échéance. */
+export const MAINTENANCE_MOIS_OFFERTS = 6;
+
+/**
+ * Le même nombre, en lettres, pour le texte courant.
+ *
+ * L'usage français écrit en toutes lettres les nombres jusqu'à dix dans une
+ * phrase, et en chiffres dans un titre ou une donnée. Sans cette seconde forme,
+ * la page mélangeait « les 6 premiers mois » et « les six premiers mois » d'un
+ * paragraphe à l'autre.
+ */
+export const MAINTENANCE_MOIS_OFFERTS_LETTRES = 'six';
+
+/**
  * Supplément pour la fiche Google Business, en euros.
  *
  * Cette prestation se vend en plus du site. Créer une fiche depuis zéro

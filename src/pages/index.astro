@@ -9,7 +9,7 @@ import imgJardin      from '../assets/images/jardin-communautaire.jpg';
 import imgAvant       from '../assets/images/comparateur/avant.jpg';
 import imgApres       from '../assets/images/comparateur/apres.jpg';
 import { realisations } from '../data/realisations';
-import { euros, formule } from '../utils/tarifs';
+import { euros, formule, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../utils/tarifs';
 
 const localBusiness = {
   '@context': 'https://schema.org',
@@ -217,7 +217,7 @@ const faqs = [
   },
   {
     q: 'Suis-je engagé sur la durée ?',
-    a: 'La création se règle une seule fois, en deux versements : 30 % à la signature, le solde à la mise en ligne. La maintenance est un abonnement mensuel dès 7,99 €, résiliable quand vous le souhaitez avec un mois de préavis.',
+    a: `La création se règle une seule fois, en deux versements : 30 % à la signature, le solde à la mise en ligne. La maintenance est offerte les ${MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois, puis devient un abonnement mensuel dès ${euros(MAINTENANCE_MIN)} €, résiliable quand vous le souhaitez avec un mois de préavis.`,
   },
   {
     q: 'Combien de temps ce projet va-t-il me demander ?',
@@ -389,8 +389,8 @@ const organizationSchema = {
            boutique. Largeur 42rem, la plus longue des deux phrases mesurant
            514 px. -->
       <p class="font-body text-base md:text-lg leading-relaxed max-w-[42rem] mb-9 text-brun-mid mx-auto [text-wrap:balance]" data-reveal data-delay="1">
-        Sur internet, on vous compare avant de vous choisir.<br>
-        Nous créons le site qui fait pencher la comparaison de votre côté.
+        Sur internet, on vous cherche, on vous compare, puis on vous choisit.<br>
+        Nous créons le site qui vous rend trouvable et qui emporte la comparaison.
       </p>
 
       <!-- Boutons CTA -->
@@ -896,7 +896,7 @@ const organizationSchema = {
       <div class="max-w-2xl mx-auto mt-12 text-center" data-reveal data-delay="2">
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Maintenance et sécurité</p>
         <p class="font-body text-sm md:text-base text-brun-mid leading-relaxed">
-          Un site internet demande un suivi régulier pour rester sûr et performant dans le temps. C'est pourquoi un abonnement de maintenance, à partir de <strong class="text-brun font-semibold">7,99&nbsp;€ par mois</strong>, accompagne chaque site que nous créons.
+          Un site internet demande un suivi régulier pour rester sûr et performant dans le temps. C'est pourquoi un abonnement de maintenance, offert les six premiers mois puis à partir de <strong class="text-brun font-semibold">{euros(MAINTENANCE_MIN)}&nbsp;€ par mois</strong>, accompagne chaque site que nous créons.
         </p>
         <p class="font-body text-sm md:text-base text-brun-mid leading-relaxed mt-3">
           Il prend en charge les mises à jour, la protection contre les failles de sécurité et le bon fonctionnement de votre site au quotidien. Vos modifications et l'évolution de votre site, elles, restent un service à part, à la demande et sur devis.

@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import AppelFinal from '../components/AppelFinal.astro';
+import { MAINTENANCE, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, euros, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../utils/tarifs';
 
 const schema = {
   '@context': 'https://schema.org',
@@ -11,10 +12,10 @@ const schema = {
   provider: { '@type': 'LocalBusiness', '@id': 'https://caelestis.fr/#business', name: 'Caelestis', url: 'https://caelestis.fr' },
   areaServed: [{ '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' }, { '@type': 'Country', name: 'France' }],
   offers: [
-    { '@type': 'Offer', name: 'Maintenance site une page',     priceSpecification: { '@type': 'PriceSpecification', price: '7.99',  priceCurrency: 'EUR', unitText: 'MONTH' } },
-    { '@type': 'Offer', name: 'Maintenance site vitrine',      priceSpecification: { '@type': 'PriceSpecification', price: '9.99',  priceCurrency: 'EUR', unitText: 'MONTH' } },
-    { '@type': 'Offer', name: 'Maintenance boutique en ligne',  priceSpecification: { '@type': 'PriceSpecification', price: '14.99', priceCurrency: 'EUR', unitText: 'MONTH' } },
-    { '@type': 'Offer', name: 'Maintenance site sur mesure',    priceSpecification: { '@type': 'PriceSpecification', price: '19.99', priceCurrency: 'EUR', unitText: 'MONTH' } },
+    { '@type': 'Offer', name: 'Maintenance site une page',      priceSpecification: { '@type': 'PriceSpecification', price: String(MAINTENANCE['page-unique']),      priceCurrency: 'EUR', unitText: 'MONTH' } },
+    { '@type': 'Offer', name: 'Maintenance site vitrine',       priceSpecification: { '@type': 'PriceSpecification', price: String(MAINTENANCE['site-vitrine']),     priceCurrency: 'EUR', unitText: 'MONTH' } },
+    { '@type': 'Offer', name: 'Maintenance boutique en ligne',  priceSpecification: { '@type': 'PriceSpecification', price: String(MAINTENANCE['boutique-en-ligne']), priceCurrency: 'EUR', unitText: 'MONTH' } },
+    { '@type': 'Offer', name: 'Maintenance site sur mesure',    priceSpecification: { '@type': 'PriceSpecification', price: String(MAINTENANCE['site-sur-mesure']),  priceCurrency: 'EUR', unitText: 'MONTH' } },
   ],
 };
 
@@ -65,13 +66,20 @@ const breadcrumb = {
   ],
 };
 
-// Abonnement maintenance — un tarif par type de site (maintenance technique uniquement)
+/* Abonnement de maintenance, un tarif par type de site.
+   Les montants viennent de tarifs.ts : ils étaient écrits en dur ici et à cinq
+   autres endroits du site, et la grille arrêtée le 31/07/2026 n'y était jamais
+   arrivée. Le prix vit désormais à un seul endroit.
+
+   Le bouton mène au contact et non à un paiement direct : la maintenance est
+   offerte les six premiers mois, personne ne s'abonne le jour de la livraison,
+   et le récurrent est piloté depuis Tiime (facture conforme et prélèvement),
+   pas par un lien de paiement isolé. */
 const formules = [
   {
     type: 'Page unique',
-    prix: '7,99',
+    prix: euros(MAINTENANCE['page-unique']),
     desc: 'Pour garder votre Page unique en ligne, rapide et sécurisée.',
-    lien: 'https://buy.stripe.com/9B63cugAK8XR0jE6hEdAk0c',
     feats: [
       '1 mise à jour par mois',
       'Site protégé et sécurisé',
@@ -81,10 +89,8 @@ const formules = [
   },
   {
     type: 'Vitrine',
-    prix: '9,99',
-    desc: 'Pour garder votre site vitrine en ligne, rapide et sécurisé.',
-    lien: 'https://buy.stripe.com/eVq7sKbgq2ztaYidK6dAk07',
-    feats: [
+    prix: euros(MAINTENANCE['site-vitrine']),
+    desc: 'Pour garder votre site vitrine en ligne, rapide et sécurisé.',    feats: [
       '1 mise à jour par semaine',
       'Site protégé et sécurisé',
       'Sauvegardes régulières',
@@ -93,10 +99,8 @@ const formules = [
   },
   {
     type: 'Boutique en ligne',
-    prix: '14,99',
-    desc: 'La tranquillité pour votre boutique : paiements et données surveillés.',
-    lien: 'https://buy.stripe.com/8x2cN41FQa1V4zUdK6dAk0b',
-    feats: [
+    prix: euros(MAINTENANCE['boutique-en-ligne']),
+    desc: 'La tranquillité pour votre boutique : paiements et données surveillés.',    feats: [
       '3 mises à jour par semaine',
       'Boutique et paiements sécurisés',
       'Sauvegardes régulières',
@@ -105,10 +109,8 @@ const formules = [
   },
   {
     type: 'Sur mesure',
-    prix: '19,99',
-    desc: 'Pour les sites complexes ou les boutiques avancées qui demandent une veille poussée.',
-    lien: 'https://buy.stripe.com/8x25kCacm0rl3vQcG2dAk0a',
-    feats: [
+    prix: euros(MAINTENANCE['site-sur-mesure']),
+    desc: 'Pour les sites complexes ou les boutiques avancées qui demandent une veille poussée.',    feats: [
       'Mises à jour 7 jours sur 7',
       'Surveillance permanente',
       'Site protégé et sécurisé',
@@ -127,8 +129,8 @@ const couvert = [
 ---
 
 <BaseLayout
-  title="Maintenance de site internet dès 7,99 €/mois, Caelestis"
-  description="Sécurité, sauvegardes, mises à jour et surveillance de votre site, hébergement compris. Abonnement sans engagement, dès 7,99 € par mois."
+  title={`Maintenance de site internet dès ${euros(MAINTENANCE_MIN)} €/mois, Caelestis`}
+  description={`${MAINTENANCE_MOIS_OFFERTS} mois offerts, puis dès ${euros(MAINTENANCE_MIN)} € par mois : hébergement, sécurité, sauvegardes et surveillance de votre site. Sans engagement.`}
   schema={[schema, breadcrumb, faqSchema]}
 >
 
@@ -186,7 +188,7 @@ const couvert = [
               <li class="feat-std flex items-start justify-center gap-3 font-body text-sm text-brun leading-snug">{c}</li>
             ))}
           </ul>
-          <p class="font-body text-sm font-semibold text-sauge">Dès 7,99 € par mois, selon votre site.</p>
+          <p class="font-body text-sm font-semibold text-sauge">{MAINTENANCE_MOIS_OFFERTS} mois offerts, puis dès {euros(MAINTENANCE_MIN)} € par mois selon votre site.</p>
         </div>
 
         <!-- 2. Modifications -->
@@ -225,6 +227,7 @@ const couvert = [
         </h2>
         <p class="font-body text-base text-brun-mid max-w-xl mx-auto leading-relaxed">
           Un abonnement qui garde votre site en ligne, sécurisé et sauvegardé, sans engagement.
+          <strong class="text-brun font-semibold">Les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois sont offerts</strong>, l'abonnement ne commence qu'ensuite.
         </p>
       </div>
 
@@ -237,7 +240,7 @@ const couvert = [
               <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2rem, 4vw, 2.6rem); letter-spacing: -0.02em;">
                 {f.prix}<span class="text-bois-mid text-lg ml-1">€</span>
               </p>
-              <p class="font-body text-xs text-brun-mid mt-2">par mois, sans engagement</p>
+              <p class="font-body text-xs text-brun-mid mt-2">par mois après les {MAINTENANCE_MOIS_OFFERTS_LETTRES} mois offerts</p>
             </div>
             <p class="font-body text-sm text-brun-mid mb-6 leading-relaxed">{f.desc}</p>
             <ul class="flex flex-col gap-3 flex-1 mb-7">
@@ -246,10 +249,11 @@ const couvert = [
               ))}
             </ul>
             <a
-              href={f.lien}
+              href="/contact"
               class="inline-flex items-center justify-center font-body font-medium text-sm tracking-[0.04em] transition-all duration-300 min-h-[44px] border border-sauge/70 text-[#2E7452] px-6 py-3 rounded-full hover:bg-[#255C41] hover:text-cream hover:border-[#255C41] btn-magnetic"
+              aria-label={`Poser une question sur la maintenance ${f.type}`}
             >
-              S'abonner
+              En parler
             </a>
           </div>
         ))}
