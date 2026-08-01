@@ -75,64 +75,61 @@ const breadcrumb = {
    offerte les six premiers mois, personne ne s'abonne le jour de la livraison,
    et le récurrent est piloté depuis Tiime (facture conforme et prélèvement),
    pas par un lien de paiement isolé. */
-/* Ce qui change d'une formule à l'autre est la SURFACE à maintenir, pas le
-   service rendu : une boutique a des paiements et des commandes à surveiller,
-   un site sur mesure a du code qui n'appartient qu'à lui. La protection et la
-   veille sont identiques partout, elles viennent après.
+/* Le prix suit ce qu'il y a à maintenir, et les cartes doivent le montrer.
+   Quatre cartes qui alignent les mêmes lignes ne justifient pas qu'on paie
+   24,99 € plutôt que 9,99 € : le visiteur conclut qu'il paie la même chose plus
+   cher. Chaque formule reprend donc la précédente (« herite ») et n'affiche que
+   ce qui lui est propre.
 
-   Auparavant, la première ligne annonçait une fréquence croissante (« 1 mise à
-   jour par mois » jusqu'à « 7 jours sur 7 ») : intenable, et laissant croire que
-   le prix achetait un nombre d'interventions. */
+   Ce qui s'ajoute est vrai et vérifiable, jamais une promesse de fréquence :
+   un site vitrine a des formulaires dont dépend l'arrivée des demandes, une
+   boutique a un tunnel de paiement et des données clients, un site sur mesure a
+   du code et des connexions qui n'existent que chez ce client. */
 const formules = [
   {
     type: 'Page unique',
     prix: euros(MAINTENANCE['page-unique']),
     desc: 'Pour garder votre Page unique en ligne, rapide et sécurisée.',
+    herite: null,
     feats: [
-      'Une page suivie de bout en bout',
       'Hébergement et nom de domaine compris',
-      'Liens cassés repérés et corrigés',
       'Sauvegardes et sécurité',
+      'Liens cassés repérés et corrigés',
       `${MAINTENANCE_RETOUCHES_MIN} min de retouches par mois`,
     ],
   },
   {
     type: 'Vitrine',
     prix: euros(MAINTENANCE['site-vitrine']),
-    desc: 'Pour garder votre site vitrine en ligne, rapide et sécurisé.',
+    desc: 'Plusieurs pages, plusieurs formulaires : plus de surface à surveiller.',
+    herite: 'la Page unique',
     feats: [
-      'Toutes vos pages suivies',
-      'Hébergement et nom de domaine compris',
-      'Liens cassés repérés et corrigés',
-      'Sauvegardes et sécurité',
-      `${MAINTENANCE_RETOUCHES_MIN} min de retouches par mois`,
+      'Toutes vos pages suivies, pas seulement l\'accueil',
+      'Vos formulaires testés : une demande perdue ne se rattrape pas',
     ],
   },
   {
     type: 'Boutique en ligne',
     prix: euros(MAINTENANCE['boutique-en-ligne']),
-    desc: 'La tranquillité pour votre boutique : paiements et données surveillés.',
+    desc: 'Une boutique encaisse : une panne coûte des ventes, pas seulement une visite.',
+    herite: 'le site Vitrine',
     feats: [
-      'Paiements et commandes surveillés',
-      'Hébergement et nom de domaine compris',
-      'Liens cassés repérés et corrigés',
-      'Sauvegardes et sécurité',
-      `${MAINTENANCE_RETOUCHES_MIN} min de retouches par mois`,
+      'Tunnel de commande et paiement vérifiés de bout en bout',
+      'Données de vos clients sauvegardées, obligations RGPD comprises',
     ],
   },
   {
     type: 'Sur mesure',
     prix: euros(MAINTENANCE['site-sur-mesure']),
-    desc: 'Pour les sites complexes ou les boutiques avancées qui demandent une veille poussée.',
+    desc: 'Du code qui n\'existe que chez vous, donc que personne d\'autre ne maintient.',
+    herite: 'la Boutique en ligne',
     feats: [
-      'Vos fonctionnalités sur mesure suivies',
-      'Hébergement et nom de domaine compris',
-      'Liens cassés repérés et corrigés',
-      'Sauvegardes et sécurité',
-      `${MAINTENANCE_RETOUCHES_MIN} min de retouches par mois`,
+      'Vos fonctionnalités propres suivies : réservation, configurateur, espace client',
+      'Connexions à vos outils maintenues : agenda, caisse, comptabilité',
     ],
   },
 ];
+
 
 // Ce que couvre la maintenance (liste de la section distinction)
 const couvert = [
@@ -240,9 +237,11 @@ const couvert = [
         <h2 class="font-display font-light text-brun leading-[1.1] mb-4" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
           Un tarif selon votre site.
         </h2>
-        <p class="font-body text-base text-brun-mid max-w-xl mx-auto leading-relaxed">
-          Un abonnement qui garde votre site en ligne, sécurisé et sauvegardé, sans engagement.
-          <strong class="text-brun font-semibold">Les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois sont offerts</strong>, l'abonnement ne commence qu'ensuite.
+        <p class="font-body text-base text-brun-mid max-w-2xl mx-auto leading-relaxed">
+          Le tarif suit ce qu'il y a à maintenir. Une page à surveiller ne demande pas
+          le même suivi qu'une boutique qui encaisse ou qu'un site dont les
+          fonctionnalités n'existent que chez vous.
+          <strong class="text-brun font-semibold">Les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois sont offerts</strong>, l'abonnement ne commence qu'ensuite, sans engagement.
         </p>
       </div>
 
@@ -258,6 +257,11 @@ const couvert = [
               <p class="font-body text-xs text-brun-mid mt-2">par mois après les {MAINTENANCE_MOIS_OFFERTS_LETTRES} mois offerts</p>
             </div>
             <p class="font-body text-sm text-brun-mid mb-6 leading-relaxed">{f.desc}</p>
+            {f.herite && (
+              <p class="mnt-herite font-body text-sm text-brun font-medium mb-4 leading-snug">
+                Tout ce que comprend {f.herite}, plus&nbsp;:
+              </p>
+            )}
             <ul class="flex flex-col gap-3 flex-1 mb-7">
               {f.feats.map((feat) => (
                 <li class="feat-std flex items-start justify-center gap-3 font-body text-sm text-brun-mid leading-snug">{feat}</li>
