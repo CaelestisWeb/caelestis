@@ -160,7 +160,13 @@
     opacity: 0;
   }
   #m-skip:hover { color: rgba(252, 251, 248, 0.92); }
-  #m-skip:focus, #m-skip:focus-visible { outline: none; }
+  #m-skip:focus-visible {
+    outline: 2px solid rgba(252, 251, 248, 0.9);
+    outline-offset: 4px;
+    border-radius: 4px;
+    opacity: 1;
+    pointer-events: auto;
+  }
 
   /* ── Mobile : "Passer" en haut à droite pour ne pas gêner la tagline ── */
   @media (max-width: 639px) {
