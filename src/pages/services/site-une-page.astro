@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 import AppelFinal from '../../components/AppelFinal.astro';
 import AutresFormules from '../../components/AutresFormules.astro';
-import { euros, formule, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../../utils/tarifs';
+import { euros, formule, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES, MAINTENANCE_RETOUCHES_MIN, TARIF_HORAIRE } from '../../utils/tarifs';
 
 const canonical = 'https://caelestis.fr/services/site-une-page';
 
@@ -56,7 +56,7 @@ const faq = [
   },
   {
     q: "Que se passe-t-il si je veux modifier un texte après la mise en ligne ?",
-    a: "Vous nous écrivez, nous le faisons. C'est un travail distinct de l'abonnement de maintenance, qui couvre la technique : nous vous annonçons le temps nécessaire avant de commencer, à 60 € de l'heure. Une correction d'horaire prend quelques minutes, pas une heure.",
+    a: `Vous nous écrivez, nous le faisons. L'abonnement de maintenance comprend ${MAINTENANCE_RETOUCHES_MIN} minutes de retouches par mois, de quoi corriger un horaire, un tarif ou une coquille. Au-delà, nous vous annonçons le temps nécessaire avant de commencer, à ${TARIF_HORAIRE} € de l'heure.`,
   },
 ];
 

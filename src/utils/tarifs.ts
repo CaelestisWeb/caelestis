@@ -141,6 +141,22 @@ export const MAINTENANCE_MIN = Math.min(...Object.values(MAINTENANCE));
 export const MAINTENANCE_MOIS_OFFERTS = 6;
 
 /**
+ * Minutes de retouches de contenu comprises chaque mois, non reportables.
+ *
+ * Quinze minutes, décidé par Célestin le 01/08/2026. Au-delà, le travail est
+ * chiffré avant d'être réalisé, au tarif horaire (voir TARIF_HORAIRE).
+ *
+ * Le chiffre a une conséquence directe sur la marge : à 60 € de l'heure, une
+ * minute vaut 1 €, et la formule la moins chère ne dégage qu'environ 7 € une
+ * fois l'hébergement et le domaine payés. Quinze minutes restent donc un geste
+ * commercial, assumé comme tel ; trente le rendaient franchement déficitaire.
+ */
+export const MAINTENANCE_RETOUCHES_MIN = 15;
+
+/** Tarif horaire des travaux hors abonnement, en euros. */
+export const TARIF_HORAIRE = 60;
+
+/**
  * Le même nombre, en lettres, pour le texte courant.
  *
  * L'usage français écrit en toutes lettres les nombres jusqu'à dix dans une

@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import AppelFinal from '../components/AppelFinal.astro';
-import { MAINTENANCE, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, euros, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../utils/tarifs';
+import { MAINTENANCE, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, euros, MAINTENANCE_MOIS_OFFERTS_LETTRES, MAINTENANCE_RETOUCHES_MIN, TARIF_HORAIRE } from '../utils/tarifs';
 
 const schema = {
   '@context': 'https://schema.org',
@@ -38,7 +38,7 @@ const faq = [
   },
   {
     q: "Les modifications de contenu sont-elles comprises ?",
-    a: "L'abonnement couvre la partie technique : votre site reste en ligne, rapide, sauvegardé, à jour, et ses liens continuent de fonctionner. Modifier un texte, une photo ou un tarif est un travail distinct, que nous chiffrons avant de le faire, à 60 € de l'heure. Vous savez donc toujours ce que vous payez, et vous ne découvrez jamais une facture après coup.",
+    a: `L'abonnement comprend ${MAINTENANCE_RETOUCHES_MIN} minutes de retouches par mois, non reportables d'un mois sur l'autre : changer un horaire, un tarif, une photo, corriger une coquille. De quoi couvrir les ajustements courants sans compter à la minute près. Au-delà, ou pour une nouvelle page, nous chiffrons le travail avant de le faire, à ${TARIF_HORAIRE} € de l'heure. Vous ne découvrez jamais une facture après coup.`,
   },
   {
     q: "Et si mon site est déjà en ligne, créé par quelqu'un d'autre ?",
@@ -93,6 +93,7 @@ const formules = [
       'Hébergement et nom de domaine compris',
       'Liens cassés repérés et corrigés',
       'Sauvegardes et sécurité',
+      `${MAINTENANCE_RETOUCHES_MIN} min de retouches par mois`,
     ],
   },
   {
@@ -104,6 +105,7 @@ const formules = [
       'Hébergement et nom de domaine compris',
       'Liens cassés repérés et corrigés',
       'Sauvegardes et sécurité',
+      `${MAINTENANCE_RETOUCHES_MIN} min de retouches par mois`,
     ],
   },
   {
@@ -115,6 +117,7 @@ const formules = [
       'Hébergement et nom de domaine compris',
       'Liens cassés repérés et corrigés',
       'Sauvegardes et sécurité',
+      `${MAINTENANCE_RETOUCHES_MIN} min de retouches par mois`,
     ],
   },
   {
@@ -126,6 +129,7 @@ const formules = [
       'Hébergement et nom de domaine compris',
       'Liens cassés repérés et corrigés',
       'Sauvegardes et sécurité',
+      `${MAINTENANCE_RETOUCHES_MIN} min de retouches par mois`,
     ],
   },
 ];
@@ -273,7 +277,7 @@ const couvert = [
       <!-- Rappel modifications -->
       <div class="mt-8 text-center" data-reveal data-delay="2">
         <p class="font-body text-sm text-brun-mid leading-relaxed">
-          Pour rappel, modifier le contenu de votre site reste un service à la demande, facturé sur devis.
+          Au-delà des {MAINTENANCE_RETOUCHES_MIN}&nbsp;minutes comprises chaque mois, modifier le contenu de votre site reste un service à la demande, chiffré avant d'être réalisé.
         </p>
       </div>
 
