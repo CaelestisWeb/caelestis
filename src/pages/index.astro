@@ -352,7 +352,7 @@ const organizationSchema = {
            la ligne se coupait au tiret et affichait « AUVERGNE- » puis
            « RHÔNE-ALPES » seul en dessous. Le retour se fait maintenant avant
            « Auvergne », entre deux mots. -->
-      <p class="font-body text-xs tracking-[0.22em] uppercase mb-8 text-sauge [text-wrap:balance]" data-reveal>
+      <p class="hero-eyebrow font-body text-xs tracking-[0.22em] uppercase mb-8 text-sauge [text-wrap:balance]" data-reveal>
         Création de site web en <a href="/creation-site-internet-auvergne-rhone-alpes" class="whitespace-nowrap underline decoration-sauge/30 underline-offset-2 hover:decoration-sauge transition-colors">Auvergne-Rhône-Alpes</a>
       </p>
 
@@ -392,9 +392,10 @@ const organizationSchema = {
            comparaison », qui ne se comprenait qu'en ayant lu la ligne du
            dessus. Largeur 42rem, la plus longue des deux phrases mesurant
            618 px. -->
-      <p class="font-body text-base md:text-lg leading-relaxed max-w-[42rem] mb-9 text-brun-mid mx-auto [text-wrap:balance]" data-reveal data-delay="1">
+      <p class="hero-sub font-body text-base md:text-lg leading-relaxed max-w-[42rem] mb-9 text-brun-mid mx-auto [text-wrap:balance]" data-reveal data-delay="1">
         Sur internet, on vous cherche, on vous compare, puis on vous choisit.<br>
-        Nous créons le site qui vous rend trouvable, et qui donne envie de vous choisir.
+        Vous voulez un site qui vous rende trouvable et qui donne envie de vous choisir ?<br>
+        Vous êtes au bon endroit, nous nous occupons de tout.
       </p>
 
       <!-- Boutons CTA -->
@@ -1098,6 +1099,20 @@ const organizationSchema = {
      librement dès que la largeur manque. La règle qui rétablissait le retour à
      la ligne sous 360px décrivait la version à trois lignes et n'avait plus
      d'effet, elle a été retirée le 01/08/2026 avec le passage à deux lignes. */
+
+  /* Téléphones courts (iPhone SE, iPhone 8 et assimilés, 667px de haut).
+     Le sous-titre en trois temps occupe six lignes à cette largeur : sans ce
+     resserrement, le hero mesure 724px et le filet de réassurance tombe 57px
+     sous la ligne de flottaison, alors que ce sont les quatre arguments qui
+     décident le visiteur. On récupère 56px sur les seules marges verticales,
+     rien sur le texte. Borné en largeur ET en hauteur : les grands écrans et
+     les téléphones hauts gardent la respiration d'origine. */
+  @media (max-width: 767px) and (max-height: 720px) {
+    .hero-eyebrow { margin-bottom: 0.75rem; }
+    .hero-title { margin-bottom: 1rem; }
+    .hero-sub { margin-bottom: 1rem; }
+    .trust { margin-top: 1.25rem; padding-top: 0.875rem; }
+  }
 
   /* ── Fil botanique — visible desktop uniquement ── */
   .vine-wrap {
