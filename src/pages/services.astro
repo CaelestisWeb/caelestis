@@ -1170,53 +1170,74 @@ const etapes = [
   </style>
 
   <script>
-    /* Vague de la section méthode.
-       Chaque carte s'écarte vers la droite puis revient (sine.inOut : vitesse
-       nulle aux extrémités, donc aucun à-coup). Les départs sont décalés de PAS ;
-       plus il est petit, plus les cartes ondulent ensemble et forment une vague
-       continue qui descend la liste au fil du scroll. Le scrub relie le tout au
-       défilement avec une inertie douce. Réglages validés avec le client.
+    /* Vague de la section méthode, en autonomie totale.
 
-       GSAP est importé dynamiquement, et seulement sur desktop à pointeur fin :
-       sur tactile et en « animations réduites », la frise reste simplement
-       statique, sans charger la librairie. */
-    const AMPLITUDE = 80;   // de combien chaque carte s'écarte, en pixels
-    const PAS = 0.8;        // décalage de départ entre deux cartes voisines
-    const DOUCEUR = 2;      // inertie du mouvement derrière le scroll (scrub)
+       Chaque carte suit un aller-retour horizontal doux (une demi-sinusoïde :
+       0 → droite → 0, vitesse nulle aux extrémités, donc aucun à-coup). Le
+       départ de chaque carte est décalé, si bien qu'à tout instant plusieurs
+       cartes ondulent à des phases différentes : une vague qui descend la liste
+       au fil du défilement.
 
-    async function initMethodeVague() {
+       On ne dépend ni de GSAP ni de ScrollTrigger ni du smooth scroll du site :
+       à chaque frame on lit la position réelle du bloc (getBoundingClientRect),
+       qui reflète déjà le défilement lissé. Une inertie (lerp) ajoute la
+       douceur. Actif seulement sur desktop à pointeur fin et hors « animations
+       réduites » ; sinon la frise reste simplement immobile. */
+    const AMPLITUDE = 80;   // écart maximal de chaque carte, en pixels
+    const PAS = 0.8;        // décalage de phase entre deux cartes voisines
+    const INERTIE = 0.10;   // douceur du suivi (petit = plus traînant)
+
+    function initMethodeVague() {
       const finPointeur = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
       const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!finPointeur || reduit) return;
 
       const bloc = document.querySelector('.mth-bloc');
-      const cartes = bloc ? Array.from(bloc.querySelectorAll('.mth-etape')) : [];
-      if (!bloc || !cartes.length) return;
+      if (!bloc) return;
+      const cartes = Array.from(bloc.querySelectorAll('.mth-etape'));
+      if (!cartes.length) return;
 
-      const { gsap } = await import('gsap');
-      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-      gsap.registerPlugin(ScrollTrigger);
+      const TOTAL = (cartes.length - 1) * PAS + 2; // longueur de la vague, en unités
+      let lisse = 0, rafId = null;
 
-      /* View Transitions peut rappeler cette fonction en revenant sur la page :
-         on retire d'abord une éventuelle vague précédente pour ne pas l'empiler. */
-      ScrollTrigger.getAll().forEach((st) => {
-        if (st.vars && st.vars.id === 'methode-vague') st.kill();
-      });
-      gsap.set(cartes, { x: 0 });
+      /* Progression du bloc dans l'écran : 0 quand son haut arrive vers le bas
+         du viewport, 1 quand son bas s'apprête à sortir par le haut. */
+      function cible() {
+        const r = bloc.getBoundingClientRect();
+        const vh = window.innerHeight || 1;
+        const p = (0.80 * vh - r.top) / (0.65 * vh + r.height);
+        return Math.min(1, Math.max(0, p));
+      }
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          id: 'methode-vague',
-          trigger: bloc,
-          start: 'top 78%',
-          end: 'bottom 15%',
-          scrub: DOUCEUR,
-        },
-      });
-      cartes.forEach((carte, i) => {
-        tl.to(carte, { x: AMPLITUDE, duration: 1, ease: 'sine.inOut' }, i * PAS)
-          .to(carte, { x: 0,         duration: 1, ease: 'sine.inOut' }, i * PAS + 1);
-      });
+      function applique(p) {
+        const t = p * TOTAL;
+        for (let i = 0; i < cartes.length; i++) {
+          let local = (t - i * PAS) / 2;          // position sur l'aller-retour de la carte i
+          local = Math.min(1, Math.max(0, local));
+          const x = Math.sin(local * Math.PI) * AMPLITUDE; // 0 → AMPLITUDE → 0
+          cartes[i].style.transform = 'translateX(' + x.toFixed(2) + 'px)';
+        }
+      }
+
+      function boucle() {
+        lisse += (cible() - lisse) * INERTIE;
+        applique(lisse);
+        rafId = requestAnimationFrame(boucle);
+      }
+
+      /* La boucle ne tourne que lorsque la section est proche de l'écran. */
+      const io = new IntersectionObserver((entrees) => {
+        entrees.forEach((e) => {
+          if (e.isIntersecting && rafId === null) {
+            boucle();
+          } else if (!e.isIntersecting && rafId !== null) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+            applique(cible());
+          }
+        });
+      }, { rootMargin: '35% 0px 35% 0px' });
+      io.observe(bloc);
     }
 
     document.addEventListener('astro:page-load', initMethodeVague);
