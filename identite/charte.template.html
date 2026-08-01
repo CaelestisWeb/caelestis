@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caelestis, charte graphique</title>
+<style>
+@font-face{font-family:'Satoshi';font-weight:300;font-display:swap;src:url(data:font/woff2;base64,__F300__) format('woff2')}
+@font-face{font-family:'Satoshi';font-weight:400;font-display:swap;src:url(data:font/woff2;base64,__F400__) format('woff2')}
+@font-face{font-family:'Satoshi';font-weight:500;font-display:swap;src:url(data:font/woff2;base64,__F500__) format('woff2')}
+@font-face{font-family:'Satoshi';font-weight:700;font-display:swap;src:url(data:font/woff2;base64,__F700__) format('woff2')}
+
+:root{
+  --cream:#FCFBF8; --cream-dark:#E6E4DC; --vert:#255C41; --vert-fonce:#1B4733;
+  --pierre:#5C6259; --sauge:#B8C4BB; --sauge-texte:#2E7452; --sauge-pale:#E3EFE8; --encre:#12160F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Satoshi',system-ui,sans-serif;font-weight:400;font-size:16px;line-height:1.65;
+  background:var(--cream);color:var(--encre);-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-weight:700;line-height:1.08;letter-spacing:-0.038em}
+h3,h4{line-height:1.22;letter-spacing:-0.024em}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+section{padding:72px 0;border-top:1px solid var(--cream-dark)}
+section:first-of-type{border-top:0}
+.num{font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--sauge-texte);display:block;margin-bottom:14px}
+h2{font-size:clamp(1.7rem,3.4vw,2.5rem);margin-bottom:10px}
+.chapo{color:var(--pierre);max-width:62ch;margin-bottom:34px}
+h3{font-size:1.15rem;margin:34px 0 14px}
+p+p{margin-top:12px}
+ul{list-style:none}
+li{padding-left:20px;position:relative;margin-bottom:7px;color:var(--pierre)}
+li::before{content:'';position:absolute;left:0;top:11px;width:7px;height:1px;background:var(--sauge)}
+li strong{color:var(--encre);font-weight:500}
+code{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:0.86em;background:var(--sauge-pale);padding:2px 6px;border-radius:3px;color:var(--vert-fonce)}
+
+/* Bandeau de tete */
+header.hero{background:var(--vert);color:var(--cream);padding:76px 0 64px}
+header.hero .wrap{display:flex;flex-direction:column;gap:38px}
+header.hero h1{font-size:clamp(2.2rem,5vw,3.6rem)}
+header.hero p{color:var(--sauge-pale);max-width:56ch}
+.meta{display:flex;flex-wrap:wrap;gap:0 46px;font-size:13.5px;color:var(--sauge-pale);border-top:1px solid rgba(252,251,248,.22);padding-top:22px}
+.meta b{display:block;font-weight:500;color:var(--cream);font-size:15px;letter-spacing:-0.01em}
+
+/* Nuancier */
+.nuancier{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:18px}
+.teinte{border:1px solid var(--cream-dark);border-radius:6px;overflow:hidden;background:#fff}
+.teinte .pastille{height:104px}
+.teinte .info{padding:14px 16px 16px}
+.teinte .nom{font-weight:700;font-size:15px;letter-spacing:-0.02em}
+.teinte .hex{font-family:ui-monospace,Consolas,monospace;font-size:14px;color:var(--vert);margin-top:3px;font-weight:500}
+.teinte .rgb{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;color:var(--pierre);margin-top:1px}
+.teinte .role{font-size:12.5px;color:var(--pierre);margin-top:9px;line-height:1.45}
+.teinte .token{font-size:11px;color:var(--sauge-texte);margin-top:8px;font-weight:500}
+.alerte{background:var(--sauge-pale);border-left:3px solid var(--vert);padding:16px 20px;border-radius:0 5px 5px 0;margin-top:22px}
+.alerte p{color:var(--vert-fonce);font-size:14.5px}
+.alerte b{font-weight:700}
+
+/* Tableaux */
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+th{text-align:left;font-weight:500;font-size:11.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--sauge-texte);padding:0 14px 10px 0;border-bottom:1px solid var(--cream-dark)}
+td{padding:11px 14px 11px 0;border-bottom:1px solid var(--cream-dark);color:var(--pierre);vertical-align:top}
+td:first-child{color:var(--encre);font-weight:500;white-space:nowrap}
+td.mono,th.mono{font-family:ui-monospace,Consolas,monospace}
+
+/* Logo */
+.logos{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.carte-logo{border:1px solid var(--cream-dark);border-radius:6px;overflow:hidden}
+.carte-logo .scene{display:flex;align-items:center;justify-content:center;padding:34px 26px;min-height:132px}
+.carte-logo .scene.clair{background:var(--cream)}
+.carte-logo .scene.vert{background:var(--vert)}
+.carte-logo .scene.douce{background:var(--sauge-pale)}
+.carte-logo img{max-width:100%;height:auto}
+.carte-logo .legende{padding:12px 16px;font-size:12.5px;color:var(--pierre);border-top:1px solid var(--cream-dark);background:#fff}
+.carte-logo .legende b{display:block;color:var(--encre);font-weight:500;font-size:13.5px;margin-bottom:2px}
+
+.zone-protection{background:#fff;border:1px solid var(--cream-dark);border-radius:6px;padding:30px;display:flex;gap:38px;flex-wrap:wrap;align-items:center}
+.zp-visuel{position:relative;flex:0 0 250px}
+.zp-visuel .cadre{position:relative;padding:36px;background:var(--sauge-pale);border-radius:4px}
+.zp-visuel .cadre::before{content:'';position:absolute;inset:36px;border:1px dashed var(--sauge)}
+.zp-visuel .cadre img{position:relative;display:block;width:100%}
+.zp-legende{flex:1;min-width:240px}
+
+.interdits{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.interdits>div{border:1px solid var(--cream-dark);border-radius:6px;padding:18px 20px;background:#fff}
+.interdits h4{font-size:14px;margin-bottom:8px}
+.interdits .oui{color:var(--vert)}
+.interdits .non{color:#8C3A2E}
+.interdits li{font-size:13.5px;margin-bottom:5px}
+
+/* Typo */
+.echelle > div{border-bottom:1px solid var(--cream-dark);padding:20px 0;display:flex;align-items:baseline;gap:26px;flex-wrap:wrap}
+.echelle .ex{flex:1;min-width:260px;color:var(--encre)}
+.echelle .spec{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;color:var(--pierre);white-space:nowrap;line-height:1.7}
+.graisses{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-top:18px}
+.graisses div{border:1px solid var(--cream-dark);border-radius:6px;padding:16px 18px;background:#fff}
+.graisses span{display:block;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sauge-texte);margin-bottom:6px;font-weight:500}
+.graisses p{font-size:25px;letter-spacing:-0.03em;line-height:1.2}
+
+/* Cartes de visite, echelle reelle */
+.cv-grille{display:flex;flex-wrap:wrap;gap:34px;margin-top:12px}
+.cv-bloc{flex:0 0 auto}
+.cv-titre{font-size:12px;letter-spacing:0.13em;text-transform:uppercase;color:var(--sauge-texte);font-weight:500;margin-bottom:10px}
+.cv{width:85mm;height:55mm;border-radius:2mm;overflow:hidden;position:relative;box-shadow:0 1px 3px rgba(18,22,15,.14);display:flex;flex-direction:column;justify-content:space-between;padding:8mm 7mm}
+.cv.recto{background:var(--vert);color:var(--cream)}
+.cv.verso{background:var(--cream);color:var(--encre);border:1px solid var(--cream-dark)}
+.cv .mono-img{width:13mm;height:auto}
+.cv .nom{font-size:5.4mm;font-weight:700;letter-spacing:-0.035em;line-height:1.05}
+.cv .role{font-size:2.7mm;letter-spacing:0.13em;text-transform:uppercase;font-weight:500;margin-top:1.6mm}
+.cv.recto .role{color:var(--sauge-pale)}
+.cv.verso .role{color:var(--sauge-texte)}
+.cv .coord{font-size:3mm;line-height:1.75;font-weight:400}
+.cv.recto .coord{color:var(--sauge-pale)}
+.cv.verso .coord{color:var(--pierre)}
+.cv .coord b{font-weight:500;color:inherit}
+.cv .sign{font-size:2.6mm;letter-spacing:0.13em;text-transform:uppercase;font-weight:500}
+.cv.recto .sign{color:var(--sauge-pale)}
+.cv.verso .sign{color:var(--sauge-texte)}
+.cv .filet{width:9mm;height:0.5mm;background:var(--sauge);margin:3mm 0}
+.cv-cotes{font-size:12px;color:var(--pierre);margin-top:9px;font-family:ui-monospace,Consolas,monospace}
+
+.gabarit{background:#fff;border:1px solid var(--cream-dark);border-radius:6px;padding:26px;margin-top:26px}
+.gabarit-visuel{width:91mm;height:61mm;background:var(--cream-dark);position:relative;border-radius:1mm}
+.gabarit-visuel .coupe{position:absolute;inset:3mm;background:var(--sauge-pale);border:1px solid var(--sauge)}
+.gabarit-visuel .secu{position:absolute;inset:8mm;border:1px dashed var(--vert)}
+.gabarit-legende{display:flex;gap:26px;flex-wrap:wrap;margin-top:16px;font-size:13px;color:var(--pierre)}
+.gabarit-legende span{display:flex;align-items:center;gap:8px}
+.pastille-legende{width:14px;height:14px;border-radius:2px;flex:0 0 auto}
+
+/* Applications */
+.appli{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.appli>div{border:1px solid var(--cream-dark);border-radius:6px;background:#fff;overflow:hidden}
+.appli .tete{padding:12px 18px;background:var(--sauge-pale);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:var(--vert-fonce)}
+.appli .corps{padding:22px 20px;font-size:14px;color:var(--pierre);line-height:1.7}
+.signature-mail{font-size:13.5px;line-height:1.6}
+.signature-mail .nom{font-weight:700;color:var(--encre);font-size:15px;letter-spacing:-0.02em}
+.signature-mail .role{color:var(--sauge-texte);font-weight:500;font-size:12.5px;letter-spacing:0.06em;text-transform:uppercase;margin:2px 0 8px}
+.signature-mail .filet{width:34px;height:1px;background:var(--sauge);margin:10px 0}
+
+.etapes{counter-reset:etape}
+.etapes li{padding-left:38px;margin-bottom:14px;color:var(--pierre)}
+.etapes li::before{counter-increment:etape;content:counter(etape);position:absolute;left:0;top:1px;width:24px;height:24px;background:var(--vert);color:var(--cream);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+
+footer{background:var(--vert);color:var(--sauge-pale);padding:44px 0;font-size:13.5px}
+footer b{color:var(--cream);font-weight:500}
+
+@media print{
+  body{background:#fff}
+  section{page-break-inside:avoid;padding:34px 0}
+  header.hero{padding:40px 0}
+}
+@media(max-width:640px){
+  .interdits{grid-template-columns:1fr}
+  .cv{transform-origin:top left}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="num" style="color:var(--sauge-pale)">Charte graphique, version 2026.08</span>
+      <h1>Caelestis</h1>
+      <p style="margin-top:16px">Création de sites internet et référencement naturel, Drôme. Ce document décrit l'identité relevée dans le code du site en production. Il sert de source unique pour toute production imprimée ou graphique, Canva compris.</p>
+    </div>
+    <div class="meta">
+      <div><b>Positionnement</b>Métiers de la nature</div>
+      <div><b>Typographie</b>Satoshi, graisses 300 à 700</div>
+      <div><b>Couleur directrice</b>Vert forêt #255C41</div>
+      <div><b>Relevé le</b>1er août 2026</div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <span class="num">01, Territoire de marque</span>
+    <h2>Ce que l'identité doit dire</h2>
+    <p class="chapo">Caelestis s'adresse à des artisans, producteurs et indépendants dont le métier touche à la nature. L'identité doit paraître soignée sans être froide, sérieuse sans être corporate, végétale sans être folklorique.</p>
+    <div class="interdits">
+      <div>
+        <h4 class="oui">Registre visé</h4>
+        <ul>
+          <li>Artisanal et précis, comme un travail bien fait</li>
+          <li>Chaleureux, papier et forêt plutôt qu'écran et néon</li>
+          <li>Calme, beaucoup de blanc, peu d'effets</li>
+          <li>Un seul vert profond qui porte toute la marque</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="non">Registre à fuir</h4>
+        <ul>
+          <li>Le vert pomme écologique et les feuilles illustrées</li>
+          <li>Le bleu technologique et les dégradés de start-up</li>
+          <li>Les icônes en emoji et les pictogrammes épais</li>
+          <li>La surcharge, trois couleurs vives par visuel</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">02, Logotype</span>
+    <h2>Le logo et ses déclinaisons</h2>
+    <p class="chapo">La marque repose sur deux éléments, un monogramme géométrique en forme de C ouvert et un mot écrit en Satoshi. Ils s'utilisent seuls ou associés, jamais redessinés.</p>
+
+    <div class="logos">
+      <div class="carte-logo">
+        <div class="scene clair"><img src="logo/lockup-horizontal-sur-clair.svg" alt="Logo horizontal sur fond clair" style="width:210px"></div>
+        <div class="legende"><b>Horizontal, fond clair</b>Usage courant, en-têtes et signatures</div>
+      </div>
+      <div class="carte-logo">
+        <div class="scene vert"><img src="logo/lockup-horizontal-sur-vert.svg" alt="Logo horizontal sur fond vert" style="width:210px"></div>
+        <div class="legende"><b>Horizontal, fond vert</b>Bandeaux, couvertures, réseaux</div>
+      </div>
+      <div class="carte-logo">
+        <div class="scene clair"><img src="logo/lockup-vertical-sur-clair.svg" alt="Logo vertical sur fond clair" style="width:120px"></div>
+        <div class="legende"><b>Vertical, fond clair</b>Formats carrés et étroits</div>
+      </div>
+      <div class="carte-logo">
+        <div class="scene vert"><img src="logo/lockup-vertical-sur-vert.svg" alt="Logo vertical sur fond vert" style="width:120px"></div>
+        <div class="legende"><b>Vertical, fond vert</b>Publications sociales</div>
+      </div>
+      <div class="carte-logo">
+        <div class="scene clair"><img src="logo/wordmark-vert.svg" alt="Mot Caelestis en vert" style="width:190px"></div>
+        <div class="legende"><b>Mot seul</b>Quand le monogramme est déjà présent</div>
+      </div>
+      <div class="carte-logo">
+        <div class="scene douce"><img src="logo/monogramme-nu-vert.svg" alt="Monogramme seul" style="width:64px"></div>
+        <div class="legende"><b>Monogramme seul</b>Avatar, favicon, tampon, filigrane</div>
+      </div>
+    </div>
+
+    <h3>Zone de protection et taille minimale</h3>
+    <div class="zone-protection">
+      <div class="zp-visuel">
+        <div class="cadre"><img src="logo/monogramme-nu-vert.svg" alt="Zone de protection du monogramme"></div>
+      </div>
+      <div class="zp-legende">
+        <ul>
+          <li><strong>Zone de protection</strong> : un espace vide égal à la moitié de la hauteur du monogramme, sur les quatre côtés. Aucun texte, aucune photo, aucun bord de page à l'intérieur.</li>
+          <li><strong>Taille minimale imprimée</strong> : 9 mm de haut pour le monogramme seul, 22 mm de large pour le logo horizontal.</li>
+          <li><strong>Taille minimale à l'écran</strong> : 32 px pour le monogramme, 120 px pour le logo horizontal.</li>
+          <li><strong>Sur photo</strong> : uniquement en crème, sur une zone sombre et calme de l'image, jamais posé sur un feuillage détaillé.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Ce qui est interdit sur le logo</h3>
+    <ul>
+      <li>Le déformer, l'étirer, l'incliner ou l'arrondir davantage</li>
+      <li>Changer sa couleur pour une teinte hors palette, ou lui appliquer un dégradé</li>
+      <li>Lui ajouter une ombre portée, un contour, un reflet ou un effet de relief</li>
+      <li>Réécrire le mot dans une autre police que Satoshi</li>
+      <li>Poser le monogramme vert sur un fond vert, ou crème sur un fond crème</li>
+    </ul>
+
+    <div class="alerte">
+      <p><b>Point à trancher.</b> La tuile du favicon actuel utilise le fond #F4F2EC, alors que le fond du site est #FCFBF8. L'écart est invisible isolément mais se voit lorsque les deux se touchent. Les fichiers de cette charte sont harmonisés sur #FCFBF8.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">03, Couleurs</span>
+    <h2>La palette forêt vivante</h2>
+    <p class="chapo">Neuf teintes, aucune de plus. Un vert forêt qui porte la marque, un crème chaud qui porte les pages, une mousse claire pour respirer, une encre pour lire. Les valeurs ci-dessous sont celles du code en production.</p>
+
+    <div class="nuancier">
+      <div class="teinte"><div class="pastille" style="background:#255C41"></div><div class="info"><div class="nom">Vert forêt</div><div class="hex">#255C41</div><div class="rgb">R 37, V 92, B 65</div><div class="role">Couleur directrice. Boutons, sections sombres, titres forts, monogramme.</div><div class="token">--color-ocre, --color-brun, --color-bois</div></div></div>
+      <div class="teinte"><div class="pastille" style="background:#1B4733"></div><div class="info"><div class="nom">Vert profond</div><div class="hex">#1B4733</div><div class="rgb">R 27, V 71, B 51</div><div class="role">État survolé des boutons, aplats les plus denses.</div><div class="token">--color-ocre-dark</div></div></div>
+      <div class="teinte"><div class="pastille" style="background:#2E7452"></div><div class="info"><div class="nom">Mousse foncée</div><div class="hex">#2E7452</div><div class="rgb">R 46, V 116, B 82</div><div class="role">Accents de texte sur fond clair, surtitres, liens. La seule teinte verte claire autorisée en texte.</div><div class="token">--color-sauge-text, --color-sauge-vif</div></div></div>
+      <div class="teinte"><div class="pastille" style="background:#B8C4BB"></div><div class="info"><div class="nom">Mousse</div><div class="hex">#B8C4BB</div><div class="rgb">R 184, V 196, B 187</div><div class="role">Bordures, filets, décor. Jamais en couleur de texte, contraste 1,7 pour 1 seulement.</div><div class="token">--color-sauge</div></div></div>
+      <div class="teinte"><div class="pastille" style="background:#E3EFE8"></div><div class="info"><div class="nom">Lin mousse</div><div class="hex">#E3EFE8</div><div class="rgb">R 227, V 239, B 232</div><div class="role">Fonds de sections douces, encadrés, tableaux.</div><div class="token">--color-sauge-pale</div></div></div>
+      <div class="teinte"><div class="pastille" style="background:#FCFBF8;box-shadow:inset 0 0 0 1px #E6E4DC"></div><div class="info"><div class="nom">Crème</div><div class="hex">#FCFBF8</div><div class="rgb">R 252, V 251, B 248</div><div class="role">Fond principal de tout support. Texte posé sur les aplats verts.</div><div class="token">--color-cream</div></div></div>
+      <div class="teinte"><div class="pastille" style="background:#E6E4DC"></div><div class="info"><div class="nom">Parchemin</div><div class="hex">#E6E4DC</div><div class="rgb">R 230, V 228, B 220</div><div class="role">Séparateurs, contours de cartes, aplats neutres discrets.</div><div class="token">--color-cream-dark</div></div></div>
+      <div class="teinte"><div class="pastille" style="background:#5C6259"></div><div class="info"><div class="nom">Pierre</div><div class="hex">#5C6259</div><div class="rgb">R 92, V 98, B 89</div><div class="role">Texte secondaire, légendes, mentions.</div><div class="token">--color-brun-mid, --color-pierre</div></div></div>
+      <div class="teinte"><div class="pastille" style="background:#12160F"></div><div class="info"><div class="nom">Encre</div><div class="hex">#12160F</div><div class="rgb">R 18, V 22, B 15</div><div class="role">Texte courant. Un noir légèrement vert, jamais du noir pur.</div><div class="token">--color-encre</div></div></div>
+    </div>
+
+    <h3>Répartition conseillée sur un visuel</h3>
+    <ul>
+      <li><strong>60 %</strong> de crème ou de vert forêt, un seul des deux domine par visuel</li>
+      <li><strong>30 %</strong> de texte, encre sur clair ou crème sur vert</li>
+      <li><strong>10 %</strong> d'accents, mousse foncée pour un mot, mousse claire pour un filet</li>
+    </ul>
+
+    <h3>Contrastes vérifiés</h3>
+    <p style="color:var(--pierre);font-size:14px;margin-bottom:4px">Ratios calculés selon la formule WCAG 2.1. Le seuil AA vaut 4,5 pour 1 en texte courant et 3 pour 1 au-delà de 24 px.</p>
+    <table>
+      <thead><tr><th>Association</th><th class="mono">Ratio</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Encre sur crème</td><td class="mono">17,7 : 1</td><td>AAA, combinaison de lecture par défaut</td></tr>
+        <tr><td>Encre sur lin mousse</td><td class="mono">15,5 : 1</td><td>AAA, encadrés et tableaux</td></tr>
+        <tr><td>Vert forêt sur crème</td><td class="mono">7,6 : 1</td><td>AAA, titres et libellés de boutons</td></tr>
+        <tr><td>Crème sur vert forêt</td><td class="mono">7,6 : 1</td><td>AAA, texte sur aplat vert</td></tr>
+        <tr><td>Vert forêt sur lin mousse</td><td class="mono">6,6 : 1</td><td>AAA, encadrés teintés</td></tr>
+        <tr><td>Pierre sur crème</td><td class="mono">6,1 : 1</td><td>AA, texte secondaire</td></tr>
+        <tr><td>Mousse foncée sur crème</td><td class="mono">5,4 : 1</td><td>AA, surtitres et accents</td></tr>
+        <tr><td>Mousse sur crème</td><td class="mono">1,7 : 1</td><td>Décor uniquement, jamais de texte</td></tr>
+      </tbody>
+    </table>
+
+    <div class="alerte">
+      <p><b>Impression.</b> Ces valeurs sont des couleurs écran. Canva imprime directement depuis le RVB, aucune conversion n'est à faire de votre côté. Pour un imprimeur classique, transmettez le hexadécimal et demandez la conversion avec le profil du papier retenu, plus un bon à tirer couleur avant tirage.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">04, Typographie</span>
+    <h2>Satoshi, seule et suffisante</h2>
+    <p class="chapo">Une seule famille pour les titres et le texte. Satoshi est une grotesque contemporaine, dessinée par Indian Type Foundry, distribuée gratuitement par Fontshare avec une licence qui autorise l'usage commercial et l'intégration.</p>
+
+    <div class="graisses">
+      <div><span>Light 300</span><p style="font-weight:300">Caelestis</p></div>
+      <div><span>Regular 400</span><p style="font-weight:400">Caelestis</p></div>
+      <div><span>Medium 500</span><p style="font-weight:500">Caelestis</p></div>
+      <div><span>Bold 700</span><p style="font-weight:700">Caelestis</p></div>
+    </div>
+
+    <div class="alerte">
+      <p><b>Satoshi n'a pas de graisse 600.</b> Toute demande de demi-gras retombe sur 500 ou sur une fausse graisse synthétique, qui épaissit les lettres de façon irrégulière. Dans Canva, n'utilisez que les quatre graisses ci-dessus, et jamais le bouton gras appliqué à un texte déjà en 700.</p>
+    </div>
+
+    <h3>Échelle et réglages exacts</h3>
+    <div class="echelle">
+      <div>
+        <div class="ex" style="font-size:44px;font-weight:700;letter-spacing:-0.038em;line-height:1.08">Un site qui valorise votre savoir-faire</div>
+        <div class="spec">Titre principal<br>700, interlettrage -0.038em<br>interligne 1.08, plafond 68 px</div>
+      </div>
+      <div>
+        <div class="ex" style="font-size:28px;font-weight:700;letter-spacing:-0.038em;line-height:1.1">Titre de section</div>
+        <div class="spec">Titre de section<br>700, interlettrage -0.038em<br>interligne 1.1</div>
+      </div>
+      <div>
+        <div class="ex" style="font-size:19px;font-weight:700;letter-spacing:-0.024em;line-height:1.22">Sous-titre ou titre de carte</div>
+        <div class="spec">Sous-titre<br>700, interlettrage -0.024em<br>interligne 1.22</div>
+      </div>
+      <div>
+        <div class="ex" style="font-size:17px;font-weight:400;line-height:1.7;color:var(--pierre)">Texte courant. Dix-sept pixels, interligne 1,7. Une ligne ne dépasse jamais 70 signes, sinon l'œil perd le fil au retour à la ligne.</div>
+        <div class="spec">Texte courant<br>400, interlettrage nul<br>interligne 1.7, 65 à 70 signes</div>
+      </div>
+      <div>
+        <div class="ex" style="font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--sauge-texte)">Surtitre de section</div>
+        <div class="spec">Surtitre<br>500, capitales, interlettrage 0.18em<br>en mousse foncée</div>
+      </div>
+      <div>
+        <div class="ex" style="font-size:14px;font-weight:500;letter-spacing:0.04em">Demander un devis</div>
+        <div class="spec">Libellé de bouton<br>500, interlettrage 0.04em<br>hauteur mini 44 px</div>
+      </div>
+    </div>
+
+    <h3>Où obtenir la police</h3>
+    <ul class="etapes">
+      <li>Ouvrir <code>fontshare.com/fonts/satoshi</code> et télécharger la famille complète, gratuite.</li>
+      <li>Décompresser l'archive, garder les fichiers <code>.otf</code> des graisses Light, Regular, Medium et Bold.</li>
+      <li>Les installer sur le poste par clic droit puis Installer, indispensable pour Word, les PDF et les visuels hors Canva.</li>
+      <li>Dans Canva, ouvrir Marque, puis Polices de marque, puis Importer une police, et déposer chaque fichier <code>.otf</code> un par un. Canva accepte les formats OTF, TTF et WOFF, mais refuse le WOFF2 et les archives ZIP.</li>
+      <li>L'import de polices demande un compte Canva Pro. Sans Pro, écrivez les visuels dans une police du catalogue et remplacez le titre par une image exportée depuis un fichier de cette charte.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">05, Carte de visite</span>
+    <h2>Deux pistes, à l'échelle réelle</h2>
+    <p class="chapo">Format français 85 par 55 millimètres. Les blocs ci-dessous sont affichés à leur taille d'impression, mesurables sur un écran à l'échelle 100 %.</p>
+
+    <div class="cv-grille">
+      <div class="cv-bloc">
+        <div class="cv-titre">Piste A, recto</div>
+        <div class="cv recto">
+          <img class="mono-img" src="logo/monogramme-nu-creme.svg" alt="">
+          <div>
+            <div class="nom">Célestin</div>
+            <div class="role">Fondateur</div>
+          </div>
+        </div>
+        <div class="cv-cotes">85 × 55 mm, aplat #255C41</div>
+      </div>
+
+      <div class="cv-bloc">
+        <div class="cv-titre">Piste A, verso</div>
+        <div class="cv verso">
+          <div class="sign">Caelestis</div>
+          <div>
+            <div class="filet"></div>
+            <div class="coord">
+              <b>07 69 36 27 27</b><br>
+              contact@caelestis.fr<br>
+              caelestis.fr
+            </div>
+          </div>
+          <div class="coord" style="font-size:2.5mm">Création de sites internet et référencement, Drôme</div>
+        </div>
+        <div class="cv-cotes">85 × 55 mm, fond #FCFBF8</div>
+      </div>
+
+      <div class="cv-bloc">
+        <div class="cv-titre">Piste B, recto</div>
+        <div class="cv verso" style="justify-content:center;align-items:flex-start">
+          <img src="logo/lockup-horizontal-sur-clair.svg" alt="" style="width:46mm">
+          <div class="coord" style="margin-top:5mm;font-size:2.7mm;letter-spacing:0.1em;text-transform:uppercase;color:var(--sauge-texte);font-weight:500">Sites internet et référencement</div>
+        </div>
+        <div class="cv-cotes">Logo horizontal, fond crème</div>
+      </div>
+
+      <div class="cv-bloc">
+        <div class="cv-titre">Piste B, verso</div>
+        <div class="cv recto" style="justify-content:center">
+          <div class="nom" style="font-size:4.6mm">Célestin</div>
+          <div class="role" style="margin-bottom:4mm">Fondateur</div>
+          <div class="coord">
+            <b>07 69 36 27 27</b><br>
+            contact@caelestis.fr<br>
+            caelestis.fr
+          </div>
+        </div>
+        <div class="cv-cotes">Coordonnées sur aplat vert</div>
+      </div>
+    </div>
+
+    <div class="gabarit">
+      <h3 style="margin-top:0">Gabarit de fabrication</h3>
+      <div class="gabarit-visuel">
+        <div class="coupe"></div>
+        <div class="secu"></div>
+      </div>
+      <div class="gabarit-legende">
+        <span><span class="pastille-legende" style="background:#E6E4DC"></span>Fond perdu, 91 × 61 mm, l'aplat doit aller jusqu'au bord</span>
+        <span><span class="pastille-legende" style="background:#E3EFE8;border:1px solid #B8C4BB"></span>Trait de coupe, 85 × 55 mm</span>
+        <span><span class="pastille-legende" style="background:transparent;border:1px dashed #255C41"></span>Zone de sécurité, 5 mm de marge, aucun texte au-delà</span>
+      </div>
+      <ul style="margin-top:18px">
+        <li><strong>Résolution</strong> : 300 points par pouce, soit 1075 × 721 pixels pour le fichier de 91 × 61 mm avec fond perdu.</li>
+        <li><strong>Papier conseillé</strong> : 350 grammes, mat ou naturel. Le vert forêt s'assombrit sur papier non couché, prévoir un bon à tirer.</li>
+        <li><strong>Pelliculage</strong> : mat de préférence, le brillant contredit le registre artisanal de la marque.</li>
+        <li><strong>Dans Canva</strong> : créer un format personnalisé de 91 × 61 mm, activer le repère de fond perdu, exporter en PDF pour impression avec repères et fond perdu cochés.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">06, Applications</span>
+    <h2>Décliner sans se tromper</h2>
+
+    <div class="appli">
+      <div>
+        <div class="tete">Signature de courriel</div>
+        <div class="corps">
+          <div class="signature-mail">
+            <div class="nom">Célestin</div>
+            <div class="role">Caelestis, fondateur</div>
+            <div class="filet"></div>
+            07 69 36 27 27<br>
+            contact@caelestis.fr<br>
+            caelestis.fr
+          </div>
+          <p style="margin-top:16px;font-size:12.5px">Aucune image de fond, aucun logo lourd. Le monogramme en 64 pixels au maximum, sinon il est coupé par les messageries.</p>
+        </div>
+      </div>
+      <div>
+        <div class="tete">Publication réseaux sociaux</div>
+        <div class="corps">
+          <ul>
+            <li><strong>Carré 1080 × 1080</strong> pour un conseil ou un chiffre</li>
+            <li><strong>Portrait 1080 × 1350</strong> pour une réalisation, la photo occupe le haut, le texte le bas sur aplat crème</li>
+            <li>Une idée par visuel, un titre de six mots au plus</li>
+            <li>Le logo en bas à droite, jamais au centre d'une photo</li>
+            <li>Le vert forêt en aplat plein, jamais en filtre sur une photo</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="tete">Devis et facture</div>
+        <div class="corps">
+          <ul>
+            <li>Logo horizontal en haut à gauche, 34 mm de large</li>
+            <li>Texte en Satoshi 400, taille 10 points, encre</li>
+            <li>Titres de colonnes en 500 capitales, mousse foncée</li>
+            <li>Filets de tableau en parchemin, jamais en noir</li>
+            <li>Mention de franchise de TVA en pied, article 293 B du code général des impôts</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="tete">Fiche d'audit remise en main propre</div>
+        <div class="corps">
+          <ul>
+            <li>Une seule page A4, fond crème</li>
+            <li>Bandeau vert de 28 mm en tête avec le logo en crème</li>
+            <li>Constats numérotés, un chiffre par constat, jamais de rangée de chiffres alignés</li>
+            <li>Coordonnées en pied de page sur filet mousse</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">07, Rédaction</span>
+    <h2>Les règles d'écriture, sur tous les supports</h2>
+    <p class="chapo">Ces règles valent autant pour un visuel Canva que pour le site. Elles se vérifient en une minute avant publication.</p>
+    <div class="interdits">
+      <div>
+        <h4 class="oui">Toujours</h4>
+        <ul>
+          <li>Vouvoyer, sans exception</li>
+          <li>Accentuer les capitales, À et É compris</li>
+          <li>Une espace insécable avant les deux-points, points d'interrogation et d'exclamation</li>
+          <li>Des chiffres réels, vérifiables, collés à ce qu'ils prouvent</li>
+          <li>Des prix ronds, 1 000, 2 000, 2 500 et 3 500 euros</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="non">Jamais</h4>
+        <ul>
+          <li>L'italique, quelle que soit la police ou le motif</li>
+          <li>Le tiret cadratin et le demi-cadratin, en ponctuation comme en décoration</li>
+          <li>Le point médian comme séparateur décoratif entre deux mots</li>
+          <li>Une rangée de trois ou quatre chiffres alignés à la même taille</li>
+          <li>Un emoji en guise d'icône</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">08, Mise en route dans Canva</span>
+    <h2>Reconstituer la marque en dix minutes</h2>
+    <ul class="etapes">
+      <li>Créer le kit de marque, rubrique Marque du menu de gauche.</li>
+      <li>Ajouter les neuf couleurs de la section 03 en collant chaque code hexadécimal, dans l'ordre du nuancier.</li>
+      <li>Importer les quatre fichiers Satoshi téléchargés sur Fontshare, puis les affecter, Bold 700 pour les titres, Regular 400 pour le texte.</li>
+      <li>Téléverser le dossier <code>identite/logo</code> dans les logos de la marque, les fichiers SVG conservent leur netteté à toute taille.</li>
+      <li>Créer un format personnalisé de 91 × 61 mm pour les cartes de visite, et enregistrer le résultat comme modèle.</li>
+      <li>Avant chaque export, vérifier trois points, aucune italique, aucun tiret long, aucun texte posé sur la mousse claire.</li>
+    </ul>
+
+    <div class="alerte">
+      <p><b>Si le mot Caelestis ne s'affiche pas correctement.</b> Les fichiers SVG de cette charte embarquent la police. Certains outils, Canva compris, la remplacent à l'import. Dans ce cas, réécrivez le mot en texte Canva, Satoshi Medium 500, interlettrage -20, et placez-le à côté du monogramme importé séparément.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b>Caelestis</b>, création de sites internet et référencement naturel, Drôme.<br>
+    07 69 36 27 27, contact@caelestis.fr, caelestis.fr<br>
+    <span style="display:block;margin-top:14px;font-size:12.5px;opacity:.75">Document relevé dans le code de production le 1er août 2026. En cas d'écart, le fichier <code style="background:rgba(252,251,248,.12);color:#E3EFE8">src/styles/global.css</code> fait foi.</span>
+  </div>
+</footer>
+
+</body>
+</html>
