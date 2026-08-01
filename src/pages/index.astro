@@ -341,7 +341,12 @@ const organizationSchema = {
     <!-- Premier écran typographique : aucune photo. La respiration vient des
          halos de lumière et du filet de réassurance, pas d'une image d'illustration.
          Décision de Célestin le 29/07/2026, après relevé sur sept sites d'agence. -->
-    <div class="max-w-3xl mx-auto w-full text-center relative z-10">
+    <!-- Bloc élargi à 64rem le 01/08/2026 : le titre passe de trois lignes à deux,
+         et « Un site web qui valorise votre savoir-faire » mesure 967 px à la taille
+         plafond. À 48rem il aurait fallu descendre le titre à 43 px, trop peu pour un
+         premier écran sans photo. Le sous-titre et le filet de réassurance gardent
+         leur propre largeur juste en dessous. -->
+    <div class="max-w-5xl mx-auto w-full text-center relative z-10">
 
       <!-- Eyebrow. `whitespace-nowrap` sur le nom de région : sans lui, à 375px
            la ligne se coupait au tiret et affichait « AUVERGNE- » puis
@@ -353,16 +358,22 @@ const organizationSchema = {
 
       <!-- H1 : promesse orientée client, choisie le 31/07/2026 après relevé des
            heros d'agences web (bénéfice concret « valorise / attire » plutôt que
-           description de la prestation). Trois lignes en escalier, l'accent sauge
-           couronne le bénéfice commercial. Taille plafonnée sous les 68 px fixés
-           pour les titres ; le titre est plus long que l'ancien, d'où le clamp
-           ramené à 3,6 rem pour tenir en trois lignes propres. -->
+           description de la prestation). Deux lignes depuis le 01/08/2026 : la
+           promesse d'un tenant, puis le bénéfice commercial en sauge. Plafond
+           ramené de 3,6 à 3,4 rem, soit 54 px, pour que la première ligne tienne
+           dans les 1024 px du bloc avec 57 px de marge. Reste sous les 68 px
+           fixés pour les titres. Sous 610 px de large la première ligne se
+           répartit d'elle-même sur deux lignes, aucune classe ne l'en empêche.
+           Plancher descendu de 1,95 à 1,8 rem : à 31 px, « et attire vos futurs
+           clients. » mesurait 346 px pour 327 px disponibles sur un écran de
+           375 px et se coupait en deux, ce qui donnait un titre en quatre
+           morceaux. À 28,8 px elle tient d'un trait et le titre reste à trois
+           lignes sur mobile. -->
       <h1
         class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-8 hero-title"
-        style="font-size: clamp(1.95rem, 4.4vw, 3.6rem);"
+        style="font-size: clamp(1.8rem, 4.4vw, 3.4rem);"
       >
-        <span class="sl"><span>Un site web qui valorise</span></span>
-        <span class="sl"><span>votre savoir-faire</span></span>
+        <span class="sl"><span>Un site web qui valorise votre savoir-faire</span></span>
         <span class="sl"><span class="text-sauge">et attire vos futurs clients.</span></span>
       </h1>
 
@@ -371,8 +382,11 @@ const organizationSchema = {
            savoir-faire ») puis finissait sur une énumération décorative. Deux
            temps désormais, l'écart constaté chez le prospect puis la charge de
            travail levée. Aucun chiffre ici volontairement : le filet de
-           réassurance juste dessous en porte déjà trois. -->
-      <p class="font-body text-base md:text-lg leading-relaxed max-w-[34rem] mb-9 text-brun-mid mx-auto [text-wrap:balance]" data-reveal data-delay="1">
+           réassurance juste dessous en porte déjà trois.
+           Largeur portée à 52rem le 01/08 : chaque phrase tient alors sur une
+           ligne en desktop, la plus longue mesurant 761 px. Elle se replie
+           d'elle-même sous 850 px de large. -->
+      <p class="font-body text-base md:text-lg leading-relaxed max-w-[52rem] mb-9 text-brun-mid mx-auto [text-wrap:balance]" data-reveal data-delay="1">
         Pour les artisans, producteurs et indépendants dont le site ne raconte pas encore ce qu'ils valent.<br>
         Vous continuez votre métier, nous nous occupons du reste.
       </p>
@@ -385,8 +399,10 @@ const organizationSchema = {
 
       <!-- Réassurance, posée sur un filet : sans photo, c'est ce filet qui
            structure le bas de l'écran. Couleur pleine (sans opacité) pour rester
-           au-dessus du seuil de contraste AA à cette taille. -->
-      <ul class="trust trust-rule font-body mt-12 pt-7" data-reveal data-delay="2">
+           au-dessus du seuil de contraste AA à cette taille. Largeur bloquée à
+           48rem : le bloc parent est passé à 64rem pour le titre, sans cela le
+           filet s'étirerait de 256 px et perdrait son rôle de repère. -->
+      <ul class="trust trust-rule font-body mt-12 pt-7 max-w-3xl mx-auto" data-reveal data-delay="2">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Réponse sous 48h</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>En ligne en 2 à 8 semaines</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Devis gratuit, sans engagement</li>
@@ -1072,14 +1088,10 @@ const organizationSchema = {
     .hero-screen { min-height: min(88vh, 820px); }
   }
 
-  /* La deuxième ligne du titre est en `whitespace-nowrap` pour tenir d'un seul
-     tenant. Le plancher du clamp valant 2,1rem, elle mesure 287px dès 320px de
-     large alors qu'il n'en reste que 272 : « web. » sortait de l'écran et se
-     faisait rogner. Sous 360px on rend donc le retour à la ligne possible ;
-     au-delà, la ligne unique voulue est conservée. */
-  @media (max-width: 359px) {
-    .hero-title .sl > span { white-space: normal; }
-  }
+  /* Le titre n'a plus aucun `whitespace-nowrap` : chaque bloc `.sl` se replie
+     librement dès que la largeur manque. La règle qui rétablissait le retour à
+     la ligne sous 360px décrivait la version à trois lignes et n'avait plus
+     d'effet, elle a été retirée le 01/08/2026 avec le passage à deux lignes. */
 
   /* ── Fil botanique — visible desktop uniquement ── */
   .vine-wrap {
