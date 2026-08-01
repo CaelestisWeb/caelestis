@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { limiterDebit, adresseDemandeur } from '../../utils/limite-debit';
 import nodemailer from 'nodemailer';
 import PDFDocument from 'pdfkit';
 import {
@@ -9,30 +10,6 @@ import {
 
 export const prerender = false;
 
-/* ══════════════════════════════════════════════════════════
-   RATE LIMITING — 15 min / 3 envois / IP
-══════════════════════════════════════════════════════════ */
-const RATE_WINDOW_MS = 15 * 60 * 1000;
-const RATE_MAX       = 3;
-const rateLimitMap   = new Map<string, { count: number; resetAt: number }>();
-
-function checkRateLimit(ip: string) {
-  const now   = Date.now();
-  /* Purge opportuniste des entrées expirées — remplace le setInterval, inopérant en serverless. */
-  if (rateLimitMap.size > 500) {
-    for (const [k, v] of rateLimitMap.entries()) if (now > v.resetAt) rateLimitMap.delete(k);
-  }
-  const entry = rateLimitMap.get(ip);
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
-    return { allowed: true, retryAfterSecs: 0 };
-  }
-  if (entry.count >= RATE_MAX) {
-    return { allowed: false, retryAfterSecs: Math.ceil((entry.resetAt - now) / 1000) };
-  }
-  entry.count += 1;
-  return { allowed: true, retryAfterSecs: 0 };
-}
 
 /* ══════════════════════════════════════════════════════════
    ORIGINES AUTORISÉES
@@ -717,10 +694,9 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   /* Rate limiting */
-  const ip = request.headers.get('x-real-ip')
-    ?? request.headers.get('x-forwarded-for')?.split(',').at(0)?.trim()
-    ?? 'unknown';
-  const { allowed, retryAfterSecs } = checkRateLimit(ip);
+  const ip = adresseDemandeur(request);
+  const { autorise: allowed, attendreSecondes: retryAfterSecs } =
+    await limiterDebit(ip, 'brief', 3, 15 * 60 * 1000);
   if (!allowed) {
     return new Response(
       JSON.stringify({ error: `Trop de demandes. Réessayez dans ${Math.ceil(retryAfterSecs / 60)} minute(s).` }),

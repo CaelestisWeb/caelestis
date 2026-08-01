@@ -1,39 +1,11 @@
 import type { APIRoute } from 'astro';
+import { limiterDebit, adresseDemandeur } from '../../utils/limite-debit';
 import { analyserSite } from '../../utils/analyse-site';
 
 export const prerender = false;
 
-/* ══════════════════════════════════════════════════════════
-   RATE LIMITING en mémoire (par IP, fenêtre glissante 15 min)
-   Limite : 8 analyses par IP sur 15 minutes.
-   Plus permissif que le formulaire de contact (un visiteur teste
-   souvent deux ou trois adresses), mais suffisamment bas pour que
-   l'endpoint ne serve pas de relais de scan.
-══════════════════════════════════════════════════════════ */
-const RATE_WINDOW_MS = 15 * 60 * 1000;
-const RATE_MAX = 8;
 
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
-function checkRateLimit(ip: string): { allowed: boolean; retryAfterSecs: number } {
-  const now = Date.now();
-  /* Purge opportuniste : un setInterval serait inopérant en serverless,
-     la fonction étant gelée entre deux invocations. */
-  if (rateLimitMap.size > 500) {
-    for (const [k, v] of rateLimitMap.entries()) if (now > v.resetAt) rateLimitMap.delete(k);
-  }
-  const entry = rateLimitMap.get(ip);
-
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
-    return { allowed: true, retryAfterSecs: 0 };
-  }
-  if (entry.count >= RATE_MAX) {
-    return { allowed: false, retryAfterSecs: Math.ceil((entry.resetAt - now) / 1000) };
-  }
-  entry.count += 1;
-  return { allowed: true, retryAfterSecs: 0 };
-}
 
 /* ══════════════════════════════════════════════════════════
    ORIGINES AUTORISÉES
@@ -64,12 +36,10 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ erreur: 'Accès non autorisé.' }, 403);
   }
 
-  const ip =
-    request.headers.get('x-real-ip') ??
-    request.headers.get('x-forwarded-for')?.split(',').at(0)?.trim() ??
-    'unknown';
+  const ip = adresseDemandeur(request);
 
-  const { allowed, retryAfterSecs } = checkRateLimit(ip);
+  const { autorise: allowed, attendreSecondes: retryAfterSecs } =
+    await limiterDebit(ip, 'diagnostic', 8, 15 * 60 * 1000);
   if (!allowed) {
     return json(
       { erreur: `Trop d'analyses demandées. Réessayez dans ${Math.ceil(retryAfterSecs / 60)} minute(s).` },

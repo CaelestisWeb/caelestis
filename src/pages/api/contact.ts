@@ -1,39 +1,9 @@
 import type { APIRoute } from 'astro';
+import { limiterDebit, adresseDemandeur } from '../../utils/limite-debit';
 import nodemailer from 'nodemailer';
 
 export const prerender = false;
 
-/* ══════════════════════════════════════════════════════════
-   RATE LIMITING — en mémoire (par IP, fenêtre glissante 15min)
-   Limite : 5 envois par IP sur 15 minutes
-══════════════════════════════════════════════════════════ */
-const RATE_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
-const RATE_MAX       = 5;              // tentatives max
-
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-
-function checkRateLimit(ip: string): { allowed: boolean; retryAfterSecs: number } {
-  const now  = Date.now();
-  /* Purge opportuniste des entrées expirées — remplace le setInterval, qui est
-     inopérant en serverless (la fonction est gelée entre deux invocations). */
-  if (rateLimitMap.size > 500) {
-    for (const [k, v] of rateLimitMap.entries()) if (now > v.resetAt) rateLimitMap.delete(k);
-  }
-  const entry = rateLimitMap.get(ip);
-
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
-    return { allowed: true, retryAfterSecs: 0 };
-  }
-
-  if (entry.count >= RATE_MAX) {
-    const retryAfterSecs = Math.ceil((entry.resetAt - now) / 1000);
-    return { allowed: false, retryAfterSecs };
-  }
-
-  entry.count += 1;
-  return { allowed: true, retryAfterSecs: 0 };
-}
 
 /* ══════════════════════════════════════════════════════════
    ORIGINES AUTORISÉES (CSRF / CORS)
@@ -379,7 +349,8 @@ export const POST: APIRoute = async ({ request }) => {
     request.headers.get('x-forwarded-for')?.split(',').at(0)?.trim() ??
     'unknown'
   );
-  const { allowed, retryAfterSecs } = checkRateLimit(ip);
+  const { autorise: allowed, attendreSecondes: retryAfterSecs } =
+    await limiterDebit(ip, 'contact', 5, 15 * 60 * 1000);
   if (!allowed) {
     return new Response(
       JSON.stringify({ error: `Trop de demandes. Réessayez dans ${Math.ceil(retryAfterSecs / 60)} minute(s).` }),
