@@ -43,6 +43,14 @@ const ALLOWED_ORIGINS = new Set([
   'https://www.caelestis.fr',
 ]);
 
+/* Le port de développement varie selon ce qui est déjà occupé (4321, 4322, …) :
+   le figer revient à casser le formulaire en local dès qu'un second serveur
+   tourne, et donc à ne plus pouvoir le tester avant de déployer. */
+const origineAutorisee = (origin: string | null): boolean =>
+  !!origin && (ALLOWED_ORIGINS.has(origin) ||
+    (process.env.NODE_ENV !== 'production' && /^http:\/\/localhost:\d+$/.test(origin)));
+
+
 /* ══════════════════════════════════════════════════════════
    LONGUEURS MAXIMALES DES CHAMPS
 ══════════════════════════════════════════════════════════ */
@@ -355,7 +363,7 @@ export const POST: APIRoute = async ({ request }) => {
   /* ── 1. CORS / CSRF — vérification de l'origine ── */
   /* Bloque si Origin absent (curl, Postman, scripts tiers) OU non autorisé */
   const origin = request.headers.get('origin');
-  if (!origin || !ALLOWED_ORIGINS.has(origin)) {
+  if (!origineAutorisee(origin)) {
     return new Response(
       JSON.stringify({ error: 'Accès non autorisé.' }),
       { status: 403, headers: { 'Content-Type': 'application/json' } }

@@ -30,6 +30,19 @@ function checkRateLimit(ip: string): boolean {
   return true;
 }
 
+/* ══════════════════════════════════════════════════════════
+   ORIGINES AUTORISÉES
+   Sans ce contrôle, un tiers pouvait injecter des prospects fictifs dans le hub
+   interne depuis n'importe où : le secret partagé ne protège que la liaison
+   vers le hub, pas l'entrée de cette route.
+══════════════════════════════════════════════════════════ */
+const ORIGINES_AUTORISEES = new Set(['https://caelestis.fr', 'https://www.caelestis.fr']);
+const origineAutorisee = (origin: string | null): boolean => {
+  if (!origin) return false;
+  if (ORIGINES_AUTORISEES.has(origin)) return true;
+  return process.env.NODE_ENV !== 'production' && /^http:\/\/localhost:\d+$/.test(origin);
+};
+
 const json = (corps: unknown, status = 200) =>
   new Response(JSON.stringify(corps), {
     status,
@@ -39,6 +52,10 @@ const json = (corps: unknown, status = 200) =>
 const emailPlausible = (valeur: string) => /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(valeur);
 
 export const POST: APIRoute = async ({ request }) => {
+  if (!origineAutorisee(request.headers.get('origin'))) {
+    return json({ erreur: 'Accès non autorisé.' }, 403);
+  }
+
   const ip =
     request.headers.get('x-real-ip') ??
     request.headers.get('x-forwarded-for')?.split(',').at(0)?.trim() ??

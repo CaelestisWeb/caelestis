@@ -35,6 +35,24 @@ function checkRateLimit(ip: string): { allowed: boolean; retryAfterSecs: number 
   return { allowed: true, retryAfterSecs: 0 };
 }
 
+/* ══════════════════════════════════════════════════════════
+   ORIGINES AUTORISÉES
+   Cet endpoint émet des requêtes vers l'adresse que le visiteur indique. Sans
+   contrôle d'origine, n'importe quel site tiers pouvait s'en servir comme
+   relais pour sonder des serveurs en notre nom : les requêtes seraient parties
+   de notre infrastructure, avec notre réputation d'expéditeur. Les garde-fous
+   anti-SSRF d'analyse-site.ts empêchent d'atteindre un réseau privé, ils
+   n'empêchaient pas ce détournement-là.
+══════════════════════════════════════════════════════════ */
+const ORIGINES_AUTORISEES = new Set(['https://caelestis.fr', 'https://www.caelestis.fr']);
+const origineAutorisee = (origin: string | null): boolean => {
+  if (!origin) return false;
+  if (ORIGINES_AUTORISEES.has(origin)) return true;
+  /* En développement, le port varie selon ce qui est déjà occupé : l'imposer
+     revient à casser le formulaire dès qu'un second serveur tourne. */
+  return process.env.NODE_ENV !== 'production' && /^http:\/\/localhost:\d+$/.test(origin);
+};
+
 const json = (corps: unknown, status = 200) =>
   new Response(JSON.stringify(corps), {
     status,
@@ -42,6 +60,10 @@ const json = (corps: unknown, status = 200) =>
   });
 
 export const POST: APIRoute = async ({ request }) => {
+  if (!origineAutorisee(request.headers.get('origin'))) {
+    return json({ erreur: 'Accès non autorisé.' }, 403);
+  }
+
   const ip =
     request.headers.get('x-real-ip') ??
     request.headers.get('x-forwarded-for')?.split(',').at(0)?.trim() ??
