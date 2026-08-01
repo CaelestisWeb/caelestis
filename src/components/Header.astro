@@ -69,7 +69,7 @@ const estActive = (e: { href?: string; prefixe?: string }) => {
 
     <!-- Logo — droite sur mobile et tablette (ml-auto), gauche sur desktop (lg:ml-0) -->
     <a href="/" class="font-display text-xl font-medium text-brun tracking-[-0.02em] hover:text-ocre transition-colors duration-300 flex items-center ml-auto lg:ml-0">
-      Caelestis<em class="text-ocre not-italic">.</em>
+      Caelestis
     </a>
 
     <!-- Desktop nav — parfaitement centré -->
@@ -294,78 +294,6 @@ const estActive = (e: { href?: string; prefixe?: string }) => {
     .menu-repli-fleche { transition: none; }
   }
 
-  /* ── Bouton son forêt ── */
-  .sound-btn {
-    background: none;
-    border: none;
-    padding: 6px;
-    cursor: pointer;
-    color: rgba(136, 112, 64, 0.52);
-    transition: color 0.25s ease, opacity 0.25s ease;
-    display: flex;
-    align-items: center;
-    line-height: 0;
-    border-radius: 6px;
-  }
-  .sound-btn:hover { color: #B8C4BB; }
-
-  /* ── Wrapper relatif pour positionner les notes ── */
-  .bird-wrap {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  /* ── Notes de musique flottantes ── */
-  .b-notes {
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 3px;
-    pointer-events: none;
-    white-space: nowrap;
-  }
-  .b-note-1, .b-note-2, .b-note-3 {
-    font-size: 9px;
-    line-height: 1;
-    color: #B8C4BB;
-    opacity: 0;
-    display: block;
-  }
-  .sound-btn.is-playing .b-note-1 { animation: note-float 2.4s ease-out infinite; }
-  .sound-btn.is-playing .b-note-2 { animation: note-float 2.4s ease-out 0.8s infinite; }
-  .sound-btn.is-playing .b-note-3 { animation: note-float 2.4s ease-out 1.6s infinite; }
-  @keyframes note-float {
-    0%   { opacity: 0;   transform: translateY(0px)   scale(0.8); }
-    15%  { opacity: 0.9; transform: translateY(-4px)  scale(1);   }
-    100% { opacity: 0;   transform: translateY(-20px) scale(0.9); }
-  }
-
-  /* Ailes au repos : légère inclinaison basse */
-  .b-wing-l { transform-origin: 13px 12px; transform: rotate(8deg);  transition: transform 0.3s ease; }
-  .b-wing-r { transform-origin: 13px 12px; transform: rotate(-8deg); transition: transform 0.3s ease; }
-
-  /* Playing : ailes battent */
-  .sound-btn.is-playing .b-wing-l {
-    animation: flap-l 1.6s ease-in-out infinite alternate;
-  }
-  .sound-btn.is-playing .b-wing-r {
-    animation: flap-r 1.6s ease-in-out infinite alternate;
-  }
-  @keyframes flap-l {
-    from { transform: rotate(8deg);  }
-    to   { transform: rotate(-22deg); }
-  }
-  @keyframes flap-r {
-    from { transform: rotate(-8deg); }
-    to   { transform: rotate(22deg); }
-  }
-
-  /* Muted : ligne apparaît, oiseau assombri */
-  .sound-btn.is-muted { color: rgba(136, 112, 64, 0.30); }
-  .sound-btn.is-muted .b-mute-line { opacity: 1 !important; }
 </style>
 
 <script>
@@ -445,36 +373,8 @@ const estActive = (e: { href?: string; prefixe?: string }) => {
   window.addEventListener('scroll', updateScrolled, { passive: true });
   updateScrolled();
 
-  /* ── Son forêt — sync bouton ── */
-  function syncSoundBtn() {
-    const btns = document.querySelectorAll<HTMLElement>('.sound-btn');
-    const ambient = window.__caelestisAmbient;
-    const playing = ambient?.playing ?? false;
-    const initialized = ambient !== undefined;
-    btns.forEach(btn => {
-      btn.classList.toggle('is-playing', playing);
-      btn.classList.toggle('is-muted', !playing && initialized);
-      btn.setAttribute('aria-label', playing ? 'Couper le son de la forêt' : 'Activer le son de la forêt');
-    });
-  }
-
-  function bindSoundBtns() {
-    document.querySelectorAll('.sound-btn').forEach(btn => {
-      const clone = btn.cloneNode(true) as HTMLElement;
-      btn.parentNode?.replaceChild(clone, btn);
-      clone.addEventListener('click', () => {
-        window.dispatchEvent(new CustomEvent('caelestis:sound-toggle'));
-        setTimeout(syncSoundBtn, 50);
-      });
-    });
-  }
-
   bindMenuToggle();
   bindNavGroupes();
-  bindSoundBtns();
-  syncSoundBtn();
-
-  window.addEventListener('caelestis:sound-state', syncSoundBtn);
 
   /* Relance après View Transitions */
   document.addEventListener('astro:page-load', () => {
@@ -485,7 +385,5 @@ const estActive = (e: { href?: string; prefixe?: string }) => {
     updateScrolled();
     window.removeEventListener('scroll', updateScrolled);
     window.addEventListener('scroll', updateScrolled, { passive: true });
-    bindSoundBtns();
-    syncSoundBtn();
   });
 </script>

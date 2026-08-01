@@ -76,7 +76,6 @@
     animation: bm-blink 0.70s step-end infinite;
   }
   @keyframes bm-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-  .bm-dot { color: #B8C4BB; font-style: normal; }
 
   .bm-tagline {
     position: absolute;
@@ -185,7 +184,7 @@
 
       /* ── Rendu statique si animations réduites (WCAG 2.3.3) ── */
       if (reduce) {
-        brandEl.innerHTML = 'Caelestis<em class="bm-dot">.</em>';
+        brandEl.innerHTML = 'Caelestis';
         brandEl.style.opacity = '1';
         return;
       }
@@ -208,10 +207,6 @@
         }
         await wait(180);
         if (stop) return;
-        const dot = document.createElement('em');
-        dot.className = 'bm-dot'; dot.textContent = '.';
-        brandEl.insertBefore(dot, cur);
-        playKey(0.12, 2000);
         await wait(700);
         cur.remove();
       }

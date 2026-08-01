@@ -3,7 +3,6 @@ import Header from '../components/Header.astro';
 import SearchPalette from '../components/SearchPalette.astro';
 import Footer from '../components/Footer.astro';
 import Cursor from '../components/Cursor.astro';
-import AmbientForest from '../components/AmbientForest.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
@@ -230,59 +229,12 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 <Header />
     <SearchPalette />
 
-    <!-- ── Bannière consentement audio ── -->
-    <!-- z-index 49, volontairement SOUS le header (z-50) : le menu mobile se
-         déplie à l'intérieur du header, et un z-51 recouvrait sa première
-         entrée. Padding horizontal obligatoire : sans lui, à 375px l'icône et
-         « Non merci » sortaient des deux côtés de l'écran. -->
-    <div
-      id="audio-banner"
-      role="region"
-      aria-label="Activation du son ambiant"
-      class="fixed top-16 left-0 right-0 z-[49] flex items-center justify-center px-4 sm:px-6 py-3 bg-cream/96 backdrop-blur-md border-b border-cream-dark/50"
-      style="transform: translateY(-110%); opacity: 0; pointer-events: none;"
-    >
-      <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 sm:gap-x-5">
-
-      <!-- Icône + texte -->
-      <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
-        <svg viewBox="0 0 26 22" width="18" height="15" fill="none" aria-hidden="true" class="text-sauge flex-shrink-0">
-          <path d="M13 12 C10 10 6 11 2 9"  stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          <path d="M13 12 C16 10 20 11 24 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          <ellipse cx="13" cy="13.5" rx="2.8" ry="2" fill="currentColor"/>
-          <circle cx="15.5" cy="11.5" r="2" fill="currentColor"/>
-          <path d="M17.2 11 L20.5 10.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-        </svg>
-        <p class="font-body text-xs text-brun-mid">
-          Activer les <span class="text-[#255C41] font-medium">sons de forêt</span> en fond&nbsp;?
-        </p>
-      </div>
-
-      <!-- Actions -->
-      <div class="flex items-center gap-2 flex-shrink-0">
-        <button
-          id="audio-yes"
-          class="font-body text-xs font-medium tracking-wide text-cream bg-[#255C41] px-4 py-1.5 rounded-full hover:bg-brun transition-colors duration-200 cursor-pointer"
-        >
-          Activer
-        </button>
-        <button
-          id="audio-no"
-          class="font-body text-xs text-brun-mid hover:text-brun transition-colors duration-200 px-3 py-1.5 cursor-pointer"
-        >
-          Non merci
-        </button>
-      </div>
-
-      </div> <!-- fin wrapper centré -->
-    </div>
 
     <main id="main-content" tabindex="-1">
       <slot />
     </main>
     <Footer />
     <Cursor />
-    <AmbientForest />
     <CookieBanner />
 
     <!-- ── Barre d'action mobile et tablette ──
@@ -302,75 +254,8 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       <a href="/contact" class="cta-mobile-action">Parler de mon projet</a>
     </div>
 
-    <!-- ── Oiseau fixe bas-droite — même sync que navbar ── -->
-    <button
-      class="sound-btn fixed-bird"
-      aria-label="Activer le son de la forêt"
-      title="Sons de la forêt"
-    >
-      <span class="bird-wrap">
-        <span class="b-notes" aria-hidden="true">
-          <span class="b-note-1">♪</span>
-          <span class="b-note-2">♫</span>
-          <span class="b-note-3">♩</span>
-        </span>
-        <svg class="bird-icon" viewBox="0 0 26 22" width="40" height="33" fill="none" aria-hidden="true">
-          <path class="b-wing-l" d="M13 12 C10 10 6 11 2 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          <path class="b-wing-r" d="M13 12 C16 10 20 11 24 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          <ellipse cx="13" cy="13.5" rx="2.8" ry="2" fill="currentColor"/>
-          <circle cx="15.5" cy="11.5" r="2" fill="currentColor"/>
-          <path d="M17.2 11 L20.5 10.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-          <line class="b-mute-line" x1="2" y1="1" x2="24" y2="21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0"/>
-        </svg>
-      </span>
-    </button>
 
     <style is:global>
-      .fixed-bird {
-        position: fixed;
-        bottom: 1.8rem;
-        right: 1.25rem;
-        z-index: 9985;
-        padding: 12px;
-        border-radius: 50%;
-        background: rgba(252, 251, 248, 0.84);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(37, 92, 65, 0.14);
-        box-shadow: 0 4px 18px rgba(37, 92, 65, 0.09);
-        transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
-        color: rgba(136, 112, 64, 0.60);
-      }
-      /* Sur mobile, la colonne de texte occupe toute la largeur : le bouton se
-         superpose forcément au contenu. Un fond translucide laissait alors les
-         mots transparaître au travers, ce qui se lit comme un défaut d'affichage
-         et non comme un bouton. Fond plein, diamètre réduit (52 px, au-dessus
-         des 44 px de cible tactile) et respect de la zone sûre iPhone. */
-      @media (max-width: 767px) {
-        .fixed-bird {
-          bottom: calc(1.1rem + env(safe-area-inset-bottom, 0px));
-          right: 0.9rem;
-          padding: 13px;
-          background: #FCFBF8;
-          backdrop-filter: none;
-          -webkit-backdrop-filter: none;
-          border-color: rgba(37, 92, 65, 0.20);
-          box-shadow: 0 3px 14px rgba(37, 92, 65, 0.14);
-        }
-        .fixed-bird .bird-icon { width: 26px; height: 22px; }
-      }
-      .fixed-bird:hover {
-        background: rgba(252, 251, 248, 0.97);
-        box-shadow: 0 6px 24px rgba(37, 92, 65, 0.14);
-        transform: translateY(-2px);
-        color: #1B4733;
-      }
-      .fixed-bird .b-notes {
-        top: -10px;
-        font-size: 11px;
-        gap: 4px;
-      }
-
       /* ── Barre d'action mobile et tablette ── */
       /* Le masquage passe par une media query et NON par la classe `lg:hidden` :
          `#cta-mobile` pèse 1-0-0 en spécificité et écrasait l'utilitaire de
@@ -437,11 +322,6 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
         .cta-mobile-action { flex: 0 1 22rem; }
       }
 
-      /* Quand la barre est là, l'oiseau remonte pour ne pas être avalé. */
-      body:has(#cta-mobile[data-etat="visible"]) .fixed-bird {
-        bottom: calc(4.9rem + env(safe-area-inset-bottom, 0px));
-      }
-
       @media (prefers-reduced-motion: reduce) {
         #cta-mobile { transition: none; }
       }
@@ -450,42 +330,6 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 </html>
 
 <script>
-  /* ═══════════════════════════════════════════════════════
-     Bannière consentement audio — vanilla, sans GSAP
-  ═══════════════════════════════════════════════════════ */
-  (function initAudioBanner() {
-    const banner = document.getElementById('audio-banner') as HTMLElement | null;
-    const btnYes = document.getElementById('audio-yes')   as HTMLButtonElement | null;
-    const btnNo  = document.getElementById('audio-no')    as HTMLButtonElement | null;
-
-    if (!banner) return;
-
-    /* Affiche la bannière une seule fois par session de navigation */
-    if (sessionStorage.getItem('caelestis-audio-seen')) return;
-    sessionStorage.setItem('caelestis-audio-seen', '1');
-
-    /* Affiche la bannière après 2s avec CSS transition */
-    setTimeout(() => {
-      banner.style.pointerEvents = 'auto';
-      banner.style.transition = 'transform 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.55s ease';
-      banner.style.transform  = 'translateY(0)';
-      banner.style.opacity    = '1';
-    }, 2000);
-
-    function hideBanner(accepted: boolean) {
-      banner!.style.transition = 'transform 0.4s ease-in, opacity 0.4s ease-in';
-      banner!.style.transform  = 'translateY(-110%)';
-      banner!.style.opacity    = '0';
-      banner!.style.pointerEvents = 'none';
-      if (accepted) {
-        window.dispatchEvent(new CustomEvent('caelestis:audio-enable'));
-      }
-    }
-
-    btnYes?.addEventListener('click', () => hideBanner(true));
-    btnNo?.addEventListener('click',  () => hideBanner(false));
-  })();
-
   /* ═══════════════════════════════════════════════════════
      GSAP + Lenis — chargement asynchrone après le rendu
   ═══════════════════════════════════════════════════════ */

@@ -723,8 +723,6 @@ select:focus-visible {
   /* Masque les éléments non pertinents à l'impression */
   body::after,
   .vine-wrap,
-  .fixed-bird,
-  #audio-banner,
   .cookie-banner,
   #header nav,
   footer { display: none !important; }
