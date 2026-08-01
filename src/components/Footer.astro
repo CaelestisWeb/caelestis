@@ -37,10 +37,12 @@ const socials = [
         <p class="font-display text-base font-light mb-2.5 md:mb-4" style="color: rgba(252, 251, 248,0.78)">
           Votre travail mérite d'être trouvé.<br>On s'occupe de le mettre en lumière.
         </p>
-        <!-- Largeur bridée puis recentrée : sans cela le paragraphe occupe toute
-             la colonne et déborde largement la masse du bloc contact d'en face. -->
-        <p class="font-body text-sm leading-relaxed max-w-md md:max-w-xs lg:max-w-[17.5rem] mx-auto" style="color: rgba(252, 251, 248,0.75)">
-          Création de site, <a href="/services/referencement-naturel" class="text-cream hover:text-ocre transition-colors duration-200 underline decoration-cream-dark/40 underline-offset-2">référencement naturel</a> et accompagnement pour artisans, praticiens et professionnels engagés. Basé dans la Drôme, au service de toute <a href="/creation-site-internet-auvergne-rhone-alpes" class="text-cream hover:text-ocre transition-colors duration-200 underline decoration-cream-dark/40 underline-offset-2 whitespace-nowrap">l'Auvergne-Rhône-Alpes</a>.
+        <!-- Largeur bridée puis recentrée. Le plancher est la signature du dessus
+             (« On s'occupe de le mettre en lumière. ») : en dessous elle casserait
+             sur trois lignes. Un paragraphe plus large que ce plancher rapproche
+             le bloc de la carte et rouvre l'écart avec le contact d'en face. -->
+        <p class="font-body text-sm leading-relaxed max-w-md md:max-w-xs lg:max-w-[15.5rem] mx-auto" style="color: rgba(252, 251, 248,0.75)">
+          Agence web indépendante : création de site, <a href="/services/referencement-naturel" class="text-cream hover:text-ocre transition-colors duration-200 underline decoration-cream-dark/40 underline-offset-2">référencement naturel</a> et accompagnement pour artisans, praticiens et professionnels engagés. Basée dans la Drôme, au service de toute <a href="/creation-site-internet-auvergne-rhone-alpes" class="text-cream hover:text-ocre transition-colors duration-200 underline decoration-cream-dark/40 underline-offset-2 whitespace-nowrap">l'Auvergne-Rhône-Alpes</a>.
         </p>
       </div>
 
@@ -85,22 +87,26 @@ const socials = [
       <div class="flex justify-center md:pt-[0.6rem]">
         <div>
           <p class="font-body text-xs tracking-widest uppercase mb-3 md:mb-4" style="color: rgba(252, 251, 248,0.75)">Contact</p>
-          <div class="flex flex-row flex-wrap justify-center items-center gap-x-4 gap-y-1.5 md:flex-col md:gap-2.5">
-            <!-- `contents` en dessous de lg : le groupe n'existe pas, les deux
-                 liens suivent la pile. En lg ils passent sur une même ligne, ce
-                 qui donne au bloc une largeur proche de celle du bloc marque
-                 d'en face : deux masses égales se posent à distance égale de la
-                 carte, une masse étroite paraîtrait plus éloignée qu'elle. -->
-            <div class="contents lg:flex lg:flex-row lg:items-center lg:gap-x-11">
-              <a href="mailto:contact@caelestis.fr" class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.82)">
-                contact@caelestis.fr
-              </a>
-              <a href="tel:+33769362727" class="font-body text-sm hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.82)">
-                07 69 36 27 27
-              </a>
-            </div>
-            <p class="font-body text-sm" style="color: rgba(252, 251, 248,0.82)">Drôme, France</p>
-            <p class="font-body text-xs lg:text-sm md:mt-1" style="color: rgba(252, 251, 248,0.78)">Du lundi au samedi, 9h à 18h</p>
+          <div class="flex flex-row flex-wrap justify-center items-center gap-x-4 gap-y-2.5 md:flex-col md:gap-2.5">
+            <!-- Corps monté d'un cran sur lg : les coordonnées sont l'action
+                 utile du pied de page, et cette largeur rapproche la masse du
+                 bloc de celle du bloc marque d'en face, donc les vides autour
+                 de la carte l'un de l'autre. -->
+            <a href="mailto:contact@caelestis.fr" class="font-body text-sm lg:text-base hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.82)">
+              contact@caelestis.fr
+            </a>
+            <!-- Coupe la ligne sur mobile : les deux coordonnées y étaient côte à
+                 côte, deux cibles tactiles voisines que le pouce confond. -->
+            <span class="basis-full h-0 md:hidden" aria-hidden="true"></span>
+            <!-- `tel:` au format international : le clic ouvre le composeur du
+                 téléphone, et l'indicatif garantit que l'appel aboutit aussi
+                 depuis l'étranger ou un mobile en itinérance. -->
+            <a href="tel:+33769362727" aria-label="Appeler Caelestis au 07 69 36 27 27" class="font-body text-sm lg:text-base hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.82)">
+              07 69 36 27 27
+            </a>
+            <span class="basis-full h-0 md:hidden" aria-hidden="true"></span>
+            <p class="font-body text-sm lg:text-base" style="color: rgba(252, 251, 248,0.82)">Drôme, France</p>
+            <p class="font-body text-xs lg:text-base md:mt-1" style="color: rgba(252, 251, 248,0.78)">Du lundi au samedi, 9h à 18h</p>
 
             {socials.length > 0 && (
               <div class="flex items-center gap-3 mt-2 md:mt-3">
