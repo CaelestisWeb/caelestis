@@ -22,43 +22,54 @@
   font-weight: 700; font-style: normal; font-display: swap;
 }
 /* ════════════════════════════════════════
-   PALETTE CAELESTIS — FORÊT VIVANTE
-   Vert forêt profond comme ton dominant.
-   Terracotta-corail chaud et vif.
-   Fond blanc-sauge aéré, lumineux.
-   Or naturel pour la chaleur.
+   PALETTE CAELESTIS, FORÊT VIVANTE
+
+   Six teintes réelles, pas une de plus. Le vert forêt porte l'action et les
+   sections sombres, l'olive gris porte le texte secondaire, le parchemin les
+   séparateurs, la mousse les bordures, le lin-mousse les fonds doux, l'encre la
+   profondeur.
+
+   ⚠ Onze des seize variables ci-dessous sont des ALIAS : elles gardent les noms
+   de la charte olive et terracotta d'avant juillet 2026, et pointent désormais
+   toutes vers ces six teintes. « ocre », « brun », « bois » désignent le même
+   vert ; « golden » désigne le parchemin. Les noms mentent, les valeurs font
+   foi. Ils sont conservés parce qu'ils sont employés dans tout le site sous
+   forme d'utilitaires Tailwind (bg-brun, text-ocre, text-bois-mid) : les
+   renommer est une opération à mener d'un seul tenant, pas au détour d'une
+   retouche. Ne jamais réattribuer une valeur DIFFÉRENTE à l'un de ces alias en
+   croyant ne toucher qu'un endroit.
+
+   Les ratios de contraste indiqués sont mesurés sur le fond crème #FCFBF8.
 ════════════════════════════════════════ */
 
 @theme {
-  /* ── Fond : parchemin chaud — éditorial & respirant ── */
-  --color-cream:       #FCFBF8;   /* bone — fond principal, chaleureux */
-  --color-cream-dark:  #E6E4DC;   /* parchemin — séparateurs organiques */
+  /* ── Fond : parchemin chaud, éditorial et respirant ── */
+  --color-cream:       #FCFBF8;   /* fond principal */
+  --color-cream-dark:  #E6E4DC;   /* parchemin, séparateurs et bordures */
 
-  /* ── Action : café noir — éléments forts & CTA ── */
-  --color-ocre:        #255C41;   /* café — boutons, actions, hiérarchie */
-  --color-ocre-dark:   #1B4733;   /* café profond — hover premium */
+  /* ── Action : vert forêt, CTA et sections sombres ── */
+  --color-ocre:        #255C41;   /* vert forêt (10,3:1) — boutons, actions, titres */
+  --color-ocre-dark:   #1B4733;   /* vert profond — survol */
 
-  /* ── Ton doré naturel — tan chaud ── */
-  --color-golden:      #E6E4DC;   /* tan — highlights, détails chaleureux */
+  /* ── Texte secondaire ── */
+  --color-brun-mid:    #5C6259;   /* olive gris (6,0:1) — texte courant secondaire */
 
-  /* ── Forêt mature : kombu deep green ── */
-  --color-brun:        #255C41;   /* vert forêt — texte, sections sombres */
-  --color-brun-mid:    #5C6259;   /* olive chaud — texte secondaire lisible */
+  /* ── Végétaux : mousse et lin ── */
+  --color-sauge:       #B8C4BB;   /* mousse (1,7:1) — bordures et accents, JAMAIS de texte */
+  --color-sauge-text:  #2E7452;   /* mousse foncée (5,4:1) — accents textuels sur fond clair */
+  --color-sauge-pale:  #E3EFE8;   /* lin-mousse — fonds de sections douces, et texte sur vert forêt (6,6:1) */
 
-  /* ── Végétaux maturés : mousse & lin ── */
-  --color-sauge:       #B8C4BB;   /* mousse — bordures, accents décoratifs (pas de texte) */
-  --color-sauge-text:  #2E7452;   /* mousse foncée — petits textes sur fond clair (4.7:1 fond chaud, 5.2:1 crème) */
-  --color-sauge-vif:   #2E7452;   /* sauge vive — grands accents de titres (3.6:1, AA texte large) */
-  --color-sauge-pale:  #E3EFE8;   /* lin-mousse — fonds sections douces */
+  /* ── Encre ── */
+  --color-encre:       #12160F;   /* profondeur absolue */
 
-  /* ── Bois & matières organiques ── */
-  --color-bois:        #255C41;   /* café — accords profonds & dramatiques */
-  --color-bois-mid:    #5C6259;   /* tan moyen — touches de chaleur */
-  --color-bois-pale:   #E6E4DC;   /* tan clair — détails discrets */
-
-  /* ── Pierre chaude & encre ── */
-  --color-pierre:      #5C6259;   /* pierre chaude — gris-beige naturel */
-  --color-encre:       #12160F;   /* encre brûlée — profondeur absolue */
+  /* ── Alias historiques : mêmes valeurs, noms conservés pour le site existant ── */
+  --color-brun:        #255C41;   /* = ocre */
+  --color-bois:        #255C41;   /* = ocre */
+  --color-golden:      #E6E4DC;   /* = cream-dark */
+  --color-bois-pale:   #E6E4DC;   /* = cream-dark */
+  --color-bois-mid:    #5C6259;   /* = brun-mid */
+  --color-pierre:      #5C6259;   /* = brun-mid */
+  --color-sauge-vif:   #2E7452;   /* = sauge-text */
 
   --font-display: 'Satoshi', system-ui, -apple-system, sans-serif;
   --font-body:    'Satoshi', system-ui, -apple-system, sans-serif;
@@ -487,15 +498,16 @@ html.reveal-js [data-reveal][data-delay="5"] { transition-delay: 0.40s; }
     radial-gradient(ellipse 30% 25% at 75% 50%,  rgba(160, 128, 96, 0.06)  0%, transparent 50%);
 }
 
-/* ── Profondeur organique — sections sombres (bg-brun) ── */
+/* ── Sections sombres (bg-brun) ──
+   Le voile de profondeur qui donnait son nom à la classe a été retiré : il
+   grisait le vert forêt et abîmait le contraste des textes clairs. Ce qui reste
+   sert toujours, sur les dix sections qui portent la classe : le contexte
+   d'empilement isole les halos absolus, et le z-index garde le contenu
+   au-dessus d'eux. */
 .section-dark-depth {
   position: relative;
   isolation: isolate;
 }
-.section-dark-depth::before {
-  content: none;
-}
-/* Contenu au-dessus du dégradé */
 .section-dark-depth > * { position: relative; z-index: 1; }
 
 /* ── Glassmorphism card ── */
@@ -536,8 +548,6 @@ html.reveal-js [data-reveal][data-delay="5"] { transition-delay: 0.40s; }
      dans ce rôle. */
   will-change: transform;
 }
-.light-blob:nth-child(2) { animation-delay: -6s; animation-duration: 22s; }
-.light-blob:nth-child(3) { animation-delay: -12s; animation-duration: 16s; }
 
 .light-blob-sauge {
   /* Mousse — halo végétal subtil */
@@ -730,20 +740,27 @@ select:focus-visible {
   @page { margin: 1.5cm 2cm; size: A4; }
 }
 
-/* ── Accessibilité WCAG AA — textes sauge ──
-   Le sauge #B8C4BB est trop clair pour du TEXTE (2.66 sur crème, 2.64 sur vert forêt).
-   Tous les textes sauge passent en mousse foncée sur fond clair (4.7:1) et en
-   lin-mousse pâle sur les sections vert forêt (5.7:1).
-   Bordures, fonds décoratifs et logo restent sur --color-sauge, inchangés. */
+/* ── Accessibilité WCAG AA, textes sauge ──
+   Le sauge #B8C4BB est trop clair pour porter du TEXTE : 1,7:1 sur le crème,
+   4,3:1 sur le vert forêt. Les deux sont sous le seuil AA de 4,5:1, y compris à
+   pleine opacité. Un texte sauge est donc reporté sur la mousse foncée quand le
+   fond est clair (5,4:1) et sur le lin-mousse quand le fond est vert (6,6:1).
+   Bordures, fonds décoratifs et logo restent sur --color-sauge, inchangés.
+
+   ⚠ Ces règles ne rattrapent que les éléments qui portent la classe
+   .text-sauge. Une section qui écrit #B8C4BB en dur dans son propre style les
+   contourne, sans que rien ne le signale : c'est ce qui était arrivé aux
+   numéros d'étape de la page Services. Utiliser la classe, pas la valeur. */
 .text-sauge { color: var(--color-sauge-text); }
 .bg-brun .text-sauge { color: var(--color-sauge-pale); }
-/* Grands accents de titres : le seuil AA texte large (3:1) permet une sauge
-   plus vive et fraîche, proche de l'originale — garde la respiration du site */
+/* Grands accents de titres : au-delà de 24 px, le seuil AA tombe à 3:1. La
+   mousse foncée y reste largement au-dessus tout en gardant sa fraîcheur. */
 h1 .text-sauge, h2 .text-sauge { color: var(--color-sauge-vif); }
 .bg-brun h1 .text-sauge, .bg-brun h2 .text-sauge { color: var(--color-sauge-pale); }
-/* Même traitement pour les petits labels bois (tan #5C6259 = 2.9 sur crème) */
-.text-bois-mid { color: #5C6259; }
-.bg-brun .text-bois-mid { color: #E3EFE8; }
+/* Même traitement pour les petits labels : l'olive gris tient 6,0:1 sur crème,
+   et bascule sur le lin-mousse quand la section passe au vert forêt. */
+.text-bois-mid { color: var(--color-brun-mid); }
+.bg-brun .text-bois-mid { color: var(--color-sauge-pale); }
 
 /* ════════════════════════════════════════
    GRAISSE DES TITRES (direction V7)

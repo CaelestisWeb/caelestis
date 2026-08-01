@@ -620,7 +620,10 @@ const etapes = [
       margin-left: 6px;
       font-size: 9px;
       letter-spacing: 0.08em;
-      color: #8A8375;
+      /* Pierre chaude plutôt que #8A8375 : ce libellé porte une information
+         (le métier illustré par l'aperçu), il ne relève donc pas de l'exception
+         accordée au texte décoratif. L'ancienne teinte tombait à 3,27:1. */
+      color: var(--color-pierre);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -1147,7 +1150,11 @@ const etapes = [
       font-size: 0.68rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(184, 196, 187, 0.92);
+      /* Lin-mousse et non sauge : sur le vert forêt, #B8C4BB plafonne à 4,34:1,
+         sous le seuil AA de 4,5 même à pleine opacité. C'est la règle déjà posée
+         dans global.css (`.bg-brun .text-sauge`), que cette section contournait
+         en codant sa couleur en dur. #E3EFE8 monte à 6,6:1. */
+      color: var(--color-sauge-pale);
       font-variant-numeric: lining-nums tabular-nums;
     }
     .mth-t {
@@ -1192,24 +1199,25 @@ const etapes = [
       const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!finPointeur || reduit) return;
 
-      const bloc = document.querySelector('.mth-bloc');
+      const bloc = document.querySelector<HTMLElement>('.mth-bloc');
       if (!bloc) return;
-      const cartes = Array.from(bloc.querySelectorAll('.mth-etape'));
+      const cartes = Array.from(bloc.querySelectorAll<HTMLElement>('.mth-etape'));
       if (!cartes.length) return;
 
       const TOTAL = (cartes.length - 1) * PAS + 2; // longueur de la vague, en unités
-      let lisse = 0, rafId = null;
+      let lisse = 0;
+      let rafId: number | null = null;
 
       /* Progression du bloc dans l'écran : 0 quand son haut arrive vers le bas
          du viewport, 1 quand son bas s'apprête à sortir par le haut. */
       function cible() {
-        const r = bloc.getBoundingClientRect();
+        const r = bloc!.getBoundingClientRect();
         const vh = window.innerHeight || 1;
         const p = (0.80 * vh - r.top) / (0.65 * vh + r.height);
         return Math.min(1, Math.max(0, p));
       }
 
-      function applique(p) {
+      function applique(p: number) {
         const t = p * TOTAL;
         for (let i = 0; i < cartes.length; i++) {
           let local = (t - i * PAS) / 2;          // position sur l'aller-retour de la carte i
