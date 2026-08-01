@@ -71,12 +71,12 @@ const filAriane = {
 const schema = [etudeDeCas, filAriane];
 ---
 
-<!-- Gabarits de title et de description calibrés pour rester sous 65 et 165
+<!-- Gabarits de title et de description calibrés pour rester sous 60 et 155
      caractères, y compris avec un nom de commune long. L'accroche porte la
      substance, la marque suit. -->
 <BaseLayout
   title={`${nom}, ${metier} à ${ville}`}
-  description={`${accroche} L'étude de cas complète, réalisée par Caelestis en ${annee}.`}
+  description={`${accroche} L'étude de cas complète, ${annee}.`}
   canonical={`https://caelestis.fr/realisations/${realisation.slug}`}
   schema={schema}
 >
