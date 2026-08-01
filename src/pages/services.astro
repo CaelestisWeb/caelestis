@@ -1031,184 +1031,196 @@ const etapes = [
     </div>
   </section>
 
-  <!-- ── Comment nous travaillons — 5 étapes enrichies ── -->
-  <section class="py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient">
-    <div class="max-w-5xl mx-auto">
+  <!-- ── Comment se déroule un projet : frise forêt, vague au défilement ── -->
+  <section class="mth-sec py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
+    <div class="max-w-3xl mx-auto">
+      <div class="mth-bloc">
 
-      <!-- Titre centré -->
-      <div class="text-center mb-12 lg:mb-16" data-reveal>
-        <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.9rem, 3.2vw, 2.8rem);">
-          Comment se déroule un projet&nbsp;?
-        </h2>
+        <div class="mth-tete" data-reveal>
+          <p class="mth-eyebrow">La méthode</p>
+          <h2 class="mth-titre">Comment se déroule un projet&nbsp;?</h2>
+          <p class="mth-intro">Cinq temps, du premier échange à l'accompagnement dans la durée.</p>
+        </div>
+
+        <!-- Les étapes sont visibles dès l'arrivée. Au défilement, chacune
+             s'écarte vers la droite puis revient, en décalé, formant une vague.
+             Pas de data-reveal ici : ces cartes ne doivent pas partir masquées. -->
+        <ol class="mth-fil">
+          {etapes.map((e) => (
+            <li class="mth-etape">
+              <span class="mth-point" aria-hidden="true"></span>
+              <div class="mth-row">
+                <span class="mth-num">Étape {e.num}</span>
+                <span class="mth-t">{e.title}</span>
+              </div>
+              <p class="mth-d">{e.desc}</p>
+            </li>
+          ))}
+        </ol>
+
       </div>
-
-      <!-- Timeline botanique : fil de liaison + nœuds numérotés (mobile),
-           grille en relief (desktop) -->
-      <ol class="proc-list">
-        {etapes.map((e, i) => (
-          <li class={`proc-step${i === 4 ? ' proc-step--last' : ''}`} data-reveal data-delay={i}>
-            <span class="proc-num" aria-hidden="true">{e.num}</span>
-            <div class="proc-card">
-              <h3 class="proc-title">{e.title}</h3>
-              <p class="proc-desc">{e.desc}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-
     </div>
   </section>
 
   <style>
     /* ═══════════════════════════════════════════
-       Timeline « Comment se déroule un projet »
-       Mobile : fil botanique vertical + nœuds.
-       Desktop : grille 2 colonnes en relief.
+       Section méthode : cartes en frise sur fond forêt.
+       Au défilement, une vague horizontale parcourt les étapes (voir le
+       script plus bas). Le fond sombre est la seule rupture franche de la
+       page Services, ce qui casse l'enchaînement de sections crème.
     ═══════════════════════════════════════════ */
-    .proc-list {
-      position: relative;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      max-width: 600px;
-      margin-inline: auto;
+    .mth-bloc {
+      background: #255C41;
+      border-radius: 24px;
+      padding: 52px 46px;
+      color: #FCFBF8;
+      /* Contient le décalage horizontal de la vague : aucune barre de scroll. */
+      overflow: hidden;
     }
-
-    /* Étape — serpentin : impaires à gauche, paires à droite */
-    .proc-step {
-      position: relative;
-      display: flex;
-      margin-bottom: 16px;
-    }
-    .proc-step:last-child { margin-bottom: 0; }
-    .proc-step:nth-of-type(odd)  { justify-content: flex-start; }
-    .proc-step:nth-of-type(even) { justify-content: flex-end; }
-
-    /* Nœud numéroté — ancré au coin extérieur, alterne de côté */
-    .proc-num {
-      position: absolute;
-      top: -14px;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: var(--color-cream);
-      border: 1.5px solid rgba(184, 196, 187, 0.75);
-      font-family: var(--font-display);
-      font-size: 1rem;
-      letter-spacing: 0.04em;
-      color: #2E7452;
-      box-shadow: 0 6px 16px rgba(37, 92, 65, 0.16);
-      z-index: 2;
-    }
-    .proc-step:nth-of-type(odd)  .proc-num { left: -8px; }
-    .proc-step:nth-of-type(even) .proc-num { right: -8px; }
-
-    /* Carte large, relief par l'ombre, accent du côté extérieur */
-    .proc-card {
-      position: relative;
-      width: 87%;
-      background: #F4F2EC;
-      border-radius: 14px;
-      padding: 36px 22px 20px;
-      text-align: left;
-      box-shadow:
-        0 12px 30px rgba(37, 92, 65, 0.11),
-        0 3px 8px rgba(37, 92, 65, 0.06),
-        inset 0 1px 0 rgba(255, 255, 255, 0.45);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                  box-shadow 0.35s ease;
-    }
-    .proc-step:nth-of-type(odd)  .proc-card { border-left: 3px solid rgba(184, 196, 187, 0.6); }
-    .proc-step:nth-of-type(even) .proc-card { border-right: 3px solid rgba(184, 196, 187, 0.6); }
-    .proc-card:hover {
-      transform: translateY(-3px);
-      box-shadow:
-        0 18px 40px rgba(37, 92, 65, 0.15),
-        0 4px 10px rgba(37, 92, 65, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.45);
-    }
-
-    .proc-title {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 1.18rem;
-      color: var(--color-sauge-text);
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-    .proc-desc {
+    .mth-eyebrow {
       font-family: var(--font-body);
-      font-size: 0.9rem;
-      color: #255C41;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-indent: 0.11em;
+      text-transform: uppercase;
+      color: rgba(252, 251, 248, 0.72);
+    }
+    .mth-titre {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #FCFBF8;
+      margin-top: 10px;
+    }
+    .mth-intro {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: rgba(252, 251, 248, 0.8);
+      margin-top: 12px;
+      max-width: 56ch;
+    }
+    .mth-fil {
+      list-style: none;
+      margin: 34px 0 0;
+      padding: 0 0 0 40px;
+      position: relative;
+    }
+    .mth-fil::before {
+      content: '';
+      position: absolute;
+      left: 11px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(rgba(184, 196, 187, 0.6), rgba(184, 196, 187, 0.16));
+    }
+    .mth-etape {
+      position: relative;
+      margin-bottom: 14px;
+      padding: 22px 26px;
+      border-radius: 16px;
+      background: rgba(252, 251, 248, 0.06);
+      border: 1px solid rgba(252, 251, 248, 0.12);
+      will-change: transform;
+    }
+    .mth-etape:last-child { margin-bottom: 0; }
+    .mth-point {
+      position: absolute;
+      left: -33px;
+      top: 26px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #B8C4BB;
+      border: 3px solid #255C41;
+    }
+    .mth-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .mth-num {
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(184, 196, 187, 0.92);
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    .mth-t {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.08rem;
+      color: #FCFBF8;
+    }
+    .mth-d {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
       line-height: 1.65;
+      color: rgba(252, 251, 248, 0.78);
+      margin-top: 6px;
+      max-width: 60ch;
     }
-
-    /* Dernière étape — touche de clôture plus chaleureuse */
-    .proc-step--last .proc-num {
-      background: linear-gradient(140deg, #2E7452, #255C41);
-      border-color: transparent;
-      color: #F4F2EC;
-    }
-    .proc-step--last .proc-card {
-      border-left-color: rgba(184, 196, 187, 0.85);
-    }
-
-    /* ── Desktop ≥ 640px : grille 2 colonnes en relief, fil masqué ── */
-    @media (min-width: 640px) {
-      .proc-list {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 22px 18px;
-        max-width: none;
-        align-items: stretch;
-      }
-      .proc-step {
-        margin-bottom: 0;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-      }
-      .proc-num,
-      .proc-step:nth-of-type(odd) .proc-num,
-      .proc-step:nth-of-type(even) .proc-num {
-        position: static;
-        margin: 0 0 16px;
-        left: auto;
-        right: auto;
-        top: 0;
-        width: 56px;
-        height: 56px;
-        font-size: 1.05rem;
-        flex-shrink: 0;
-      }
-      .proc-card,
-      .proc-step:nth-of-type(odd) .proc-card,
-      .proc-step:nth-of-type(even) .proc-card {
-        text-align: center;
-        width: 100%;
-        flex: 1;
-        border-left: none;
-        border-right: none;
-        border-top: 3px solid rgba(184, 196, 187, 0.5);
-        padding: 30px 28px 26px;
-      }
-      .proc-title { font-size: 1.25rem; }
-      .proc-desc { font-size: 0.92rem; }
-      .proc-step--last {
-        grid-column: 1 / -1;
-      }
-      .proc-step--last .proc-card {
-        border-top-color: rgba(184, 196, 187, 0.85);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .proc-card { transition: none; }
+    @media (max-width: 720px) {
+      .mth-bloc { padding: 38px 24px; }
     }
   </style>
+
+  <script>
+    /* Vague de la section méthode.
+       Chaque carte s'écarte vers la droite puis revient (sine.inOut : vitesse
+       nulle aux extrémités, donc aucun à-coup). Les départs sont décalés de PAS ;
+       plus il est petit, plus les cartes ondulent ensemble et forment une vague
+       continue qui descend la liste au fil du scroll. Le scrub relie le tout au
+       défilement avec une inertie douce. Réglages validés avec le client.
+
+       GSAP est importé dynamiquement, et seulement sur desktop à pointeur fin :
+       sur tactile et en « animations réduites », la frise reste simplement
+       statique, sans charger la librairie. */
+    const AMPLITUDE = 80;   // de combien chaque carte s'écarte, en pixels
+    const PAS = 0.8;        // décalage de départ entre deux cartes voisines
+    const DOUCEUR = 2;      // inertie du mouvement derrière le scroll (scrub)
+
+    async function initMethodeVague() {
+      const finPointeur = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!finPointeur || reduit) return;
+
+      const bloc = document.querySelector('.mth-bloc');
+      const cartes = bloc ? Array.from(bloc.querySelectorAll('.mth-etape')) : [];
+      if (!bloc || !cartes.length) return;
+
+      const { gsap } = await import('gsap');
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+      gsap.registerPlugin(ScrollTrigger);
+
+      /* View Transitions peut rappeler cette fonction en revenant sur la page :
+         on retire d'abord une éventuelle vague précédente pour ne pas l'empiler. */
+      ScrollTrigger.getAll().forEach((st) => {
+        if (st.vars && st.vars.id === 'methode-vague') st.kill();
+      });
+      gsap.set(cartes, { x: 0 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          id: 'methode-vague',
+          trigger: bloc,
+          start: 'top 78%',
+          end: 'bottom 15%',
+          scrub: DOUCEUR,
+        },
+      });
+      cartes.forEach((carte, i) => {
+        tl.to(carte, { x: AMPLITUDE, duration: 1, ease: 'sine.inOut' }, i * PAS)
+          .to(carte, { x: 0,         duration: 1, ease: 'sine.inOut' }, i * PAS + 1);
+      });
+    }
+
+    document.addEventListener('astro:page-load', initMethodeVague);
+  </script>
 
   <!-- ── CTA ── -->
   <AppelFinal
