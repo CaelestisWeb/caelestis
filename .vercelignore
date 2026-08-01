@@ -1,0 +1,22 @@
+# Fichiers présents dans le dépôt mais qui n'appartiennent pas au site publié.
+#
+# Tout ce qui vit dans public/ est servi tel quel sur caelestis.fr : une page de
+# travail déposée là devient une page publique, avec sa propre adresse, que
+# n'importe qui peut ouvrir et qu'un lien partagé peut faire circuler. Le
+# noindex de vercel.json évite qu'elle soit référencée, il ne la rend pas
+# privée.
+
+# Maquettes de concept et comparaisons de directions artistiques.
+# Elles embarquent leur propre copie des polices : les exclure évite aussi de
+# déployer deux fois les mêmes fichiers Satoshi.
+public/_variantes
+
+# Dossiers de travail : recherches, planches, scripts d'analyse ponctuels.
+ressources-design
+identite
+scripts
+
+# Documentation interne, jamais servie.
+CLAUDE.md
+ARBORESCENCE.md
+PRIX-MARCHE.md

@@ -701,21 +701,7 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       });
     });
 
-    /* ── 7. Compteurs animés (data-counter) ── */
-    document.querySelectorAll<HTMLElement>('[data-counter]').forEach((el) => {
-      const target = parseFloat(el.dataset.counter ?? '0');
-      const suffix = el.dataset.suffix ?? '';
-      gsap.fromTo({ val: 0 }, { val: target },
-        {
-          duration: 2.0,
-          ease: 'power2.out',
-          onUpdate: function() { el.textContent = Math.round(this.targets()[0].val) + suffix; },
-          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
-        }
-      );
-    });
-
-    /* ── 8. Fil botanique — se trace au scroll ── */
+    /* ── 7. Fil botanique — se trace au scroll ── */
     const vinePath = document.getElementById('vine-path');
     if (vinePath instanceof SVGGeometryElement) {
       const len = vinePath.getTotalLength();
@@ -732,18 +718,6 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       });
     }
 
-    /* ── 9. Scroll indicator — respiration douce ── */
-    const scrollIndicator = document.querySelector<HTMLElement>('.scroll-indicator');
-    if (scrollIndicator) {
-      gsap.to(scrollIndicator, {
-        y: -6,
-        opacity: 0.6,
-        duration: 2.2,
-        ease: 'power1.inOut',
-        yoyo: true,
-        repeat: -1,
-      });
-    }
   }
 
   /* ── Reveal léger sur tactile — remplace GSAP/ScrollTrigger sur mobile ──

@@ -24,3 +24,7 @@ pnpm-debug.log*
 .idea/
 
 .vercel
+
+# Pages de travail déposées dans public/ : elles deviendraient publiques sur
+# caelestis.fr. Exclues aussi du déploiement, voir .vercelignore.
+public/_variantes/

@@ -14,8 +14,6 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "@astrojs/vercel": "^10.0.7",
-    "@fontsource-variable/dm-sans": "^5.2.8",
-    "@fontsource/lora": "^5.2.8",
     "@tailwindcss/vite": "^4.3.1",
     "@types/nodemailer": "^8.0.1",
     "@types/pdfkit": "^0.17.6",
