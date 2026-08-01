@@ -38,7 +38,7 @@ const faq = [
   },
   {
     q: "Combien de modifications puis-je demander par mois ?",
-    a: "Il n'y a pas de compteur. Les demandes courantes sont traitées au fil de l'eau, généralement sous quarante-huit heures. Nous fonctionnons à la confiance, et cela se passe bien tant que les demandes restent des ajustements de contenu.",
+    a: "L'abonnement comprend trente minutes de retouches par mois, non reportables d'un mois sur l'autre : changer un horaire, un tarif, une photo, un paragraphe. C'est large pour les ajustements courants, et nous ne comptons pas à la minute près. Au-delà, ou pour une nouvelle page, nous vous annonçons le temps nécessaire avant de commencer, facturé 60 € de l'heure. Vous ne découvrez jamais une facture après coup.",
   },
   {
     q: "Et si mon site est déjà en ligne, créé par quelqu'un d'autre ?",
@@ -75,46 +75,57 @@ const breadcrumb = {
    offerte les six premiers mois, personne ne s'abonne le jour de la livraison,
    et le récurrent est piloté depuis Tiime (facture conforme et prélèvement),
    pas par un lien de paiement isolé. */
+/* Ce qui change d'une formule à l'autre est la SURFACE à maintenir, pas le
+   service rendu : une boutique a des paiements et des commandes à surveiller,
+   un site sur mesure a du code qui n'appartient qu'à lui. Les trente minutes de
+   retouches et la protection sont identiques partout, elles viennent après.
+
+   Auparavant, la première ligne annonçait une fréquence croissante (« 1 mise à
+   jour par mois » jusqu'à « 7 jours sur 7 ») : intenable, et laissant croire que
+   le prix achetait un nombre d'interventions. */
 const formules = [
   {
     type: 'Page unique',
     prix: euros(MAINTENANCE['page-unique']),
     desc: 'Pour garder votre Page unique en ligne, rapide et sécurisée.',
     feats: [
-      '1 mise à jour par mois',
-      'Site protégé et sécurisé',
-      'Sauvegardes régulières',
-      'Toujours en ligne',
+      'Une page suivie de bout en bout',
+      'Hébergement et nom de domaine compris',
+      '30 min de retouches par mois',
+      'Sauvegardes et sécurité',
     ],
   },
   {
     type: 'Vitrine',
     prix: euros(MAINTENANCE['site-vitrine']),
-    desc: 'Pour garder votre site vitrine en ligne, rapide et sécurisé.',    feats: [
-      '1 mise à jour par semaine',
-      'Site protégé et sécurisé',
-      'Sauvegardes régulières',
-      'Toujours en ligne',
+    desc: 'Pour garder votre site vitrine en ligne, rapide et sécurisé.',
+    feats: [
+      'Toutes vos pages suivies',
+      'Hébergement et nom de domaine compris',
+      '30 min de retouches par mois',
+      'Sauvegardes et sécurité',
     ],
   },
   {
     type: 'Boutique en ligne',
     prix: euros(MAINTENANCE['boutique-en-ligne']),
-    desc: 'La tranquillité pour votre boutique : paiements et données surveillés.',    feats: [
-      '3 mises à jour par semaine',
-      'Boutique et paiements sécurisés',
-      'Sauvegardes régulières',
-      'Toujours en ligne',
+    desc: 'La tranquillité pour votre boutique : paiements et données surveillés.',
+    feats: [
+      'Paiements et commandes surveillés',
+      'Hébergement et nom de domaine compris',
+      '30 min de retouches par mois',
+      'Sauvegardes et sécurité',
     ],
   },
   {
     type: 'Sur mesure',
     prix: euros(MAINTENANCE['site-sur-mesure']),
-    desc: 'Pour les sites complexes ou les boutiques avancées qui demandent une veille poussée.',    feats: [
-      'Mises à jour 7 jours sur 7',
-      'Surveillance permanente',
-      'Site protégé et sécurisé',
-      'Sauvegardes régulières',
+    desc: 'Pour les sites complexes ou les boutiques avancées qui demandent une veille poussée.',
+    feats: [
+      'Vos fonctionnalités sur mesure suivies',
+      'Hébergement et nom de domaine compris',
+      '30 min de retouches par mois',
+      'Sauvegardes et sécurité',
     ],
   },
 ];

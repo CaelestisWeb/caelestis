@@ -1,5 +1,6 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { MAINTENANCE, euros } from '../utils/tarifs';
 ---
 <BaseLayout
   title="Conditions Générales de Vente, Caelestis"
@@ -17,7 +18,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       >
         Conditions Générales de Vente.
       </h1>
-      <p class="font-body text-sm text-brun-mid mb-16">Dernière mise à jour : 10 juin 2026</p>
+      <p class="font-body text-sm text-brun-mid mb-16">Dernière mise à jour : 1er août 2026</p>
 
       <div class="prose-cgv">
 
@@ -102,8 +103,48 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <p>CaelestisWeb se réserve le droit de présenter les réalisations effectuées dans son portfolio, ses réseaux sociaux ou ses supports de communication, sauf opposition écrite expresse du client notifiée avant la livraison.</p>
 
         <h2>10. Hébergement et maintenance</h2>
-        <p>Lorsqu'ils sont inclus dans la prestation, les services d'hébergement et de maintenance font l'objet de conditions particulières précisées dans le devis (abonnement mensuel ou annuel, contenu des prestations, conditions de résiliation).</p>
-        <p>CaelestisWeb ne saurait être tenu responsable des interruptions de service causées par des tiers (hébergeurs, registrars, fournisseurs d'accès) ou par un cas de force majeure. Le client reste propriétaire de ses données et contenus à tout moment.</p>
+
+        <h3>10.1 Nature de la prestation</h3>
+        <p>Un site internet n'est accessible au public que s'il est hébergé sur un serveur, protégé par un certificat de sécurité et tenu à jour. La maintenance n'est donc pas une option de confort : elle est la condition matérielle du fonctionnement du site livré. À ce titre, <strong>tout site créé par CaelestisWeb est accompagné d'un abonnement de maintenance</strong>, annoncé comme tel dans le devis avant toute signature.</p>
+        <p><strong>Le client conserve la liberté d'héberger son site ailleurs.</strong> S'il choisit de confier l'hébergement et le suivi technique à un tiers ou de les assurer lui-même, l'abonnement prend fin dans les conditions de l'article 10.5, et CaelestisWeb lui remet l'intégralité des fichiers et des accès nécessaires. La maintenance conditionne l'exploitation du site par CaelestisWeb, jamais la propriété du client sur son site.</p>
+
+        <h3>10.2 Six premiers mois offerts</h3>
+        <p>L'abonnement est <strong>offert pendant les six premiers mois</strong> suivant la mise en ligne. Cette période est comprise dans le prix de création figurant au devis et ne donne lieu à aucune facturation complémentaire. La première échéance mensuelle intervient au septième mois.</p>
+        <p>CaelestisWeb informe le client de la date de première échéance au moins trente jours avant celle-ci, par courrier électronique à l'adresse communiquée lors de la commande.</p>
+
+        <h3>10.3 Tarifs de l'abonnement</h3>
+        <p>Au-delà des six mois offerts, l'abonnement mensuel s'établit selon la formule du site créé :</p>
+        <ul>
+          <li><strong>Site une page :</strong> {euros(MAINTENANCE['page-unique'])}&nbsp;€ par mois</li>
+          <li><strong>Site vitrine :</strong> {euros(MAINTENANCE['site-vitrine'])}&nbsp;€ par mois</li>
+          <li><strong>Boutique en ligne :</strong> {euros(MAINTENANCE['boutique-en-ligne'])}&nbsp;€ par mois</li>
+          <li><strong>Site sur mesure :</strong> {euros(MAINTENANCE['site-sur-mesure'])}&nbsp;€ par mois</li>
+        </ul>
+        <p>Ces montants sont nets de taxe (TVA non applicable, article 293 B du CGI) et correspondent donc à la somme finale due. Le tarif applicable est celui figurant au devis signé ; il demeure acquis au client pour toute la durée de son abonnement et ne peut être révisé qu'après un préavis écrit de deux mois, le client restant libre de résilier dans les conditions de l'article 10.5.</p>
+
+        <h3>10.4 Contenu de l'abonnement</h3>
+        <p>L'abonnement comprend :</p>
+        <ul>
+          <li>L'hébergement du site sur une infrastructure professionnelle</li>
+          <li>Le renouvellement annuel du nom de domaine, enregistré au nom du client</li>
+          <li>Le certificat de sécurité (HTTPS) et son renouvellement</li>
+          <li>Les sauvegardes régulières du site et de ses contenus</li>
+          <li>Les mises à jour techniques et les correctifs de sécurité</li>
+          <li>La surveillance de la disponibilité du site</li>
+          <li>La correction des dysfonctionnements affectant le site tel qu'il a été livré</li>
+          <li>Les retouches de contenu courantes (modifier un horaire, un tarif, une photographie, un texte court), dans la limite de <strong>trente minutes par mois, non reportables d'un mois sur l'autre</strong></li>
+          <li>Le support par courrier électronique, avec réponse sous quarante-huit heures ouvrées</li>
+        </ul>
+        <p>Les prestations suivantes n'entrent pas dans l'abonnement et font l'objet d'un devis distinct, facturé <strong>60&nbsp;€ par heure</strong> : création d'une page ou d'une section nouvelle, ajout d'une fonctionnalité, refonte graphique, intégration massive de produits, rédaction de contenu, prise de vue photographique, campagnes de référencement ou de publicité. Le temps de retouche excédant les trente minutes mensuelles relève du même tarif, après accord écrit du client.</p>
+
+        <h3>10.5 Durée, résiliation et défaut de paiement</h3>
+        <p>L'abonnement est conclu pour une <strong>durée indéterminée</strong> et se poursuit de mois en mois. Il ne comporte aucune période d'engagement minimal au-delà des six mois offerts.</p>
+        <p>Chaque partie peut y mettre fin <strong>à tout moment, moyennant un préavis d'un mois</strong>, par simple courrier électronique, sans justification ni frais de résiliation. Conformément à l'article L.215-1 du Code de la consommation, le client consommateur est informé qu'il peut résilier son abonnement à tout moment après la première échéance.</p>
+        <p>À la fin de l'abonnement, CaelestisWeb transmet au client, dans un délai de quinze jours, l'intégralité des fichiers du site, une sauvegarde de ses contenus et les accès au nom de domaine, afin qu'il puisse en confier l'exploitation à qui il souhaite. <strong>Le site et le nom de domaine demeurent la propriété du client</strong>, sous réserve du paiement intégral de la prestation de création (article 9).</p>
+        <p>En cas de défaut de paiement d'une échéance, CaelestisWeb adresse au client une relance écrite. À défaut de régularisation dans un délai de <strong>quinze jours</strong> après cette relance, l'hébergement du site peut être suspendu, le site cessant alors d'être accessible au public. Les sauvegardes sont conservées pendant <strong>trois mois</strong> à compter de la suspension, période durant laquelle le service est rétabli dès régularisation. Passé ce délai, les données peuvent être supprimées définitivement. Le nom de domaine, propriété du client, n'est en aucun cas transféré ni conservé par CaelestisWeb.</p>
+
+        <h3>10.6 Limites de responsabilité</h3>
+        <p>CaelestisWeb ne saurait être tenu responsable des interruptions de service causées par des tiers (hébergeurs, bureaux d'enregistrement de noms de domaine, fournisseurs d'accès) ou par un cas de force majeure. La maintenance porte sur le site tel qu'il a été livré : les dysfonctionnements résultant d'une intervention du client ou d'un tiers sur le code, les contenus ou les réglages en sont exclus. Le client reste propriétaire de ses données et de ses contenus à tout moment.</p>
 
         <h2>11. Confidentialité</h2>
         <p>CaelestisWeb s'engage à traiter comme strictement confidentielles toutes les informations communiquées par le client dans le cadre de la relation commerciale (données techniques, commerciales, stratégiques). Cette obligation de confidentialité perdure après la fin de la relation contractuelle.</p>
@@ -173,6 +214,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     margin-bottom: 0.75rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid rgba(37, 92, 65, 0.10);
+  }
+  /* L'article 10 est le seul assez long pour réclamer des sous-titres. Sans
+     style propre, ils prenaient l'apparence par défaut du navigateur, plus
+     grosse que les titres d'article eux-mêmes. Ils s'en distinguent par la
+     graisse et l'absence de filet, pas par la taille. */
+  .prose-cgv h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1rem;
+    color: #255C41;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
   }
   .prose-cgv p { margin-bottom: 1rem; }
   .prose-cgv ul {
