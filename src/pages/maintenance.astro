@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import AppelFinal from '../components/AppelFinal.astro';
-import { MAINTENANCE, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, euros, MAINTENANCE_MOIS_OFFERTS_LETTRES, MAINTENANCE_RETOUCHES_MIN, TARIF_HORAIRE } from '../utils/tarifs';
+import { MAINTENANCE, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, euros, MAINTENANCE_RETOUCHES_MIN, TARIF_HORAIRE } from '../utils/tarifs';
 
 const schema = {
   '@context': 'https://schema.org',
@@ -79,59 +79,32 @@ const breadcrumb = {
    offerte les premiers mois, personne ne s'abonne le jour de la livraison,
    et le récurrent est piloté depuis Tiime (facture conforme et prélèvement),
    pas par un lien de paiement isolé. */
-/* Le prix suit ce qu'il y a à maintenir, et les cartes doivent le montrer.
-   Quatre cartes qui alignent les mêmes lignes ne justifient pas qu'on paie
-   24,99 € plutôt que 9,99 € : le visiteur conclut qu'il paie la même chose plus
-   cher. Chaque formule reprend donc la précédente (« herite ») et n'affiche que
-   ce qui lui est propre.
+/* Un tableau plutôt que quatre cartes : le visiteur compare d'un regard et voit
+   exactement où s'arrête chaque formule. Les cartes alignaient des listes
+   presque identiques, ce qui donnait à lire quatre fois la même chose pour des
+   prix allant du simple au triple.
 
-   Ce qui s'ajoute est vrai et vérifiable, jamais une promesse de fréquence :
-   un site vitrine a des formulaires dont dépend l'arrivée des demandes, une
-   boutique a un tunnel de paiement et des données clients, un site sur mesure a
-   du code et des connexions qui n'existent que chez ce client. */
-const formules = [
-  {
-    type: 'Page unique',
-    prix: euros(MAINTENANCE['page-unique']),
-    desc: 'Pour garder votre Page unique en ligne, rapide et sécurisée.',
-    herite: null,
-    feats: [
-      'Hébergement et nom de domaine compris',
-      'Sauvegardes et sécurité',
-      'Liens cassés repérés et corrigés',
-      `${MAINTENANCE_RETOUCHES_MIN} min de retouches par mois`,
-    ],
-  },
-  {
-    type: 'Vitrine',
-    prix: euros(MAINTENANCE['site-vitrine']),
-    desc: 'Plusieurs pages, plusieurs formulaires : plus de surface à surveiller.',
-    herite: 'la Page unique',
-    feats: [
-      'Toutes vos pages suivies, pas seulement l\'accueil',
-      'Vos formulaires testés : une demande perdue ne se rattrape pas',
-    ],
-  },
-  {
-    type: 'Boutique en ligne',
-    prix: euros(MAINTENANCE['boutique-en-ligne']),
-    desc: 'Une boutique encaisse : une panne coûte des ventes, pas seulement une visite.',
-    herite: 'le site Vitrine',
-    feats: [
-      'Tunnel de commande et paiement vérifiés de bout en bout',
-      'Données de vos clients sauvegardées, obligations RGPD comprises',
-    ],
-  },
-  {
-    type: 'Sur mesure',
-    prix: euros(MAINTENANCE['site-sur-mesure']),
-    desc: 'Du code qui n\'existe que chez vous, donc que personne d\'autre ne maintient.',
-    herite: 'la Boutique en ligne',
-    feats: [
-      'Vos fonctionnalités propres suivies : réservation, configurateur, espace client',
-      'Connexions à vos outils maintenues : agenda, caisse, comptabilité',
-    ],
-  },
+   Les cinq premiers critères sont le socle, communs aux quatre. Les suivants
+   marquent la progression, et chacun correspond à un travail réellement fait,
+   jamais à une promesse de fréquence. La dernière ligne existe parce que sans
+   elle la boutique et le sur mesure afficheraient exactement les mêmes coches. */
+const colonnes = [
+  { type: 'Page unique',       prix: euros(MAINTENANCE['page-unique']) },
+  { type: 'Vitrine',           prix: euros(MAINTENANCE['site-vitrine']) },
+  { type: 'Boutique en ligne', prix: euros(MAINTENANCE['boutique-en-ligne']) },
+  { type: 'Sur mesure',        prix: euros(MAINTENANCE['site-sur-mesure']) },
+];
+
+const criteres = [
+  { c: 'Hébergement et nom de domaine', v: [1, 1, 1, 1] },
+  { c: 'Sauvegardes et certificat de sécurité', v: [1, 1, 1, 1] },
+  { c: 'Mises à jour de sécurité', v: [1, 1, 1, 1] },
+  { c: 'Liens et formulaires testés', v: [1, 1, 1, 1] },
+  { c: `${MAINTENANCE_RETOUCHES_MIN} min de retouches par mois`, v: [1, 1, 1, 1] },
+  { c: 'Menu et navigation testés', v: [0, 1, 1, 1] },
+  { c: 'Tunnel de commande et paiement testés', v: [0, 0, 1, 1] },
+  { c: 'Réservation, configurateur, espace client suivis', v: [0, 0, 0, 1] },
+  { c: 'Panne majeure résolue sous 48 heures', v: [0, 0, 1, 1] },
 ];
 
 
@@ -250,42 +223,52 @@ const couvert = [
           Le tarif suit ce qu'il y a à maintenir. Une page à surveiller ne demande pas
           le même suivi qu'une boutique qui encaisse ou qu'un site dont les
           fonctionnalités n'existent que chez vous.
-          <strong class="text-brun font-semibold">Les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois sont offerts</strong>, l'abonnement ne commence qu'ensuite, sans engagement.
+          L'abonnement est sans engagement et se résilie à tout moment.
         </p>
       </div>
 
-      <!-- 4 cartes : une par type de site -->
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 items-stretch" data-reveal data-delay="1">
-        {formules.map((f) => (
-          <div class="bg-cream border-2 border-sauge/30 rounded-2xl p-6 lg:p-8 flex flex-col text-center">
-            <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">{f.type}</p>
-            <div class="mb-5">
-              <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2rem, 4vw, 2.6rem); letter-spacing: -0.02em;">
-                {f.prix}<span class="text-bois-mid text-lg ml-1">€</span>
-              </p>
-              <p class="font-body text-xs text-brun-mid mt-2">par mois après les {MAINTENANCE_MOIS_OFFERTS_LETTRES} mois offerts</p>
-            </div>
-            <p class="font-body text-sm text-brun-mid mb-6 leading-relaxed">{f.desc}</p>
-            {f.herite && (
-              <p class="mnt-herite font-body text-sm text-brun font-medium mb-4 leading-snug">
-                Tout ce que comprend {f.herite}, plus&nbsp;:
-              </p>
-            )}
-            <ul class="flex flex-col gap-3 flex-1 mb-7">
-              {f.feats.map((feat) => (
-                <li class="feat-std flex items-start justify-center gap-3 font-body text-sm text-brun-mid leading-snug">{feat}</li>
+      <!-- Tableau comparatif : une colonne par formule -->
+      <div class="mnt-tableau-wrap" data-reveal data-delay="1">
+        <table class="mnt-tableau">
+          <caption class="sr-only">Comparatif des quatre abonnements de maintenance</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="mnt-vide"></th>
+              {colonnes.map((c) => (
+                <th scope="col">
+                  <span class="mnt-nom">{c.type}</span>
+                  <span class="mnt-prix">{c.prix}&nbsp;€</span>
+                  <span class="mnt-mois">par mois</span>
+                </th>
               ))}
-            </ul>
-            <a
-              href="/contact"
-              class="inline-flex items-center justify-center font-body font-medium text-sm tracking-[0.04em] transition-all duration-300 min-h-[44px] border border-sauge/70 text-[#2E7452] px-6 py-3 rounded-full hover:bg-[#255C41] hover:text-cream hover:border-[#255C41] btn-magnetic"
-              aria-label={`Poser une question sur la maintenance ${f.type}`}
-            >
-              En parler
-            </a>
-          </div>
-        ))}
+            </tr>
+          </thead>
+          <tbody>
+            {criteres.map((li) => (
+              <tr>
+                <th scope="row">{li.c}</th>
+                {li.v.map((val, i) => (
+                  <td>
+                    {val === 1
+                      ? <span class="mnt-oui"><span class="sr-only">{`Compris dans la formule ${colonnes[i].type}`}</span><span aria-hidden="true">✓</span></span>
+                      : <span class="mnt-non"><span class="sr-only">{`Non compris dans la formule ${colonnes[i].type}`}</span><span aria-hidden="true">—</span></span>}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+
+      <p class="font-body text-base font-semibold text-brun mt-8 text-center" data-reveal data-delay="2">
+        Les {MAINTENANCE_MOIS_OFFERTS} premiers mois sont offerts dans les quatre cas.
+      </p>
+      <p class="font-body text-xs text-brun-mid mt-3 text-center max-w-2xl mx-auto" data-reveal data-delay="2">
+        Le délai de 48&nbsp;heures court à compter du signalement, en jours ouvrés. Il ne
+        s'applique pas aux interruptions dont la cause est extérieure au site
+        (hébergeur, service de paiement, fournisseur d'accès), traitées dès leur
+        rétablissement par le prestataire concerné.
+      </p>
 
       <!-- Rappel modifications -->
       <div class="mt-8 text-center" data-reveal data-delay="2">
@@ -398,4 +381,33 @@ const couvert = [
     background-repeat: no-repeat;
     background-size: contain;
   }
+
+  /* ── Tableau comparatif des abonnements ──
+     Il déborde forcément sous 46rem : il défile dans son propre cadre, jamais la
+     page. `min-width` garantit que les colonnes restent lisibles plutôt que de
+     se comprimer jusqu'à l'illisible. */
+  .mnt-tableau-wrap { overflow-x: auto; }
+  .mnt-tableau { width: 100%; border-collapse: collapse; min-width: 46rem; }
+  .mnt-tableau th,
+  .mnt-tableau td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--color-cream-dark);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+  }
+  .mnt-tableau thead th { border-bottom: 2px solid var(--color-sauge); vertical-align: bottom; }
+  .mnt-tableau tbody th {
+    text-align: left;
+    font-weight: 400;
+    color: var(--color-brun-mid);
+    width: 38%;
+  }
+  .mnt-tableau td { text-align: center; }
+  .mnt-vide { border-bottom: 2px solid var(--color-sauge) !important; }
+  .mnt-nom { display: block; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-sauge-text); margin-bottom: 0.4rem; }
+  .mnt-prix { display: block; font-family: var(--font-display); font-size: 1.5rem; font-weight: 300; color: #255C41; line-height: 1; }
+  .mnt-mois { display: block; font-size: 0.7rem; color: var(--color-brun-mid); margin-top: 0.25rem; }
+  .mnt-oui { color: #2E7452; font-size: 1.05rem; }
+  .mnt-non { color: var(--color-sauge); }
+  .mnt-tableau tbody tr:nth-child(odd) { background: rgba(227, 239, 232, 0.28); }
 </style>
