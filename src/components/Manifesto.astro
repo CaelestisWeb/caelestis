@@ -10,7 +10,7 @@
     (window.__caelestisIntro persiste dans la même fenêtre).
   — Rejoue dans un nouvel onglet / une nouvelle session.
   — m0 + m1 : apparaissent ensemble, reveal GSAP (pas de typewriter).
-  — m3 "Caelestis." : typewriter lettre par lettre, inchangé.
+  — m3 "Caelestis" : typewriter lettre par lettre, inchangé.
   — Bouton "Passer →" disponible dès l'apparition.
 */
 ---
@@ -22,7 +22,7 @@
     <p id="m0" class="m-line"></p>
   </div>
 
-  <!-- Caelestis. — reveal typewriter conservé -->
+  <!-- Caelestis — reveal typewriter conservé -->
   <p id="m3" class="m-line m-big"></p>
 
   <div id="m-bloom" aria-hidden="true"></div>
@@ -75,12 +75,12 @@
     font-size: clamp(1.3rem, 3vw, 2.1rem);
   }
 
-  /* m3 "Caelestis." — position absolute pour rester centré seul */
+  /* m3 "Caelestis" — position absolute pour rester centré seul */
   #m3 {
     position: absolute;
   }
 
-  /* ── Dernière phrase — "Caelestis." ── */
+  /* ── Dernière phrase — "Caelestis" ── */
   .m-big {
     font-size: clamp(2.2rem, 5vw, 4rem);
     letter-spacing: -0.04em;
@@ -356,7 +356,7 @@
 
         await wait(150);
 
-        /* ── Caelestis. — typewriter conservé ── */
+        /* ── Caelestis — typewriter conservé ── */
         await typeBrand(m3);
         removeCursor(m3);
         await wait(900);

@@ -72,7 +72,7 @@ Graisses utilisées : 300, 400, 500, 700. **Satoshi n'a pas de graisse 600** : t
 
 ## 4. Logotype
 
-Deux éléments : un monogramme géométrique en forme de C ouvert (arc de cercle, ouverture à droite, épaisseur de trait égale à 15 % du côté de la tuile) et le mot « Caelestis. » écrit en Satoshi Medium 500, interlettrage -0.02em, point final compris.
+Deux éléments : un monogramme géométrique en forme de C ouvert (arc de cercle, ouverture à droite, épaisseur de trait égale à 15 % du côté de la tuile) et le mot « Caelestis » écrit en Satoshi Medium 500, interlettrage -0.02em, **sans point final**.
 
 Fichiers dans `identite/logo/` :
 
@@ -96,13 +96,13 @@ Fichiers dans `identite/logo/` :
 
 ### Interdits
 
-Déformer, étirer, incliner. Changer la couleur hors palette ou appliquer un dégradé. Ajouter ombre portée, contour, reflet, relief. Réécrire le mot dans une autre police. Poser le vert sur du vert ou le crème sur du crème.
+Déformer, étirer, incliner. Changer la couleur hors palette ou appliquer un dégradé. Ajouter ombre portée, contour, reflet, relief. Réécrire le mot dans une autre police. Poser le vert sur du vert ou le crème sur du crème. **Ajouter un point après le mot**, coloré ou non, dans un logo, une signature, un titre de page ou un document.
 
 ### Point ouvert
 
 La tuile du favicon en production (`public/favicon.svg`) utilise le fond `#F4F2EC`, alors que le fond du site est `#FCFBF8`. Les fichiers de cette charte sont harmonisés sur `#FCFBF8`. À aligner dans le code, ou à assumer comme un écart voulu.
 
-Autre point : dans le header du site, le point final de « Caelestis. » utilise `--color-ocre`, qui vaut désormais `#255C41`, exactement la même valeur que le texte. Le point n'est donc plus différencié visuellement, alors que la charte précédente en faisait une signature.
+Le point final a été supprimé le 02/08/2026, sur le site comme dans les fichiers de logo. La question de sa couleur ne se pose plus.
 
 ## 5. Carte de visite
 

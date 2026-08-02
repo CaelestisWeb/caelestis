@@ -12,10 +12,12 @@ const VERT = '#255C41';
 const CREME = '#FCFBF8';
 const ENCRE = '#12160F';
 
-// Metriques relevees dans le navigateur (Satoshi, font-size 100, letter-spacing -2)
+// Metriques du mot "Caelestis" sans point (Satoshi, font-size 100, letter-spacing -2).
+// Relevees dans le navigateur, largeur d'encre recalculee a la police (fontkit) apres
+// suppression du point : -21.9 en 500, -23.3 en 700.
 const M = {
-  500: { inkLeft: -3, inkRight: 406.3, cap: 74, desc: 2, adv: 409.9 },
-  700: { inkLeft: -3, inkRight: 422.3, cap: 75, desc: 2, adv: 426.4 },
+  500: { inkLeft: -3, inkRight: 384.4, cap: 74, desc: 2, adv: 384.9 },
+  700: { inkLeft: -3, inkRight: 399.0, cap: 75, desc: 2, adv: 399.6 },
 };
 
 const faces = (poids) => `
@@ -32,7 +34,7 @@ function wordmark(poids, couleur, nom) {
   const w = +(m.inkRight - m.inkLeft).toFixed(2);
   const h = +(m.cap + m.desc).toFixed(2);
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${Math.round(w * 2)}" height="${Math.round(h * 2)}" role="img" aria-label="Caelestis">${faces(poids)}
-  <text x="${-m.inkLeft}" y="${m.cap}" font-family="Satoshi" font-weight="${poids}" font-size="100" letter-spacing="-2" fill="${couleur}">Caelestis.</text>
+  <text x="${-m.inkLeft}" y="${m.cap}" font-family="Satoshi" font-weight="${poids}" font-size="100" letter-spacing="-2" fill="${couleur}">Caelestis</text>
 </svg>
 `;
   writeFileSync(`${ID}/logo/${nom}.svg`, svg);
@@ -51,7 +53,7 @@ function lockupH(fondTuile, arc, texte, nom) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${total} 100" width="${Math.round(total * 3)}" height="300" role="img" aria-label="Caelestis">${faces(500)}
   ${tuile}
   ${ARC(arc)}
-  <text x="${(100 + ecart - m.inkLeft * ech).toFixed(2)}" y="${baseline}" font-family="Satoshi" font-weight="500" font-size="${100 * ech}" letter-spacing="${(-2 * ech).toFixed(2)}" fill="${texte}">Caelestis.</text>
+  <text x="${(100 + ecart - m.inkLeft * ech).toFixed(2)}" y="${baseline}" font-family="Satoshi" font-weight="500" font-size="${100 * ech}" letter-spacing="${(-2 * ech).toFixed(2)}" fill="${texte}">Caelestis</text>
 </svg>
 `;
   writeFileSync(`${ID}/logo/${nom}.svg`, svg);
@@ -69,7 +71,7 @@ function lockupV(fondTuile, arc, texte, nom) {
   const tuile = fondTuile ? `<rect x="${tuileX}" width="100" height="100" rx="24" fill="${fondTuile}"/>` : '';
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${larg} ${hTot}" width="${Math.round(larg * 3)}" height="${Math.round(hTot * 3)}" role="img" aria-label="Caelestis">${faces(500)}
   <g transform="translate(${tuileX},0)">${fondTuile ? `<rect width="100" height="100" rx="24" fill="${fondTuile}"/>` : ''}${ARC(arc)}</g>
-  <text x="${(-m.inkLeft * ech).toFixed(2)}" y="${baseline}" font-family="Satoshi" font-weight="500" font-size="${100 * ech}" letter-spacing="${(-2 * ech).toFixed(2)}" fill="${texte}">Caelestis.</text>
+  <text x="${(-m.inkLeft * ech).toFixed(2)}" y="${baseline}" font-family="Satoshi" font-weight="500" font-size="${100 * ech}" letter-spacing="${(-2 * ech).toFixed(2)}" fill="${texte}">Caelestis</text>
 </svg>
 `;
   writeFileSync(`${ID}/logo/${nom}.svg`, svg);
