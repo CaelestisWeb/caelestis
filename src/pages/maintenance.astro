@@ -34,7 +34,7 @@ const faq = [
   },
   {
     q: "Que se passe-t-il si mon site tombe en panne ?",
-    a: "Nous rétablissons le fonctionnement sous 48 heures ouvrées, à compter de votre signalement ou du moment où nous constatons nous-mêmes l'incident. Cet engagement couvre ce qui relève du site : son code, sa configuration, ses contenus, son hébergement. Une panne dont la cause est extérieure, chez l'hébergeur ou un service de paiement par exemple, ne dépend pas de nous : nous vous en donnons alors la cause et nous suivons le rétablissement auprès du prestataire concerné. Le détail figure à l'article 10.6 de nos conditions générales de vente.",
+    a: "Nous intervenons dès votre signalement, ou dès que nous constatons nous-mêmes l'incident. Les formules Boutique en ligne et Site sur mesure bénéficient d'un délai garanti : le site est rétabli sous 48 heures ouvrées. Pour une page unique ou un site vitrine, nous intervenons avec le même soin, sans durée garantie. Dans tous les cas, une panne dont la cause est extérieure, chez l'hébergeur ou un service de paiement par exemple, ne dépend pas de nous : nous vous en donnons la cause et nous suivons le rétablissement auprès du prestataire concerné. Le détail figure à l'article 10.6 de nos conditions générales de vente.",
   },
   {
     q: "Puis-je résilier quand je veux ?",
@@ -109,16 +109,15 @@ const criteres = [
 
 
 // Ce que couvre la maintenance (liste de la section distinction)
-// La dernière ligne est la seule vérifiable de la liste : les quatre autres
-// décrivent un travail continu, invisible par nature, celle-ci donne au client
-// une date à opposer. Elle reprend mot pour mot l'engagement de l'article 10.6
-// des CGV, jamais un délai plus court.
+// Socle commun aux quatre formules, et rien d'autre : le délai de rétablissement
+// de 48 h ouvrées a été retiré de cette liste le 02/08/2026, car il n'est attaché
+// qu'à Boutique en ligne et Site sur mesure (décision de Célestin, article 10.6
+// des CGV). Il se lit dans le tableau, colonne par colonne, là où il est vrai.
 const couvert = [
   'Mises à jour régulières',
   'Site protégé et sécurisé',
   'Sauvegardes régulières',
   'Toujours en ligne',
-  'Panne majeure rétablie sous 48 h ouvrées',
 ];
 ---
 
@@ -264,10 +263,12 @@ const couvert = [
         Les {MAINTENANCE_MOIS_OFFERTS} premiers mois sont offerts dans les quatre cas.
       </p>
       <p class="font-body text-xs text-brun-mid mt-3 text-center max-w-2xl mx-auto" data-reveal data-delay="2">
-        Le délai de 48&nbsp;heures court à compter du signalement, en jours ouvrés. Il ne
-        s'applique pas aux interruptions dont la cause est extérieure au site
-        (hébergeur, service de paiement, fournisseur d'accès), traitées dès leur
-        rétablissement par le prestataire concerné.
+        Le délai de 48&nbsp;heures est attaché aux deux dernières formules et court à
+        compter du signalement, en jours ouvrés. Il ne s'applique pas aux
+        interruptions dont la cause est extérieure au site (hébergeur, service de
+        paiement, fournisseur d'accès), traitées dès leur rétablissement par le
+        prestataire concerné. Sur les deux premières formules, nous intervenons
+        avec le même soin, sans durée garantie.
       </p>
 
       <!-- Rappel modifications -->
