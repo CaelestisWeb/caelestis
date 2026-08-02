@@ -1,6 +1,6 @@
 ---
 import GuideLayout from '../../components/GuideLayout.astro';
-import { FORMULES, MAINTENANCE_MOIS_OFFERTS_LETTRES, euros } from '../../utils/tarifs';
+import { FORMULES, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS_LETTRES, euros } from '../../utils/tarifs';
 
 /* Guide au format hybride : d'abord ce que fait le marché, chiffres attribués à
    leur source, puis notre positionnement dans un encart nettement séparé. Ainsi
@@ -123,9 +123,13 @@ const [pageUnique, vitrine, boutique, surMesure] = FORMULES;
   <p>
     Méfiez-vous des offres où le site est bon marché et l'abonnement obligatoire
     coûteux : sur trois ans, l'addition dépasse souvent celle d'un site acheté
-    une fois et possédé pour de bon. Chez nous, la maintenance courante est
-    offerte les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois, puis proposée à part : jamais imposée pour
-    utiliser un site que vous avez déjà payé.
+    une fois et possédé pour de bon. Chez nous, la maintenance accompagne chaque
+    site créé, offerte les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois puis
+    facturée dès {euros(MAINTENANCE_MIN)}&nbsp;€ par mois. Elle couvre
+    l'hébergement, le nom de domaine et la sécurité, faute de quoi un site cesse
+    simplement d'être accessible. Ce que nous n'imposons pas, c'est la suite :
+    le site vous appartient, et vous restez libre de le faire héberger ailleurs,
+    fichiers et accès remis sur simple demande.
   </p>
 
   <h2>Bien dimensionner pour payer le juste prix</h2>
