@@ -14,8 +14,10 @@ pnpm-debug.log*
 
 
 # environment variables
-.env
-.env.production
+# Le motif couvre aussi .env.local et .env.production.local, les fichiers que
+# `vercel env pull` écrit : sans lui, un secret de production se retrouverait
+# suivi par git dès le premier pull.
+.env*
 
 # macOS-specific files
 .DS_Store

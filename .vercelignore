@@ -20,3 +20,10 @@ scripts
 CLAUDE.md
 ARBORESCENCE.md
 PRIX-MARCHE.md
+
+# Secrets locaux. Un deploiement lance depuis le poste (npx vercel deploy)
+# televerse le dossier tel quel : sans cette ligne, le fichier ecrit par
+# `vercel env pull` repartirait avec le code.
+.env
+.env.local
+.env*.local
