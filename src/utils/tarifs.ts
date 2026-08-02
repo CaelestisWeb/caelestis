@@ -123,9 +123,12 @@ export const FORMULES: readonly Formule[] = [
  * Les centimes sont assumés : un abonnement mensuel ne suit pas la règle des
  * montants ronds qui s'applique au prix des sites. Décision de Célestin.
  *
- * La maintenance est obligatoire et OFFERTE LES SIX PREMIERS MOIS : l'abonnement
- * ne démarre qu'au septième. Toute page qui annonce un montant doit le dire dans
+ * La maintenance est obligatoire et OFFERTE LES TROIS PREMIERS MOIS : l'abonnement
+ * ne démarre qu'au quatrième. Toute page qui annonce un montant doit le dire dans
  * la même phrase, sinon l'obligation se lit comme une contrainte sèche.
+ *
+ * Ne jamais réécrire cette durée en dur, ni ici ni ailleurs : elle vit dans
+ * MAINTENANCE_MOIS_OFFERTS et dans sa forme en lettres, plus bas.
  */
 export const MAINTENANCE: Record<Formule['id'], number> = {
   'page-unique': 9.99,
@@ -161,8 +164,8 @@ export const TARIF_HORAIRE = 60;
  *
  * L'usage français écrit en toutes lettres les nombres jusqu'à dix dans une
  * phrase, et en chiffres dans un titre ou une donnée. Sans cette seconde forme,
- * la page mélangeait « les 6 premiers mois » et « les six premiers mois » d'un
- * paragraphe à l'autre.
+ * la page de maintenance mélangeait la durée en chiffres et en toutes lettres
+ * d'un paragraphe à l'autre.
  */
 export const MAINTENANCE_MOIS_OFFERTS_LETTRES = 'trois';
 
