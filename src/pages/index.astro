@@ -413,7 +413,13 @@ const organizationSchema = {
       <ul class="trust trust-rule font-body mt-12 pt-7" data-reveal data-delay="2">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Réponse sous 48h</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>En ligne en 2 à 8 semaines</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Devis gratuit, sans engagement</li>
+        <!-- Le seul repère VÉRIFIABLE de la liste : les trois autres sont des
+             promesses, celui-ci se contrôle en un clic. Il remplace « Devis
+             gratuit, sans engagement », que toutes les agences affichent, qui
+             ne lève donc aucun frein, et qui reste dit plus bas dans la page.
+             Le chiffre est relevé sur `data/realisations.ts`, deux entrées,
+             deux sites réellement en ligne. Le mettre à jour en même temps. -->
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><a href="/realisations" class="trust-preuve">2 sites livrés, consultables en ligne</a></li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Tarifs affichés, dès 1 000 €</li>
       </ul>
 
@@ -1392,6 +1398,28 @@ const organizationSchema = {
     font-weight: 500;
     color: var(--color-brun-mid);
     line-height: 1.3;
+  }
+  /* Le repère vérifiable est cliquable : sans marque visible, « consultables en
+     ligne » promet un clic qui n'existe pas. Soulignement discret, teinte
+     mousse foncée pour le distinguer des trois promesses voisines sans casser
+     l'alignement de la colonne. */
+  .trust-preuve {
+    color: var(--color-sauge-text);
+    text-decoration: underline;
+    text-decoration-color: rgba(46, 116, 82, 0.35);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.25s ease;
+  }
+  .trust-preuve:hover { text-decoration-color: var(--color-sauge-text); }
+  /* Au doigt, un lien de 17px de haut n'est pas atteignable (WCAG 2.5.8).
+     `inline-flex` pour que la hauteur de cible s'applique, la coche restant
+     centrée sur le texte. */
+  @media (hover: none) and (pointer: coarse) {
+    .trust-preuve {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
   }
   /* Sur mobile les quatre repères passent chacun sur sa ligne. Centrés
      individuellement, leurs coches se décalaient les unes par rapport aux
