@@ -97,6 +97,28 @@ export function typographierHtml(html) {
       break;
     }
 
+    /* Commentaire HTML : recopié tel quel, jusqu'à son `-->`.
+       Sans ce cas, le commentaire tombe dans finDeBalise, qui y voit une balise
+       ordinaire et applique sa règle des guillemets. Or les commentaires de ce
+       site sont rédigés en français : « n'exclure », « d'écran », « qu'aucun ».
+       Une apostrophe isolée ouvre alors une chaîne qui ne se referme qu'à la
+       suivante, des milliers de caractères plus loin, et tout le texte compris
+       entre les deux est recopié comme s'il était à l'intérieur d'une balise,
+       donc jamais corrigé. Mesuré sur l'accueil avant correctif : le commentaire
+       de la galerie s'étendait de 41621 à 48412, emportant avec lui la section
+       qui le suit. */
+    if (html.startsWith('<!--', debut)) {
+      if (debut > i) {
+        const texte = html.slice(i, debut);
+        sortie += dansHead ? texte : corrigerTexte(texte);
+      }
+      const finCommentaire = html.indexOf('-->', debut);
+      if (finCommentaire === -1) { sortie += html.slice(debut); break; }
+      sortie += html.slice(debut, finCommentaire + 3);
+      i = finCommentaire + 3;
+      continue;
+    }
+
     /* Texte qui précède la prochaine balise. */
     if (debut > i) {
       const texte = html.slice(i, debut);
