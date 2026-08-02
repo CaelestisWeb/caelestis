@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalogue des modules, Caelestis</title>
+<link rel="stylesheet" href="satoshi.css">
+<style>
+:root{
+  --brun:#255C41; --encre:#12160F; --olive:#5C6259; --sauge:#B8C4BB;
+  --sauge-text:#2E7452; --sauge-vif:#2E7452; --lin:#E3EFE8; --creme:#FCFBF8;
+  --page:#FCFBF8; --bandeau:#E3EFE8; --bois:#5C6259; --bois-text:#5C6259;
+  --ocre:#2E7452; --bouton:#255C41; --carte:#E3EFE8; --parchemin:#E6E4DC;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--page);color:var(--encre);font-family:'Satoshi',system-ui,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.page{max-width:960px;margin:0 auto;padding:0 40px}
+h1,h2,h3,h4{font-family:'Satoshi',system-ui,sans-serif;font-weight:500;letter-spacing:-.02em;line-height:1.12}
+
+.couv{background:var(--brun);color:var(--creme);padding:88px 40px 72px;position:relative;overflow:hidden}
+.couv-in{max-width:960px;margin:0 auto;position:relative;z-index:2}
+.marque{font-weight:500;font-size:1.4rem;letter-spacing:-.02em;color:var(--creme)}
+.couv h1{font-weight:300;font-size:62px;color:var(--creme);margin:34px 0 18px;line-height:.98;letter-spacing:-.03em}
+.couv h1 .clair{color:var(--lin)}
+.couv .accroche{color:var(--lin);max-width:32rem;font-size:1.02rem}
+.couv .meta{margin-top:40px;padding-top:20px;border-top:1px solid rgba(252,251,248,.30);font-size:.74rem;color:var(--lin);letter-spacing:.18em;text-transform:uppercase}
+.couv-feuille{position:absolute;right:-70px;top:-40px;width:340px;color:var(--sauge);opacity:.16;z-index:1}
+
+.bloc{padding:44px 0;break-inside:avoid}
+.bloc-num{font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;color:var(--sauge-text);font-weight:700}
+.bloc h2{font-size:32px;margin:8px 0 10px;color:var(--encre);letter-spacing:-.02em}
+.bloc .sous{color:var(--olive);font-size:.95rem;max-width:46rem}
+.sep{height:1px;background:rgba(18,22,15,.14)}
+
+.mk{background:var(--creme);border:1px solid rgba(18,22,15,.13);border-radius:7px;padding:13px;display:flex;flex-direction:column;gap:7px;min-height:118px}
+.mk-h{height:9px;border-radius:3px;background:var(--encre)}
+.mk-t{height:4px;border-radius:2px;background:rgba(92,98,89,.42)}
+.mk-img{background:var(--sauge);border-radius:4px}
+.mk-btn{height:13px;width:58px;border-radius:20px;background:var(--bouton)}
+.mk-row{display:flex;gap:7px;align-items:stretch}
+.mk-col{display:flex;flex-direction:column;gap:6px;flex:1}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:24px}
+.compare-item h4{font-size:15px;margin-bottom:4px}
+.compare-item .verdict{font-size:.8rem;color:var(--olive);margin-bottom:11px}
+.badge-ko{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);background:var(--parchemin);padding:3px 8px;border-radius:3px;margin-bottom:7px}
+.badge-ok{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--bouton);background:var(--bandeau);padding:3px 8px;border-radius:3px;margin-bottom:7px}
+
+.methode{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:26px}
+.etape{border-top:2px solid var(--bouton);padding-top:13px}
+.etape .n{font-weight:300;font-size:1.6rem;color:var(--bouton)}
+.etape h4{font-size:15px;margin:5px 0 6px}
+.etape p{font-size:.85rem;color:var(--olive)}
+
+.mods{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
+.mod{background:var(--carte);border-radius:9px;padding:19px;break-inside:avoid}
+.mod h3{font-size:17px;margin-bottom:5px}
+.mod .benef{font-size:.86rem;color:var(--olive);margin-bottom:13px}
+.mod .apercu{background:var(--page);border-radius:6px;padding:12px}
+.mod .exemple{margin-top:11px;padding-top:9px;border-top:1px solid rgba(18,22,15,.12);font-size:.79rem;color:var(--bois-text)}
+.mod .exemple b{color:var(--encre);font-weight:600}
+
+.metiers{width:100%;border-collapse:collapse;margin-top:24px;font-size:.86rem}
+.metiers th{text-align:left;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sauge-text);font-weight:700;padding:0 12px 9px 0;border-bottom:1px solid rgba(18,22,15,.16)}
+.metiers td{padding:11px 12px 11px 0;border-bottom:1px solid rgba(18,22,15,.1);vertical-align:top}
+.metiers td:first-child{font-weight:600;color:var(--encre);white-space:nowrap}
+.metiers td:last-child{color:var(--olive)}
+
+.fin{background:var(--brun);color:var(--creme);border-radius:11px;padding:40px;margin:30px 0 24px;position:relative;overflow:hidden;break-inside:avoid}
+.fin h2{color:var(--creme);font-size:28px;margin-bottom:12px;position:relative;z-index:2}
+.fin p{color:var(--lin);max-width:40rem;margin-bottom:10px;position:relative;z-index:2}
+.fin .coord{margin-top:24px;padding-top:18px;border-top:1px solid rgba(252,251,248,.30);font-size:.86rem;color:var(--lin);position:relative;z-index:2;line-height:1.8}
+.fin .coord b{color:var(--creme);font-weight:500}
+footer{text-align:center;padding:26px 0 46px;font-size:.74rem;color:var(--olive)}
+
+@media print{
+  @page{size:A4;margin:13mm}
+  body{background:#fff;font-size:9.6pt}
+  .couv{padding:46px 26px 40px;break-after:page}
+  .couv h1{font-size:46px}
+  .page{padding:0}
+  .bloc{break-inside:avoid;padding:26px 0}
+  .mod{break-inside:avoid;border:1px solid rgba(18,22,15,.12)}
+  .pagebreak{break-before:page}
+}
+@media(max-width:760px){.mods,.compare,.methode{grid-template-columns:1fr}.couv h1{font-size:38px}}
+</style>
+</head>
+<body>
+
+<div class="couv">
+  
+  <svg class="couv-feuille" viewBox="0 0 100 200" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+    <path d="M50 4 C86 46 92 138 50 196 C8 138 14 46 50 4 Z"/><path d="M50 12 L50 188"/>
+    <path d="M50 40 L26 26 M50 40 L74 26 M50 72 L20 54 M50 72 L80 54 M50 104 L24 88 M50 104 L76 88 M50 136 L30 122 M50 136 L70 122"/>
+  </svg>
+  <div class="couv-in">
+    <div class="marque">Caelestis</div>
+    <h1>Ce qu'on peut mettre<br><span class="clair">sur votre site</span></h1>
+    <p class="accroche">Un site n'est pas obligé d'alterner un bloc de texte puis une photo, encore et encore. Voici seize façons de raconter votre métier autrement.</p>
+    <div class="meta">Catalogue des modules</div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="bloc">
+    <div class="bloc-num">Le point de départ</div>
+    <h2>Pourquoi certains sites paraissent plats</h2>
+    <p class="sous">Deux sites peuvent contenir exactement la même information et ne pas produire du tout le même effet. La différence ne tient pas au contenu, mais à la façon dont il est mis en page.</p>
+
+    <div class="compare">
+      <div class="compare-item">
+        <span class="badge-ko">Ce qu'on évite</span>
+        <h4>Le site en pile</h4>
+        <p class="verdict">Chaque section est bâtie pareil : un titre, un paragraphe, une image à côté. Le regard s'endort.</p>
+        <div class="mk">
+          <div class="mk-row"><div class="mk-col"><div class="mk-h" style="width:70%"></div><div class="mk-t"></div><div class="mk-t" style="width:88%"></div></div><div class="mk-img" style="width:38%"></div></div>
+          <div class="mk-row" style="margin-top:5px"><div class="mk-col"><div class="mk-h" style="width:66%"></div><div class="mk-t"></div><div class="mk-t" style="width:84%"></div></div><div class="mk-img" style="width:38%"></div></div>
+          <div class="mk-row" style="margin-top:5px"><div class="mk-col"><div class="mk-h" style="width:72%"></div><div class="mk-t"></div><div class="mk-t" style="width:80%"></div></div><div class="mk-img" style="width:38%"></div></div>
+        </div>
+      </div>
+      <div class="compare-item">
+        <span class="badge-ok">Ce qu'on fait</span>
+        <h4>Le site composé</h4>
+        <p class="verdict">Les sections changent de forme selon ce qu'elles racontent. Un calendrier, une frise, un bloc en couleur. Le regard circule.</p>
+        <div class="mk" style="gap:9px">
+          <div class="mk-h" style="width:82%;height:15px"></div>
+          <div class="mk-row"><div class="mk-img" style="width:60%;height:44px"></div><div class="mk-col"><div class="mk-t"></div><div class="mk-t" style="width:76%"></div><div class="mk-btn"></div></div></div>
+          <div style="background:var(--brun);border-radius:4px;padding:8px;display:flex;flex-direction:column;gap:5px"><div style="height:5px;width:60%;border-radius:2px;background:var(--lin)"></div><div style="height:4px;width:42%;border-radius:2px;background:rgba(216,205,176,.5)"></div></div>
+          <div class="mk-row"><div class="mk-img" style="flex:1;height:26px"></div><div class="mk-img" style="flex:1;height:26px;background:var(--bois)"></div><div class="mk-img" style="flex:1;height:26px"></div><div class="mk-img" style="flex:1;height:26px;background:var(--bois)"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <div class="bloc">
+    <div class="bloc-num">Notre méthode</div>
+    <h2>On part de vous, jamais du catalogue</h2>
+    <p class="sous">Ce document présente ce qui est possible. Il ne s'agit pas d'une liste à cocher : nous ne retenons que ce qui sert réellement votre métier.</p>
+    <div class="methode">
+      <div class="etape">
+        <div class="n">01</div>
+        <h4>On regarde ce que vous avez</h4>
+        <p>Vos photos, vos textes, vos avis, votre savoir-faire, votre saisonnalité. Ce que vous possédez déjà décide de tout.</p>
+      </div>
+      <div class="etape">
+        <div class="n">02</div>
+        <h4>On choisit deux ou trois modules</h4>
+        <p>Ceux qui racontent votre métier mieux qu'un paragraphe ne le ferait. Pas davantage, sinon le site devient bavard.</p>
+      </div>
+      <div class="etape">
+        <div class="n">03</div>
+        <h4>On en dessine un rien que pour vous</h4>
+        <p>Au moins un module est conçu spécialement pour votre activité. Il n'existe sur aucun autre site.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bloc pagebreak">
+    <div class="bloc-num">Famille 01</div>
+    <h2>Montrer votre savoir-faire</h2>
+    <p class="sous">Rendre visible un travail que la photo seule ne raconte pas.</p>
+    <div class="mods">
+
+      <div class="mod">
+        <h3>Frise chronologique</h3>
+        <p class="benef">Votre parcours ou vos étapes de fabrication, en une lecture verticale.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px">
+          <div class="mk-row" style="align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:var(--bouton);margin-top:2px;flex-shrink:0"></div><div class="mk-col"><div class="mk-h" style="width:52%;height:6px"></div><div class="mk-t" style="width:88%"></div></div></div>
+          <div class="mk-row" style="align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:var(--bouton);margin-top:2px;flex-shrink:0"></div><div class="mk-col"><div class="mk-h" style="width:44%;height:6px"></div><div class="mk-t" style="width:80%"></div></div></div>
+          <div class="mk-row" style="align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:var(--bouton);margin-top:2px;flex-shrink:0"></div><div class="mk-col"><div class="mk-h" style="width:58%;height:6px"></div><div class="mk-t" style="width:72%"></div></div></div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> une pépinière raconte ses trente ans, de deux tunnels à quatre serres.</div>
+      </div>
+
+      <div class="mod">
+        <h3>Étapes numérotées</h3>
+        <p class="benef">Votre façon de travailler, du premier appel à la livraison.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px">
+          <div class="mk-row"><div style="font-weight:500;font-size:11px;color:var(--bouton);flex-shrink:0">01</div><div class="mk-col"><div class="mk-h" style="width:60%;height:6px"></div><div class="mk-t" style="width:90%"></div></div></div>
+          <div class="mk-row"><div style="font-weight:500;font-size:11px;color:var(--bouton);flex-shrink:0">02</div><div class="mk-col"><div class="mk-h" style="width:52%;height:6px"></div><div class="mk-t" style="width:84%"></div></div></div>
+          <div class="mk-row"><div style="font-weight:500;font-size:11px;color:var(--bouton);flex-shrink:0">03</div><div class="mk-col"><div class="mk-h" style="width:56%;height:6px"></div><div class="mk-t" style="width:76%"></div></div></div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> un charpentier détaille visite, devis, atelier, pose.</div>
+      </div>
+
+      <div class="mod">
+        <h3>Avant et après</h3>
+        <p class="benef">Un curseur que le visiteur déplace pour découvrir la transformation.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px;padding:0;overflow:hidden">
+          <div style="display:flex;height:96px;position:relative">
+            <div style="flex:1;background:var(--bois)"></div>
+            <div style="flex:1;background:var(--bouton)"></div>
+            <div style="position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--creme)"></div>
+            <div style="position:absolute;left:50%;top:50%;width:22px;height:22px;border-radius:50%;background:var(--creme);transform:translate(-50%,-50%)"></div>
+          </div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> un paysagiste montre un terrain nu devenu jardin.</div>
+      </div>
+
+      <div class="mod">
+        <h3>Coupe technique annotée</h3>
+        <p class="benef">Un schéma légendé de votre ouvrage. Montre la qualité invisible, celle qui justifie votre prix.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px">
+          <div style="height:13px;border-radius:2px;background:var(--bouton)"></div>
+          <div style="height:13px;border-radius:2px;background:var(--bois)"></div>
+          <div style="height:19px;border-radius:2px;background:rgba(136,144,99,.45)"></div>
+          <div style="height:13px;border-radius:2px;background:var(--sauge)"></div>
+          <div class="mk-row" style="margin-top:3px"><div class="mk-t" style="width:34%"></div><div class="mk-t" style="width:28%"></div></div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> un maçon détaille les couches d'un mur en pierre isolé.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bloc pagebreak">
+    <div class="bloc-num">Famille 02</div>
+    <h2>Présenter votre offre</h2>
+    <p class="sous">Répondre à la question que tout visiteur se pose : qu'est-ce que vous proposez, et quand ?</p>
+    <div class="mods">
+
+      <div class="mod">
+        <h3>Calendrier de saisonnalité</h3>
+        <p class="benef">Ce que vos clients trouvent chez vous, mois par mois.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px">
+          <div class="mk-row"><div class="mk-t" style="width:52px;flex-shrink:0"></div><div style="flex:1;height:9px;border-radius:2px;background:rgba(136,144,99,.25)"></div><div style="flex:1;height:9px;border-radius:2px;background:var(--bouton)"></div><div style="flex:1;height:9px;border-radius:2px;background:var(--bouton)"></div><div style="flex:1;height:9px;border-radius:2px;background:rgba(136,144,99,.25)"></div></div>
+          <div class="mk-row"><div class="mk-t" style="width:52px;flex-shrink:0"></div><div style="flex:1;height:9px;border-radius:2px;background:rgba(136,144,99,.25)"></div><div style="flex:1;height:9px;border-radius:2px;background:rgba(136,144,99,.25)"></div><div style="flex:1;height:9px;border-radius:2px;background:var(--bouton)"></div><div style="flex:1;height:9px;border-radius:2px;background:var(--bouton)"></div></div>
+          <div class="mk-row"><div class="mk-t" style="width:52px;flex-shrink:0"></div><div style="flex:1;height:9px;border-radius:2px;background:var(--bouton)"></div><div style="flex:1;height:9px;border-radius:2px;background:var(--bouton)"></div><div style="flex:1;height:9px;border-radius:2px;background:rgba(136,144,99,.25)"></div><div style="flex:1;height:9px;border-radius:2px;background:rgba(136,144,99,.25)"></div></div>
+          <div class="mk-row"><div class="mk-t" style="width:52px;flex-shrink:0"></div><div style="flex:1;height:9px;border-radius:2px;background:rgba(136,144,99,.25)"></div><div style="flex:1;height:9px;border-radius:2px;background:rgba(136,144,99,.25)"></div><div style="flex:1;height:9px;border-radius:2px;background:rgba(136,144,99,.25)"></div><div style="flex:1;height:9px;border-radius:2px;background:var(--bouton)"></div></div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> pensées au printemps, tomates en été, chrysanthèmes en automne, sapins en décembre.</div>
+      </div>
+
+      <div class="mod">
+        <h3>Nuancier de matières</h3>
+        <p class="benef">Vos essences, vos finitions, vos coloris. Remplace une liste à puces par quelque chose que l'on voit.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px">
+          <div class="mk-row" style="height:58px"><div style="flex:1;border-radius:4px;background:#8B6F47"></div><div style="flex:1;border-radius:4px;background:#C4A57B"></div><div style="flex:1;border-radius:4px;background:#5C4033"></div><div style="flex:1;border-radius:4px;background:#D9C7A7"></div></div>
+          <div class="mk-row"><div class="mk-t" style="flex:1"></div><div class="mk-t" style="flex:1"></div><div class="mk-t" style="flex:1"></div><div class="mk-t" style="flex:1"></div></div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> un menuisier présente chêne, frêne, noyer et peuplier, avec leur caractère.</div>
+      </div>
+
+      <div class="mod">
+        <h3>Galerie en mosaïque</h3>
+        <p class="benef">Vos réalisations en tailles variées plutôt qu'en grille régulière. Le regard circule au lieu de survoler.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:30px;gap:5px">
+            <div class="mk-img" style="grid-column:span 2;grid-row:span 2"></div>
+            <div class="mk-img" style="background:var(--bois)"></div>
+            <div class="mk-img"></div>
+            <div class="mk-img" style="grid-column:span 2;background:var(--bois)"></div>
+          </div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> une vue aérienne en grand, entourée de détails du lieu.</div>
+      </div>
+
+      <div class="mod">
+        <h3>Carte de votre zone</h3>
+        <p class="benef">Votre secteur d'intervention, dessiné et lisible.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px;padding:0;overflow:hidden;position:relative">
+          <div style="position:absolute;inset:0;background:rgba(136,144,99,.2)"></div>
+          <div style="position:absolute;left:0;right:0;top:36%;height:2px;background:rgba(122,98,72,.4)"></div>
+          <div style="position:absolute;top:0;bottom:0;left:58%;width:2px;background:rgba(122,98,72,.35)"></div>
+          <div style="position:absolute;left:42%;top:40%;width:15px;height:15px;border-radius:50% 50% 50% 0;background:var(--bouton);transform:rotate(-45deg)"></div>
+          <div style="position:absolute;left:20%;top:64%;width:64px;height:5px;border-radius:2px;background:rgba(18,22,15,.28)"></div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> un artisan montre les vingt kilomètres autour de son atelier.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bloc pagebreak">
+    <div class="bloc-num">Famille 03</div>
+    <h2>Inspirer confiance</h2>
+    <p class="sous">Lever les doutes avant qu'ils ne deviennent des objections, et surtout avant que le visiteur ne reparte.</p>
+    <div class="mods">
+
+      <div class="mod">
+        <h3>Le fait qui prouve</h3>
+        <p class="benef">Un seul chiffre, réel et vérifiable, collé à la phrase qu'il démontre. Une rangée de nombres alignés ne prouve rien et se lit comme un décor.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px;justify-content:center">
+          <div class="mk-row" style="gap:14px;align-items:center">
+            <div style="font-weight:300;font-size:34px;line-height:1;color:var(--bouton);flex-shrink:0">4,8</div>
+            <div class="mk-col">
+              <div class="mk-t" style="width:96%"></div>
+              <div class="mk-t" style="width:82%"></div>
+              <div class="mk-t" style="width:54%"></div>
+            </div>
+          </div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> 4,8 sur 72 avis Google, relevé en août 2026.</div>
+      </div>
+
+      <div class="mod">
+        <h3>Portrait et citation</h3>
+        <p class="benef">Votre visage et vos mots. Sur un métier artisanal, c'est souvent la section qui décide.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px;justify-content:center">
+          <div class="mk-row" style="align-items:center;gap:12px">
+            <div style="width:46px;height:46px;border-radius:50%;background:var(--bois);flex-shrink:0"></div>
+            <div class="mk-col"><div class="mk-t" style="width:94%"></div><div class="mk-t" style="width:82%"></div><div class="mk-t" style="width:58%"></div><div class="mk-h" style="width:38%;height:6px;margin-top:4px"></div></div>
+          </div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> le gérant explique en trois phrases pourquoi il a repris la ferme.</div>
+      </div>
+
+      <div class="mod">
+        <h3>Questions fréquentes</h3>
+        <p class="benef">Les questions que l'on vous pose au téléphone, traitées à l'avance.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px">
+          <div class="mk-row" style="align-items:center;padding-bottom:6px;border-bottom:1px solid rgba(18,22,15,.1)"><div class="mk-h" style="flex:1;height:6px"></div><div style="width:15px;height:15px;border-radius:50%;background:var(--bouton);flex-shrink:0"></div></div>
+          <div class="mk-t" style="width:88%"></div><div class="mk-t" style="width:66%"></div>
+          <div class="mk-row" style="align-items:center;padding-top:6px;border-top:1px solid rgba(18,22,15,.1)"><div class="mk-h" style="flex:1;height:6px"></div><div style="width:15px;height:15px;border-radius:50%;background:var(--bouton);flex-shrink:0"></div></div>
+          <div class="mk-row" style="align-items:center;padding-top:6px;border-top:1px solid rgba(18,22,15,.1)"><div class="mk-h" style="flex:1;height:6px"></div><div style="width:15px;height:15px;border-radius:50%;background:var(--bouton);flex-shrink:0"></div></div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> faut-il prendre rendez-vous, êtes-vous ouverts le samedi, livrez-vous ?</div>
+      </div>
+
+      <div class="mod">
+        <h3>Avis clients</h3>
+        <p class="benef">Vos vrais retours Google, avec la note globale et le lien vers votre fiche. Jamais de témoignage inventé.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px">
+          <div class="mk-row" style="align-items:flex-start;gap:12px">
+            <div style="text-align:center;flex-shrink:0"><div style="font-weight:500;font-size:24px;color:var(--bouton)">4,8</div><div style="font-size:8px;color:var(--ocre);letter-spacing:1px">★★★★★</div></div>
+            <div class="mk-col"><div class="mk-t" style="width:96%"></div><div class="mk-t" style="width:88%"></div><div class="mk-h" style="width:40%;height:5px"></div>
+              <div class="mk-t" style="width:92%;margin-top:5px"></div><div class="mk-h" style="width:34%;height:5px"></div></div>
+          </div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> trois avis choisis pour leur précision, pas pour leur enthousiasme.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bloc pagebreak">
+    <div class="bloc-num">Famille 04</div>
+    <h2>Donner du relief</h2>
+    <p class="sous">Ce qui empêche un site d'être plat, sans jamais l'encombrer. Ces éléments se remarquent peu, mais on sent tout de suite leur absence.</p>
+    <div class="mods">
+
+      <div class="mod">
+        <h3>Bloc signature</h3>
+        <p class="benef">Une section à contre-courant du reste de la page, pour marquer un moment fort. Celle que l'on retient.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px;padding:0;overflow:hidden">
+          <div style="background:var(--brun);height:96px;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:0 18px;position:relative">
+            <div style="height:8px;width:78%;border-radius:3px;background:var(--lin)"></div>
+            <div style="height:8px;width:56%;border-radius:3px;background:var(--lin)"></div>
+            <div style="height:4px;width:42%;border-radius:2px;background:rgba(216,205,176,.45);margin-top:3px"></div>
+          </div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> « Nous vendons ce que nous cultivons, sans intermédiaire. »</div>
+      </div>
+
+      <div class="mod">
+        <h3>Note en marge</h3>
+        <p class="benef">Une précision ou une anecdote sur le côté, sans alourdir le texte principal.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px">
+          <div class="mk-row" style="gap:14px">
+            <div class="mk-col" style="flex:2"><div class="mk-h" style="width:56%;height:6px"></div><div class="mk-t" style="width:96%"></div><div class="mk-t" style="width:90%"></div><div class="mk-t" style="width:94%"></div><div class="mk-t" style="width:72%"></div></div>
+            <div style="flex:1;border-left:2px solid var(--bouton);padding-left:9px;display:flex;flex-direction:column;gap:5px"><div class="mk-h" style="width:70%;height:5px"></div><div class="mk-t" style="width:92%"></div><div class="mk-t" style="width:78%"></div></div>
+          </div>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> « Une plante forcée fleurit plus tôt en rayon, mais s'épuise plus vite au jardin. »</div>
+      </div>
+
+      <div class="mod">
+        <h3>Motif de marque</h3>
+        <p class="benef">Un dessin tiré de votre logo ou de votre métier, qui revient discrètement. C'est lui qui rend votre site reconnaissable entre tous.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px;align-items:center;justify-content:center">
+          <svg width="46" height="72" viewBox="0 0 100 200" fill="none" stroke="#7A8354" stroke-width="3" stroke-linecap="round"><path d="M50 4 C86 46 92 138 50 196 C8 138 14 46 50 4 Z"/><path d="M50 14 L50 186"/><path d="M50 44 L26 30 M50 44 L74 30 M50 84 L22 66 M50 84 L78 66 M50 124 L28 108 M50 124 L72 108"/></svg>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> la nervure de feuille du logo, reprise en filigrane et en petit repère.</div>
+      </div>
+
+      <div class="mod">
+        <h3>Illustration au trait</h3>
+        <p class="benef">Un dessin réalisé pour vous : une planche botanique, un outil, un plan. Ce qu'aucun concurrent n'aura.</p>
+        <div class="apercu"><div class="mk" style="min-height:96px;align-items:center;justify-content:center">
+          <svg width="88" height="70" viewBox="0 0 120 100" fill="none" stroke="#7A6248" stroke-width="2" stroke-linecap="round"><path d="M60 94 L60 38"/><path d="M60 50 C40 46 30 32 30 18 C48 20 58 32 60 50 Z"/><path d="M60 60 C80 56 92 42 92 28 C74 30 62 42 60 60 Z"/><path d="M46 94 L74 94"/><path d="M52 74 C46 70 42 64 42 58"/></svg>
+        </div></div>
+        <div class="exemple"><b>Exemple :</b> une planche botanique dessinée pour une pépinière, unique au monde.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bloc pagebreak">
+    <div class="bloc-num">En pratique</div>
+    <h2>Ce que l'on choisit, selon votre métier</h2>
+    <p class="sous">Voici comment nous composons habituellement. Ce ne sont pas des règles figées : votre contenu réel a toujours le dernier mot.</p>
+    <table class="metiers">
+      <thead><tr><th>Votre métier</th><th>Les modules qui parlent le mieux de vous</th></tr></thead>
+      <tbody>
+        <tr><td>Horticulteur, pépiniériste</td><td>Calendrier de saisonnalité, planche botanique au trait, nuancier de floraison, coupe d'un massif</td></tr>
+        <tr><td>Paysagiste</td><td>Avant et après, plan de jardin, frise des étapes de chantier</td></tr>
+        <tr><td>Charpentier, menuisier</td><td>Coupe technique annotée, nuancier d'essences de bois, frise du chantier</td></tr>
+        <tr><td>Gîte, chambre d'hôtes</td><td>Plan des lieux, calendrier de disponibilité, carte du territoire</td></tr>
+        <tr><td>Ferme, producteur</td><td>Calendrier des récoltes, carte des parcelles, frise de la transformation</td></tr>
+        <tr><td>Artisan d'art</td><td>Gros plan sur la matière, frise du geste, nuancier de finitions</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="fin">
+    <h2>Votre site ne ressemblera à aucun autre</h2>
+    <p>Ce catalogue montre l'étendue de ce qui est possible, pas une liste à cocher. Nous choisissons avec vous les deux ou trois modules qui servent réellement votre métier, et nous en concevons au moins un rien que pour vous.</p>
+    <p>Deux entreprises du même secteur ne repartent jamais avec le même site. C'est une règle que nous nous imposons, et nous tenons un registre pour nous y obliger.</p>
+    <div class="coord">
+      <b>Caelestis</b><br>
+      Création de sites internet et référencement<br>
+      contact@caelestis.fr<br>
+      caelestis.fr
+    </div>
+  </div>
+
+</div>
+
+<footer>Caelestis, catalogue des modules. Document remis à titre indicatif.</footer>
+
+</body>
+</html>
