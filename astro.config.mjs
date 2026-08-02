@@ -21,7 +21,10 @@ export default defineConfig({
         !page.includes('/demos/') &&
         !page.includes('/api/') &&
         !page.includes('/questionnaire-client') &&
-        !page.includes('/questionnaire-devis'),
+        !page.includes('/questionnaire-devis') &&
+        // Pages de travail (comparaisons de variantes) : en noindex, donc hors sitemap.
+        // Une URL noindex listee dans le sitemap est remontee en erreur par Search Console.
+        !page.includes('/zz-'),
       changefreq: 'monthly',
       priority: 0.7,
       // Priorités différenciées par importance stratégique
