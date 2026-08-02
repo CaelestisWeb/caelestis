@@ -1,0 +1,444 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+
+const titre = "Anatomie d'un site qui convertit : à quoi sert chaque partie";
+const description =
+  "On décrypte, section par section, ce qui transforme un visiteur en client : la promesse, les repères de confiance, l'offre, l'histoire, les avis, la FAQ et le point de contact. Le rôle de chaque bloc, expliqué.";
+
+// Les sept éléments d'un site qui convertit. Chaque entrée : le nom de l'élément,
+// pourquoi il est là (la cause), à quoi il sert pour le visiteur (la conséquence).
+const anatomie = [
+  {
+    id: 'promesse',
+    tag: 'La promesse',
+    nom: "Le titre d'accroche (le hero)",
+    pourquoi:
+      "En trois secondes, le visiteur doit savoir ce que vous faites, pour qui, et ce qui vous rend différent. C'est la toute première chose qu'il voit.",
+    role: "S'il comprend, il reste et descend la page. S'il hésite, il repart : c'est votre poignée de main.",
+  },
+  {
+    id: 'confiance',
+    tag: 'La réassurance',
+    nom: 'Les repères de confiance',
+    pourquoi:
+      "Un visiteur qui ne vous connaît pas cherche des signaux rassurants : votre ancienneté, votre proximité, votre façon de travailler.",
+    role: "Ils lèvent le doute avant même qu'il ne se pose, et donnent envie de continuer à lire.",
+  },
+  {
+    id: 'offre',
+    tag: "L'offre",
+    nom: 'La mise en valeur de ce que vous proposez',
+    pourquoi:
+      "Le visiteur veut voir concrètement votre offre, tout de suite, sans avoir à chercher ni à deviner.",
+    role: 'Une offre claire et illustrée transforme la simple curiosité en envie d’avancer avec vous.',
+  },
+  {
+    id: 'histoire',
+    tag: "L'humain",
+    nom: "L'histoire et le visage derrière l'activité",
+    pourquoi:
+      "On achète à des gens, pas à un logo. Le visiteur veut savoir qui vous êtes et pourquoi vous faites ce métier.",
+    role: "L'humain crée la confiance et la préférence : c'est ce qui vous distingue d'un concurrent anonyme.",
+  },
+  {
+    id: 'avis',
+    tag: 'La preuve',
+    nom: 'La preuve sociale (les avis)',
+    pourquoi: 'Le visiteur croit davantage vos clients que vos propres promesses.',
+    role: 'Des témoignages réels rassurent au moment du choix et déclenchent le passage à l’acte.',
+  },
+  {
+    id: 'faq',
+    tag: 'Les objections',
+    nom: 'Les questions qu’on vous pose (la FAQ)',
+    pourquoi: 'Chaque question laissée sans réponse est un frein qui fait partir le visiteur.',
+    role: "En répondant d'avance, vous levez les derniers doutes, et vous êtes aussi mieux cité par Google et les intelligences artificielles.",
+  },
+  {
+    id: 'contact',
+    tag: 'La conversion',
+    nom: 'Le point de contact',
+    pourquoi: 'Tout le site mène ici. Ce moment doit être simple, court et rassurant.',
+    role: "Un formulaire clair transforme un visiteur intéressé en demande concrète. Chaque champ en trop fait perdre un client en chemin.",
+  },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: titre,
+  description,
+  author: { '@type': 'Organization', name: 'Caelestis', url: 'https://caelestis.fr' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Caelestis',
+    logo: { '@type': 'ImageObject', url: 'https://caelestis.fr/apple-touch-icon.png' },
+  },
+  mainEntityOfPage: 'https://caelestis.fr/ressources/anatomie-d-un-site-qui-convertit',
+  inLanguage: 'fr-FR',
+};
+---
+
+<BaseLayout title={titre} description={description} schema={schema}>
+  <article class="anat">
+    <!-- Intro -->
+    <header class="anat-tete">
+      <p class="anat-eyebrow">Le décryptage</p>
+      <h1>Anatomie d'un site qui convertit.</h1>
+      <p class="anat-chapo">
+        Un bon site n'est pas une jolie brochure : c'est un enchaînement de sections
+        qui, l'une après l'autre, lèvent un doute et rapprochent le visiteur de l'action.
+        Voici le rôle de chacune. À gauche l'élément, à droite ce qu'il fait pour vous.
+      </p>
+      <p class="anat-indice" aria-hidden="true">Faites défiler, chaque partie s'explique</p>
+    </header>
+
+    <!-- Lecture commentée : l'exemple à gauche, l'analyse à droite -->
+    <div class="anat-liste">
+      {anatomie.map((e, i) => (
+        <section class="anat-row" id={e.id} aria-labelledby={`t-${e.id}`}>
+          <div class="anat-demo">
+            <span class="anat-numero" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div class={`demo demo-${e.id}`} aria-hidden="true">
+              {e.id === 'promesse' && (
+                <div class="d-hero">
+                  <span class="d-eb">Votre activité, votre région</span>
+                  <span class="d-titre">Ce que vous faites, dit en une phrase claire.</span>
+                  <span class="d-cta">Passer à l'action</span>
+                </div>
+              )}
+              {e.id === 'confiance' && (
+                <div class="d-reperes">
+                  <span class="d-chip">Installé depuis 2014</span>
+                  <span class="d-chip">À deux pas de chez vous</span>
+                </div>
+              )}
+              {e.id === 'offre' && (
+                <div class="d-offre">
+                  <span class="d-carte"><span class="d-ph"></span><span class="d-l">Formule 1</span></span>
+                  <span class="d-carte"><span class="d-ph"></span><span class="d-l">Formule 2</span></span>
+                  <span class="d-carte"><span class="d-ph"></span><span class="d-l">Formule 3</span></span>
+                </div>
+              )}
+              {e.id === 'histoire' && (
+                <div class="d-histoire">
+                  <span class="d-portrait"></span>
+                  <span class="d-texte"><span class="d-l long"></span><span class="d-l"></span><span class="d-signe">Camille</span></span>
+                </div>
+              )}
+              {e.id === 'avis' && (
+                <div class="d-avis">
+                  <span class="d-guill">"</span>
+                  <span class="d-cit">Travail soigné et vrai suivi, exactement ce qui était promis.</span>
+                  <span class="d-auteur">Un client, sa ville</span>
+                </div>
+              )}
+              {e.id === 'faq' && (
+                <div class="d-faq">
+                  <span class="d-q">Combien de temps ça prend ?<span class="d-plus">+</span></span>
+                  <span class="d-q">Comment ça se passe ?<span class="d-plus">+</span></span>
+                </div>
+              )}
+              {e.id === 'contact' && (
+                <div class="d-contact">
+                  <span class="d-input"></span>
+                  <span class="d-input"></span>
+                  <span class="d-envoi">Envoyer</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div class="anat-note">
+            <p class="anat-note-tag">{e.tag}</p>
+            <h2 class="anat-note-nom" id={`t-${e.id}`}>{e.nom}</h2>
+            <p class="anat-bloc"><span class="anat-lbl">Pourquoi</span>{e.pourquoi}</p>
+            <p class="anat-bloc"><span class="anat-lbl">À quoi ça sert</span>{e.role}</p>
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <!-- Chute -->
+    <aside class="anat-chute">
+      <p class="anat-chute-sur">Ce n'est pas un hasard</p>
+      <h2>Chaque section de votre futur site aura une raison d'être.</h2>
+      <p>
+        C'est exactement comme ça que nous construisons les sites que nous livrons :
+        rien de décoratif, chaque bloc lève un doute ou rapproche de l'action.
+      </p>
+      <Button href="/contact">Parler de mon projet</Button>
+    </aside>
+  </article>
+</BaseLayout>
+
+<style>
+  .anat {
+    max-width: 1120px;
+    margin-inline: auto;
+    padding: clamp(48px, 8vw, 96px) clamp(22px, 6vw, 80px) clamp(64px, 10vw, 120px);
+  }
+
+  /* ── Intro ── */
+  .anat-tete { max-width: 40rem; }
+  .anat-eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-sauge-text);
+    font-weight: 600;
+  }
+  .anat-tete h1 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(2rem, 5.4vw, 3.3rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: var(--color-ocre);
+    margin-top: 14px;
+  }
+  .anat-chapo {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 2.2vw, 1.14rem);
+    color: var(--color-brun-mid, #5C6259);
+    margin-top: 20px;
+    line-height: 1.65;
+  }
+  .anat-indice {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-sauge-text);
+    margin-top: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .anat-indice::after {
+    content: '';
+    width: 26px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+
+  /* ── Liste commentée ── */
+  .anat-liste {
+    margin-top: clamp(40px, 6vw, 72px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(28px, 4vw, 44px);
+  }
+  .anat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(20px, 3vw, 44px);
+    align-items: center;
+    padding: clamp(20px, 3vw, 34px) 0;
+    border-top: 1px solid var(--color-cream-dark);
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .anat-row.vu { opacity: 1; transform: none; }
+
+  /* ── Colonne gauche : la mini-démo ── */
+  .anat-demo { position: relative; }
+  .anat-numero {
+    position: absolute;
+    top: -6px;
+    left: 0;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    color: var(--color-sauge-text);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+  .demo {
+    margin-top: 22px;
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 14px;
+    background: #fff;
+    padding: 18px;
+    min-height: 148px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 14px 34px rgba(27, 71, 51, 0.06);
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+  }
+  .anat-row.vu .demo { box-shadow: 0 18px 44px rgba(27, 71, 51, 0.1); }
+
+  /* Hero */
+  .d-hero {
+    background: linear-gradient(158deg, #2C6B4C, #1B4733);
+    border-radius: 10px;
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin: -18px;
+  }
+  .d-eb { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(252, 251, 248, 0.66); }
+  .d-titre { font-family: var(--font-display); font-weight: 300; font-size: 1.08rem; color: #FCFBF8; line-height: 1.2; }
+  .d-cta { align-self: flex-start; margin-top: 4px; background: #FCFBF8; color: var(--color-ocre); border-radius: 99px; padding: 7px 15px; font-size: 0.76rem; font-weight: 600; }
+
+  /* Repères */
+  .d-reperes { display: flex; flex-wrap: wrap; gap: 10px; }
+  .d-chip { border: 1px solid var(--color-cream-dark); border-radius: 99px; padding: 8px 14px; font-size: 0.8rem; color: var(--color-ocre); background: var(--color-sauge-pale); }
+
+  /* Offre */
+  .d-offre { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+  .d-carte { border: 1px solid var(--color-cream-dark); border-radius: 9px; overflow: hidden; }
+  .d-ph { display: block; height: 42px; background: linear-gradient(135deg, #7B9E5B, #4E7A3E); }
+  .d-carte:nth-child(2) .d-ph { background: linear-gradient(135deg, #C97D4A, #A85A2E); }
+  .d-carte:nth-child(3) .d-ph { background: linear-gradient(135deg, #C7A24B, #9E7C2E); }
+  .d-l { display: block; font-size: 0.7rem; color: var(--color-ocre); padding: 6px 8px; }
+
+  /* Histoire */
+  .d-histoire { display: flex; align-items: center; gap: 14px; }
+  .d-portrait { width: 54px; height: 54px; border-radius: 50%; flex: none; background: radial-gradient(circle at 35% 30%, #cbb79a, #8a6f4d); }
+  .d-texte { display: flex; flex-direction: column; gap: 7px; flex: 1; }
+  .d-texte .d-l { height: 8px; border-radius: 4px; background: var(--color-cream-dark); padding: 0; width: 70%; }
+  .d-texte .d-l.long { width: 100%; }
+  .d-signe { font-family: var(--font-display); font-size: 0.9rem; color: var(--color-ocre); margin-top: 2px; }
+
+  /* Avis */
+  .d-avis { background: var(--color-sauge-pale); border-radius: 10px; padding: 16px 18px; position: relative; margin: -18px; }
+  .d-guill { font-family: var(--font-display); font-size: 2rem; color: var(--color-sauge-text); line-height: 0.6; }
+  .d-cit { display: block; font-size: 0.9rem; color: var(--color-ocre); margin-top: 6px; line-height: 1.5; }
+  .d-auteur { display: block; font-size: 0.74rem; color: var(--color-brun-mid, #5C6259); margin-top: 8px; letter-spacing: 0.02em; }
+
+  /* FAQ */
+  .d-faq { display: flex; flex-direction: column; gap: 8px; }
+  .d-q { display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--color-cream-dark); border-radius: 8px; padding: 11px 14px; font-size: 0.82rem; color: var(--color-ocre); }
+  .d-plus { color: var(--color-sauge-text); font-weight: 600; }
+
+  /* Contact */
+  .d-contact { display: flex; flex-direction: column; gap: 9px; }
+  .d-input { height: 30px; border: 1px solid var(--color-cream-dark); border-radius: 8px; background: var(--color-cream, #FCFBF8); }
+  .d-envoi { align-self: flex-start; background: var(--color-ocre); color: #FCFBF8; border-radius: 99px; padding: 8px 18px; font-size: 0.8rem; font-weight: 600; }
+
+  /* ── Colonne droite : l'analyse ── */
+  .anat-note-tag {
+    font-family: var(--font-body);
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-sauge-text);
+    font-weight: 600;
+  }
+  .anat-note-nom {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+    letter-spacing: -0.02em;
+    color: var(--color-ocre);
+    margin-top: 8px;
+    line-height: 1.2;
+  }
+  .anat-bloc {
+    font-family: var(--font-body);
+    font-size: 0.96rem;
+    color: var(--color-brun-mid, #5C6259);
+    margin-top: 14px;
+    line-height: 1.6;
+  }
+  .anat-lbl {
+    display: block;
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-terre, #B4623A);
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+
+  /* ── Chute ── */
+  .anat-chute {
+    margin-top: clamp(48px, 7vw, 88px);
+    background: var(--color-sauge-pale);
+    border-radius: 18px;
+    padding: clamp(32px, 5vw, 56px);
+    text-align: center;
+  }
+  .anat-chute-sur {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-sauge-text);
+    font-weight: 600;
+  }
+  .anat-chute h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+    letter-spacing: -0.02em;
+    color: var(--color-ocre);
+    margin-top: 10px;
+    line-height: 1.18;
+  }
+  .anat-chute p {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-brun-mid, #5C6259);
+    margin: 16px auto 26px;
+    max-width: 46ch;
+    line-height: 1.6;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 767px) {
+    .anat-row { grid-template-columns: 1fr; gap: 16px; }
+    .anat-demo { order: 2; }
+    .anat-note { order: 1; }
+    .demo { margin-top: 0; }
+    .anat-numero { position: static; display: block; margin-bottom: 8px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .anat-row { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+
+<script>
+  // Révélation section par section, avec filet de sécurité (impression, captures,
+  // navigateurs sans IntersectionObserver).
+  function initAnatomie() {
+    const rows = Array.from(document.querySelectorAll<HTMLElement>('.anat-row'));
+    if (!rows.length) return;
+
+    const reveal = () => rows.forEach((r) => r.classList.add('vu'));
+
+    if (!('IntersectionObserver' in window) ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      reveal();
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('vu');
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.12 },
+    );
+    rows.forEach((r) => io.observe(r));
+
+    // Sécurité : tout révéler avant impression et après un délai.
+    window.addEventListener('beforeprint', reveal);
+    setTimeout(reveal, 2600);
+  }
+
+  initAnatomie();
+  document.addEventListener('astro:page-load', initAnatomie);
+</script>

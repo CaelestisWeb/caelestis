@@ -21,6 +21,14 @@ export type Guide = {
 
 export const guides: readonly Guide[] = [
   {
+    slug: 'anatomie-d-un-site-qui-convertit',
+    titre: "Anatomie d'un site qui convertit : à quoi sert chaque partie",
+    question: 'À quoi sert chaque partie d\'un site ?',
+    description:
+      'Le rôle de chaque section, décryptée l\'une après l\'autre : la promesse, les repères de confiance, l\'offre, l\'histoire, les avis, la FAQ et le point de contact. Pourquoi chacune est là et ce qu\'elle fait pour transformer un visiteur en client.',
+    date: '2026-08-02',
+  },
+  {
     slug: 'tarifs',
     titre: 'Combien coûte un site internet pour un artisan ou un indépendant ?',
     question: 'Combien ça coûte, vraiment ?',
