@@ -15,6 +15,7 @@ const localBusiness = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   '@id': 'https://caelestis.fr/#business',
+  parentOrganization: { '@id': 'https://caelestis.fr/#organization' },
   name: 'Caelestis',
   alternateName: 'CaelestisWeb',
   description: 'Développeur web freelance et agence web indépendante. Création de sites internet sur mesure et référencement naturel pour artisans, producteurs et indépendants en Auvergne-Rhône-Alpes. Basé à Crest (26400), dans la Drôme.',
@@ -121,22 +122,21 @@ const localBusiness = {
   },
 };
 
+/* Le publisher est une RÉFÉRENCE (@id) vers l'Organization déclarée plus bas, pas
+   une copie : un objet complet recréait un quatrième nœud Organization anonyme,
+   en doublon de #organization. Caelestis étant un homonyme (mot latin, projet
+   européen, société d'investissement), un graphe consolidé aide Google à
+   rattacher la marque à une entité unique. */
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
+  '@id': 'https://caelestis.fr/#website',
   name: 'Caelestis',
+  alternateName: 'CaelestisWeb',
   url: 'https://caelestis.fr',
   description: 'Création de site web et référencement naturel pour artisans et indépendants en Auvergne-Rhône-Alpes.',
   inLanguage: 'fr-FR',
-  publisher: {
-    '@type': 'Organization',
-    name: 'Caelestis',
-    url: 'https://caelestis.fr',
-    logo: {
-      '@type': 'ImageObject',
-      url: 'https://caelestis.fr/favicon.svg',
-    },
-  },
+  publisher: { '@id': 'https://caelestis.fr/#organization' },
 };
 
 // FAQ — source unique : alimente le schema FAQPage (SEO) ET l'affichage
@@ -292,7 +292,7 @@ const organizationSchema = {
 
 ---
 <BaseLayout
-  title="Agence web en Auvergne-Rhône-Alpes, Caelestis"
+  title="Caelestis, agence web en Auvergne-Rhône-Alpes"
   description="Création de site internet et référencement pour artisans et indépendants en Auvergne-Rhône-Alpes. Dès 1 000 €, en ligne en 2 à 8 semaines."
   schema={[localBusiness, organizationSchema, websiteSchema, faqSchema]}
 >
@@ -341,12 +341,12 @@ const organizationSchema = {
     <!-- Premier écran typographique : aucune photo. La respiration vient des
          halos de lumière et du filet de réassurance, pas d'une image d'illustration.
          Décision de Célestin le 29/07/2026, après relevé sur sept sites d'agence. -->
-    <!-- Bloc élargi à 64rem le 01/08/2026 : le titre passe de trois lignes à deux,
-         et « Un site web qui valorise votre savoir-faire » mesure 967 px à la taille
-         plafond. À 48rem il aurait fallu descendre le titre à 43 px, trop peu pour un
-         premier écran sans photo. Le sous-titre et le filet de réassurance gardent
-         leur propre largeur juste en dessous. -->
-    <div class="max-w-5xl mx-auto w-full text-center relative z-10">
+    <!-- Bloc ramené à 48rem le 01/08/2026, après le raccourcissement du titre.
+         Il avait été porté à 64rem pour loger « Un site web qui valorise votre
+         savoir-faire » d'un seul tenant ; le nouveau titre plafonne à 604 px et
+         le sous-titre à 502 px, tout tient donc dans les 768 px d'origine, qui
+         sont aussi la largeur du filet de réassurance. -->
+    <div class="max-w-3xl mx-auto w-full text-center relative z-10">
 
       <!-- Eyebrow. `whitespace-nowrap` sur le nom de région : sans lui, à 375px
            la ligne se coupait au tiret et affichait « AUVERGNE- » puis
@@ -356,25 +356,26 @@ const organizationSchema = {
         Création de site web en <a href="/creation-site-internet-auvergne-rhone-alpes" class="whitespace-nowrap underline decoration-sauge/30 underline-offset-2 hover:decoration-sauge transition-colors">Auvergne-Rhône-Alpes</a>
       </p>
 
-      <!-- H1 : promesse orientée client, choisie le 31/07/2026 après relevé des
-           heros d'agences web (bénéfice concret « valorise / attire » plutôt que
-           description de la prestation). Deux lignes depuis le 01/08/2026 : la
-           promesse d'un tenant, puis le bénéfice commercial en sauge. Plafond
-           ramené de 3,6 à 3,4 rem, soit 54 px, pour que la première ligne tienne
-           dans les 1024 px du bloc avec 57 px de marge. Reste sous les 68 px
-           fixés pour les titres. Sous 610 px de large la première ligne se
-           répartit d'elle-même sur deux lignes, aucune classe ne l'en empêche.
-           Plancher descendu de 1,95 à 1,8 rem : à 31 px, « et attire vos futurs
-           clients. » mesurait 346 px pour 327 px disponibles sur un écran de
-           375 px et se coupait en deux, ce qui donnait un titre en quatre
-           morceaux. À 28,8 px elle tient d'un trait et le titre reste à trois
-           lignes sur mobile. -->
+      <!-- H1 retenu le 01/08/2026 par Célestin. L'ancienne version, « Un site web
+           qui valorise votre savoir-faire et attire vos futurs clients », finissait
+           sur l'acquisition, que le sous-titre porte désormais entièrement : le
+           hero annonçait deux fois la même promesse. Le titre prend donc la
+           fierté du métier, le sous-titre garde la mécanique commerciale.
+           « Valoriser » et « votre activité » ont été écartés en chemin, l'un
+           parce qu'aucun visiteur ne se représente ce que fait un site qui
+           valorise, l'autre parce que c'est un mot de déclaration administrative.
+           Deux blocs `.sl`, l'accent sauge sur le savoir-faire.
+           Taille : le titre ne mesure plus que 604 px à son plafond, contre 967
+           avant, d'où le plafond remonté à 4,25 rem (68 px, la limite fixée pour
+           les titres du site). La pente 9vw amène ce plafond dès 756 px de large
+           et garantit deux lignes jusqu'à 320 px : la ligne la plus longue y
+           mesure 256 px pour 272 disponibles. -->
       <h1
         class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-8 hero-title"
-        style="font-size: clamp(1.8rem, 4.4vw, 3.4rem);"
+        style="font-size: clamp(1.75rem, 9vw, 4.25rem);"
       >
-        <span class="sl"><span>Un site web qui valorise votre savoir-faire</span></span>
-        <span class="sl"><span class="text-sauge">et attire vos futurs clients.</span></span>
+        <span class="sl"><span>Un site web digne</span></span>
+        <span class="sl"><span class="text-sauge">de votre savoir-faire.</span></span>
       </h1>
 
       <!-- Sous-titre. Réécrit le 01/08/2026. Il ne doit ni redire le H1, qui
@@ -406,10 +407,10 @@ const organizationSchema = {
 
       <!-- Réassurance, posée sur un filet : sans photo, c'est ce filet qui
            structure le bas de l'écran. Couleur pleine (sans opacité) pour rester
-           au-dessus du seuil de contraste AA à cette taille. Largeur bloquée à
-           48rem : le bloc parent est passé à 64rem pour le titre, sans cela le
-           filet s'étirerait de 256 px et perdrait son rôle de repère. -->
-      <ul class="trust trust-rule font-body mt-12 pt-7 max-w-3xl mx-auto" data-reveal data-delay="2">
+           au-dessus du seuil de contraste AA à cette taille. La largeur vient du
+           bloc parent, revenu à 48rem : le garde-fou qui la bloquait pendant que
+           le parent valait 64rem n'a plus d'objet. -->
+      <ul class="trust trust-rule font-body mt-12 pt-7" data-reveal data-delay="2">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Réponse sous 48h</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>En ligne en 2 à 8 semaines</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Devis gratuit, sans engagement</li>
