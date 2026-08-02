@@ -434,7 +434,7 @@ const organizationSchema = {
            au-dessus du seuil de contraste AA à cette taille. La largeur vient du
            bloc parent, revenu à 48rem : le garde-fou qui la bloquait pendant que
            le parent valait 64rem n'a plus d'objet. -->
-      <ul class="trust trust-rule font-body mt-12 pt-7" data-reveal data-delay="2">
+      <ul role="list" class="trust trust-rule font-body mt-12 pt-7" data-reveal data-delay="2">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Réponse sous 48h</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>En ligne en 2 à 8 semaines</li>
         <!-- Le seul repère VÉRIFIABLE de la liste : les trois autres sont des
@@ -476,7 +476,7 @@ const organizationSchema = {
            ou un apiculteur se reconnaît là, pas dans les pastilles. Ne pas
            rallonger : au-delà de six, le retour à la ligne mobile redevient
            illisible. -->
-      <ul class="metiers font-body mb-10" data-reveal>
+      <ul role="list" class="metiers font-body mb-10" data-reveal>
         <li>Artisans</li>
         <li>Commerçants</li>
         <li>Indépendants</li>
@@ -552,7 +552,7 @@ const organizationSchema = {
            et sans lui on passerait du h1 du hero aux h3 des cartes, ce qui casse
            la hiérarchie annoncée aux technologies d'assistance. -->
       <h2 class="sr-only">Ce que votre site vous apporte</h2>
-      <ul class="benefices" data-reveal data-delay="2">
+      <ul role="list" class="benefices" data-reveal data-delay="2">
         <li>
           <span class="b-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.35-4.35"/></svg></span>
           <h3>On vous trouve</h3>
@@ -753,7 +753,7 @@ const organizationSchema = {
         </p>
       </div>
 
-      <ul class={`grid gap-8 mx-auto ${realisations.length > 1 ? 'md:grid-cols-2 max-w-4xl' : 'max-w-xl'}`}>
+      <ul role="list" class={`grid gap-8 mx-auto ${realisations.length > 1 ? 'md:grid-cols-2 max-w-4xl' : 'max-w-xl'}`}>
         {realisations.map((realisation, i) => (
           <li data-reveal data-delay={String(i + 1)}>
             <a href={`/realisations/${realisation.slug}`} class="reali-carte group">
@@ -1046,7 +1046,7 @@ const organizationSchema = {
         Voici précisément comment se déroule un projet, du premier appel à la mise en ligne.
       </p>
 
-      <ol class="etapes" data-reveal data-delay="2">
+      <ol role="list" class="etapes" data-reveal data-delay="2">
         {etapesMethode.map(({ n, duree, titre, texte, vous }) => (
           <li>
             <span class="et-n" aria-hidden="true">{n}</span>
