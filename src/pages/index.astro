@@ -11,6 +11,30 @@ import imgApres       from '../assets/images/comparateur/apres.jpg';
 import { realisations } from '../data/realisations';
 import { euros, formule, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../utils/tarifs';
 
+/* Les six canaux du schéma « point de rencontre ». Deux repères par canal :
+   x et y placent la pastille en pourcentage du carré, sx et sy sont le même
+   point dans le repère du SVG des traits (viewBox 400×400, centre 200,200).
+   Les deux jeux doivent rester d'accord, sans quoi les traits ne rejoignent
+   plus les pastilles.
+
+   Ellipse et non cercle : sur un cercle régulier, les quatre pastilles
+   latérales tombaient à 19 % du centre en vertical, or à 320 px de large le
+   noyau et une pastille occupent ensemble 23 % de la hauteur du carré. « Bouche
+   à oreille » et « Marché, salon » chevauchaient donc le noyau, mesuré. Les
+   latérales sont remontées à 24 et 76 %, soit 26 % d'écart, et écartées à 14 et
+   86 % pour compenser visuellement. Plus aucun chevauchement de 320 à 1440 px.
+
+   Le titre de la section annonce SIX endroits : toute entrée ajoutée ou retirée
+   ici oblige à le réécrire. */
+const CANAUX = [
+  { nom: 'Fiche Google',     x: 50, y: 10, sx: 200, sy: 40  },
+  { nom: 'Instagram',        x: 86, y: 24, sx: 344, sy: 96  },
+  { nom: 'Bouche à oreille', x: 86, y: 76, sx: 344, sy: 304 },
+  { nom: 'Carte de visite',  x: 50, y: 90, sx: 200, sy: 360 },
+  { nom: 'Marché, salon',    x: 14, y: 76, sx: 56,  sy: 304 },
+  { nom: 'Facebook',         x: 14, y: 24, sx: 56,  sy: 96  },
+];
+
 const localBusiness = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
@@ -413,7 +437,15 @@ const organizationSchema = {
       <ul class="trust trust-rule font-body mt-12 pt-7" data-reveal data-delay="2">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Réponse sous 48h</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>En ligne en 2 à 8 semaines</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Devis gratuit, sans engagement</li>
+        <!-- Le seul repère VÉRIFIABLE de la liste : les trois autres sont des
+             promesses, celui-ci se contrôle en un clic. Il remplace « Devis
+             gratuit, sans engagement », que toutes les agences affichent, qui
+             ne lève donc aucun frein, et qui reste dit plus bas dans la page.
+             Le chiffre est relevé sur `data/realisations.ts`, deux entrées,
+             deux sites réellement en ligne. Le mettre à jour en même temps.
+             Libellé court à dessein : au-delà de ~140px, la liste des quatre
+             repères passe sur deux lignes en desktop. -->
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><a href="/realisations" class="trust-preuve">2 sites livrés, vérifiables</a></li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Tarifs affichés, dès 1 000 €</li>
       </ul>
 
@@ -542,31 +574,81 @@ const organizationSchema = {
   </section>
 
 
-  <!-- ─── TRANSITION EDITORIALE ─── -->
-  <section class="pt-10 pb-20 md:py-24 px-6 md:px-10 lg:px-20">
-    <div class="max-w-3xl mx-auto text-center">
+  <!-- ─── L'IMPORTANCE D'UN SITE : LE POINT DE RENCONTRE ───
+       Remplace, le 02/08/2026, le pavé centré sur carte verte. Trois motifs
+       relevés sur la page : le registre (pastille, titre centré, texte centré)
+       était celui de toutes les autres sections, le pavé blanc sur vert était le
+       bloc le plus dense de l'accueil, et la carte verte n'était plus une
+       rupture puisque deux sections vert forêt suivent plus bas.
+       Le schéma porte l'argument que le texte seul n'arrivait pas à montrer :
+       ce qui est éparpillé sur six canaux converge vers un seul endroit.
+       ATTENTION : le « Six » du titre est le nombre de pastilles du schéma.
+       Retirer ou ajouter un canal oblige à réécrire le titre. -->
+  <section class="pt-10 pb-20 md:py-24 px-6 md:px-10 lg:px-20" aria-labelledby="rencontre-title">
+    <div class="conv max-w-6xl mx-auto">
 
-      <p class="inline-block font-body text-xs tracking-[0.22em] uppercase text-sauge border border-sauge/40 rounded-full px-4 py-1.5 mb-8" data-reveal>
-        L'importance d'un site web
-      </p>
-
-      <h2
-        class="font-display font-light text-brun leading-[1.15] tracking-tight mb-8"
-        style="font-size: clamp(1.5rem, 2.6vw, 2.1rem);"
-        data-reveal data-delay="1"
-      >
-        <span class="block">Les fleurs donnent vie à un jardin,</span>
-        <span class="block text-sauge">votre site web donne vie à votre entreprise.</span>
-      </h2>
-
-      <div class="para-card" data-reveal data-delay="2">
-        <p class="font-body text-base leading-relaxed mb-3">
-          Aujourd'hui, vos futurs clients se forgent une première impression de votre entreprise bien avant le premier échange. Dans la plupart des cas, cette découverte commence sur Internet.
+      <div class="conv-texte" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6">
+          L'importance d'un site web
         </p>
-        <p class="font-body text-base leading-relaxed">
-          Un site internet professionnel vous permet de présenter votre activité avec clarté, de valoriser ce qui fait votre différence et d'offrir une expérience rassurante à vos prospects. Il devient un véritable levier pour développer votre visibilité, et transformer l'intérêt en une nouvelle opportunité commerciale.
+
+        <h2 id="rencontre-title" class="font-display font-light text-brun conv-titre">
+          Six endroits parlent de vous.
+          <span class="conv-titre-accent">Un seul travaille pour vous.</span>
+        </h2>
+
+        <p class="font-body conv-p">
+          Une fiche Google donne votre adresse et vos avis. Instagram montre vos
+          plus belles photos. Une carte de visite donne un numéro. Chacun fait une
+          chose, puis s'arrête, et laisse en suspens la seule question qui compte :
+          est-ce bien lui qu'il me faut ?
+        </p>
+        <p class="font-body conv-p">
+          Votre site est le seul endroit où vous répondez en entier. Montrer un
+          chantier du premier jour au dernier, expliquer votre façon de travailler,
+          afficher vos prix, dire ce que vous garantissez, et tendre le formulaire
+          au moment exact où la personne est convaincue.
+        </p>
+        <p class="font-body conv-p">
+          C'est aussi le seul que personne ne peut vous retirer. Une page se
+          suspend, un algorithme change sans prévenir. Votre site, lui, reste,
+          et tout le reste y ramène.
+        </p>
+
+        <p class="font-body conv-exergue">
+          Éparpillé, on vous survole. Rassemblé, on vous choisit.
         </p>
       </div>
+
+      <!-- Schéma décoratif : six canaux reliés au site. Masqué aux lecteurs
+           d'écran, son contenu est repris en toutes lettres juste en dessous. -->
+      <div class="conv-schema" data-reveal data-delay="1" aria-hidden="true">
+        <div class="conv-carre">
+          <svg class="conv-traits" viewBox="0 0 400 400" fill="none">
+            {CANAUX.map((c) => (
+              <line x1={c.sx} y1={c.sy} x2="200" y2="200" class="conv-trait" />
+            ))}
+            <circle cx="200" cy="200" r="118" class="conv-orbite" />
+          </svg>
+
+          <div class="conv-noyau">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="4" width="19" height="14" rx="2" />
+              <path d="M2.5 8.5h19M6 20h12" />
+            </svg>
+            <span class="font-body">Votre site</span>
+          </div>
+
+          {CANAUX.map((c) => (
+            <span class="conv-canal font-body" style={`left:${c.x}%; top:${c.y}%`}>{c.nom}</span>
+          ))}
+        </div>
+      </div>
+
+      <p class="sr-only">
+        Votre fiche Google, Instagram, Facebook, le bouche à oreille, vos cartes
+        de visite et les rencontres en salon mènent tous à votre site.
+      </p>
 
     </div>
   </section>
@@ -1186,27 +1268,112 @@ const organizationSchema = {
   .offre-ligne:hover .offre-lien,
   .offre-lien:hover { gap: 0.75rem; color: #255C41; }
 
-  /* ── Carte paragraphe luxe ── */
-  .para-card {
-    position: relative;
-    background: rgba(37, 92, 65, 0.85);
-    border-radius: 24px;
-    padding: 2rem 1.25rem;
-    text-align: center;
-    overflow: hidden;
-    box-shadow:
-      0 40px 90px rgba(42, 61, 24, 0.35),
-      0 8px 24px rgba(42, 61, 24, 0.20),
-      inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  /* ══ Le point de rencontre : texte à gauche, schéma à droite ══
+     Remplace la carte paragraphe verte, retirée le 02/08/2026 avec la section
+     qu'elle portait. Deux colonnes égales à partir de 940 px : en dessous, le
+     schéma passe sous le texte, où il garde tout son sens puisqu'il se lit de
+     l'extérieur vers le centre, quel que soit l'ordre de lecture. */
+  .conv {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+    align-items: center;
   }
-  @media (min-width: 640px) {
-    .para-card { padding: 3rem 3.5rem; }
+  @media (min-width: 940px) {
+    .conv { grid-template-columns: 1fr 1fr; }
   }
-  .para-card p {
-    color: rgba(252, 251, 248, 0.90);
+  .conv-titre {
+    font-size: clamp(1.6rem, 3.2vw, 2.35rem);
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .conv-titre-accent { display: block; color: var(--color-sauge-vif); }
+  .conv-p {
     font-size: 1rem;
-    line-height: 1.95;
-    letter-spacing: 0.012em;
+    line-height: 1.78;
+    color: var(--color-brun-mid);
+    max-width: 46ch;
+    margin-bottom: 1.1rem;
+  }
+  /* La chute est posée sur un filet vertical, pas sur un aplat : c'est le seul
+     ornement de la colonne de texte, et il ne rejoue pas la carte verte. */
+  .conv-exergue {
+    margin-top: 1.9rem;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--color-sauge);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-brun);
+    max-width: 34ch;
+  }
+
+  /* Carré strict : les pastilles sont posées en pourcentage et le SVG des traits
+     partage le même repère, donc les deux restent alignés à toutes les largeurs,
+     sans média-requête de position. Mesuré sans chevauchement de 320 à 1440 px. */
+  .conv-carre {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+  }
+  .conv-traits { position: absolute; inset: 0; width: 100%; height: 100%; }
+  /* Les tirets avancent du canal vers le centre : c'est l'animation qui dit le
+     sens de lecture du schéma, tout converge vers le site. */
+  .conv-trait {
+    stroke: var(--color-sauge);
+    stroke-width: 1.2;
+    stroke-dasharray: 3 9;
+    stroke-linecap: round;
+    animation: conv-flux 3.4s linear infinite;
+  }
+  .conv-trait:nth-child(2) { animation-delay: -0.5s; }
+  .conv-trait:nth-child(3) { animation-delay: -1.1s; }
+  .conv-trait:nth-child(4) { animation-delay: -1.7s; }
+  .conv-trait:nth-child(5) { animation-delay: -2.3s; }
+  .conv-trait:nth-child(6) { animation-delay: -2.9s; }
+  @keyframes conv-flux { to { stroke-dashoffset: -24; } }
+
+  .conv-orbite { stroke: rgba(37, 92, 65, 0.10); stroke-width: 1; }
+
+  .conv-noyau {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 34%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: var(--color-ocre);
+    color: var(--color-cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    box-shadow: 0 18px 40px rgba(37, 92, 65, 0.28);
+  }
+  .conv-noyau svg { width: 26px; height: 26px; }
+  .conv-noyau span { font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.01em; }
+
+  .conv-canal {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    background: var(--color-cream);
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 999px;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.75rem;
+    color: var(--color-brun-mid);
+    box-shadow: 0 2px 10px rgba(18, 22, 15, 0.05);
+  }
+  @media (max-width: 420px) {
+    .conv-canal { font-size: 0.6875rem; padding: 0.32rem 0.6rem; }
+    .conv-noyau span { font-size: 0.6875rem; }
+    .conv-noyau svg { width: 20px; height: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .conv-trait { animation: none; }
   }
 
   /* NE PAS réintroduire content-visibility sur cette page. Testé le 27/07/2026 :
@@ -1392,6 +1559,28 @@ const organizationSchema = {
     font-weight: 500;
     color: var(--color-brun-mid);
     line-height: 1.3;
+  }
+  /* Le repère vérifiable est cliquable : sans marque visible, « consultables en
+     ligne » promet un clic qui n'existe pas. Soulignement discret, teinte
+     mousse foncée pour le distinguer des trois promesses voisines sans casser
+     l'alignement de la colonne. */
+  .trust-preuve {
+    color: var(--color-sauge-text);
+    text-decoration: underline;
+    text-decoration-color: rgba(46, 116, 82, 0.35);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.25s ease;
+  }
+  .trust-preuve:hover { text-decoration-color: var(--color-sauge-text); }
+  /* Au doigt, un lien de 17px de haut n'est pas atteignable (WCAG 2.5.8).
+     `inline-flex` pour que la hauteur de cible s'applique, la coche restant
+     centrée sur le texte. */
+  @media (hover: none) and (pointer: coarse) {
+    .trust-preuve {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
   }
   /* Sur mobile les quatre repères passent chacun sur sa ligne. Centrés
      individuellement, leurs coches se décalaient les unes par rapport aux
