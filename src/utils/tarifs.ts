@@ -137,8 +137,8 @@ export const MAINTENANCE: Record<Formule['id'], number> = {
 /** Le montant d'appel : la formule la moins chère. */
 export const MAINTENANCE_MIN = Math.min(...Object.values(MAINTENANCE));
 
-/** Nombre de mois offerts avant la première échéance. */
-export const MAINTENANCE_MOIS_OFFERTS = 6;
+/** Nombre de mois offerts avant la première échéance. Ramené de six à trois le 01/08/2026. */
+export const MAINTENANCE_MOIS_OFFERTS = 3;
 
 /**
  * Minutes de retouches de contenu comprises chaque mois, non reportables.
@@ -164,7 +164,7 @@ export const TARIF_HORAIRE = 60;
  * la page mélangeait « les 6 premiers mois » et « les six premiers mois » d'un
  * paragraphe à l'autre.
  */
-export const MAINTENANCE_MOIS_OFFERTS_LETTRES = 'six';
+export const MAINTENANCE_MOIS_OFFERTS_LETTRES = 'trois';
 
 /**
  * Supplément pour la fiche Google Business, en euros.

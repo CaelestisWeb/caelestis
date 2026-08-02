@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import AppelFinal from '../components/AppelFinal.astro';
 import { Image } from 'astro:assets';
-import { euros, formule, FORMULES, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS } from '../utils/tarifs';
+import { euros, formule, FORMULES, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../utils/tarifs';
 
 /* Aperçus des quatre formules. Sites de démonstration créés pour illustrer
    la différence entre les offres : aucune de ces entreprises n'existe. */
@@ -1010,7 +1010,7 @@ const etapes = [
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Abonnement mensuel</p>
         <h3 class="font-display text-xl font-light text-brun mb-2.5">Maintenance et sécurité</h3>
         <p class="font-body text-sm md:text-base text-brun-mid leading-relaxed">
-          Mises à jour, sauvegardes et protection contre les failles. Votre site reste en ligne, rapide et sûr, sans que vous ayez à y penser. Offerte les six premiers mois, puis dès <strong class="text-brun font-semibold">{euros(MAINTENANCE_MIN)} € par mois</strong>, sans engagement.
+          Mises à jour, sauvegardes et protection contre les failles. Votre site reste en ligne, rapide et sûr, sans que vous ayez à y penser. Offerte les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois, puis dès <strong class="text-brun font-semibold">{euros(MAINTENANCE_MIN)} € par mois</strong>, sans engagement.
         </p>
         <span class="inline-flex items-center gap-1.5 mt-5 font-body text-sm font-medium text-[#2E7452] group-hover:gap-2.5 transition-all">
           Découvrir les formules <span aria-hidden="true">→</span>

@@ -1,6 +1,6 @@
 ---
 import GuideLayout from '../../components/GuideLayout.astro';
-import { FORMULES, euros } from '../../utils/tarifs';
+import { FORMULES, MAINTENANCE_MOIS_OFFERTS_LETTRES, euros } from '../../utils/tarifs';
 
 /* Guide au format hybride : d'abord ce que fait le marché, chiffres attribués à
    leur source, puis notre positionnement dans un encart nettement séparé. Ainsi
@@ -124,7 +124,7 @@ const [pageUnique, vitrine, boutique, surMesure] = FORMULES;
     Méfiez-vous des offres où le site est bon marché et l'abonnement obligatoire
     coûteux : sur trois ans, l'addition dépasse souvent celle d'un site acheté
     une fois et possédé pour de bon. Chez nous, la maintenance courante est
-    offerte les six premiers mois, puis proposée à part : jamais imposée pour
+    offerte les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois, puis proposée à part : jamais imposée pour
     utiliser un site que vous avez déjà payé.
   </p>
 

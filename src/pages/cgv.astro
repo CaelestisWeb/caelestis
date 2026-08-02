@@ -1,6 +1,6 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { MAINTENANCE, MAINTENANCE_RETOUCHES_MIN, TARIF_HORAIRE, euros } from '../utils/tarifs';
+import { MAINTENANCE, MAINTENANCE_MOIS_OFFERTS_LETTRES, MAINTENANCE_RETOUCHES_MIN, TARIF_HORAIRE, euros } from '../utils/tarifs';
 ---
 <BaseLayout
   title="Conditions Générales de Vente, Caelestis"
@@ -18,7 +18,7 @@ import { MAINTENANCE, MAINTENANCE_RETOUCHES_MIN, TARIF_HORAIRE, euros } from '..
       >
         Conditions Générales de Vente.
       </h1>
-      <p class="font-body text-sm text-brun-mid mb-16">Dernière mise à jour : 1er août 2026</p>
+      <p class="font-body text-sm text-brun-mid mb-16">Dernière mise à jour : 2 août 2026</p>
 
       <div class="prose-cgv">
 
@@ -108,12 +108,12 @@ import { MAINTENANCE, MAINTENANCE_RETOUCHES_MIN, TARIF_HORAIRE, euros } from '..
         <p>Un site internet n'est accessible au public que s'il est hébergé sur un serveur, protégé par un certificat de sécurité et tenu à jour. La maintenance n'est donc pas une option de confort : elle est la condition matérielle du fonctionnement du site livré. À ce titre, <strong>tout site créé par CaelestisWeb est accompagné d'un abonnement de maintenance</strong>, annoncé comme tel dans le devis avant toute signature.</p>
         <p><strong>Le client conserve la liberté d'héberger son site ailleurs.</strong> S'il choisit de confier l'hébergement et le suivi technique à un tiers ou de les assurer lui-même, l'abonnement prend fin dans les conditions de l'article 10.5, et CaelestisWeb lui remet l'intégralité des fichiers et des accès nécessaires. La maintenance conditionne l'exploitation du site par CaelestisWeb, jamais la propriété du client sur son site.</p>
 
-        <h3>10.2 Six premiers mois offerts</h3>
-        <p>L'abonnement est <strong>offert pendant les six premiers mois</strong> suivant la mise en ligne. Cette période est comprise dans le prix de création figurant au devis et ne donne lieu à aucune facturation complémentaire. La première échéance mensuelle intervient au septième mois.</p>
+        <h3>10.2 Trois premiers mois offerts</h3>
+        <p>L'abonnement est <strong>offert pendant les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois</strong> suivant la mise en ligne. Cette période est comprise dans le prix de création figurant au devis et ne donne lieu à aucune facturation complémentaire. La première échéance mensuelle intervient au quatrième mois.</p>
         <p>CaelestisWeb informe le client de la date de première échéance au moins trente jours avant celle-ci, par courrier électronique à l'adresse communiquée lors de la commande.</p>
 
         <h3>10.3 Tarifs de l'abonnement</h3>
-        <p>Au-delà des six mois offerts, l'abonnement mensuel s'établit selon la formule du site créé :</p>
+        <p>Au-delà des {MAINTENANCE_MOIS_OFFERTS_LETTRES} mois offerts, l'abonnement mensuel s'établit selon la formule du site créé :</p>
         <ul>
           <li><strong>Site une page :</strong> {euros(MAINTENANCE['page-unique'])}&nbsp;€ par mois</li>
           <li><strong>Site vitrine :</strong> {euros(MAINTENANCE['site-vitrine'])}&nbsp;€ par mois</li>
@@ -139,7 +139,7 @@ import { MAINTENANCE, MAINTENANCE_RETOUCHES_MIN, TARIF_HORAIRE, euros } from '..
         <p>Au-delà des retouches comprises, l'abonnement porte sur le maintien en condition opérationnelle du site et non sur l'évolution de son contenu. Les prestations suivantes n'y entrent donc pas et font l'objet d'un devis distinct, facturé <strong>{TARIF_HORAIRE}&nbsp;€ par heure</strong> : réécriture des textes, création d'une page ou d'une section nouvelle, ajout d'une fonctionnalité, refonte graphique, intégration massive de produits, rédaction de contenu, prise de vue photographique, campagnes de référencement ou de publicité. Le temps de retouche excédant le forfait mensuel relève du même tarif. Dans tous les cas, le temps nécessaire est annoncé au client et accepté par lui avant toute exécution.</p>
 
         <h3>10.5 Durée, résiliation et défaut de paiement</h3>
-        <p>L'abonnement est conclu pour une <strong>durée indéterminée</strong> et se poursuit de mois en mois. Il ne comporte aucune période d'engagement minimal au-delà des six mois offerts.</p>
+        <p>L'abonnement est conclu pour une <strong>durée indéterminée</strong> et se poursuit de mois en mois. Il ne comporte aucune période d'engagement minimal au-delà des {MAINTENANCE_MOIS_OFFERTS_LETTRES} mois offerts.</p>
         <p>Chaque partie peut y mettre fin <strong>à tout moment, moyennant un préavis d'un mois</strong>, par simple courrier électronique, sans justification ni frais de résiliation. Conformément à l'article L.215-1 du Code de la consommation, le client consommateur est informé qu'il peut résilier son abonnement à tout moment après la première échéance.</p>
         <p>À la fin de l'abonnement, CaelestisWeb transmet au client, dans un délai de quinze jours, l'intégralité des fichiers du site, une sauvegarde de ses contenus et les accès au nom de domaine, afin qu'il puisse en confier l'exploitation à qui il souhaite. <strong>Le site et le nom de domaine demeurent la propriété du client</strong>, sous réserve du paiement intégral de la prestation de création (article 9).</p>
         <p>En cas de défaut de paiement d'une échéance, CaelestisWeb adresse au client une relance écrite. À défaut de régularisation dans un délai de <strong>quinze jours</strong> après cette relance, l'hébergement du site peut être suspendu, le site cessant alors d'être accessible au public. Les sauvegardes sont conservées pendant <strong>trois mois</strong> à compter de la suspension, période durant laquelle le service est rétabli dès régularisation. Passé ce délai, les données peuvent être supprimées définitivement. Le nom de domaine, propriété du client, n'est en aucun cas transféré ni conservé par CaelestisWeb.</p>
