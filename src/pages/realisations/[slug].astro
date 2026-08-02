@@ -14,7 +14,7 @@ export function getStaticPaths() {
 const { realisation } = Astro.props;
 const {
   nom, metier, ville, url, annee, titre, accroche, situation,
-  besoins, reponses, livre, outils, temoignage, images,
+  besoins, reponses, livre, temoignage, images,
 } = realisation;
 
 const pageUrl = `https://caelestis.fr/realisations/${realisation.slug}`;
@@ -41,7 +41,10 @@ const etudeDeCas = {
   ...(images[0] ? { image: new URL(images[0].src.src, 'https://caelestis.fr').href } : {}),
   creator: { '@id': 'https://caelestis.fr/#business' },
   author: { '@id': 'https://caelestis.fr/#business' },
-  keywords: outils.join(', '),
+  // Mots-clés du métier et du territoire, pas de la technique employée : c'est
+  // ainsi qu'un futur client formule sa recherche, et la stack n'intéresse
+  // personne d'autre que celui qui l'a écrite.
+  keywords: [metier, ville, 'création de site internet', 'Drôme'].join(', '),
   about: {
     '@type': 'LocalBusiness',
     name: nom,
@@ -214,18 +217,6 @@ const article = /^[aàâeéèêëiîïoôuùûyh]/i.test(metierEnPhrase) ? "d'" 
       </blockquote>
     </section>
   )}
-
-  <!-- ─── OUTILS ─── -->
-  <section class="py-12 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
-    <div class="max-w-4xl mx-auto flex flex-wrap items-baseline gap-x-6 gap-y-3">
-      <span class="font-body text-xs tracking-[0.22em] uppercase text-brun-mid">Outils</span>
-      <ul class="flex flex-wrap gap-2">
-        {outils.map((outil) => (
-          <li class="font-body text-sm text-brun border border-cream-dark rounded-full px-3 py-1">{outil}</li>
-        ))}
-      </ul>
-    </div>
-  </section>
 
   <!-- ─── APPEL À L'ACTION ─── -->
   <section class="py-20 px-6 md:px-10 lg:px-20 text-center section-ambient border-t border-cream-dark">

@@ -37,7 +37,6 @@ export interface Realisation {
   reponses: string[];
   /** Ce qui est effectivement en service aujourd'hui, constatable par n'importe qui. */
   livre: string[];
-  outils: string[];
   temoignage?: { texte: string; auteur: string };
   images: { src: ImageMetadata; alt: string; legende: string }[];
 }
@@ -77,7 +76,6 @@ export const realisations: Realisation[] = [
       'Rappels envoyés automatiquement avant chaque rendez-vous.',
       'Site en ligne sur son propre nom de domaine, hébergé et sauvegardé.',
     ],
-    outils: ['Astro', 'Tailwind CSS', 'React', 'PostgreSQL', 'Vercel'],
     images: [
       {
         src: imgFdoAccueil,
@@ -126,7 +124,6 @@ export const realisations: Realisation[] = [
       'Aucun cookie ni formulaire, donc aucune donnée personnelle collectée sur le site.',
       "Un guide d'utilisation de l'espace d'édition, remis en PDF.",
     ],
-    outils: ['Next.js', 'Tailwind CSS', 'Sanity', 'Vercel'],
     images: [
       {
         src: imgCoquetteAccueil,
