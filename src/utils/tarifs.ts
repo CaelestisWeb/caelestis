@@ -169,6 +169,23 @@ export const TARIF_HORAIRE = 60;
  */
 export const MAINTENANCE_MOIS_OFFERTS_LETTRES = 'trois';
 
+/** Les rangs en toutes lettres, pour désigner un mois dans une phrase. */
+const ORDINAUX = [
+  'premier', 'deuxième', 'troisième', 'quatrième', 'cinquième',
+  'sixième', 'septième', 'huitième', 'neuvième', 'dixième',
+] as const;
+
+/**
+ * Le rang du premier mois facturé, en toutes lettres.
+ *
+ * Dérivé de MAINTENANCE_MOIS_OFFERTS, jamais écrit à la main : trois mois
+ * offerts, donc première échéance au quatrième. Les CGV énoncent les deux
+ * nombres dans la même phrase, et les voir se contredire dans un document
+ * contractuel coûte plus cher que n'importe quelle coquille du site.
+ */
+export const MAINTENANCE_PREMIERE_ECHEANCE_LETTRES =
+  ORDINAUX[MAINTENANCE_MOIS_OFFERTS] ?? `${MAINTENANCE_MOIS_OFFERTS + 1}e`;
+
 /**
  * Supplément pour la fiche Google Business, en euros.
  *
