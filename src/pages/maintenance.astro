@@ -33,6 +33,10 @@ const faq = [
     a: "L'hébergement du site, le renouvellement de votre nom de domaine, le certificat de sécurité, les sauvegardes automatiques, la surveillance technique et les petites modifications de contenu : changer un horaire, un tarif, une photo, un paragraphe. Une refonte ou l'ajout d'une page entière sortent du forfait et font l'objet d'un devis.",
   },
   {
+    q: "Que se passe-t-il si mon site tombe en panne ?",
+    a: "Nous rétablissons le fonctionnement sous 48 heures ouvrées, à compter de votre signalement ou du moment où nous constatons nous-mêmes l'incident. Cet engagement couvre ce qui relève du site : son code, sa configuration, ses contenus, son hébergement. Une panne dont la cause est extérieure, chez l'hébergeur ou un service de paiement par exemple, ne dépend pas de nous : nous vous en donnons alors la cause et nous suivons le rétablissement auprès du prestataire concerné. Le détail figure à l'article 10.6 de nos conditions générales de vente.",
+  },
+  {
     q: "Puis-je résilier quand je veux ?",
     a: "Oui, avec un mois de préavis, sans justification ni frais. Le site et le nom de domaine restent votre propriété : nous vous transmettons l'ensemble des fichiers et des accès pour que vous puissiez les confier à quelqu'un d'autre.",
   },
@@ -132,11 +136,16 @@ const formules = [
 
 
 // Ce que couvre la maintenance (liste de la section distinction)
+// La dernière ligne est la seule vérifiable de la liste : les quatre autres
+// décrivent un travail continu, invisible par nature, celle-ci donne au client
+// une date à opposer. Elle reprend mot pour mot l'engagement de l'article 10.6
+// des CGV, jamais un délai plus court.
 const couvert = [
   'Mises à jour régulières',
   'Site protégé et sécurisé',
   'Sauvegardes régulières',
   'Toujours en ligne',
+  'Panne majeure rétablie sous 48 h ouvrées',
 ];
 ---
 
