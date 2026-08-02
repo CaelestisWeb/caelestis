@@ -637,6 +637,27 @@ select:focus-visible {
 
 
 /* ════════════════════════════════════════
+   SÉPARATEURS SUR FOND TEINTÉ
+   Le parchemin des filets (#E6E4DC) et le
+   lin-mousse des sections douces (#E3EFE8)
+   sont trop proches : posés dessus, les
+   séparateurs disparaissent. Ils passent
+   sur une mousse plus soutenue.
+   Seuls les éléments réellement posés SUR
+   la teinte sont visés : les bordures des
+   cartes blanches gardent le parchemin,
+   qui s'y détache très bien.
+════════════════════════════════════════ */
+
+.bg-sauge-pale .faq-item,
+.bg-sauge-pale .faq-icon,
+.bg-sauge-pale .offre-ligne,
+.bg-sauge-pale .ba-shot {
+  border-color: rgba(37, 92, 65, 0.16);
+}
+
+
+/* ════════════════════════════════════════
    PAIRES DE BOUTONS EMPILÉES
    Deux boutons côte à côte sur desktop
    passent l'un sous l'autre sur mobile.
