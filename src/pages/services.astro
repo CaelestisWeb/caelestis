@@ -587,7 +587,7 @@ const etapes = [
     }
 
     /* ── Aperçus des formules, présentés dans un cadre de navigateur ── */
-    .apercu-ouvrir { cursor: zoom-in; background: none; border: 0; padding: 0; }
+    .apercu-ouvrir { cursor: pointer; text-decoration: none; color: inherit; }
     .fenetre {
       border: 1px solid var(--cream-dark, #E4DED2);
       border-radius: 8px;
@@ -643,50 +643,6 @@ const etapes = [
     /* Carte large : on borne la largeur pour garder la même échelle que les colonnes. */
     .apercu-large .fenetre { max-width: 460px; margin: 0 auto; }
 
-    /* Visionneuse */
-    .visionneuse {
-      position: fixed; inset: 0; z-index: 9999;
-      background: rgba(28, 26, 21, 0.94);
-      display: none; flex-direction: column;
-    }
-    .visionneuse[open] { display: flex; }
-    .visionneuse-tete {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 20px; padding: 16px 22px; flex: none;
-      background: #1C1A15;
-      border-bottom: 1px solid rgba(246, 242, 231, 0.14);
-    }
-    .visionneuse-titre { color: #F6F2E7; font-size: 14px; letter-spacing: 0.04em; }
-    .visionneuse-titre b { display: block; font-size: 12px; opacity: 0.62; font-weight: 400; margin-top: 3px; }
-    .visionneuse-actions { display: flex; align-items: center; gap: 10px; flex: none; }
-    .visionneuse-parcourir {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #255C41; border: 1px solid #255C41; color: #F6F2E7;
-      padding: 9px 17px; text-decoration: none; font-size: 12px; letter-spacing: 0.14em;
-      text-transform: uppercase; transition: background 0.2s, border-color 0.2s;
-    }
-    .visionneuse-parcourir:hover { background: #2f7050; border-color: #2f7050; }
-    .visionneuse-parcourir svg { width: 13px; height: 13px; }
-    .visionneuse-fermer {
-      background: none; border: 1px solid rgba(246, 242, 231, 0.4); color: #F6F2E7;
-      padding: 9px 17px; cursor: pointer; font-size: 12px; letter-spacing: 0.14em;
-      text-transform: uppercase; flex: none;
-    }
-    .visionneuse-fermer:hover { background: #F6F2E7; color: #1C1A15; }
-    /* Sur mobile, l'en-tête passe à la ligne : le titre garde toute la première
-       rangée, les deux boutons descendent dessous. « Parcourir le site » reste
-       ainsi lisible en toutes lettres plutôt que réduit à une icône. */
-    @media (max-width: 560px) {
-      .visionneuse-tete { flex-wrap: wrap; gap: 12px 14px; }
-      .visionneuse-titre { flex: 1 1 100%; }
-      .visionneuse-actions { flex: 1 1 100%; justify-content: flex-end; }
-      .visionneuse-parcourir, .visionneuse-fermer { padding: 10px 16px; }
-    }
-    .visionneuse-corps { flex: 1; overflow-y: auto; padding: 0 22px 30px; }
-    .visionneuse-corps img {
-      display: block; width: 100%; max-width: 980px; margin: 0 auto;
-      border-radius: 6px;
-    }
     @media (max-width: 640px) {
       .fenetre-ecran { height: 150px; }
     }
@@ -837,6 +793,22 @@ const etapes = [
     }
     .tf-card-accent .tf-legende { color: rgba(252, 251, 248, 0.76); }
 
+    /* Signale que l'aperçu est cliquable et qu'il mène au site lui-même. */
+    .tf-visiter {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 9px;
+      font-size: 0.72rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #2E7452;
+      transition: gap 0.25s ease;
+    }
+    .tf-visiter svg { width: 11px; height: 11px; flex: none; }
+    .apercu-ouvrir:hover .tf-visiter { gap: 12px; }
+    .tf-card-accent .tf-visiter { color: #FCFBF8; }
+
     .tf-lien {
       display: inline-flex;
       align-items: center;
@@ -902,7 +874,16 @@ const etapes = [
                   <li><span class="tf-check" aria-hidden="true"></span><span>{p}</span></li>
                 ))}
               </ul>
-              <button type="button" class="apercu-ouvrir tf-apercu" data-apercu={f.apercu} aria-label={"Agrandir l'aperçu du site : " + f.nom}>
+              {/* L'aperçu mène directement au site de démonstration, dans un nouvel onglet :
+                  le site vivant convainc mieux qu'une capture, et l'ancienne visionneuse
+                  imposait un clic de plus avant d'y arriver. */}
+              <a
+                class="apercu-ouvrir tf-apercu"
+                href={apercus[f.apercu].demo}
+                target="_blank"
+                rel="noopener"
+                aria-label={"Visiter le site de démonstration, " + f.nom + " : " + apercus[f.apercu].titre + " (nouvel onglet)"}
+              >
                 <div class="fenetre">
                   <div class="fenetre-barre" aria-hidden="true">
                     <span></span><span></span><span></span>
@@ -913,7 +894,11 @@ const etapes = [
                   </div>
                 </div>
                 <p class="tf-legende">{apercus[f.apercu].detail}</p>
-              </button>
+                <span class="tf-visiter" aria-hidden="true">
+                  Visiter le site de démonstration
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+                </span>
+              </a>
               <a href={f.action.href} class="tf-lien">{f.action.libelle} <span aria-hidden="true">→</span></a>
             </div>
           ))}
@@ -1259,82 +1244,5 @@ const etapes = [
     href="/contact"
     libelle="Nous contacter"
   />
-
-  <!-- ── Visionneuse des aperçus ── -->
-  <div class="visionneuse" id="visionneuse" role="dialog" aria-modal="true" aria-labelledby="visionneuseTitre">
-    <div class="visionneuse-tete">
-      <p class="visionneuse-titre" id="visionneuseTitre">
-        <span id="visionneuseNom">Aperçu</span>
-        <b id="visionneuseDetail">Site de démonstration</b>
-      </p>
-      <div class="visionneuse-actions">
-        <a class="visionneuse-parcourir" id="visionneuseParcourir" href="#" target="_blank" rel="noopener">
-          <span>Parcourir le site</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-        </a>
-        <button type="button" class="visionneuse-fermer" id="visionneuseFermer">Fermer</button>
-      </div>
-    </div>
-    <div class="visionneuse-corps">
-      <!-- Placeholder transparent d'1px : un src="" se résout contre l'URL de la
-           page et provoque une requête parasite. Le script remplit src et alt
-           à l'ouverture de la visionneuse. alt vide tant qu'aucun aperçu n'est
-           chargé : l'image n'a alors rien à décrire. -->
-      <img id="visionneuseImage" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" decoding="async">
-    </div>
-  </div>
-
-  <script is:inline define:vars={{ apercusData: {
-    'page-unique': { src: apercuPageUnique.src, titre: apercus['page-unique'].titre, detail: apercus['page-unique'].detail, formule: 'Page unique', demo: apercus['page-unique'].demo },
-    'vitrine': { src: apercuVitrine.src, titre: apercus['vitrine'].titre, detail: apercus['vitrine'].detail, formule: 'Site vitrine', demo: apercus['vitrine'].demo },
-    'boutique': { src: apercuBoutique.src, titre: apercus['boutique'].titre, detail: apercus['boutique'].detail, formule: 'Boutique en ligne', demo: apercus['boutique'].demo },
-    'sur-mesure': { src: apercuSurMesure.src, titre: apercus['sur-mesure'].titre, detail: apercus['sur-mesure'].detail, formule: 'Site sur mesure', demo: apercus['sur-mesure'].demo },
-  } }}>
-    (function () {
-      var vue = document.getElementById('visionneuse');
-      if (!vue) return;
-      var img = document.getElementById('visionneuseImage');
-      var nom = document.getElementById('visionneuseNom');
-      var det = document.getElementById('visionneuseDetail');
-      var parcourir = document.getElementById('visionneuseParcourir');
-      var corps = vue.querySelector('.visionneuse-corps');
-      var declencheur = null;
-
-      function ouvrir(cle, bouton) {
-        var d = apercusData[cle];
-        if (!d) return;
-        declencheur = bouton;
-        img.src = d.src;
-        img.alt = "Aperçu complet du site de démonstration : " + d.titre;
-        nom.textContent = d.formule + ", " + d.titre;
-        det.textContent = d.detail;
-        if (d.demo) {
-          parcourir.href = d.demo;
-          parcourir.setAttribute('aria-label', 'Parcourir le site de démonstration, ' + d.titre + ', dans un nouvel onglet');
-          parcourir.style.display = '';
-        } else {
-          parcourir.style.display = 'none';
-        }
-        corps.scrollTop = 0;
-        vue.setAttribute('open', '');
-        document.body.style.overflow = 'hidden';
-        document.getElementById('visionneuseFermer').focus();
-      }
-      function fermer() {
-        vue.removeAttribute('open');
-        document.body.style.overflow = '';
-        if (declencheur) declencheur.focus();
-      }
-
-      document.querySelectorAll('.apercu-ouvrir').forEach(function (b) {
-        b.addEventListener('click', function () { ouvrir(b.dataset.apercu, b); });
-      });
-      document.getElementById('visionneuseFermer').addEventListener('click', fermer);
-      vue.addEventListener('click', function (e) { if (e.target === vue || e.target === corps) fermer(); });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && vue.hasAttribute('open')) fermer();
-      });
-    })();
-  </script>
 
 </BaseLayout>
