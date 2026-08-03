@@ -6,48 +6,10 @@ import { Image } from 'astro:assets';
 import { euros, formule, FORMULES, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../utils/tarifs';
 
 /* Aperçus des quatre formules. Sites de démonstration créés pour illustrer
-   la différence entre les offres : aucune de ces entreprises n'existe. */
-import apercuPageUnique from '../assets/images/apercus/page-unique-ferme.jpg';
-import apercuVitrine from '../assets/images/apercus/vitrine-ecurie.jpg';
-import apercuBoutique from '../assets/images/apercus/boutique-miellerie.jpg';
-import apercuSurMesure from '../assets/images/apercus/sur-mesure-ebeniste.jpg';
-
-/* Les quatre sites de démonstration, un par formule. `url` s'affiche dans la
-   barre de la fenêtre dessinée, `alt` décrit l'image aux lecteurs d'écran. */
-const apercus = {
-  'page-unique': {
-    img: apercuPageUnique,
-    titre: 'Une micro-ferme maraîchère',
-    url: 'exemple, une micro-ferme maraîchère',
-    alt: "Aperçu du site d'une micro-ferme maraîchère, réalisé en page unique",
-    detail: 'Tout sur une page : les légumes de saison, les horaires de vente, le contact.',
-    demo: 'https://apercus.caelestis.fr/ferme/',
-  },
-  'vitrine': {
-    img: apercuVitrine,
-    titre: 'Un centre équestre',
-    url: 'exemple, un centre équestre',
-    alt: "Aperçu du site d'un centre équestre, réalisé en site vitrine",
-    detail: 'Sept pages : pension, cours, installations, équipe, tarifs, contact.',
-    demo: 'https://apercus.caelestis.fr/ecurie/',
-  },
-  'boutique': {
-    img: apercuBoutique,
-    titre: 'Une miellerie',
-    url: 'exemple, une miellerie',
-    alt: "Aperçu du site d'une miellerie, réalisé en boutique en ligne",
-    detail: 'Catalogue, filtres, panier et calcul des frais de livraison.',
-    demo: 'https://apercus.caelestis.fr/ruche/',
-  },
-  'sur-mesure': {
-    img: apercuSurMesure,
-    titre: 'Un atelier d’ébénisterie',
-    url: "exemple, un atelier d'ébénisterie",
-    alt: "Aperçu du site d'un atelier d'ébénisterie, réalisé sur mesure",
-    detail: 'Configurateur de mobilier avec estimation du prix et du délai en direct.',
-    demo: 'https://apercus.caelestis.fr/ebeniste/',
-  },
-};
+   la différence entre les offres : aucune de ces entreprises n'existe.
+   Captures, légendes et adresses vivent dans utils/demos.ts, partagé avec le
+   bloc ApercuDemo des quatre pages de formule. */
+import { DEMOS as apercus } from '../utils/demos';
 
 const servicesSchema = {
   '@context': 'https://schema.org',
@@ -637,15 +599,12 @@ const etapes = [
     @media (max-width: 767px), (hover: none) and (pointer: coarse) {
       .fenetre-url { font-size: 11px; }
     }
-    /* La capture est haute : on n'en montre que le haut, sans la déformer. */
-    .fenetre-ecran { height: 186px; overflow: hidden; }
+    /* La capture cadre le haut du site en 16/9 depuis le 03/08/2026 : elle
+       s'affiche entière. L'ancienne hauteur de 186 px découpait au hasard une
+       capture pleine longueur, ce que le nouveau cadrage rend inutile. */
     .fenetre-ecran :global(img) { width: 100%; height: auto; display: block; }
     /* Carte large : on borne la largeur pour garder la même échelle que les colonnes. */
     .apercu-large .fenetre { max-width: 460px; margin: 0 auto; }
-
-    @media (max-width: 640px) {
-      .fenetre-ecran { height: 150px; }
-    }
 
     /* ════════════════════════════════════════
        TARIFS — quatre blocs de même taille.
@@ -879,7 +838,7 @@ const etapes = [
                   imposait un clic de plus avant d'y arriver. */}
               <a
                 class="apercu-ouvrir tf-apercu"
-                href={apercus[f.apercu].demo}
+                href={apercus[f.apercu].href}
                 target="_blank"
                 rel="noopener"
                 aria-label={"Visiter le site de démonstration, " + f.nom + " : " + apercus[f.apercu].titre + " (nouvel onglet)"}
@@ -890,7 +849,7 @@ const etapes = [
                     <p class="fenetre-url">{apercus[f.apercu].url}</p>
                   </div>
                   <div class="fenetre-ecran">
-                    <Image src={apercus[f.apercu].img} alt={apercus[f.apercu].alt} widths={[420, 700]} sizes="(max-width: 640px) 90vw, 440px" loading="lazy" />
+                    <Image src={apercus[f.apercu].img} alt={apercus[f.apercu].alt} widths={[420, 700, 880]} sizes="(max-width: 640px) 90vw, 440px" loading="lazy" />
                   </div>
                 </div>
                 <p class="tf-legende">{apercus[f.apercu].detail}</p>

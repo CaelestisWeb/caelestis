@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 import AppelFinal from '../../components/AppelFinal.astro';
 import AutresFormules from '../../components/AutresFormules.astro';
+import ApercuDemo from '../../components/ApercuDemo.astro';
 import { euros, formule } from '../../utils/tarifs';
 
 const canonical = 'https://caelestis.fr/services/boutique-en-ligne';
@@ -226,6 +227,9 @@ const inclus = [
       </div>
     </div>
   </section>
+
+  <!-- ── L'exemple en ligne : la boutique de démonstration ── -->
+  <ApercuDemo cle="boutique" titre="Une boutique, du catalogue au panier." />
 
   <!-- ── FAQ : les objections propres à la formule ── -->
   <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-b border-cream-dark">

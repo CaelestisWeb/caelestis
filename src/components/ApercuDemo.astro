@@ -1,0 +1,160 @@
+---
+/**
+ * ApercuDemo.astro : l'accès direct au site de démonstration d'une formule.
+ *
+ * Posé le 03/08/2026. Jusque-là, les démonstrations n'étaient accessibles que
+ * depuis la page /services : un visiteur arrivé de Google sur la page de la
+ * boutique en ligne pouvait lire la formule en entier sans jamais savoir qu'une
+ * boutique complète était en ligne, navigable, à un clic.
+ *
+ * La capture est un lien, pas un bouton : elle ouvre le site lui-même dans un
+ * nouvel onglet. Aucune visionneuse intermédiaire, le site vivant convainc
+ * mieux qu'une image (même décision que sur la page /services le même jour).
+ */
+import { Image } from 'astro:assets';
+import { demo, type CleDemo } from '../utils/demos';
+
+interface Props {
+  /** La formule illustrée, sa clé d'aperçu telle qu'elle est portée par tarifs.ts. */
+  cle: CleDemo;
+  /** Titre de la section. Court, il annonce ce que le visiteur va voir. */
+  titre: string;
+}
+
+const { cle, titre } = Astro.props;
+const d = demo(cle);
+---
+
+<section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-b border-cream-dark bg-sauge-pale/45">
+  <div class="max-w-3xl mx-auto">
+
+    <div class="mb-9" data-reveal>
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Un exemple en ligne</p>
+      <h2 class="font-display font-light text-brun leading-tight" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);">
+        {titre}
+      </h2>
+      <p class="font-body text-base text-brun-mid mt-4 leading-relaxed">
+        Le site est en ligne et se visite comme n'importe quel autre. Un bouton « Décrypter ce site »
+        y explique, section après section, pourquoi chaque élément se trouve là et à quoi il sert.
+      </p>
+    </div>
+
+    <a
+      class="dm-lien"
+      href={d.href}
+      target="_blank"
+      rel="noopener"
+      aria-label={"Visiter le site de démonstration, " + d.titre + " (nouvel onglet)"}
+      data-reveal
+      data-delay="1"
+    >
+      <div class="dm-fenetre">
+        <div class="dm-barre" aria-hidden="true">
+          <span></span><span></span><span></span>
+          <p class="dm-url">{d.url}</p>
+        </div>
+        <div class="dm-ecran">
+          <!-- La surface d'affichage monte à 768 px : `sizes` doit annoncer cette
+               largeur-là, sinon le navigateur télécharge une variante calibrée
+               plus petite et la capture devient molle sur écran haute densité. -->
+          <Image src={d.img} alt={d.alt} widths={[560, 768, 1100, 1536]} sizes="(max-width: 768px) 92vw, 768px" loading="lazy" />
+        </div>
+      </div>
+      <p class="dm-legende">{d.detail}</p>
+      <span class="dm-visiter">
+        Visiter le site de démonstration
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+      </span>
+    </a>
+
+    <p class="font-body text-xs text-brun-mid mt-6 leading-relaxed" data-reveal data-delay="2">
+      Site de démonstration : l'entreprise représentée n'existe pas. Nos réalisations pour de vrais clients
+      sont <a href="/realisations" class="text-sauge font-medium underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">dans la page réalisations</a>.
+    </p>
+
+  </div>
+</section>
+
+<style>
+  /* Même fenêtre dessinée que sur la page /services, à une échelle plus
+     généreuse : ici la capture est le sujet de la section, pas une vignette
+     posée au bas d'une carte de tarif. */
+  .dm-lien {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .dm-fenetre {
+    border: 1px solid #E6E4DC;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(37, 92, 65, 0.08);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .dm-lien:hover .dm-fenetre {
+    box-shadow: 0 16px 38px rgba(37, 92, 65, 0.16);
+    transform: translateY(-3px);
+  }
+  .dm-lien:focus-visible .dm-fenetre {
+    outline: 2px solid #255C41;
+    outline-offset: 3px;
+  }
+
+  .dm-barre {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 9px 13px;
+    background: #F2EFE8;
+    border-bottom: 1px solid #E6E4DC;
+  }
+  .dm-barre > span {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #CFC8B8; flex: none;
+  }
+  .dm-url {
+    flex: 1;
+    margin-left: 7px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--color-pierre);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+  }
+
+  /* La capture cadre déjà le haut du site en 16/9 : elle s'affiche entière,
+     sans hauteur imposée qui la couperait au milieu d'une phrase. */
+  .dm-ecran :global(img) { width: 100%; height: auto; display: block; }
+
+  .dm-legende {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #5C6259;
+    margin-top: 14px;
+  }
+
+  .dm-visiter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 0.78rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #2E7452;
+    transition: gap 0.25s ease;
+  }
+  .dm-visiter svg { width: 12px; height: 12px; flex: none; }
+  .dm-lien:hover .dm-visiter { gap: 14px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dm-fenetre, .dm-visiter { transition: none; }
+    .dm-lien:hover .dm-fenetre { transform: none; }
+  }
+</style>
