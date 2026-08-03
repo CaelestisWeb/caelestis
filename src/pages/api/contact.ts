@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { limiterDebit, adresseDemandeur } from '../../utils/limite-debit';
 import nodemailer from 'nodemailer';
+import { enregistrerDemandeDeSecours } from '../../utils/filet-leads';
 
 export const prerender = false;
 
@@ -498,22 +499,62 @@ export const POST: APIRoute = async ({ request }) => {
     const subject = `[Caelestis] ${typeInfo.label}, ${prenom}${societe ? ', ' + societe : ''}`;
     const html    = buildEmailHtml({ type, prenom, email, societe, projet, date: dateStr, extras });
 
-    await transporter.sendMail({
-      from:    '"Caelestis" <contact@caelestis.fr>',
-      to:      'contact@caelestis.fr',
-      replyTo: email,   // validé et sécurisé ci-dessus
-      subject,
-      html,
-    });
-
-    /* ── Email client : lien vers le questionnaire de devis ── */
-    if (type === 'devis') {
+    /* Filet de sécurité : si le SMTP tombe, la demande part vers le hub interne
+       au lieu de disparaître. Le visiteur reçoit alors une confirmation, car sa
+       demande est réellement enregistrée et sera traitée. On ne lui renvoie une
+       erreur que si le filet lui-même a échoué. */
+    try {
       await transporter.sendMail({
         from:    '"Caelestis" <contact@caelestis.fr>',
-        to:      email,
-        subject: 'Votre questionnaire de devis, Caelestis',
-        html:    buildDevisInviteEmail(prenom, dateStr),
+        to:      'contact@caelestis.fr',
+        replyTo: email,   // validé et sécurisé ci-dessus
+        subject,
+        html,
       });
+    } catch (erreurSmtp: unknown) {
+      const motif = erreurSmtp instanceof Error ? erreurSmtp.message : String(erreurSmtp);
+      console.error('[contact API] envoi SMTP impossible :', motif);
+
+      const sauvee = await enregistrerDemandeDeSecours(
+        {
+          email,
+          nom: prenom,
+          source: 'formulaire-contact',
+          details: [
+            ['Type de demande', typeInfo.label],
+            ['Prénom', prenom],
+            ['Société', societe],
+            ['Message', projet],
+            ...extras,
+          ],
+        },
+        motif,
+      );
+
+      if (!sauvee) throw erreurSmtp;   // rien n'a pu être sauvé : 500 au visiteur
+
+      return new Response(
+        JSON.stringify({ success: true, prenom }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    /* ── Email client : lien vers le questionnaire de devis ──
+       Son échec ne doit jamais invalider une demande déjà reçue et transmise. */
+    if (type === 'devis') {
+      try {
+        await transporter.sendMail({
+          from:    '"Caelestis" <contact@caelestis.fr>',
+          to:      email,
+          subject: 'Votre questionnaire de devis, Caelestis',
+          html:    buildDevisInviteEmail(prenom, dateStr),
+        });
+      } catch (erreurInvitation: unknown) {
+        console.error(
+          '[contact API] invitation au questionnaire non envoyée :',
+          erreurInvitation instanceof Error ? erreurInvitation.message : String(erreurInvitation),
+        );
+      }
     }
 
     return new Response(

@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { limiterDebit, adresseDemandeur } from '../../utils/limite-debit';
 import nodemailer from 'nodemailer';
+import { enregistrerDemandeDeSecours } from '../../utils/filet-leads';
 import PDFDocument from 'pdfkit';
 import {
   Document, Packer, Paragraph, TextRun,
@@ -787,29 +788,67 @@ export const POST: APIRoute = async ({ request }) => {
       generateQuestionnaireDocx(body, dateStr, filenames),
     ]);
 
-    await Promise.all([
-      /* Email admin — questionnaire complet avec PDF + DOCX + pièces jointes */
-      transporter.sendMail({
-        from:        '"Questionnaire Caelestis" <contact@caelestis.fr>',
-        to:          'contact@caelestis.fr',
-        replyTo:     emailContact,
-        subject:     `[Création] ${nominant}, questionnaire de création`,
-        html:        buildAdminEmail(body, dateStr, filenames),
-        attachments: [
-          { filename: `questionnaire-${slug}-${dateSlug}.pdf`,  content: pdfBuffer,  contentType: 'application/pdf' },
-          { filename: `questionnaire-${slug}-${dateSlug}.docx`, content: docxBuffer, contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
-          ...fileAttachments,
-        ],
-      }),
-      /* Email client — confirmation */
-      transporter.sendMail({
-        from:    '"Célestin de Caelestis" <contact@caelestis.fr>',
-        to:      emailContact,
-        replyTo: 'contact@caelestis.fr',
-        subject: 'Votre questionnaire Caelestis a bien été reçu',
-        html:    buildClientEmail(body, dateStr, filenames),
-      }),
-    ]);
+    /* Filet de sécurité : voir src/utils/filet-leads.ts. Les pièces jointes du
+       client ne peuvent pas être transmises au hub, la note le signale pour
+       qu'elles soient redemandées plutôt que perdues sans que personne ne sache. */
+    try {
+      await Promise.all([
+        /* Email admin — questionnaire complet avec PDF + DOCX + pièces jointes */
+        transporter.sendMail({
+          from:        '"Questionnaire Caelestis" <contact@caelestis.fr>',
+          to:          'contact@caelestis.fr',
+          replyTo:     emailContact,
+          subject:     `[Création] ${nominant}, questionnaire de création`,
+          html:        buildAdminEmail(body, dateStr, filenames),
+          attachments: [
+            { filename: `questionnaire-${slug}-${dateSlug}.pdf`,  content: pdfBuffer,  contentType: 'application/pdf' },
+            { filename: `questionnaire-${slug}-${dateSlug}.docx`, content: docxBuffer, contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
+            ...fileAttachments,
+          ],
+        }),
+        /* Email client — confirmation */
+        transporter.sendMail({
+          from:    '"Célestin de Caelestis" <contact@caelestis.fr>',
+          to:      emailContact,
+          replyTo: 'contact@caelestis.fr',
+          subject: 'Votre questionnaire Caelestis a bien été reçu',
+          html:    buildClientEmail(body, dateStr, filenames),
+        }),
+      ]);
+    } catch (erreurSmtp: unknown) {
+      const motif = erreurSmtp instanceof Error ? erreurSmtp.message : String(erreurSmtp);
+      console.error('[brief API] envoi SMTP impossible :', motif);
+
+      const IGNORES = new Set(['website', 'ts', 'email_contact', 'nom_entreprise', 'nom_dirigeant']);
+      const sauvee = await enregistrerDemandeDeSecours(
+        {
+          email:  emailContact,
+          nom:    nominant,
+          source: 'questionnaire-creation',
+          details: [
+            ['Entreprise', str(body['nom_entreprise'])],
+            ['Dirigeant', str(body['nom_dirigeant'])],
+            filenames.length
+              ? ['Fichiers envoyés par le client', `${filenames.join(', ')} (non transmis, à redemander)`]
+              : ['Fichiers envoyés par le client', 'Aucun'],
+            ...Object.entries(body)
+              .filter(([cle]) => !IGNORES.has(cle))
+              .map(([cle, valeur]): [string, string] => [
+                cle,
+                Array.isArray(valeur) ? valeur.join(', ') : str(valeur),
+              ]),
+          ],
+        },
+        motif,
+      );
+
+      if (!sauvee) throw erreurSmtp;   // rien n'a pu être sauvé : 500 au visiteur
+
+      return new Response(
+        JSON.stringify({ success: true }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      );
+    }
 
     return new Response(
       JSON.stringify({ success: true }),

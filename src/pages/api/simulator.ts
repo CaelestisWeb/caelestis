@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { limiterDebit, adresseDemandeur } from '../../utils/limite-debit';
 import nodemailer from 'nodemailer';
+import { enregistrerDemandeDeSecours } from '../../utils/filet-leads';
 import { formule, FICHE_GOOGLE, type Formule } from '../../utils/tarifs';
 
 export const prerender = false;
@@ -771,6 +772,45 @@ export const POST: APIRoute = async ({ request }) => {
         html:    buildAdminEmail({ ...baseParams, interest, date: dateStr } as Parameters<typeof buildAdminEmail>[0]),
       }),
     ]);
+
+    /* Filet de sécurité : jusqu'ici, un échec du seul e-mail admin se contentait
+       d'une ligne de log et le prospect disparaissait sans que personne ne le
+       sache, puisque le visiteur, lui, recevait bien son estimation. Dès qu'un
+       des deux envois échoue, la demande est transmise au hub. */
+    if (adminResult.status === 'rejected' || prospectResult.status === 'rejected') {
+      const raison = adminResult.status === 'rejected' ? adminResult.reason : (prospectResult as PromiseRejectedResult).reason;
+      const motif  = raison instanceof Error ? raison.message : String(raison);
+
+      await enregistrerDemandeDeSecours(
+        {
+          email,
+          nom:    prenom,
+          source: 'simulateur',
+          details: [
+            ['Prénom', prenom],
+            ['Activité', activity],
+            ['Société', company],
+            ['Prestations', Array.isArray(types) ? types.join(', ') : String(types ?? '')],
+            [q2Question, q2Label],
+            [q3Question, q3Label],
+            [qcQuestion, qcLabel],
+            ['Options', q4Label],
+            ['Compléments', gbLabel],
+            ['Estimation', low === high ? `${low} €` : `entre ${low} € et ${high} €`],
+            ['Intérêt déclaré', String(interest ?? '')],
+            [
+              'Envoi e-mail',
+              adminResult.status === 'rejected' && prospectResult.status === 'rejected'
+                ? 'Les deux e-mails ont échoué, le visiteur n\'a pas reçu son estimation.'
+                : adminResult.status === 'rejected'
+                  ? 'Le visiteur a bien reçu son estimation, seule la notification interne a échoué.'
+                  : 'La notification interne est partie, le visiteur n\'a pas reçu son estimation.',
+            ],
+          ],
+        },
+        motif,
+      );
+    }
 
     if (adminResult.status === 'rejected') {
       console.error('[simulator] admin mail failed:', adminResult.reason?.message ?? adminResult.reason);

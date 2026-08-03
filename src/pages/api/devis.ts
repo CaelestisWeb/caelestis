@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { limiterDebit, adresseDemandeur } from '../../utils/limite-debit';
+import { enregistrerDemandeDeSecours } from '../../utils/filet-leads';
 import nodemailer from 'nodemailer';
 import PDFDocument from 'pdfkit';
 import {
@@ -691,26 +692,63 @@ export const POST: APIRoute = async ({ request }) => {
       generateDevisDocx(body, dateStr),
     ]);
 
-    await Promise.all([
-      transporter.sendMail({
-        from:        '"Devis Caelestis" <contact@caelestis.fr>',
-        to:          'contact@caelestis.fr',
-        replyTo:     emailContact,
-        subject:     `[Devis] ${nominant}, ${str(body['activite']).slice(0, 60) || 'demande de devis'}`,
-        html:        buildAdminEmail(body, dateStr),
-        attachments: [
-          { filename: `devis-${slug}-${dateSlug}.pdf`,  content: pdfBuffer,  contentType: 'application/pdf' },
-          { filename: `devis-${slug}-${dateSlug}.docx`, content: docxBuffer, contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
-        ],
-      }),
-      transporter.sendMail({
-        from:    '"Célestin de Caelestis" <contact@caelestis.fr>',
-        to:      emailContact,
-        replyTo: 'contact@caelestis.fr',
-        subject: 'Votre demande de devis Caelestis a bien été reçue',
-        html:    buildClientEmail(body, dateStr),
-      }),
-    ]);
+    /* Filet de sécurité : un questionnaire de devis est la demande la plus
+       coûteuse à obtenir, il ne doit jamais se perdre parce que le SMTP tombe.
+       Le PDF et le DOCX ne peuvent pas être transmis au hub, on y recopie donc
+       l'intégralité des réponses en clair. */
+    try {
+      await Promise.all([
+        transporter.sendMail({
+          from:        '"Devis Caelestis" <contact@caelestis.fr>',
+          to:          'contact@caelestis.fr',
+          replyTo:     emailContact,
+          subject:     `[Devis] ${nominant}, ${str(body['activite']).slice(0, 60) || 'demande de devis'}`,
+          html:        buildAdminEmail(body, dateStr),
+          attachments: [
+            { filename: `devis-${slug}-${dateSlug}.pdf`,  content: pdfBuffer,  contentType: 'application/pdf' },
+            { filename: `devis-${slug}-${dateSlug}.docx`, content: docxBuffer, contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
+          ],
+        }),
+        transporter.sendMail({
+          from:    '"Célestin de Caelestis" <contact@caelestis.fr>',
+          to:      emailContact,
+          replyTo: 'contact@caelestis.fr',
+          subject: 'Votre demande de devis Caelestis a bien été reçue',
+          html:    buildClientEmail(body, dateStr),
+        }),
+      ]);
+    } catch (erreurSmtp: unknown) {
+      const motif = erreurSmtp instanceof Error ? erreurSmtp.message : String(erreurSmtp);
+      console.error('[devis API] envoi SMTP impossible :', motif);
+
+      const IGNORES = new Set(['website', 'ts', 'email_contact', 'nom_entreprise', 'nom_dirigeant']);
+      const sauvee = await enregistrerDemandeDeSecours(
+        {
+          email:  emailContact,
+          nom:    nominant,
+          source: 'questionnaire-devis',
+          details: [
+            ['Entreprise', str(body['nom_entreprise'])],
+            ['Dirigeant', str(body['nom_dirigeant'])],
+            ['Devis PDF et DOCX', 'Non transmis, rappeler le client pour reconstituer le dossier.'],
+            ...Object.entries(body)
+              .filter(([cle]) => !IGNORES.has(cle))
+              .map(([cle, valeur]): [string, string] => [
+                cle,
+                Array.isArray(valeur) ? valeur.join(', ') : str(valeur),
+              ]),
+          ],
+        },
+        motif,
+      );
+
+      if (!sauvee) throw erreurSmtp;   // rien n'a pu être sauvé : 500 au visiteur
+
+      return new Response(
+        JSON.stringify({ success: true }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      );
+    }
 
     return new Response(
       JSON.stringify({ success: true }),
