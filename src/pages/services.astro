@@ -177,7 +177,7 @@ const etapes = [
 >
 
   <!-- En-tête de page -->
-  <section class="pt-20 pb-10 px-6 md:px-10 lg:px-20 border-b border-cream-dark section-ambient overflow-hidden relative" style="isolation: isolate;">
+  <section class="pt-20 pb-10 md:pt-24 px-6 md:px-10 lg:px-20 border-b border-cream-dark section-ambient overflow-hidden relative" style="isolation: isolate;">
 
     <!-- Blob sauge atmosphérique -->
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-20 -right-20 w-[420px] h-[420px]"></div>
@@ -590,6 +590,12 @@ const etapes = [
       overflow: hidden;
       text-overflow: ellipsis;
       text-align: left;
+      /* Sans ce min-width, l'ellipsis ne sert à rien : un enfant flex garde par
+         défaut `min-width: auto`, donc il refuse de descendre sous la largeur de
+         son texte insécable. La barre imposait alors 279 px de large, la carte
+         montait à 325 px dans un conteneur de 268, et son bord droit était rogné
+         sur un écran de 320 px. Mesuré le 03/08/2026 sur /services. */
+      min-width: 0;
     }
     /* 9 px tient sur un écran d'ordinateur où la fausse fenêtre est petite ;
        sur mobile la carte occupe toute la largeur et l'étiquette, qui porte le
@@ -619,6 +625,14 @@ const etapes = [
       display: flex;
       flex-direction: column;
       height: 100%;
+      /* Un item de grille garde par défaut `min-width: auto` : il refuse de
+         descendre sous la taille min-content de son contenu. La barre d'adresse
+         de la vignette, en `white-space: nowrap`, imposait ainsi 325 px à la
+         carte dans un conteneur de 268, et son bord droit sortait de l'écran à
+         320 px de large. Mesuré le 03/08/2026. Le `min-width: 0` de
+         `.fenetre-url` ne suffit pas seul : il fait rétrécir la barre une fois
+         que la carte, elle, a le droit de rétrécir. Les deux vont ensemble. */
+      min-width: 0;
       background: #FCFBF8;
       border: 1px solid #E6E4DC;
       border-radius: 18px;
