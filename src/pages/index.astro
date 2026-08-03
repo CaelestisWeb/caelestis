@@ -407,8 +407,8 @@ const organizationSchema = {
            nommer la cible, dont la section « pour qui » se charge juste en
            dessous. Il pose donc le mécanisme de décision du visiteur, la
            comparaison, que le filet de réassurance vient alimenter trois lignes
-           plus bas avec le délai, le devis et le prix affiché. Aucun chiffre
-           ici, ce filet en porte déjà trois. Aucune mention de refonte ni de
+           plus bas avec la preuve et le prix affiché. Aucun chiffre ici, ce
+           filet en porte déjà deux. Aucune mention de refonte ni de
            première mise en ligne, aucune supposition sur la notoriété du
            client : la formule doit valoir pour une vitrine comme pour une
            boutique. La seconde phrase prend en charge les trois moments
@@ -435,18 +435,21 @@ const organizationSchema = {
            bloc parent, revenu à 48rem : le garde-fou qui la bloquait pendant que
            le parent valait 64rem n'a plus d'objet. -->
       <ul role="list" class="trust trust-rule font-body mt-12 pt-7" data-reveal data-delay="2">
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Réponse sous 48h</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>En ligne en 2 à 8 semaines</li>
-        <!-- Le seul repère VÉRIFIABLE de la liste : les trois autres sont des
-             promesses, celui-ci se contrôle en un clic. Il remplace « Devis
-             gratuit, sans engagement », que toutes les agences affichent, qui
-             ne lève donc aucun frein, et qui reste dit plus bas dans la page.
-             Le chiffre est relevé sur `data/realisations.ts`, deux entrées,
-             deux sites réellement en ligne. Le mettre à jour en même temps.
-             Libellé court à dessein : au-delà de ~140px, la liste des quatre
-             repères passe sur deux lignes en desktop. -->
+        <!-- Le seul repère VÉRIFIABLE du hero : il se contrôle en un clic. Il
+             remplace « Devis gratuit, sans engagement », que toutes les agences
+             affichent, qui ne lève donc aucun frein, et qui reste dit plus bas
+             dans la page. Le chiffre est relevé sur `data/realisations.ts`,
+             deux entrées, deux sites réellement en ligne. Le mettre à jour en
+             même temps. -->
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><a href="/realisations" class="trust-preuve">2 sites livrés, vérifiables</a></li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Tarifs affichés, dès 1 000 €</li>
+        <!-- Le seul repère que la concurrence n'affiche pas : sur les treize
+             agences relevées dans PRIX-MARCHE.md, trois donnent un prix en page
+             d'accueil. Le montant vient de `utils/tarifs.ts` comme partout ailleurs :
+             il était écrit en dur ici, il ne l'est plus.
+             Les deux repères retirés le 03/08/2026, « Réponse sous 48h » et
+             « En ligne en 2 à 8 semaines », étaient des promesses invérifiables
+             que la FAQ, la section méthode et les pages service portent déjà. -->
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Tarifs affichés, dès {euros(formule('page-unique').prix)}&nbsp;€</li>
       </ul>
 
     </div>
@@ -1582,10 +1585,10 @@ const organizationSchema = {
       min-height: 44px;
     }
   }
-  /* Sur mobile les quatre repères passent chacun sur sa ligne. Centrés
+  /* Sur mobile les deux repères passent chacun sur sa ligne. Centrés
      individuellement, leurs coches se décalaient les unes par rapport aux
      autres. La colonne `max-content` est centrée en bloc, les items restant
-     alignés à gauche : les quatre coches se superposent. */
+     alignés à gauche : les deux coches se superposent. */
   @media (max-width: 639px) {
     .trust {
       display: grid;
