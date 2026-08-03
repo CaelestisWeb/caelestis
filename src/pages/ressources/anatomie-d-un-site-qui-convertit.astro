@@ -4,11 +4,20 @@ import Button from '../../components/Button.astro';
 
 const titre = "Anatomie d'un site qui convertit : à quoi sert chaque partie";
 const description =
-  "On décrypte, section par section, ce qui transforme un visiteur en client : la promesse, les repères de confiance, l'offre, l'histoire, les avis, la FAQ et le point de contact. Le rôle de chaque bloc, expliqué.";
+  "On décrypte, bloc par bloc, ce qui transforme un visiteur en client : navigation, promesse, offre, preuves, garanties, ancrage local, appel à l'action et contact. Le rôle de chaque partie d'un site, expliqué.";
 
-// Les sept éléments d'un site qui convertit. Chaque entrée : le nom de l'élément,
-// pourquoi il est là (la cause), à quoi il sert pour le visiteur (la conséquence).
+// Les blocs d'un site qui convertit, dans l'ordre où le visiteur les rencontre en
+// descendant la page. Chaque entrée : le nom de l'élément, pourquoi il est là
+// (la cause), à quoi il sert pour le visiteur (la conséquence).
 const anatomie = [
+  {
+    id: 'navigation',
+    tag: "L'orientation",
+    nom: 'La navigation claire',
+    pourquoi:
+      "Dès son arrivée, le visiteur doit voir en un coup d'œil où aller : vos prestations, vos réalisations, comment vous joindre.",
+    role: "Un menu lisible évite la sortie par confusion et guide vers la page qui déclenche le contact.",
+  },
   {
     id: 'promesse',
     tag: 'La promesse',
@@ -18,12 +27,12 @@ const anatomie = [
     role: "S'il comprend, il reste et descend la page. S'il hésite, il repart : c'est votre poignée de main.",
   },
   {
-    id: 'confiance',
-    tag: 'La réassurance',
-    nom: 'Les repères de confiance',
+    id: 'valeur',
+    tag: 'La valeur',
+    nom: 'La proposition de valeur',
     pourquoi:
-      "Un visiteur qui ne vous connaît pas cherche des signaux rassurants : votre ancienneté, votre proximité, votre façon de travailler.",
-    role: "Ils lèvent le doute avant même qu'il ne se pose, et donnent envie de continuer à lire.",
+      "Le visiteur ne se demande pas seulement ce que vous faites, mais ce que ça lui apporte, à lui.",
+    role: "Parler de ce qu'il gagne plutôt que de vos caractéristiques transforme un curieux en client qui se projette.",
   },
   {
     id: 'offre',
@@ -32,6 +41,30 @@ const anatomie = [
     pourquoi:
       "Le visiteur veut voir concrètement votre offre, tout de suite, sans avoir à chercher ni à deviner.",
     role: 'Une offre claire et illustrée transforme la simple curiosité en envie d’avancer avec vous.',
+  },
+  {
+    id: 'visuels',
+    tag: 'Le visuel',
+    nom: 'Les vrais visuels',
+    pourquoi:
+      "Des photos réelles, pas des images de banque : le visiteur repère l'authentique en une seconde.",
+    role: "Vos vraies photos prouvent que vous existez pour de bon et donnent envie, là où le stock sonne faux.",
+  },
+  {
+    id: 'process',
+    tag: 'Le déroulé',
+    nom: '« Comment ça se passe »',
+    pourquoi:
+      "Avant de s'engager, le visiteur veut savoir dans quoi il met les pieds : les étapes, les délais, qui fait quoi.",
+    role: "Un parcours en étapes visibles enlève la peur de l'inconnu et rapproche de la décision.",
+  },
+  {
+    id: 'confiance',
+    tag: 'La réassurance',
+    nom: 'Les repères de confiance',
+    pourquoi:
+      "Un visiteur qui ne vous connaît pas cherche des signaux rassurants : votre ancienneté, votre proximité, votre façon de travailler.",
+    role: "Ils lèvent le doute avant même qu'il ne se pose, et donnent envie de continuer à lire.",
   },
   {
     id: 'histoire',
@@ -49,6 +82,38 @@ const anatomie = [
     role: 'Des témoignages réels rassurent au moment du choix et déclenchent le passage à l’acte.',
   },
   {
+    id: 'garanties',
+    tag: "L'engagement",
+    nom: 'Les garanties et la réassurance',
+    pourquoi:
+      "Au moment de s'engager, le visiteur cherche ce qui le protège : devis gratuit, sans engagement, délais tenus.",
+    role: "Placées juste à côté des boutons d'action, les garanties lèvent la dernière hésitation avant le clic.",
+  },
+  {
+    id: 'labels',
+    tag: 'Les preuves tierces',
+    nom: 'Les labels, certifications et références',
+    pourquoi:
+      "Un signe validé par un tiers (une certification, un logo client, un réseau) pèse plus lourd que votre propre parole.",
+    role: "Quatre-vingt-trois pour cent des visiteurs font davantage confiance à un site qui porte un repère extérieur.",
+  },
+  {
+    id: 'local',
+    tag: "L'ancrage",
+    nom: "L'ancrage local : adresse, carte et horaires",
+    pourquoi:
+      "Le visiteur veut vérifier que vous êtes proche, réel et joignable. Google le vérifie aussi.",
+    role: "Une adresse, une carte et des horaires cohérents nourrissent les recherches « près de moi » et le référencement local.",
+  },
+  {
+    id: 'reseaux',
+    tag: 'Le prolongement',
+    nom: 'Les réseaux sociaux',
+    pourquoi:
+      "Un lien vers vos réseaux montre une activité vivante et régulière, pas un site figé et abandonné.",
+    role: "Ils prouvent que l'entreprise est bien active et prolongent la relation au-delà de la visite.",
+  },
+  {
     id: 'faq',
     tag: 'Les objections',
     nom: 'Les questions qu’on vous pose (la FAQ)',
@@ -56,11 +121,27 @@ const anatomie = [
     role: "En répondant d'avance, vous levez les derniers doutes, et vous êtes aussi mieux cité par Google et les intelligences artificielles.",
   },
   {
+    id: 'cta',
+    tag: "L'action",
+    nom: "Le bouton d'action, répété",
+    pourquoi:
+      "À chaque écran, le visiteur prêt à agir doit trouver un bouton, sans avoir à remonter la page ni à le chercher.",
+    role: "Un seul but par écran, une couleur qui tranche, répété du haut en bas : c'est lui qui déclenche le contact.",
+  },
+  {
     id: 'contact',
     tag: 'La conversion',
     nom: 'Le point de contact',
     pourquoi: 'Tout le site mène ici. Ce moment doit être simple, court et rassurant.',
     role: "Un formulaire clair transforme un visiteur intéressé en demande concrète. Chaque champ en trop fait perdre un client en chemin.",
+  },
+  {
+    id: 'detail',
+    tag: "L'aimabilité",
+    nom: 'Le soin du détail',
+    pourquoi:
+      "Les micro-attentions (une animation juste, une cohérence parfaite, un texte qui sonne vrai) se ressentent sans se nommer.",
+    role: "Ce soin donne le sentiment d'un professionnel sérieux et attachant, et fait pencher la préférence de votre côté.",
   },
 ];
 
@@ -87,9 +168,9 @@ const schema = {
       <p class="anat-eyebrow">Le décryptage</p>
       <h1>Anatomie d'un site qui convertit.</h1>
       <p class="anat-chapo">
-        Un bon site n'est pas une jolie brochure : c'est un enchaînement de sections
-        qui, l'une après l'autre, lèvent un doute et rapprochent le visiteur de l'action.
-        Voici le rôle de chacune. À gauche l'élément, à droite ce qu'il fait pour vous.
+        Un bon site n'est pas une jolie brochure : c'est un enchaînement de blocs
+        qui, l'un après l'autre, lèvent un doute et rapprochent le visiteur de l'action.
+        Voici le rôle de chacun. À gauche l'élément, à droite ce qu'il fait pour vous.
       </p>
       <p class="anat-indice" aria-hidden="true">Faites défiler, chaque partie s'explique</p>
     </header>
@@ -101,6 +182,13 @@ const schema = {
           <div class="anat-demo">
             <span class="anat-numero" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <div class={`demo demo-${e.id}`} aria-hidden="true">
+              {e.id === 'navigation' && (
+                <div class="d-nav2">
+                  <span class="d-logo"></span>
+                  <span class="d-nl"></span><span class="d-nl"></span><span class="d-nl"></span>
+                  <span class="d-ncta">Contact</span>
+                </div>
+              )}
               {e.id === 'promesse' && (
                 <div class="d-hero">
                   <span class="d-eb">Votre activité, votre région</span>
@@ -108,10 +196,11 @@ const schema = {
                   <span class="d-cta">Passer à l'action</span>
                 </div>
               )}
-              {e.id === 'confiance' && (
-                <div class="d-reperes">
-                  <span class="d-chip">Installé depuis 2014</span>
-                  <span class="d-chip">À deux pas de chez vous</span>
+              {e.id === 'valeur' && (
+                <div class="d-valeur">
+                  <span class="d-benef">Vous gagnez du temps</span>
+                  <span class="d-benef">Vous devenez visible</span>
+                  <span class="d-benef">Vous inspirez confiance</span>
                 </div>
               )}
               {e.id === 'offre' && (
@@ -121,10 +210,29 @@ const schema = {
                   <span class="d-carte"><span class="d-ph"></span><span class="d-l">Formule 3</span></span>
                 </div>
               )}
+              {e.id === 'visuels' && (
+                <div class="d-visuels">
+                  <span class="d-photo"></span>
+                  <span class="d-tag-auth">Vraie photo</span>
+                </div>
+              )}
+              {e.id === 'process' && (
+                <div class="d-process">
+                  <span class="d-etape">1</span><span class="d-fleche">›</span>
+                  <span class="d-etape">2</span><span class="d-fleche">›</span>
+                  <span class="d-etape">3</span>
+                </div>
+              )}
+              {e.id === 'confiance' && (
+                <div class="d-reperes">
+                  <span class="d-chip">Installé depuis 2014</span>
+                  <span class="d-chip">À deux pas de chez vous</span>
+                </div>
+              )}
               {e.id === 'histoire' && (
                 <div class="d-histoire">
                   <span class="d-portrait"></span>
-                  <span class="d-texte"><span class="d-l long"></span><span class="d-l"></span><span class="d-signe">Camille</span></span>
+                  <span class="d-texte"><span class="d-bar long"></span><span class="d-bar"></span><span class="d-signe">Camille</span></span>
                 </div>
               )}
               {e.id === 'avis' && (
@@ -134,10 +242,39 @@ const schema = {
                   <span class="d-auteur">Un client, sa ville</span>
                 </div>
               )}
+              {e.id === 'garanties' && (
+                <div class="d-garanties">
+                  <span class="d-gar">Devis gratuit</span>
+                  <span class="d-gar">Sans engagement</span>
+                  <span class="d-gar">Délais tenus</span>
+                </div>
+              )}
+              {e.id === 'labels' && (
+                <div class="d-labels">
+                  <span class="d-badge"></span><span class="d-badge"></span><span class="d-badge"></span>
+                </div>
+              )}
+              {e.id === 'local' && (
+                <div class="d-local">
+                  <span class="d-pin"></span>
+                  <span class="d-adr"><span class="d-bar"></span><span class="d-bar short"></span></span>
+                </div>
+              )}
+              {e.id === 'reseaux' && (
+                <div class="d-reseaux">
+                  <span class="d-social"></span><span class="d-social"></span><span class="d-social"></span><span class="d-social"></span>
+                </div>
+              )}
               {e.id === 'faq' && (
                 <div class="d-faq">
                   <span class="d-q">Combien de temps ça prend ?<span class="d-plus">+</span></span>
                   <span class="d-q">Comment ça se passe ?<span class="d-plus">+</span></span>
+                </div>
+              )}
+              {e.id === 'cta' && (
+                <div class="d-cta2">
+                  <span class="d-btn">Passer à l'action</span>
+                  <span class="d-btn ghost">ou nous appeler</span>
                 </div>
               )}
               {e.id === 'contact' && (
@@ -145,6 +282,14 @@ const schema = {
                   <span class="d-input"></span>
                   <span class="d-input"></span>
                   <span class="d-envoi">Envoyer</span>
+                </div>
+              )}
+              {e.id === 'detail' && (
+                <div class="d-detail">
+                  <span class="d-shine" aria-hidden="true"></span>
+                  <span class="d-bar long"></span>
+                  <span class="d-bar"></span>
+                  <span class="d-bar short"></span>
                 </div>
               )}
             </div>
@@ -163,7 +308,7 @@ const schema = {
     <!-- Chute -->
     <aside class="anat-chute">
       <p class="anat-chute-sur">Ce n'est pas un hasard</p>
-      <h2>Chaque section de votre futur site aura une raison d'être.</h2>
+      <h2>Chaque bloc de votre futur site aura une raison d'être.</h2>
       <p>
         C'est exactement comme ça que nous construisons les sites que nous livrons :
         rien de décoratif, chaque bloc lève un doute ou rapproche de l'action.
@@ -273,6 +418,17 @@ const schema = {
   }
   .anat-row.vu .demo { box-shadow: 0 18px 44px rgba(27, 71, 51, 0.1); }
 
+  /* barre neutre réutilisable */
+  .d-bar { height: 8px; border-radius: 4px; background: var(--color-cream-dark); width: 78%; }
+  .d-bar.long { width: 100%; }
+  .d-bar.short { width: 52%; }
+
+  /* Navigation */
+  .d-nav2 { flex-direction: row; align-items: center; gap: 9px; }
+  .d-logo { width: 15px; height: 15px; border-radius: 50%; background: var(--color-ocre); flex: none; }
+  .d-nl { height: 7px; width: 34px; border-radius: 4px; background: var(--color-cream-dark); }
+  .d-ncta { margin-left: auto; background: var(--color-ocre); color: #FCFBF8; border-radius: 99px; padding: 5px 13px; font-size: 0.72rem; font-weight: 600; }
+
   /* Hero */
   .d-hero {
     background: linear-gradient(158deg, #2C6B4C, #1B4733);
@@ -287,24 +443,37 @@ const schema = {
   .d-titre { font-family: var(--font-display); font-weight: 300; font-size: 1.08rem; color: #FCFBF8; line-height: 1.2; }
   .d-cta { align-self: flex-start; margin-top: 4px; background: #FCFBF8; color: var(--color-ocre); border-radius: 99px; padding: 7px 15px; font-size: 0.76rem; font-weight: 600; }
 
+  /* Valeur */
+  .d-valeur { gap: 9px; }
+  .d-benef { font-size: 0.9rem; color: var(--color-ocre); display: flex; align-items: center; gap: 9px; }
+  .d-benef::before { content: '✓'; color: var(--color-sauge-text); font-weight: 700; }
+
   /* Repères */
-  .d-reperes { display: flex; flex-wrap: wrap; gap: 10px; }
+  .d-reperes { flex-direction: row; flex-wrap: wrap; gap: 10px; }
   .d-chip { border: 1px solid var(--color-cream-dark); border-radius: 99px; padding: 8px 14px; font-size: 0.8rem; color: var(--color-ocre); background: var(--color-sauge-pale); }
 
   /* Offre */
-  .d-offre { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+  .d-offre { flex-direction: row; display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
   .d-carte { border: 1px solid var(--color-cream-dark); border-radius: 9px; overflow: hidden; }
   .d-ph { display: block; height: 42px; background: linear-gradient(135deg, #7B9E5B, #4E7A3E); }
   .d-carte:nth-child(2) .d-ph { background: linear-gradient(135deg, #C97D4A, #A85A2E); }
   .d-carte:nth-child(3) .d-ph { background: linear-gradient(135deg, #C7A24B, #9E7C2E); }
   .d-l { display: block; font-size: 0.7rem; color: var(--color-ocre); padding: 6px 8px; }
 
+  /* Visuels */
+  .d-visuels { position: relative; }
+  .d-photo { display: block; height: 92px; border-radius: 10px; background: linear-gradient(135deg, #7B9E5B, #4E7A3E); }
+  .d-tag-auth { position: absolute; bottom: 8px; left: 8px; background: rgba(252, 251, 248, 0.92); color: var(--color-ocre); font-size: 0.66rem; font-weight: 600; padding: 3px 10px; border-radius: 99px; }
+
+  /* Process */
+  .d-process { flex-direction: row; align-items: center; justify-content: center; gap: 8px; }
+  .d-etape { width: 32px; height: 32px; border-radius: 50%; background: var(--color-sauge-pale); color: var(--color-ocre); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; font-family: var(--font-display); }
+  .d-fleche { color: var(--color-sauge-text); font-size: 1.1rem; }
+
   /* Histoire */
-  .d-histoire { display: flex; align-items: center; gap: 14px; }
+  .d-histoire { flex-direction: row; align-items: center; gap: 14px; }
   .d-portrait { width: 54px; height: 54px; border-radius: 50%; flex: none; background: radial-gradient(circle at 35% 30%, #cbb79a, #8a6f4d); }
   .d-texte { display: flex; flex-direction: column; gap: 7px; flex: 1; }
-  .d-texte .d-l { height: 8px; border-radius: 4px; background: var(--color-cream-dark); padding: 0; width: 70%; }
-  .d-texte .d-l.long { width: 100%; }
   .d-signe { font-family: var(--font-display); font-size: 0.9rem; color: var(--color-ocre); margin-top: 2px; }
 
   /* Avis */
@@ -313,15 +482,45 @@ const schema = {
   .d-cit { display: block; font-size: 0.9rem; color: var(--color-ocre); margin-top: 6px; line-height: 1.5; }
   .d-auteur { display: block; font-size: 0.74rem; color: var(--color-brun-mid, #5C6259); margin-top: 8px; letter-spacing: 0.02em; }
 
+  /* Garanties */
+  .d-garanties { gap: 8px; }
+  .d-gar { font-size: 0.82rem; color: var(--color-ocre); background: var(--color-sauge-pale); border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 9px; }
+  .d-gar::before { content: '●'; color: var(--color-sauge-text); font-size: 0.6rem; }
+
+  /* Labels */
+  .d-labels { flex-direction: row; justify-content: center; gap: 14px; }
+  .d-badge { width: 46px; height: 46px; border-radius: 50%; border: 2px dashed var(--color-sauge); position: relative; }
+  .d-badge::after { content: ''; position: absolute; inset: 8px; border-radius: 50%; background: var(--color-sauge-pale); }
+
+  /* Ancrage local */
+  .d-local { flex-direction: row; align-items: center; gap: 16px; }
+  .d-pin { width: 56px; height: 56px; border-radius: 10px; background: var(--color-sauge-pale); position: relative; flex: none; }
+  .d-pin::after { content: ''; position: absolute; left: 50%; top: 44%; width: 13px; height: 13px; border-radius: 50% 50% 50% 0; transform: translate(-50%, -50%) rotate(-45deg); background: var(--color-terre, #B4623A); }
+  .d-adr { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+
+  /* Réseaux */
+  .d-reseaux { flex-direction: row; justify-content: center; gap: 13px; }
+  .d-social { width: 36px; height: 36px; border-radius: 50%; background: var(--color-sauge-pale); border: 1px solid var(--color-cream-dark); }
+
   /* FAQ */
-  .d-faq { display: flex; flex-direction: column; gap: 8px; }
-  .d-q { display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--color-cream-dark); border-radius: 8px; padding: 11px 14px; font-size: 0.82rem; color: var(--color-ocre); }
+  .d-faq { gap: 8px; }
+  .d-q { flex-direction: row; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--color-cream-dark); border-radius: 8px; padding: 11px 14px; font-size: 0.82rem; color: var(--color-ocre); }
   .d-plus { color: var(--color-sauge-text); font-weight: 600; }
 
+  /* CTA */
+  .d-cta2 { align-items: center; gap: 9px; }
+  .d-btn { background: var(--color-ocre); color: #FCFBF8; border-radius: 99px; padding: 10px 24px; font-size: 0.84rem; font-weight: 600; }
+  .d-btn.ghost { background: none; color: var(--color-sauge-text); padding: 3px; font-size: 0.78rem; }
+
   /* Contact */
-  .d-contact { display: flex; flex-direction: column; gap: 9px; }
+  .d-contact { gap: 9px; }
   .d-input { height: 30px; border: 1px solid var(--color-cream-dark); border-radius: 8px; background: var(--color-cream, #FCFBF8); }
   .d-envoi { align-self: flex-start; background: var(--color-ocre); color: #FCFBF8; border-radius: 99px; padding: 8px 18px; font-size: 0.8rem; font-weight: 600; }
+
+  /* Détail (aimabilité) */
+  .d-detail { position: relative; overflow: hidden; gap: 8px; }
+  .d-shine { position: absolute; inset: 0; background: linear-gradient(110deg, transparent 32%, rgba(184, 196, 187, 0.5) 50%, transparent 68%); transform: translateX(-100%); animation: d-shimmer 2.8s ease-in-out infinite; }
+  @keyframes d-shimmer { to { transform: translateX(100%); } }
 
   /* ── Colonne droite : l'analyse ── */
   .anat-note-tag {
@@ -403,11 +602,12 @@ const schema = {
 
   @media (prefers-reduced-motion: reduce) {
     .anat-row { opacity: 1; transform: none; transition: none; }
+    .d-shine { animation: none; }
   }
 </style>
 
 <script>
-  // Révélation section par section, avec filet de sécurité (impression, captures,
+  // Révélation bloc par bloc, avec filet de sécurité (impression, captures,
   // navigateurs sans IntersectionObserver).
   function initAnatomie() {
     const rows = Array.from(document.querySelectorAll<HTMLElement>('.anat-row'));
@@ -434,7 +634,6 @@ const schema = {
     );
     rows.forEach((r) => io.observe(r));
 
-    // Sécurité : tout révéler avant impression et après un délai.
     window.addEventListener('beforeprint', reveal);
     setTimeout(reveal, 2600);
   }
