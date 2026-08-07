@@ -157,3 +157,26 @@ Règle accessibilité en place : `.text-sauge` (accent décoratif `#B8C4BB`) ne 
   - **Page régionale, le territoire à l'échelle du temps de route** : Crest au centre, chaque ville dans sa direction réelle, un anneau par heure. **Ce n'est pas une carte géographique**, les contours ne sont pas tracés ; seules la direction et la durée sont vraies. Les villes et les durées sont reprises en clair dessous, c'est ce qu'indexe Google. Le schéma répond aussi à l'objection de la distance, dont la section a été supprimée. Piège : Chambéry et Annecy partagent presque l'azimut depuis Crest, leurs étiquettes se recouvraient, d'où le champ `pos` qui oriente chaque étiquette.
   - **`/maintenance`, la ligne de partage** : la section annonçait « deux choses bien distinctes » et les donnait à voir pareilles, deux cartes arrondies jumelles. Le partage passe au fond (teinté à gauche pour l'abonnement, crème à droite pour le devis) et à un filet. Chaque colonne porte sa liste, puce pleine pour l'acquis, puce en creux pour ce qui reste à demander.
   - **Contrôle après pose, à refaire pour tout module** : zéro débordement à 375 et 1280 px, zéro chevauchement d'étiquettes, zéro tiret cadratin, point médian ou italique dans le rendu. Deux manquements trouvés à cette occasion et corrigés : le point médian de « 4,8 · 62 avis » dans la fiche, et le tiret cadratin qui marquait « non compris » dans le tableau comparatif de la maintenance, remplacé par un trait fin en SVG.
+
+- **07/08/2026, les douze modules du site, et les deux refusés** : le plafond de modules est passé de 2-3 à 10 par site (arbitrage de Célestin, « c'est plus important, des modules, que des textes »), puis à douze après réexamen. Le plafond par page reste à deux ou trois.
+
+  | Page | Module | Ce qu'il montre que le texte ne montrait pas |
+  |---|---|---|
+  | `/services/fiche-google-entreprise` | La fiche dessinée | L'encadré Google que la page vendait 300 € sans jamais l'afficher |
+  | `/services/fiche-google-entreprise` | Le mockup du hero | Un site livré (Fée des Ongles) au lieu d'une maquette dessinée |
+  | `realisations/[slug]` | La bascule | Que « ce qui a été construit » répond à « ce qu'il fallait résoudre » |
+  | `/services/referencement-naturel` | Le portique | Cinq piliers, quand la section les empilait à la verticale |
+  | `/creation-site-internet-auvergne-rhone-alpes` | Le périmètre | Direction et temps de route réels depuis Crest |
+  | `/creation-site-internet-auvergne-rhone-alpes` | Les quatre gestes | Quatorze métiers qui se noyaient dans une phrase |
+  | `/maintenance` | La ligne de partage | Que l'abonnement et le devis sont deux choses, pas deux cartes jumelles |
+  | `/outils/diagnostic` | La planche des huit familles | La grille de notation, jauges comprises |
+  | `/services/site-une-page` | L'élévation | L'empilement des sections d'une page |
+  | `/services/site-vitrine` | Le plan du site | Qu'aucune page n'est à plus d'un clic de l'accueil |
+  | `/services/boutique-en-ligne` | Le tunnel | Les cinq endroits où une vente se perd |
+  | `/services/site-sur-mesure` | Le socle et les greffes | Que le sur-mesure est le socle commun plus ce que le métier réclame |
+  | `/a-propos` | Le feuillet de devis | Que les quatre engagements sont des clauses, pas des intentions |
+
+  - **Deux sections ont été examinées puis refusées** : « Simple, et vous gardez la main » sur la fiche Google, et « Un travail de fond » sur le référencement. Les deux pages portent déjà leur module fort, et ces sections ont trois puces numérotées qui font le travail. **Un module de plus y aurait empilé sans clarifier.** Le refus est aussi une décision : ne pas le rouvrir sans motif nouveau.
+  - **Règle des dessins honnêtes**, tenue partout : la jauge du diagnostic reste vide (une note avant analyse serait un décor mensonger), le feuillet de devis ne porte ni montant ni date (un document chiffré serait fabriqué), le rétrécissement du tunnel est une figure et non un taux, le schéma du périmètre ne trace aucun contour départemental puisque seules la direction et la durée sont vraies.
+  - **Piège du serveur de développement** : Astro en dev a servi un CSS périmé pour un second bloc `<style>` ajouté après coup, alors que `npm run build` le compilait correctement. Un module peut donc paraître cassé en local et être juste. Fusionner les blocs `<style>` d'une page, et vérifier sur un serveur relancé avant de conclure à un défaut.
+  - **Contrôle après pose d'un module**, à refaire à chaque fois : aucun débordement à 375 et 1280 px, aucun chevauchement d'étiquettes, aucun libellé coupé en deux, et le grep des interdits sur le rendu (tiret cadratin, point médian, italique).
