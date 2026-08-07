@@ -458,6 +458,9 @@ const filArianeDiagnostic = {
   }
   #diagConstats .diag-constat[data-gravite="critique"] { border-left-color: #9C3226; }
   #diagConstats .diag-constat[data-gravite="moyen"]    { border-left-color: #A8722A; }
+  /* Points de réglage : relevés, mais sans effet sur la note. Le trait de
+     gauche s'efface pour que l'œil aille d'abord à ce qui compte. */
+  #diagConstats .diag-constat[data-gravite="reglage"]  { border-left-style: dotted; opacity: .82; }
 
   #diagConstats .diag-etiquette {
     display: inline-block;
@@ -508,7 +511,9 @@ function brancherDiagnostic() {
   if (form.dataset.branche === 'oui') return;
   form.dataset.branche = 'oui';
 
-  const LIBELLE = { critique: 'Bloquant', moyen: 'Important', mineur: 'À corriger' } as const;
+  /* « Réglage » désigne un point exact que la note ne sanctionne pas : il
+     manque à la très grande majorité des sites, y compris bien construits. */
+  const LIBELLE = { critique: 'Bloquant', moyen: 'Important', mineur: 'À corriger', reglage: 'Réglage, sans effet sur la note' } as const;
   /* Au-delà de ce nombre, les points restants d'une même famille sont annoncés
      sans être détaillés : une liste de trente lignes ne se lit plus. */
   const PLAFOND_PAR_FAMILLE = 8;
@@ -657,14 +662,23 @@ function brancherDiagnostic() {
             `${p(m.images, 'image')} dont ${m.imagesSansAlt} sans description, ${p(m.scripts, 'script')}, ` +
             `${p(m.domainesTiers, 'serveur extérieur', 'serveurs extérieurs')}, ` +
             `${p(m.pages, 'page')} ${m.pages > 1 ? 'atteignables' : 'atteignable'} depuis l'accueil. ` +
+            (m.pagesLues > 1 ? `${p(m.pagesLues, 'page')} ouverte${m.pagesLues > 1 ? 's' : ''} et lue${m.pagesLues > 1 ? 's' : ''}. ` : '') +
             `${p(m.controles, 'contrôle')} passé${m.controles > 1 ? 's' : ''}.`;
           brut.hidden = false;
         }
       }
 
+      /* Les points de réglage sont annoncés à part : ils ne pèsent pas sur la
+         note, et les mêler au décompte donnerait une liste plus alarmante
+         qu'elle ne l'est. */
+      const reglages = liste.filter((c: any) => c.gravite === 'reglage').length;
+      const comptes = liste.length - reglages;
       const titre = liste.length === 0
         ? "Aucun défaut relevé sur les points contrôlés."
-        : `${liste.length} point${liste.length > 1 ? 's' : ''} relevé${liste.length > 1 ? 's' : ''}${bloquants ? `, dont ${bloquants} bloquant${bloquants > 1 ? 's' : ''}` : ''}`;
+        : comptes === 0
+          ? `${reglages} point${reglages > 1 ? 's' : ''} de réglage, sans effet sur la note.`
+          : `${comptes} point${comptes > 1 ? 's' : ''} relevé${comptes > 1 ? 's' : ''}${bloquants ? `, dont ${bloquants} bloquant${bloquants > 1 ? 's' : ''}` : ''}` +
+            (reglages ? `, plus ${reglages} réglage${reglages > 1 ? 's' : ''} sans effet sur la note` : '');
       constats.appendChild(bloc('h3', 'font-display text-xl md:text-2xl text-brun mb-6', titre));
 
       const carte = (c: any) => {

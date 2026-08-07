@@ -143,6 +143,34 @@ if (process.argv.includes('--reseau')) {
   verifier('domaine sans serveur nommé comme tel',
     mort.etat === 'refuse' && mort.raison.includes('ne pointe vers aucun serveur'),
     mort.etat === 'refuse' ? mort.raison : `état ${mort.etat}`);
+
+  /* Pages internes : micheletaugustin.com nomme ses mentions légales
+     « Nos garanties très légales » et les place une page plus loin. */
+  const interne = await analyserSite('www.micheletaugustin.com');
+  if (interne.etat === 'ok') {
+    verifier('pages internes réellement ouvertes', (interne.mesures.pagesLues ?? 1) > 1,
+      `${interne.mesures.pagesLues ?? 1} page(s)`);
+    verifier('mentions légales trouvées sur une page interne',
+      !interne.constats.some((c) => c.fait.includes('mentions légales')));
+  } else {
+    echecs.push(`micheletaugustin.com injoignable (${interne.etat})`);
+  }
+
+  /* Un renvoi vers une page légale pour consulter des horaires ou des prix
+     n'aide personne : ces pages en contiennent toujours par obligation. */
+  const renvoisDouteux: string[] = [];
+  for (const site of ['www.jacopain.fr', 'www.lasavonneriedeladrome.fr', 'escalin.com']) {
+    const a = await analyserSite(site);
+    if (a.etat !== 'ok') continue;
+    for (const c of a.constats) {
+      const page = c.fait.match(/(?:sur|jusqu'à|ouvrir) (\/[^\s.]*)/)?.[1];
+      if (page && /mention|legal|cgv|cgu|confidentialit|privacy|rgpd|cookie/i.test(page)) {
+        renvoisDouteux.push(`${site} → ${c.fait}`);
+      }
+    }
+  }
+  verifier('aucun renvoi vers une page légale pour un point de conversion',
+    renvoisDouteux.length === 0, renvoisDouteux.join(' | '));
 }
 
 console.log(`\n${reussis} contrôle(s) réussi(s), ${echecs.length} échec(s).`);

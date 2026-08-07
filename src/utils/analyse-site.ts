@@ -21,7 +21,13 @@
 import { lookup } from 'node:dns/promises';
 import { connect as tlsConnect } from 'node:tls';
 
-export type Gravite = 'critique' | 'moyen' | 'mineur';
+/**
+ * Quatre niveaux. « reglage » désigne un point exact mais que presque aucun
+ * site ne tient : sur 52 sites mesurés, les en-têtes de sécurité manquaient à
+ * 58 à 79 % d'entre eux. Le relever reste utile, le facturer à la note ne
+ * distingue plus personne : ces points sont donc affichés sans pénalité.
+ */
+export type Gravite = 'critique' | 'moyen' | 'mineur' | 'reglage';
 
 export type Famille =
   | 'vitesse'
@@ -59,6 +65,8 @@ export interface Mesures {
   pages: number;
   balises: number;
   controles: number;
+  /** Pages internes réellement ouvertes en plus de l'accueil. */
+  pagesLues?: number;
 }
 
 export type Analyse =
@@ -95,6 +103,9 @@ const POIDS_SONDE_MAX = 512 * 1024;
 const CERT_EXPIRE_CRITIQUE_JOURS = 7;
 const CERT_EXPIRE_PROCHE_JOURS = 21;
 const REDIRECTIONS_MAX = 4;
+/* Pages internes ouvertes en plus de l'accueil. Elles servent à vérifier ce
+   qui semblait absent, jamais à chercher de nouveaux défauts. */
+const PAGES_SECONDAIRES_MAX = 6;
 const UA = 'Mozilla/5.0 (compatible; CaelestisDiagnostic/1.0; +https://caelestis.fr)';
 
 const SEUILS = {
@@ -131,7 +142,7 @@ const FAMILLES: { cle: Famille; libelle: string; poids: number }[] = [
 ];
 
 /** Coût d'un point relevé dans la note de sa famille. */
-const PENALITE: Record<Gravite, number> = { critique: 35, moyen: 18, mineur: 7 };
+const PENALITE: Record<Gravite, number> = { critique: 35, moyen: 18, mineur: 7, reglage: 0 };
 
 /* ══════════════════════════════════════════════════════════
    GARDE-FOUS D'ENTRÉE
@@ -570,6 +581,33 @@ function memeMaison(hote: string, domaine: string): boolean {
 }
 
 /**
+ * Pages internes à ouvrir en plus de l'accueil, par ordre d'utilité.
+ *
+ * L'audit ne portait que sur la page d'accueil, ce qui lui faisait déclarer
+ * absent ce qui se trouvait une page plus loin : mentions légales, horaires,
+ * adresse. Il en ouvre maintenant quelques-unes, en commençant par celles qui
+ * répondent aux questions les plus lourdes. La sélection reste courte : ce
+ * n'est pas un aspirateur, et le budget de la fonction est de neuf secondes.
+ */
+const PAGES_RECHERCHEES: { motif: RegExp; rang: number }[] = [
+  { motif: /(?:^|[/_-])(?:mentions?|legal|legales|impressum|cgv|cgu|conditions)/i, rang: 0 },
+  { motif: /confidentialit|privacy|donnees-personnelles|rgpd|politique/i, rang: 1 },
+  { motif: /contact|nous-joindre|nous-trouver|acces|devis|rendez-vous/i, rang: 2 },
+  { motif: /horaires?|ouverture|infos?-pratiques|pratique|venir/i, rang: 3 },
+  { motif: /a-propos|qui-sommes|notre-histoire|presentation|entreprise|equipe/i, rang: 4 },
+  { motif: /tarifs?|prix|avis|temoignages?|realisations?|galerie/i, rang: 5 },
+];
+
+function pagesAOuvrir(chemins: string[], maximum: number): string[] {
+  const notes = chemins.map((chemin) => {
+    const trouve = PAGES_RECHERCHEES.find((p) => p.motif.test(chemin));
+    return { chemin, rang: trouve ? trouve.rang : 9 };
+  });
+  notes.sort((a, b) => a.rang - b.rang || a.chemin.length - b.chemin.length);
+  return notes.slice(0, maximum).map((n) => n.chemin);
+}
+
+/**
  * Lecture d'un robots.txt par groupes, comme le fait un moteur de recherche.
  *
  * La version précédente cherchait « Disallow: / » n'importe où après un
@@ -737,23 +775,86 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     );
   }
 
-  /* ── Sondes annexes, toutes lancées ensemble pour ne coûter qu'un seul délai ── */
   const base = new URL(page.urlFinale ?? depart.href);
+  const domaineBase = racine(base.hostname);
+
+  /* Liens de l'accueil, lus avant les sondes : ils décident des pages internes
+     à ouvrir. L'adresse se lit comme un attribut, car `href=/contact` sans
+     guillemets est valide en HTML et l'ignorer faisait conclure à tort qu'une
+     page d'accueil ne menait nulle part. */
+  const liens = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)].map((m) => ({
+    balise: `<a ${m[1]}>`,
+    href: attribut(`<a ${m[1]}>`, 'href') ?? '',
+    contenu: m[2],
+  }));
+  /* Pages internes distinctes accessibles depuis l'accueil : c'est le nombre de
+     portes d'entrée que le site offre à Google. */
+  const pagesInternes = new Set<string>();
+  for (const lien of liens) {
+    if (!lien.href || /^(#|mailto:|tel:|javascript:|data:|sms:)/i.test(lien.href)) continue;
+    try {
+      const cible = new URL(lien.href, base);
+      if (racine(cible.hostname) !== domaineBase) continue;
+      const chemin = cible.pathname.replace(/\/+$/, '') || '/';
+      if (chemin === '/' || /\.(pdf|jpe?g|png|webp|svg|zip|docx?)$/i.test(chemin)) continue;
+      pagesInternes.add(chemin);
+    } catch {
+      /* href non exploitable : ignoré, il ne sert pas de mesure. */
+    }
+  }
+  const cheminsSecondaires = pagesAOuvrir([...pagesInternes], PAGES_SECONDAIRES_MAX);
+
+  /* ── Sondes annexes, toutes lancées ensemble pour ne coûter qu'un seul délai ── */
   const varianteHote = base.hostname.startsWith('www.')
     ? base.hostname.slice(4)
     : `www.${base.hostname}`;
   const urlVariante = new URL(base); urlVariante.hostname = varianteHote; urlVariante.pathname = '/';
   const urlHttpNu = new URL(base); urlHttpNu.protocol = 'http:'; urlHttpNu.pathname = '/';
 
-  const [robots, planSite, page404, versionHttp, varianteWww, favicon, certExpire] = await Promise.all([
-    sonder(new URL('/robots.txt', base), finAu),
-    sonder(new URL('/sitemap.xml', base), finAu),
-    sonder(new URL('/caelestis-controle-page-absente', base), finAu),
-    httpsDisponible ? sonder(urlHttpNu, finAu, false) : Promise.resolve(null),
-    sonder(urlVariante, finAu, false),
-    sonder(new URL('/favicon.ico', base), finAu, false),
-    httpsDisponible ? sonderCertificat(base.hostname, finAu) : Promise.resolve(null),
-  ]);
+  const [robots, planSite, page404, versionHttp, varianteWww, favicon, certExpire, secondaires] =
+    await Promise.all([
+      sonder(new URL('/robots.txt', base), finAu),
+      sonder(new URL('/sitemap.xml', base), finAu),
+      sonder(new URL('/caelestis-controle-page-absente', base), finAu),
+      httpsDisponible ? sonder(urlHttpNu, finAu, false) : Promise.resolve(null),
+      sonder(urlVariante, finAu, false),
+      sonder(new URL('/favicon.ico', base), finAu, false),
+      httpsDisponible ? sonderCertificat(base.hostname, finAu) : Promise.resolve(null),
+      Promise.all(
+        cheminsSecondaires.map(async (chemin) => {
+          try {
+            const s = await sonder(new URL(chemin, base), finAu);
+            return s && s.statut === 200 ? { chemin, corps: s.corps } : null;
+          } catch {
+            return null;
+          }
+        }),
+      ),
+    ]);
+
+  /* Texte des pages internes réellement lues. Il ne sert qu'à lever ou adoucir
+     un constat d'absence, jamais à en ajouter : une page annexe qui n'a pas pu
+     être lue ne doit rien changer au résultat. */
+  const pagesLues = (secondaires ?? []).filter(
+    (p): p is { chemin: string; corps: string } => p !== null && p.corps.length > 0,
+  );
+  const texteAilleurs = pagesLues.map((p) => texteVisible(p.corps)).join(' ');
+  const codeAilleurs = pagesLues.map((p) => decoderEntites(p.corps)).join(' ');
+  /* Les pages d'obligations légales contiennent par nature une adresse, des
+     délais et des mentions de tarifs : y trouver un horaire ne veut pas dire
+     que le visiteur y trouvera les vôtres. Renvoyer quelqu'un vers ses
+     mentions légales pour consulter ses prix n'aide personne, et décrédibilise
+     le reste de l'analyse. Elles ne servent donc qu'aux contrôles légaux. */
+  const PAGE_LEGALE = /mention|legal|cgv|cgu|conditions|confidentialit|privacy|rgpd|donnees-personnelles|cookies?/i;
+
+  /** Cherche un motif dans les pages internes ouvertes, et dit laquelle le porte. */
+  const trouveAilleurs = (motif: RegExp, options: { saufPagesLegales?: boolean } = {}): string | null => {
+    for (const p of pagesLues) {
+      if (options.saufPagesLegales && PAGE_LEGALE.test(p.chemin)) continue;
+      if (motif.test(texteVisible(p.corps))) return p.chemin;
+    }
+    return null;
+  };
 
   /* ── Mesures brutes ── */
   const bas = html.toLowerCase();
@@ -852,7 +953,6 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   const policesEnFamilles = famillesDeclarees.size > 0;
   const polices = policesEnFamilles ? famillesDeclarees.size : fichiersPolice;
 
-  const domaineBase = racine(base.hostname);
   /* Domaines réellement appelés au chargement. La version précédente comptait
      aussi les `<a href>` : un pied de page avec quatre réseaux sociaux et
      quelques liens partenaires suffisait à annoncer « quinze serveurs
@@ -895,29 +995,6 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     return tiers || !differe;
   }).length;
 
-  /* Pages internes distinctes accessibles depuis l'accueil : c'est le nombre de
-     portes d'entrée que le site offre à Google. */
-  const pagesInternes = new Set<string>();
-  /* L'adresse d'un lien se lit comme un attribut : `href=/contact` sans
-     guillemets est valide en HTML, et l'ignorer faisait conclure à tort qu'une
-     page d'accueil ne menait nulle part. */
-  const liens = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)].map((m) => ({
-    balise: `<a ${m[1]}>`,
-    href: attribut(`<a ${m[1]}>`, 'href') ?? '',
-    contenu: m[2],
-  }));
-  for (const lien of liens) {
-    if (!lien.href || /^(#|mailto:|tel:|javascript:|data:|sms:)/i.test(lien.href)) continue;
-    try {
-      const cible = new URL(lien.href, base);
-      if (racine(cible.hostname) !== domaineBase) continue;
-      const chemin = cible.pathname.replace(/\/+$/, '') || '/';
-      if (chemin === '/' || /\.(pdf|jpe?g|png|webp|svg|zip|docx?)$/i.test(chemin)) continue;
-      pagesInternes.add(chemin);
-    } catch {
-      /* href non exploitable : ignoré, il ne sert pas de mesure. */
-    }
-  }
   const liensVagues = liens.filter(
     (lien) =>
       /^(cliquez ici|cliquer ici|ici|en savoir plus|lire la suite|voir plus|plus d'infos?|détails|details|read more)$/i.test(
@@ -1009,21 +1086,28 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
      « Nos garanties très légales », et rien n'oblige personne au libellé
      habituel. */
   const MOT_LEGAL = /(?:^|[/_\-\s])l[ée]gal(?:e|es|s|ement)?(?:$|[/_\-\s.?#])/i;
+  const MOTIF_MENTIONS =
+    /mentions?[-_\s]{0,3}l[ée]gal|informations?[-_\s]{0,3}l[ée]gal|impressum|notice[-_\s]l[ée]gale|legal[-_\s]?(?:notice|information|documents?|terms)|num[ée]ro (?:de )?(?:siret|siren|rcs)|\bsiret\b|\brcs\b|directeur de (?:la )?publication/i;
+  const MOTIF_CONFIDENTIALITE =
+    /politique[-_\s]?de[-_\s]?confidentialit|confidentialit[ée]|privacy[-_\s]?policy|donn[ée]es[-_\s]personnelles|protection des donn[ée]es|\brgpd\b|\bgdpr\b/i;
+  const MOTIF_CONDITIONS =
+    /conditions[-_\s]g[ée]n[ée]rales|\bcgv\b|\bcgu\b|termes et conditions|conditions de vente|nos contrats/i;
+
+  /* Les obligations légales sont remplies dès qu'elles existent quelque part
+     sur le site : les chercher sur la seule page d'accueil revenait à
+     reprocher son emplacement à un document parfaitement en règle. */
   const aMentions =
-    /mentions?[-_\s]{0,3}l[ée]gal|informations?[-_\s]{0,3}l[ée]gal|impressum|notice[-_\s]l[ée]gale|legal[-_\s]?(?:notice|information|documents?|terms)/i.test(
-      htmlLisible,
-    ) ||
+    MOTIF_MENTIONS.test(htmlLisible) ||
     /(?:^|\/\/)legal\.[a-z0-9-]+\./i.test(htmlLisible) ||
     liens.some(
       (l) => MOT_LEGAL.test(l.href.split(/[?#]/)[0]) || MOT_LEGAL.test(texteVisible(l.contenu)),
-    );
+    ) ||
+    MOTIF_MENTIONS.test(codeAilleurs) ||
+    MOT_LEGAL.test(pagesLues.map((p) => p.chemin).join(' '));
   const aConfidentialite =
-    /politique[-_\s]?de[-_\s]?confidentialit|confidentialit[ée]|privacy[-_\s]?policy|donn[ée]es[-_\s]personnelles|protection des donn[ée]es|\brgpd\b|\bgdpr\b/i.test(
-      htmlLisible,
-    );
+    MOTIF_CONFIDENTIALITE.test(htmlLisible) || MOTIF_CONFIDENTIALITE.test(codeAilleurs);
   const estBoutique = /ajouter au panier|add to cart|woocommerce|cdn\.shopify\.com|prestashop|mon panier|votre panier/i.test(htmlLisible);
-  const aConditions =
-    /conditions[-_\s]g[ée]n[ée]rales|\bcgv\b|\bcgu\b|termes et conditions|conditions de vente|nos contrats/i.test(htmlLisible);
+  const aConditions = MOTIF_CONDITIONS.test(htmlLisible) || MOTIF_CONDITIONS.test(codeAilleurs);
 
   const aPreuve =
     /avis|t[ée]moignage|recommand|satisfaction|nos clients|ils nous ont fait confiance|★|⭐|note de \d|\d[,.]\d\s*\/\s*5/i.test(
@@ -1210,6 +1294,35 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     verifier(famille, gravite, absent, fait, consequence);
   };
 
+  /** Un cran plus bas, quand l'information existe mais pas là où il faudrait. */
+  const ADOUCI: Record<Gravite, Gravite> = {
+    critique: 'moyen', moyen: 'mineur', mineur: 'reglage', reglage: 'reglage',
+  };
+
+  /**
+   * Absence sur l'accueil, nuancée par ce que portent les pages internes
+   * ouvertes. Une information présente une page plus loin reste un défaut à
+   * l'endroit où le visiteur arrive, mais ce n'est plus la même chose que de
+   * ne pas l'avoir du tout : le constat descend d'un cran et dit où elle est.
+   */
+  const verifierSurLeSite = (
+    famille: Famille,
+    gravite: Gravite,
+    absentDeLAccueil: boolean,
+    motifAilleurs: RegExp,
+    fait: string,
+    consequence: string,
+    faitAilleurs: (page: string) => string,
+    consequenceAilleurs: string,
+  ) => {
+    if (!lectureComplete) return;
+    controles += 1;
+    if (!absentDeLAccueil) return;
+    const page = trouveAilleurs(motifAilleurs, { saufPagesLegales: true });
+    if (page) ajouter(famille, ADOUCI[gravite], faitAilleurs(page), consequenceAilleurs);
+    else ajouter(famille, gravite, fait, consequence);
+  };
+
   /* ══ VITESSE ══════════════════════════════════════════ */
   controle();
   if (page.duree >= SEUILS.chargementCritique) {
@@ -1308,7 +1421,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     `${imagesSansDimensions} images sur ${images} ne déclarent pas leurs dimensions.`,
     'Le contenu saute pendant le chargement, et le visiteur clique parfois à côté de ce qu\'il visait.');
 
-  verifierPresence('mobile', 'mineur', !balMeta('theme-color'),
+  verifierPresence('mobile', 'reglage', !balMeta('theme-color'),
     "Aucune couleur de thème n'est déclarée.",
     "Sur mobile, la barre du navigateur reste grise au lieu de reprendre vos couleurs. C'est un détail, mais il se voit.");
 
@@ -1349,18 +1462,21 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
       "Deux adresses servent le même contenu : Google les traite comme des doublons, et les visiteurs restent en connexion non chiffrée.");
   }
 
-  /* Les en-têtes n'ont pas pu être lus : rien ne peut en être conclu. */
+  /* Les en-têtes n'ont pas pu être lus : rien ne peut en être conclu.
+     Ces trois points sont relevés sans pénalité : ils manquent à la très
+     grande majorité des sites, y compris bien construits, et les facturer
+     reviendrait à noter tout le monde pareil. */
   if (entetes) {
-    verifier('securite', 'mineur', !enTete('strict-transport-security'),
+    verifier('securite', 'reglage', !enTete('strict-transport-security'),
       "Le serveur ne force pas la connexion sécurisée pour les visites suivantes.",
       "Un visiteur qui tape l'adresse sans le préfixe passe une première fois en clair avant d'être redirigé.");
 
-    verifier('securite', 'mineur',
+    verifier('securite', 'reglage',
       !enTete('x-frame-options') && !enTete('content-security-policy').includes('frame-ancestors'),
       "Rien n'empêche un autre site d'afficher vos pages dans un cadre.",
       "C'est la technique utilisée pour faire cliquer un visiteur sur autre chose que ce qu'il croit voir.");
 
-    verifier('securite', 'mineur', !enTete('content-security-policy'),
+    verifier('securite', 'reglage', !enTete('content-security-policy'),
       "La page ne limite pas les contenus extérieurs qu'elle a le droit de charger.",
       "Si un script étranger parvient à s'insérer dans une page, rien ne l'empêche de s'exécuter.");
   }
@@ -1541,9 +1657,14 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     "Aucune ville, aucun code postal, aucune zone d'intervention n'apparaît sur la page d'accueil.",
     "Les recherches locales du type métier plus ville comptent parmi les plus rentables. Sans ancrage géographique, vous n'y êtes pas éligible.");
 
-  verifierPresence('contenu', 'moyen', !aPreuve,
-    "Aucun avis, témoignage ni référence client n'apparaît sur la page d'accueil.",
-    "C'est le premier élément que cherche un visiteur avant de vous contacter. Son absence le renvoie comparer ailleurs.");
+  /* Un avis, pas le mot « avis » : les politiques de confidentialité écrivent
+     « votre avis » ou « avis de réception » sans qu'aucun client s'exprime. */
+  verifierSurLeSite('contenu', 'moyen', !aPreuve,
+    /avis (?:de nos |clients?|v[ée]rifi|google)|nos avis|t[ée]moignages?\b|ils nous ont fait confiance|nos clients (?:t[ée]moignent|en parlent)|★|⭐|\d[,.]\d\s*\/\s*5|\d+\s*avis\b/i,
+    "Aucun avis, témoignage ni référence client sur le site.",
+    "C'est le premier élément que cherche un visiteur avant de vous contacter. Son absence le renvoie comparer ailleurs.",
+    (page) => `Les avis et témoignages ne sont pas sur la page d'accueil : il faut ouvrir ${page}.`,
+    "C'est le premier élément que cherche un visiteur avant de vous contacter. Le laisser sur une page secondaire, c'est le réserver aux plus patients.");
 
   verifierPresence('contenu', 'mineur', !aRealisations,
     "Aucun lien vers des réalisations ou une galerie de photos.",
@@ -1589,14 +1710,22 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
      libellé : un numéro affiché mais non cliquable, et pas de numéro du tout.
      Reprocher à un site que « le numéro n'est pas cliquable » quand il n'en
      affiche aucun énonce un fait faux. */
+  const MOTIF_TELEPHONE = /\b0[1-9](?:[\s.\-–—]?\d{2}){4}\b|\+\s?33[\s.\-]?[1-9](?:[\s.\-]?\d{2}){4}/;
   if (lectureComplete && !aTel) {
     controle();
     if (numeroAffiche) {
       ajouter('conversion', 'moyen', "Le numéro de téléphone affiché n'est pas cliquable sur mobile.",
         'Un visiteur sur téléphone doit le recopier à la main, ce que beaucoup ne font pas.');
     } else {
-      ajouter('conversion', 'moyen', "Aucun numéro de téléphone n'apparaît sur la page d'accueil.",
-        "Le téléphone reste le premier moyen de contact d'une clientèle locale, et le plus rapide à transformer en rendez-vous.");
+      const ailleurs = trouveAilleurs(MOTIF_TELEPHONE, { saufPagesLegales: true });
+      if (ailleurs) {
+        ajouter('conversion', 'mineur',
+          `Le numéro de téléphone n'apparaît pas sur la page d'accueil : il faut aller jusqu'à ${ailleurs} pour le trouver.`,
+          "Le visiteur arrive sur l'accueil. Chaque page à ouvrir avant de vous joindre écarte une partie de ceux qui allaient appeler.");
+      } else {
+        ajouter('conversion', 'moyen', "Aucun numéro de téléphone n'apparaît sur le site.",
+          "Le téléphone reste le premier moyen de contact d'une clientèle locale, et le plus rapide à transformer en rendez-vous.");
+      }
     }
   } else if (lectureComplete) {
     controle();
@@ -1620,17 +1749,30 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     `Le formulaire le plus long compte ${champs} champs à remplir.`,
     'Au-delà de quatre ou cinq champs, chaque question supplémentaire fait perdre des demandes. Le reste se demande au téléphone.');
 
-  verifierPresence('conversion', 'moyen', !aHoraires,
-    "Aucun horaire d'ouverture n'apparaît sur la page d'accueil.",
-    "C'est l'une des informations les plus recherchées, et l'un des motifs d'appel les plus fréquents.");
+  /* Un jour de la semaine suivi d'une heure : une durée citée dans des
+     conditions de vente ne dit pas quand la porte est ouverte. */
+  verifierSurLeSite('conversion', 'moyen', !aHoraires,
+    /(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|lun\.|mar\.|mer\.|jeu\.|ven\.|sam\.|dim\.)[^.!?]{0,40}?\d{1,2}\s?[h:]/i,
+    "Aucun horaire d'ouverture n'apparaît sur le site.",
+    "C'est l'une des informations les plus recherchées, et l'un des motifs d'appel les plus fréquents.",
+    (page) => `Les horaires d'ouverture n'apparaissent pas sur la page d'accueil : ils sont sur ${page}.`,
+    "C'est l'une des informations les plus recherchées. La donner d'emblée évite un appel pour la demander, ou un déplacement pour rien.");
 
-  verifierPresence('conversion', 'mineur', !aAdresse,
-    "Aucune adresse postale n'apparaît sur la page d'accueil.",
-    "Elle rassure sur le fait que l'entreprise existe physiquement, et alimente votre référencement local.");
+  verifierSurLeSite('conversion', 'mineur', !aAdresse,
+    /\b\d{5}\b[\s,]{0,3}[A-Za-zÀ-ÿ][\wÀ-ÿ'-]{2,}|\b(?:rue|avenue|boulevard|chemin|route|impasse|allée|place|quai)\b\s+[\wÀ-ÿ]/i,
+    "Aucune adresse postale n'apparaît sur le site.",
+    "Elle rassure sur le fait que l'entreprise existe physiquement, et alimente votre référencement local.",
+    (page) => `L'adresse postale n'apparaît pas sur la page d'accueil : elle est sur ${page}.`,
+    "Elle rassure sur le fait que l'entreprise existe physiquement, et sa présence sur l'accueil alimente le référencement local.");
 
-  verifierPresence('conversion', 'mineur', !aRepereTarif,
-    "Aucun repère de prix n'est donné.",
-    "Un visiteur sans aucun ordre de grandeur reporte sa demande, ou demande trois devis pour se faire une idée.");
+  /* Un vrai prix, pas le mot « tarif » croisé dans une phrase : les conditions
+     de vente parlent de « conditions tarifaires » sans donner un seul montant. */
+  verifierSurLeSite('conversion', 'mineur', !aRepereTarif,
+    /\d[\d\s,.]*\s?(?:€|euros?)\b|à partir de\s+\d|\btarifs?\s*:|nos (?:tarifs|prix)\b/i,
+    "Aucun repère de prix n'est donné sur le site.",
+    "Un visiteur sans aucun ordre de grandeur reporte sa demande, ou demande trois devis pour se faire une idée.",
+    (page) => `Aucun repère de prix sur la page d'accueil : les tarifs sont sur ${page}.`,
+    "Un visiteur qui doit chercher les prix compare ailleurs pendant ce temps.");
 
   verifier('conversion', 'mineur', aMailto && !aFormulaire,
     "Le contact repose sur une adresse email affichée en clair.",
@@ -1678,8 +1820,12 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   }
 
   /* ══ CONFIANCE ET CONFORMITÉ ══════════════════════════ */
-  verifierPresence('confiance', 'critique', !aMentions,
-    "Aucun lien vers des mentions légales n'a été trouvé sur la page d'accueil.",
+  /* Noté « important » et non « bloquant » : l'audit ouvre quelques pages
+     internes, pas le site entier, et un pied de page construit par script lui
+     reste invisible. La certitude n'est pas totale, la pénalité ne l'est pas
+     non plus. */
+  verifierPresence('confiance', 'moyen', !aMentions,
+    `Aucune trace de mentions légales${pagesLues.length ? ` sur l'accueil ni sur les ${pagesLues.length} pages internes ouvertes` : " sur la page d'accueil"}.`,
     "Elles sont obligatoires pour tout site professionnel en France, article 6 de la loi pour la confiance dans l'économie numérique. Leur absence est sanctionnable et se remarque en cas de litige.");
 
   verifierPresence('confiance', 'critique', traceurs.length > 0 && !consentement,
@@ -1745,7 +1891,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     : "La majorité des points de contrôle n'est pas tenue, et sur presque toutes les familles en même temps.";
 
   const ordreFamille = new Map(FAMILLES.map((f, i) => [f.cle, i]));
-  const ordreGravite: Record<Gravite, number> = { critique: 0, moyen: 1, mineur: 2 };
+  const ordreGravite: Record<Gravite, number> = { critique: 0, moyen: 1, mineur: 2, reglage: 3 };
   constats.sort(
     (a, b) =>
       (ordreFamille.get(a.famille) ?? 99) - (ordreFamille.get(b.famille) ?? 99) ||
@@ -1770,6 +1916,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
       pages: pagesInternes.size + 1,
       balises,
       controles,
+      pagesLues: pagesLues.length + 1,
     },
     constats,
   };
