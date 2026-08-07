@@ -142,33 +142,6 @@ const breadcrumbServices = {
   ],
 };
 
-const etapes = [
-  {
-    num: '01',
-    title: 'Faire connaissance',
-    desc: "Tout commence par un échange. Nous prenons le temps de découvrir votre activité, votre parcours et vos objectifs afin de bien comprendre votre projet et ce qui le rend unique."
-  },
-  {
-    num: '02',
-    title: 'Définir vos besoins',
-    desc: "À partir de nos échanges, nous vous proposons une solution adaptée à votre activité. Le devis détaille simplement ce qui sera réalisé et vous permet d'avancer en toute sérénité. Après signature du devis, un acompte de 30 % permet de lancer la création de votre site. Le reste est réglé une fois le site terminé et validé ensemble."
-  },
-  {
-    num: '03',
-    title: 'Concevoir votre site',
-    desc: "Nous réalisons une première version du site que nous faisons évoluer ensemble. Chaque détail est ajusté jusqu'à obtenir un résultat fidèle à votre image et à vos attentes."
-  },
-  {
-    num: '04',
-    title: 'Mettre en ligne et valider',
-    desc: "Une fois le site finalisé, il est mis en ligne. Nous effectuons ensemble les derniers contrôles, testons et validons le résultat. Quand tout est en place et que vous êtes satisfait, le projet est clôturé et la facturation intervient."
-  },
-  {
-    num: '05',
-    title: 'Rester à vos côtés',
-    desc: "La mise en ligne ne marque pas la fin du projet. Nous restons disponibles pour répondre à vos questions, effectuer les modifications nécessaires et accompagner l'évolution de votre site au fil du temps."
-  },
-];
 ---
 <BaseLayout
   title="Tarifs et formules de création de site, Caelestis"
@@ -206,7 +179,7 @@ const etapes = [
 
         <!-- CTA + ligne d'info discrète -->
         <div class="mt-10 flex flex-col sm:flex-row sm:items-center justify-center gap-5 sm:gap-7" data-reveal data-delay="3">
-          <Button href="/contact" variant="primary">Parler de mon projet</Button>
+          <Button href="/contact#devis" variant="primary">Demander un devis</Button>
           <div class="flex items-center justify-center gap-3 flex-wrap">
             <span class="font-body text-xs tracking-[0.18em] uppercase text-brun-mid">Devis gratuit</span>
             <span class="font-body text-xs tracking-[0.18em] uppercase text-brun-mid">Réponse sous 48h</span>
@@ -968,7 +941,12 @@ const etapes = [
        en quatre arguments. Deux colonnes pour remplir la largeur.
        « Réponse sous 48h » figure aussi en micro-label dans le hero de cette
        page ; ici il est développé, ce n'est pas un doublon d'affichage. -->
-  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark" aria-labelledby="engagements-title">
+  <!-- Fond lin-mousse depuis le 07/08/2026. Le retrait de la frise de méthode,
+       qui portait le seul fond sombre de la page, laissait six sections crème
+       à la suite. Une section sur deux est désormais teintée, comme sur
+       l'accueil : le rythme revient sans toucher aux couleurs de texte, toutes
+       prévues pour ce fond clair. -->
+  <section class="bg-sauge-pale py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark" aria-labelledby="engagements-title">
     <div class="max-w-5xl mx-auto grid md:grid-cols-[1fr_1.25fr] gap-10 md:gap-16 items-center">
 
       <div data-reveal>
@@ -1063,7 +1041,7 @@ const etapes = [
   </section>
 
   <!-- ── Famille 3 : garder le site en forme ── -->
-  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
+  <section class="bg-sauge-pale py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
     <div class="max-w-4xl mx-auto">
 
       <div class="text-center mb-12" data-reveal>
@@ -1092,239 +1070,25 @@ const etapes = [
         <p class="font-body text-sm text-brun-mid mb-7 leading-relaxed">
           Répondez à quelques questions, nous vous indiquons la formule adaptée et une fourchette de prix. En deux minutes, sans inscription.
         </p>
-        <div class="cta-pair flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+        <!-- Un seul bouton ici. Le second, « Demander un devis », tombait à
+             quelques centimètres du bouton de l'appel final qui suit et disait
+             la même chose : trois boutons se succédaient en bas de page. Ce
+             bloc-ci n'a qu'une raison d'être, le simulateur. -->
+        <div class="flex justify-center">
           <Button href="/outils/simulateur" variant="primary">Estimer mon projet</Button>
-          <Button href="/contact#devis" variant="outline">Demander un devis</Button>
         </div>
       </div>
 
     </div>
   </section>
-
-  <!-- ── Comment se déroule un projet : frise forêt, vague au défilement ── -->
-  <section class="mth-sec py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
-    <div class="max-w-3xl mx-auto">
-      <div class="mth-bloc">
-
-        <div class="mth-tete" data-reveal>
-          <p class="mth-eyebrow">La méthode</p>
-          <h2 class="mth-titre">Comment se déroule un projet&nbsp;?</h2>
-          <p class="mth-intro">Cinq temps, du premier échange à l'accompagnement dans la durée.</p>
-        </div>
-
-        <!-- Les étapes sont visibles dès l'arrivée. Au défilement, chacune
-             s'écarte vers la droite puis revient, en décalé, formant une vague.
-             Pas de data-reveal ici : ces cartes ne doivent pas partir masquées. -->
-        <ol class="mth-fil">
-          {etapes.map((e) => (
-            <li class="mth-etape">
-              <span class="mth-point" aria-hidden="true"></span>
-              <div class="mth-row">
-                <span class="mth-num">Étape {e.num}</span>
-                <span class="mth-t">{e.title}</span>
-              </div>
-              <p class="mth-d">{e.desc}</p>
-            </li>
-          ))}
-        </ol>
-
-      </div>
-    </div>
-  </section>
-
-  <style>
-    /* ═══════════════════════════════════════════
-       Section méthode : cartes en frise sur fond forêt.
-       Au défilement, une vague horizontale parcourt les étapes (voir le
-       script plus bas). Le fond sombre est la seule rupture franche de la
-       page Services, ce qui casse l'enchaînement de sections crème.
-    ═══════════════════════════════════════════ */
-    .mth-bloc {
-      background: #255C41;
-      border-radius: 24px;
-      padding: 52px 46px;
-      color: #FCFBF8;
-      /* Contient le décalage horizontal de la vague : aucune barre de scroll. */
-      overflow: hidden;
-    }
-    .mth-eyebrow {
-      font-family: var(--font-body);
-      font-size: 0.72rem;
-      letter-spacing: 0.22em;
-      text-indent: 0.11em;
-      text-transform: uppercase;
-      color: rgba(252, 251, 248, 0.72);
-    }
-    .mth-titre {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: clamp(1.7rem, 2.8vw, 2.3rem);
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      color: #FCFBF8;
-      margin-top: 10px;
-    }
-    .mth-intro {
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      color: rgba(252, 251, 248, 0.8);
-      margin-top: 12px;
-      max-width: 56ch;
-    }
-    .mth-fil {
-      list-style: none;
-      margin: 34px 0 0;
-      padding: 0 0 0 40px;
-      position: relative;
-    }
-    .mth-fil::before {
-      content: '';
-      position: absolute;
-      left: 11px;
-      top: 8px;
-      bottom: 8px;
-      width: 2px;
-      background: linear-gradient(rgba(184, 196, 187, 0.6), rgba(184, 196, 187, 0.16));
-    }
-    .mth-etape {
-      position: relative;
-      margin-bottom: 14px;
-      padding: 22px 26px;
-      border-radius: 16px;
-      background: rgba(252, 251, 248, 0.06);
-      border: 1px solid rgba(252, 251, 248, 0.12);
-      will-change: transform;
-    }
-    .mth-etape:last-child { margin-bottom: 0; }
-    .mth-point {
-      position: absolute;
-      left: -33px;
-      top: 26px;
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      background: #B8C4BB;
-      border: 3px solid #255C41;
-    }
-    .mth-row {
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .mth-num {
-      font-family: var(--font-body);
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      /* Lin-mousse et non sauge : sur le vert forêt, #B8C4BB plafonne à 4,34:1,
-         sous le seuil AA de 4,5 même à pleine opacité. C'est la règle déjà posée
-         dans global.css (`.bg-brun .text-sauge`), que cette section contournait
-         en codant sa couleur en dur. #E3EFE8 monte à 6,6:1. */
-      color: var(--color-sauge-pale);
-      font-variant-numeric: lining-nums tabular-nums;
-    }
-    .mth-t {
-      font-family: var(--font-display);
-      font-weight: 500;
-      font-size: 1.08rem;
-      color: #FCFBF8;
-    }
-    .mth-d {
-      font-family: var(--font-body);
-      font-size: 0.88rem;
-      line-height: 1.65;
-      color: rgba(252, 251, 248, 0.78);
-      margin-top: 6px;
-      max-width: 60ch;
-    }
-    @media (max-width: 720px) {
-      .mth-bloc { padding: 38px 24px; }
-    }
-  </style>
-
-  <script>
-    /* Vague de la section méthode, en autonomie totale.
-
-       Chaque carte suit un aller-retour horizontal doux (une demi-sinusoïde :
-       0 → droite → 0, vitesse nulle aux extrémités, donc aucun à-coup). Le
-       départ de chaque carte est décalé, si bien qu'à tout instant plusieurs
-       cartes ondulent à des phases différentes : une vague qui descend la liste
-       au fil du défilement.
-
-       On ne dépend ni de GSAP ni de ScrollTrigger ni du smooth scroll du site :
-       à chaque frame on lit la position réelle du bloc (getBoundingClientRect),
-       qui reflète déjà le défilement lissé. Une inertie (lerp) ajoute la
-       douceur. Actif seulement sur desktop à pointeur fin et hors « animations
-       réduites » ; sinon la frise reste simplement immobile. */
-    const AMPLITUDE = 80;   // écart maximal de chaque carte, en pixels
-    const PAS = 0.8;        // décalage de phase entre deux cartes voisines
-    const INERTIE = 0.10;   // douceur du suivi (petit = plus traînant)
-
-    function initMethodeVague() {
-      const finPointeur = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-      const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!finPointeur || reduit) return;
-
-      const bloc = document.querySelector<HTMLElement>('.mth-bloc');
-      if (!bloc) return;
-      const cartes = Array.from(bloc.querySelectorAll<HTMLElement>('.mth-etape'));
-      if (!cartes.length) return;
-
-      const TOTAL = (cartes.length - 1) * PAS + 2; // longueur de la vague, en unités
-      let lisse = 0;
-      let rafId: number | null = null;
-
-      /* Progression du bloc dans l'écran : 0 quand son haut arrive vers le bas
-         du viewport, 1 quand son bas s'apprête à sortir par le haut. */
-      function cible() {
-        const r = bloc!.getBoundingClientRect();
-        const vh = window.innerHeight || 1;
-        const p = (0.80 * vh - r.top) / (0.65 * vh + r.height);
-        return Math.min(1, Math.max(0, p));
-      }
-
-      function applique(p: number) {
-        const t = p * TOTAL;
-        for (let i = 0; i < cartes.length; i++) {
-          let local = (t - i * PAS) / 2;          // position sur l'aller-retour de la carte i
-          local = Math.min(1, Math.max(0, local));
-          const x = Math.sin(local * Math.PI) * AMPLITUDE; // 0 → AMPLITUDE → 0
-          cartes[i].style.transform = 'translateX(' + x.toFixed(2) + 'px)';
-        }
-      }
-
-      function boucle() {
-        lisse += (cible() - lisse) * INERTIE;
-        applique(lisse);
-        rafId = requestAnimationFrame(boucle);
-      }
-
-      /* La boucle ne tourne que lorsque la section est proche de l'écran. */
-      const io = new IntersectionObserver((entrees) => {
-        entrees.forEach((e) => {
-          if (e.isIntersecting && rafId === null) {
-            boucle();
-          } else if (!e.isIntersecting && rafId !== null) {
-            cancelAnimationFrame(rafId);
-            rafId = null;
-            applique(cible());
-          }
-        });
-      }, { rootMargin: '35% 0px 35% 0px' });
-      io.observe(bloc);
-    }
-
-    document.addEventListener('astro:page-load', initMethodeVague);
-  </script>
 
   <!-- ── CTA ── -->
   <AppelFinal
     titre="Vous avez un projet ?"
     titreAccent="Parlons-en."
     texte="Décrivez votre activité en quelques lignes. Nous revenons vers vous sous 48h."
-    href="/contact"
-    libelle="Nous contacter"
+    href="/contact#devis"
+    libelle="Demander un devis"
   />
 
 </BaseLayout>
