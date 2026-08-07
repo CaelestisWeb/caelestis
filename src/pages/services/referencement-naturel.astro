@@ -152,9 +152,33 @@ const etapes = [
         </p>
       </div>
 
+      <!-- Le portique. Posé le 07/08/2026 : la section s'appelait « Les 5 piliers
+           de votre visibilité » et n'en montrait aucun, ses cinq blocs cliquables
+           étaient empilés à la verticale, soit l'inverse de ce que le mot pilier
+           décrit. Le dessin porte la métaphore, les blocs gardent le détail.
+           Le fût correspondant au bloc sélectionné s'allume (voir le script en
+           bas de page). Décoratif : tout ce qu'il dit est écrit dans les blocs. -->
+      <div class="ptq" data-reveal data-delay="1" aria-hidden="true">
+        <p class="ptq-linteau-mot font-body">Votre visibilité</p>
+        <svg class="ptq-svg" viewBox="0 0 500 148" fill="none" preserveAspectRatio="xMidYMid meet">
+          <!-- Linteau et socle -->
+          <line x1="14" y1="26" x2="486" y2="26" class="ptq-trave" />
+          <line x1="14" y1="130" x2="486" y2="130" class="ptq-trave" />
+          {piliers.map((_, i) => (
+            <g class={`ptq-fut ${i === 0 ? 'est-actif' : ''}`} data-fut={String(i)}>
+              <!-- Chapiteau, fût, base : trois traits, aucun aplat -->
+              <line x1={String(46 + i * 92 - 13)} y1="33" x2={String(46 + i * 92 + 13)} y2="33" class="ptq-chap" />
+              <line x1={String(46 + i * 92)} y1="33" x2={String(46 + i * 92)} y2="123" class="ptq-corps" />
+              <line x1={String(46 + i * 92 - 13)} y1="123" x2={String(46 + i * 92 + 13)} y2="123" class="ptq-chap" />
+              <text x={String(46 + i * 92)} y="79" class="ptq-num" text-anchor="middle" dominant-baseline="middle">{i + 1}</text>
+            </g>
+          ))}
+        </svg>
+      </div>
+
       <div class="anat-list max-w-lg mx-auto space-y-2.5" data-reveal data-delay="1">
         {piliers.map((s, i) => (
-          <button type="button" class={`anat-block ${i === 0 ? 'is-selected' : ''}`} aria-pressed={i === 0 ? 'true' : 'false'}>
+          <button type="button" class={`anat-block ${i === 0 ? 'is-selected' : ''}`} data-pilier={String(i)} aria-pressed={i === 0 ? 'true' : 'false'}>
             <span class="anat-title">{s.t}</span>
             <span class="anat-desc">{s.d}</span>
           </button>
@@ -380,6 +404,50 @@ const etapes = [
     .seo-faq-marque::before,
     .seo-faq-marque::after { transition: none; }
   }
+
+  /* ═══ Le portique des cinq piliers ═══
+     Cinq futs traces au trait sous un linteau, dans le registre des schemas
+     d'elevation de l'accueil : aucun aplat, aucune couleur nouvelle. Le fut du
+     bloc selectionne s'allume. */
+  .ptq { max-width: 30rem; margin: 0 auto 26px; }
+  .ptq-linteau-mot {
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(252, 251, 248, 0.62);
+    margin-bottom: 9px;
+  }
+  .ptq-svg { width: 100%; height: auto; display: block; }
+
+  .ptq-trave {
+    stroke: rgba(252, 251, 248, 0.30);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+  }
+  .ptq-chap, .ptq-corps {
+    stroke: rgba(252, 251, 248, 0.34);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    transition: stroke 0.3s ease, stroke-width 0.3s ease;
+  }
+  .ptq-num {
+    font-family: var(--font-body);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    fill: rgba(252, 251, 248, 0.34);
+    transition: fill 0.3s ease;
+  }
+
+  /* Le lin-mousse et non la sauge : sur le vert foret, #B8C4BB plafonne a
+     4,34:1. #E3EFE8 monte a 6,6:1, la regle est celle de global.css. */
+  .ptq-fut.est-actif .ptq-chap,
+  .ptq-fut.est-actif .ptq-corps { stroke: #E3EFE8; stroke-width: 2.1; }
+  .ptq-fut.est-actif .ptq-num { fill: #E3EFE8; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ptq-chap, .ptq-corps, .ptq-num { transition: none; }
+  }
 </style>
 
 <script>
@@ -399,6 +467,14 @@ const etapes = [
       });
       block.classList.add('is-selected');
       block.setAttribute('aria-pressed', 'true');
+
+      /* Le fût du portique qui porte le même rang s'allume avec le bloc. Le
+         dessin étant décoratif, rien ne dépend de lui : si le portique n'est
+         pas là (autre page utilisant .anat-block), la boucle ne trouve rien. */
+      const rang = block.getAttribute('data-pilier');
+      document.querySelectorAll('.ptq-fut').forEach((f) => {
+        f.classList.toggle('est-actif', f.getAttribute('data-fut') === rang);
+      });
     });
   }
 </script>
