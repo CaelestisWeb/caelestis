@@ -83,13 +83,12 @@ const surCarte = placerEtiquettes(SUR_CARTE, 210, PX_HEURE);
 
 /* Graduations « 1 h » et « 2 h » : posées vers l'est-sud-est (azimut 120°),
    dans le grand secteur vide entre Die et Nyons, et non plus au nord où
-   s'accumulent Lyon, Saint-Étienne et Romans. Chaque libellé est glissé 13 px à
-   l'intérieur de son anneau, le long de ce rayon, pour ne pas chevaucher le
-   tracé. */
+   s'accumulent Lyon, Saint-Étienne et Romans. Chaque libellé est posé 11 px à
+   l'extérieur de son anneau, le long de ce rayon, juste au-delà du tracé. */
 const GRAD_AZ = (120 * Math.PI) / 180;
 const grad = (h: number) => ({
-  x: Math.round((210 + (h * PX_HEURE - 13) * Math.sin(GRAD_AZ)) * 10) / 10,
-  y: Math.round((210 - (h * PX_HEURE - 13) * Math.cos(GRAD_AZ)) * 10) / 10,
+  x: Math.round((210 + (h * PX_HEURE + 11) * Math.sin(GRAD_AZ)) * 10) / 10,
+  y: Math.round((210 - (h * PX_HEURE + 11) * Math.cos(GRAD_AZ)) * 10) / 10,
 });
 const grad1 = grad(1);
 const grad2 = grad(2);

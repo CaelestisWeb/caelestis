@@ -36,7 +36,7 @@ export const ZONES: Zone[] = [
   { nom: 'Chabeuil',             heures: 0.45, km: 23,  azimut: 355 },
   { nom: 'Valence',              heures: 0.58, km: 30,  azimut: 336, carte: true },
   { nom: "Pont-de-l'Isère",      heures: 0.70, km: 41,  azimut: 338 },
-  { nom: 'Dieulefit',            heures: 0.75, km: 32,  azimut: 172, carte: true },
+  { nom: 'Dieulefit',            heures: 0.72, km: 32,  azimut: 172 },
   { nom: 'Romans-sur-Isère',     heures: 0.75, km: 39,  azimut: 4,   carte: true },
   { nom: 'Die',                  heures: 0.75, km: 38,  azimut: 84,  carte: true },
   { nom: 'Privas',               heures: 0.75, km: 39,  azimut: 271, carte: true },
@@ -48,7 +48,7 @@ export const ZONES: Zone[] = [
   { nom: 'Vienne',               heures: 1.30, km: 101, azimut: 353 },
   { nom: 'Grenoble',             heures: 1.50, km: 111, azimut: 47,  carte: true },
   { nom: 'Avignon',              heures: 1.75, km: 125, azimut: 191, carte: true, horsRegion: true },
-  { nom: "Vallon-Pont-d'Arc",    heures: 1.75, km: 102, azimut: 234, carte: true },
+  { nom: "Vallon-Pont-d'Arc",    heures: 1.75, km: 102, azimut: 234 },
   { nom: 'Lyon',                 heures: 1.75, km: 131, azimut: 353, carte: true },
   { nom: 'Saint-Étienne',        heures: 2.00, km: 150, azimut: 328, carte: true },
 ];
@@ -100,13 +100,14 @@ export function ancrage(azimut: number): 'n' | 'e' | 's' | 'o' {
  * Saint-Étienne au nord. Chaque étiquette est donc posée sur le rayon de sa
  * ville, puis repoussée vers l'extérieur tant qu'elle croise une autre étiquette
  * OU le point d'une autre ville : sans ce second test, le fond crème d'un nom
- * cachait la pastille voisine (Montélimar masquait Vallon-Pont-d'Arc). Le point,
+ * pouvait se poser sur la pastille d'une ville voisine et la masquer. Le point,
  * lui, ne bouge jamais : la direction et la distance restent exactes, seule
  * l'étiquette s'écarte, reliée à son point par le rayon tracé jusqu'à elle.
  *
- * Les étiquettes les plus longues sont traitées en premier : ce sont les plus
- * dures à caser, et les garder pour la fin les repoussait hors du cadre
- * (Vallon-Pont-d'Arc). La liste de droite, elle, reste triée par temps de route.
+ * Les étiquettes les plus longues (Romans-sur-Isère, Saint-Étienne) sont
+ * traitées en premier : ce sont les plus dures à caser, et les garder pour la
+ * fin les repoussait hors du cadre. La liste de droite, elle, reste triée par
+ * temps de route.
  *
  * Les largeurs de texte sont estimées (0,7 rem, environ 5,6 px par signe) : le
  * calcul se fait au build, sans navigateur. Marge volontairement large, un
