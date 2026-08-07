@@ -151,7 +151,7 @@ const couvert = [
     </div>
   </section>
 
-  <!-- ── Maintenance vs Modifications — l'explication, en premier ── -->
+  <!-- ── Maintenance et modifications, l'explication, en premier ── -->
   <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20">
     <div class="max-w-4xl mx-auto" data-reveal>
 
@@ -166,35 +166,50 @@ const couvert = [
         </h2>
       </div>
 
-      <div class="grid sm:grid-cols-2 gap-5 lg:gap-6 items-stretch">
+      <!-- La ligne de partage. Posée le 07/08/2026 à la place de deux cartes
+           arrondies symétriques : à contenu opposé, forme identique, la section
+           annonçait « deux choses bien distinctes » et les donnait à voir
+           pareilles. Le partage est maintenant porté par le fond, teinté à
+           gauche pour ce qui tourne seul, crème à droite pour ce qui se demande,
+           et par un filet vertical. Les deux colonnes portent désormais chacune
+           leur liste : c'est ce qui permet à un client de savoir de quel côté
+           tombe sa demande sans lire un paragraphe. -->
+      <div class="prt">
 
-        <!-- 1. Maintenance -->
-        <div class="relative bg-cream rounded-2xl p-7 lg:p-8 border-2 border-sauge/40 flex flex-col text-center">
-          <span class="absolute -top-3 right-5 inline-block font-body text-[11px] font-semibold tracking-[0.16em] uppercase px-3 py-1 rounded-full bg-[#255C41] text-cream shadow-[0_2px_8px_rgba(27, 71, 51,0.22)]">Obligatoire</span>
-          <span class="self-center inline-block font-body text-[11px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-sauge/15 text-sauge mb-5">Abonnement, en continu</span>
-          <h3 class="font-display text-xl font-light text-brun mb-3">La maintenance</h3>
-          <p class="font-body text-sm text-brun-mid leading-relaxed mb-5">
-            Le socle technique qui garde votre site en ligne, rapide et protégé. Il tourne tout seul, en fond, sans rien vous demander.
+        <div class="prt-col prt-col-inclus">
+          <p class="prt-etiquette font-body">Compris dans l'abonnement</p>
+          <h3 class="font-display text-brun">La maintenance</h3>
+          <p class="prt-intro font-body">
+            Le socle technique qui garde votre site en ligne, rapide et protégé.
+            Il tourne tout seul, en fond, sans rien vous demander.
           </p>
-          <ul class="flex flex-col gap-2.5 flex-1 mb-5">
-            {couvert.map((c) => (
-              <li class="feat-std flex items-start justify-center gap-3 font-body text-sm text-brun leading-snug">{c}</li>
-            ))}
+          <ul class="prt-liste prt-liste-inclus font-body" role="list">
+            {couvert.map((c) => <li>{c}</li>)}
           </ul>
-          <p class="font-body text-sm font-semibold text-sauge">{MAINTENANCE_MOIS_OFFERTS} mois offerts, puis dès {euros(MAINTENANCE_MIN)} € par mois selon votre site.</p>
+          <p class="prt-prix font-body">
+            {MAINTENANCE_MOIS_OFFERTS} mois offerts, puis dès {euros(MAINTENANCE_MIN)}&nbsp;€ par mois selon votre site.
+          </p>
         </div>
 
-        <!-- 2. Modifications -->
-        <div class="bg-cream rounded-2xl p-7 lg:p-8 border border-cream-dark flex flex-col text-center">
-          <span class="self-center inline-block font-body text-[11px] tracking-[0.18em] uppercase px-3 py-1 rounded-full bg-ocre/12 text-ocre-dark mb-5">À la demande, sur devis</span>
-          <h3 class="font-display text-xl font-light text-brun mb-3">Les modifications et retouches</h3>
-          <p class="font-body text-sm text-brun-mid leading-relaxed mb-5">
-            Tout ce qui change le contenu ou ajoute des fonctions : modifier un texte, remplacer une photo, ajouter une page ou une nouvelle fonctionnalité.
+        <div class="prt-filet" aria-hidden="true"></div>
+
+        <div class="prt-col prt-col-devis">
+          <p class="prt-etiquette font-body">À la demande, sur devis</p>
+          <h3 class="font-display text-brun">Les modifications</h3>
+          <p class="prt-intro font-body">
+            Tout ce qui change le contenu ou ajoute des fonctions. Un service à
+            part : vous ne payez que ce dont vous avez besoin, quand vous le
+            décidez.
           </p>
-          <p class="font-body text-sm text-brun-mid leading-relaxed flex-1">
-            Un service à part, facturé sur devis. Vous ne payez que ce dont vous avez besoin, quand vous le décidez.
+          <ul class="prt-liste prt-liste-devis font-body" role="list">
+            <li>Réécrire un texte</li>
+            <li>Remplacer une photo</li>
+            <li>Ajouter une page</li>
+            <li>Ajouter une fonctionnalité</li>
+          </ul>
+          <p class="prt-prix font-body">
+            Sur devis, sans engagement.
           </p>
-          <p class="font-body text-sm font-semibold text-brun mt-5">Sur devis, sans engagement.</p>
         </div>
 
       </div>
@@ -202,7 +217,7 @@ const couvert = [
     </div>
   </section>
 
-  <!-- ── L'abonnement maintenance — les cartes, en second ── -->
+  <!-- ── L'abonnement maintenance, les cartes, en second ── -->
   <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark relative overflow-hidden">
 
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute top-40 -left-24 w-72 h-72"></div>
@@ -250,7 +265,7 @@ const couvert = [
                   <td>
                     {val === 1
                       ? <span class="mnt-oui"><span class="sr-only">{`Compris dans la formule ${colonnes[i].type}`}</span><span aria-hidden="true">✓</span></span>
-                      : <span class="mnt-non"><span class="sr-only">{`Non compris dans la formule ${colonnes[i].type}`}</span><span aria-hidden="true">—</span></span>}
+                      : <span class="mnt-non"><span class="sr-only">{`Non compris dans la formule ${colonnes[i].type}`}</span><svg aria-hidden="true" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="8" x2="12" y2="8"/></svg></span>}
                   </td>
                 ))}
               </tr>
@@ -318,6 +333,81 @@ const couvert = [
   />
 
 </BaseLayout>
+
+<style>
+  /* ═══ La ligne de partage : ce qui tourne seul, ce qui se demande ═══
+     Deux colonnes sans carte ni bordure arrondie : c'est le fond qui distingue
+     l'abonnement (teinté, permanent) du devis (crème, à la demande), et un
+     filet qui les sépare. Empilées en mobile, où le filet devient horizontal. */
+  .prt {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--color-cream-dark);
+    border-bottom: 1px solid var(--color-cream-dark);
+  }
+  @media (min-width: 760px) {
+    .prt { grid-template-columns: 1fr 1px 1fr; }
+  }
+
+  .prt-col { padding: 34px 28px 36px; }
+  .prt-col-inclus { background: var(--color-sauge-pale); }
+
+  .prt-filet { background: var(--color-cream-dark); }
+  @media (max-width: 759px) {
+    .prt-filet { height: 1px; }
+  }
+
+  .prt-etiquette {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-sauge-text);
+    margin-bottom: 11px;
+  }
+  .prt-col h3 {
+    font-size: 1.42rem;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .prt-intro {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--color-brun-mid);
+    margin-bottom: 22px;
+  }
+
+  .prt-liste { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 10px; }
+  .prt-liste li {
+    position: relative;
+    padding-left: 1.5rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--color-brun);
+  }
+  /* Puce pleine à gauche, ce qui est acquis. Puce en creux à droite, ce qui
+     reste à demander : la forme dit le statut avant que le mot ne le dise. */
+  .prt-liste li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.52em;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+  }
+  .prt-liste-inclus li::before { background: var(--color-sauge-text); }
+  .prt-liste-devis li::before { border: 1px solid var(--color-pierre); }
+
+  .prt-prix {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--color-brun);
+    padding-top: 16px;
+    border-top: 1px solid rgba(37, 92, 65, 0.14);
+  }
+</style>
+
 
 <style>
   .seo-faq { border-top: 1px solid var(--color-cream-dark); }
