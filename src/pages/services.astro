@@ -805,6 +805,59 @@ const etapes = [
     @media (max-width: 640px) {
       .tf-card { padding: 26px 22px; }
     }
+
+    /* ── Les quatre gages, liste éditoriale (variante C) ──
+       Chaque repère sur sa ligne, icône en pastille, libellé en gras et une
+       phrase qui le justifie. Filet horizontal entre chaque, aucun fond de
+       carte. Colonne de droite d'une grille à deux colonnes. */
+    .reassur { list-style: none; padding: 0; margin: 0; }
+    .reassur li {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--color-cream-dark, #E6E4DC);
+    }
+    .reassur li:first-child { padding-top: 0; }
+    .reassur li:last-child { border-bottom: 0; padding-bottom: 0; }
+    .reassur-i {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--color-sauge-pale, #E3EFE8);
+      color: var(--color-sauge-vif, #2E7452);
+      flex: none;
+      margin-top: 2px;
+    }
+    .reassur-i svg { width: 22px; height: 22px; }
+    /* min-width: 0 sur le corps : sans lui, un libellé insécable empêcherait la
+       colonne de rétrécir sur petit écran (piège min-width auto des flex). */
+    .reassur-corps { min-width: 0; }
+    .reassur-titre {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-brun, #255C41);
+      line-height: 1.3;
+      margin: 0 0 4px;
+    }
+    /* Le seul repère cliquable : sans marque visible, « vérifiables » promettrait
+       un clic inexistant. Soulignement discret, plus marqué au survol. */
+    .reassur-preuve {
+      text-decoration: underline;
+      text-decoration-color: rgba(37, 92, 65, 0.3);
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.25s ease;
+    }
+    .reassur-preuve:hover { text-decoration-color: var(--color-brun, #255C41); }
+    .reassur-sous {
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      color: var(--color-brun-mid, #5C6259);
+      margin: 0;
+    }
   </style>
 
   <!-- ── Tarif — trois typologies ── -->
@@ -902,6 +955,62 @@ const etapes = [
         </div>
 
       </div>
+
+    </div>
+  </section>
+
+  <!-- ── Ce sur quoi vous pouvez compter : les quatre gages ──
+       Déplacés du hero de l'accueil le 04/08/2026, où ils alourdissaient le
+       premier écran. Posés ici, juste après les tarifs : c'est le moment où le
+       visiteur a vu le prix et cherche de quoi se rassurer avant d'écrire.
+       Format « liste éditoriale » (variante C validée par Célestin) : chaque
+       repère est justifié par une phrase, ce qui transforme quatre étiquettes
+       en quatre arguments. Deux colonnes pour remplir la largeur.
+       « Réponse sous 48h » figure aussi en micro-label dans le hero de cette
+       page ; ici il est développé, ce n'est pas un doublon d'affichage. -->
+  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark" aria-labelledby="engagements-title">
+    <div class="max-w-5xl mx-auto grid md:grid-cols-[1fr_1.25fr] gap-10 md:gap-16 items-center">
+
+      <div data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Nos engagements</p>
+        <h2 id="engagements-title" class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Ce sur quoi vous pouvez compter.
+        </h2>
+        <p class="font-body text-base text-brun-mid leading-relaxed mt-5 max-w-sm">
+          Quatre repères simples, tenus, qui valent avant même le premier échange.
+        </p>
+      </div>
+
+      <ul class="reassur font-body" role="list" data-reveal data-delay="1">
+        <li>
+          <span class="reassur-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.4 2.4 4.6-4.9"/></svg></span>
+          <div class="reassur-corps">
+            <a href="/realisations" class="reassur-titre reassur-preuve">2 sites livrés, vérifiables</a>
+            <p class="reassur-sous">Pas des maquettes : des sites en ligne que vous pouvez visiter.</p>
+          </div>
+        </li>
+        <li>
+          <span class="reassur-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 13.3l-7.2 7.2a2 2 0 0 1-2.8 0l-7-7A2 2 0 0 1 3 12V4.5A1.5 1.5 0 0 1 4.5 3H12a2 2 0 0 1 1.4.6l7.1 7.1a1.8 1.8 0 0 1 0 2.6z"/><circle cx="7.6" cy="7.6" r="1.2"/></svg></span>
+          <div class="reassur-corps">
+            <p class="reassur-titre">Tarifs affichés, dès {euros(formule('page-unique').prix)}&nbsp;€</p>
+            <p class="reassur-sous">Le prix est sur le site, pas au bout d'un rendez-vous.</p>
+          </div>
+        </li>
+        <li>
+          <span class="reassur-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 3.5z"/></svg></span>
+          <div class="reassur-corps">
+            <p class="reassur-titre">Réponse sous 48h</p>
+            <p class="reassur-sous">Un vrai délai de réponse, pas un formulaire sans retour.</p>
+          </div>
+        </li>
+        <li>
+          <span class="reassur-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.2" y="5" width="17.6" height="15.5" rx="2"/><path d="M3.2 9.8h17.6M8 3v4M16 3v4"/></svg></span>
+          <div class="reassur-corps">
+            <p class="reassur-titre">En ligne en 2 à 8 semaines</p>
+            <p class="reassur-sous">Selon la formule, le délai est annoncé dès le devis.</p>
+          </div>
+        </li>
+      </ul>
 
     </div>
   </section>
