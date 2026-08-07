@@ -83,7 +83,13 @@ export type Analyse =
 const BUDGET_MS = 9000;
 const DELAI_PAGE_MS = 7000;
 const DELAI_SONDE_MS = 3000;
-const POIDS_MAX = 2 * 1024 * 1024; // au-delà, on cesse de lire : c'est déjà un constat en soi
+/* Plafond de lecture. Les pages produites par un éditeur en ligne (Wix,
+   Squarespace) dépassent couramment deux mégaoctets de code : s'arrêter avant
+   la fin coupait le pied de page, et tout ce qui s'y trouve (mentions légales,
+   horaires, téléphone) était alors déclaré absent à tort. Le plafond laisse
+   passer ces pages, et une lecture malgré tout incomplète est signalée pour
+   que plus aucun constat d'absence n'en soit tiré. */
+const POIDS_MAX = 6 * 1024 * 1024;
 const POIDS_SONDE_MAX = 512 * 1024;
 /* Seuils d'alerte sur la date d'expiration du certificat de sécurité. */
 const CERT_EXPIRE_CRITIQUE_JOURS = 7;
@@ -100,6 +106,7 @@ const SEUILS = {
   tiersNombreux: 8,
   balisesNombreuses: 1500,
   policesNombreuses: 4,
+  fichiersPoliceNombreux: 10,
   motsPauvre: 300,
   motsCritique: 150,
   titreMin: 30,
@@ -197,6 +204,8 @@ interface Reponse {
   statut?: number;
   urlFinale?: string;
   corps?: string;
+  /** Vrai si le plafond de lecture a été atteint : la fin de page manque. */
+  tronque?: boolean;
   entetes?: Headers;
   duree: number;
   code?: string;
@@ -217,21 +226,67 @@ const CODES_CERTIFICAT: Record<string, string> = {
   SELF_SIGNED_CERT_IN_CHAIN: 'il repose sur un certificat auto-signé',
 };
 
-/** Lecture plafonnée : un fichier volumineux ne doit pas saturer la fonction. */
-async function lireCorps(reponse: Response, plafond: number): Promise<string> {
+/**
+ * Lecture plafonnée : un fichier volumineux ne doit pas saturer la fonction.
+ * Le second membre du couple indique si le plafond a coupé la lecture : dans ce
+ * cas la fin du document manque, et rien ne doit être déclaré absent.
+ *
+ * L'encodage est celui annoncé par le serveur. Un vieux site en ISO-8859-1 lu
+ * comme de l'UTF-8 rend tous ses accents illisibles, ce qui suffit à faire
+ * échouer la recherche de « mentions légales » ou d'un horaire.
+ */
+async function lireCorps(
+  reponse: Response,
+  plafond: number,
+): Promise<{ corps: string; tronque: boolean }> {
   const flux = reponse.body?.getReader();
-  if (!flux) return '';
-  const decodeur = new TextDecoder('utf-8');
-  let corps = '';
+  if (!flux) return { corps: '', tronque: false };
+
+  const morceaux: Uint8Array[] = [];
   let total = 0;
-  while (total < plafond) {
-    const { done, value } = await flux.read();
-    if (done) break;
-    total += value.byteLength;
-    corps += decodeur.decode(value, { stream: true });
+  let tronque = false;
+  try {
+    while (true) {
+      const { done, value } = await flux.read();
+      if (done) break;
+      morceaux.push(value);
+      total += value.byteLength;
+      if (total >= plafond) { tronque = true; break; }
+    }
+  } catch {
+    /* Lecture interrompue en cours de route, le plus souvent par le délai
+       imparti. Ce qui a été reçu reste exploitable : le perdre transformerait
+       une page lente en page injoignable, ce qui serait faux. */
+    tronque = true;
   }
   await flux.cancel().catch(() => {});
-  return corps;
+
+  const octets = new Uint8Array(total);
+  let position = 0;
+  for (const m of morceaux) { octets.set(m, position); position += m.byteLength; }
+
+  const decoder = (jeu: string) => {
+    try {
+      return new TextDecoder(jeu, { fatal: false }).decode(octets);
+    } catch {
+      return null;
+    }
+  };
+
+  const annonce = (reponse.headers.get('content-type') ?? '').match(
+    /charset\s*=\s*["']?([\w-]+)/i,
+  )?.[1];
+  let corps = (annonce && decoder(annonce)) || decoder('utf-8') || '';
+  if (!annonce) {
+    /* Aucun encodage annoncé : la page peut le déclarer elle-même. Le nom du
+       jeu de caractères est en ASCII, donc lisible même mal décodé. */
+    const interne = corps.match(
+      /<meta[^>]+charset\s*=\s*["']?([\w-]+)|<meta[^>]+content=["'][^"']*charset\s*=\s*([\w-]+)/i,
+    );
+    const jeu = (interne?.[1] ?? interne?.[2] ?? '').toLowerCase();
+    if (jeu && !/^utf-?8$/.test(jeu)) corps = decoder(jeu) ?? corps;
+  }
+  return { corps, tronque };
 }
 
 /**
@@ -271,10 +326,15 @@ async function recuperer(depart: URL): Promise<Reponse> {
         continue;
       }
 
-      const corps = await lireCorps(reponse, POIDS_MAX);
+      const { corps, tronque } = await lireCorps(reponse, POIDS_MAX);
+      /* Une lecture coupée avant le moindre octet n'est pas une page : c'est un
+         échec, et il doit être traité comme tel plutôt que comme une page vide. */
+      if (tronque && corps.length === 0 && reponse.status < 400) {
+        return { ok: false, code: 'TIMEOUT', duree: Date.now() - debut };
+      }
       return {
         ok: true, statut: reponse.status, urlFinale: url.href,
-        corps, entetes: reponse.headers, duree: Date.now() - debut,
+        corps, tronque, entetes: reponse.headers, duree: Date.now() - debut,
       };
     } catch (erreur: any) {
       const code = erreur?.name === 'AbortError' ? 'TIMEOUT' : (erreur?.cause?.code ?? erreur?.code ?? 'ERREUR');
@@ -307,7 +367,7 @@ async function sonder(url: URL, finAu: number, avecCorps = true): Promise<Sonde 
       signal: controleur.signal,
       headers: { 'user-agent': UA, accept: '*/*' },
     });
-    const corps = avecCorps ? await lireCorps(reponse, POIDS_SONDE_MAX) : '';
+    const corps = avecCorps ? (await lireCorps(reponse, POIDS_SONDE_MAX)).corps : '';
     if (!avecCorps) await reponse.body?.cancel().catch(() => {});
     return { statut: reponse.status, destination: reponse.headers.get('location') ?? '', corps };
   } catch {
@@ -365,14 +425,83 @@ async function sonderCertificat(hostname: string, finAu: number): Promise<number
    LECTURE DE LA PAGE
 ══════════════════════════════════════════════════════════ */
 
-function texteVisible(html: string): string {
-  return html
-    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<noscript[\s\S]*?<\/noscript>/gi, ' ')
-    .replace(/<!--[\s\S]*?-->/g, ' ')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&[a-z]+;|&#\d+;/gi, ' ')
+/* Entités nommées les plus fréquentes dans une page française. Les supprimer,
+   comme le faisait la version précédente, transformait « Mentions l&eacute;gales »
+   en « Mentions l gales » : la page était alors accusée de ne pas avoir de
+   mentions légales alors qu'elles étaient bien là. Tout contrôle de présence
+   passe donc désormais par du texte décodé. */
+const ENTITES: Record<string, string> = {
+  eacute: 'é', egrave: 'è', ecirc: 'ê', euml: 'ë', Eacute: 'É', Egrave: 'È', Ecirc: 'Ê',
+  agrave: 'à', acirc: 'â', auml: 'ä', Agrave: 'À', Acirc: 'Â', aring: 'å',
+  ugrave: 'ù', ucirc: 'û', uuml: 'ü', Ugrave: 'Ù', Ucirc: 'Û',
+  icirc: 'î', iuml: 'ï', Icirc: 'Î', ocirc: 'ô', ouml: 'ö', Ocirc: 'Ô',
+  ccedil: 'ç', Ccedil: 'Ç', ntilde: 'ñ', oelig: 'œ', OElig: 'Œ', aelig: 'æ',
+  nbsp: ' ', amp: '&', quot: '"', apos: "'", lt: '<', gt: '>',
+  rsquo: '’', lsquo: '‘', ldquo: '«', rdquo: '»', laquo: '«', raquo: '»',
+  hellip: '…', ndash: '–', mdash: '—', deg: '°', euro: '€', copy: '©',
+  reg: '®', trade: '™', middot: '·', bull: '•', times: '×', eur: '€',
+  frac12: '½', sup2: '²', sup3: '³', permil: '‰', dagger: '†', shy: '',
+};
+
+/** Rend le texte tel qu'un visiteur le lit, entités comprises. */
+export function decoderEntites(source: string): string {
+  if (!source.includes('&')) return source;
+  return source.replace(/&(#x?[0-9a-f]+|[a-z][a-z0-9]{1,10});/gi, (entier, corps: string) => {
+    if (corps[0] === '#') {
+      const code = corps[1] === 'x' || corps[1] === 'X'
+        ? parseInt(corps.slice(2), 16)
+        : Number(corps.slice(1));
+      if (!Number.isFinite(code) || code < 9 || code > 0x10ffff) return entier;
+      try { return String.fromCodePoint(code); } catch { return entier; }
+    }
+    const exact = ENTITES[corps];
+    if (exact !== undefined) return exact;
+    const minuscule = ENTITES[corps.toLowerCase()];
+    return minuscule !== undefined ? minuscule : entier;
+  });
+}
+
+/**
+ * Valeur d'un attribut, quels que soient les guillemets employés. La lecture
+ * précédente, `content=["']([^"']*)["']`, s'arrêtait à la première apostrophe
+ * rencontrée : une description qui commence par « La Pépinière à Rosières dans
+ * l'Ardèche » était mesurée à 43 caractères au lieu de 150, et le site se
+ * voyait reprocher une description trop courte alors qu'elle était parfaite.
+ */
+export function attribut(balise: string, nom: string): string | null {
+  /* Le nom doit être entier : sans cette précaution, `data-src` répondait aux
+     demandes de `src`, et une image chargée en différé passait pour la source
+     réelle de l'élément. */
+  const motif = new RegExp(
+    `(?<![\\w-])${nom}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s"'=<>\`]+))`,
+    'i',
+  );
+  const trouve = balise.match(motif);
+  if (!trouve) return null;
+  return decoderEntites(trouve[1] ?? trouve[2] ?? trouve[3] ?? '');
+}
+
+/** Première balise `nom` dont un attribut vaut la valeur cherchée. */
+function baliseOu(html: string, nom: string, attr: string, valeur: RegExp): string | null {
+  const balises = html.match(new RegExp(`<${nom}\\b[^>]*>`, 'gi')) ?? [];
+  for (const b of balises) {
+    const v = attribut(b, attr);
+    if (v && valeur.test(v.trim())) return b;
+  }
+  return null;
+}
+
+export function texteVisible(html: string): string {
+  return decoderEntites(
+    html
+      .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+      .replace(/<noscript[\s\S]*?<\/noscript>/gi, ' ')
+      .replace(/<template[\s\S]*?<\/template>/gi, ' ')
+      .replace(/<svg[\s\S]*?<\/svg>/gi, ' ')
+      .replace(/<!--[\s\S]*?-->/g, ' ')
+      .replace(/<[^>]+>/g, ' '),
+  )
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -397,6 +526,12 @@ function pageSansSite(html: string, texte: string): string | null {
   for (const [motif, raison] of SIGNATURES_VIDES) if (motif.test(html)) return raison;
   const mots = texte ? texte.split(' ').length : 0;
   if (mots < 25 && compter(/<a\b[^>]*href=/gi, html) < 3 && !/<img\b/i.test(html)) {
+    /* Une application construite dans le navigateur (React, Vue, Angular sans
+       rendu serveur) renvoie un squelette vide que son script remplit ensuite.
+       Le visiteur voit un site complet : dire « cette adresse ne renvoie vers
+       aucun site » serait faux. Le sujet est réel, mais c'est un problème de
+       référencement, traité comme tel plus loin. */
+    if (/<script[^>]+src=/i.test(html)) return null;
     return "l'adresse répond mais ne contient aucun contenu";
   }
   return null;
@@ -406,6 +541,59 @@ function pageSansSite(html: string, texte: string): string | null {
 function racine(hostname: string): string {
   const parts = hostname.toLowerCase().replace(/^www\./, '').split('.');
   return parts.length > 2 ? parts.slice(-2).join('.') : parts.join('.');
+}
+
+/** Vrai si `hote` est le domaine lui-même ou l'un de ses sous-domaines. */
+function memeMaison(hote: string, domaine: string): boolean {
+  const h = hote.toLowerCase();
+  return h === domaine || h.endsWith(`.${domaine}`);
+}
+
+/**
+ * Lecture d'un robots.txt par groupes, comme le fait un moteur de recherche.
+ *
+ * La version précédente cherchait « Disallow: / » n'importe où après un
+ * « User-agent: * », en traversant tout le fichier. Un site parfaitement
+ * indexé qui bloque un aspirateur en fin de fichier (« User-agent: PetalBot »
+ * puis « Disallow: / ») était donc accusé d'interdire Google, constat le plus
+ * grave de tout l'audit. Ici, seules les règles du groupe qui s'applique
+ * réellement à Google sont retenues, et un « Allow: / » les annule.
+ */
+export function robotsBloqueTout(contenu: string): boolean {
+  const lignes = contenu.split(/\r?\n/).map((l) => l.replace(/#.*/, '').trim()).filter(Boolean);
+  const groupes: { agents: string[]; regles: { permet: boolean; chemin: string }[] }[] = [];
+  let courant: (typeof groupes)[number] | null = null;
+  let dansEnTete = false;
+
+  for (const ligne of lignes) {
+    const agent = ligne.match(/^user-agent\s*:\s*(.*)$/i);
+    if (agent) {
+      if (!dansEnTete || !courant) { courant = { agents: [], regles: [] }; groupes.push(courant); }
+      courant.agents.push(agent[1].trim().toLowerCase());
+      dansEnTete = true;
+      continue;
+    }
+    const regle = ligne.match(/^(dis)?allow\s*:\s*(.*)$/i);
+    if (regle && courant) {
+      dansEnTete = false;
+      courant.regles.push({ permet: !regle[1], chemin: regle[2].trim() });
+    } else if (regle === null) {
+      dansEnTete = false;
+    }
+  }
+
+  /* Un moteur applique le groupe qui le nomme, et seulement à défaut le groupe
+     générique : un « Disallow: / » visant un autre robot ne le concerne pas. */
+  const pourGoogle = groupes.filter((g) => g.agents.some((a) => a === 'googlebot'));
+  const generique = groupes.filter((g) => g.agents.includes('*'));
+  const applicables = pourGoogle.length ? pourGoogle : generique;
+  if (!applicables.length) return false;
+
+  return applicables.some((g) => {
+    const interditRacine = g.regles.some((r) => !r.permet && /^\/\*?$/.test(r.chemin));
+    const autoriseRacine = g.regles.some((r) => r.permet && /^\/\*?$/.test(r.chemin));
+    return interditRacine && !autoriseRacine;
+  });
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -432,6 +620,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   let httpsDisponible = false;
   let certificat: string | null = null;
   let erreurHttp: number | null = null;
+  let filtreNomme: string | null = null;
 
   for (const adresse of [enHttps, enHttp]) {
     const essai = await recuperer(adresse);
@@ -439,7 +628,15 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
       if (essai.code && CODES_CERTIFICAT[essai.code]) certificat = CODES_CERTIFICAT[essai.code];
       continue;
     }
-    if ((essai.statut ?? 0) >= 400) { erreurHttp = essai.statut ?? null; continue; }
+    if ((essai.statut ?? 0) >= 400) {
+      erreurHttp = essai.statut ?? null;
+      const corps = essai.corps ?? '';
+      if (/vercel security checkpoint/i.test(corps)) filtreNomme = 'la protection anti-robot de Vercel';
+      else if (/cloudflare/i.test(corps) && /(checking your browser|attention required|cf-browser-verification|challenge)/i.test(corps))
+        filtreNomme = 'la protection anti-robot de Cloudflare';
+      else if (/sucuri|incapsula|imperva/i.test(corps)) filtreNomme = 'un pare-feu applicatif';
+      continue;
+    }
     if (adresse.protocol === 'https:') httpsDisponible = true;
     page = essai;
     break;
@@ -465,7 +662,9 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     if (erreurHttp === 401 || erreurHttp === 403 || erreurHttp === 429) {
       return {
         etat: 'injoignable', hote, url: depart.href,
-        raison: `Le serveur de ${hote} a refusé l'analyse automatique, code ${erreurHttp}. C'est le comportement d'un filtre anti-robot : le site fonctionne probablement pour un visiteur, mais il ne peut pas être mesuré depuis l'extérieur. Ce point mérite d'être vérifié à la main.`,
+        raison: filtreNomme
+          ? `Le serveur de ${hote} a refusé l'analyse automatique, code ${erreurHttp} : ${filtreNomme} exige l'exécution d'un script avant de servir la page. Le site s'ouvre normalement dans un navigateur, mais aucun outil extérieur ne peut le mesurer, et il vaut la peine de vérifier que les moteurs de recherche, eux, passent bien.`
+          : `Le serveur de ${hote} a refusé l'analyse automatique, code ${erreurHttp}. C'est le comportement d'un filtre anti-robot : le site fonctionne probablement pour un visiteur, mais il ne peut pas être mesuré depuis l'extérieur. Ce point mérite d'être vérifié à la main.`,
       };
     }
     if (erreurHttp && erreurHttp >= 500) {
@@ -518,15 +717,32 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   const bas = html.toLowerCase();
   const entetes = page.entetes;
   const enTete = (nom: string) => entetes?.get(nom)?.toLowerCase() ?? '';
+  /* Version décodée, employée pour toute recherche de mot : sur du code brut,
+     « Mentions l&eacute;gales » ne ressemble pas à « mentions légales ». */
+  const htmlLisible = decoderEntites(html);
+  /* Lecture incomplète : la fin du document manque. Aucun contrôle d'absence ne
+     doit alors produire de constat, faute de savoir ce qui se trouve après la
+     coupure. Un contrôle neutralisé n'est pas non plus compté comme mené. */
+  const tronque = page.tronque === true;
+  const sansCoupure = !tronque;
 
   const mots = texte ? texte.split(' ').length : 0;
   const poids = Buffer.byteLength(html, 'utf8');
   const balises = compter(/<[a-z][a-z0-9-]*[\s>/]/gi, html);
-  const titre = extraire(/<title[^>]*>([\s\S]*?)<\/title>/i, html);
-  const description =
-    extraire(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']*)["']/i, html) ??
-    extraire(/<meta[^>]+content=["']([^"']*)["'][^>]+name=["']description["']/i, html);
-  const viewport = extraire(/<meta[^>]+name=["']viewport["'][^>]+content=["']([^"']*)["']/i, html);
+  const titre = (() => {
+    const brut = extraire(/<title[^>]*>([\s\S]*?)<\/title>/i, html);
+    return brut === null ? null : decoderEntites(brut).replace(/\s+/g, ' ').trim();
+  })();
+  const balMeta = (nom: string) =>
+    baliseOu(html, 'meta', 'name', new RegExp(`^${nom}$`, 'i')) ??
+    baliseOu(html, 'meta', 'property', new RegExp(`^${nom}$`, 'i'));
+  const contenuMeta = (nom: string) => {
+    const b = balMeta(nom);
+    const v = b ? attribut(b, 'content') : null;
+    return v === null ? null : v.replace(/\s+/g, ' ').trim();
+  };
+  const description = contenuMeta('description');
+  const viewport = contenuMeta('viewport');
   const h1 = compter(/<h1[\s>]/gi, html);
   const h2 = compter(/<h2[\s>]/gi, html);
   const images = compter(/<img[\s>]/gi, html);
@@ -543,8 +759,20 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
      puisqu'un `<img>` d'Astro déjà converti apparaît, lui, en .webp. */
   const optimiseurImage =
     /\/_next\/image|\/_vercel\/image|\/cdn-cgi\/image|\/_image\?|images\.weserv\.nl|res\.cloudinary\.com|[a-z0-9-]+\.imgix\.net/i;
+  /* Un `<img>` en JPEG placé dans un `<picture>` qui propose du WebP est le
+     motif de repli recommandé : le navigateur reçoit bien le format moderne.
+     Le reprocher reviendrait à sanctionner la bonne pratique. */
+  const sourcesModernes = new Set<string>();
+  for (const bloc of html.match(/<picture\b[\s\S]*?<\/picture>/gi) ?? []) {
+    if (!/type=["']image\/(?:webp|avif)["']|\.(?:webp|avif)\b/i.test(bloc)) continue;
+    for (const img of bloc.match(/<img\b[^>]*>/gi) ?? []) sourcesModernes.add(img);
+  }
   const imagesFormatDate = blocsImages.filter(
-    (b) => /\.(jpe?g|png)\b/i.test(b) && !optimiseurImage.test(b),
+    (b) =>
+      /\.(jpe?g|png)\b/i.test(b) &&
+      !optimiseurImage.test(b) &&
+      !sourcesModernes.has(b) &&
+      !/\.(?:webp|avif)\b/i.test(attribut(b, 'srcset') ?? ''),
   ).length;
   const scripts = compter(/<script[^>]+src=/gi, html);
   /* Seuls les scripts du `head` bloquent réellement le premier affichage :
@@ -560,15 +788,54 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   const stylesEnLigne = [...html.matchAll(/\sstyle\s*=\s*["']([^"']*)["']/gi)].filter(
     (m) => !/^\s*--/.test(m[1]),
   ).length;
-  const polices = new Set(
-    [...html.matchAll(/[^"'\s/]+\.(?:woff2?|ttf|otf)\b/gi)].map((m) => m[0].toLowerCase()),
-  ).size + [...html.matchAll(/fonts\.googleapis\.com\/css2?\?[^"']*family=([^"'&]+)/gi)].length;
+  /* Ce qui compte, ce n'est pas le nombre de fichiers mais le nombre de
+     familles : une seule police déclinée en normal, gras et italique fait déjà
+     trois fichiers, ce qui est sain. Les noms de fichiers ne permettent pas de
+     le déduire (une même police y apparaît sous des noms hachés), on lit donc
+     les familles réellement déclarées. À défaut de déclaration lisible, on s'en
+     tient au nombre de fichiers, avec un seuil plus large. */
+  const famillesDeclarees = new Set<string>(
+    [...html.matchAll(/@font-face[^{]*\{[^}]*font-family\s*:\s*([^;}]+)/gi)].map((m) =>
+      m[1].trim().replace(/^["']|["']$/g, '').toLowerCase(),
+    ),
+  );
+  for (const m of html.matchAll(/fonts\.googleapis\.com\/css2?\?([^"']*)/gi)) {
+    for (const f of m[1].matchAll(/family=([^&"']+)/gi)) {
+      famillesDeclarees.add(decodeURIComponent(f[1]).split(':')[0].replace(/\+/g, ' ').toLowerCase());
+    }
+  }
+  const fichiersPolice = new Set(
+    [...html.matchAll(/([^"'\s/\\]+\.(?:woff2?|ttf|otf))\b/gi)].map((m) => m[1].toLowerCase()),
+  ).size;
+  const policesEnFamilles = famillesDeclarees.size > 0;
+  const polices = policesEnFamilles ? famillesDeclarees.size : fichiersPolice;
 
   const domaineBase = racine(base.hostname);
+  /* Domaines réellement appelés au chargement. La version précédente comptait
+     aussi les `<a href>` : un pied de page avec quatre réseaux sociaux et
+     quelques liens partenaires suffisait à annoncer « quinze serveurs
+     extérieurs » alors que la page n'en interrogeait que quatre. Un lien n'est
+     suivi que si le visiteur clique dessus, il ne coûte rien à l'affichage. */
+  const RELS_CHARGES = /^(?:stylesheet|preload|prefetch|preconnect|dns-prefetch|modulepreload|icon|shortcut icon|apple-touch-icon|mask-icon|manifest)$/i;
   const domainesTiers = new Set<string>();
-  for (const m of html.matchAll(/(?:src|href)=["']https?:\/\/([^/"'?\s]+)/gi)) {
-    const d = m[1].toLowerCase();
-    if (!d.endsWith(domaineBase)) domainesTiers.add(d);
+  const ajouterTiers = (valeur: string | null) => {
+    if (!valeur) return;
+    for (const brut of valeur.split(',')) {
+      const hote = brut.trim().split(/\s+/)[0]?.match(/^(?:https?:)?\/\/([^/"'?\s]+)/i)?.[1];
+      if (hote && !memeMaison(hote.toLowerCase(), domaineBase)) domainesTiers.add(hote.toLowerCase());
+    }
+  };
+  for (const bloc of html.match(/<(?:script|img|iframe|source|video|audio|embed|track)\b[^>]*>/gi) ?? []) {
+    ajouterTiers(attribut(bloc, 'src'));
+    ajouterTiers(attribut(bloc, 'srcset'));
+    ajouterTiers(attribut(bloc, 'data-src'));
+  }
+  for (const bloc of html.match(/<link\b[^>]*>/gi) ?? []) {
+    if (RELS_CHARGES.test((attribut(bloc, 'rel') ?? '').trim())) ajouterTiers(attribut(bloc, 'href'));
+  }
+  /* Ressources appelées depuis une feuille de style en ligne (url(...)). */
+  for (const style of html.match(/<style\b[^>]*>[\s\S]*?<\/style>/gi) ?? []) {
+    for (const m of style.matchAll(/url\(\s*["']?((?:https?:)?\/\/[^)"']+)/gi)) ajouterTiers(m[1]);
   }
 
   /* « Scripts externes » au sens coûteux : ceux qui font vraiment attendre le
@@ -579,9 +846,9 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
      pas le rendu : les compter comme « trop de scripts » pénalise un site bien
      construit. Le cas des scripts bloquants du head est déjà couvert à part. */
   const scriptsCouteux = (html.match(/<script\b[^>]*\bsrc=[^>]*>/gi) ?? []).filter((t) => {
-    const src = t.match(/src=["']([^"']+)/i)?.[1] ?? '';
-    const hote = src.match(/^https?:\/\/([^/"'?\s]+)/i)?.[1]?.toLowerCase();
-    const tiers = !!hote && !hote.endsWith(domaineBase);
+    const src = attribut(t, 'src') ?? '';
+    const hote = src.match(/^(?:https?:)?\/\/([^/"'?\s]+)/i)?.[1]?.toLowerCase();
+    const tiers = !!hote && !memeMaison(hote, domaineBase);
     const differe = /\b(?:async|defer)\b/i.test(t) || /type=["']module["']/i.test(t);
     return tiers || !differe;
   }).length;
@@ -589,12 +856,18 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   /* Pages internes distinctes accessibles depuis l'accueil : c'est le nombre de
      portes d'entrée que le site offre à Google. */
   const pagesInternes = new Set<string>();
-  const liens = [...html.matchAll(/<a\b([^>]*)href=["']([^"']+)["']([^>]*)>([\s\S]*?)<\/a>/gi)];
+  /* L'adresse d'un lien se lit comme un attribut : `href=/contact` sans
+     guillemets est valide en HTML, et l'ignorer faisait conclure à tort qu'une
+     page d'accueil ne menait nulle part. */
+  const liens = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)].map((m) => ({
+    balise: `<a ${m[1]}>`,
+    href: attribut(`<a ${m[1]}>`, 'href') ?? '',
+    contenu: m[2],
+  }));
   for (const lien of liens) {
-    const href = lien[2];
-    if (/^(#|mailto:|tel:|javascript:|data:)/i.test(href)) continue;
+    if (!lien.href || /^(#|mailto:|tel:|javascript:|data:|sms:)/i.test(lien.href)) continue;
     try {
-      const cible = new URL(href, base);
+      const cible = new URL(lien.href, base);
       if (racine(cible.hostname) !== domaineBase) continue;
       const chemin = cible.pathname.replace(/\/+$/, '') || '/';
       if (chemin === '/' || /\.(pdf|jpe?g|png|webp|svg|zip|docx?)$/i.test(chemin)) continue;
@@ -603,39 +876,62 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
       /* href non exploitable : ignoré, il ne sert pas de mesure. */
     }
   }
-  const liensVagues = liens.filter((lien) =>
-    /^(cliquez ici|cliquer ici|ici|en savoir plus|lire la suite|voir plus|plus d'infos?|détails|details|read more)$/i.test(
-      texteVisible(lien[4]),
-    ),
-  ).length;
-  const liensNouvelOnglet = liens.filter(
-    (lien) => /target=["']_blank["']/i.test(lien[0]) && !/rel=["'][^"']*noopener/i.test(lien[0]),
+  const liensVagues = liens.filter(
+    (lien) =>
+      /^(cliquez ici|cliquer ici|ici|en savoir plus|lire la suite|voir plus|plus d'infos?|détails|details|read more)$/i.test(
+        texteVisible(lien.contenu),
+      ) && !/aria-label\s*=/i.test(lien.balise),
   ).length;
 
-  /* Un champ est correctement libellé par un `label for`, un aria-label ou un
-     aria-labelledby. Ne compter que les balises `label` produirait un faux
-     constat sur tout formulaire annoté en ARIA. */
-  const blocsChamps =
-    html.match(
-      /<(?:input\b(?![^>]*type=["'](?:hidden|submit|button|image)["'])|select\b|textarea\b)[^>]*>/gi,
-    ) ?? [];
-  const idsEtiquetes = new Set(
-    [...html.matchAll(/<label[^>]+for=["']([^"']+)["']/gi)].map((m) => m[1]),
+  /* Champs à remplir, formulaire par formulaire. Les additionner tous donnait
+     un total absurde sur une page qui porte à la fois une recherche, une
+     inscription à la lettre d'information et un formulaire de contact : le
+     constat annonçait « le formulaire compte huit champs » alors qu'aucun n'en
+     avait plus de quatre. La recherche est écartée : ce n'est pas un
+     formulaire de contact. */
+  const CHAMP = /<(?:input\b(?![^>]*\btype\s*=\s*["']?(?:hidden|submit|button|image|reset)\b)|select\b|textarea\b)[^>]*>/gi;
+  const estRecherche = (bloc: string) =>
+    /\btype\s*=\s*["']?search\b/i.test(bloc) ||
+    /\b(?:name|id|class|placeholder|aria-label)\s*=\s*["'][^"']*(?:search|recherche|rechercher)/i.test(bloc);
+  const formulaires = html.match(/<form\b[\s\S]*?<\/form>/gi) ?? [];
+  const champsParFormulaire = formulaires.map(
+    (f) => (f.match(CHAMP) ?? []).filter((b) => !estRecherche(b)).length,
   );
-  const champs = blocsChamps.length;
+  const champs = champsParFormulaire.length ? Math.max(...champsParFormulaire) : 0;
+
+  /* Un champ est correctement libellé par un `label for`, un `label` qui
+     l'entoure, un aria-label, un aria-labelledby ou un title. Ne reconnaître
+     que `label for` produisait un faux constat sur la case à cocher de
+     consentement, presque toujours écrite `<label><input …> J'accepte</label>`. */
+  const blocsChamps = (html.match(CHAMP) ?? []).filter((b) => !estRecherche(b));
+  const idsEtiquetes = new Set(
+    (html.match(/<label\b[^>]*>/gi) ?? [])
+      .map((b) => attribut(b, 'for'))
+      .filter((v): v is string => v !== null),
+  );
+  const champsEnveloppes = new Set(
+    (html.match(/<label\b[^>]*>[\s\S]*?<\/label>/gi) ?? []).flatMap((l) => l.match(CHAMP) ?? []),
+  );
   const champsSansLibelle = blocsChamps.filter((b) => {
-    if (/aria-label(?:ledby)?\s*=/i.test(b)) return false;
-    const id = b.match(/\bid=["']([^"']+)["']/i)?.[1];
+    if (/aria-label(?:ledby)?\s*=|\btitle\s*=/i.test(b)) return false;
+    if (champsEnveloppes.has(b)) return false;
+    const id = attribut(b, 'id');
     return !(id && idsEtiquetes.has(id));
   }).length;
 
-  const aFormulaire = /<form[\s>]/i.test(html);
-  const aMailto = /href=["']mailto:/i.test(html);
-  const aTel = /href=["']tel:/i.test(html);
+  const aFormulaire = formulaires.some((f) => (f.match(CHAMP) ?? []).some((b) => !estRecherche(b)));
+  const aMailto = /href\s*=\s*["']?mailto:/i.test(html);
+  const aTel = /href\s*=\s*["']?tel:/i.test(html);
+  /* Numéro français affiché en clair, sous ses écritures courantes. Sert à
+     distinguer « le numéro n'est pas cliquable » de « il n'y a pas de numéro »,
+     deux constats très différents pour le lecteur. */
+  const numeroAffiche =
+    /\b0[1-9](?:[\s.\-–—]?\d{2}){4}\b/.test(texte) ||
+    /\+\s?33[\s.\-]?[1-9](?:[\s.\-]?\d{2}){4}/.test(texte);
   const lienConversion =
-    /href=["'][^"']*\/?(contact|devis|reservation|reserver|rendez-vous|rdv|booking|prendre-rdv|nous-joindre)/i.test(html);
+    /href\s*=\s*["']?[^"'\s>]*\/?(contact|devis|reservation|reserver|rendez-vous|rdv|booking|prendre-rdv|nous-joindre|nous-contacter)/i.test(html);
   const aReseau =
-    /href=["'][^"']*(facebook|instagram|linkedin|youtube|tiktok|whatsapp|wa\.me|messenger)\.(?:com|me)/i.test(html);
+    /href\s*=\s*["']?[^"'\s>]*(facebook|instagram|linkedin|youtube|tiktok|whatsapp|wa\.me|messenger)\.(?:com|me)/i.test(html);
 
   const TRACEURS: [RegExp, string][] = [
     [/googletagmanager\.com|google-analytics\.com|gtag\s*\(/i, 'Google Analytics'],
@@ -647,32 +943,58 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     [/matomo\.js|piwik\.js/i, 'Matomo'],
   ];
   const traceurs = TRACEURS.filter(([motif]) => motif.test(html)).map(([, nom]) => nom);
+  /* Dispositifs de consentement. La liste précédente ignorait OneTrust, premier
+     outil du marché, et les modules intégrés aux boutiques : un site parfaitement
+     conforme recevait le constat le plus lourd de la famille. Le mode consentement
+     de Google, qui bloque les traceurs sans bannière visible dans le code, est
+     également reconnu. */
+  const OUTILS_CONSENTEMENT =
+    /tarteaucitron|axeptio|cookiebot|didomi|orejime|klaro|osano|iubenda|cookieyes|complianz|borlabs|onetrust|optanon|cookielaw|usercentrics|trustarc|truste|quantcast|__tcfapi|consentmanager|sirdata|appconsent|sfbx|trustcommander|commandersact|cookiehub|cookiefirst|cookie-?script|termly|civicuk|cookie-?control|secure-?privacy|seersco|moove_gdpr|psgdpr|cmplz|real-?cookie-?banner|wpconsent|gdpr-?cookie|eu-?cookie|cookie-?law-?info|cookie-?notice|cookie-?consent|cookieconsent|cookie-?banner|cookie-?bar|cookie-?popup|consent-?mode/i;
   const consentement =
-    /tarteaucitron|axeptio|cookiebot|didomi|orejime|klaro|osano|iubenda|cookieyes|complianz|borlabs|cookie-?notice|cookie-?consent|cookieconsent/i.test(
-      html,
-    ) || /accepter les cookies|gérer mes cookies|gestion des cookies|consentement/i.test(texte);
+    OUTILS_CONSENTEMENT.test(htmlLisible) ||
+    /gtag\s*\(\s*["']consent["']|["']analytics_storage["']|["']ad_storage["']|dataLayer[\s\S]{0,60}consent/i.test(html) ||
+    /accepter les cookies|tout accepter|refuser les cookies|gérer mes cookies|gestion des cookies|paramétrer les cookies|préférences cookies|ce site utilise des cookies|votre consentement/i.test(texte);
 
-  const aMentions = /mentions[-\s]?l[ée]gales|informations l[ée]gales|impressum/i.test(html);
-  const aConfidentialite =
-    /politique[-\s]de[-\s]confidentialit|confidentialite|privacy[-\s]?policy|donn[ée]es[-\s]personnelles|protection des donn[ée]es|rgpd/i.test(
-      html,
+  /* Recherche menée sur le texte décodé et sur les adresses : « Mentions
+     l&eacute;gales » et « /mentions_legales » doivent être reconnus au même
+     titre que la forme la plus simple. */
+  const aMentions =
+    /mentions?[-_\s]{0,3}l[ée]gal|informations?[-_\s]{0,3}l[ée]gal|mentions-?legales|impressum|notice[-_\s]l[ée]gale|legal[-_\s]?(?:notice|information|documents?|terms)/i.test(
+      htmlLisible,
+    ) ||
+    /(?:^|\/\/)legal\.[a-z0-9-]+\./i.test(htmlLisible) ||
+    liens.some((l) =>
+      /(?:^|\/)(?:mentions?|legal|legals|legales|infos?-legales)(?:[-_]?(?:legales?|notice))?(?:\.\w+)?\/?$/i.test(
+        l.href.split(/[?#]/)[0],
+      ),
     );
-  const estBoutique = /ajouter au panier|add to cart|woocommerce|cdn\.shopify\.com|prestashop|mon panier|votre panier/i.test(html);
+  const aConfidentialite =
+    /politique[-_\s]?de[-_\s]?confidentialit|confidentialit[ée]|privacy[-_\s]?policy|donn[ée]es[-_\s]personnelles|protection des donn[ée]es|\brgpd\b|\bgdpr\b/i.test(
+      htmlLisible,
+    );
+  const estBoutique = /ajouter au panier|add to cart|woocommerce|cdn\.shopify\.com|prestashop|mon panier|votre panier/i.test(htmlLisible);
   const aConditions =
-    /conditions[-\s]g[ée]n[ée]rales|\bcgv\b|\bcgu\b|termes et conditions|conditions de vente|nos contrats/i.test(html);
+    /conditions[-_\s]g[ée]n[ée]rales|\bcgv\b|\bcgu\b|termes et conditions|conditions de vente|nos contrats/i.test(htmlLisible);
 
   const aPreuve =
     /avis|t[ée]moignage|recommand|satisfaction|nos clients|ils nous ont fait confiance|★|⭐|note de \d|\d[,.]\d\s*\/\s*5/i.test(
       texte,
-    );
+    ) || /"@type"\s*:\s*"(?:Review|AggregateRating)"/i.test(html);
   const aHoraires =
-    /(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)[^.]{0,40}\d{1,2}\s?[h:]/i.test(texte) ||
+    /(lun|mar|mer|jeu|ven|sam|dim)[a-zéè]*\.?[^.]{0,40}?\d{1,2}\s?[h:]/i.test(texte) ||
     /openinghours/i.test(bas) ||
-    /horaires? d'ouverture/i.test(texte);
-  const aAdresse = /\b\d{5}\b/.test(texte) || /addresslocality|postalcode/i.test(bas);
-  const aZone = /zone d'intervention|nous intervenons|secteur[s]? d'intervention|aux alentours|rayon de \d|dans un rayon/i.test(texte);
-  const aRepereTarif = /à partir de|tarifs?|nos prix|devis gratuit|sur devis|€/i.test(texte);
-  const aRealisations = /r[ée]alisations|nos chantiers|portfolio|galerie|nos projets|avant\s*\/\s*apr[èe]s/i.test(html);
+    /horaires?\b[^.]{0,30}(ouverture|d'accueil|de visite)|ouvert (du|le|les|tous les|de) /i.test(texte);
+  /* Un code postal accompagné d'un nom de commune, avant ou après, ou une voie
+     nommée : un nombre à cinq chiffres isolé peut être un prix, une référence
+     ou un identifiant de réseau social. */
+  const aAdresse =
+    /\b\d{5}\b[\s,]{0,3}[A-Za-zÀ-ÿ][\wÀ-ÿ'-]{2,}/.test(texte) ||
+    /[A-Za-zÀ-ÿ][\wÀ-ÿ'-]{2,}[\s,(]{1,3}\b\d{5}\b/.test(texte) ||
+    /\b(?:rue|avenue|boulevard|chemin|route|impasse|allée|place|quai|quartier|lieu-?dit|zone artisanale|\bZA\b|\bZI\b)\b\s+[\wÀ-ÿ]/i.test(texte) ||
+    /addresslocality|postalcode|streetaddress/i.test(bas);
+  const aZone = /zone d'intervention|nous intervenons|secteur[s]? d'intervention|aux alentours|rayon de \d|dans un rayon|autour de|environs de/i.test(texte);
+  const aRepereTarif = /à partir de|tarifs?\b|nos prix|devis gratuit|sur devis|\d\s?€|€\s?\d|\d+\s?euros/i.test(texte);
+  const aRealisations = /r[ée]alisations|nos chantiers|portfolio|galerie|nos projets|avant\s*\/\s*apr[èe]s/i.test(htmlLisible);
 
   const jsonLd = [...html.matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)]
     .map((m) => m[1])
@@ -706,21 +1028,23 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     'i',
   ).test(jsonLd);
 
-  const noindex =
-    /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(html) ||
-    enTete('x-robots-tag').includes('noindex');
+  /* Consigne d'indexation : elle peut viser tous les robots (`robots`) ou
+     Google seul (`googlebot`). */
+  const consigneRobots = [
+    contenuMeta('robots') ?? '',
+    contenuMeta('googlebot') ?? '',
+    enTete('x-robots-tag'),
+  ].join(' ').toLowerCase();
+  const noindex = /\bnoindex\b/.test(consigneRobots);
   /* « nofollow » global : la page interdit à Google de suivre ses propres
      liens. Il lit l'accueil mais ne va jamais voir les autres pages. */
-  const nofollow =
-    /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*nofollow/i.test(html) ||
-    enTete('x-robots-tag').includes('nofollow');
+  const nofollow = /\bnofollow\b/.test(consigneRobots);
 
   /* Adresse de référence (canonical). On garde l'URL, pas seulement sa présence :
      une adresse de référence qui pointe ailleurs peut retirer la page elle-même
      des résultats au profit d'une autre. */
-  const canoniqueHref =
-    extraire(/<link[^>]+rel=["']canonical["'][^>]*href=["']([^"']+)["']/i, html) ??
-    extraire(/<link[^>]+href=["']([^"']+)["'][^>]*rel=["']canonical["']/i, html);
+  const baliseCanonique = baliseOu(html, 'link', 'rel', /^canonical$/i);
+  const canoniqueHref = baliseCanonique ? attribut(baliseCanonique, 'href') : null;
   const canonique = canoniqueHref !== null;
   /* Ne sont retenus que les deux cas nets d'un mauvais réglage : l'adresse de
      référence désigne un autre domaine, ou renvoie vers l'ancienne version non
@@ -759,16 +1083,29 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
       html,
     );
 
-  const langue = extraire(/<html[^>]*\slang=["']([^"']+)["']/i, html);
-  const generateur = extraire(/<meta[^>]+name=["']generator["'][^>]+content=["']([^"']*)["']/i, html);
+  const baliseHtml = html.match(/<html\b[^>]*>/i)?.[0] ?? '';
+  const langue = attribut(baliseHtml, 'lang');
+  const generateur = contenuMeta('generator');
   const estWordpress = /wp-content|wp-includes/i.test(html);
   const editeurEnLigne = /wix\.com|_wixCssStates|squarespace|weebly|jimdo|site123|godaddy website builder/i.test(html)
     ? (/wix/i.test(html) ? 'Wix' : /squarespace/i.test(html) ? 'Squarespace' : /weebly/i.test(html) ? 'Weebly' : /jimdo/i.test(html) ? 'Jimdo' : 'un éditeur en ligne')
     : null;
+  /* Contenu mixte : seules comptent les ressources réellement chargées. Un
+     `<link rel="alternate">` ou un flux déclaré en http ne fait pas disparaître
+     le cadenas du navigateur, et le signaler était une fausse alerte. */
   const contenuMixte =
     httpsDisponible &&
-    (/(?:src|srcset)=["']http:\/\//i.test(html) || /<link[^>]+href=["']http:\/\//i.test(html));
-  const formulaireNonChiffre = /<form[^>]+action=["']http:\/\//i.test(html);
+    ((html.match(/<(?:script|img|iframe|source|video|audio|embed)\b[^>]*>/gi) ?? []).some((b) =>
+      /^http:\/\//i.test(attribut(b, 'src') ?? '') || /(?:^|[\s,])http:\/\//i.test(attribut(b, 'srcset') ?? ''),
+    ) ||
+      (html.match(/<link\b[^>]*>/gi) ?? []).some(
+        (b) =>
+          RELS_CHARGES.test((attribut(b, 'rel') ?? '').trim()) &&
+          /^http:\/\//i.test(attribut(b, 'href') ?? ''),
+      ));
+  const formulaireNonChiffre = (html.match(/<form\b[^>]*>/gi) ?? []).some((b) =>
+    /^http:\/\//i.test(attribut(b, 'action') ?? ''),
+  );
   const balisesObsoletes = compter(/<(?:font|center|marquee|blink|frameset)[\s>]/gi, html);
   const tableauxMiseEnPage = compter(/<table\b(?![^>]*role=["']presentation["'])[^>]*>/gi, html);
   const iframes = html.match(/<iframe\b[^>]*>/gi) ?? [];
@@ -786,6 +1123,14 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   const constats: Constat[] = [];
   let controles = 0;
 
+  /* Contenu fabriqué dans le navigateur : le code reçu ne porte presque aucun
+     texte alors que la page charge des scripts. Rien de ce que le visiteur voit
+     ne se trouve dans ce qui a été lu, donc rien ne peut être déclaré absent. */
+  const contenuFabriqueParScript = mots < SEUILS.motsCritique && scripts >= 1 && balises < 300;
+  /* Vrai quand la page a été lue en entier et porte bien son contenu : seule
+     situation où conclure à l'absence de quelque chose a un sens. */
+  const lectureComplete = sansCoupure && !contenuFabriqueParScript;
+
   const ajouter = (famille: Famille, gravite: Gravite, fait: string, consequence: string) =>
     constats.push({ famille, gravite, fait, consequence });
   const controle = () => { controles += 1; };
@@ -799,6 +1144,22 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     controles += 1;
     if (defaut) ajouter(famille, gravite, fait, consequence);
   };
+  /**
+   * Contrôle qui conclut à l'absence de quelque chose. Il n'a de sens que si la
+   * page entière a été lue : sur une lecture coupée par le plafond, ce qui
+   * manque peut simplement se trouver après la coupure. Le contrôle est alors
+   * ni mené, ni compté, ni reproché.
+   */
+  const verifierPresence = (
+    famille: Famille,
+    gravite: Gravite,
+    absent: boolean,
+    fait: string,
+    consequence: string,
+  ) => {
+    if (!lectureComplete) return;
+    verifier(famille, gravite, absent, fait, consequence);
+  };
 
   /* ══ VITESSE ══════════════════════════════════════════ */
   controle();
@@ -810,14 +1171,26 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
       'Google intègre ce délai dans son classement, et les visiteurs mobiles y sont particulièrement sensibles.');
   }
 
+  /* Le poids annoncé est celui du code une fois décompressé. Un serveur qui
+     compresse n'envoie qu'un quart de ce volume : le dire évite d'alarmer sur
+     un chiffre que le visiteur ne subit pas tel quel. */
+  const compresse = !!enTete('content-encoding');
   controle();
   if (poids > SEUILS.poidsCritique) {
-    ajouter('vitesse', 'moyen', `Le code de la page pèse ${Math.round(poids / 1024)} Ko.`,
-      'Ce poids est celui du texte seul, avant les images. Sur un réseau mobile, la page reste blanche plusieurs secondes.');
+    ajouter('vitesse', 'moyen', `Le code de la page pèse ${Math.round(poids / 1024)} Ko${compresse ? ' une fois décompressé' : ''}.`,
+      compresse
+        ? "Ce poids est celui du texte seul, avant les images. Même compressé à l'envoi, il doit être lu et interprété par le téléphone, ce qui retarde le premier affichage."
+        : 'Ce poids est celui du texte seul, avant les images, et il est envoyé tel quel faute de compression. Sur un réseau mobile, la page reste blanche plusieurs secondes.');
   } else if (poids > SEUILS.poidsLourd) {
-    ajouter('vitesse', 'mineur', `Le code de la page pèse ${Math.round(poids / 1024)} Ko.`,
+    ajouter('vitesse', 'mineur', `Le code de la page pèse ${Math.round(poids / 1024)} Ko${compresse ? ' une fois décompressé' : ''}.`,
       'Une page bien construite tient sous 250 Ko de code. Le surplus retarde le premier affichage.');
   }
+
+  /* La lecture s'est arrêtée au plafond : c'est en soi un fait mesuré, et il
+     explique pourquoi les contrôles de présence ont été suspendus. */
+  verifier('vitesse', 'moyen', tronque,
+    `Le code de la page dépasse ${Math.round(POIDS_MAX / (1024 * 1024))} Mo, la lecture a dû être interrompue.`,
+    "Un navigateur doit tout télécharger et tout interpréter avant d'afficher la fin de la page. Sur un téléphone, l'attente se compte en secondes. Faute d'avoir pu lire la page entière, les contrôles portant sur ce qu'elle contient ont été écartés de cette analyse.");
 
   verifier('vitesse', 'moyen', scriptsCouteux > SEUILS.scriptsNombreux,
     `La page charge ${scriptsCouteux} scripts tiers ou bloquants et ${feuilles} fichiers de mise en forme.`,
@@ -828,12 +1201,14 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     "Le navigateur interrompt l'affichage à chacun d'eux : le visiteur voit une page blanche pendant ce temps.");
 
   verifier('vitesse', 'moyen', domainesTiers.size > SEUILS.tiersNombreux,
-    `La page fait appel à ${domainesTiers.size} serveurs extérieurs.`,
+    `La page charge des fichiers depuis ${domainesTiers.size} serveurs extérieurs.`,
     'Chaque domaine tiers ajoute une résolution réseau, et votre affichage dépend de la disponibilité de ces services.');
 
-  verifier('vitesse', 'moyen', entetes ? !enTete('content-encoding') : false,
-    "Le serveur envoie la page sans compression.",
-    'La compression réduit le poids transféré de 60 à 80 pour cent. Elle est gratuite et se règle côté serveur.');
+  if (entetes) {
+    verifier('vitesse', 'moyen', !compresse,
+      "Le serveur envoie la page sans compression.",
+      'La compression réduit le poids transféré de 60 à 80 pour cent. Elle est gratuite et se règle côté serveur.');
+  }
 
   verifier('vitesse', 'mineur', images >= 5 && imagesSansLazy >= images * 0.8,
     `${imagesSansLazy} images sur ${images} sont chargées immédiatement, même celles en bas de page.`,
@@ -847,9 +1222,14 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     `La page compte ${balises} balises HTML.`,
     'Une structure aussi lourde ralentit le navigateur à chaque défilement, surtout sur un téléphone de plus de deux ans.');
 
-  verifier('vitesse', 'mineur', polices > SEUILS.policesNombreuses,
-    `${polices} fichiers de police sont chargés.`,
-    "Le texte reste invisible ou change d'aspect le temps du téléchargement.");
+  verifier('vitesse', 'mineur',
+    polices > (policesEnFamilles ? SEUILS.policesNombreuses : SEUILS.fichiersPoliceNombreux),
+    policesEnFamilles
+      ? `${polices} familles de police différentes sont chargées.`
+      : `${polices} fichiers de police sont chargés.`,
+    policesEnFamilles
+      ? "Chacune doit être téléchargée avant que le texte s'affiche dans sa forme définitive. Deux familles suffisent à tenir une identité."
+      : "Chaque fichier retarde l'affichage définitif du texte. Deux familles, en deux ou trois graisses, couvrent les besoins d'un site.");
 
   verifier('vitesse', 'mineur', /jquery[.\-]/i.test(bas),
     'La page charge jQuery.',
@@ -872,15 +1252,20 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     `La mise en page repose sur ${tableauxMiseEnPage} tableaux HTML.`,
     "Cette technique date d'avant les téléphones : un tableau ne se replie pas, le visiteur mobile doit faire défiler latéralement.");
 
-  verifier('mobile', 'moyen', images >= 3 && imagesSansDimensions >= images * 0.7,
+  /* Une image dont la proportion est fixée en CSS (`aspect-ratio`) ne provoque
+     pas de saut de mise en page, même sans attributs de dimensions. */
+  const proportionEnCss = /aspect-ratio\s*:/i.test(html);
+  verifier('mobile', 'moyen', images >= 3 && imagesSansDimensions >= images * 0.7 && !proportionEnCss,
     `${imagesSansDimensions} images sur ${images} ne déclarent pas leurs dimensions.`,
     'Le contenu saute pendant le chargement, et le visiteur clique parfois à côté de ce qu\'il visait.');
 
-  verifier('mobile', 'mineur', !/<meta[^>]+name=["']theme-color["']/i.test(html),
+  verifierPresence('mobile', 'mineur', !balMeta('theme-color'),
     "Aucune couleur de thème n'est déclarée.",
     "Sur mobile, la barre du navigateur reste grise au lieu de reprendre vos couleurs. C'est un détail, mais il se voit.");
 
-  verifier('mobile', 'mineur', !/<link[^>]+rel=["']apple-touch-icon["']/i.test(html),
+  verifierPresence('mobile', 'mineur',
+    !baliseOu(html, 'link', 'rel', /^apple-touch-icon(-precomposed)?$/i) &&
+      !baliseOu(html, 'link', 'rel', /^manifest$/i),
     "Aucune icône n'est prévue pour l'écran d'accueil des iPhone.",
     "Si un client ajoute votre site à son écran d'accueil, il obtient une vignette grise sans identité.");
 
@@ -915,27 +1300,30 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
       "Deux adresses servent le même contenu : Google les traite comme des doublons, et les visiteurs restent en connexion non chiffrée.");
   }
 
-  verifier('securite', 'mineur', entetes ? !enTete('strict-transport-security') : false,
-    "Le serveur ne force pas la connexion sécurisée pour les visites suivantes.",
-    "Un visiteur qui tape l'adresse sans le préfixe passe une première fois en clair avant d'être redirigé.");
+  /* Les en-têtes n'ont pas pu être lus : rien ne peut en être conclu. */
+  if (entetes) {
+    verifier('securite', 'mineur', !enTete('strict-transport-security'),
+      "Le serveur ne force pas la connexion sécurisée pour les visites suivantes.",
+      "Un visiteur qui tape l'adresse sans le préfixe passe une première fois en clair avant d'être redirigé.");
 
+    verifier('securite', 'mineur',
+      !enTete('x-frame-options') && !enTete('content-security-policy').includes('frame-ancestors'),
+      "Rien n'empêche un autre site d'afficher vos pages dans un cadre.",
+      "C'est la technique utilisée pour faire cliquer un visiteur sur autre chose que ce qu'il croit voir.");
+
+    verifier('securite', 'mineur', !enTete('content-security-policy'),
+      "La page ne limite pas les contenus extérieurs qu'elle a le droit de charger.",
+      "Si un script étranger parvient à s'insérer dans une page, rien ne l'empêche de s'exécuter.");
+  }
+
+  /* Un numéro de version, et non un simple chiffre : « Apache » ne dit rien,
+     « Apache/2.4.41 » ou « WordPress 6.4.9 » indiquent quelles failles essayer. */
+  const versionExposee = (valeur: string) => /\d+\.\d+/.test(valeur);
   verifier('securite', 'mineur',
-    entetes ? !enTete('x-frame-options') && !enTete('content-security-policy').includes('frame-ancestors') : false,
-    "Rien n'empêche un autre site d'afficher vos pages dans un cadre.",
-    "C'est la technique utilisée pour faire cliquer un visiteur sur autre chose que ce qu'il croit voir.");
-
-  verifier('securite', 'mineur', entetes ? !enTete('content-security-policy') : false,
-    "La page ne limite pas les contenus extérieurs qu'elle a le droit de charger.",
-    "Si un script étranger parvient à s'insérer dans une page, rien ne l'empêche de s'exécuter.");
-
-  verifier('securite', 'mineur',
-    /\d/.test(enTete('x-powered-by')) || /\d/.test(enTete('server')) || (!!generateur && /\d/.test(generateur)),
+    versionExposee(enTete('x-powered-by')) || versionExposee(enTete('server')) ||
+      (!!generateur && versionExposee(generateur)),
     'Le serveur annonce publiquement ses versions de logiciels.',
     "C'est la première information que cherche un robot d'attaque : elle lui indique quelles failles connues essayer.");
-
-  verifier('securite', 'mineur', liensNouvelOnglet >= 1,
-    `${liensNouvelOnglet} lien${liensNouvelOnglet > 1 ? 's ouvrent' : ' ouvre'} un nouvel onglet sans protection.`,
-    "La page ouverte garde une prise sur la vôtre et peut la rediriger ailleurs.");
 
   /* ══ RÉFÉRENCEMENT ════════════════════════════════════ */
   verifier('referencement', 'critique', noindex,
@@ -1000,28 +1388,36 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
       "Le code transmet bien des informations, mais aucune fiche d'entreprise : ni adresse, ni horaires, ni zone desservie.");
   }
 
-  verifier('referencement', 'mineur', !aFicheGoogle && !estBoutique,
+  verifierPresence('referencement', 'mineur', !aFicheGoogle && !estBoutique,
     "Aucun lien vers votre fiche Google (Maps, avis) depuis la page d'accueil.",
     "Sur une recherche locale, la fiche Google est souvent le premier résultat et l'endroit où s'affichent vos avis. Un lien depuis le site aide Google à relier votre site et votre établissement.");
 
-  controle();
-  if (pagesInternes.size === 0) {
+  if (lectureComplete) controle();
+  if (lectureComplete && pagesInternes.size === 0) {
     ajouter('referencement', 'moyen', "L'accueil ne mène à aucune autre page.",
       "Google n'a qu'une seule page à proposer, sur un seul sujet. Chaque prestation détaillée sur sa propre page est une porte d'entrée supplémentaire.");
-  } else if (pagesInternes.size <= 3) {
+  } else if (lectureComplete && pagesInternes.size <= 3) {
     ajouter('referencement', 'mineur', `Le site ne compte que ${pagesInternes.size} pages accessibles depuis l'accueil.`,
       'Le nombre de recherches sur lesquelles vous pouvez apparaître est limité par le nombre de sujets traités.');
   }
 
-  if (robots) {
-    verifier('referencement', 'mineur', robots.statut !== 200,
+  /* Une réponse 3xx sur un fichier annexe n'apprend rien : le fichier existe
+     peut-être à l'adresse indiquée. Seule une réponse ferme est exploitable, et
+     un plan de site redirigé (le cas de tous les sites sous Yoast, dont le
+     sitemap.xml renvoie vers sitemap_index.xml) ne doit plus être déclaré
+     introuvable. */
+  const redirige = (s: Sonde | null) => !!s && s.statut >= 300 && s.statut < 400;
+  const conclusif = (s: Sonde | null) => !!s && !redirige(s);
+
+  if (conclusif(robots)) {
+    verifier('referencement', 'mineur', robots!.statut !== 200,
       "Le fichier robots.txt est absent.",
       "C'est le premier fichier que lit un moteur de recherche. Son absence n'est pas bloquante, mais elle empêche d'y déclarer le plan du site.");
 
-    if (robots.statut === 200) {
-      const contenuRobots = robots.corps.toLowerCase();
+    if (robots!.statut === 200) {
+      const contenuRobots = robots!.corps;
       verifier('referencement', 'critique',
-        /user-agent:\s*\*[\s\S]*?disallow:\s*\/\s*(?:\n|$)/i.test(contenuRobots),
+        robotsBloqueTout(contenuRobots),
         'Le fichier robots.txt interdit à tous les moteurs de recherche de parcourir le site.',
         "C'est la consigne la plus radicale possible : elle sort le site des résultats de recherche.");
 
@@ -1030,37 +1426,57 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
         "Le site bloque les robots des moteurs de réponse comme ChatGPT ou Perplexity.",
         "Une part croissante des recherches se termine dans une réponse rédigée par une IA. Un site bloqué n'y est jamais cité.");
 
-      verifier('referencement', 'moyen', !contenuRobots.includes('sitemap:') && !(planSite && planSite.statut === 200),
-        "Aucun plan de site n'est déclaré ni trouvé à l'adresse habituelle.",
-        "Le plan de site est la liste que vous fournissez à Google. Sans lui, il découvre vos pages au hasard des liens.");
+      /* Un plan de site peut être déclaré dans robots.txt, servi à l'adresse
+         habituelle, ou renvoyer vers un index : les trois valent déclaration. */
+      const planTrouve =
+        /^\s*sitemap\s*:/im.test(contenuRobots) ||
+        (planSite ? planSite.statut === 200 || redirige(planSite) : false);
+      if (planSite) {
+        verifier('referencement', 'moyen', !planTrouve,
+          "Aucun plan de site n'est déclaré ni trouvé à l'adresse habituelle.",
+          "Le plan de site est la liste que vous fournissez à Google. Sans lui, il découvre vos pages au hasard des liens.");
+      }
     }
   }
 
-  if (page404) {
-    verifier('referencement', 'moyen', page404.statut === 200,
+  if (conclusif(page404)) {
+    verifier('referencement', 'moyen', page404!.statut === 200,
       "Une adresse inexistante renvoie une page normale au lieu d'une erreur.",
       "Google indexe alors des pages vides en croyant qu'elles existent, ce qui dilue la valeur du site.");
 
     controle();
-    if (page404.statut === 404 && texteVisible(page404.corps).split(' ').length < 25) {
+    if (page404!.statut === 404 && texteVisible(page404!.corps).split(' ').length < 25) {
       ajouter('confiance', 'mineur', "La page d'erreur n'est pas personnalisée.",
         "Un visiteur qui suit un lien périmé tombe sur un message technique brut, sans moyen de revenir à votre site.");
     }
   }
 
+  /* Le doublon n'est avéré que si l'autre adresse sert la page elle-même. Une
+     redirection, une erreur ou un domaine qui ne répond pas ne prouvent rien. */
   if (varianteWww) {
     verifier('referencement', 'moyen', varianteWww.statut === 200,
       `Le site répond à la fois sur ${base.hostname} et sur ${varianteHote}, sans redirection.`,
       'Google voit deux sites identiques et répartit la valeur entre les deux, au lieu de la concentrer sur une seule adresse.');
   }
 
-  verifier('referencement', 'mineur', !/<meta[^>]+property=["']og:/i.test(html),
+  verifier('referencement', 'mineur',
+    !baliseOu(html, 'meta', 'property', /^og:image$/i) &&
+      !baliseOu(html, 'meta', 'name', /^(?:og:image|twitter:image)$/i),
     "Aucune image de partage n'est configurée.",
     "Quand le lien est partagé sur les réseaux ou par message, aucun visuel n'apparaît : le lien passe pour suspect.");
 
   /* ══ CONTENU ══════════════════════════════════════════ */
+  /* Un texte quasi absent du code alors que la page charge des scripts n'est
+     pas un site vide : c'est un site dont le contenu est fabriqué dans le
+     navigateur. Le visiteur voit tout, les moteurs de recherche et les
+     assistants qui n'exécutent pas les scripts ne voient rien. Deux problèmes
+     différents, deux constats différents. */
   controle();
-  if (mots < SEUILS.motsCritique) {
+  if (contenuFabriqueParScript) {
+    ajouter('referencement', 'critique',
+      "Le texte de la page n'est pas dans le code source : il est fabriqué par un script à l'ouverture.",
+      "Un visiteur voit bien la page, mais les robots qui lisent le code sans exécuter les scripts n'y trouvent presque rien. C'est le cas des moteurs de réponse comme ChatGPT, et le référencement classique en pâtit aussi.");
+  } else if (mots < SEUILS.motsCritique) {
     ajouter('contenu', 'critique', `La page d'accueil contient environ ${mots} mots.`,
       "C'est trop peu pour que Google comprenne votre métier, et trop peu pour qu'un visiteur sache s'il est au bon endroit.");
   } else if (mots < SEUILS.motsPauvre) {
@@ -1072,17 +1488,17 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     'La page contient encore du texte de gabarit non remplacé.',
     "Un visiteur qui tombe sur ce texte comprend que le site n'a jamais été terminé.");
 
-  verifier('contenu', 'moyen', !aAdresse && !aZone,
+  verifierPresence('contenu', 'moyen', !aAdresse && !aZone,
     "Aucune ville, aucun code postal, aucune zone d'intervention n'apparaît sur la page d'accueil.",
     "Les recherches locales du type métier plus ville comptent parmi les plus rentables. Sans ancrage géographique, vous n'y êtes pas éligible.");
 
-  verifier('contenu', 'moyen', !aPreuve,
+  verifierPresence('contenu', 'moyen', !aPreuve,
     "Aucun avis, témoignage ni référence client n'apparaît sur la page d'accueil.",
     "C'est le premier élément que cherche un visiteur avant de vous contacter. Son absence le renvoie comparer ailleurs.");
 
-  verifier('contenu', 'mineur', !aRealisations,
-    "Aucun lien vers des réalisations ou une galerie de chantiers.",
-    "Sur un métier visuel, les photos de travaux réalisés font plus pour convaincre que n'importe quel argumentaire.");
+  verifierPresence('contenu', 'mineur', !aRealisations,
+    "Aucun lien vers des réalisations ou une galerie de photos.",
+    "Sur un métier où le résultat se voit, les photos de ce que vous avez déjà fait convainquent plus que n'importe quel argumentaire.");
 
   verifier('contenu', 'mineur', liensVagues >= SEUILS.liensVagues,
     `${liensVagues} liens portent un texte vague du type cliquez ici ou en savoir plus.`,
@@ -1105,45 +1521,65 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
      Le téléphone cliquable et les réseaux comptent : les ignorer produirait
      un constat faux sur un site qui n'a simplement pas de formulaire. */
   const contactDirect = aFormulaire || aMailto || lienConversion;
-  controle();
-  if (!contactDirect && !aTel && !aReseau) {
-    ajouter('conversion', 'critique', "Aucun moyen de vous contacter depuis la page d'accueil.",
-      "Ni formulaire, ni adresse email, ni téléphone cliquable, ni lien vers une page de contact. Un visiteur convaincu n'a aucun moyen simple de laisser une demande.");
-  } else if (!contactDirect) {
-    ajouter('conversion', 'moyen',
-      `Aucune demande écrite n'est possible depuis l'accueil : le seul contact proposé est ${aTel ? 'le téléphone' : 'un réseau social'}.`,
-      "Un visiteur qui consulte le soir, en réunion ou depuis son travail ne peut rien laisser. Il remet sa demande à plus tard, et le plus souvent ne revient pas.");
-  } else if (!aFormulaire && !aMailto) {
-    ajouter('conversion', 'mineur', "La page d'accueil renvoie vers une page de contact, sans formulaire direct.",
-      'Chaque clic supplémentaire avant le formulaire fait perdre une part des demandes.');
+  if (lectureComplete) {
+    controle();
+    if (!contactDirect && !aTel && !aReseau) {
+      ajouter('conversion', 'critique', "Aucun moyen de vous contacter depuis la page d'accueil.",
+        "Ni formulaire, ni adresse email, ni téléphone cliquable, ni lien vers une page de contact. Un visiteur convaincu n'a aucun moyen simple de laisser une demande.");
+    } else if (!contactDirect) {
+      ajouter('conversion', 'moyen',
+        `Aucune demande écrite n'est possible depuis l'accueil : le seul contact proposé est ${aTel ? 'le téléphone' : 'un réseau social'}.`,
+        "Un visiteur qui consulte le soir, en réunion ou depuis son travail ne peut rien laisser. Il remet sa demande à plus tard, et le plus souvent ne revient pas.");
+    } else if (!aFormulaire && !aMailto) {
+      ajouter('conversion', 'mineur', "La page d'accueil renvoie vers une page de contact, sans formulaire direct.",
+        'Chaque clic supplémentaire avant le formulaire fait perdre une part des demandes.');
+    }
   }
 
-  verifier('conversion', 'moyen', !aTel,
-    "Le numéro de téléphone n'est pas cliquable sur mobile.",
-    'Un visiteur sur téléphone doit le recopier à la main, ce que beaucoup ne font pas.');
+  /* Deux situations très différentes, longtemps confondues sous un seul
+     libellé : un numéro affiché mais non cliquable, et pas de numéro du tout.
+     Reprocher à un site que « le numéro n'est pas cliquable » quand il n'en
+     affiche aucun énonce un fait faux. */
+  if (lectureComplete && !aTel) {
+    controle();
+    if (numeroAffiche) {
+      ajouter('conversion', 'moyen', "Le numéro de téléphone affiché n'est pas cliquable sur mobile.",
+        'Un visiteur sur téléphone doit le recopier à la main, ce que beaucoup ne font pas.');
+    } else {
+      ajouter('conversion', 'moyen', "Aucun numéro de téléphone n'apparaît sur la page d'accueil.",
+        "Le téléphone reste le premier moyen de contact d'une clientèle locale, et le plus rapide à transformer en rendez-vous.");
+    }
+  } else if (lectureComplete) {
+    controle();
+  }
 
   /* Un appel à l'action doit être visible sans défiler. Faute de rendu, on
-     regarde s'il en existe un dans le premier quart du corps de page, ce qui
-     correspond en pratique au premier écran. */
-  const debutCorps = html.slice(0, Math.max(4000, Math.floor(html.length / 4)));
+     regarde les premiers liens du document, ceux du bandeau de navigation et du
+     haut de page. Mesurer une portion du code brut, comme auparavant, n'a pas
+     de sens sur une page dont le premier quart n'est que du script. */
+  const CIBLE_CONTACT = /(contact|devis|rendez-vous|rdv|reservation|reserver|booking|nous-joindre|^tel:|^mailto:)/i;
+  const premiersLiens = liens.slice(0, 25);
   verifier('conversion', 'moyen',
-    !/href=["'][^"']*(contact|devis|rendez-vous|rdv|reservation|reserver|tel:)/i.test(debutCorps),
+    premiersLiens.length > 0 &&
+      !premiersLiens.some(
+        (l) => CIBLE_CONTACT.test(l.href) || /contact|devis|rendez-vous|réserv|reserv|appel/i.test(texteVisible(l.contenu)),
+      ),
     "Aucun bouton de contact n'apparaît en haut de page.",
     "Le visiteur doit chercher comment vous joindre. Une part de ceux qui étaient prêts à le faire abandonne en route.");
 
   verifier('conversion', 'moyen', champs > SEUILS.champsNombreux,
-    `Le formulaire compte ${champs} champs à remplir.`,
+    `Le formulaire le plus long compte ${champs} champs à remplir.`,
     'Au-delà de quatre ou cinq champs, chaque question supplémentaire fait perdre des demandes. Le reste se demande au téléphone.');
 
-  verifier('conversion', 'moyen', !aHoraires,
+  verifierPresence('conversion', 'moyen', !aHoraires,
     "Aucun horaire d'ouverture n'apparaît sur la page d'accueil.",
     "C'est l'une des informations les plus recherchées, et l'un des motifs d'appel les plus fréquents.");
 
-  verifier('conversion', 'mineur', !aAdresse,
+  verifierPresence('conversion', 'mineur', !aAdresse,
     "Aucune adresse postale n'apparaît sur la page d'accueil.",
     "Elle rassure sur le fait que l'entreprise existe physiquement, et alimente votre référencement local.");
 
-  verifier('conversion', 'mineur', !aRepereTarif,
+  verifierPresence('conversion', 'mineur', !aRepereTarif,
     "Aucun repère de prix n'est donné.",
     "Un visiteur sans aucun ordre de grandeur reporte sa demande, ou demande trois devis pour se faire une idée.");
 
@@ -1180,24 +1616,32 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     `${stylesEnLigne} éléments portent leur mise en forme directement dans le code.`,
     "Chaque changement de couleur ou d'espacement doit être repris élément par élément : toute évolution du site coûte plus cher qu'elle ne devrait.");
 
-  verifier('lisibilite', 'mineur', !/<link[^>]+rel=["'](?:shortcut )?icon["']/i.test(html) && (favicon ? favicon.statut !== 200 : false),
-    "Le site n'a pas d'icône d'onglet.",
-    "Dans une barre de navigateur chargée ou dans les favoris, votre site est le seul à ne pas être identifiable d'un coup d'œil.");
+  /* Une icône déclarée sous n'importe quelle forme moderne (svg, png, manifeste)
+     vaut icône : ne chercher que `rel="icon"` et `/favicon.ico` faisait passer
+     pour dépourvus des sites correctement équipés. */
+  const iconeDeclaree =
+    !!baliseOu(html, 'link', 'rel', /(^|\s)(?:shortcut\s+)?icon($|\s)/i) ||
+    !!baliseOu(html, 'link', 'rel', /^(?:apple-touch-icon(-precomposed)?|mask-icon|manifest)$/i);
+  if (iconeDeclaree || conclusif(favicon)) {
+    verifier('lisibilite', 'mineur', !iconeDeclaree && favicon!.statut !== 200,
+      "Le site n'a pas d'icône d'onglet.",
+      "Dans une barre de navigateur chargée ou dans les favoris, votre site est le seul à ne pas être identifiable d'un coup d'œil.");
+  }
 
   /* ══ CONFIANCE ET CONFORMITÉ ══════════════════════════ */
-  verifier('confiance', 'critique', !aMentions,
-    "Aucun lien vers des mentions légales n'a été trouvé.",
+  verifierPresence('confiance', 'critique', !aMentions,
+    "Aucun lien vers des mentions légales n'a été trouvé sur la page d'accueil.",
     "Elles sont obligatoires pour tout site professionnel en France, article 6 de la loi pour la confiance dans l'économie numérique. Leur absence est sanctionnable et se remarque en cas de litige.");
 
-  verifier('confiance', 'critique', traceurs.length > 0 && !consentement,
+  verifierPresence('confiance', 'critique', traceurs.length > 0 && !consentement,
     `La page charge ${traceurs.join(', ')} sans aucun dispositif de consentement dans son code.`,
     "Déposer un traceur avant l'accord du visiteur expose à une sanction de la CNIL, et les données collectées ainsi sont inexploitables en cas de contrôle.");
 
-  verifier('confiance', 'moyen', aFormulaire && !aConfidentialite,
+  verifierPresence('confiance', 'moyen', aFormulaire && !aConfidentialite,
     "Un formulaire collecte des données sans lien vers une politique de confidentialité.",
     "Le RGPD impose d'indiquer qui traite les données, pourquoi, et combien de temps elles sont conservées, au moment même de la collecte.");
 
-  verifier('confiance', 'moyen', estBoutique && !aConditions,
+  verifierPresence('confiance', 'moyen', estBoutique && !aConditions,
     "Le site vend en ligne sans conditions générales de vente accessibles.",
     "Elles sont obligatoires pour toute vente à distance, et ce sont elles qui vous protègent en cas de contestation d'une commande.");
 
@@ -1213,11 +1657,16 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     `Le site est construit avec ${editeurEnLigne}.`,
     "Le code produit n'est pas modifiable en profondeur : la vitesse, la structure et le référencement technique restent plafonnés par l'outil.");
 
-  verifier('confiance', 'mineur', estWordpress && /wp-content\/plugins/i.test(html) && compter(/wp-content\/plugins\/([^/'"]+)/gi, html) > 10,
-    "Le site empile un grand nombre d'extensions.",
+  /* Ce sont les extensions distinctes qui comptent, pas leurs fichiers : une
+     seule extension qui charge quinze scripts n'est pas un empilement. */
+  const extensions = new Set(
+    [...html.matchAll(/wp-content\/plugins\/([^/'"?\s]+)/gi)].map((m) => m[1].toLowerCase()),
+  );
+  verifier('confiance', 'mineur', estWordpress && extensions.size > 12,
+    `Le site empile ${extensions.size} extensions.`,
     'Chaque extension ajoute du poids et une surface de panne. C\'est la première cause de site cassé après une mise à jour.');
 
-  verifier('confiance', 'mineur', !aReseau,
+  verifierPresence('confiance', 'mineur', !aReseau,
     'Aucun lien vers un réseau social.',
     "Un visiteur qui veut vérifier votre activité récente n'a nulle part où aller. Une page active rassure autant qu'un avis.");
 
