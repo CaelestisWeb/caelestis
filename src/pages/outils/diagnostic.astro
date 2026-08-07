@@ -586,6 +586,8 @@ const filArianeDiagnostic = {
 </style>
 
 <script>
+import { constatsDuSite, noter, trierConstats } from '../../utils/diagnostic-notation.ts';
+
 /* Le branchement est enveloppé dans une fonction rappelée à chaque navigation :
    le routeur de transitions de vue remplace le DOM, les écouteurs posés une
    seule fois au chargement initial seraient perdus dès la première navigation
@@ -613,6 +615,11 @@ function brancherDiagnostic() {
   /* Au-delà de ce nombre, les points restants d'une même famille sont annoncés
      sans être détaillés : une liste de trente lignes ne se lit plus. */
   const PLAFOND_PAR_FAMILLE = 8;
+  /* Lecture du site : taille des paquets demandés au serveur, et nombre de
+     pages au-delà duquel on s'arrête. Le serveur applique les mêmes bornes ;
+     celles-ci évitent au navigateur de lancer des appels pour rien. */
+  const PAGES_PAR_PAQUET = 8;
+  const PLAFOND_PAGES = 60;
   const niveau = (note: number) => (note >= 80 ? 'bon' : note >= 50 ? 'moyen' : 'faible');
 
   /* Contexte de la dernière analyse, joint à la demande de rappel : sans lui,
@@ -666,7 +673,7 @@ function brancherDiagnostic() {
     bouton.disabled = true;
     const libelle = bouton.querySelector('.diag-btn-label');
     if (libelle) libelle.textContent = 'Analyse en cours';
-    message('Mesure en cours, cela prend quelques secondes.');
+    message("Lecture de la page d'accueil.");
     resultats.hidden = true;
 
     try {
@@ -679,6 +686,70 @@ function brancherDiagnostic() {
 
       if (!reponse.ok && donnees?.erreur) { message(donnees.erreur, true); return; }
       if (donnees?.etat === 'refuse') { message(donnees.raison, true); return; }
+
+      /* ── Lecture du reste du site ──
+         L'accueil ne dit rien de ce qui ne se voit qu'à l'échelle de
+         l'ensemble : deux pages au même titre, une adresse morte annoncée par
+         le plan du site. Le serveur ne peut pas tout lire d'un coup, une
+         fonction s'arrêtant au bout de quelques secondes, alors le navigateur
+         redemande les pages par petits paquets. Le résultat n'est montré qu'une
+         fois la lecture terminée, la progression tient le visiteur informé. */
+      if (donnees?.etat === 'ok') {
+        const relevees: any[] = [...(donnees.relevees ?? [])];
+        const file: string[] = [...(donnees.aExplorer ?? [])];
+        const vues = new Set<string>();
+        let lues = relevees.filter((p: any) => p.statut === 200).length;
+
+        while (file.length && relevees.length < PLAFOND_PAGES) {
+          const paquet: string[] = [];
+          while (paquet.length < PAGES_PAR_PAQUET && file.length) {
+            const chemin = file.shift();
+            if (!chemin || vues.has(chemin)) continue;
+            vues.add(chemin);
+            paquet.push(chemin);
+          }
+          if (!paquet.length) break;
+
+          const restantes = file.length + paquet.length;
+          message(`${lues} page${lues > 1 ? 's' : ''} lue${lues > 1 ? 's' : ''}, ${restantes} en attente.`);
+
+          let lot: any = null;
+          try {
+            const r = await fetch('/api/diagnostic-pages', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ url, pages: paquet }),
+            });
+            lot = await r.json();
+          } catch {
+            /* Un paquet perdu ne doit pas emporter l'analyse : on s'arrête là
+               et on présente ce qui a été lu. */
+            break;
+          }
+          if (lot?.etat !== 'ok' || !Array.isArray(lot.pages)) break;
+
+          for (const p of lot.pages) {
+            if (p?.decouvertes) {
+              for (const d of p.decouvertes) if (!vues.has(d)) file.push(d);
+            } else if (p) {
+              relevees.push(p);
+              if (p.statut === 200) lues += 1;
+            }
+          }
+        }
+
+        /* Les constats d'ensemble rejoignent ceux de l'accueil, et la note est
+           recalculée avec la règle du serveur, importée telle quelle. */
+        const ajouts = constatsDuSite(relevees);
+        if (ajouts.length) {
+          donnees.constats = trierConstats([...(donnees.constats ?? []), ...ajouts]);
+          const recalcul = noter(donnees.constats);
+          donnees.note = recalcul.note;
+          donnees.verdict = recalcul.verdict;
+          donnees.familles = recalcul.familles;
+        }
+        if (donnees.mesures) donnees.mesures.pagesLues = lues;
+      }
 
       message('');
       entete.textContent = '';
@@ -756,9 +827,10 @@ function brancherDiagnostic() {
             `Page reçue en ${(m.duree / 1000).toFixed(1).replace('.', ',')} seconde${m.duree >= 2000 ? 's' : ''}, ` +
             `${Math.round(m.poids / 1024)} Ko de code, ${p(m.balises, 'balise')}, ${p(m.mots, 'mot')}, ` +
             `${p(m.images, 'image')} dont ${m.imagesSansAlt} sans description, ${p(m.scripts, 'script')}, ` +
-            `${p(m.domainesTiers, 'serveur extérieur', 'serveurs extérieurs')}, ` +
-            `${p(m.pages, 'page')} ${m.pages > 1 ? 'atteignables' : 'atteignable'} depuis l'accueil. ` +
-            (m.pagesLues > 1 ? `${p(m.pagesLues, 'page')} ouverte${m.pagesLues > 1 ? 's' : ''} et lue${m.pagesLues > 1 ? 's' : ''}. ` : '') +
+            `${p(m.domainesTiers, 'serveur extérieur', 'serveurs extérieurs')}. ` +
+            (m.pagesLues > 1
+              ? `${p(m.pagesLues, 'page du site lue', 'pages du site lues')} en entier. `
+              : `${p(m.pages, 'page')} ${m.pages > 1 ? 'atteignables' : 'atteignable'} depuis l'accueil. `) +
             `${p(m.controles, 'contrôle')} passé${m.controles > 1 ? 's' : ''}.`;
           brut.hidden = false;
         }

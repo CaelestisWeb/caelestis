@@ -12,10 +12,13 @@
 import {
   analyserSite,
   attribut,
+  constatsDuSite,
   decoderEntites,
   normaliserUrl,
+  parcourirPages,
   robotsBloqueTout,
   texteVisible,
+  PAGES_PAR_PAQUET,
 } from '../src/utils/analyse-site.ts';
 
 let reussis = 0;
@@ -90,6 +93,35 @@ egal('scripts et styles écartés du texte',
   texteVisible('<style>p{color:red}</style><p>Bonjour</p><script>var x=1</script>'), 'Bonjour');
 egal('entités décodées dans le texte visible',
   texteVisible('<p>Tarif&nbsp;: 12&euro;</p>'), 'Tarif : 12€');
+
+/* ══ Bilan d'ensemble ══════════════════════════════════════
+   Ces constats n'existent qu'à l'échelle du site : une page seule ne peut pas
+   avoir un titre en double. */
+const page = (chemin: string, titre: string | null, description: string | null, h1 = 1, mots = 400) =>
+  ({ chemin, statut: 200, titre, description, h1, mots });
+
+{
+  const doublons = constatsDuSite([
+    page('/a', 'Pépinière du Val', 'Nos plants et arbustes'),
+    page('/b', 'Pépinière du Val', 'Nos plants et arbustes'),
+    page('/c', 'Nos horaires', 'Les horaires de la pépinière'),
+  ]);
+  verifier('titres en double repérés', doublons.some((c) => c.fait.includes('même titre')));
+  verifier('descriptions en double repérées', doublons.some((c) => c.fait.includes('même description')));
+}
+verifier('aucun constat sur une seule page', constatsDuSite([page('/a', 'Unique', 'Seule')]).length === 0);
+verifier('des titres tous différents ne produisent rien',
+  !constatsDuSite([page('/a', 'Un', 'Un texte'), page('/b', 'Deux', 'Un autre texte')])
+    .some((c) => c.fait.includes('même titre')));
+{
+  const cassees = constatsDuSite([
+    page('/a', 'Un', 'Un texte'), page('/b', 'Deux', 'Un autre'),
+    { chemin: '/vieux', statut: 404, titre: null, description: null, h1: 0, mots: 0 },
+  ]);
+  verifier('adresse morte signalée', cassees.some((c) => c.fait.includes('erreur')));
+  verifier("une page en erreur n'est pas comptée comme page sans titre",
+    !cassees.some((c) => c.fait.includes('aucun titre')));
+}
 
 /* ══ Garde-fous d'entrée ═══════════════════════════════════ */
 egal('domaine nu complété', normaliserUrl('exemple.fr')?.href, 'https://exemple.fr/');
@@ -171,6 +203,36 @@ if (process.argv.includes('--reseau')) {
   }
   verifier('aucun renvoi vers une page légale pour un point de conversion',
     renvoisDouteux.length === 0, renvoisDouteux.join(' | '));
+
+  /* Parcours du site. escalin.com déclare ses pages sans barre finale : elles
+     répondent toutes par une redirection, et ne pas la suivre revenait à ne
+     rien lire du tout. */
+  const depart = await analyserSite('escalin.com');
+  if (depart.etat === 'ok') {
+    verifier('le reste du site est annoncé au navigateur', (depart.aExplorer?.length ?? 0) > 5,
+      `${depart.aExplorer?.length ?? 0} adresse(s)`);
+    verifier("les pages lues d'emblée sont relevées", (depart.relevees?.length ?? 0) > 0);
+
+    const paquet = (depart.aExplorer ?? []).filter((c) => !c.startsWith('plan:')).slice(0, PAGES_PAR_PAQUET);
+    const parcours = await parcourirPages('escalin.com', paquet);
+    if (parcours.etat === 'ok') {
+      const lues = parcours.pages.filter((p) => p.statut === 200);
+      verifier('redirections suivies pendant le parcours', lues.length >= paquet.length - 1,
+        `${lues.length} lue(s) sur ${paquet.length} demandée(s)`);
+      verifier('relevé exploitable', lues.every((p) => typeof p.h1 === 'number' && typeof p.mots === 'number'));
+    } else {
+      echecs.push(`parcours d'escalin.com refusé : ${parcours.raison}`);
+    }
+
+    /* Une adresse d'un autre domaine ne doit jamais être suivie : sans ce
+       verrou, l'outil deviendrait un moyen de frapper n'importe quel serveur. */
+    const intrus = await parcourirPages('escalin.com', ['https://example.com/', '//example.org/x']);
+    verifier('adresse hors du domaine analysé écartée',
+      intrus.etat === 'ok' && intrus.pages.length === 0,
+      intrus.etat === 'ok' ? `${intrus.pages.length} page(s) lue(s)` : intrus.raison);
+  } else {
+    echecs.push(`escalin.com injoignable (${depart.etat})`);
+  }
 }
 
 console.log(`\n${reussis} contrôle(s) réussi(s), ${echecs.length} échec(s).`);

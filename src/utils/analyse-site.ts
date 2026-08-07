@@ -20,39 +20,23 @@
 
 import { lookup } from 'node:dns/promises';
 import { connect as tlsConnect } from 'node:tls';
+import {
+  FAMILLES,
+  noter,
+  trierConstats,
+  type Constat,
+  type Famille,
+  type FamilleNotee,
+  type Gravite,
+  type PageParcourue,
+} from './diagnostic-notation.ts';
 
-/**
- * Quatre niveaux. « reglage » désigne un point exact mais que presque aucun
- * site ne tient : sur 52 sites mesurés, les en-têtes de sécurité manquaient à
- * 58 à 79 % d'entre eux. Le relever reste utile, le facturer à la note ne
- * distingue plus personne : ces points sont donc affichés sans pénalité.
- */
-export type Gravite = 'critique' | 'moyen' | 'mineur' | 'reglage';
-
-export type Famille =
-  | 'vitesse'
-  | 'mobile'
-  | 'securite'
-  | 'referencement'
-  | 'contenu'
-  | 'conversion'
-  | 'lisibilite'
-  | 'confiance';
-
-export interface Constat {
-  famille: Famille;
-  gravite: Gravite;
-  fait: string;
-  consequence: string;
-}
-
-export interface FamilleNotee {
-  cle: Famille;
-  libelle: string;
-  note: number;
-  points: number;
-  bloquants: number;
-}
+/* Le barème et le bilan d'ensemble vivent dans un module sans dépendance
+   système, pour que le navigateur puisse recalculer la note au fil du
+   parcours du site. Ils sont réexportés ici : les consommateurs historiques
+   n'ont pas à savoir que le fichier a été coupé en deux. */
+export type { Constat, Famille, FamilleNotee, Gravite, PageParcourue };
+export { noter, trierConstats, constatsDuSite } from './diagnostic-notation.ts';
 
 export interface Mesures {
   duree: number;
@@ -79,6 +63,19 @@ export type Analyse =
       familles: FamilleNotee[];
       mesures: Mesures;
       constats: Constat[];
+      /**
+       * Adresses du reste du site, restées à parcourir. Elles ne sont pas lues
+       * ici : la première réponse doit arriver tout de suite. Le navigateur les
+       * redemande ensuite par petits paquets, ce qui permet de couvrir le site
+       * entier sans qu'aucune requête ne dépasse le délai d'une fonction serveur.
+       */
+      aExplorer?: string[];
+      /**
+       * Relevé des pages déjà ouvertes ici. Il rejoint celui du parcours pour
+       * le bilan d'ensemble : sur un site de cinq pages, tout est lu dès la
+       * première réponse, et des titres en double s'y verraient tout autant.
+       */
+      relevees?: PageParcourue[];
     }
   | { etat: 'constat-unique'; hote: string; url: string; constats: [Constat] }
   | { etat: 'injoignable'; hote: string; url: string; raison: string }
@@ -103,9 +100,17 @@ const POIDS_SONDE_MAX = 512 * 1024;
 const CERT_EXPIRE_CRITIQUE_JOURS = 7;
 const CERT_EXPIRE_PROCHE_JOURS = 21;
 const REDIRECTIONS_MAX = 4;
-/* Pages internes ouvertes en plus de l'accueil. Elles servent à vérifier ce
-   qui semblait absent, jamais à chercher de nouveaux défauts. */
+/* Pages internes ouvertes en plus de l'accueil, dans la première réponse.
+   Elles servent à vérifier ce qui semblait absent, jamais à chercher de
+   nouveaux défauts. */
 const PAGES_SECONDAIRES_MAX = 6;
+/* Plafond du parcours complet, mené ensuite par petits paquets. Au-delà,
+   l'attente cesse d'être supportable et le serveur du site examiné n'a pas à
+   subir davantage : ce qui est laissé de côté est annoncé au visiteur. */
+const PAGES_SITE_MAX = 60;
+/* Pages lues par appel du second temps. Chaque appel doit rester loin devant
+   le délai maximal d'une fonction serveur. */
+export const PAGES_PAR_PAQUET = 8;
 const UA = 'Mozilla/5.0 (compatible; CaelestisDiagnostic/1.0; +https://caelestis.fr)';
 
 const SEUILS = {
@@ -129,20 +134,139 @@ const SEUILS = {
   liensVagues: 3,
 };
 
-/** Ordre d'affichage et poids de chaque famille dans la note globale. */
-const FAMILLES: { cle: Famille; libelle: string; poids: number }[] = [
-  { cle: 'vitesse', libelle: 'Vitesse', poids: 1.2 },
-  { cle: 'mobile', libelle: 'Mobile', poids: 1.2 },
-  { cle: 'securite', libelle: 'Sécurité', poids: 1.1 },
-  { cle: 'referencement', libelle: 'Référencement', poids: 1.4 },
-  { cle: 'contenu', libelle: 'Contenu', poids: 1 },
-  { cle: 'conversion', libelle: 'Conversion', poids: 1.4 },
-  { cle: 'lisibilite', libelle: 'Lisibilité', poids: 0.9 },
-  { cle: 'confiance', libelle: 'Confiance', poids: 0.8 },
-];
+/* ══════════════════════════════════════════════════════════
+   PARCOURS DU RESTE DU SITE
 
-/** Coût d'un point relevé dans la note de sa famille. */
-const PENALITE: Record<Gravite, number> = { critique: 35, moyen: 18, mineur: 7, reglage: 0 };
+   Second temps de l'analyse. Le navigateur redemande les pages par petits
+   paquets : chaque appel reste bien en deçà du délai d'une fonction serveur,
+   et le visiteur voit avancer la lecture au lieu d'attendre devant un écran
+   figé. Ce qui remonte ici ne se voit pas page par page : deux pages qui
+   portent le même titre ne sont un défaut que l'une par rapport à l'autre.
+══════════════════════════════════════════════════════════ */
+
+export type ParcoursPages =
+  | { etat: 'ok'; pages: PageParcourue[] }
+  | { etat: 'refuse'; raison: string };
+
+/**
+ * Lit une page du site en suivant ses redirections.
+ *
+ * Les sondes ordinaires ne les suivent pas, parce qu'une redirection y est
+ * justement l'information cherchée. Ici c'est l'inverse : un plan de site
+ * déclare couramment des adresses sans barre finale, ou en version non
+ * sécurisée, qui renvoient toutes vers la bonne page. Ne pas les suivre
+ * revenait à ne rien lire du tout, et un site entier remontait vide.
+ *
+ * La destination doit rester dans le même domaine, sans quoi un plan de site
+ * malveillant pourrait diriger l'outil ailleurs.
+ */
+async function lirePageDuSite(
+  depart: URL,
+  finAu: number,
+  domaineBase: string,
+): Promise<{ statut: number; corps: string } | null> {
+  let url = depart;
+  for (let saut = 0; saut <= 3; saut += 1) {
+    const sonde = await sonder(url, finAu);
+    if (!sonde) return null;
+    if (sonde.statut < 300 || sonde.statut >= 400 || !sonde.destination) {
+      return { statut: sonde.statut, corps: sonde.corps };
+    }
+    try {
+      const suivante = new URL(sonde.destination, url);
+      if (!memeMaison(suivante.hostname, domaineBase)) return { statut: sonde.statut, corps: '' };
+      if (suivante.href === url.href) return { statut: sonde.statut, corps: '' };
+      url = suivante;
+    } catch {
+      return { statut: sonde.statut, corps: '' };
+    }
+  }
+  return null;
+}
+
+/**
+ * Relevé d'une page, réduit à ce que le bilan d'ensemble exploite. Le contenu
+ * lui-même n'est pas conservé : rien de ce qui a été lu ne quitte le serveur.
+ */
+function releverPage(chemin: string, statut: number, html: string): PageParcourue {
+  const titreBrut = extraire(/<title[^>]*>([\s\S]*?)<\/title>/i, html);
+  const balDesc = (html.match(/<meta\b[^>]*>/gi) ?? []).find((b) =>
+    /^description$/i.test((attribut(b, 'name') ?? '').trim()),
+  );
+  return {
+    chemin,
+    statut,
+    titre: titreBrut === null ? null : decoderEntites(titreBrut).replace(/\s+/g, ' ').trim(),
+    description: balDesc ? attribut(balDesc, 'content') : null,
+    h1: compter(/<h1[\s>]/gi, html),
+    mots: html ? texteVisible(html).split(' ').filter(Boolean).length : 0,
+  };
+}
+
+/**
+ * Lit un paquet de pages d'un même site et n'en retient que ce qui sert au
+ * bilan d'ensemble. Le contenu n'est pas conservé : seul le relevé revient.
+ *
+ * Les adresses viennent du navigateur : elles sont donc traitées comme
+ * hostiles. Chacune doit appartenir au domaine déjà analysé, faute de quoi
+ * l'outil deviendrait un relais capable de frapper n'importe quel serveur.
+ */
+export async function parcourirPages(
+  saisieBase: string,
+  chemins: string[],
+): Promise<ParcoursPages> {
+  const base = normaliserUrl(saisieBase);
+  if (!base) return { etat: 'refuse', raison: "Adresse de départ inexploitable." };
+  if ((await resoudre(base.hostname)) !== 'public') {
+    return { etat: 'refuse', raison: 'Cette adresse ne correspond pas à un site accessible publiquement.' };
+  }
+  const domaineBase = racine(base.hostname);
+  const finAu = Date.now() + BUDGET_MS;
+
+  const retenus: URL[] = [];
+  const plans: URL[] = [];
+  for (const brut of chemins.slice(0, PAGES_PAR_PAQUET)) {
+    const estPlan = brut.startsWith('plan:');
+    const chemin = estPlan ? brut.slice(5) : brut;
+    let cible: URL;
+    try {
+      cible = new URL(chemin, base);
+    } catch {
+      continue;
+    }
+    /* Le domaine ne peut pas changer en route : l'outil n'ouvre que le site
+       qu'il analyse déjà. */
+    if (!memeMaison(cible.hostname, domaineBase)) continue;
+    if (cible.protocol !== 'http:' && cible.protocol !== 'https:') continue;
+    (estPlan ? plans : retenus).push(cible);
+  }
+
+  const pages = await Promise.all([
+    ...retenus.map(async (url): Promise<PageParcourue | null> => {
+      const lue = await lirePageDuSite(url, finAu, domaineBase);
+      if (!lue) return null;
+      return releverPage(url.pathname.replace(/\/+$/, '') || '/', lue.statut, lue.corps);
+    }),
+    ...plans.map(async (url): Promise<PageParcourue | null> => {
+      const sonde = await lirePageDuSite(url, finAu, domaineBase);
+      if (!sonde || sonde.statut !== 200) return null;
+      const { pages: trouvees } = adressesDuPlan(sonde.corps);
+      const decouvertes: string[] = [];
+      for (const u of trouvees) {
+        try {
+          const cible = new URL(u);
+          if (memeMaison(cible.hostname, domaineBase)) decouvertes.push(cible.pathname.replace(/\/+$/, '') || '/');
+        } catch { /* adresse illisible : ignorée */ }
+      }
+      return {
+        chemin: url.pathname, statut: sonde.statut, titre: null, description: null,
+        h1: 0, mots: 0, decouvertes: decouvertes.slice(0, PAGES_SITE_MAX),
+      };
+    }),
+  ]);
+
+  return { etat: 'ok', pages: pages.filter((p): p is PageParcourue => p !== null) };
+}
 
 /* ══════════════════════════════════════════════════════════
    GARDE-FOUS D'ENTRÉE
@@ -429,8 +553,14 @@ async function sonderCertificat(hostname: string, finAu: number): Promise<number
     const rendre = (valeur: number | null) => {
       if (fini) return;
       fini = true;
-      try { socket.destroy(); } catch { /* connexion déjà fermée */ }
       resolve(valeur);
+      /* La fermeture attend le tour de boucle suivant. Détruire un socket
+         sécurisé depuis son propre gestionnaire fait échouer une assertion
+         interne de Node sous Windows, et cette assertion emporte le processus
+         entier : une analyse un peu longue tuait la fonction. */
+      setImmediate(() => {
+        try { socket.destroy(); } catch { /* connexion déjà fermée */ }
+      });
     };
     const socket = tlsConnect(
       {
@@ -597,6 +727,20 @@ const PAGES_RECHERCHEES: { motif: RegExp; rang: number }[] = [
   { motif: /a-propos|qui-sommes|notre-histoire|presentation|entreprise|equipe/i, rang: 4 },
   { motif: /tarifs?|prix|avis|temoignages?|realisations?|galerie/i, rang: 5 },
 ];
+
+/**
+ * Adresses déclarées par un plan de site. Un index de plans renvoie vers
+ * d'autres plans : on suit un seul niveau, ce qui suffit pour les sites que
+ * l'outil rencontre. Les fichiers qui ne sont pas des pages sont écartés.
+ */
+export function adressesDuPlan(xml: string): { pages: string[]; sousPlans: string[] } {
+  const adresses = [...xml.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/gi)].map((m) => m[1].trim());
+  const estIndex = /<sitemapindex/i.test(xml);
+  const pages = estIndex
+    ? []
+    : adresses.filter((u) => !/\.(?:jpe?g|png|gif|webp|avif|svg|pdf|zip|docx?|xlsx?|mp4|mp3)$/i.test(u));
+  return { pages, sousPlans: estIndex ? adresses : [] };
+}
 
 function pagesAOuvrir(chemins: string[], maximum: number): string[] {
   const notes = chemins.map((chemin) => {
@@ -1824,8 +1968,11 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
      internes, pas le site entier, et un pied de page construit par script lui
      reste invisible. La certitude n'est pas totale, la pénalité ne l'est pas
      non plus. */
+  /* Le décompte des pages lues n'est pas fixé ici : le parcours du site
+     continue après cette réponse, et un chiffre écrit maintenant serait
+     démenti quelques secondes plus tard. Il figure dans les mesures. */
   verifierPresence('confiance', 'moyen', !aMentions,
-    `Aucune trace de mentions légales${pagesLues.length ? ` sur l'accueil ni sur les ${pagesLues.length} pages internes ouvertes` : " sur la page d'accueil"}.`,
+    'Aucune trace de mentions légales sur les pages lues.',
     "Elles sont obligatoires pour tout site professionnel en France, article 6 de la loi pour la confiance dans l'économie numérique. Leur absence est sanctionnable et se remarque en cas de litige.");
 
   verifierPresence('confiance', 'critique', traceurs.length > 0 && !consentement,
@@ -1865,40 +2012,49 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     'Aucun lien vers un réseau social.',
     "Un visiteur qui veut vérifier votre activité récente n'a nulle part où aller. Une page active rassure autant qu'un avis.");
 
+  /* ── Reste du site à parcourir ──
+     Le plan de site donne la liste complète quand il existe, les liens de
+     l'accueil prennent le relais sinon. Les pages déjà lues en sont retirées :
+     les relire ne dirait rien de neuf. */
+  const dejaLues = new Set(['/', ...pagesLues.map((p) => p.chemin)]);
+  const aExplorer: string[] = [];
+  const ajouterAExplorer = (chemin: string) => {
+    const propre = chemin.replace(/\/+$/, '') || '/';
+    if (dejaLues.has(propre) || aExplorer.includes(propre)) return;
+    if (/\.(?:jpe?g|png|gif|webp|avif|svg|pdf|zip|docx?|xlsx?|mp4|mp3|xml)$/i.test(propre)) return;
+    aExplorer.push(propre);
+  };
+
+  if (planSite?.statut === 200 && planSite.corps) {
+    const { pages, sousPlans } = adressesDuPlan(planSite.corps);
+    for (const u of pages) {
+      try {
+        const cible = new URL(u);
+        if (memeMaison(cible.hostname, domaineBase)) ajouterAExplorer(cible.pathname);
+      } catch { /* adresse illisible dans le plan : ignorée */ }
+    }
+    /* Index de plans : les sous-plans sont signalés au navigateur, qui les
+       demandera à son tour. Les suivre ici coûterait le délai de la première
+       réponse, qui doit rester immédiate. */
+    for (const u of sousPlans.slice(0, 5)) {
+      try {
+        const cible = new URL(u);
+        if (memeMaison(cible.hostname, domaineBase)) aExplorer.push(`plan:${cible.pathname}`);
+      } catch { /* adresse illisible : ignorée */ }
+    }
+  }
+  for (const chemin of pagesInternes) ajouterAExplorer(chemin);
+
   /* ── Notation ── */
-  const familles: FamilleNotee[] = FAMILLES.map(({ cle, libelle }) => {
-    const propres = constats.filter((c) => c.famille === cle);
-    const penalite = propres.reduce((total, c) => total + PENALITE[c.gravite], 0);
-    return {
-      cle,
-      libelle,
-      note: Math.max(0, 100 - penalite),
-      points: propres.length,
-      bloquants: propres.filter((c) => c.gravite === 'critique').length,
-    };
-  });
-
-  const poidsTotal = FAMILLES.reduce((t, f) => t + f.poids, 0);
-  const note = Math.round(
-    familles.reduce((t, f, i) => t + f.note * FAMILLES[i].poids, 0) / poidsTotal,
-  );
-
-  const verdict =
-    note >= 85 ? "Rien de bloquant. Les points restants relèvent du réglage fin."
-    : note >= 70 ? "Les fondations sont saines. Plusieurs réglages manquants coûtent des visites et des demandes."
-    : note >= 50 ? "Le site est en ligne et fonctionne, sans exploiter ce qu'il pourrait apporter."
-    : note >= 30 ? "Plusieurs fondations manquent à la fois : le site est moins visité qu'il ne devrait, et transforme moins qu'il ne pourrait."
-    : "La majorité des points de contrôle n'est pas tenue, et sur presque toutes les familles en même temps.";
-
-  const ordreFamille = new Map(FAMILLES.map((f, i) => [f.cle, i]));
-  const ordreGravite: Record<Gravite, number> = { critique: 0, moyen: 1, mineur: 2, reglage: 3 };
-  constats.sort(
-    (a, b) =>
-      (ordreFamille.get(a.famille) ?? 99) - (ordreFamille.get(b.famille) ?? 99) ||
-      ordreGravite[a.gravite] - ordreGravite[b.gravite],
-  );
+  const { familles, note, verdict } = noter(constats);
+  trierConstats(constats);
 
   return {
+    aExplorer: aExplorer.slice(0, PAGES_SITE_MAX),
+    relevees: [
+      releverPage('/', page.statut ?? 200, html),
+      ...pagesLues.map((p) => releverPage(p.chemin, 200, p.corps)),
+    ],
     etat: 'ok',
     hote,
     url: page.urlFinale ?? depart.href,
