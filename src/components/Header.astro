@@ -6,8 +6,12 @@
    panneau : /services est une vraie page, on ne la rend pas inaccessible.
    `prefixe` sert à repérer la rubrique active quand l'URL courante est un
    enfant : /outils/diagnostic doit allumer Outils. */
+/* L'entrée « Accueil » a été retirée le 07/08/2026 : le logotype Caelestis, à
+   gauche de la barre et présent sur les deux mises en page, y mène déjà, et
+   c'est la convention que suivent les sites d'agence relevés. Six entrées
+   restent, contre sept auparavant. Le pied de page, lui, garde « Accueil » :
+   c'est un plan du site, pas une barre de navigation. */
 const nav = [
-  { href: '/', label: 'Accueil' },
   {
     href: '/services',
     label: 'Services',
