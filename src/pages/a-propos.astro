@@ -1,6 +1,7 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
+import AppelFinal from '../components/AppelFinal.astro';
 import BrandMoment from '../components/BrandMoment.astro';
 import { Image } from 'astro:assets';
 import imgBureau from '../assets/images/photo-bureau.jpg';
@@ -208,5 +209,17 @@ const breadcrumbApropos = {
       </a>
     </div>
   </section>
+
+  <!-- ─── APPEL FINAL : la page se terminait sur les passerelles, sans jamais
+       inviter au contact. Le CTA « Réserver un appel » du milieu est à deux
+       sections d'ici, l'espacement suffit : ce n'est pas un doublon collé mais
+       la clôture de conversion que la page n'avait pas. Ajouté le 07/08/2026. -->
+  <AppelFinal
+    titre="On échange sur"
+    titreAccent="votre projet ?"
+    texte="Décrivez votre activité en quelques lignes, je vous réponds sous 48h. Devis gratuit, sans engagement."
+    href="/contact"
+    libelle="Parler de mon projet"
+  />
 
 </BaseLayout>
