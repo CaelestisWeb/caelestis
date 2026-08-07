@@ -129,21 +129,115 @@ const etapes = [
     </div>
   </section>
 
-  <!-- ── En clair ── -->
-  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20" style="background-color: #F4F2EC;">
-    <div class="max-w-4xl mx-auto" data-reveal>
-      <div class="text-center">
+  <!-- ── En clair : la fiche dessinée ──
+       Posé le 07/08/2026. La page vendait une fiche Google 300 € en la
+       décrivant en toutes lettres, sans jamais en montrer une : quatre de ses
+       six sections ne portaient aucune image, aucun schéma, aucun tableau.
+       L'encadré est ici redessiné à la main, dans la palette du site, et non
+       capturé : aucun logo, aucune couleur ni marque de Google n'y figure, il
+       n'y a donc rien à demander à personne. Les repères numérotés remplacent
+       l'énumération du paragraphe, qui listait ce que le visiteur peut
+       maintenant voir. L'exemple est celui d'une entreprise fictive, comme les
+       sites de démonstration, avec un numéro de la plage de fiction ARCEP. -->
+  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20" style="background-color: #F4F2EC;" aria-labelledby="enclair-title">
+    <div class="max-w-5xl mx-auto">
+
+      <div class="text-center mb-12" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">En clair</p>
-        <h2 class="font-display font-light text-brun leading-[1.15] mb-6" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+        <h2 id="enclair-title" class="font-display font-light text-brun leading-[1.15] mb-6" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
           Ce qui s'affiche quand on cherche votre nom.
         </h2>
         <p class="font-body text-base text-brun-mid leading-relaxed max-w-2xl mx-auto">
-          Quand quelqu'un tape votre nom, ou votre métier suivi de sa ville, Google affiche un encadré : vos horaires, votre téléphone, l'itinéraire, vos photos et vos avis. C'est votre fiche d'établissement. Elle est gratuite, mais elle ne sert vraiment que si elle est complète et entretenue.
-        </p>
-        <p class="font-body text-base text-brun-mid leading-relaxed max-w-2xl mx-auto mt-5">
-          Pour un commerce ou un artisan, c'est souvent la page la plus vue de toute sa présence en ligne. Et c'est aussi l'un des cinq piliers du <a href="/services/referencement-naturel" class="text-[#2E7452] hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">référencement naturel</a>, celui qui donne les résultats les plus rapides en local.
+          Cet encadré, c'est votre fiche d'établissement. Elle est gratuite, mais
+          elle ne sert vraiment que si elle est complète et entretenue. Pour un
+          commerce ou un artisan, c'est souvent la page la plus vue de toute sa
+          présence en ligne, et l'un des cinq piliers du
+          <a href="/services/referencement-naturel" class="text-[#2E7452] hover:text-brun underline decoration-sauge/40 underline-offset-2 transition-colors">référencement naturel</a>,
+          celui qui donne les résultats les plus rapides en local.
         </p>
       </div>
+
+      <div class="gm-plan" data-reveal data-delay="1">
+
+        <!-- La fiche, dessinée. aria-hidden : le contenu utile est repris dans
+             la liste des repères, qui est du texte pour tout le monde. -->
+        <div class="gm-fiche" aria-hidden="true">
+
+          <div class="gm-recherche">
+            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="5.5"/><line x1="12.7" y1="12.7" x2="17" y2="17"/></svg>
+            <span>fleuriste crest</span>
+          </div>
+
+          <div class="gm-corps">
+            <p class="gm-nom">Atelier des Quatre Saisons</p>
+            <p class="gm-cat">Fleuriste, Crest</p>
+
+            <p class="gm-note">
+              <span class="gm-etoiles" role="img" aria-label="4,8 sur 5">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 2l2.9 6.3 6.8.8-5 4.7 1.3 6.8L12 17.3 6 20.6l1.3-6.8-5-4.7 6.8-.8z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 2l2.9 6.3 6.8.8-5 4.7 1.3 6.8L12 17.3 6 20.6l1.3-6.8-5-4.7 6.8-.8z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 2l2.9 6.3 6.8.8-5 4.7 1.3 6.8L12 17.3 6 20.6l1.3-6.8-5-4.7 6.8-.8z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 2l2.9 6.3 6.8.8-5 4.7 1.3 6.8L12 17.3 6 20.6l1.3-6.8-5-4.7 6.8-.8z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 2l2.9 6.3 6.8.8-5 4.7 1.3 6.8L12 17.3 6 20.6l1.3-6.8-5-4.7 6.8-.8z"/></svg>
+              </span>
+              4,8 sur 62 avis
+            </p>
+
+            <div class="gm-photos">
+              <span></span><span></span><span></span>
+            </div>
+
+            <dl class="gm-infos">
+              <div><dt>Adresse</dt><dd>12 rue de l'Hôtel de Ville, Crest</dd></div>
+              <div><dt>Horaires</dt><dd><b>Ouvert</b>, ferme à 19h</dd></div>
+              <div><dt>Téléphone</dt><dd>04 65 71 12 34</dd></div>
+              <div><dt>Services</dt><dd>Retrait en boutique, livraison</dd></div>
+            </dl>
+
+            <div class="gm-actions">
+              <span class="gm-btn gm-btn-plein">Itinéraire</span>
+              <span class="gm-btn">Appeler</span>
+              <span class="gm-btn">Site web</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Les repères. Ils portent l'information : ce sont eux que lisent les
+             lecteurs d'écran, et eux que Google indexe. -->
+        <ol class="gm-reperes font-body">
+          <li>
+            <span class="gm-n" aria-hidden="true">1</span>
+            <b>Votre nom et votre catégorie</b>
+            La catégorie décide des recherches sur lesquelles vous sortez. C'est le réglage le plus décisif de la fiche.
+          </li>
+          <li>
+            <span class="gm-n" aria-hidden="true">2</span>
+            <b>Votre note et vos avis</b>
+            Le premier chiffre que lit un client, avant même votre nom. Il se travaille en demandant, jamais en achetant.
+          </li>
+          <li>
+            <span class="gm-n" aria-hidden="true">3</span>
+            <b>Vos photos</b>
+            Votre lieu, vos réalisations, votre visage. Ce sont les premières choses que l'on regarde.
+          </li>
+          <li>
+            <span class="gm-n" aria-hidden="true">4</span>
+            <b>Vos informations pratiques</b>
+            Adresse, horaires du jour, téléphone, services. Google met en avant les fiches complètes et tenues à jour.
+          </li>
+          <li>
+            <span class="gm-n" aria-hidden="true">5</span>
+            <b>Les boutons d'action</b>
+            Itinéraire, appel, site web. C'est là que la fiche cesse d'informer et commence à vous amener quelqu'un.
+          </li>
+        </ol>
+
+      </div>
+
+      <p class="font-body text-xs text-brun-mid text-center mt-9 max-w-xl mx-auto leading-relaxed" data-reveal data-delay="2">
+        Exemple dessiné pour la démonstration, dans les couleurs du site. L'Atelier des Quatre Saisons n'existe pas.
+      </p>
+
     </div>
   </section>
 
@@ -387,6 +481,183 @@ const etapes = [
     .seo-faq-marque::before,
     .seo-faq-marque::after { transition: none; }
   }
+
+  /* ═══════════════════════════════════════════
+     La fiche Google dessinée et ses repères (section « En clair »).
+     Tout est tracé à la main dans la palette forêt vivante : ni logo, ni bleu
+     Google, ni capture d'écran. Deux colonnes sur desktop, la fiche à gauche
+     et les repères à droite ; empilées en mobile, la fiche d'abord.
+  ═══════════════════════════════════════════ */
+  .gm-plan {
+    display: grid;
+    gap: 40px;
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .gm-plan {
+      grid-template-columns: 300px 1fr;
+      gap: 56px;
+    }
+  }
+
+  /* ── La fiche ── */
+  .gm-fiche {
+    background: #FCFBF8;
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(37, 92, 65, 0.09);
+    max-width: 300px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .gm-recherche {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--color-cream-dark);
+    background: #F2EFE8;
+    color: var(--color-pierre);
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+  }
+  .gm-recherche svg { flex: none; opacity: 0.7; }
+
+  .gm-corps { padding: 16px 16px 18px; }
+
+  .gm-nom {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.05rem;
+    color: var(--color-brun);
+    line-height: 1.25;
+  }
+  .gm-cat {
+    font-family: var(--font-body);
+    font-size: 0.76rem;
+    color: var(--color-brun-mid);
+    margin-top: 2px;
+  }
+
+  .gm-note {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 9px;
+    font-family: var(--font-body);
+    font-size: 0.76rem;
+    color: var(--color-brun-mid);
+  }
+  .gm-etoiles {
+    display: inline-flex;
+    gap: 1px;
+    color: #C8922F;
+  }
+
+  /* Trois vignettes : des aplats, pas des photos. La fiche est un schéma. */
+  .gm-photos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    margin-top: 13px;
+  }
+  .gm-photos span {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    background: var(--color-sauge-pale);
+    border: 1px solid rgba(184, 196, 187, 0.55);
+  }
+  .gm-photos span:nth-child(2) { background: rgba(184, 196, 187, 0.55); }
+  .gm-photos span:nth-child(3) { background: rgba(37, 92, 65, 0.12); }
+
+  .gm-infos {
+    margin-top: 14px;
+    border-top: 1px solid var(--color-cream-dark);
+    padding-top: 11px;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+  }
+  .gm-infos > div {
+    display: grid;
+    grid-template-columns: 62px 1fr;
+    gap: 8px;
+    padding: 3.5px 0;
+  }
+  .gm-infos dt {
+    color: var(--color-brun-mid);
+    opacity: 0.75;
+  }
+  .gm-infos dd {
+    margin: 0;
+    color: var(--color-brun);
+  }
+  .gm-infos b { color: #2E7452; font-weight: 600; }
+
+  .gm-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 14px;
+  }
+  .gm-btn {
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    padding: 5px 11px;
+    border-radius: 999px;
+    border: 1px solid var(--color-cream-dark);
+    color: var(--color-brun-mid);
+  }
+  .gm-btn-plein {
+    background: var(--color-brun);
+    border-color: var(--color-brun);
+    color: var(--color-cream);
+  }
+
+  /* ── Les repères ── */
+  .gm-reperes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: none;
+  }
+  .gm-reperes li {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    column-gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--color-cream-dark);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--color-brun-mid);
+  }
+  .gm-reperes li:first-child { padding-top: 0; }
+  .gm-reperes li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .gm-reperes b {
+    grid-column: 2;
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.02rem;
+    color: var(--color-brun);
+    margin-bottom: 3px;
+  }
+  .gm-n {
+    grid-row: span 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--color-sauge);
+    font-family: var(--font-body);
+    font-size: 0.76rem;
+    color: #2E7452;
+    align-self: start;
+  }
+
 </style>
 
 <script>
