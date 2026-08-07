@@ -5,11 +5,20 @@ import AppelFinal from '../components/AppelFinal.astro';
 import { Image } from 'astro:assets';
 import { euros, formule, FORMULES, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../utils/tarifs';
 
-/* Aperçus des quatre formules. Sites de démonstration créés pour illustrer
-   la différence entre les offres : aucune de ces entreprises n'existe.
-   Captures, légendes et adresses vivent dans utils/demos.ts, partagé avec le
-   bloc ApercuDemo des quatre pages de formule. */
-import { DEMOS as apercus } from '../utils/demos';
+/* Icône fine monochrome par formule, à gauche du titre dans la liste.
+   Traits seuls, aucun aplat, aucun emoji : conformes à la charte. Les
+   sites de démonstration restent accessibles depuis chaque page de formule
+   (bloc ApercuDemo), où le visiteur arrive en cliquant une ligne. */
+const ICONES: Record<string, string> = {
+  'page-unique':
+    '<rect x="5" y="3" width="14" height="18" rx="2"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/>',
+  'site-vitrine':
+    '<rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="20"/>',
+  'boutique-en-ligne':
+    '<path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+  'site-sur-mesure':
+    '<line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/>',
+};
 
 /* Capture du site livré, affichée dans l'écran du mockup du premier écran. */
 import captureFeeDesOngles from '../assets/images/realisations/fee-des-ongles-accueil.jpg';
@@ -415,262 +424,114 @@ const breadcrumbServices = {
       pointer-events: none;
     }
 
-    /* ── Aperçus des formules, présentés dans un cadre de navigateur ── */
-    .apercu-ouvrir { cursor: pointer; text-decoration: none; color: inherit; }
-    .fenetre {
-      border: 1px solid var(--cream-dark, #E4DED2);
-      border-radius: 8px;
-      overflow: hidden;
-      background: #fff;
-      transition: box-shadow 0.3s ease, transform 0.3s ease;
-    }
-    .apercu-ouvrir:hover .fenetre {
-      box-shadow: 0 10px 28px rgba(37, 92, 65, 0.14);
-      transform: translateY(-2px);
-    }
-    .apercu-ouvrir:focus-visible .fenetre {
-      outline: 2px solid #255C41;
-      outline-offset: 2px;
-    }
-    .fenetre-barre {
+    /* ════════════════════════════════════════════════════════════════
+       Les quatre formules, en liste éditoriale.
+       Une ligne cliquable par formule, séparées par un filet, menant à sa
+       page de détail. Icône fine à gauche du titre. La vitrine porte
+       l'accent : fond lin-mousse, puce, et pastille d'icône en vert forêt
+       pour rester lisible sur le fond teinté. Couleurs de la charte.
+    ════════════════════════════════════════════════════════════════ */
+    .ff-liste { border-top: 1px solid #E6E4DC; }
+
+    .ff-ligne {
       display: flex;
       align-items: center;
-      gap: 5px;
-      padding: 8px 11px;
-      background: #F2EFE8;
-      border-bottom: 1px solid var(--cream-dark, #E4DED2);
+      gap: 18px;
+      padding: 20px 16px;
+      border-bottom: 1px solid #E6E4DC;
+      border-radius: 12px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.25s ease, padding-left 0.25s ease;
     }
-    .fenetre-barre > span {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: #CFC8B8; flex: none;
-    }
-    .fenetre-url {
-      flex: 1;
-      margin-left: 6px;
-      font-size: 9px;
-      letter-spacing: 0.08em;
-      /* Pierre chaude plutôt que #8A8375 : ce libellé porte une information
-         (le métier illustré par l'aperçu), il ne relève donc pas de l'exception
-         accordée au texte décoratif. L'ancienne teinte tombait à 3,27:1. */
-      color: var(--color-pierre);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-align: left;
-      /* Sans ce min-width, l'ellipsis ne sert à rien : un enfant flex garde par
-         défaut `min-width: auto`, donc il refuse de descendre sous la largeur de
-         son texte insécable. La barre imposait alors 279 px de large, la carte
-         montait à 325 px dans un conteneur de 268, et son bord droit était rogné
-         sur un écran de 320 px. Mesuré le 03/08/2026 sur /services. */
-      min-width: 0;
-    }
-    /* 9 px tient sur un écran d'ordinateur où la fausse fenêtre est petite ;
-       sur mobile la carte occupe toute la largeur et l'étiquette, qui porte le
-       métier illustré, devenait illisible. La barre a la place de l'agrandir.
-       La condition porte sur le pointeur autant que sur la largeur : une
-       tablette de 768px est tenue à bout de bras, pas posée sur un bureau. */
-    @media (max-width: 767px), (hover: none) and (pointer: coarse) {
-      .fenetre-url { font-size: 11px; }
-    }
-    /* La capture cadre le haut du site en 16/9 depuis le 03/08/2026 : elle
-       s'affiche entière. L'ancienne hauteur de 186 px découpait au hasard une
-       capture pleine longueur, ce que le nouveau cadrage rend inutile. */
-    .fenetre-ecran :global(img) { width: 100%; height: auto; display: block; }
-    /* Carte large : on borne la largeur pour garder la même échelle que les colonnes. */
-    .apercu-large .fenetre { max-width: 460px; margin: 0 auto; }
+    .ff-ligne:hover { background: #F5F2EA; padding-left: 22px; }
+    .ff-ligne:focus-visible { outline: 2px solid #255C41; outline-offset: -2px; }
+    .ff-ligne-accent { background: #E3EFE8; }
+    .ff-ligne-accent:hover { background: #DAEBE0; }
 
-    /* ════════════════════════════════════════
-       TARIFS — quatre blocs de même taille.
-       Le bloc accent (site vitrine) inverse la palette : fond forêt, texte crème.
-       Toutes les couleurs sont reprises de la charte, aucune valeur inventée.
-    ════════════════════════════════════════ */
-    /* Les deux rangées font la même hauteur : les quatre blocs sont identiques. */
-    @media (min-width: 640px) {
-      .tf-grille { grid-auto-rows: 1fr; }
-    }
-    .tf-card {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      /* Un item de grille garde par défaut `min-width: auto` : il refuse de
-         descendre sous la taille min-content de son contenu. La barre d'adresse
-         de la vignette, en `white-space: nowrap`, imposait ainsi 325 px à la
-         carte dans un conteneur de 268, et son bord droit sortait de l'écran à
-         320 px de large. Mesuré le 03/08/2026. Le `min-width: 0` de
-         `.fenetre-url` ne suffit pas seul : il fait rétrécir la barre une fois
-         que la carte, elle, a le droit de rétrécir. Les deux vont ensemble. */
-      min-width: 0;
-      background: #FCFBF8;
+    .ff-icone {
+      flex: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: #FFFFFF;
       border: 1px solid #E6E4DC;
-      border-radius: 18px;
-      padding: 30px 28px;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-    }
-    .tf-card:hover {
-      border-color: rgba(46, 116, 82, 0.45);
-      box-shadow: 0 12px 30px rgba(37, 92, 65, 0.10);
-      transform: translateY(-2px);
-    }
-    .tf-card-accent {
-      background: #255C41;
-      border-color: #255C41;
-    }
-    .tf-card-accent:hover {
-      border-color: #1B4733;
-      box-shadow: 0 14px 34px rgba(27, 71, 51, 0.24);
-    }
-
-    .tf-kicker {
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      font-weight: 500;
       color: #2E7452;
     }
-    .tf-card-accent .tf-kicker { color: rgba(252, 251, 248, 0.74); }
+    .ff-icone svg { width: 24px; height: 24px; }
+    /* Sur la ligne accentuée, la pastille passe en vert forêt : sur le fond
+       lin-mousse, une pastille blanche à peine contrastée s'effacerait. */
+    .ff-ligne-accent .ff-icone { background: #255C41; border-color: #255C41; color: #FCFBF8; }
 
-    .tf-nom {
+    /* min-width: 0 : sans lui, une baseline insécable empêcherait la colonne de
+       rétrécir sur petit écran (piège min-width auto des flex). */
+    .ff-corps { flex: 1; min-width: 0; }
+    .ff-tete { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .ff-nom {
       font-family: var(--font-display, 'Satoshi', system-ui, sans-serif);
       font-weight: 300;
-      font-size: 1.6rem;
+      font-size: 1.3rem;
       line-height: 1.2;
       letter-spacing: -0.02em;
       color: #255C41;
-      margin-top: 10px;
     }
-    .tf-card-accent .tf-nom { color: #FCFBF8; }
-
-    .tf-prix {
-      display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-      padding-top: 18px;
-      border-top: 1px solid #E6E4DC;
-    }
-    .tf-card-accent .tf-prix { border-top-color: rgba(252, 251, 248, 0.2); }
-    .tf-num {
-      font-family: var(--font-display, 'Satoshi', system-ui, sans-serif);
-      font-weight: 300;
-      font-size: clamp(2rem, 3.6vw, 2.5rem);
-      line-height: 1;
-      letter-spacing: -0.03em;
-      font-variant-numeric: lining-nums tabular-nums;
-      color: #255C41;
-    }
-    .tf-card-accent .tf-num { color: #FCFBF8; }
-    .tf-from {
-      font-size: 0.68rem;
+    .ff-chip {
+      font-size: 0.62rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #5C6259;
+      font-weight: 600;
+      color: #FCFBF8;
+      background: #255C41;
+      padding: 3px 9px;
+      border-radius: 999px;
     }
-    .tf-card-accent .tf-from { color: rgba(252, 251, 248, 0.72); }
-    /* 0,68rem tombe à 10,88px, trop peu pour un écran tenu en main. Placé après
-       la règle de base : à spécificité égale, une media query ne l'emporte pas,
-       seul l'ordre compte. */
-    @media (max-width: 767px), (hover: none) and (pointer: coarse) {
-      .tf-from { font-size: 0.75rem; }
-    }
-
-    .tf-desc {
-      font-size: 0.92rem;
-      line-height: 1.65;
-      color: #5C6259;
-      margin-top: 16px;
-    }
-    .tf-card-accent .tf-desc { color: rgba(252, 251, 248, 0.84); }
-
-    .tf-ul {
-      list-style: none;
-      display: grid;
-      gap: 10px;
-      margin-top: 18px;
-    }
-    .tf-ul li {
-      display: flex;
-      gap: 11px;
-      font-size: 0.88rem;
-      line-height: 1.55;
-      color: #5C6259;
-    }
-    .tf-card-accent .tf-ul li { color: rgba(252, 251, 248, 0.88); }
-    .tf-check {
-      flex: 0 0 auto;
-      width: 16px;
-      height: 16px;
-      margin-top: 4px;
-      border-radius: 50%;
-      border: 1px solid rgba(46, 116, 82, 0.55);
-      position: relative;
-    }
-    .tf-check::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      margin: auto;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #2E7452;
-    }
-    .tf-card-accent .tf-check { border-color: rgba(252, 251, 248, 0.45); }
-    .tf-card-accent .tf-check::after { background: rgba(252, 251, 248, 0.8); }
-
-    /* L'aperçu pousse le lien en bas : les quatre blocs gardent la même hauteur. */
-    .tf-apercu {
-      display: block;
-      width: 100%;
-      margin-top: 24px;
-      text-align: left;
-    }
-    .tf-legende {
-      font-size: 0.78rem;
+    .ff-base {
+      font-size: 0.9rem;
       line-height: 1.5;
       color: #5C6259;
-      margin-top: 10px;
+      margin-top: 5px;
     }
-    .tf-card-accent .tf-legende { color: rgba(252, 251, 248, 0.76); }
-
-    /* Signale que l'aperçu est cliquable et qu'il mène au site lui-même. */
-    .tf-visiter {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      margin-top: 9px;
-      font-size: 0.72rem;
-      letter-spacing: 0.13em;
+    .ff-prix {
+      flex: none;
+      font-family: var(--font-display, 'Satoshi', system-ui, sans-serif);
+      font-size: 1.3rem;
+      color: #255C41;
+      text-align: right;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    .ff-prix span {
+      display: block;
+      font-size: 0.64rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #2E7452;
-      transition: gap 0.25s ease;
+      color: #5C6259;
+      margin-bottom: 2px;
     }
-    .tf-visiter svg { width: 11px; height: 11px; flex: none; }
-    .apercu-ouvrir:hover .tf-visiter { gap: 12px; }
-    .tf-card-accent .tf-visiter { color: #FCFBF8; }
-
-    .tf-lien {
+    /* 0,64rem tombe sous 11px : trop peu pour un écran tenu en main. */
+    @media (max-width: 767px), (hover: none) and (pointer: coarse) {
+      .ff-prix span { font-size: 0.72rem; }
+    }
+    .ff-fleche {
+      flex: none;
       display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: auto;
-      padding-top: 22px;
-      font-size: 0.88rem;
-      font-weight: 500;
       color: #2E7452;
-      transition: gap 0.25s ease;
+      transition: transform 0.25s ease;
     }
-    .tf-lien:hover { gap: 14px; }
-    .tf-card-accent .tf-lien { color: #FCFBF8; }
-    .tf-lien:focus-visible {
-      outline: 2px solid #255C41;
-      outline-offset: 3px;
-      border-radius: 3px;
-    }
-    .tf-card-accent .tf-lien:focus-visible { outline-color: #FCFBF8; }
+    .ff-fleche svg { width: 20px; height: 20px; }
+    .ff-ligne:hover .ff-fleche { transform: translateX(4px); }
 
-    @media (max-width: 640px) {
-      .tf-card { padding: 26px 22px; }
+    /* Écran étroit : icône et prix sur une première ligne, le corps (nom +
+       baseline) en dessous sur toute la largeur. Le chevron disparaît. */
+    @media (max-width: 560px) {
+      .ff-ligne { flex-wrap: wrap; gap: 12px 16px; padding: 18px 14px; }
+      .ff-ligne:hover { padding-left: 14px; }
+      .ff-icone { order: 1; }
+      .ff-prix { order: 1; margin-left: auto; text-align: right; }
+      .ff-corps { order: 2; flex: 1 1 100%; }
+      .ff-fleche { display: none; }
     }
 
     /* ── Les quatre gages, liste éditoriale (variante C) ──
@@ -749,60 +610,37 @@ const breadcrumbServices = {
           </p>
         </div>
 
-        <!-- Quatre formules, quatre blocs de même taille.
-             Le site vitrine porte l'accent (fond forêt) : c'est la formule la plus demandée.
-             Les id servent d'ancres depuis la planche des formules en page d'accueil. -->
-        <div class="tf-grille grid sm:grid-cols-2 gap-4 lg:gap-5 max-w-5xl mx-auto" data-reveal data-delay="1">
+        <!-- Quatre formules en liste éditoriale : une ligne cliquable chacune,
+             menant à sa page de détail où le visiteur approfondit (et retrouve
+             le site de démonstration). L'icône fine à gauche donne un repère par
+             type. Le site vitrine porte l'accent (fond lin-mousse + puce), c'est
+             la formule la plus demandée. Les id servent d'ancres depuis la
+             planche des formules en page d'accueil. -->
+        <div class="ff-liste max-w-3xl mx-auto" data-reveal data-delay="1">
           {FORMULES.map((f) => (
-            <div id={f.id} class={'tf-card scroll-mt-28' + (f.accent ? ' tf-card-accent' : '')}>
-              <p class="tf-kicker">{f.kicker}</p>
-              <h3 class="tf-nom">{f.nom}</h3>
-              <div class="tf-prix">
-                <span class="tf-from">à partir de</span>
-                <span class="tf-num">{euros(f.prix)}&nbsp;€</span>
-              </div>
-              <p class="tf-desc">{f.resume}</p>
-              <ul class="tf-ul">
-                {f.points.map((p) => (
-                  <li><span class="tf-check" aria-hidden="true"></span><span>{p}</span></li>
-                ))}
-              </ul>
-              {/* L'aperçu mène directement au site de démonstration, dans un nouvel onglet :
-                  le site vivant convainc mieux qu'une capture, et l'ancienne visionneuse
-                  imposait un clic de plus avant d'y arriver. */}
-              <a
-                class="apercu-ouvrir tf-apercu"
-                href={apercus[f.apercu].href}
-                target="_blank"
-                rel="noopener"
-                aria-label={"Visiter le site de démonstration, " + f.nom + " : " + apercus[f.apercu].titre + " (nouvel onglet)"}
-              >
-                <div class="fenetre">
-                  <div class="fenetre-barre" aria-hidden="true">
-                    <span></span><span></span><span></span>
-                    <p class="fenetre-url">{apercus[f.apercu].url}</p>
-                  </div>
-                  <div class="fenetre-ecran">
-                    <Image src={apercus[f.apercu].img} alt={apercus[f.apercu].alt} widths={[420, 700, 880]} sizes="(max-width: 640px) 90vw, 440px" loading="lazy" />
-                  </div>
+            <a
+              id={f.id}
+              href={f.href}
+              class={'ff-ligne scroll-mt-28' + (f.accent ? ' ff-ligne-accent' : '')}
+              aria-label={'Découvrir la formule ' + f.nom + ', à partir de ' + euros(f.prix) + ' euros'}
+            >
+              <span class="ff-icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={ICONES[f.id]} />
+              </span>
+              <div class="ff-corps">
+                <div class="ff-tete">
+                  <h3 class="ff-nom">{f.nom}</h3>
+                  {f.accent && <span class="ff-chip">Le plus demandé</span>}
                 </div>
-                <p class="tf-legende">{apercus[f.apercu].detail}</p>
-                <span class="tf-visiter" aria-hidden="true">
-                  Visiter le site de démonstration
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-                </span>
-              </a>
-              <a href={f.action.href} class="tf-lien">{f.action.libelle} <span aria-hidden="true">→</span></a>
-            </div>
+                <p class="ff-base">{f.baseline}</p>
+              </div>
+              <p class="ff-prix"><span>à partir de</span> {euros(f.prix)}&nbsp;€</p>
+              <span class="ff-fleche" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+              </span>
+            </a>
           ))}
         </div>
-
-        <!-- Mention : les aperçus sont des démonstrations, pas des références clientes -->
-        <p class="font-body text-xs text-brun-mid text-center mt-8 max-w-2xl mx-auto leading-relaxed" data-reveal>
-          Les quatre aperçus ci-dessus sont des sites de démonstration, créés pour montrer
-          ce que change une formule par rapport à une autre. Les entreprises représentées n'existent pas.
-          Nos réalisations pour de vrais clients sont <a href="/realisations" class="text-sauge font-medium underline underline-offset-2">dans la page réalisations</a>.
-        </p>
 
         <!-- Note philosophie -->
         <div class="mt-10 pt-10 border-t border-cream-dark text-center max-w-2xl mx-auto" data-reveal data-delay="2">
