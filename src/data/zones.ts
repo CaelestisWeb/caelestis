@@ -1,59 +1,79 @@
 /**
- * Les zones desservies par Caelestis, telles qu'elles sont déclarées sur la
- * fiche Google d'établissement (relevé du 07/08/2026). Source unique : la page
- * régionale et les variantes du schéma du territoire lisent ce fichier, jamais
- * une liste recopiée.
+ * Le périmètre de déplacement de Caelestis, depuis Crest.
  *
- * `heures` est le temps de route depuis Crest, arrondi au quart d'heure.
- * `azimut` est la direction réelle en degrés depuis le nord, sens horaire :
- * c'est ce qui permet de placer une ville sur un schéma radial.
- * `grande` marque les villes assez connues pour parler à un visiteur qui n'est
- * pas de la Drôme : c'est le tri qu'utilise la variante radiale, qui ne peut
- * pas en afficher dix-neuf sans devenir illisible.
+ * Base : les zones desservies déclarées sur la fiche Google d'établissement
+ * (relevé du 07/08/2026), complétées par Avignon et Vallon-Pont-d'Arc à la
+ * demande de Célestin. Source unique : la page régionale lit ce fichier, aucune
+ * liste de villes n'est recopiée ailleurs.
+ *
+ * **Les durées et les azimuts ne sont pas estimés, ils sont calculés.** Chaque
+ * valeur vient d'un itinéraire routier réel obtenu le 07/08/2026 par l'API
+ * publique OSRM (`router.project-osrm.org`), et l'azimut du calcul orthodromique
+ * entre les deux points. Les estimations faites de mémoire lors du premier jet
+ * étaient fausses de dix à vingt minutes sur la moitié des villes : Montélimar
+ * annoncé à 35 min en fait 46, Saint-Étienne annoncé à 1 h 45 en fait 1 h 58,
+ * Le Puy-en-Velay annoncé à 2 h 15 en fait 2 h 06. Ne pas modifier une durée à
+ * la main : relancer le relevé.
+ *
+ * `carte` marque les villes affichées sur le schéma. Le critère est double :
+ * moins de deux heures de route, et un nom qu'un visiteur extérieur au
+ * département reconnaît. Au-delà de douze, les étiquettes se recouvrent.
  */
 export interface Zone {
   nom: string;
-  /** Temps de route depuis Crest, en heures décimales. */
+  /** Temps de route depuis Crest, en heures décimales (relevé OSRM). */
   heures: number;
+  /** Kilomètres par la route. */
+  km: number;
   /** Direction depuis Crest, en degrés depuis le nord, sens horaire. */
   azimut: number;
-  /** Ville repère, lisible par quelqu'un d'extérieur au département. */
-  grande?: boolean;
-  /** Hors Auvergne-Rhône-Alpes : desservie, mais pas dans le sujet de la page. */
+  /** Affichée sur le schéma du périmètre. */
+  carte?: boolean;
+  /** Hors Auvergne-Rhône-Alpes. */
   horsRegion?: boolean;
 }
 
 export const ZONES: Zone[] = [
-  { nom: 'Chabeuil',              heures: 0.42, azimut: 345 },
-  { nom: 'Étoile-sur-Rhône',      heures: 0.42, azimut: 300 },
-  { nom: 'Valence',               heures: 0.5,  azimut: 322, grande: true },
-  { nom: 'Montélimar',            heures: 0.6,  azimut: 193, grande: true },
-  { nom: "Pont-de-l'Isère",       heures: 0.6,  azimut: 337 },
-  { nom: 'Dieulefit',             heures: 0.67, azimut: 165 },
-  { nom: 'Romans-sur-Isère',      heures: 0.67, azimut: 350, grande: true },
-  { nom: 'Die',                   heures: 0.75, azimut: 100, grande: true },
-  { nom: 'Saint-Jean-en-Royans',  heures: 0.83, azimut: 25 },
-  { nom: 'Privas',                heures: 0.83, azimut: 277, grande: true },
-  { nom: 'Saint-Marcellin',       heures: 1.0,  azimut: 10 },
-  { nom: 'Aubenas',               heures: 1.17, azimut: 248, grande: true },
-  { nom: 'Grenoble',              heures: 1.33, azimut: 42,  grande: true },
-  { nom: 'Vienne',                heures: 1.33, azimut: 349 },
-  { nom: 'Lyon',                  heures: 1.75, azimut: 353, grande: true },
-  { nom: 'Saint-Étienne',         heures: 1.75, azimut: 318, grande: true },
-  { nom: 'Aix-en-Provence',       heures: 2.0,  azimut: 187, horsRegion: true },
-  { nom: 'Le Puy-en-Velay',       heures: 2.25, azimut: 285, grande: true },
+  { nom: 'Étoile-sur-Rhône',     heures: 0.35, km: 18,  azimut: 320 },
+  { nom: 'Chabeuil',             heures: 0.45, km: 23,  azimut: 355 },
+  { nom: 'Valence',              heures: 0.55, km: 30,  azimut: 336, carte: true },
+  { nom: "Pont-de-l'Isère",      heures: 0.70, km: 41,  azimut: 338 },
+  { nom: 'Romans-sur-Isère',     heures: 0.70, km: 39,  azimut: 4,   carte: true },
+  { nom: 'Die',                  heures: 0.70, km: 38,  azimut: 84,  carte: true },
+  { nom: 'Dieulefit',            heures: 0.72, km: 33,  azimut: 172 },
+  { nom: 'Privas',               heures: 0.73, km: 39,  azimut: 271, carte: true },
+  { nom: 'Montélimar',           heures: 0.77, km: 38,  azimut: 229, carte: true },
+  { nom: 'Saint-Marcellin',      heures: 0.98, km: 66,  azimut: 26 },
+  { nom: 'Saint-Jean-en-Royans', heures: 1.02, km: 63,  azimut: 33 },
+  { nom: 'Aubenas',              heures: 1.23, km: 68,  azimut: 257, carte: true },
+  { nom: 'Vienne',               heures: 1.30, km: 101, azimut: 353 },
+  { nom: 'Grenoble',             heures: 1.43, km: 111, azimut: 47,  carte: true },
+  { nom: 'Avignon',              heures: 1.55, km: 125, azimut: 191, carte: true, horsRegion: true },
+  { nom: "Vallon-Pont-d'Arc",    heures: 1.55, km: 102, azimut: 234, carte: true },
+  { nom: 'Lyon',                 heures: 1.72, km: 131, azimut: 353, carte: true },
+  { nom: 'Saint-Étienne',        heures: 1.97, km: 150, azimut: 328, carte: true },
 ];
 
-/** Formate un temps de route pour l'affichage : 0.75 devient « 45 min ». */
+/**
+ * Retirées du schéma le 07/08/2026 : elles dépassent les deux heures de route
+ * que Célestin a fixées comme limite du périmètre de déplacement. Elles restent
+ * desservies à distance, comme le reste de la France. Conservées ici pour qu'on
+ * ne les recalcule pas à chaque fois, et pour qu'on sache pourquoi elles ne
+ * figurent pas sur le dessin.
+ *   Arles 2 h 00 · Le Puy-en-Velay 2 h 06 · Aix-en-Provence 2 h 11 ·
+ *   Chambéry 2 h 11 · Gap 2 h 15 · Annecy 3 h 05 · Clermont-Ferrand 3 h 15
+ */
+
+/** Formate un temps de route : 0.72 devient « 45 min », 1.55 devient « 1 h 35 ». */
 export function duree(heures: number): string {
   const minutes = Math.round(heures * 60);
   if (minutes < 60) return `${minutes} min`;
   const h = Math.floor(minutes / 60);
   const reste = minutes % 60;
-  return reste === 0 ? `${h} h` : `${h} h ${reste}`;
+  return reste === 0 ? `${h} h` : `${h} h ${String(reste).padStart(2, '0')}`;
 }
 
-/** Position d'une zone sur un schéma radial centré sur Crest. */
+/** Position d'une zone sur le schéma radial centré sur Crest. */
 export function position(z: Zone, centre: number, pxParHeure: number) {
   const r = z.heures * pxParHeure;
   const a = (z.azimut * Math.PI) / 180;
@@ -63,14 +83,82 @@ export function position(z: Zone, centre: number, pxParHeure: number) {
   };
 }
 
-/** Les zones groupées par palier de temps, pour les variantes en couronnes. */
-export const COURONNES = [
-  { seuil: 0.5,  titre: 'Moins de 30 minutes' },
-  { seuil: 1.0,  titre: "Moins d'une heure" },
-  { seuil: 1.75, titre: 'Moins de deux heures' },
-  { seuil: 99,   titre: 'Au-delà' },
-].map((c, i, tous) => ({
-  ...c,
-  plancher: i === 0 ? 0 : tous[i - 1].seuil,
-  zones: ZONES.filter((z) => z.heures <= c.seuil && z.heures > (i === 0 ? -1 : tous[i - 1].seuil)),
-}));
+/** Orientation de l'étiquette autour de son point, par quadrant. */
+export function ancrage(azimut: number): 'n' | 'e' | 's' | 'o' {
+  if (azimut >= 315 || azimut < 45) return 'n';
+  if (azimut < 135) return 'e';
+  if (azimut < 225) return 's';
+  return 'o';
+}
+
+/**
+ * Place les étiquettes du schéma sans qu'aucune n'en recouvre une autre.
+ *
+ * Un simple ancrage par quadrant ne suffit pas : avec les temps de route réels,
+ * Privas (44 min, azimut 271), Montélimar (46 min, 229) et Aubenas (1 h 14, 257)
+ * tombent dans le même secteur sud-ouest et se superposaient, tout comme Lyon et
+ * Saint-Étienne au nord. L'étiquette est donc posée sur le rayon de sa ville,
+ * puis repoussée vers l'extérieur tant qu'elle en croise une autre. Le point,
+ * lui, ne bouge jamais : la direction et la distance restent exactes, seule
+ * l'étiquette s'écarte, reliée à son point par le rayon déjà tracé.
+ *
+ * Les largeurs de texte sont estimées (0,7 rem, environ 5,6 px par signe) : le
+ * calcul se fait au build, sans navigateur. Marge volontairement large, un
+ * chevauchement se voit, un écart d'un pixel non.
+ */
+export function placerEtiquettes(zones: Zone[], centre: number, pxParHeure: number) {
+  /* Deux réglages viennent de mesures au navigateur, ne pas les baisser :
+     — HAUTEUR à 22 et non 15, parce que l'étiquette porte un fond et une marge :
+       sa boîte réelle mesure 19 px. Avec 15, Montélimar et Aubenas passaient le
+       test au build et se recouvraient à l'affichage.
+     — ÉCHELLE à 1,3, parce que le schéma est dessiné dans un repère de 420 mais
+       rendu à 327 px sur un téléphone de 375, alors que les étiquettes, elles,
+       gardent leur taille en pixels. Les positions se resserrent de 22 %, pas le
+       texte : six étiquettes se recouvraient en mobile alors que le desktop
+       était propre. On calcule donc les largeurs comme si l'on était déjà au
+       plus étroit. */
+  const HAUTEUR = 22;
+  const ECHELLE = 1.3;
+  const PAS = 13;
+  const ESSAIS = 8;
+  /* La case du centre est occupée d'avance par l'étiquette « Crest », posée
+     vingt-deux pixels sous le point de départ, valeur relevée au navigateur et
+     non déduite du CSS. Sans elle dans la liste, Montélimar, la plus proche du
+     centre par le sud, venait se poser dessus. */
+  const posees: { x: number; y: number; l: number }[] = [
+    { x: centre, y: centre + 22, l: 44 },
+  ];
+
+  return zones.map((z) => {
+    const p = position(z, centre, pxParHeure);
+    const a = (z.azimut * Math.PI) / 180;
+    const largeur = (z.nom.length * 5.6 + 10) * ECHELLE;
+
+    let ecart = 18;
+    let x = p.x + Math.sin(a) * ecart;
+    let y = p.y - Math.cos(a) * ecart;
+
+    for (let i = 0; i < ESSAIS; i++) {
+      const croise = posees.some(
+        (q) => Math.abs(q.x - x) < (q.l + largeur) / 2 && Math.abs(q.y - y) < HAUTEUR * ECHELLE,
+      );
+      if (!croise) break;
+      ecart += PAS;
+      x = p.x + Math.sin(a) * ecart;
+      y = p.y - Math.cos(a) * ecart;
+    }
+
+    posees.push({ x, y, l: largeur });
+    return {
+      ...z,
+      x: p.x,
+      y: p.y,
+      ex: Math.round(x * 10) / 10,
+      ey: Math.round(y * 10) / 10,
+      pos: ancrage(z.azimut),
+    };
+  });
+}
+
+export const SUR_CARTE = ZONES.filter((z) => z.carte);
+export const HORS_CARTE = ZONES.filter((z) => !z.carte);

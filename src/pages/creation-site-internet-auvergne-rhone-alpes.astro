@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
+import { SUR_CARTE, HORS_CARTE, duree, placerEtiquettes } from '../data/zones';
 
 const canonical = 'https://caelestis.fr/creation-site-internet-auvergne-rhone-alpes';
 
@@ -75,27 +76,10 @@ const breadcrumb = {
 
 // Départements de la région (mention naturelle, pas de pages dédiées)
 
-/* Les villes du schéma du territoire. Repère SVG de 420 par 420, Crest au
-   centre (210, 210), 62 px pour une heure de route, angle réel depuis Crest :
-   x = 210 + r·sin(angle), y = 210 − r·cos(angle). Les durées sont relevées par
-   la route et arrondies au quart d'heure. Le champ « pos » oriente l'étiquette
-   autour de son point (n, s, e, o) pour éviter les chevauchements ; ajouter une
-   ville demande de recalculer sa position et de vérifier qu'aucune étiquette
-   n'en recouvre une autre à 380 px de large, la plus étroite des trois. */
-const VILLES = [
-  { nom: 'Valence', duree: '30 min', x: 190, y: 186, pos: 'o' },
-  { nom: 'Montélimar', duree: '35 min', x: 210, y: 247, pos: 's' },
-  { nom: 'Privas', duree: '50 min', x: 157, y: 212, pos: 'o' },
-  { nom: 'Grenoble', duree: '1 h 20', x: 264, y: 146, pos: 'e' },
-  { nom: 'Saint-Étienne', duree: '1 h 45', x: 133, y: 133, pos: 'o' },
-  { nom: 'Lyon', duree: '1 h 45', x: 191, y: 103, pos: 'n' },
-  // Étiquette au nord et non à l'est : Chambéry et Annecy partagent presque le
-  // même azimut depuis Crest (25 et 32 degrés), leurs deux étiquettes posées à
-  // droite se recouvraient. Les points, eux, restent à leur place exacte.
-  { nom: 'Chambéry', duree: '2 h', x: 262, y: 98, pos: 'n' },
-  { nom: 'Annecy', duree: '2 h 30', x: 292, y: 79, pos: 'e' },
-  { nom: 'Clermont-Ferrand', duree: '3 h', x: 95, y: 63, pos: 'n' },
-];
+/* Le schéma du périmètre lit src/data/zones.ts, seule source des villes, des
+   temps de route et des azimuts. Ne jamais recopier une durée ici. */
+const PX_HEURE = 56;
+const surCarte = placerEtiquettes(SUR_CARTE, 210, PX_HEURE);
 
 const departements = [
   'Drôme', 'Ardèche', 'Isère', 'Rhône', 'Loire', 'Savoie',
@@ -105,7 +89,7 @@ const departements = [
 
 <BaseLayout
   title="Création de site internet en Auvergne-Rhône-Alpes, Caelestis"
-  description="Votre site créé depuis la Drôme, pour toute la région : Valence, Lyon, Grenoble, Annecy. Devis gratuit sous 48h, tarifs affichés dès 1 000 €."
+  description="Votre site créé depuis la Drôme, pour toute la région : Valence, Lyon, Grenoble, Avignon. Devis gratuit sous 48h, tarifs affichés dès 1 000 €."
   canonical={canonical}
   schema={[schema, breadcrumb, faqSchema]}
 >
@@ -136,48 +120,48 @@ const departements = [
     </div>
   </section>
 
-  <!-- ── Le territoire, à l'échelle du temps de route ──
-       Posé le 07/08/2026. La section énumérait douze départements et huit villes
-       en deux paragraphes centrés, sans rien montrer, et la section suivante
-       traitait à part l'objection de la distance. Le schéma répond aux deux :
-       Crest au centre, les villes placées dans leur direction réelle et à leur
-       distance de route, trois anneaux d'une heure. Le lecteur voit d'un coup
-       que la moitié de la région est à moins de deux heures.
-       Ce n'est pas une carte géographique et cela ne prétend pas l'être : les
-       contours des départements ne sont pas tracés, seules comptent la direction
-       et la durée, qui sont vraies. Durées relevées par la route, arrondies au
-       quart d'heure. Les mettre à jour si une ville est ajoutée. -->
-  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20" aria-labelledby="territoire-title">
+  <!-- ── Notre périmètre ──
+       Variante A retenue par Célestin le 07/08/2026 parmi les trois rendus
+       comparés sur la page de travail : le radial, direction et distance
+       réelles, un anneau par heure. Les deux autres pistes, les couronnes de
+       proximité et l'échelle des temps de route, portaient les dix-neuf zones
+       mais perdaient l'orientation, qui est justement ce que le schéma apporte.
+       Le tri par « villes repères » est ce qui le rend lisible : douze
+       étiquettes au maximum, au-delà elles se recouvrent.
+       Deux périmètres à ne pas confondre, et c'est tout l'objet du texte :
+       le déplacement s'arrête à deux heures de route, le service ne s'arrête
+       nulle part puisqu'il se fait à distance. -->
+  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20" aria-labelledby="perimetre-title">
     <div class="max-w-5xl mx-auto">
 
       <div class="text-center mb-12" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Votre territoire</p>
-        <h2 id="territoire-title" class="font-display font-light text-brun leading-[1.15] mb-6" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
-          Douze départements, un seul interlocuteur.
+        <h2 id="perimetre-title" class="font-display font-light text-brun leading-[1.15] mb-6" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Notre périmètre.
         </h2>
         <p class="font-body text-base text-brun-mid leading-relaxed max-w-2xl mx-auto">
-          Nous sommes à Crest, dans la Drôme. Tout se fait à distance quand il le
-          faut, un premier échange en visio, des points réguliers, un site livré
-          sans que vous ayez à vous déplacer. Et si vous êtes à moins de deux
-          heures, on peut se rencontrer.
+          Nous sommes à Crest, dans la Drôme. Jusqu'à deux heures de route, nous
+          venons vous voir. Au-delà, et partout en France, le projet se mène à
+          distance : un premier échange en visio, des points réguliers, un site
+          livré sans que vous ayez à vous déplacer.
         </p>
       </div>
 
       <div class="terr" data-reveal data-delay="1">
 
-        <!-- Le schéma. Décoratif : les mêmes villes et les mêmes durées sont
-             listées juste en dessous, en toutes lettres. -->
+        <!-- Le schéma. Décoratif : les villes et les durées sont reprises en
+             clair dans la liste, c'est elle que lisent les lecteurs d'écran et
+             c'est elle qu'indexe Google. -->
         <div class="terr-schema" aria-hidden="true">
           <svg viewBox="0 0 420 420" fill="none">
-            {[1, 2, 3].map((h) => (
-              <circle cx="210" cy="210" r={String(h * 62)} class="terr-anneau" />
+            {[1, 2].map((h) => (
+              <circle cx="210" cy="210" r={String(h * PX_HEURE)} class="terr-anneau" />
             ))}
-            {VILLES.map((v) => (
+            {surCarte.map((v) => (
               <line x1="210" y1="210" x2={String(v.x)} y2={String(v.y)} class="terr-rayon" />
             ))}
-            <text x="210" y="152" class="terr-legende" text-anchor="middle">1 h</text>
-            <text x="210" y="90" class="terr-legende" text-anchor="middle">2 h</text>
-            <text x="210" y="28" class="terr-legende" text-anchor="middle">3 h</text>
+            <text x="210" y={String(210 - PX_HEURE + 13)} class="terr-legende" text-anchor="middle">1 h</text>
+            <text x="210" y={String(210 - 2 * PX_HEURE + 13)} class="terr-legende" text-anchor="middle">2 h</text>
           </svg>
 
           <span class="terr-centre font-body">
@@ -185,29 +169,44 @@ const departements = [
             Crest
           </span>
 
-          {VILLES.map((v) => (
-            <span class={`terr-ville font-body est-${v.pos}`} style={`left:${(v.x / 420) * 100}%; top:${(v.y / 420) * 100}%`}>
+          {surCarte.map((v) => (
+            <span class="terr-pt" style={`left:${(v.x / 420) * 100}%; top:${(v.y / 420) * 100}%`}></span>
+          ))}
+
+          {surCarte.map((v) => (
+            <span class="terr-ville font-body" style={`left:${(v.ex / 420) * 100}%; top:${(v.ey / 420) * 100}%`}>
               {v.nom}
             </span>
           ))}
         </div>
 
-        <!-- Les villes en clair : c'est ce que lisent les lecteurs d'écran et ce
-             qu'indexe Google, le schéma n'est qu'une mise en forme. -->
         <div class="terr-texte">
           <p class="terr-tete font-body">Depuis Crest, par la route</p>
           <ul class="terr-liste font-body" role="list">
-            {VILLES.map((v) => (
-              <li><span>{v.nom}</span><b>{v.duree}</b></li>
+            {surCarte.map((v) => (
+              <li><span>{v.nom}</span><b>{duree(v.heures)}</b></li>
             ))}
           </ul>
           <p class="terr-note font-body">
-            Les {departements.length} départements de la région sont couverts :
-            {departements.slice(0, -1).join(', ')} et {departements[departements.length - 1]}.
+            Également dans le périmètre : {HORS_CARTE.map((z) => z.nom).join(', ')}.
           </p>
         </div>
 
       </div>
+
+      <!-- Le rappel des départements. Il annonçait « les douze départements de
+           la région sont couverts », ce que le schéma contredisait : les villes
+           du périmètre tiennent dans six départements. La phrase distingue
+           désormais ce qui est vrai du déplacement et ce qui est vrai du
+           service, sans rien retirer à la couverture régionale. -->
+      <p class="font-body text-sm text-brun-mid leading-relaxed text-center max-w-3xl mx-auto mt-14" data-reveal data-delay="2">
+        Ce périmètre de déplacement traverse la Drôme, l'Ardèche, l'Isère, la Loire,
+        le Rhône et le Vaucluse. La création de site et le référencement, eux, ne
+        dépendent d'aucune distance : nous travaillons pour les
+        {departements.length} départements de la région, et pour le reste de la
+        France, sans que cela change ni la méthode ni le résultat.
+      </p>
+
     </div>
   </section>
 
@@ -340,33 +339,29 @@ const departements = [
     background: var(--color-brun);
   }
 
+  /* L'étiquette est posée à la position calculée au build par
+     placerEtiquettes(), qui l'écarte du centre jusqu'à ce qu'elle ne croise
+     plus aucune voisine. Le point de la ville, lui, est un élément à part,
+     resté à sa coordonnée exacte : le rayon tracé en SVG relie les deux. */
   .terr-ville {
     position: absolute;
-    font-size: 0.7rem;
-    color: var(--color-brun-mid);
+    font-size: 0.66rem;
+    color: var(--color-brun);
     white-space: nowrap;
     transform: translate(-50%, -50%);
+    background: var(--color-cream);
+    padding: 1px 4px;
+    border-radius: 3px;
   }
-  /* Le point de la ville, et l'étiquette poussée vers l'extérieur du cercle. */
-  .terr-ville::before {
-    content: "";
+  .terr-pt {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 5px;
-    height: 5px;
-    margin: -2.5px 0 0 -2.5px;
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
     border-radius: 50%;
     background: var(--color-sauge-text);
   }
-  .terr-ville.est-n { transform: translate(-50%, -160%); }
-  .terr-ville.est-s { transform: translate(-50%, 60%); }
-  .terr-ville.est-e { transform: translate(14px, -50%); }
-  .terr-ville.est-o { transform: translate(calc(-100% - 14px), -50%); }
-  .terr-ville.est-n::before { top: 160%; }
-  .terr-ville.est-s::before { top: -60%; }
-  .terr-ville.est-e::before { left: -14px; }
-  .terr-ville.est-o::before { left: calc(100% + 14px); }
+  /* Le point de la ville, et l'étiquette poussée vers l'extérieur du cercle. */
 
   .terr-tete {
     font-size: 0.72rem;
