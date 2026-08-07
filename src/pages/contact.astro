@@ -82,7 +82,11 @@ const pageContact = {
     <div class="max-w-6xl mx-auto flex flex-col">
 
       <!-- ── Coordonnées — vertical SOUS le formulaire en mobile, strip horizontal AU-DESSUS en desktop ── -->
-      <div class="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-y-7 sm:gap-x-10 mt-14 sm:mt-0 sm:mb-14 text-center order-2 sm:order-1" data-reveal>
+      <div class="order-2 sm:order-1 sm:mb-14 sm:pb-14 sm:border-b sm:border-cream-dark">
+        <p class="hidden sm:block text-center font-display text-xl sm:text-2xl font-light text-brun mb-10" data-reveal>
+          L&rsquo;essentiel pour nous joindre
+        </p>
+        <div class="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-y-7 sm:gap-x-10 mt-14 sm:mt-0 text-center" data-reveal>
         <a href="mailto:contact@caelestis.fr" class="group">
           <span class="block font-body text-[11px] tracking-[0.22em] indent-[0.22em] uppercase text-sauge mb-1.5">Email</span>
           <span class="font-display text-base font-light text-brun group-hover:text-ocre transition-colors duration-200">contact@caelestis.fr</span>
@@ -107,6 +111,7 @@ const pageContact = {
         <div>
           <span class="block font-body text-[11px] tracking-[0.22em] indent-[0.22em] uppercase text-sauge mb-1.5">Horaires</span>
           <span class="font-display text-base font-light text-brun">Du lundi au samedi, 9h à 18h</span>
+        </div>
         </div>
       </div>
 
