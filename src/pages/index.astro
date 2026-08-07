@@ -186,27 +186,27 @@ const websiteSchema = {
 const etapesMethode = [
   {
     n: '01', duree: '30 minutes', titre: 'Premier échange',
-    texte: 'Un appel ou une visio pour comprendre votre métier, vos clients et ce que le site doit vous apporter.',
+    texte: 'Un appel pour comprendre votre métier et ce que le site doit vous apporter.',
     vous: 'Nous raconter votre activité.',
   },
   {
     n: '02', duree: 'Sous 48h', titre: 'Devis détaillé',
-    texte: 'Vous recevez une proposition écrite : pages prévues, contenu, délais et prix ferme. Vous décidez ensuite librement.',
+    texte: 'Une proposition écrite : pages prévues, contenu, délais et prix ferme.',
     vous: 'Lire et poser vos questions.',
   },
   {
     n: '03', duree: '1 semaine', titre: "Maquette de l'accueil",
-    texte: "Nous concevons votre page d'accueil et vous la présentons. La suite démarre une fois qu'elle vous plaît.",
+    texte: "Nous dessinons votre page d'accueil. La suite démarre une fois qu'elle vous plaît.",
     vous: 'Nous dire ce que vous en pensez.',
   },
   {
     n: '04', duree: '1 à 6 semaines', titre: 'Conception du site',
-    texte: 'Rédaction, pages, photos, référencement et tests sur téléphone comme sur ordinateur. Un point d\'avancement chaque semaine.',
+    texte: 'Rédaction, pages, photos, référencement, tests. Un point d\'avancement chaque semaine.',
     vous: 'Valider textes et visuels.',
   },
   {
     n: '05', duree: 'Le jour J, puis après', titre: 'Mise en ligne et suivi',
-    texte: 'Nous publions le site, connectons votre nom de domaine et restons joignables par téléphone et par e-mail.',
+    texte: 'Nous publions le site, connectons votre nom de domaine, et restons joignables.',
     vous: 'Nous appeler dès que besoin.',
   },
 ];
@@ -225,30 +225,6 @@ const faqs = [
     a: 'C\'est très fréquent, et ce n\'est pas un frein. Nous vous accompagnons pour structurer vos contenus, nous pouvons rédiger les textes à partir de nos échanges et vous orienter sur les visuels. Pas besoin d\'arriver avec un dossier complet pour démarrer.',
   },
   {
-    q: 'Pourrai-je modifier le contenu de mon site moi-même ?',
-    a: 'Par défaut, c\'est nous qui gérons vos modifications : vous nous envoyez vos changements et on s\'en occupe rapidement. Votre site reste ainsi rapide et sécurisé, sans outil technique à gérer. Et si vous préférez être autonome, nous pouvons intégrer un espace simple pour éditer votre site vous-même.',
-  },
-  {
-    q: 'Mon site sera-t-il adapté aux mobiles ?',
-    a: 'Oui, systématiquement. Chaque site s\'affiche parfaitement sur mobile, tablette et ordinateur. Comme la majorité de vos visiteurs viennent du téléphone, c\'est une priorité dès la conception.',
-  },
-  {
-    q: 'Mon site sera-t-il visible sur Google ?',
-    a: 'Oui. Chaque site repose sur des bases techniques saines, optimisées pour le référencement naturel : structure claire, pages rapides, contenus pensés pour vos mots-clés. Vous pouvez aussi aller plus loin avec un accompagnement SEO dédié pour gagner en visibilité dans le temps.',
-  },
-  {
-    q: 'Pourquoi faire appel à vous plutôt qu\'à un outil comme Wix ?',
-    a: 'Un site fait main est plus rapide, mieux référencé et vraiment à votre image, sans les limites ni les abonnements des outils en ligne. Vous gagnez du temps, un résultat professionnel et un interlocuteur unique qui reste disponible après la mise en ligne.',
-  },
-  {
-    q: 'Proposez-vous la maintenance du site après livraison ?',
-    a: 'Oui. Nous proposons un accompagnement après la mise en ligne : mises à jour, modifications de contenu, suivi SEO. On en discute ensemble selon vos besoins lors du premier appel.',
-  },
-  {
-    q: 'L\'hébergement est-il inclus ?',
-    a: 'Oui. Votre site est hébergé sur une infrastructure rapide et sécurisée, et son maintien en ligne est couvert par votre abonnement de maintenance. Aucun hébergeur séparé à gérer, aucune facture surprise.',
-  },
-  {
     q: 'Faites-vous la refonte d\'un site internet existant ?',
     a: 'Oui, c\'est une bonne partie de notre travail. Si votre site actuel est vieillissant, lent ou ne vous ressemble plus, nous le refondons entièrement : nouveau design, performances et meilleure visibilité sur Google. Quand c\'est possible, la refonte conserve vos adresses de pages, pour ne pas perdre le référencement déjà acquis.',
   },
@@ -263,14 +239,6 @@ const faqs = [
   {
     q: 'Combien de temps ce projet va-t-il me demander ?',
     a: 'Comptez environ deux heures au total, réparties sur l\'ensemble du projet : le premier échange, la validation de la maquette, puis la relecture des textes. Nous nous chargeons de tout le reste.',
-  },
-  {
-    q: 'Comment vous joindre pendant le projet ?',
-    a: 'Par téléphone au 07 69 36 27 27 et par e-mail, du lundi au samedi, 9h à 18h. Vous gardez le même interlocuteur du premier appel jusqu\'après la mise en ligne.',
-  },
-  {
-    q: 'Comment connaître le prix de mon projet ?',
-    a: 'C\'est gratuit et sans engagement. Vous pouvez estimer votre projet en 2 minutes avec notre simulateur, ou nous écrire directement pour un devis personnalisé.',
   },
 ];
 
@@ -571,9 +539,10 @@ const organizationSchema = {
         Votre savoir-faire se reconnaît quand on vous voit à l'œuvre.
         <span>Encore faut-il un écran qui le fasse ressentir avec la même justesse.</span>
       </p>
-      <p class="chute-engagement font-body" data-reveal data-delay="2">
-        C'est précisément là que nous intervenons.
-      </p>
+      <!-- La signature « C'est précisément là que nous intervenons. » a été
+           retirée le 07/08/2026 : la chute au-dessus ouvre déjà le manque, et le
+           hero comme la section suivante disent le rôle de l'agence. Une phrase
+           de plus n'ajoutait qu'un temps de lecture. -->
 
     </div>
   </section>
@@ -608,11 +577,13 @@ const organizationSchema = {
           photos par là, un numéro sur une carte. Chacun est utile, aucun ne dit
           tout, et l'on ne se décide jamais sur un morceau.
         </p>
+        <!-- L'énumération des contenus du site (identité, clientèle, prestations,
+             tarifs, avis, contact) a été retirée le 07/08/2026 : le schéma d'à
+             côté la porte déjà, en toutes lettres, et la liste sr-only la rend
+             aux lecteurs d'écran. Le texte disait donc deux fois la même chose. -->
         <p class="font-body conv-p">
-          Votre site les réunit au même endroit : qui vous êtes et ce qui vous
-          distingue, pour qui vous travaillez, ce que vous faites et à quel prix,
-          ce que vos clients en disent, comment vous joindre. Une seule adresse où
-          votre activité se présente en entier.
+          Votre site les réunit au même endroit : une seule adresse où votre
+          activité se présente en entier.
         </p>
         <p class="font-body conv-p">
           Et tout y ramène. Chaque recherche, chaque réseau, chaque bouche-à-oreille
@@ -707,10 +678,11 @@ const organizationSchema = {
         </div>
 
         <p class="font-body text-sm text-brun-mid mt-5">Démonstration réalisée par nos soins : marque, textes et mise en page d'un producteur fictif.</p>
-
-        <div class="mt-8">
-          <Button href="#methode" variant="outline">Voir comment nous procédons</Button>
-        </div>
+        <!-- Le bouton « Voir comment nous procédons » qui pointait vers l'ancre
+             #methode a été retiré le 07/08/2026 : la méthode se trouve quatre
+             sections plus bas sur la même page, le visiteur y arrive en faisant
+             défiler. Un bouton pour descendre dans la page n'est pas une action,
+             c'est un CTA de plus qui dilue les deux vrais (contact, simulateur). -->
       </div>
 
     </div>
@@ -801,19 +773,16 @@ const organizationSchema = {
   <section class="bg-sauge-pale py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
     <div class="max-w-6xl mx-auto">
 
-      <div class="text-center mb-14" data-reveal>
+      <!-- Une seule tête de section. Elle en portait deux empilées (« Services /
+           Ce que nous pouvons faire pour vous », puis « Notre métier / Votre site
+           internet »), soit trois surtitres avant le premier contenu : la phrase
+           des quatre formules est remontée sous le titre, le sous-bloc a disparu.
+           Ne pas rouvrir un second niveau de titre ici. -->
+      <div class="text-center max-w-2xl mx-auto mb-11" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Services</p>
         <h2 class="font-display text-3xl md:text-5xl font-light text-brun leading-[1.1] mb-5">
           Ce que nous pouvons faire pour vous.
         </h2>
-
-      </div>
-
-      <!-- Le métier principal, annoncé comme tel : les 4 lignes qui suivent sont
-           les paliers d'une même offre, pas 4 services distincts. -->
-      <div class="text-center max-w-2xl mx-auto mb-9" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Notre métier</p>
-        <h3 class="font-display text-2xl md:text-3xl text-brun leading-[1.15] mb-3">Votre site internet</h3>
         <p class="font-body text-base text-brun-mid">
           Quatre formules pour une même exigence. Le choix dépend de ce que votre activité demande, et nous en discutons ensemble.
         </p>
@@ -927,7 +896,7 @@ const organizationSchema = {
         </div>
 
         <p class="font-body text-xs text-brun-mid text-center mt-9 max-w-xl mx-auto leading-relaxed">
-          Les zones en pointillé sont définies avec vous. Chaque schéma donne l'ampleur de la formule, la mise en page reste propre à votre activité.
+          Chaque schéma donne l'ampleur de la formule, la mise en page reste propre à votre activité.
         </p>
 
       </div>
@@ -937,76 +906,18 @@ const organizationSchema = {
         30&nbsp;% d'acompte à la signature, solde à la mise en ligne.
       </p>
 
-      <!-- Être trouvé sur Google : les deux prestations, visibles dès l'accueil -->
-      <div class="mt-14 text-center" data-reveal data-delay="2">
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Être trouvé sur Google</p>
-        <p class="font-display text-xl md:text-2xl font-light text-brun max-w-xl mx-auto leading-snug">
-          Un beau site ne sert à rien si personne ne le trouve.
-        </p>
-        <p class="font-body text-sm text-brun-mid max-w-xl mx-auto mt-3 leading-relaxed">
-          Ces deux prestations existent aussi seules, même si votre site a été créé ailleurs.
-        </p>
-      </div>
-
-      <!-- Deux prestations en lignes éditoriales : la section alterne ainsi le
-           dessin (planche des formules) et la ligne, sans répéter deux fois de
-           suite le même dispositif visuel. -->
-      <div class="max-w-4xl mx-auto mt-8 border-t border-brun/60" data-reveal data-delay="2">
-
-        <a href="/services/referencement-naturel" class="offre-ligne grid sm:grid-cols-[1fr_auto] items-start gap-x-10 gap-y-4 py-7 px-3 -mx-3 border-b border-cream-dark">
-          <div>
-            <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-2">Sur la durée</p>
-            <h3 class="font-display text-xl font-light text-brun mb-2">Référencement naturel</h3>
-            <p class="font-body text-sm text-brun-mid leading-relaxed">
-              Les bons mots-clés, le référencement <strong class="text-brun font-semibold">local</strong>, un site sain aux yeux de Google. Pour remonter dans les résultats et y rester, sans publicité.
-            </p>
-          </div>
-          <div class="sm:text-right sm:min-w-[9.5rem]">
-            <p class="font-display text-lg font-light text-sauge">Sur devis</p>
-            <p class="font-body text-xs text-brun-mid mt-0.5">selon vos besoins</p>
-            <span class="offre-lien inline-flex items-center gap-1.5 mt-3 font-body text-sm font-medium text-[#2E7452]">Découvrir <span aria-hidden="true">→</span></span>
-          </div>
-        </a>
-
-        <a href="/services/fiche-google-entreprise" class="offre-ligne grid sm:grid-cols-[1fr_auto] items-start gap-x-10 gap-y-4 py-7 px-3 -mx-3">
-          <div>
-            <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-2">Résultat rapide</p>
-            <h3 class="font-display text-xl font-light text-brun mb-2">Fiche Google</h3>
-            <p class="font-body text-sm text-brun-mid leading-relaxed">
-              L'encadré qui s'affiche sur Google et sur Maps avec vos horaires, votre téléphone et vos avis. Il fonctionne <strong class="text-brun font-semibold">même sans site internet</strong>.
-            </p>
-          </div>
-          <div class="sm:text-right sm:min-w-[9.5rem]">
-            <p class="font-display text-lg font-light text-sauge">300&nbsp;€</p>
-            <p class="font-body text-xs text-brun-mid mt-0.5">une seule fois</p>
-            <span class="offre-lien inline-flex items-center gap-1.5 mt-3 font-body text-sm font-medium text-[#2E7452]">Découvrir <span aria-hidden="true">→</span></span>
-          </div>
-        </a>
-
-      </div>
-
-      <!-- Maintenance et sécurité : bloc de texte, plus de carte, pour que la
-           section ne se termine pas sur un encadré isolé. -->
-      <div class="max-w-2xl mx-auto mt-12 text-center" data-reveal data-delay="2">
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Maintenance et sécurité</p>
+      <!-- Les trois autres prestations, annoncées en une phrase et détaillées sur
+           /services. Elles occupaient auparavant trois blocs de l'accueil (deux
+           lignes éditoriales pour Google, deux paragraphes pour la maintenance,
+           un CTA de fin de section) qui répétaient mot pour mot la page Services,
+           soit environ 340 mots pour une information que le visiteur retrouve
+           d'un clic. Ne pas les réintroduire ici : l'accueil annonce l'offre,
+           la page Services la détaille. -->
+      <div class="max-w-2xl mx-auto mt-14 text-center" data-reveal data-delay="2">
         <p class="font-body text-sm md:text-base text-brun-mid leading-relaxed">
-          Un site internet demande un suivi régulier pour rester sûr et performant dans le temps. C'est pourquoi un abonnement de maintenance, offert les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois puis à partir de <strong class="text-brun font-semibold">{euros(MAINTENANCE_MIN)}&nbsp;€ par mois</strong>, accompagne chaque site que nous créons.
+          Nous prenons aussi en charge le <a href="/services/referencement-naturel" class="text-[#2E7452] underline underline-offset-4 decoration-sauge/50 hover:decoration-[#2E7452] transition-colors">référencement naturel</a>, votre <a href="/services/fiche-google-entreprise" class="text-[#2E7452] underline underline-offset-4 decoration-sauge/50 hover:decoration-[#2E7452] transition-colors">fiche Google</a> et la <a href="/maintenance" class="text-[#2E7452] underline underline-offset-4 decoration-sauge/50 hover:decoration-[#2E7452] transition-colors">maintenance</a> de votre site, séparément de sa création.
         </p>
-        <p class="font-body text-sm md:text-base text-brun-mid leading-relaxed mt-3">
-          Il prend en charge les mises à jour, la protection contre les failles de sécurité et le bon fonctionnement de votre site au quotidien. Vos modifications et l'évolution de votre site, elles, restent un service à part, à la demande et sur devis.
-        </p>
-        <a href="/maintenance" class="tap-44 offre-lien inline-flex items-center gap-1.5 mt-5 font-body text-sm font-medium text-[#2E7452]">Découvrir les formules de maintenance <span aria-hidden="true">→</span></a>
-      </div>
-
-      <!-- CTA fin de section tarifs -->
-      <div class="mt-12 text-center" data-reveal data-delay="2">
-        <p class="font-display text-xl md:text-2xl font-light text-brun mb-6">
-          Prêt à donner vie à votre projet&nbsp;?
-        </p>
-        <div class="cta-pair flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-          <Button href="/contact#devis" variant="primary">Demander un devis</Button>
-          <Button href="/outils/simulateur" variant="outline">Estimer mon projet</Button>
-        </div>
+        <a href="/services" class="tap-44 offre-lien inline-flex items-center gap-1.5 mt-6 font-body text-sm font-medium text-[#2E7452]">Voir le détail des offres et des prix <span aria-hidden="true">&#8594;</span></a>
       </div>
 
     </div>
@@ -1049,7 +960,7 @@ const organizationSchema = {
       </h2>
 
       <p class="font-body text-base text-brun-mid max-w-[56ch] mx-auto mb-12" data-reveal data-delay="1">
-        Voici précisément comment se déroule un projet, du premier appel à la mise en ligne.
+        Du premier appel à la mise en ligne.
       </p>
 
       <ol role="list" class="etapes" data-reveal data-delay="2">
@@ -1064,9 +975,10 @@ const organizationSchema = {
         ))}
       </ol>
 
-      <div class="mt-12" data-reveal data-delay="2">
-        <Button href="/contact" variant="primary">Parler de mon projet</Button>
-      </div>
+      <!-- Aucun bouton en pied de section : « Parler de mon projet » figure déjà
+           dans le hero, dans l'en-tête collant et dans l'appel final, à deux
+           sections d'ici. Le répéter une quatrième fois n'ajoute pas une
+           occasion de cliquer, il banalise le bouton. -->
 
     </div>
   </section>
@@ -1110,42 +1022,6 @@ const organizationSchema = {
 
       </dl>
 
-    </div>
-  </section>
-
-
-  <!-- ─── PREUVES : la réassurance juste avant le point de conversion ───
-       Pas de témoignages inventés ni de note fabriquée : tant que les avis
-       clients ne sont pas collectés, la preuve repose sur des faits que
-       n'importe qui peut vérifier en ligne, tirés des études de cas. -->
-  <section class="py-12 md:py-16 px-6 md:px-10 lg:px-20 border-t border-cream-dark" aria-labelledby="preuves-title">
-    <div class="max-w-4xl mx-auto">
-      <h2 id="preuves-title" class="font-display text-2xl md:text-3xl text-brun leading-[1.15] text-center mb-10" data-reveal>
-        Vérifiable avant de nous croire.
-      </h2>
-      <ul class="grid sm:grid-cols-3 gap-6 text-center" role="list">
-        <li class="border border-cream-dark rounded-2xl px-6 py-7" data-reveal>
-          <p class="font-display text-lg text-brun leading-snug mb-2">Livré en 14 jours</p>
-          <p class="font-body text-sm text-brun-mid leading-relaxed">
-            Le salon <a href="/realisations/fee-des-ongles" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">Fée des Ongles</a>,
-            à Crest, prend ses rendez-vous en ligne jour et nuit depuis la mise en service.
-          </p>
-        </li>
-        <li class="border border-cream-dark rounded-2xl px-6 py-7" data-reveal data-delay="1">
-          <p class="font-display text-lg text-brun leading-snug mb-2">Tenu par la créatrice</p>
-          <p class="font-body text-sm text-brun-mid leading-relaxed">
-            <a href="/realisations/la-coquette" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">La Coquette</a> gère
-            seule sa galerie de 48 pièces, sans dépendre de nous pour la faire vivre.
-          </p>
-        </li>
-        <li class="border border-cream-dark rounded-2xl px-6 py-7" data-reveal data-delay="2">
-          <p class="font-display text-lg text-brun leading-snug mb-2">Consultable en ligne</p>
-          <p class="font-body text-sm text-brun-mid leading-relaxed">
-            Chaque <a href="/realisations" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">étude de cas</a> donne
-            l'adresse du site livré : vous pouvez tout tester par vous-même.
-          </p>
-        </li>
-      </ul>
     </div>
   </section>
 
