@@ -29,19 +29,21 @@ import { euros, formule, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_
    esthétique : à 320 px, une pastille posée à 40 % en largeur déborde du carré,
    parce que les libellés sont des groupes de mots et non des noms de marque.
    Les 32 % laissent la place au texte, les 40 % en hauteur maintiennent l'écart
-   avec le noyau, qui occupe 34 % du carré (28 % sous 420 px).
+   avec le noyau, qui occupe 30 % du carré (28 % sous 420 px).
 
-   `signature: true` porte l'accent vert : Identité visuelle et Singularité, ce
-   que vous seul portez, par opposition aux six pastilles factuelles. Elles
-   ouvrent le cercle en haut (12 h et 1 h 30), à la place la plus vue, et se
-   touchent, donc l'accent suffit à les lire comme un pôle sans aucune légende.
+   Les huit pastilles sont identiques au repos, aucun accent permanent. Le vert
+   n'apparaît qu'au survol, une pastille à la fois (décision de Célestin le
+   07/08/2026 ; l'ancien accent vert fixe sur Identité visuelle et Singularité
+   est retiré). Effet purement décoratif, sans équivalent tactile : sans
+   conséquence, les pastilles étant reprises en toutes lettres pour les lecteurs
+   d'écran juste sous le schéma.
 
    Ordre horaire depuis le haut : identité, puis l'offre (clientèle, prestations,
    tarifs), puis la preuve et l'accès (avis, contact, adresse). Le titre ne
    compte plus les pastilles, on peut en ajouter une sans le réécrire. */
 const REUNIT = [
-  { nom: 'Identité visuelle',   x: 50,   y: 10,   sx: 200, sy: 40,  signature: true },
-  { nom: 'Singularité',         x: 72.6, y: 21.7, sx: 290, sy: 87,  signature: true },
+  { nom: 'Identité visuelle',   x: 50,   y: 10,   sx: 200, sy: 40  },
+  { nom: 'Singularité',         x: 72.6, y: 21.7, sx: 290, sy: 87  },
   { nom: 'Votre clientèle',     x: 82,   y: 50,   sx: 328, sy: 200 },
   { nom: 'Prestations',         x: 72.6, y: 78.3, sx: 290, sy: 313 },
   { nom: 'Tarifs',              x: 50,   y: 90,   sx: 200, sy: 360 },
@@ -378,13 +380,13 @@ const organizationSchema = {
     </div>
 
     <!-- Premier écran typographique : aucune photo. La respiration vient des
-         halos de lumière et du filet de réassurance, pas d'une image d'illustration.
-         Décision de Célestin le 29/07/2026, après relevé sur sept sites d'agence. -->
-    <!-- Bloc ramené à 48rem le 01/08/2026, après le raccourcissement du titre.
-         Il avait été porté à 64rem pour loger « Un site web qui valorise votre
-         savoir-faire » d'un seul tenant ; le nouveau titre plafonne à 604 px et
-         le sous-titre à 502 px, tout tient donc dans les 768 px d'origine, qui
-         sont aussi la largeur du filet de réassurance. -->
+         halos de lumière et du blanc généreux, pas d'une image d'illustration.
+         Décision de Célestin le 29/07/2026, après relevé sur sept sites d'agence.
+         Depuis le 04/08/2026, le premier écran ne porte plus que quatre éléments,
+         eyebrow, titre, sous-titre et boutons : la réassurance est partie sur
+         /services. La composition est centrée dans la hauteur d'écran. -->
+    <!-- Bloc à 48rem (max-w-3xl) : le titre plafonne à 604 px et le sous-titre
+         à 543 px, tout tient dans cette largeur. -->
     <div class="max-w-3xl mx-auto w-full text-center relative z-10">
 
       <!-- Eyebrow. `whitespace-nowrap` sur le nom de région : sans lui, à 375px
@@ -433,53 +435,20 @@ const organizationSchema = {
            question au visiteur entre le constat et la réponse, retirée le
            01/08 pour tenir en deux lignes. Largeur 42rem, la plus longue des
            deux phrases mesurant 543 px. -->
-      <p class="hero-sub font-body text-base md:text-lg leading-relaxed max-w-[42rem] mb-9 text-brun-mid mx-auto [text-wrap:balance]" data-reveal data-delay="1">
+      <p class="hero-sub font-body text-base md:text-lg leading-relaxed max-w-[42rem] mb-10 md:mb-12 text-brun-mid mx-auto [text-wrap:balance]" data-reveal data-delay="1">
         Sur internet, on vous cherche, on vous compare, puis on choisit.<br>
         Nous faisons de vous le choix évident.
       </p>
 
-      <!-- Boutons CTA -->
+      <!-- Boutons CTA. Point d'ancrage bas de la composition depuis le
+           04/08/2026 : les quatre cases de réassurance qui suivaient ont été
+           déplacées vers /services (elles alourdissaient le premier écran). Le
+           hero est redevenu une composition purement typographique, centrée
+           dans la hauteur d'écran, et les CTA en referment le bas. -->
       <div class="cta-pair flex flex-col sm:flex-row items-center justify-center gap-3" data-reveal data-delay="2">
         <Button href="/contact" variant="primary">Parler de mon projet</Button>
         <Button href="/outils/simulateur" variant="outline">Estimer mon projet</Button>
       </div>
-
-      <!-- Réassurance en quatre cases, demande de Célestin le 04/08/2026.
-           Le filet qui la surmontait a été retiré : posé juste sous les boutons,
-           il donnait un trait collé au-dessus du texte, sans rôle de séparation.
-           Ce sont les cases qui structurent maintenant le bas de l'écran.
-           « Réponse sous 48h » et « En ligne en 2 à 8 semaines » sont rétablis :
-           ils avaient été retirés le 03/08 comme promesses invérifiables déjà
-           portées par la FAQ et la page méthode. Décision de Célestin de les
-           remonter dans le premier écran.
-           Chaque case porte une icône distincte : quatre coches identiques
-           auraient donné la rangée de chiffres alignés que la charte bannit.
-           Aucun nombre n'est mis en exergue, tous restent au corps du texte. -->
-      <ul role="list" class="gages font-body mt-11 md:mt-12" data-reveal data-delay="2">
-        <!-- Le seul repère VÉRIFIABLE du hero : il se contrôle en un clic. Le
-             chiffre est relevé sur `data/realisations.ts`, deux entrées, deux
-             sites réellement en ligne. Le mettre à jour en même temps. -->
-        <li>
-          <span class="gage-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.4 2.4 4.6-4.9"/></svg></span>
-          <a href="/realisations" class="gage-preuve">2 sites livrés, vérifiables</a>
-        </li>
-        <!-- Le seul repère que la concurrence n'affiche pas : sur les treize
-             agences relevées dans PRIX-MARCHE.md, trois donnent un prix en page
-             d'accueil. Le montant vient de `utils/tarifs.ts` comme partout
-             ailleurs, il n'est jamais réécrit en dur. -->
-        <li>
-          <span class="gage-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 13.3l-7.2 7.2a2 2 0 0 1-2.8 0l-7-7A2 2 0 0 1 3 12V4.5A1.5 1.5 0 0 1 4.5 3H12a2 2 0 0 1 1.4.6l7.1 7.1a1.8 1.8 0 0 1 0 2.6z"/><circle cx="7.6" cy="7.6" r="1.2"/></svg></span>
-          Tarifs affichés, dès {euros(formule('page-unique').prix)}&nbsp;€
-        </li>
-        <li>
-          <span class="gage-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 3.5z"/></svg></span>
-          Réponse sous 48h
-        </li>
-        <li>
-          <span class="gage-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.2" y="5" width="17.6" height="15.5" rx="2"/><path d="M3.2 9.8h17.6M8 3v4M16 3v4"/></svg></span>
-          En ligne en 2 à 8 semaines
-        </li>
-      </ul>
 
     </div>
 
@@ -677,10 +646,7 @@ const organizationSchema = {
           </div>
 
           {REUNIT.map((c) => (
-            <span
-              class:list={['conv-canal', 'font-body', { 'conv-canal--signature': c.signature }]}
-              style={`left:${c.x}%; top:${c.y}%`}
-            >{c.nom}</span>
+            <span class="conv-canal font-body" style={`left:${c.x}%; top:${c.y}%`}>{c.nom}</span>
           ))}
         </div>
       </div>
@@ -1225,20 +1191,16 @@ const organizationSchema = {
      d'effet, elle a été retirée le 01/08/2026 avec le passage à deux lignes. */
 
   /* Téléphones courts (iPhone SE, iPhone 8 et assimilés, 667px de haut).
-     Le titre y tient sur trois lignes et le sous-titre sur quatre : avec les
-     marges d'origine, le filet de réassurance tombe 33px sous la ligne de
-     flottaison, alors que ce sont ses quatre arguments qui décident le
-     visiteur. Le resserrement porte sur les seules marges verticales, rien sur
-     le texte, et laisse 27px sous le filet. Borné en largeur ET en hauteur :
-     les téléphones hauts et le desktop gardent la respiration d'origine. */
+     Le titre y tient sur trois lignes et le sous-titre sur quatre : sans ce
+     resserrement, les boutons tombent sous la ligne de flottaison. Le
+     resserrement porte sur les seules marges verticales, rien sur le texte.
+     Borné en largeur ET en hauteur : les téléphones hauts et le desktop
+     gardent la respiration d'origine. */
   @media (max-width: 767px) and (max-height: 720px) {
     .hero-eyebrow { margin-bottom: 0.875rem; }
     .hero-title { margin-bottom: 1.125rem; }
     .hero-sub { margin-bottom: 1.125rem; }
   }
-  /* Le resserrement des cases est déclaré plus bas, juste après `.gages` : à
-     spécificité égale, la dernière règle du fichier gagne, et posé ici il
-     était écrasé par la définition des cases. */
 
   /* ── Fil botanique — visible desktop uniquement ── */
   .vine-wrap {
@@ -1433,15 +1395,19 @@ const organizationSchema = {
     line-height: 1.35;
     color: var(--color-brun-mid);
     box-shadow: 0 2px 10px rgba(18, 22, 15, 0.05);
+    transition: background-color 0.25s ease, border-color 0.25s ease,
+                color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   }
-  /* Ce que le site porte et que rien d'autre ne porte : l'accent sauge les
-     rassemble sans qu'aucune légende ait à le dire. Vert d'encre sur sauge très
-     pâle, le même couple que les liens du site, contrôlé au-dessus de 7:1. */
-  .conv-canal--signature {
-    background: rgba(37, 92, 65, 0.07);
-    border-color: rgba(37, 92, 65, 0.30);
-    color: #255C41;
-    font-weight: 500;
+  /* Survol : la pastille se remplit du vert du noyau, texte crème, comme si elle
+     rejoignait le centre. Une seule à la fois. Effet décoratif (les pastilles ne
+     sont pas des liens), donc pas d'état focus clavier. Neutralisé en animations
+     réduites, la couleur reste mais le mouvement non. */
+  .conv-canal:hover {
+    background: #255C41;
+    border-color: #255C41;
+    color: var(--color-cream);
+    box-shadow: 0 8px 20px rgba(37, 92, 65, 0.26);
+    transform: translate(-50%, -50%) scale(1.04);
   }
   /* Sous 420 px, le carré ne mesure plus que 323 px : la ligne horizontale doit
      y loger deux pastilles et le noyau. Mesuré au premier jet, 120 + 110 + 120
@@ -1464,6 +1430,10 @@ const organizationSchema = {
   }
   @media (prefers-reduced-motion: reduce) {
     .conv-trait { animation: none; }
+    /* Le survol garde son changement de couleur, mais perd l'agrandissement et
+       la transition : la couleur informe, le mouvement n'est que décor. */
+    .conv-canal { transition: none; }
+    .conv-canal:hover { transform: translate(-50%, -50%); }
   }
 
   /* NE PAS réintroduire content-visibility sur cette page. Testé le 27/07/2026 :
@@ -1628,103 +1598,6 @@ const organizationSchema = {
     letter-spacing: 0.01em;
     color: var(--color-brun-mid);
   }
-
-  /* ── Réassurance du hero ── */
-  /* ══ Les quatre gages du hero ══
-     Deux colonnes au doigt, quatre d'un seul rang dès 640 px. Les cases sont
-     posées sur le fond, sans filet au-dessus : le trait précédent, collé sous
-     les boutons, se lisait comme une rature plutôt que comme une séparation. */
-  .gages {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-    list-style: none;
-    padding: 0;
-    max-width: 34rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  @media (min-width: 640px) {
-    .gages {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      max-width: none;
-    }
-  }
-  /* Fond blanc franc sur le crème de la page : c'est le seul contraste de la
-     case, il remplace l'ombre portée, qui aurait posé quatre rectangles
-     flottants dans un premier écran volontairement plat. */
-  .gages li {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 9px;
-    min-width: 0;
-    padding: 16px 10px 15px;
-    background: #fff;
-    border: 1px solid var(--color-cream-dark);
-    border-radius: 14px;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    line-height: 1.35;
-    color: var(--color-brun-mid);
-    text-align: center;
-    text-wrap: balance;
-  }
-  @media (min-width: 640px) {
-    .gages li { padding: 18px 12px 17px; font-size: 0.84375rem; }
-  }
-  .gage-i {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    color: var(--color-sauge-vif);
-    flex: none;
-  }
-  .gage-i svg { width: 19px; height: 19px; }
-
-  /* Téléphones courts (iPhone SE et assimilés, 667px de haut). Sans ce
-     resserrement, la seconde rangée de cases tombe 36px sous la ligne de
-     flottaison, mesuré en 375x667 : le visiteur ne voit alors que deux des
-     quatre gages. L'icône passe à côté du texte plutôt qu'au-dessus, ce qui
-     divise la hauteur d'une case par deux et rend les quatre visibles. */
-  @media (max-width: 767px) and (max-height: 720px) {
-    .gages { margin-top: 1.25rem; gap: 8px; }
-    .gages li {
-      flex-direction: row;
-      justify-content: center;
-      gap: 7px;
-      padding: 10px 8px;
-      font-size: 0.78125rem;
-      line-height: 1.3;
-      text-align: left;
-    }
-    .gage-i { width: 18px; height: 18px; }
-    .gage-i svg { width: 16px; height: 16px; }
-  }
-  /* Le repère vérifiable est cliquable : sans marque visible, « consultables en
-     ligne » promet un clic qui n'existe pas. Soulignement discret, teinte
-     mousse foncée pour le distinguer des trois promesses voisines sans casser
-     l'alignement de la colonne. */
-  /* Le repère vérifiable est cliquable : sans marque visible, « vérifiables »
-     promet un clic qui n'existe pas. Soulignement discret, teinte mousse foncée
-     pour le distinguer des trois promesses voisines. */
-  .gage-preuve {
-    color: var(--color-sauge-text);
-    text-decoration: underline;
-    text-decoration-color: rgba(46, 116, 82, 0.35);
-    text-underline-offset: 3px;
-    transition: text-decoration-color 0.25s ease;
-  }
-  .gage-preuve:hover { text-decoration-color: var(--color-sauge-text); }
-  /* Au doigt, un lien de 17px de haut n'est pas atteignable (WCAG 2.5.8). La
-     cible couvre toute la case, ce qui donne bien plus que les 44px requis, et
-     évite au passage qu'un doigt tombe à côté du texte dans une case cliquable. */
-  .gages li:has(.gage-preuve) { position: relative; }
-  .gage-preuve::after { content: ''; position: absolute; inset: 0; border-radius: 14px; }
 
   /* ── Ligne métiers : pastilles statiques centrées, sur toutes les tailles.
      Aucun défilement : le bandeau en boucle est banni de la charte, et une
