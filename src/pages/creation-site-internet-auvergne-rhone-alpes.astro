@@ -81,6 +81,18 @@ const breadcrumb = {
 const PX_HEURE = 56;
 const surCarte = placerEtiquettes(SUR_CARTE, 210, PX_HEURE);
 
+
+/* Les quatre gestes de la niche, et les metiers qu ils recouvrent. Ils
+   reprennent les verbes de l accroche « vous cultivez, vous elevez, vous
+   fabriquez, vous accueillez », deja employes sur l accueil : c est le meme
+   ciblage, dit deux fois de la meme facon, ce qui est voulu. */
+const GESTES = [
+  { verbe: "Vous cultivez",  metiers: ["Maraîchers", "Pépiniéristes", "Paysagistes", "Vignerons"] },
+  { verbe: "Vous élevez",    metiers: ["Apiculteurs", "Écuries", "Éleveurs"] },
+  { verbe: "Vous fabriquez", metiers: ["Boulangers", "Brasseurs", "Ébénistes", "Charpentiers", "Céramistes"] },
+  { verbe: "Vous accueillez", metiers: ["Gîtes", "Praticiens du bien-être", "Associations"] },
+];
+
 const departements = [
   'Drôme', 'Ardèche', 'Isère', 'Rhône', 'Loire', 'Savoie',
   'Haute-Savoie', 'Ain', 'Puy-de-Dôme', 'Cantal', 'Haute-Loire', 'Allier',
@@ -219,8 +231,29 @@ const departements = [
           Les métiers de passion de la région.
         </h2>
       </div>
-      <p class="font-body text-base leading-relaxed text-center max-w-2xl mx-auto" style="color: rgba(252, 251, 248,0.80)" data-reveal data-delay="1">
-        Nous travaillons avec les métiers de la nature, du terroir et de la main. Vous cultivez, vous élevez, vous fabriquez, vous accueillez : artisans, producteurs, créateurs et indépendants, dès lors que votre métier se voit, se goûte ou se touche. Maraîchers et apiculteurs, boulangers et brasseurs, ébénistes et charpentiers, paysagistes et pépiniéristes, gîtes et écuries, praticiens du bien-être et associations environnementales. Des métiers de passion, souvent peu visibles en ligne, qui méritent un site à la hauteur de leur savoir-faire.
+      <!-- Les quatre gestes. Posés le 07/08/2026 : la section était un unique
+           paragraphe centré de 89 mots où quatorze métiers se noyaient au
+           milieu d'une phrase. Ce sont pourtant eux que cherche le visiteur,
+           qui veut se reconnaître. Les quatre verbes de l'accroche deviennent
+           la structure, chaque métier se lit d'un coup, et l'ensemble reste une
+           énumération ouverte, jamais une liste fermée.
+           À la différence de l'accueil, où les métiers nommés ont été remplacés
+           par des statuts larges le 01/08 pour n'exclure personne, cette page
+           est celle de la niche revendiquée : ici, nommer sert. -->
+      <ul class="gestes" role="list">
+        {GESTES.map((g) => (
+          <li class="geste">
+            <p class="geste-verbe font-display">{g.verbe}</p>
+            <ul class="geste-metiers font-body" role="list">
+              {g.metiers.map((m) => <li>{m}</li>)}
+            </ul>
+          </li>
+        ))}
+      </ul>
+      <p class="font-body text-sm leading-relaxed text-center max-w-2xl mx-auto mt-12" style="color: rgba(252, 251, 248,0.75)" data-reveal data-delay="2">
+        La liste n'est pas fermée : dès lors que votre métier se voit, se goûte
+        ou se touche, il a de quoi remplir un site. Ce sont souvent les activités
+        les moins visibles en ligne qui gagnent le plus à y être bien montrées.
       </p>
     </div>
   </section>
@@ -390,10 +423,7 @@ const departements = [
     color: var(--color-brun-mid);
     opacity: 0.85;
   }
-</style>
 
-
-<style>
   .seo-faq { border-top: 1px solid var(--color-cream-dark); }
   .seo-faq-item { border-bottom: 1px solid var(--color-cream-dark); }
   .seo-faq-q {
@@ -442,5 +472,44 @@ const departements = [
     outline: 2px solid var(--color-sauge-text);
     outline-offset: 2px;
     border-radius: 4px;
+  }
+
+  /* ═══ Les quatre gestes ═══
+     Une colonne par verbe, les métiers dessous. Deux colonnes en tablette,
+     une seule en mobile : à quatre, les libellés se coupaient en deux. */
+  .gestes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 26px 20px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 560px) { .gestes { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 900px) { .gestes { grid-template-columns: repeat(4, 1fr); gap: 24px; } }
+
+  .geste { border-top: 1px solid rgba(252, 251, 248, 0.22); padding-top: 14px; }
+  .geste-verbe {
+    font-size: 1.02rem;
+    font-weight: 300;
+    color: #E3EFE8;
+    margin-bottom: 11px;
+  }
+  .geste-metiers { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+  .geste-metiers li {
+    font-size: 0.86rem;
+    line-height: 1.4;
+    color: rgba(252, 251, 248, 0.8);
+    padding-left: 14px;
+    position: relative;
+  }
+  .geste-metiers li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.58em;
+    width: 6px;
+    height: 1px;
+    background: rgba(184, 196, 187, 0.7);
   }
 </style>
