@@ -1,0 +1,308 @@
+---
+/* PAGE DE TRAVAIL, À SUPPRIMER APRÈS ARBITRAGE.
+   Trois façons d'afficher les quatre gages de réassurance retirés du hero le
+   04/08/2026, pour choisir sur pièce avant de les poser sur /services.
+   Rendues dans le vrai style du site (charte Forêt vivante, Satoshi). */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { euros, formule } from '../utils/tarifs';
+
+const PRIX = euros(formule('page-unique').prix);
+
+/* Les quatre gages, avec une icône distincte chacun : jamais quatre coches
+   identiques, qui donneraient la rangée de chiffres alignés bannie de la
+   charte. Le premier est cliquable (il mène aux réalisations). Le sous-texte
+   ne sert qu'à la variante C. */
+const GAGES = [
+  {
+    t: '2 sites livrés, vérifiables',
+    sous: 'Pas des maquettes : des sites en ligne que vous pouvez visiter.',
+    href: '/realisations',
+    svg: '<circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.4 2.4 4.6-4.9"/>',
+  },
+  {
+    t: `Tarifs affichés, dès ${PRIX} €`,
+    sous: "Le prix est sur le site, pas au bout d'un rendez-vous.",
+    href: null,
+    svg: '<path d="M20.5 13.3l-7.2 7.2a2 2 0 0 1-2.8 0l-7-7A2 2 0 0 1 3 12V4.5A1.5 1.5 0 0 1 4.5 3H12a2 2 0 0 1 1.4.6l7.1 7.1a1.8 1.8 0 0 1 0 2.6z"/><circle cx="7.6" cy="7.6" r="1.2"/>',
+  },
+  {
+    t: 'Réponse sous 48h',
+    sous: 'Un vrai délai de réponse, pas un formulaire sans retour.',
+    href: null,
+    svg: '<path d="M4 5h16v11H8l-4 3.5z"/>',
+  },
+  {
+    t: 'En ligne en 2 à 8 semaines',
+    sous: 'Selon la formule, le délai est annoncé dès le devis.',
+    href: null,
+    svg: '<rect x="3.2" y="5" width="17.6" height="15.5" rx="2"/><path d="M3.2 9.8h17.6M8 3v4M16 3v4"/>',
+  },
+];
+---
+
+<BaseLayout
+  title="Variantes de la réassurance, page de travail"
+  description="Page de travail interne, trois façons d'afficher les gages de réassurance."
+  noindex={true}
+>
+
+  <!-- ═══════════ EN-TÊTE ═══════════ -->
+  <section class="pt-20 pb-10 md:pt-24 px-6 md:px-10 lg:px-20">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Page de travail</p>
+      <h1 class="font-display font-light text-brun leading-[1.1] mb-4" style="font-size: clamp(1.8rem, 3vw, 2.6rem);">
+        Trois façons d'afficher les quatre gages.
+      </h1>
+      <p class="font-body text-base text-brun-mid">
+        Les mêmes quatre repères, retirés du hero, présentés de trois manières.
+        Chacune est montrée telle qu'elle apparaîtrait sur une page, sur fond de section réel.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ═══════════ VARIANTE A : LA BANDE FINE ═══════════
+       Une seule ligne, icône + libellé, filets verticaux entre les repères.
+       Aucun cadre, aucun fond : c'est la plus discrète, elle se glisse sous un
+       titre de section ou entre deux blocs sans peser. -->
+  <section class="py-12 px-6 md:px-10 lg:px-20 border-t-2 border-brun/20">
+    <div class="max-w-6xl mx-auto mb-10">
+      <h2 class="font-display font-light text-brun mb-2" style="font-size: 1.6rem;">
+        Variante A, la bande fine
+      </h2>
+      <p class="font-body text-sm text-brun-mid max-w-2xl">
+        Une ligne, des filets verticaux, aucun cadre. La plus légère : elle se
+        pose sous un titre ou entre deux sections sans les alourdir. Sur mobile,
+        elle se replie en deux lignes.
+      </p>
+    </div>
+
+    <!-- Rendu en contexte : posé sur un fond de section clair -->
+    <div class="ra-demo">
+      <ul class="ra font-body" role="list">
+        {GAGES.map((g) => (
+          <li>
+            <span class="ra-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={g.svg} /></span>
+            {g.href ? <a href={g.href} class="ra-preuve">{g.t}</a> : <span>{g.t}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ═══════════ VARIANTE B : LES COLONNES ═══════════
+       Quatre colonnes égales séparées par de fins filets verticaux, icône
+       au-dessus du libellé. Plus structuré et aéré que la bande, sans le poids
+       des cases. Sur mobile, 2 par 2. -->
+  <section class="py-12 px-6 md:px-10 lg:px-20 border-t-2 border-brun/20 section-ambient">
+    <div class="max-w-6xl mx-auto mb-10">
+      <h2 class="font-display font-light text-brun mb-2" style="font-size: 1.6rem;">
+        Variante B, les colonnes
+      </h2>
+      <p class="font-body text-sm text-brun-mid max-w-2xl">
+        Quatre colonnes séparées par un filet, l'icône au-dessus du libellé.
+        Aéré, structuré, sans fond ni bordure de carte. Deux par deux sur téléphone.
+      </p>
+    </div>
+
+    <div class="rb-demo">
+      <ul class="rb font-body" role="list">
+        {GAGES.map((g) => (
+          <li>
+            <span class="rb-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={g.svg} /></span>
+            {g.href ? <a href={g.href} class="rb-preuve">{g.t}</a> : <span>{g.t}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ═══════════ VARIANTE C : LA LISTE ÉDITORIALE ═══════════
+       Chaque gage sur sa ligne, icône dans un cercle à gauche, libellé en gras
+       et une courte précision à droite, filet entre chaque. Le format le plus
+       riche : il justifie chaque promesse. Bon pour une colonne dédiée sur
+       /services, à côté d'un autre bloc. -->
+  <section class="py-12 px-6 md:px-10 lg:px-20 border-t-2 border-brun/20">
+    <div class="max-w-6xl mx-auto mb-10">
+      <h2 class="font-display font-light text-brun mb-2" style="font-size: 1.6rem;">
+        Variante C, la liste éditoriale
+      </h2>
+      <p class="font-body text-sm text-brun-mid max-w-2xl">
+        Chaque gage sur sa ligne, avec une courte précision qui le justifie.
+        Le format le plus complet : il transforme quatre étiquettes en quatre
+        arguments. À poser dans une colonne ou une section dédiée.
+      </p>
+    </div>
+
+    <div class="rc-demo">
+      <ul class="rc font-body" role="list">
+        {GAGES.map((g) => (
+          <li>
+            <span class="rc-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={g.svg} /></span>
+            <div class="rc-corps">
+              {g.href ? <a href={g.href} class="rc-titre rc-preuve">{g.t}</a> : <p class="rc-titre">{g.t}</p>}
+              <p class="rc-sous">{g.sous}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+</BaseLayout>
+
+
+<style>
+  /* ══════════════════════════════════════════════════════
+     VARIANTE A, la bande fine
+  ══════════════════════════════════════════════════════ */
+  .ra-demo {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 26px 20px;
+  }
+  .ra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 14px 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .ra li {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 clamp(14px, 2.4vw, 30px);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-brun-mid);
+    line-height: 1.3;
+  }
+  /* Filet vertical entre les repères, jamais avant le premier. Il s'efface en
+     haut et en bas pour ne pas trancher. */
+  .ra li + li { border-left: 1px solid var(--color-cream-dark); }
+  .ra-i { display: inline-flex; color: var(--color-sauge-vif); flex: none; }
+  .ra-i svg { width: 18px; height: 18px; }
+  .ra-preuve {
+    color: var(--color-sauge-text);
+    text-decoration: underline;
+    text-decoration-color: rgba(46, 116, 82, 0.35);
+    text-underline-offset: 3px;
+  }
+  .ra-preuve:hover { text-decoration-color: var(--color-sauge-text); }
+  /* Sur téléphone, deux par ligne, le filet passe entre les colonnes. */
+  @media (max-width: 640px) {
+    .ra { gap: 16px 0; }
+    .ra li { width: 50%; justify-content: center; padding: 6px 8px; font-size: 0.8125rem; }
+    .ra li:nth-child(odd) { border-left: 0; }
+    .ra li:nth-child(n+3) { border-top: 1px solid var(--color-cream-dark); padding-top: 16px; }
+  }
+
+
+  /* ══════════════════════════════════════════════════════
+     VARIANTE B, les colonnes
+  ══════════════════════════════════════════════════════ */
+  .rb-demo { max-width: 64rem; margin: 0 auto; }
+  .rb {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .rb li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 8px clamp(12px, 2vw, 26px);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-brun-mid);
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+  .rb li + li { border-left: 1px solid var(--color-cream-dark); }
+  .rb-i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--color-sauge-pale);
+    color: var(--color-sauge-vif);
+    flex: none;
+  }
+  .rb-i svg { width: 21px; height: 21px; }
+  .rb-preuve {
+    color: var(--color-sauge-text);
+    text-decoration: underline;
+    text-decoration-color: rgba(46, 116, 82, 0.35);
+    text-underline-offset: 3px;
+  }
+  .rb-preuve:hover { text-decoration-color: var(--color-sauge-text); }
+  /* Deux par deux sur téléphone : le filet vertical ne vaut que pour la
+     colonne de droite, un filet horizontal sépare les deux rangées. */
+  @media (max-width: 720px) {
+    .rb { grid-template-columns: repeat(2, 1fr); gap: 0; }
+    .rb li { padding: 22px 14px; }
+    .rb li:nth-child(odd) { border-left: 0; }
+    .rb li:nth-child(n+3) { border-top: 1px solid var(--color-cream-dark); }
+  }
+
+
+  /* ══════════════════════════════════════════════════════
+     VARIANTE C, la liste éditoriale
+  ══════════════════════════════════════════════════════ */
+  .rc-demo { max-width: 40rem; margin: 0 auto; }
+  .rc { list-style: none; padding: 0; margin: 0; }
+  .rc li {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--color-cream-dark);
+  }
+  .rc li:first-child { padding-top: 0; }
+  .rc li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .rc-i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--color-sauge-pale);
+    color: var(--color-sauge-vif);
+    flex: none;
+    margin-top: 2px;
+  }
+  .rc-i svg { width: 22px; height: 22px; }
+  .rc-corps { min-width: 0; }
+  .rc-titre {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-brun);
+    line-height: 1.3;
+    margin: 0 0 4px;
+  }
+  .rc-preuve {
+    text-decoration: underline;
+    text-decoration-color: rgba(37, 92, 65, 0.3);
+    text-underline-offset: 3px;
+  }
+  .rc-preuve:hover { text-decoration-color: var(--color-brun); }
+  .rc-sous {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-brun-mid);
+    margin: 0;
+  }
+</style>
