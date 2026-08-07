@@ -41,6 +41,16 @@ egal('texte sans entité inchangé', decoderEntites('rien à décoder'), 'rien �
 verifier('mentions légales encodées reconnues',
   /mentions?[-_\s]{0,3}l[ée]gal/i.test(decoderEntites('<a href="/legal">Mentions l&eacute;gales</a>')));
 
+/* Le mot « légal » suffit, quel que soit le libellé choisi : accuser à tort un
+   site d'être hors la loi coûte bien plus cher que de rater une vraie absence. */
+const MOT_LEGAL = /(?:^|[/_\-\s])l[ée]gal(?:e|es|s|ement)?(?:$|[/_\-\s.?#])/i;
+for (const chemin of ['/mentions-legales', '/nos-garanties-tres-legales', '/legal', '/fr/legal/', '/infos_legales', '/legal-notice']) {
+  verifier(`chemin reconnu comme légal : ${chemin}`, MOT_LEGAL.test(chemin));
+}
+for (const chemin of ['/blog/illegal-downloads', '/paralegal', '/legalisation-de-signature']) {
+  verifier(`chemin non confondu : ${chemin}`, !MOT_LEGAL.test(chemin), 'reconnu à tort');
+}
+
 /* ══ Lecture d'attributs ═══════════════════════════════════
    lebonplant-rosieres.fr : description de 150 caractères, mesurée à 43 parce
    que la lecture s'arrêtait à l'apostrophe de « l'Ardèche ». */

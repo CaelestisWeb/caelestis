@@ -1000,15 +1000,22 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   /* Recherche menée sur le texte décodé et sur les adresses : « Mentions
      l&eacute;gales » et « /mentions_legales » doivent être reconnus au même
      titre que la forme la plus simple. */
+  /* Les deux erreurs possibles ne coûtent pas la même chose. Reprocher à tort
+     l'absence de mentions légales, c'est un constat critique et une accusation
+     fausse adressée à quelqu'un qui a fait le nécessaire. Ne pas repérer une
+     vraie absence, c'est un argument manqué. La reconnaissance est donc large,
+     et volontairement penchée du côté de la prudence : un lien ou un intitulé
+     qui porte le mot « légal » suffit. Michel et Augustin nomme les siennes
+     « Nos garanties très légales », et rien n'oblige personne au libellé
+     habituel. */
+  const MOT_LEGAL = /(?:^|[/_\-\s])l[ée]gal(?:e|es|s|ement)?(?:$|[/_\-\s.?#])/i;
   const aMentions =
-    /mentions?[-_\s]{0,3}l[ée]gal|informations?[-_\s]{0,3}l[ée]gal|mentions-?legales|impressum|notice[-_\s]l[ée]gale|legal[-_\s]?(?:notice|information|documents?|terms)/i.test(
+    /mentions?[-_\s]{0,3}l[ée]gal|informations?[-_\s]{0,3}l[ée]gal|impressum|notice[-_\s]l[ée]gale|legal[-_\s]?(?:notice|information|documents?|terms)/i.test(
       htmlLisible,
     ) ||
     /(?:^|\/\/)legal\.[a-z0-9-]+\./i.test(htmlLisible) ||
-    liens.some((l) =>
-      /(?:^|\/)(?:mentions?|legal|legals|legales|infos?-legales)(?:[-_]?(?:legales?|notice))?(?:\.\w+)?\/?$/i.test(
-        l.href.split(/[?#]/)[0],
-      ),
+    liens.some(
+      (l) => MOT_LEGAL.test(l.href.split(/[?#]/)[0]) || MOT_LEGAL.test(texteVisible(l.contenu)),
     );
   const aConfidentialite =
     /politique[-_\s]?de[-_\s]?confidentialit|confidentialit[ée]|privacy[-_\s]?policy|donn[ée]es[-_\s]personnelles|protection des donn[ée]es|\brgpd\b|\bgdpr\b/i.test(
