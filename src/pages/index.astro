@@ -591,12 +591,19 @@ const organizationSchema = {
       <!-- Chute de la section : la seule phrase qui manquait à la page, le manque.
            Elle remplace, le 04/08/2026, le triptyque de cartes « On vous trouve,
            on vous comprend, on vous contacte ». Ne pas y remettre de cartes.
-           La première ligne reconnaît le métier, la seconde ouvre le vide auquel
-           la section suivante répond mot pour mot (« Tout ce qui vous fait
-           choisir, un seul endroit le réunit »). -->
+           La première ligne reconnaît le savoir-faire vu en présentiel, la seconde
+           ouvre le manque (le restituer à l'écran) auquel la section suivante
+           répond (« Tout ce qui vous fait choisir, un seul endroit le réunit »).
+           La signature, plus petite et en corps de texte, scelle la chute en
+           engagement de marque : elle reprend le verbe « ressentir » de la ligne
+           du dessus pour lui répondre, plutôt que de repartir d'une formule à
+           part. -->
       <p class="chute-pourqui font-display" data-reveal data-delay="2">
-        Ce savoir-faire se voit quand on est devant vous.
-        <span>Le reste du temps, il se cherche sur un téléphone.</span>
+        Votre savoir-faire se reconnaît quand on vous voit à l'œuvre.
+        <span>Encore faut-il un écran qui le fasse ressentir avec la même justesse.</span>
+      </p>
+      <p class="chute-engagement font-body" data-reveal data-delay="2">
+        Le faire ressentir, voilà notre engagement.
       </p>
 
     </div>
@@ -1607,6 +1614,19 @@ const organizationSchema = {
   .chute-pourqui span {
     display: block;
     color: var(--color-sauge-text);
+  }
+  /* Signature d'engagement : une ligne plus petite et en corps de texte, posée
+     sous la chute. Volontairement plus discrète (olive #5C6259, pas un troisième
+     vert d'affilée après les deux temps de la chute) : elle scelle, elle ne
+     surenchérit pas. Le corps de texte tranche avec le display de la chute. */
+  .chute-engagement {
+    text-align: center;
+    max-width: 44ch;
+    margin: 14px auto 0;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--color-brun-mid);
   }
 
   /* ── Réassurance du hero ── */
