@@ -190,6 +190,7 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <meta name="twitter:title"       content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image"       content={ogImage} />
+    <meta name="twitter:image:alt"   content={title} />
 
     <!-- ── Satoshi auto-hébergée (aucune requête externe) ── -->
     <!-- Preload des 2 graisses critiques above-the-fold (titres 700 + corps 400) → LCP plus rapide -->
@@ -656,7 +657,7 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
       sentinelle = null;
 
       /* Sur une page dont le formulaire EST le contenu, la barre ferait doublon. */
-      const cheminsExclus = ['/contact', '/questionnaire-client', '/questionnaire-devis'];
+      const cheminsExclus = ['/contact', '/questionnaire-client'];
       if (cheminsExclus.includes(location.pathname.replace(/\/$/, ''))) {
         barre.dataset.etat = 'cache';
         return;
