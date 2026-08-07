@@ -11,11 +11,13 @@ import imgApres       from '../assets/images/comparateur/apres.jpg';
 import { realisations } from '../data/realisations';
 import { euros, formule, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../utils/tarifs';
 
-/* Ce que le site réunit. Réécrit le 02/08/2026 : le schéma montrait jusque-là
-   les six canaux concurrents du site (fiche Google, Instagram, carte de visite),
-   donc ses rivaux. Il montre désormais son contenu, ce qui en fait un moyeu et
-   non plus une destination. Décision de Célestin, « je veux tout ce qu'un site
-   rassemble ».
+/* Ce que le site réunit. Réécrit le 02/08/2026, affiné le 04/08/2026 avec
+   Célestin : le schéma montrait au départ les canaux concurrents du site (fiche
+   Google, Instagram, carte de visite), donc ses rivaux. Il montre son contenu,
+   ce qui en fait un moyeu et non une destination. La liste a ensuite été arrêtée
+   pastille par pastille : « Réalisations » a été retiré, jugé trop proche de
+   « Prestations » ; les huit entrées sont désormais de longueur voisine, pour
+   des pastilles de taille identique et sur une seule ligne.
 
    Deux repères par entrée : x et y placent la pastille en pourcentage du carré,
    sx et sy sont le même point dans le repère du SVG des traits (viewBox 400×400,
@@ -25,28 +27,27 @@ import { euros, formule, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_
    Huit positions régulières sur une ellipse, de 45 en 45 degrés à partir du
    haut, rayon 32 % en largeur et 40 % en hauteur. L'ellipse n'est pas un choix
    esthétique : à 320 px, une pastille posée à 40 % en largeur déborde du carré,
-   parce que les libellés sont ici des groupes de mots et non des noms de marque
-   comme « Instagram ». Les 32 % laissent la place au texte, les 40 % en hauteur
-   maintiennent l'écart avec le noyau, qui occupe 34 % du carré.
+   parce que les libellés sont des groupes de mots et non des noms de marque.
+   Les 32 % laissent la place au texte, les 40 % en hauteur maintiennent l'écart
+   avec le noyau, qui occupe 34 % du carré (28 % sous 420 px).
 
-   Deux familles. `signature: true` distingue ce que le site porte et que rien
-   d'autre ne porte à votre place : c'est ce que Célestin appelait « la force de
-   convaincre ». Elle n'est pas une pastille de plus, elle serait le résultat de
-   toutes les autres ; elle est nommée par ce qui la compose. Les deux occupent
-   le flanc gauche, groupées, et l'accent sauge suffit à les séparer du reste
-   sans légende.
+   `signature: true` porte l'accent vert : Identité visuelle et Singularité, ce
+   que vous seul portez, par opposition aux six pastilles factuelles. Elles
+   ouvrent le cercle en haut (12 h et 1 h 30), à la place la plus vue, et se
+   touchent, donc l'accent suffit à les lire comme un pôle sans aucune légende.
 
-   Le titre ne compte plus les pastilles (il annonçait « Six endroits ») : on
-   peut donc en ajouter une sans le réécrire. */
+   Ordre horaire depuis le haut : identité, puis l'offre (clientèle, prestations,
+   tarifs), puis la preuve et l'accès (avis, contact, adresse). Le titre ne
+   compte plus les pastilles, on peut en ajouter une sans le réécrire. */
 const REUNIT = [
-  { nom: 'Prestations',           x: 50,   y: 10,   sx: 200, sy: 40  },
-  { nom: 'Tarifs',                x: 72.6, y: 21.7, sx: 290, sy: 87  },
-  { nom: 'Réalisations',          x: 82,   y: 50,   sx: 328, sy: 200 },
-  { nom: 'Avis clients',          x: 72.6, y: 78.3, sx: 290, sy: 313 },
-  { nom: 'Formulaire',            x: 50,   y: 90,   sx: 200, sy: 360 },
-  { nom: 'Adresse et horaires',   x: 27.4, y: 78.3, sx: 110, sy: 313 },
-  { nom: 'Votre méthode',         x: 18,   y: 50,   sx: 72,  sy: 200, signature: true },
-  { nom: 'Votre identité visuelle',   x: 27.4, y: 21.7, sx: 110, sy: 87,  signature: true },
+  { nom: 'Identité visuelle',   x: 50,   y: 10,   sx: 200, sy: 40,  signature: true },
+  { nom: 'Singularité',         x: 72.6, y: 21.7, sx: 290, sy: 87,  signature: true },
+  { nom: 'Clientèle cible',     x: 82,   y: 50,   sx: 328, sy: 200 },
+  { nom: 'Prestations',         x: 72.6, y: 78.3, sx: 290, sy: 313 },
+  { nom: 'Tarifs',              x: 50,   y: 90,   sx: 200, sy: 360 },
+  { nom: 'Avis clients',        x: 27.4, y: 78.3, sx: 110, sy: 313 },
+  { nom: 'Contact',             x: 18,   y: 50,   sx: 72,  sy: 200 },
+  { nom: 'Adresse et horaires', x: 27.4, y: 21.7, sx: 110, sy: 87  },
 ];
 
 const localBusiness = {
@@ -678,9 +679,9 @@ const organizationSchema = {
       </div>
 
       <p class="sr-only">
-        Votre site réunit vos prestations, vos tarifs, vos réalisations, les avis
-        de vos clients, votre adresse et vos horaires, votre formulaire de
-        contact, votre façon de travailler et votre identité visuelle.
+        Votre site réunit votre identité visuelle, votre singularité, votre
+        clientèle cible, vos prestations, vos tarifs, les avis de vos clients,
+        votre point de contact, votre adresse et vos horaires.
       </p>
 
     </div>
@@ -1380,11 +1381,15 @@ const organizationSchema = {
 
   .conv-orbite { stroke: rgba(37, 92, 65, 0.10); stroke-width: 1; }
 
+  /* Noyau ramené de 34 à 30 % le 04/08/2026 : les pastilles étant désormais
+     toutes larges (taille unique), les deux latérales à 3 h et 9 h venaient
+     toucher le disque. À 30 %, elles gardent 6 px de jour. Ne pas le regrossir
+     sans réduire d'autant la largeur des pastilles. */
   .conv-noyau {
     position: absolute;
     left: 50%; top: 50%;
     transform: translate(-50%, -50%);
-    width: 34%;
+    width: 30%;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
     background: var(--color-ocre);
@@ -1399,20 +1404,24 @@ const organizationSchema = {
   .conv-noyau svg { width: 26px; height: 26px; }
   .conv-noyau span { font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.01em; }
 
-  /* `nowrap` a été retiré le 02/08/2026 avec les noms de canaux. « Instagram »
-     tenait sur une ligne, « Votre façon de travailler » non : à 320 px, la
-     pastille dépassait du carré par la gauche. Les libellés se répartissent
-     désormais sur deux lignes dans une largeur bornée, et le rayon de l'ellipse
-     a été resserré en largeur pour leur laisser la place. */
+  /* Pastilles de taille rigoureusement identique, texte centré, une seule ligne
+     (demande de Célestin, 04/08/2026). Largeur fixe et non max-content : c'est
+     la seule façon de garantir qu'elles soient toutes de la même taille quel que
+     soit le libellé. La largeur est calée sur le plus long, « Adresse et
+     horaires », et le corps du texte est réduit sous 420 px pour que tout tienne
+     sans déborder. `nowrap` impose cette discipline : un libellé plus large que
+     la pastille sortirait du cadre au lieu de passer à la ligne, donc toute
+     entrée ajoutée doit rester dans la largeur. Vérifié de 320 à 1280 px. */
   .conv-canal {
     position: absolute;
     transform: translate(-50%, -50%);
-    max-width: 8.75rem;
+    width: 9rem;
     text-align: center;
+    white-space: nowrap;
     background: var(--color-cream);
     border: 1px solid var(--color-cream-dark);
     border-radius: 999px;
-    padding: 0.4rem 0.85rem;
+    padding: 0.4rem 0.5rem;
     font-size: 0.75rem;
     line-height: 1.35;
     color: var(--color-brun-mid);
@@ -1434,10 +1443,17 @@ const organizationSchema = {
      donc resserrés ensemble : 100 + 90 + 100 = 290 px, il reste 16 px de marge
      de chaque côté. Ne pas relever l'un sans rabaisser l'autre. */
   @media (max-width: 420px) {
-    .conv-canal { font-size: 0.6875rem; padding: 0.32rem 0.6rem; max-width: 6.25rem; }
+    .conv-canal { font-size: 0.625rem; width: 7rem; padding: 0.3rem 0.4rem; }
     .conv-noyau { width: 28%; }
     .conv-noyau span { font-size: 0.6875rem; }
     .conv-noyau svg { width: 20px; height: 20px; }
+  }
+  /* Très petits écrans (≤ 360 px, iPhone SE et Fold replié). À 320 px, les
+     pastilles de 7 rem ne laissaient qu'un pixel de jour au bord et au noyau :
+     mesuré, sans débordement, mais trop juste. Pastilles resserrées, le plus
+     long libellé « Adresse et horaires » tient encore sur une ligne à ce corps. */
+  @media (max-width: 360px) {
+    .conv-canal { font-size: 0.5625rem; width: 6.5rem; padding: 0.28rem 0.35rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     .conv-trait { animation: none; }
