@@ -13,6 +13,7 @@ import {
   analyserSite,
   attribut,
   constatsDuSite,
+  cspFaible,
   decoderEntites,
   normaliserUrl,
   parcourirPages,
@@ -129,12 +130,39 @@ egal('mot sans point refusé', normaliserUrl('localhost'), null);
 egal('protocole exotique refusé', normaliserUrl('ftp://exemple.fr'), null);
 egal('saisie vide refusée', normaliserUrl('   '), null);
 
+/* ══ Qualité de la CSP ═════════════════════════════════════
+   'unsafe-inline' n'est un défaut que sans empreinte : une CSP qui liste des
+   hashes (comme celle du site) neutralise 'unsafe-inline', et la signaler serait
+   un faux positif. Or accuser à tort coûte plus cher que rater une absence. */
+verifier('CSP absente : aucun défaut', !cspFaible(''));
+verifier('CSP stricte : aucun défaut', !cspFaible("default-src 'self'; script-src 'self'"));
+verifier("'unsafe-inline' seul : signalé", cspFaible("script-src 'self' 'unsafe-inline'"));
+verifier("'unsafe-inline' + hash : non signalé (le navigateur l'ignore)",
+  !cspFaible("script-src 'self' 'unsafe-inline' 'sha256-AbC123='"));
+verifier("'unsafe-inline' + nonce : non signalé",
+  !cspFaible("script-src 'self' 'nonce-r4nd0m' 'unsafe-inline'"));
+verifier("'unsafe-eval' : signalé même avec un hash",
+  cspFaible("script-src 'self' 'sha256-AbC123=' 'unsafe-eval'"));
+verifier('repli sur default-src quand script-src absent',
+  cspFaible("default-src 'self' 'unsafe-inline'"));
+verifier("script-src strict l'emporte sur un default-src permissif",
+  !cspFaible("default-src 'self' 'unsafe-inline'; script-src 'self'"));
+verifier('style-src permissif seul : aucun défaut (on ne juge que les scripts)',
+  !cspFaible("script-src 'self' 'sha256-AbC123='; style-src 'self' 'unsafe-inline'"));
+verifier('CSP en majuscules reconnue', cspFaible("SCRIPT-SRC 'SELF' 'UNSAFE-INLINE'"));
+
 /* ══ Sites témoins ═════════════════════════════════════════ */
 if (process.argv.includes('--reseau')) {
   const attendu: [string, (a: any) => void][] = [
     ['www.feedesongles.fr', (a) => {
-      verifier('site de référence toujours sans constat', a.constats.length === 0,
-        a.constats.map((c: any) => c.fait).join(' | '));
+      /* Site de référence : note parfaite, aucun constat qui pénalise. Les
+         relevés « reglage » (0 point) sont tolérés : ce site partage encore la
+         CSP à 'unsafe-inline' que caelestis.fr a durcie le 07/08, d'où un relevé
+         de qualité de CSP attendu jusqu'à ce que le durcissement lui soit porté. */
+      const penalisants = a.constats.filter((c: any) => c.gravite !== 'reglage');
+      verifier('site de référence : note parfaite et aucun constat pénalisant',
+        a.note === 100 && penalisants.length === 0,
+        `note ${a.note} | ${penalisants.map((c: any) => c.fait).join(' | ')}`);
     }],
     ['www.hostelquartierlibre.fr', (a) => {
       verifier('page de plus de deux mégaoctets : mentions légales reconnues',

@@ -798,6 +798,26 @@ export function robotsBloqueTout(contenu: string): boolean {
   });
 }
 
+/**
+ * Vrai si une CSP laisse s'exécuter des scripts inline arbitraires, donc si sa
+ * protection principale est neutralisée.
+ *
+ * `'unsafe-inline'` n'est un défaut que **sans** hash ni nonce : dès qu'une
+ * empreinte figure dans la directive, le navigateur ignore `'unsafe-inline'`,
+ * et le signaler malgré tout accuserait à tort une politique bien réglée (la
+ * nôtre, par exemple). `'unsafe-eval'` reste un défaut dans tous les cas. On
+ * lit `script-src`, ou `default-src` à défaut. Chaîne vide (CSP absente) : pas
+ * de défaut, l'absence est déjà relevée ailleurs.
+ */
+export function cspFaible(csp: string): boolean {
+  const c = csp.toLowerCase();
+  if (!c) return false;
+  const directive = (nom: string) => c.match(new RegExp(`(?:^|;)\\s*${nom}\\s([^;]*)`))?.[1] ?? null;
+  const scriptSrc = directive('script-src') ?? directive('default-src') ?? '';
+  const avecEmpreinte = /'(?:sha(?:256|384|512)-|nonce-)/.test(scriptSrc);
+  return (/'unsafe-inline'/.test(scriptSrc) && !avecEmpreinte) || /'unsafe-eval'/.test(scriptSrc);
+}
+
 /* ══════════════════════════════════════════════════════════
    AUDIT
 ══════════════════════════════════════════════════════════ */
@@ -1607,8 +1627,8 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   }
 
   /* Les en-têtes n'ont pas pu être lus : rien ne peut en être conclu.
-     Ces trois points sont relevés sans pénalité : ils manquent à la très
-     grande majorité des sites, y compris bien construits, et les facturer
+     Ces points sont relevés sans pénalité : ils manquent à la très grande
+     majorité des sites, y compris bien construits, et les facturer
      reviendrait à noter tout le monde pareil. */
   if (entetes) {
     verifier('securite', 'reglage', !enTete('strict-transport-security'),
@@ -1623,6 +1643,23 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     verifier('securite', 'reglage', !enTete('content-security-policy'),
       "La page ne limite pas les contenus extérieurs qu'elle a le droit de charger.",
       "Si un script étranger parvient à s'insérer dans une page, rien ne l'empêche de s'exécuter.");
+
+    verifier('securite', 'reglage', !enTete('x-content-type-options').includes('nosniff'),
+      "Le serveur laisse le navigateur deviner le type des fichiers qu'il envoie.",
+      "Un fichier déposé par un visiteur, une image ou un document, peut alors être interprété comme du code et s'exécuter.");
+
+    verifier('securite', 'reglage', !enTete('referrer-policy'),
+      "Le site ne limite pas l'adresse de provenance transmise en quittant une page.",
+      "En cliquant vers un autre site, l'adresse complète de votre page, parfois privée, lui est communiquée.");
+
+    verifier('securite', 'reglage', !enTete('permissions-policy'),
+      "Le site ne restreint pas l'accès des scripts aux capteurs de l'appareil.",
+      "Rien ne borne quels scripts peuvent réclamer la caméra, le micro ou la position si l'un d'eux venait à être compromis.");
+
+    /* Qualité de la CSP, quand elle existe : voir cspFaible. */
+    verifier('securite', 'reglage', cspFaible(enTete('content-security-policy')),
+      "La politique de sécurité autorise l'exécution de scripts écrits dans la page elle-même.",
+      "Avec 'unsafe-inline' sans empreinte, ou 'unsafe-eval', un script étranger inséré dans la page s'exécute malgré la politique : sa protection principale ne joue plus.");
   }
 
   /* Un numéro de version, et non un simple chiffre : « Apache » ne dit rien,
