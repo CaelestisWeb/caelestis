@@ -45,13 +45,31 @@ const breadcrumbApropos = {
 };
 
 
-/* Les quatre engagements, repris mot pour mot des titres de la liste. Source
-   unique : si l un change, le feuillet suit. */
+/* Les quatre engagements. Chacun est rattaché au moment du projet où il joue :
+   c'est ce qui donne un ordre à la liste, et la seule chose que le module
+   ajoute au texte. Écrits à la première personne, en phrases courtes, sans un
+   mot qui ne se dirait pas au téléphone. */
 const ENGAGEMENTS = [
-  "Un prix ferme avant le travail",
-  "Des délais annoncés au cadrage",
-  "Le site vous appartient",
-  "Un seul interlocuteur",
+  {
+    moment: 'Avant de commencer',
+    titre: 'Un prix fixé à l\'avance',
+    texte: "Vous connaissez le montant avant que je commence, et il ne bouge plus. Si vous voulez ajouter quelque chose en cours de route, je vous le chiffre à part et vous décidez. Vous ne découvrirez jamais un supplément sur la facture.",
+  },
+  {
+    moment: 'Au premier rendez-vous',
+    titre: 'Une date de livraison annoncée',
+    texte: "Entre deux et huit semaines selon votre projet. On fixe le calendrier dès le premier échange, et je vous dis à quels moments j'aurai besoin de vos retours pour tenir la date.",
+  },
+  {
+    moment: 'Pendant tout le projet',
+    titre: 'Toujours la même personne',
+    texte: "C'est moi qui conçois votre site, et c'est moi qui vous réponds. Du premier appel jusqu'après la mise en ligne, vous n'aurez jamais à réexpliquer votre projet à quelqu'un d'autre.",
+  },
+  {
+    moment: 'Une fois le site payé',
+    titre: 'Le site est à vous',
+    texte: "Le site, vos textes, vos photos et votre nom de domaine vous appartiennent. Si un jour vous préférez travailler avec quelqu'un d'autre, vous partez avec tout, sans avoir à me demander quoi que ce soit.",
+  },
 ];
 
 ---
@@ -152,81 +170,52 @@ const ENGAGEMENTS = [
     </div>
   </section>
 
-  <!-- ─── COMMENT JE TRAVAILLE : les engagements que le client peut vérifier ───
-       C'est la page que les moteurs, classiques ou IA, lisent pour juger la
-       légitimité de l'entreprise. Le récit ne suffit pas : il faut des
-       engagements factuels, chacun contrôlable dans le devis ou les CGV. -->
+  <!-- ─── COMMENT JE TRAVAILLE ───
+       Refaite le 07/08/2026 après retour de Célestin, sur deux points.
+
+       Le visuel d'abord : un feuillet de devis avait été posé à gauche des
+       quatre engagements, et il en recopiait les quatre titres mot pour mot.
+       Le lecteur avait donc les mêmes phrases écrites deux fois côte à côte,
+       exactement le défaut que le reste du site vient de corriger. Retiré.
+       Ce qui le remplace n'ajoute pas un dessin de plus : ce sont les
+       engagements eux-mêmes qui deviennent le module, posés en quatre bandes
+       larges, chacune avec le moment du projet où elle joue. Le moment est la
+       seule information ajoutée, et elle ne se lit nulle part ailleurs.
+
+       Le texte ensuite : il était sec et administratif. « Fait l'objet d'un
+       avenant », « le calendrier est posé », « votre validation est attendue »,
+       « au paiement complet ». Des tournures passives et du vocabulaire de
+       contrat, sur une page qui doit rassurer un artisan. Tout est réécrit à la
+       première personne, avec des phrases courtes et des mots de tous les
+       jours. Aucun engagement n'a changé de contenu, seulement de formulation.
+       Ne pas y réintroduire de jargon : si un mot ne se dit pas au téléphone,
+       il n'a rien à faire ici. -->
   <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 bg-brun section-dark-depth" aria-labelledby="engagements-title">
-    <div class="max-w-5xl mx-auto">
-      <h2 id="engagements-title" class="font-display text-3xl md:text-4xl font-light text-cream leading-[1.1] text-center mb-4" data-reveal>
-        Comment je travaille.
-      </h2>
-      <p class="font-body text-base text-center mb-14 max-w-[52ch] mx-auto" style="color: rgba(252, 251, 248, 0.72)" data-reveal data-delay="1">
-        Quatre engagements, écrits noir sur blanc dans chaque devis. Pas des intentions : des conditions.
-      </p>
+    <div class="max-w-4xl mx-auto">
 
-      <div class="eng-duo">
-      <!-- Le feuillet de devis. Posé le 07/08/2026 après relevé : la page
-           entière ne portait qu'une seule image, le portrait, et cette section
-           affirmait « écrits noir sur blanc dans chaque devis » sans jamais
-           montrer à quoi ressemblent ces lignes. Le feuillet dessiné fait de la
-           déclaration une preuve : voilà la page que le client reçoit.
-           Aucun montant, aucune date, aucun numéro : ce n'est pas un devis
-           fac-similé, seulement le rappel des quatre conditions. Un faux devis
-           chiffré serait un document fabriqué, ce que le site s'interdit.
-           Décoratif : les quatre engagements sont développés dans la liste. -->
-      <div class="feuillet" aria-hidden="true" data-reveal>
-        <div class="feuillet-tete">
-          <span class="feuillet-marque font-display">Caelestis</span>
-          <span class="feuillet-type font-body">Devis, conditions</span>
-        </div>
-        <ul class="feuillet-lignes">
-          {ENGAGEMENTS.map((e) => (
-            <li class="font-body">
-              <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M3 8.4l3.2 3.2L13 4.8" />
-              </svg>
-              {e}
-            </li>
-          ))}
-        </ul>
-        <div class="feuillet-pied">
-          <span class="feuillet-trait"></span>
-          <span class="feuillet-mention font-body">Bon pour accord</span>
-        </div>
+      <div class="text-center mb-14" data-reveal>
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Mes engagements</p>
+        <h2 id="engagements-title" class="font-display text-3xl md:text-4xl font-light text-cream leading-[1.1] mb-5">
+          Comment je travaille.
+        </h2>
+        <p class="font-body text-base max-w-[46ch] mx-auto leading-relaxed" style="color: rgba(252, 251, 248, 0.78)">
+          Quatre choses que je m'engage à tenir. Elles sont écrites dans votre devis,
+          vous pouvez me les rappeler à tout moment.
+        </p>
       </div>
 
-      <ul class="eng-liste grid gap-x-12 gap-y-10" role="list">
-        <li class="border-t border-cream/20 pt-6" data-reveal>
-          <h3 class="font-display text-xl text-cream mb-2">Un prix ferme avant le travail</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(252, 251, 248, 0.72)">
-            Le devis annonce le montant et ce qu'il couvre. Ce qui n'était pas prévu
-            fait l'objet d'un avenant que vous validez, jamais d'une surprise en fin de projet.
-          </p>
-        </li>
-        <li class="border-t border-cream/20 pt-6" data-reveal data-delay="1">
-          <h3 class="font-display text-xl text-cream mb-2">Des délais annoncés au cadrage</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(252, 251, 248, 0.72)">
-            Deux à huit semaines selon la formule et vos contenus. Le calendrier est posé
-            au premier échange, avec les dates où votre validation est attendue.
-          </p>
-        </li>
-        <li class="border-t border-cream/20 pt-6" data-reveal>
-          <h3 class="font-display text-xl text-cream mb-2">Le site vous appartient</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(252, 251, 248, 0.72)">
-            Code, contenus, nom de domaine et accès : tout est à vous au paiement complet.
-            Vous pouvez confier le site à quelqu'un d'autre sans rien nous demander.
-          </p>
-        </li>
-        <li class="border-t border-cream/20 pt-6" data-reveal data-delay="1">
-          <h3 class="font-display text-xl text-cream mb-2">Un seul interlocuteur</h3>
-          <p class="font-body text-sm leading-relaxed" style="color: rgba(252, 251, 248, 0.72)">
-            La personne qui vous répond est celle qui conçoit votre site. Du premier appel
-            à la mise en ligne, vous parlez à quelqu'un qui connaît votre dossier par cœur.
-          </p>
-        </li>
+      <ul class="engs" role="list">
+        {ENGAGEMENTS.map((e) => (
+          <li class="eng" data-reveal>
+            <span class="eng-moment font-body">{e.moment}</span>
+            <div class="eng-corps">
+              <h3 class="eng-titre font-display">{e.titre}</h3>
+              <p class="eng-texte font-body">{e.texte}</p>
+            </div>
+          </li>
+        ))}
       </ul>
-      </div>
+
     </div>
   </section>
 
@@ -267,68 +256,44 @@ const ENGAGEMENTS = [
 </BaseLayout>
 
 <style>
-  /* ═══ Le feuillet de devis ═══
-     Une page dessinée, posée à gauche des quatre engagements développés. Elle
-     ne porte ni montant ni date : ce n est pas un devis fac-similé mais le
-     rappel des conditions, ce qui évite de fabriquer un document qui n existe
-     pas. Sur mobile, le feuillet passe au-dessus de la liste. */
-  .eng-duo { display: grid; gap: 34px; align-items: start; }
-  @media (min-width: 900px) {
-    .eng-duo { grid-template-columns: 274px 1fr; gap: 48px; }
-  }
-  .eng-liste { grid-template-columns: 1fr; }
-  @media (min-width: 620px) { .eng-liste { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 900px) { .eng-liste { grid-template-columns: 1fr; } }
-  @media (min-width: 1120px) { .eng-liste { grid-template-columns: 1fr 1fr; } }
 
-  .feuillet {
-    background: #FCFBF8;
-    border-radius: 4px;
-    padding: 18px 18px 16px;
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+  /* ═══ Les quatre engagements ═══
+     Quatre bandes larges séparées par un filet, le moment du projet à gauche
+     et l engagement à droite. Pas de carte, pas d encadré : sur un fond vert
+     plein, les filets suffisent à séparer et laissent respirer. La colonne des
+     moments passe au-dessus du titre en mobile, où deux colonnes écraseraient
+     le texte. */
+  .engs { list-style: none; margin: 0; padding: 0; }
+  .eng {
+    display: grid;
+    gap: 6px 34px;
+    padding: 26px 0;
+    border-top: 1px solid rgba(252, 251, 248, 0.16);
   }
-  .feuillet-tete {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 10px;
-    padding-bottom: 11px;
-    border-bottom: 1px solid var(--color-cream-dark);
+  .eng:last-child { border-bottom: 1px solid rgba(252, 251, 248, 0.16); }
+  @media (min-width: 760px) {
+    .eng { grid-template-columns: 12.5rem 1fr; padding: 30px 0; }
   }
-  .feuillet-marque { font-size: 0.95rem; font-weight: 500; color: var(--color-brun); }
-  .feuillet-type {
-    font-size: 0.6rem;
+
+  .eng-moment {
+    font-size: 0.7rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-brun-mid);
+    color: #B8C4BB;
+    padding-top: 0.35rem;
   }
-
-  .feuillet-lignes { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
-  .feuillet-lignes li {
-    display: grid;
-    grid-template-columns: 14px 1fr;
-    gap: 9px;
-    align-items: start;
-    font-size: 0.78rem;
-    line-height: 1.45;
-    color: var(--color-brun);
+  .eng-titre {
+    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+    font-weight: 300;
+    line-height: 1.25;
+    color: #FCFBF8;
+    margin-bottom: 9px;
   }
-  .feuillet-lignes svg { color: #2E7452; margin-top: 2px; }
-
-  .feuillet-pied { margin-top: 20px; padding-top: 13px; border-top: 1px solid var(--color-cream-dark); }
-  .feuillet-trait {
-    display: block;
-    height: 1px;
-    width: 62%;
-    background: var(--color-cream-dark);
-    margin-bottom: 6px;
-  }
-  .feuillet-mention {
-    font-size: 0.6rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--color-brun-mid);
-    opacity: 0.75;
+  .eng-texte {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(252, 251, 248, 0.8);
+    max-width: 54ch;
   }
 </style>
 
