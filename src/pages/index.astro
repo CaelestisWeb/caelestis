@@ -491,8 +491,18 @@ const organizationSchema = {
 
 
   <!-- ─── POUR QUI ─── -->
-  <section class="bg-sauge-pale pt-14 pb-6 md:py-14 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient overflow-hidden">
+  <!-- Le padding bas est repassé à 56 px le 04/08/2026 : les 24 px précédents
+       suffisaient sous des cartes blanches, qui portaient leur propre marge
+       intérieure. La chute qui les remplace est du texte nu, elle a besoin de
+       la même respiration que le haut de section. Blanc inter-sections obtenu :
+       120 px en mobile, dans la plage 88 à 160 px du barème du 03/08. -->
+  <section class="bg-sauge-pale py-14 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient overflow-hidden" aria-labelledby="pourqui-title">
     <div class="max-w-6xl mx-auto">
+
+      <!-- Titre réservé aux lecteurs d'écran : la section n'en porte pas de
+           visible, et sans lui elle n'est annoncée ni comme région ni dans le
+           sommaire des titres. -->
+      <h2 id="pourqui-title" class="sr-only">Pour qui nous créons des sites</h2>
 
       <!-- Accroche de ciblage : les gestes avant les métiers, pour n'exclure personne -->
       <p class="font-body text-center text-sm tracking-[0.2em] uppercase text-sauge mb-4" data-reveal>
@@ -577,29 +587,16 @@ const organizationSchema = {
 
       </div>
 
-      <!-- Le bénéfice, au premier scroll : ce que le site produit concrètement.
-           En trois repères visuels plutôt qu'en paragraphe.
-           Titre réservé aux lecteurs d'écran : la section n'a pas de titre visible,
-           et sans lui on passerait du h1 du hero aux h3 des cartes, ce qui casse
-           la hiérarchie annoncée aux technologies d'assistance. -->
-      <h2 class="sr-only">Ce que votre site vous apporte</h2>
-      <ul role="list" class="benefices" data-reveal data-delay="2">
-        <li>
-          <span class="b-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.35-4.35"/></svg></span>
-          <h3>On vous trouve</h3>
-          <p>Votre métier et votre ville, sur Google, avec des pages construites pour y remonter.</p>
-        </li>
-        <li>
-          <span class="b-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
-          <h3>On vous comprend</h3>
-          <p>Ce que vous faites et pour qui, saisi en quelques secondes, sur téléphone comme sur ordinateur.</p>
-        </li>
-        <li>
-          <span class="b-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H7l-3 3z"/></svg></span>
-          <h3>On vous contacte</h3>
-          <p>Un chemin évident vers votre formulaire, votre téléphone et votre adresse.</p>
-        </li>
-      </ul>
+      <!-- Chute de la section : la seule phrase qui manquait à la page, le manque.
+           Elle remplace, le 04/08/2026, le triptyque de cartes « On vous trouve,
+           on vous comprend, on vous contacte ». Ne pas y remettre de cartes.
+           La première ligne reconnaît le métier, la seconde ouvre le vide auquel
+           la section suivante répond mot pour mot (« Tout ce qui vous fait
+           choisir, un seul endroit le réunit »). -->
+      <p class="chute-pourqui font-display" data-reveal data-delay="2">
+        Ce savoir-faire se voit quand on est devant vous.
+        <span>Le reste du temps, il se cherche sur un téléphone.</span>
+      </p>
 
     </div>
   </section>
@@ -1571,38 +1568,29 @@ const organizationSchema = {
     .only-mob { display: inline; }
   }
 
-  /* ── Bénéfice au premier scroll : 3 repères, pas un paragraphe ── */
-  .benefices {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(16px, 2vw, 26px);
-    list-style: none;
-    padding: 0;
-    margin: clamp(38px, 5vh, 58px) auto 0;
-    max-width: 980px;
+  /* ── Chute de la section « Pour qui » ──
+     Le triptyque de cartes blanches qui occupait cette place a été retiré le
+     04/08/2026 : il n'avait aucun titre visible, il parlait du résultat dans
+     une section qui parle de la cible, et ses trois idées sont démontrées plus
+     bas, mieux et avec des preuves (comparateur avant / après, point de
+     rencontre, pont diagnostic). Il annonçait ce que la page prouve ensuite.
+     Une phrase le remplace, sans cadre ni carte : le texte nu est la rupture,
+     puisque tout le reste de la section est en pastilles et en images. */
+  .chute-pourqui {
+    max-width: 44ch;
+    margin: clamp(44px, 6vw, 68px) auto 0;
     text-align: center;
+    font-weight: 300;
+    font-size: clamp(1.1875rem, 2.1vw, 1.625rem);
+    line-height: 1.4;
+    color: var(--color-brun);
+    text-wrap: balance;
   }
-  .benefices li {
-    background: #fff;
-    border: 1px solid var(--color-cream-dark);
-    border-radius: 18px;
-    padding: clamp(24px, 2.6vw, 32px) clamp(18px, 2vw, 26px);
-    transition: transform 0.4s cubic-bezier(.16,1,.3,1), box-shadow 0.4s;
-  }
-  .benefices li:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(18,22,15,.05), 0 20px 46px rgba(18,22,15,.09);
-  }
-  .b-i {
-    width: 44px; height: 44px; margin: 0 auto 16px;
-    border-radius: 14px; background: #E3EFE8; color: var(--color-brun);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .b-i svg { width: 20px; height: 20px; }
-  .benefices h3 { font-size: 1.0625rem; margin-bottom: 8px; }
-  .benefices p { font-size: 0.9375rem; color: var(--color-brun-mid); line-height: 1.6; }
-  @media (max-width: 860px) {
-    .benefices { grid-template-columns: 1fr; max-width: 460px; }
+  /* Deux temps, deux couleurs : le constat en vert forêt, le manque en mousse
+     foncée (#2E7452, la seule nuance de mousse lisible sur fond clair). */
+  .chute-pourqui span {
+    display: block;
+    color: var(--color-sauge-text);
   }
 
   /* ── Réassurance du hero ── */
