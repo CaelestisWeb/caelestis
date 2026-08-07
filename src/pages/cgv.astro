@@ -49,7 +49,7 @@ import { MAINTENANCE, MAINTENANCE_MOIS_OFFERTS_LETTRES, MAINTENANCE_PREMIERE_ECH
         <h2>3. Formation du contrat</h2>
         <p>Toute prestation fait l'objet d'un <strong>devis détaillé</strong>, d'une proposition commerciale ou d'un échange écrit précisant la nature, le périmètre et le prix des services. Le contrat est formé dès lors que :</p>
         <ul>
-          <li>Le client a retourné le devis signé (manuscritement ou par voie électronique) avec la mention « Bon pour accord », ou</li>
+          <li>Le client a retourné le devis signé (à la main ou par voie électronique) avec la mention « Bon pour accord », ou</li>
           <li>Le client a versé un acompte conformément aux conditions de paiement, ou</li>
           <li>Le client a confirmé sa commande par écrit (email, message)</li>
         </ul>
@@ -72,7 +72,11 @@ import { MAINTENANCE, MAINTENANCE_MOIS_OFFERTS_LETTRES, MAINTENANCE_PREMIERE_ECH
         <h2>6. Retard de paiement</h2>
         <p>Conformément aux articles L.441-10 et suivants du Code de commerce, tout retard de paiement entraîne de plein droit :</p>
         <ul>
-          <li>Des <strong>pénalités de retard</strong> au taux légal en vigueur (taux BCE + 10 points), calculées sur le montant TTC impayé, dès le lendemain de la date d'échéance</li>
+          <!-- « montant TTC impayé » corrigé le 07/08/2026 : CaelestisWeb relève
+               de la franchise en base de TVA (article 4), il n'existe donc aucun
+               montant TTC distinct du montant facturé. Reste d'un modèle de CGV
+               écrit pour une entreprise assujettie. -->
+          <li>Des <strong>pénalités de retard</strong> au taux légal en vigueur (taux BCE + 10 points), calculées sur le montant impayé, dès le lendemain de la date d'échéance</li>
           <li>Une <strong>indemnité forfaitaire</strong> de 40 € pour frais de recouvrement</li>
         </ul>
         <p>CaelestisWeb se réserve le droit de suspendre toute prestation en cours jusqu'au règlement complet des sommes dues, sans que cela ne constitue une faute de sa part.</p>
