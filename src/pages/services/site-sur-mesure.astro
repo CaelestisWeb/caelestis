@@ -182,6 +182,42 @@ const inclus = [
         Quelques exemples parmi les plus demandés. Le vôtre n'y figure probablement pas : c'est le principe.
       </p>
 
+      <!-- Le socle et les greffes. Posé le 07/08/2026 après relevé : c'était la
+           seule des quatre pages de formule sans le moindre dessin, alors que
+           c'est la plus chère et celle qui doit le plus convaincre. Les trois
+           autres ont reçu leur schéma le même jour, l'élévation pour la page
+           unique, le plan pour la vitrine, le tunnel pour la boutique.
+           Le dessin dit l'argument que le texte peine à porter : un site sur
+           mesure n'est pas un autre site, c'est le même socle plus ce que votre
+           métier réclame. Les blocs pleins sont communs à toutes les formules,
+           les blocs en pointillé se décident avec vous. Décoratif : les cinq
+           possibilités sont détaillées dans la liste juste dessous. -->
+      <div class="socle" aria-hidden="true" data-reveal>
+
+        <div class="socle-part">
+          <p class="socle-titre font-body">Le socle, commun à toutes les formules</p>
+          <div class="socle-blocs">
+            <span class="socle-bloc"></span>
+            <span class="socle-bloc socle-bloc-large"></span>
+            <span class="socle-bloc"></span>
+            <span class="socle-bloc socle-bloc-large"></span>
+            <span class="socle-bloc"></span>
+          </div>
+        </div>
+
+        <span class="socle-plus font-display" aria-hidden="true">+</span>
+
+        <div class="socle-part">
+          <p class="socle-titre font-body">Ce que votre métier réclame</p>
+          <div class="socle-greffes">
+            {possibles.map((p) => (
+              <span class="socle-greffe font-body">{p.t}</span>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
       <ol class="space-y-0" role="list">
         {possibles.map((p, i) => (
           <li class="grid grid-cols-[auto_1fr] gap-6 py-6 border-b border-cream/15" data-reveal data-delay={String(i % 3)}>
@@ -265,3 +301,62 @@ const inclus = [
   />
 
 </BaseLayout>
+
+<style>
+  /* ═══ Le socle et les greffes ═══
+     Deux masses séparées par un plus : à gauche les blocs pleins, communs à
+     toutes les formules ; à droite les blocs en pointillé, décidés au cadrage.
+     Le pointillé est le même signe que sur la planche des formules de
+     l accueil, où les zones ouvertes du sur-mesure sont déjà tracées ainsi :
+     un visiteur qui vient de l accueil retrouve le vocabulaire. */
+  .socle {
+    display: grid;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 46px;
+  }
+  @media (min-width: 760px) {
+    .socle { grid-template-columns: 1fr auto 1.15fr; gap: 26px; }
+  }
+
+  .socle-titre {
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(252, 251, 248, 0.6);
+    margin-bottom: 12px;
+  }
+
+  .socle-blocs {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+    border: 1px solid rgba(252, 251, 248, 0.2);
+    border-radius: 5px;
+  }
+  .socle-bloc {
+    display: block;
+    height: 13px;
+    border-radius: 2px;
+    background: rgba(252, 251, 248, 0.16);
+  }
+  .socle-bloc-large { height: 30px; }
+
+  .socle-plus {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: rgba(252, 251, 248, 0.45);
+    text-align: center;
+  }
+
+  .socle-greffes { display: flex; flex-wrap: wrap; gap: 7px; }
+  .socle-greffe {
+    font-size: 0.76rem;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px dashed rgba(184, 196, 187, 0.65);
+    color: rgba(252, 251, 248, 0.85);
+  }
+</style>
+
