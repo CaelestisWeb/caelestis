@@ -169,66 +169,47 @@ function buildAdminEmail(
   const rl = (cat: string, k: string, otherK = '') => radioLabel(cat, str(d[k]), str(d[otherK]));
   const al = (k: string, cat: string, otherK = '') => arrLabel(toArr(d[k]), cat, str(d[otherK]));
 
-  const nominant    = str(d['nom_dirigeant']) || str(d['nom_entreprise']) || 'Client';
+  const nominant    = str(d['nom_entreprise']) || 'Client';
   const emailClient = str(d['email_contact']);
-
-  const boutiqueActif = str(d['boutique_actif']);
-  const boutiqueRows  = boutiqueActif === 'oui'
-    ? eRow('Nb de produits', g('boutique_nb_produits'))
-      + eRow('Livraison',     g('boutique_livraison'))
-      + eRow('Modes de paiement', al('boutique_paiement', 'boutique_paiement', 'boutique_paiement_autre'))
-    : '';
-
-  const statutVal   = str(d['statut_juridique']);
-  const statutLabel = statutVal === 'autre'
-    ? `Autre : ${esc(str(d['statut_autre']))}`
-    : radioLabel('statut_juridique', statutVal);
 
   const filesHtml = attachedFilenames.length > 0
     ? attachedFilenames.map(n => `📄 ${esc(n)}`).join('<br>')
     : '<span style="color:#ccc;">Aucun fichier joint</span>';
 
+  /* Cinq blocs, comme les cinq blocs du questionnaire. Alignés sur la refonte
+     du 07/08/2026 : les champs « éléments fournis », « réseaux à intégrer »,
+     « boutique », « statut juridique », « numéro de TVA » et « valeurs » ont
+     disparu du formulaire, ils ne sont donc plus rendus ici. Les afficher
+     produisait six lignes « non précisé » dans chaque e-mail reçu. */
   const sections = [
     eBlock(1, 'Identification', [
-      eRow('Entreprise',  g('nom_entreprise')),
-      eRow('Nom',         g('nom_dirigeant')),
+      eRow('Entreprise', g('nom_entreprise')),
       eRow('Email', `<a href="mailto:${esc(emailClient)}" style="color:#255C41;">${esc(emailClient)}</a>`),
-      eRow('Téléphone',   g('telephone')),
+      eRow('Téléphone', g('telephone')),
+      eRow('SIRET', g('siret')),
     ].join('')),
 
-    eBlock(2, 'Contenu disponible', [
-      eRow('Éléments fournis',  al('contenu_dispo', 'contenu_dispo', 'contenu_dispo_autre')),
-      eRow('Rédaction textes',  rl('textes', 'textes')),
+    eBlock(2, 'Les textes', [
+      eRow('Qui les écrit', rl('textes', 'textes')),
     ].join('')),
 
-    eBlock(3, 'Présence en ligne', [
-      eRow('Réseaux sociaux',   al('reseaux', 'reseaux', 'reseaux_autre')),
-      eRow('Comptes / pseudos', g('comptes_reseaux', 2000)),
+    eBlock(3, 'Ce qui le distingue', [
+      eRow('Sa réponse', g('ce_qui_vous_differencie', 3000)),
     ].join('')),
 
-    eBlock(4, 'Boutique en ligne', [
-      eRow('Boutique', rl('boutique_actif', 'boutique_actif')),
-      boutiqueRows,
-    ].join('')),
-
-    eBlock(5, 'Informations légales', [
-      eRow('Statut juridique', statutLabel),
-      eRow('SIRET',            g('siret')),
-      eRow('N° TVA',           g('numero_tva')),
-    ].join('')),
-
-    eBlock(6, 'Valeurs et message', [
-      eRow('Valeurs',           al('valeurs', 'valeurs', 'valeurs_autre')),
-      eRow('Message important', g('message_important', 3000)),
-    ].join('')),
-
-    eBlock('📎', 'Pièces jointes', [
+    eBlock(4, 'Pièces jointes', [
       eRow(`Fichiers (${attachedFilenames.length})`, filesHtml),
       str(d['wetransfer_link'])
-        ? eRow('WeTransfer', `<a href="${esc(str(d['wetransfer_link']))}" style="color:#255C41;">${esc(str(d['wetransfer_link']))}</a>`)
+        ? eRow('Lien de téléchargement', `<a href="${esc(str(d['wetransfer_link']))}" style="color:#255C41;">${esc(str(d['wetransfer_link']))}</a>`)
         : '',
+      eRow('Réseaux sociaux', g('comptes_reseaux', 2000)),
+    ].join('')),
+
+    eBlock(5, 'À savoir', [
+      eRow('Message', g('message_important', 3000)),
     ].join('')),
   ].join('');
+
 
   return `<!DOCTYPE html>
 <html lang="fr">
@@ -272,62 +253,42 @@ function buildAdminEmail(
    BUILD EMAIL CLIENT (confirmation + récapitulatif)
 ══════════════════════════════════════════════════════════ */
 function buildClientEmail(d: Record<string, unknown>, dateStr: string, filenames: string[]): string {
-  const prenom    = str(d['nom_dirigeant']) || str(d['nom_entreprise']) || 'Bonjour';
+  const prenom    = str(d['nom_entreprise']) || 'Bonjour';
   const prenomEsc = esc(prenom);
 
   const g  = (k: string, mx = 2000) => multiline(str(d[k], mx)) || '<span style="color:#bbb;">non précisé</span>';
   const rl = (cat: string, k: string, otherK = '') => radioLabel(cat, str(d[k]), str(d[otherK]));
   const al = (k: string, cat: string, otherK = '') => arrLabel(toArr(d[k]), cat, str(d[otherK]));
 
-  const boutique     = str(d['boutique_actif']);
-  const boutiqueRows = boutique === 'oui'
-    ? eRow('Nb de produits', g('boutique_nb_produits'))
-      + eRow('Livraison',    g('boutique_livraison'))
-      + eRow('Paiement',     al('boutique_paiement', 'boutique_paiement', 'boutique_paiement_autre'))
-    : '';
-  const statutVal   = str(d['statut_juridique']);
-  const statutLabel = statutVal === 'autre'
-    ? `Autre : ${esc(str(d['statut_autre']))}`
-    : radioLabel('statut_juridique', statutVal);
   const filesHtml = filenames.length > 0
     ? filenames.map(n => `📄 ${esc(n)}`).join('<br>')
     : '<span style="color:#bbb;">Aucun fichier joint</span>';
 
   const recap = [
-    eBlock('01', 'Vos coordonnées', [
+    eBlock('01', 'Vous joindre', [
       eRow('Entreprise', g('nom_entreprise')),
-      eRow('Nom',        g('nom_dirigeant')),
       eRow('Email',      g('email_contact')),
       eRow('Téléphone',  g('telephone')),
+      eRow('SIRET',      g('siret')),
     ].join('')),
-    eBlock('02', 'Contenu disponible', [
-      eRow('Éléments fournis',  al('contenu_dispo', 'contenu_dispo', 'contenu_dispo_autre')),
-      eRow('Rédaction textes',  rl('textes', 'textes')),
+    eBlock('02', 'Les textes de votre site', [
+      eRow('Qui les écrit', rl('textes', 'textes')),
     ].join('')),
-    eBlock('03', 'Présence en ligne', [
-      eRow('Réseaux sociaux',   al('reseaux', 'reseaux', 'reseaux_autre')),
-      eRow('Comptes / pseudos', g('comptes_reseaux', 2000)),
+    eBlock('03', 'Ce qui vous distingue', [
+      eRow('Votre réponse', g('ce_qui_vous_differencie', 3000)),
     ].join('')),
-    eBlock('04', 'Boutique en ligne', [
-      eRow('Boutique', rl('boutique_actif', 'boutique_actif')),
-      boutiqueRows,
-    ].join('')),
-    eBlock('05', 'Informations légales', [
-      eRow('Statut juridique', statutLabel),
-      eRow('SIRET',            g('siret')),
-      eRow('N° TVA',           g('numero_tva')),
-    ].join('')),
-    eBlock('06', 'Valeurs et message', [
-      eRow('Valeurs',           al('valeurs', 'valeurs', 'valeurs_autre')),
-      eRow('Message important', g('message_important', 3000)),
-    ].join('')),
-    eBlock('📎', 'Pièces jointes', [
+    eBlock('04', 'Vos fichiers', [
       eRow(`Fichiers (${filenames.length})`, filesHtml),
       str(d['wetransfer_link'])
-        ? eRow('WeTransfer', `<a href="${esc(str(d['wetransfer_link']))}" style="color:#255C41;">${esc(str(d['wetransfer_link']))}</a>`)
+        ? eRow('Lien de téléchargement', `<a href="${esc(str(d['wetransfer_link']))}" style="color:#255C41;">${esc(str(d['wetransfer_link']))}</a>`)
         : '',
+      eRow('Réseaux sociaux', g('comptes_reseaux', 2000)),
+    ].join('')),
+    eBlock('05', 'À savoir', [
+      eRow('Votre message', g('message_important', 3000)),
     ].join('')),
   ].join('');
+
 
   return `<!DOCTYPE html>
 <html lang="fr">
@@ -418,7 +379,7 @@ function generateQuestionnairePDF(
     doc.fillColor('#FFFFFF')
        .fontSize(9).font('Helvetica')
        .text('CAELESTIS, QUESTIONNAIRE CLIENT', 50, 22, { characterSpacing: 1.5 });
-    const nom = str(d['nom_dirigeant']) || str(d['nom_entreprise']) || 'Client';
+    const nom = str(d['nom_entreprise']) || 'Client';
     doc.fontSize(20).font('Helvetica-Bold')
        .text(nom, 50, 36);
     doc.fontSize(8).font('Helvetica')
@@ -459,59 +420,36 @@ function generateQuestionnairePDF(
     /* ── 01. Identification ── */
     section('01', 'Identification', [
       ['Entreprise',  clean('nom_entreprise')],
-      ['Nom',         clean('nom_dirigeant')],
       ['Email',       clean('email_contact')],
       ['Téléphone',   clean('telephone')],
+      ['SIRET',       clean('siret')],
     ]);
 
-    /* ── 02. Contenu disponible ── */
-    section('02', 'Contenu disponible', [
-      ['Éléments fournis',  chips('contenu_dispo', 'contenu_dispo', 'contenu_dispo_autre')],
-      ['Rédaction textes',  radio('textes', 'textes')],
+    /* ── 02. Les textes ── */
+    section('02', 'Les textes du site', [
+      ['Qui les écrit', radio('textes', 'textes')],
     ]);
 
-    /* ── 03. Présence en ligne ── */
-    section('03', 'Présence en ligne', [
-      ['Réseaux sociaux',  chips('reseaux', 'reseaux', 'reseaux_autre')],
-      ['Comptes / liens',  clean('comptes_reseaux', 300)],
+    /* ── 03. Ce qui le distingue ──
+       La réponse la plus longue du questionnaire, et la plus utile : 900 signes
+       au lieu des 500 des autres champs libres, pour ne pas la tronquer. */
+    section('03', 'Ce qui le distingue', [
+      ['Sa réponse', clean('ce_qui_vous_differencie', 900)],
     ]);
 
-    /* ── 04. Boutique en ligne ── */
-    const boutique = str(d['boutique_actif']);
-    const boutiqueRows: [string, string][] = boutique === 'oui' ? [
-      ['Nb produits', clean('boutique_nb_produits')],
-      ['Livraison',   clean('boutique_livraison')],
-      ['Paiement',    chips('boutique_paiement', 'boutique_paiement', 'boutique_paiement_autre')],
-    ] : [];
-    section('04', 'Boutique en ligne', [
-      ['Boutique', radio('boutique_actif', 'boutique_actif')],
-      ...boutiqueRows,
-    ]);
-
-    /* ── 05. Informations légales ── */
-    const statutVal   = str(d['statut_juridique']);
-    const statutLabel = statutVal === 'autre'
-      ? `Autre : ${clean('statut_autre')}`
-      : (RADIO_LABELS['statut_juridique']?.[statutVal] ?? (statutVal || 'non précisé'));
-    section('05', 'Informations légales', [
-      ['Statut', statutLabel],
-      ['SIRET',  clean('siret')],
-      ['N° TVA', clean('numero_tva')],
-    ]);
-
-    /* ── 06. Valeurs et message ── */
-    section('06', 'Valeurs et message', [
-      ['Valeurs',           chips('valeurs', 'valeurs', 'valeurs_autre')],
-      ['Message important', clean('message_important', 500)],
-    ]);
-
-    /* ── Pièces jointes ── */
+    /* ── 04. Fichiers et réseaux ── */
     const wtLink = str(d['wetransfer_link']);
-    const pjRows: [string, string][] = [
+    section('04', 'Fichiers et réseaux', [
       [`Fichiers (${filenames.length})`, filenames.length ? filenames.join(', ') : 'Aucun'],
-      ...(wtLink ? [['WeTransfer', wtLink] as [string, string]] : []),
-    ];
-    section('PJ', 'Pièces jointes', pjRows);
+      ...(wtLink ? [['Lien de téléchargement', wtLink] as [string, string]] : []),
+      ['Réseaux sociaux', clean('comptes_reseaux', 300)],
+    ]);
+
+    /* ── 05. À savoir ── */
+    section('05', 'À savoir', [
+      ['Message', clean('message_important', 500)],
+    ]);
+
 
     /* ── Pied de page sur toutes les pages ── */
     const totalPages = (doc.bufferedPageRange().count);
@@ -590,7 +528,7 @@ function generateQuestionnaireDocx(
   const spacer = () => new Paragraph({ text: '', spacing: { before: 60, after: 60 } });
 
   /* ── Sections ── */
-  const nom = str(d['nom_dirigeant']) || str(d['nom_entreprise']) || 'Client';
+  const nom = str(d['nom_entreprise']) || 'Client';
 
   const children = [
     /* Titre principal */
@@ -611,53 +549,31 @@ function generateQuestionnaireDocx(
     /* 01. Identification */
     heading('Identification', '01'),
     dataRow('Entreprise', clean('nom_entreprise')),
-    dataRow('Nom',        clean('nom_dirigeant')),
     dataRow('Email',      clean('email_contact')),
     dataRow('Téléphone',  clean('telephone')),
+    dataRow('SIRET',      clean('siret')),
     spacer(),
 
-    /* 02. Contenu disponible */
-    heading('Contenu disponible', '02'),
-    dataRow('Éléments fournis',  chips('contenu_dispo', 'contenu_dispo', 'contenu_dispo_autre')),
-    dataRow('Rédaction textes',  radio('textes', 'textes')),
+    /* 02. Les textes */
+    heading('Les textes du site', '02'),
+    dataRow('Qui les écrit', radio('textes', 'textes')),
     spacer(),
 
-    /* 03. Présence en ligne */
-    heading('Présence en ligne', '03'),
-    dataRow('Réseaux sociaux',  chips('reseaux', 'reseaux', 'reseaux_autre')),
-    dataRow('Comptes / liens',  clean('comptes_reseaux', 300)),
+    /* 03. Ce qui le distingue */
+    heading('Ce qui le distingue', '03'),
+    dataRow('Sa réponse', clean('ce_qui_vous_differencie', 900)),
     spacer(),
 
-    /* 04. Boutique en ligne */
-    heading('Boutique en ligne', '04'),
-    dataRow('Boutique', radio('boutique_actif', 'boutique_actif')),
-    ...(str(d['boutique_actif']) === 'oui' ? [
-      dataRow('Nb produits', clean('boutique_nb_produits')),
-      dataRow('Livraison',   clean('boutique_livraison')),
-      dataRow('Paiement',    chips('boutique_paiement', 'boutique_paiement', 'boutique_paiement_autre')),
-    ] : []),
-    spacer(),
-
-    /* 05. Informations légales */
-    heading('Informations légales', '05'),
-    dataRow('Statut', (() => {
-      const v = str(d['statut_juridique']);
-      return v === 'autre' ? `Autre : ${clean('statut_autre')}` : (RADIO_LABELS['statut_juridique']?.[v] ?? (v || 'non précisé'));
-    })()),
-    dataRow('SIRET',  clean('siret')),
-    dataRow('N° TVA', clean('numero_tva')),
-    spacer(),
-
-    /* 06. Valeurs et message */
-    heading('Valeurs et message', '06'),
-    dataRow('Valeurs',           chips('valeurs', 'valeurs', 'valeurs_autre')),
-    dataRow('Message important', clean('message_important', 600)),
-    spacer(),
-
-    /* Pièces jointes */
-    heading('Pièces jointes', 'PJ'),
+    /* 04. Fichiers et réseaux */
+    heading('Fichiers et réseaux', '04'),
     dataRow(`Fichiers (${filenames.length})`, filenames.length ? filenames.join(', ') : 'Aucun'),
-    ...(str(d['wetransfer_link']) ? [dataRow('WeTransfer', str(d['wetransfer_link']))] : []),
+    ...(str(d['wetransfer_link']) ? [dataRow('Lien de téléchargement', str(d['wetransfer_link']))] : []),
+    dataRow('Réseaux sociaux', clean('comptes_reseaux', 300)),
+    spacer(),
+
+    /* 05. À savoir */
+    heading('À savoir', '05'),
+    dataRow('Message', clean('message_important', 600)),
     spacer(),
 
     /* Pied de page */
@@ -776,7 +692,7 @@ export const POST: APIRoute = async ({ request }) => {
       auth: { user: 'contact@caelestis.fr', pass: smtpPassword },
     });
 
-    const nominant = str(body['nom_dirigeant']) || str(body['nom_entreprise']) || 'Client';
+    const nominant = str(body['nom_entreprise']) || 'Client';
 
     /* Génération du PDF et du DOCX récapitulatifs */
     const slug = nominant.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
@@ -819,7 +735,7 @@ export const POST: APIRoute = async ({ request }) => {
       const motif = erreurSmtp instanceof Error ? erreurSmtp.message : String(erreurSmtp);
       console.error('[brief API] envoi SMTP impossible :', motif);
 
-      const IGNORES = new Set(['website', 'ts', 'email_contact', 'nom_entreprise', 'nom_dirigeant']);
+      const IGNORES = new Set(['website', 'ts', 'email_contact', 'nom_entreprise']);
       const sauvee = await enregistrerDemandeDeSecours(
         {
           email:  emailContact,
@@ -827,7 +743,6 @@ export const POST: APIRoute = async ({ request }) => {
           source: 'questionnaire-creation',
           details: [
             ['Entreprise', str(body['nom_entreprise'])],
-            ['Dirigeant', str(body['nom_dirigeant'])],
             filenames.length
               ? ['Fichiers envoyés par le client', `${filenames.join(', ')} (non transmis, à redemander)`]
               : ['Fichiers envoyés par le client', 'Aucun'],

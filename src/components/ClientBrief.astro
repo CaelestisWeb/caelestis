@@ -1,459 +1,559 @@
 ---
+/**
+ * ClientBrief.astro : le questionnaire envoyé au client qui vient de signer.
+ *
+ * Refait entièrement le 07/08/2026. La version précédente comptait 57 champs,
+ * dont 54 cases à cocher, répartis en sept sections. Cinq blocs ont été retirés
+ * après relevé, pour des raisons tenues :
+ *
+ *   — Les neuf « valeurs » à cocher (Proximité, Qualité, Confiance, Innovation,
+ *     Transparence, Engagement, Passion, Expertise). Tout le monde coche tout,
+ *     et rien de ce qui en ressort n'oriente une décision de conception. Une
+ *     question ouverte les remplace : ce qui vous distingue de vos concurrents.
+ *   — Les six statuts juridiques, le numéro de TVA. Le SIRET seul suffit :
+ *     l'API publique recherche-entreprises rend la raison sociale, le statut et
+ *     l'adresse à partir du seul numéro, et Caelestis l'utilise déjà.
+ *   — Les sept cases « contenu que vous pouvez fournir ». Elles doublonnaient la
+ *     zone d'envoi de fichiers du même formulaire.
+ *   — Les sept cases de réseaux sociaux. La zone de texte en dessous demandait
+ *     déjà les liens des comptes, soit la même information en plus précis.
+ *   — Le bloc boutique (nombre de produits, livraison, cinq modes de paiement).
+ *     Cela se décide au cadrage, pas dans un formulaire.
+ *
+ * Il reste dix champs, dont quatre facultatifs, et cinq minutes de saisie.
+ *
+ * La page n'est liée depuis aucun endroit du site et porte `noindex` : elle
+ * s'envoie à la main, au client, une fois le devis signé. Ne pas y ajouter de
+ * lien depuis une page publique.
+ */
 ---
 
-<div class="brief-root">
+<div class="qc">
 
-  <div id="restore-banner" class="restore-banner hidden" role="alert">
-    <div class="restore-inner">
-      <span class="restore-dot" aria-hidden="true"></span>
-      <p class="restore-msg">Réponses sauvegardées. Souhaitez-vous reprendre là où vous en étiez&nbsp;?</p>
-      <div class="restore-actions">
-        <button id="restore-btn" class="restore-yes">Reprendre</button>
-        <button id="discard-btn" class="restore-no" aria-label="Ignorer">✕</button>
+  <!-- Progression : un filet qui se remplit à mesure que les champs se
+       remplissent. Sobre, il tient lieu d'encouragement sans compter les
+       étapes, puisqu'il n'y en a pas. -->
+  <div class="qc-jauge" aria-hidden="true"><span id="qc-progres"></span></div>
+
+  <div id="restore-banner" class="qc-reprise hidden" role="alert">
+    <div class="qc-reprise-in">
+      <p>Vos réponses ont été gardées. Reprendre là où vous en étiez&nbsp;?</p>
+      <div class="qc-reprise-btns">
+        <button id="restore-btn" type="button" class="qc-reprise-oui">Reprendre</button>
+        <button id="discard-btn" type="button" class="qc-reprise-non" aria-label="Repartir de zéro">Repartir de zéro</button>
       </div>
     </div>
   </div>
 
-  <div id="form-container" class="brief-container">
+  <div id="form-container">
 
-    <header class="brief-header">
-      <p class="brief-overline">Caelestis, questionnaire de création</p>
-      <h1 class="brief-title">Donnons vie<br>à votre site.</h1>
-      <p class="brief-subtitle">Vous avez validé votre devis, bravo ! Ce questionnaire me donne toutes les informations nécessaires pour démarrer la création de votre site. Prenez votre temps, il se sauvegarde automatiquement.</p>
-      <div class="brief-divider" aria-hidden="true"></div>
+    <header class="qc-tete">
+      <div class="qc-tete-in">
+        <p class="qc-marque">Caelestis</p>
+        <h1 class="qc-titre">Donnons vie<br>à votre site.</h1>
+        <p class="qc-chapo">
+          Votre devis est signé, on peut commencer. Ces quelques questions me
+          donnent de quoi démarrer sans vous relancer dix fois. Comptez cinq
+          minutes, et vos réponses se gardent toutes seules si vous fermez la page.
+        </p>
+      </div>
     </header>
 
-    <div aria-live="polite" style="display:none;">
-      <span id="save-indicator" aria-label="Formulaire sauvegardé"><span id="save-time"></span></span>
-    </div>
-
-    <form id="brief-form" novalidate>
+    <form id="brief-form" class="qc-form" novalidate>
 
       <div style="position:absolute;left:-9999px;opacity:0;pointer-events:none;height:0;" aria-hidden="true">
         <input type="text" name="website" tabindex="-1" autocomplete="off">
       </div>
 
-      <!-- Identification légère -->
-      <section class="b-card">
-        <div class="b-card-head">
-          <span class="b-num" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 12c0-2.21 2.239-4 5-4s5 1.79 5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-          </span>
+      <!-- 01 ─────────────────────────────────────────────── -->
+      <section class="qc-bloc">
+        <div class="qc-bloc-tete">
+          <span class="qc-n" aria-hidden="true">01</span>
           <div>
-            <p class="b-overline">Pour commencer</p>
-            <h2 class="b-title">Vos coordonnées</h2>
+            <h2 class="qc-h2">Vous joindre</h2>
+            <p class="qc-sous">Pour vous écrire pendant le projet, et pour les mentions légales de votre site.</p>
           </div>
         </div>
-        <div class="b-body">
-          <div class="b-row-2">
-            <div class="b-field">
-              <label class="b-label" for="nom_entreprise">Nom de l'entreprise</label>
-              <input id="nom_entreprise" type="text" name="nom_entreprise" placeholder="Ex : Jardins Dupont" class="b-input">
-            </div>
-            <div class="b-field">
-              <label class="b-label" for="nom_dirigeant">Votre prénom et nom</label>
-              <input id="nom_dirigeant" type="text" name="nom_dirigeant" placeholder="Ex : Jean Dupont" class="b-input">
-            </div>
+
+        <div class="qc-champs">
+          <div class="qc-duo">
+            <p class="qc-champ">
+              <label class="qc-lab" for="email_contact">Votre email <span class="qc-req" aria-label="obligatoire">obligatoire</span></label>
+              <input id="email_contact" type="email" name="email_contact" class="qc-in" placeholder="vous@exemple.fr" required autocomplete="email">
+            </p>
+            <p class="qc-champ">
+              <label class="qc-lab" for="telephone">Votre téléphone</label>
+              <input id="telephone" type="tel" name="telephone" class="qc-in" placeholder="06 12 34 56 78" autocomplete="tel">
+            </p>
           </div>
-          <div class="b-row-2">
-            <div class="b-field">
-              <label class="b-label" for="email_contact">
-                Email <span class="b-required" aria-label="champ obligatoire">*</span>
-              </label>
-              <input id="email_contact" type="email" name="email_contact" placeholder="votre@email.fr" class="b-input" required>
-            </div>
-            <div class="b-field">
-              <label class="b-label" for="telephone">Téléphone</label>
-              <input id="telephone" type="tel" name="telephone" placeholder="07 xx xx xx xx" class="b-input">
-            </div>
+          <div class="qc-duo">
+            <p class="qc-champ">
+              <label class="qc-lab" for="nom_entreprise">Nom de votre entreprise</label>
+              <input id="nom_entreprise" type="text" name="nom_entreprise" class="qc-in" placeholder="Jardins Dupont">
+            </p>
+            <p class="qc-champ">
+              <label class="qc-lab" for="siret">Votre numéro SIRET</label>
+              <input id="siret" type="text" name="siret" class="qc-in" placeholder="123 456 789 00010" inputmode="numeric" maxlength="20">
+              <span class="qc-aide">Il me donne votre raison sociale et votre adresse, je n'ai rien d'autre à vous demander pour les mentions légales.</span>
+            </p>
           </div>
         </div>
       </section>
 
-      <!-- 01. Votre contenu -->
-      <section class="b-card">
-        <div class="b-card-head">
-          <span class="b-num" aria-hidden="true">01</span>
+      <!-- 02 ─────────────────────────────────────────────── -->
+      <section class="qc-bloc">
+        <div class="qc-bloc-tete">
+          <span class="qc-n" aria-hidden="true">02</span>
           <div>
-            <p class="b-overline">Ce que vous avez</p>
-            <h2 class="b-title">Votre contenu</h2>
+            <h2 class="qc-h2">Les textes de votre site</h2>
+            <p class="qc-sous">C'est le point qui retarde le plus les projets. Autant le régler tout de suite.</p>
           </div>
         </div>
-        <div class="b-body">
-          <div class="b-field">
-            <span class="b-label" id="contenu-legend">Éléments que vous pouvez fournir</span>
-            <div class="b-check-grid" role="group" aria-labelledby="contenu-legend">
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="logo" class="b-check-input"><span>Logo et charte graphique</span></label>
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="photos" class="b-check-input"><span>Photos professionnelles</span></label>
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="textes_rediges" class="b-check-input"><span>Textes rédigés</span></label>
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="videos" class="b-check-input"><span>Vidéos</span></label>
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="temoignages" class="b-check-input"><span>Témoignages clients</span></label>
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="rien" class="b-check-input"><span>Rien pour l'instant</span></label>
-              <label class="b-check"><input type="checkbox" name="contenu_dispo" value="autre" class="b-check-input"><span>Autre</span></label>
-            </div>
-            <div id="contenu_dispo-autre" class="b-reveal hidden">
-              <input type="text" name="contenu_dispo_autre" aria-label="Précisez ce que vous pouvez apporter" placeholder="Précisez ce que vous pouvez apporter…" class="b-input">
-            </div>
-          </div>
-          <div class="b-field">
-            <span class="b-label" id="textes-legend">Les textes du site</span>
-            <div class="b-chips b-chips-col" role="radiogroup" aria-labelledby="textes-legend">
-              <label class="b-chip b-chip-block"><input type="radio" name="textes" value="je_fournis" class="b-chip-input"><span>Je fournis les textes moi-même</span></label>
-              <label class="b-chip b-chip-block"><input type="radio" name="textes" value="aide" class="b-chip-input"><span>Vous m'aidez à les améliorer</span></label>
-              <label class="b-chip b-chip-block"><input type="radio" name="textes" value="vous_redigez" class="b-chip-input"><span>Vous rédigez entièrement pour moi</span></label>
-            </div>
-          </div>
+
+        <div class="qc-champs">
+          <fieldset class="qc-choix">
+            <legend class="qc-lab">Qui les écrit&nbsp;?</legend>
+            <label class="qc-opt">
+              <input type="radio" name="textes" value="je_fournis">
+              <span class="qc-opt-in">
+                <span class="qc-opt-t">Je vous les fournis</span>
+                <span class="qc-opt-d">Vous avez déjà vos textes, ou vous comptez les écrire.</span>
+              </span>
+            </label>
+            <label class="qc-opt">
+              <input type="radio" name="textes" value="aide">
+              <span class="qc-opt-in">
+                <span class="qc-opt-t">Je les écris, vous les reprenez</span>
+                <span class="qc-opt-d">Vous jetez vos idées, je m'occupe de la forme et de l'orthographe.</span>
+              </span>
+            </label>
+            <label class="qc-opt">
+              <input type="radio" name="textes" value="vous_redigez">
+              <span class="qc-opt-in">
+                <span class="qc-opt-t">Vous écrivez tout</span>
+                <span class="qc-opt-d">On en parle au téléphone, je rédige à partir de vos réponses.</span>
+              </span>
+            </label>
+          </fieldset>
         </div>
       </section>
 
-      <!-- 02. Vos réseaux sociaux -->
-      <section class="b-card">
-        <div class="b-card-head">
-          <span class="b-num" aria-hidden="true">02</span>
+      <!-- 03 ─────────────────────────────────────────────── -->
+      <section class="qc-bloc">
+        <div class="qc-bloc-tete">
+          <span class="qc-n" aria-hidden="true">03</span>
           <div>
-            <p class="b-overline">Votre présence en ligne</p>
-            <h2 class="b-title">Vos réseaux sociaux</h2>
+            <h2 class="qc-h2">Ce qui vous distingue</h2>
+            <p class="qc-sous">La question la plus utile de ce formulaire. Prenez-y trois minutes plutôt qu'une.</p>
           </div>
         </div>
-        <div class="b-body">
-          <div class="b-field">
-            <span class="b-label" id="reseaux-legend">Réseaux à intégrer sur le site <span class="b-hint">(optionnel)</span></span>
-            <div class="b-check-grid" role="group" aria-labelledby="reseaux-legend">
-              <label class="b-check"><input type="checkbox" name="reseaux" value="facebook" class="b-check-input"><span>Facebook</span></label>
-              <label class="b-check"><input type="checkbox" name="reseaux" value="instagram" class="b-check-input"><span>Instagram</span></label>
-              <label class="b-check"><input type="checkbox" name="reseaux" value="linkedin" class="b-check-input"><span>LinkedIn</span></label>
-              <label class="b-check"><input type="checkbox" name="reseaux" value="youtube" class="b-check-input"><span>YouTube</span></label>
-              <label class="b-check"><input type="checkbox" name="reseaux" value="tiktok" class="b-check-input"><span>TikTok</span></label>
-              <label class="b-check"><input type="checkbox" name="reseaux" value="pinterest" class="b-check-input"><span>Pinterest</span></label>
-              <label class="b-check"><input type="checkbox" name="reseaux" value="autre" class="b-check-input"><span>Autre</span></label>
-            </div>
-            <div id="reseaux-autre" class="b-reveal hidden">
-              <input type="text" name="reseaux_autre" aria-label="Précisez le réseau social" placeholder="Précisez le réseau…" class="b-input">
-            </div>
-          </div>
-          <div class="b-field">
-            <label class="b-label" for="comptes_reseaux">URLs ou noms de vos comptes</label>
-            <textarea id="comptes_reseaux" name="comptes_reseaux" rows="3" placeholder="Ex : instagram.com/jardins.dupont, facebook.com/jardinsdupont…" class="b-textarea"></textarea>
-          </div>
+
+        <div class="qc-champs">
+          <p class="qc-champ">
+            <label class="qc-lab" for="ce_qui_vous_differencie">
+              Pourquoi vos clients viennent chez vous plutôt que chez le concurrent d'à côté&nbsp;?
+            </label>
+            <textarea id="ce_qui_vous_differencie" name="ce_qui_vous_differencie" rows="5" class="qc-in qc-aire"
+              placeholder="Ce que vous faites que personne ne fait pareil, ce qu'on vous dit souvent, ce dont vous êtes fier. Écrivez comme vous le diriez de vive voix, je me charge de la mise en forme."></textarea>
+          </p>
         </div>
       </section>
 
-      <!-- 03. Votre boutique en ligne -->
-      <section class="b-card">
-        <div class="b-card-head">
-          <span class="b-num" aria-hidden="true">03</span>
+      <!-- 04 ─────────────────────────────────────────────── -->
+      <section class="qc-bloc">
+        <div class="qc-bloc-tete">
+          <span class="qc-n" aria-hidden="true">04</span>
           <div>
-            <p class="b-overline">Vente en ligne</p>
-            <h2 class="b-title">Votre boutique</h2>
+            <h2 class="qc-h2">Vos fichiers</h2>
+            <p class="qc-sous">Logo, photos, plaquette, textes déjà rédigés. Tout ce que vous avez sous la main.</p>
           </div>
         </div>
-        <div class="b-body">
-          <div class="b-field">
-            <span class="b-label" id="boutique-legend">Votre site inclut-il une boutique en ligne ?</span>
-            <div class="b-chips" role="radiogroup" aria-labelledby="boutique-legend">
-              <label class="b-chip"><input type="radio" name="boutique_actif" value="oui" class="b-chip-input"><span>Oui</span></label>
-              <label class="b-chip"><input type="radio" name="boutique_actif" value="non" class="b-chip-input"><span>Non</span></label>
+
+        <div class="qc-champs">
+          <div class="qc-depot" id="upload-zone">
+            <input type="file" id="attachments" name="attachments" multiple
+              accept="image/jpeg,image/png,image/webp,image/gif,application/pdf,.doc,.docx"
+              class="qc-depot-in" aria-label="Joindre des fichiers">
+            <div class="qc-depot-ui">
+              <svg width="26" height="26" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                <path d="M14 18V7m0 0L9 12m5-5l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 20v1.5A2.5 2.5 0 006.5 24h15a2.5 2.5 0 002.5-2.5V20" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+              <span class="qc-depot-t">Glissez vos fichiers ici</span>
+              <span class="qc-depot-s">ou cliquez pour les choisir. Images, PDF ou Word, 5 Mo par fichier.</span>
             </div>
+            <ul id="file-list" class="qc-fichiers" aria-label="Fichiers joints"></ul>
+            <p id="upload-error" class="qc-err-champ hidden"></p>
           </div>
-          <div id="boutique-extra" class="b-nested hidden">
-            <p class="b-nested-label">Détails de votre boutique</p>
-            <div class="b-field">
-              <label class="b-label" for="boutique_nb_produits">Nombre de produits approximatif</label>
-              <input id="boutique_nb_produits" type="text" name="boutique_nb_produits" placeholder="Ex : 30 produits, 5 catégories" class="b-input">
-            </div>
-            <div class="b-field">
-              <label class="b-label" for="boutique_livraison">Modalités de livraison</label>
-              <textarea id="boutique_livraison" name="boutique_livraison" rows="2" placeholder="Ex : Livraison Colissimo, click and collect, livraison offerte dès 50 €…" class="b-textarea"></textarea>
-            </div>
-            <div class="b-field">
-              <span class="b-label" id="paiement-legend">Modes de paiement souhaités</span>
-              <div class="b-chips b-chips-wrap" role="group" aria-labelledby="paiement-legend">
-                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="cb" class="b-chip-input"><span>Carte bancaire</span></label>
-                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="paypal" class="b-chip-input"><span>PayPal</span></label>
-                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="virement" class="b-chip-input"><span>Virement bancaire</span></label>
-                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="cheque" class="b-chip-input"><span>Chèque</span></label>
-                <label class="b-chip"><input type="checkbox" name="boutique_paiement" value="autre" class="b-chip-input"><span>Autre</span></label>
-              </div>
-              <div id="boutique_paiement-autre" class="b-reveal hidden">
-                <input type="text" name="boutique_paiement_autre" aria-label="Précisez le mode de paiement" placeholder="Précisez le mode de paiement…" class="b-input">
-              </div>
-            </div>
-          </div>
+
+          <p class="qc-champ">
+            <label class="qc-lab" for="wetransfer_link">Un lien de téléchargement</label>
+            <input id="wetransfer_link" type="url" name="wetransfer_link" class="qc-in" placeholder="https://we.tl/…">
+            <span class="qc-aide">Si vos fichiers sont trop lourds, passez par WeTransfer ou Google Drive et collez le lien ici.</span>
+          </p>
+
+          <p class="qc-champ">
+            <label class="qc-lab" for="comptes_reseaux">Vos réseaux sociaux</label>
+            <textarea id="comptes_reseaux" name="comptes_reseaux" rows="2" class="qc-in qc-aire"
+              placeholder="Collez les adresses de vos pages, je les relierai à votre site."></textarea>
+          </p>
         </div>
       </section>
 
-      <!-- 04. Informations légales -->
-      <section class="b-card">
-        <div class="b-card-head">
-          <span class="b-num" aria-hidden="true">04</span>
+      <!-- 05 ─────────────────────────────────────────────── -->
+      <section class="qc-bloc">
+        <div class="qc-bloc-tete">
+          <span class="qc-n" aria-hidden="true">05</span>
           <div>
-            <p class="b-overline">Pour les mentions légales</p>
-            <h2 class="b-title">Informations légales</h2>
+            <h2 class="qc-h2">Autre chose&nbsp;?</h2>
+            <p class="qc-sous">Facultatif, mais c'est souvent ici que se trouve le détail qui change tout.</p>
           </div>
         </div>
-        <div class="b-body">
-          <div class="b-field">
-            <span class="b-label" id="statut-legend">Statut juridique</span>
-            <div class="b-chips b-chips-wrap" role="radiogroup" aria-labelledby="statut-legend">
-              <label class="b-chip"><input type="radio" name="statut_juridique" value="ei" class="b-chip-input"><span>Auto-entrepreneur ou EI</span></label>
-              <label class="b-chip"><input type="radio" name="statut_juridique" value="eurl" class="b-chip-input"><span>EURL</span></label>
-              <label class="b-chip"><input type="radio" name="statut_juridique" value="sarl" class="b-chip-input"><span>SARL</span></label>
-              <label class="b-chip"><input type="radio" name="statut_juridique" value="sas" class="b-chip-input"><span>SAS ou SASU</span></label>
-              <label class="b-chip"><input type="radio" name="statut_juridique" value="association" class="b-chip-input"><span>Association</span></label>
-              <label class="b-chip"><input type="radio" name="statut_juridique" value="autre" class="b-chip-input"><span>Autre</span></label>
-            </div>
-            <div id="statut-autre" class="b-reveal hidden">
-              <input type="text" name="statut_autre" aria-label="Précisez votre statut juridique" placeholder="Précisez votre statut juridique…" class="b-input">
-            </div>
-          </div>
-          <div class="b-row-2">
-            <div class="b-field">
-              <label class="b-label" for="siret">Numéro SIRET <span class="b-hint">(optionnel)</span></label>
-              <input id="siret" type="text" name="siret" placeholder="Ex : 123 456 789 00010" class="b-input" maxlength="20" inputmode="numeric">
-            </div>
-            <div class="b-field">
-              <label class="b-label" for="numero_tva">Numéro de TVA <span class="b-hint">(si applicable)</span></label>
-              <input id="numero_tva" type="text" name="numero_tva" placeholder="Ex : FR 12 345678901" class="b-input">
-            </div>
-          </div>
+
+        <div class="qc-champs">
+          <p class="qc-champ">
+            <label class="qc-lab" for="message_important">Une date, une contrainte, une envie</label>
+            <textarea id="message_important" name="message_important" rows="4" class="qc-in qc-aire"
+              placeholder="Une échéance à tenir, quelque chose que vous ne voulez surtout pas voir sur votre site, une idée qui vous tient à cœur."></textarea>
+          </p>
         </div>
       </section>
 
-      <!-- 05. Vos valeurs -->
-      <section class="b-card">
-        <div class="b-card-head">
-          <span class="b-num" aria-hidden="true">05</span>
-          <div>
-            <p class="b-overline">Ce qui vous définit</p>
-            <h2 class="b-title">Vos valeurs</h2>
-          </div>
-        </div>
-        <div class="b-body">
-          <div class="b-field">
-            <span class="b-label" id="valeurs-legend">Les valeurs à mettre en avant sur votre site</span>
-            <div class="b-check-grid" role="group" aria-labelledby="valeurs-legend">
-              <label class="b-check"><input type="checkbox" name="valeurs" value="proximite" class="b-check-input"><span>Proximité</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="qualite" class="b-check-input"><span>Qualité</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="confiance" class="b-check-input"><span>Confiance</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="innovation" class="b-check-input"><span>Innovation</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="transparence" class="b-check-input"><span>Transparence</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="engagement" class="b-check-input"><span>Engagement</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="passion" class="b-check-input"><span>Passion</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="expertise" class="b-check-input"><span>Expertise</span></label>
-              <label class="b-check"><input type="checkbox" name="valeurs" value="autre" class="b-check-input"><span>Autre</span></label>
-            </div>
-            <div id="valeurs-autre" class="b-reveal hidden">
-              <input type="text" name="valeurs_autre" aria-label="Précisez vos valeurs" placeholder="Précisez vos valeurs…" class="b-input">
-            </div>
-          </div>
-          <div class="b-field">
-            <label class="b-label" for="message_important">Message important ou contrainte particulière <span class="b-hint">(optionnel)</span></label>
-            <textarea id="message_important" name="message_important" rows="4" placeholder="Une date butoir, quelque chose que vous ne voulez surtout pas sur votre site, une idée de page ou de fonctionnalité qui vous tient à cœur…" class="b-textarea"></textarea>
-          </div>
-        </div>
-      </section>
-
-      <!-- 06. Vos fichiers -->
-      <section class="b-card b-card-upload">
-        <div class="b-card-head">
-          <span class="b-num b-num-icon" aria-hidden="true">
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 10V1m0 0L4.5 4M7.5 1l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 10.5v1a2 2 0 002 2h8a2 2 0 002-2v-1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-          </span>
-          <div>
-            <p class="b-overline">Documents et médias</p>
-            <h2 class="b-title">Vos fichiers</h2>
-          </div>
-        </div>
-        <div class="b-body">
-          <p class="b-docs-note">Logo, photos de vos réalisations, brochures, textes rédigés… Tout ce qui peut nous aider à démarrer. <span class="b-hint">5 Mo max par fichier, 8 Mo total.</span> Pour des fichiers plus lourds, utilisez WeTransfer et collez le lien ci-dessous.</p>
-          <div class="b-field">
-            <div class="b-upload-zone" id="upload-zone">
-              <input type="file" id="attachments" name="attachments" multiple
-                accept="image/jpeg,image/png,image/webp,image/gif,application/pdf,.doc,.docx"
-                class="b-upload-input" aria-label="Joindre des fichiers">
-              <div class="b-upload-ui" id="upload-ui">
-                <div class="b-upload-icon" aria-hidden="true">
-                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 18V7m0 0L9 12m5-5l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20v1.5A2.5 2.5 0 006.5 24h15a2.5 2.5 0 002.5-2.5V20" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-                </div>
-                <p class="b-upload-text">Glissez vos fichiers ici</p>
-                <p class="b-upload-sub">ou cliquez pour parcourir vos dossiers</p>
-                <p class="b-upload-sub">Images (JPG, PNG, WebP), PDF, Word</p>
-              </div>
-              <ul id="file-list" class="b-file-list" aria-label="Fichiers sélectionnés"></ul>
-              <p id="upload-error" class="b-upload-error hidden"></p>
-            </div>
-          </div>
-          <div class="b-field">
-            <label class="b-label" for="wetransfer_link">Lien WeTransfer <span class="b-hint">(pour les fichiers volumineux)</span></label>
-            <input id="wetransfer_link" type="url" name="wetransfer_link" placeholder="https://we.tl/t-xxxxxxxxxx" class="b-input">
-          </div>
-        </div>
-      </section>
-
-      <div id="form-error" class="b-error hidden" role="alert">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3.5M8 11v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div id="form-error" class="qc-err hidden" role="alert">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 5v3.5M8 11v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
         <span id="form-error-text"></span>
       </div>
 
-      <div class="brief-submit-wrap">
-        <button id="submit-btn" type="submit" class="b-submit">
-          Envoyer le questionnaire
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
+      <div class="qc-envoi">
+        <button id="submit-btn" type="submit" class="qc-btn">Envoyer mes réponses</button>
+        <p class="qc-envoi-sub">Je vous réponds sous 48 heures pour lancer la création.</p>
       </div>
 
     </form>
   </div>
 
-  <div id="success-screen" class="success-screen hidden">
-    <div class="success-inner">
-      <div class="success-icon" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5 14l6 6 12-12" stroke="#255C41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <p class="success-overline">Questionnaire envoyé</p>
-      <h2 class="success-title">Merci.<br>C'est bien reçu.</h2>
-      <p class="success-body">Votre questionnaire de création a bien été transmis. Célestin va le lire avec attention et vous recontactera <strong>sous 48h maximum</strong> pour démarrer le projet.</p>
-      <div class="success-footer">
-        <span>07 69 36 27 27</span>
-        <span class="success-sep" aria-hidden="true">/</span>
-        <a href="https://caelestis.fr" class="success-link">caelestis.fr</a>
-      </div>
+  <div id="success-screen" class="qc-merci hidden">
+    <div class="qc-merci-in">
+      <span class="qc-merci-marque">Caelestis</span>
+      <h2 class="qc-merci-titre">Merci,<br>c'est bien reçu.</h2>
+      <p class="qc-merci-txt">
+        J'ai tout ce qu'il me faut pour commencer. Je lis vos réponses et je
+        reviens vers vous sous 48 heures pour lancer la création de votre site.
+      </p>
+      <p class="qc-merci-pied">
+        <a href="tel:+33769362727">07 69 36 27 27</a>
+        <a href="https://caelestis.fr">caelestis.fr</a>
+      </p>
     </div>
   </div>
 
 </div>
 
 <style>
-  .brief-root {
-    --cream:       #FCFBF8;
-    --cream-dark:  #E6E4DC;
-    --ocre:        #255C41;
-    --ocre-dark:   #1B4733;
-    --golden:      #E6E4DC;
-    --brun:        #255C41;
-    --brun-mid:    #5C6259;
-    --sauge:       #2E7452;
-    --sauge-pale:  #E3EFE8;
-    --pierre:      #665F4B;
-    --encre:       #12160F;
-    --surface:     rgba(252, 251, 248,0.82);
-    --border:      rgba(207,192,160,0.75);
-    --border-focus:#255C41;
+  /* ═══════════════════════════════════════════════════════════
+     Questionnaire client, à la charte forêt vivante.
+     Aucune couleur hors palette : la version précédente portait un #665F4B,
+     un #e0cd9e et deux #b45309 hérités d'un ancien gabarit.
+     Pas de carte à ombre portée : des blocs séparés par un filet et beaucoup
+     de blanc, comme le reste du site.
+  ═══════════════════════════════════════════════════════════ */
+  .qc {
     font-family: var(--font-body);
-    background: var(--cream);
+    background: var(--color-cream);
+    color: var(--color-brun);
     min-height: 100vh;
-    padding-bottom: 80px;
+    padding-bottom: 96px;
   }
-  .restore-banner { position:sticky;top:0;z-index:50;background:var(--brun);border-bottom:1px solid rgba(37, 92, 65,.4); }
-  .restore-inner { max-width:760px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap; }
-  .restore-dot { width:6px;height:6px;border-radius:50%;background:var(--golden);flex-shrink:0;animation:pulse-dot 2s ease-in-out infinite; }
-  @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
-  .restore-msg { font-size:.8125rem;color:rgba(252, 251, 248,.9);flex:1;min-width:180px; }
-  .restore-actions { display:flex;gap:8px;flex-shrink:0; }
-  .restore-yes { font-size:.75rem;font-weight:700;background:var(--golden);color:var(--encre);border:none;border-radius:6px;padding:6px 14px;cursor:pointer;transition:background .2s;font-family:inherit; }
-  .restore-yes:hover { background:#e0cd9e; }
-  .restore-no { font-size:.8rem;color:rgba(252, 251, 248,.6);background:none;border:none;cursor:pointer;padding:6px 8px;font-family:inherit;transition:color .2s; }
-  .restore-no:hover { color:rgba(252, 251, 248,.95); }
-  .brief-container { max-width:760px;margin:0 auto;padding:0 20px; }
-  .brief-header { padding-top:56px;margin-bottom:8px; }
-  .brief-overline { font-size:.625rem;font-weight:700;text-transform:uppercase;letter-spacing:.22em;color:var(--sauge);display:block;margin-bottom:14px; }
-  .brief-title { font-family:var(--font-display);font-size:clamp(1.9rem,5vw,2.75rem);font-weight:400;color:var(--brun);line-height:1.1;letter-spacing:-.025em;margin-bottom:18px; }
-  .brief-subtitle { font-size:.875rem;color:var(--brun-mid);line-height:1.75;max-width:520px;margin-bottom:28px; }
-  .brief-divider { width:48px;height:2px;background:linear-gradient(90deg,var(--sauge),transparent);border-radius:2px;margin-bottom:32px; }
-  .b-card { background:var(--surface);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;transition:border-color .25s ease,box-shadow .25s ease; }
-  .b-card:focus-within { border-color:rgba(184, 196, 187,.55);box-shadow:0 6px 28px rgba(37, 92, 65,.07); }
-  .b-card-head { display:flex;align-items:flex-start;gap:16px;padding:20px 26px 16px;border-bottom:1px solid var(--border);background:rgba(252, 251, 248,.35); }
-  .b-num { font-family:var(--font-display);font-size:.875rem;font-weight:400;color:var(--sauge);line-height:1;padding-top:3px;flex-shrink:0;min-width:24px; }
-  .b-num-icon { display:flex;align-items:center;color:var(--sauge); }
-  .b-overline { font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--sauge);display:block;margin-bottom:4px; }
-  .b-title { font-family:var(--font-display);font-size:1rem;font-weight:400;color:var(--brun);line-height:1.2;letter-spacing:-.018em; }
-  .b-body { padding:22px 26px;display:flex;flex-direction:column;gap:18px; }
-  .b-field { display:flex;flex-direction:column;gap:7px; }
-  .b-label { font-size:.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--brun-mid); }
-  .b-required { color:#b45309;margin-left:2px; }
-  .b-hint { font-weight:400;text-transform:none;letter-spacing:0;color:var(--pierre); }
-  .b-input { width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 13px;font-size:.875rem;color:var(--encre);background:rgba(252, 251, 248,.85);outline:none;font-family:inherit;transition:border-color .18s ease,box-shadow .18s ease;box-sizing:border-box; }
-  .b-input::placeholder { color:var(--pierre); }
-  .b-input:focus { border-color:var(--brun);box-shadow:0 0 0 3px rgba(37, 92, 65,.1);background:rgba(252, 251, 248,1); }
-  .b-textarea { width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 13px;font-size:.875rem;color:var(--encre);background:rgba(252, 251, 248,.85);outline:none;resize:vertical;min-height:80px;font-family:inherit;line-height:1.65;transition:border-color .18s ease,box-shadow .18s ease;box-sizing:border-box; }
-  .b-textarea::placeholder { color:var(--pierre); }
-  .b-textarea:focus { border-color:var(--brun);box-shadow:0 0 0 3px rgba(37, 92, 65,.1);background:rgba(252, 251, 248,1); }
-  .b-row-2 { display:grid;grid-template-columns:1fr;gap:14px; }
-  @media (min-width:560px) { .b-row-2 { grid-template-columns:1fr 1fr; } }
-  .b-chips { display:flex;flex-wrap:wrap;gap:7px; }
-  .b-chips-wrap { flex-wrap:wrap; }
-  .b-chips-col { flex-direction:column; }
-  .b-chip { display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border:1.5px solid var(--border);border-radius:99px;cursor:pointer;font-size:.8125rem;color:var(--brun-mid);background:rgba(252, 251, 248,.7);transition:border-color .18s ease,background .18s ease,color .18s ease;-webkit-tap-highlight-color:transparent;user-select:none; }
-  .b-chip-block { border-radius:9px;width:100%; }
-  .b-chip:hover { border-color:var(--sauge);background:rgba(184, 196, 187,.08);color:var(--brun); }
-  .b-chip:has(.b-chip-input:checked) { border-color:var(--brun);background:rgba(37, 92, 65,.08);color:var(--brun);font-weight:500; }
-  .b-chip-input { position:absolute;opacity:0;width:0;height:0;pointer-events:none; }
-  .b-check-grid { display:grid;grid-template-columns:1fr 1fr;gap:6px; }
-  @media (min-width:560px) { .b-check-grid { grid-template-columns:repeat(3,1fr); } }
-  /* .6rem et .625rem tombent à 9,6 et 10 px : sur un téléphone, les libellés
-     qui annoncent chaque section du questionnaire n'étaient plus lisibles.
-     L'interlettrage se resserre en compensation, la largeur ne bouge pas. */
-  /* La condition porte sur le pointeur autant que sur la largeur : une tablette
-     de 768px est tenue en main, pas posée sur un bureau. */
-  @media (max-width:639px), (hover: none) and (pointer: coarse) {
-    .brief-overline { font-size:.6875rem; letter-spacing:.16em; }
-    .b-overline     { font-size:.6875rem; letter-spacing:.14em; }
-    /* 16 px minimum sur écran tactile, sinon Safari iOS zoome la page au focus
-       et n'en ressort jamais. La règle générale est dans global.css, mais
-       .b-input et .b-textarea, scopés par Astro, la battent en spécificité :
-       le correctif doit être répété ici. */
-    .b-input, .b-textarea, .b-select { font-size: 16px; }
+
+  /* ── Jauge de progression ── */
+  .qc-jauge {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    height: 2px;
+    background: var(--color-cream-dark);
   }
-  .b-check { display:flex;align-items:center;gap:9px;padding:8px 11px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:.8125rem;color:var(--brun-mid);background:rgba(252, 251, 248,.6);transition:border-color .18s ease,background .18s ease,color .18s ease;-webkit-tap-highlight-color:transparent;user-select:none; }
-  .b-check:hover { border-color:var(--sauge);background:rgba(184, 196, 187,.08);color:var(--brun); }
-  .b-check:has(.b-check-input:checked) { border-color:var(--brun);background:rgba(37, 92, 65,.07);color:var(--brun);font-weight:500; }
-  .b-check-input { width:14px;height:14px;accent-color:var(--brun);flex-shrink:0;cursor:pointer; }
-  .b-reveal { margin-top:6px;animation:b-fadein .22s ease both; }
-  @keyframes b-fadein { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
-  .b-nested { background:rgba(37, 92, 65,.04);border:1px solid rgba(184, 196, 187,.3);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:16px; }
-  .b-nested-label { font-size:.625rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--sauge); }
-  .b-docs-note { font-size:.8125rem;color:var(--brun-mid);line-height:1.65;margin:0; }
-  .b-upload-zone { border:1.5px dashed var(--cream-dark);border-radius:10px;background:rgba(252, 251, 248,.6);cursor:pointer;transition:border-color .18s ease,background .18s ease;position:relative;min-height:120px; }
-  .b-upload-zone.is-dragover { border-color:var(--brun);background:rgba(37, 92, 65,.05); }
-  .b-upload-input { position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2; }
-  .b-upload-ui { display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:24px 16px;pointer-events:none;text-align:center; }
-  .b-upload-icon { width:44px;height:44px;border-radius:50%;background:rgba(184, 196, 187,.12);display:flex;align-items:center;justify-content:center;color:var(--sauge);margin-bottom:4px; }
-  .b-upload-text { font-size:.875rem;font-weight:500;color:var(--brun); }
-  .b-upload-sub { font-size:.75rem;color:var(--pierre);margin:0; }
-  .b-file-list { list-style:none;padding:0 10px 10px;margin:0;display:flex;flex-direction:column;gap:4px; }
-  .b-file-item { display:flex;align-items:center;gap:8px;background:rgba(37, 92, 65,.06);border-radius:6px;padding:7px 10px; }
-  .b-file-name { flex:1;font-size:.8125rem;color:var(--brun);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
-  .b-file-size { font-size:.75rem;color:var(--pierre);flex-shrink:0; }
-  .b-file-remove { background:none;border:none;cursor:pointer;color:var(--pierre);font-size:.75rem;padding:2px 4px;line-height:1;transition:color .15s ease;font-family:inherit; }
-  .b-file-remove:hover { color:var(--brun); }
-  .b-upload-error { font-size:.75rem;color:#b45309;margin:0 10px 10px;padding:6px 10px;background:rgba(180,83,9,.06);border-radius:6px; }
-  .b-error { display:flex;align-items:flex-start;gap:10px;background:rgba(180,83,9,.07);border:1.5px solid rgba(180,83,9,.25);border-radius:10px;padding:14px 16px;font-size:.875rem;color:#92400e;margin-bottom:16px; }
-  .b-error svg { flex-shrink:0;margin-top:1px; }
-  .brief-submit-wrap { display:flex;flex-direction:column;align-items:center;gap:10px;padding-bottom:8px; }
-  .b-submit { display:inline-flex;align-items:center;gap:10px;padding:14px 36px;background:var(--sauge);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:.875rem;font-weight:600;letter-spacing:.04em;cursor:pointer;position:relative;transition:background .22s ease,transform .2s cubic-bezier(.34,1.2,.64,1),box-shadow .22s ease; }
-  .b-submit::before { content:'';position:absolute;inset:-6px;border-radius:14px;border:1.5px solid rgba(184, 196, 187,.4);opacity:0;transform:scale(.93);transition:opacity .36s ease,transform .36s cubic-bezier(.34,1.2,.64,1);pointer-events:none; }
-  .b-submit:hover { background:var(--brun-mid);transform:translateY(-2px);box-shadow:0 8px 28px rgba(184, 196, 187,.28); }
-  .b-submit:hover::before { opacity:1;transform:scale(1); }
-  .b-submit:active { transform:translateY(0);box-shadow:none; }
-  .b-submit:disabled { opacity:.55;cursor:not-allowed;transform:none;box-shadow:none; }
-  .success-screen { max-width:580px;margin:0 auto;padding:80px 24px; }
-  .success-inner { text-align:center; }
-  .success-icon { width:64px;height:64px;border-radius:50%;background:rgba(37, 92, 65,.1);border:1.5px solid rgba(37, 92, 65,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 24px; }
-  .success-overline { font-size:.625rem;font-weight:700;text-transform:uppercase;letter-spacing:.2em;color:var(--sauge);display:block;margin-bottom:12px; }
-  .success-title { font-family:var(--font-display);font-size:clamp(1.75rem,5vw,2.5rem);font-weight:400;color:var(--brun);line-height:1.12;letter-spacing:-.025em;margin-bottom:20px; }
-  .success-body { font-size:.875rem;color:var(--brun-mid);line-height:1.75;margin-bottom:12px; }
-  .success-body strong { color:var(--encre);font-weight:600; }
-  .success-link { color:var(--brun);text-decoration:underline;text-underline-offset:3px; }
-  .success-link:hover { color:var(--ocre); }
-  .success-footer { display:flex;align-items:center;justify-content:center;gap:10px;font-size:.75rem;color:var(--pierre);margin-top:28px; }
-  .success-sep { opacity:.4; }
-  .hidden { display:none !important; }
+  .qc-jauge span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--color-sauge-text);
+    transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* ── Bandeau de reprise ── */
+  .qc-reprise { background: var(--color-brun); color: var(--color-cream); }
+  .qc-reprise-in {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .qc-reprise p { margin: 0; font-size: 0.875rem; }
+  .qc-reprise-btns { display: flex; gap: 8px; flex: none; }
+  .qc-reprise-oui, .qc-reprise-non {
+    font-family: inherit;
+    font-size: 0.8rem;
+    border-radius: 999px;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .qc-reprise-oui { background: var(--color-cream); color: var(--color-brun); border: 0; font-weight: 500; }
+  .qc-reprise-oui:hover { background: #fff; }
+  .qc-reprise-non { background: none; border: 1px solid rgba(252, 251, 248, 0.32); color: rgba(252, 251, 248, 0.82); }
+  .qc-reprise-non:hover { color: var(--color-cream); border-color: rgba(252, 251, 248, 0.6); }
+
+  /* ── En-tête ── */
+  .qc-tete { background: var(--color-brun); color: var(--color-cream); padding: 64px 24px 72px; }
+  .qc-tete-in { max-width: 46rem; margin: 0 auto; }
+  .qc-marque {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: rgba(252, 251, 248, 0.7);
+    margin: 0 0 28px;
+  }
+  .qc-titre {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6vw, 3.1rem);
+    font-weight: 300;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: #FCFBF8;
+    margin: 0 0 22px;
+  }
+  .qc-chapo {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: rgba(252, 251, 248, 0.8);
+    max-width: 38rem;
+    margin: 0;
+  }
+
+  /* ── Blocs ── */
+  .qc-form { max-width: 46rem; margin: 0 auto; padding: 0 24px; }
+  .qc-bloc { padding: 44px 0; border-bottom: 1px solid var(--color-cream-dark); }
+  .qc-bloc:first-of-type { padding-top: 52px; }
+
+  .qc-bloc-tete { display: flex; gap: 16px; margin-bottom: 26px; }
+  .qc-n {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    color: var(--color-sauge-text);
+    padding-top: 0.42rem;
+    flex: none;
+  }
+  .qc-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 3vw, 1.6rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--color-brun);
+    margin: 0 0 6px;
+  }
+  .qc-sous { font-size: 0.9rem; line-height: 1.6; color: var(--color-brun-mid); margin: 0; max-width: 40rem; }
+
+  /* ── Champs ── */
+  .qc-champs { display: grid; gap: 22px; padding-left: 0; }
+  @media (min-width: 640px) { .qc-champs { padding-left: 2.4rem; } }
+  .qc-duo { display: grid; gap: 22px; }
+  @media (min-width: 640px) { .qc-duo { grid-template-columns: 1fr 1fr; } }
+  .qc-champ { margin: 0; display: block; }
+
+  .qc-lab {
+    display: block;
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: var(--color-brun);
+    margin-bottom: 8px;
+  }
+  .qc-req {
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-sauge-text);
+    margin-left: 6px;
+  }
+  .qc-aide { display: block; font-size: 0.78rem; line-height: 1.55; color: var(--color-brun-mid); margin-top: 7px; }
+
+  .qc-in {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--color-brun);
+    background: #fff;
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 8px;
+    padding: 12px 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .qc-in::placeholder { color: var(--color-brun-mid); opacity: 0.62; }
+  .qc-in:focus {
+    outline: none;
+    border-color: var(--color-sauge-text);
+    box-shadow: 0 0 0 3px rgba(46, 116, 82, 0.12);
+  }
+  .qc-aire { resize: vertical; line-height: 1.65; }
+
+  /* ── Choix ── */
+  .qc-choix { border: 0; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .qc-choix legend { padding: 0; margin-bottom: 10px; }
+  .qc-opt { display: block; cursor: pointer; }
+  .qc-opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .qc-opt-in {
+    display: block;
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: #fff;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+  .qc-opt:hover .qc-opt-in { border-color: var(--color-sauge); }
+  .qc-opt input:focus-visible + .qc-opt-in { outline: 2px solid var(--color-sauge-text); outline-offset: 2px; }
+  .qc-opt input:checked + .qc-opt-in {
+    border-color: var(--color-sauge-text);
+    background: var(--color-sauge-pale);
+  }
+  .qc-opt-t { display: block; font-size: 0.92rem; font-weight: 500; color: var(--color-brun); }
+  .qc-opt-d { display: block; font-size: 0.82rem; line-height: 1.5; color: var(--color-brun-mid); margin-top: 3px; }
+
+  /* ── Dépôt de fichiers ── */
+  .qc-depot {
+    position: relative;
+    border: 1px dashed var(--color-sauge);
+    border-radius: 12px;
+    background: rgba(227, 239, 232, 0.4);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+  .qc-depot.est-survole { background: var(--color-sauge-pale); border-color: var(--color-sauge-text); }
+  .qc-depot-in { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .qc-depot-ui {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    padding: 32px 20px;
+    text-align: center;
+    color: var(--color-sauge-text);
+    pointer-events: none;
+  }
+  .qc-depot-t { font-size: 0.92rem; font-weight: 500; color: var(--color-brun); }
+  .qc-depot-s { font-size: 0.79rem; color: var(--color-brun-mid); max-width: 26rem; }
+
+  .qc-fichiers { list-style: none; margin: 0; padding: 0 12px 12px; display: grid; gap: 6px; position: relative; }
+  .qc-fichier {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid var(--color-cream-dark);
+    border-radius: 7px;
+    padding: 8px 10px;
+    font-size: 0.82rem;
+  }
+  .qc-fichier-nom { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-brun); }
+  .qc-fichier-taille { font-size: 0.74rem; color: var(--color-brun-mid); flex: none; }
+  .qc-fichier-x {
+    flex: none;
+    border: 0;
+    background: none;
+    color: var(--color-brun-mid);
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1;
+    padding: 3px 5px;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+  .qc-fichier-x:hover { color: var(--color-brun); background: var(--color-sauge-pale); }
+
+  /* ── Erreurs ── */
+  .qc-err-champ {
+    margin: 0 12px 12px;
+    font-size: 0.78rem;
+    color: var(--color-ocre-dark);
+    background: #fff;
+    border-radius: 6px;
+    padding: 7px 10px;
+    position: relative;
+  }
+  .qc-err {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--color-sauge-pale);
+    border: 1px solid var(--color-sauge);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 0.875rem;
+    color: var(--color-ocre-dark);
+    margin-top: 28px;
+  }
+  .qc-err svg { flex: none; margin-top: 2px; }
+
+  /* ── Envoi ── */
+  .qc-envoi { padding: 40px 0 0; text-align: center; }
+  .qc-btn {
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    background: var(--color-brun);
+    color: var(--color-cream);
+    border: 0;
+    border-radius: 999px;
+    padding: 15px 38px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .qc-btn:hover:not(:disabled) { background: var(--color-ocre-dark); }
+  .qc-btn:disabled { opacity: 0.6; cursor: default; }
+  .qc-envoi-sub { font-size: 0.82rem; color: var(--color-brun-mid); margin: 14px 0 0; }
+
+  /* ── Écran de fin ── */
+  .qc-merci { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: var(--color-brun); }
+  .qc-merci-in { max-width: 34rem; text-align: center; }
+  .qc-merci-marque {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(252, 251, 248, 0.6);
+    display: block;
+    margin-bottom: 30px;
+  }
+  .qc-merci-titre {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 5.4vw, 2.8rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: #FCFBF8;
+    margin: 0 0 20px;
+  }
+  .qc-merci-txt { font-size: 1rem; line-height: 1.75; color: rgba(252, 251, 248, 0.8); margin: 0; }
+  .qc-merci-pied { display: flex; gap: 22px; justify-content: center; margin: 34px 0 0; font-size: 0.85rem; }
+  .qc-merci-pied a { color: rgba(252, 251, 248, 0.72); text-decoration: underline; text-underline-offset: 4px; }
+  .qc-merci-pied a:hover { color: #FCFBF8; }
+
+  .hidden { display: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .qc-jauge span, .qc-in, .qc-opt-in, .qc-depot, .qc-btn { transition: none; }
+  }
 </style>
 
 <script>
   const form          = document.getElementById('brief-form')      as HTMLFormElement | null;
-  const saveIndicator = document.getElementById('save-indicator')  as HTMLElement | null;
-  const saveTimeEl    = document.getElementById('save-time')       as HTMLElement | null;
   const restoreBanner = document.getElementById('restore-banner')  as HTMLElement | null;
   const restoreBtn    = document.getElementById('restore-btn')     as HTMLElement | null;
   const discardBtn    = document.getElementById('discard-btn')     as HTMLElement | null;
@@ -462,251 +562,186 @@
   const successScreen = document.getElementById('success-screen')  as HTMLElement | null;
   const formError     = document.getElementById('form-error')      as HTMLElement | null;
   const formErrorText = document.getElementById('form-error-text') as HTMLElement | null;
+  const progres       = document.getElementById('qc-progres')      as HTMLElement | null;
 
-  const STORAGE_KEY = 'caelestis_creation_v2';
+  /* Clé v3 : les clés v1 et v2 portent les réponses de l'ancien questionnaire à
+     57 champs, dont les noms n'existent plus. Les restaurer remplirait un
+     formulaire qui ne les attend pas. */
+  const STORAGE_KEY = 'caelestis_creation_v3';
 
-  function getFormState(): Record<string, string | string[]> {
+  /* ══ État du formulaire ══ */
+  function getFormState(): Record<string, string> {
     if (!form) return {};
-    const state: Record<string, string | string[]> = {};
+    const state: Record<string, string> = {};
     form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
-      'input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), textarea'
-    ).forEach(el => { if (el.name) state[el.name] = el.value; });
-    const radioNames = new Set<string>();
-    form.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach(el => { if (el.name) radioNames.add(el.name); });
-    radioNames.forEach(name => {
-      const checked = form!.querySelector<HTMLInputElement>(`input[type="radio"][name="${CSS.escape(name)}"]:checked`);
-      state[name] = checked ? checked.value : '';
-    });
-    const cbNames = new Set<string>();
-    form.querySelectorAll<HTMLInputElement>('input[type="checkbox"]').forEach(el => { if (el.name) cbNames.add(el.name); });
-    cbNames.forEach(name => {
-      state[name] = Array.from(
-        form!.querySelectorAll<HTMLInputElement>(`input[type="checkbox"][name="${CSS.escape(name)}"]:checked`)
-      ).map(el => el.value);
-    });
+      'input:not([type="radio"]):not([type="file"]), textarea'
+    ).forEach((el) => { if (el.name) state[el.name] = el.value; });
+    const choisi = form.querySelector<HTMLInputElement>('input[name="textes"]:checked');
+    state['textes'] = choisi ? choisi.value : '';
     return state;
   }
 
-  function restoreFormState(state: Record<string, string | string[]>) {
+  function restoreFormState(state: Record<string, string>): void {
     if (!form) return;
-    Object.entries(state).forEach(([name, value]) => {
-      if (Array.isArray(value)) {
-        form!.querySelectorAll<HTMLInputElement>(`input[type="checkbox"][name="${CSS.escape(name)}"]`).forEach(el => {
-          el.checked = value.includes(el.value);
-        });
-      } else if (value) {
-        const isRadioGroup = !!form!.querySelector<HTMLInputElement>(`input[type="radio"][name="${CSS.escape(name)}"]`);
-        if (isRadioGroup) {
-          const r = form!.querySelector<HTMLInputElement>(`input[type="radio"][name="${CSS.escape(name)}"][value="${CSS.escape(value)}"]`);
-          if (r) r.checked = true;
-        } else {
-          const el = form!.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${CSS.escape(name)}"]`);
-          if (el && el.type !== 'radio' && el.type !== 'checkbox' && el.type !== 'file') el.value = value;
-        }
+    for (const [nom, valeur] of Object.entries(state)) {
+      if (!valeur) continue;
+      if (nom === 'textes') {
+        const r = form.querySelector<HTMLInputElement>(`input[name="textes"][value="${CSS.escape(valeur)}"]`);
+        if (r) r.checked = true;
+        continue;
       }
-    });
-    syncAllConditionals();
+      const el = form.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${CSS.escape(nom)}"]`);
+      if (el && el.type !== 'file') el.value = valeur;
+    }
+    majProgres();
   }
 
-  let saveTimer: ReturnType<typeof setTimeout> | null = null;
-  function triggerSave() {
-    if (saveTimer) clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(getFormState()));
-        const hhmm = new Date().toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
-        if (saveTimeEl) saveTimeEl.textContent = hhmm;
-        saveIndicator?.classList.remove('hidden');
-      } catch (_) {}
+  /* ══ Sauvegarde ══ */
+  let minuteur: ReturnType<typeof setTimeout> | undefined;
+  function sauvegarder(): void {
+    clearTimeout(minuteur);
+    minuteur = setTimeout(() => {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(getFormState())); } catch (_) { /* quota ou navigation privée */ }
     }, 600);
   }
-  form?.addEventListener('input', triggerSave);
-  form?.addEventListener('change', triggerSave);
 
-  function watchCbOther(groupName: string, panelId: string) {
-    const sync = () => {
-      const hasAutre = !!form?.querySelector<HTMLInputElement>(
-        `input[type="checkbox"][name="${CSS.escape(groupName)}"][value="autre"]:checked`
-      );
-      document.getElementById(panelId)?.classList.toggle('hidden', !hasAutre);
-    };
-    form?.querySelectorAll<HTMLInputElement>(`input[type="checkbox"][name="${CSS.escape(groupName)}"]`)
-      .forEach(el => el.addEventListener('change', sync));
+  /* ══ Progression ══
+     Part des champs remplis, fichiers compris. Aucun champ n'est pondéré :
+     le filet encourage, il ne mesure pas une complétude contractuelle. */
+  function majProgres(): void {
+    if (!progres || !form) return;
+    const etat = getFormState();
+    const cles = Object.keys(etat).filter((k) => k !== 'website');
+    const total = cles.length + 1; // + les fichiers
+    const remplis = cles.filter((k) => etat[k].trim() !== '').length + (fichiers.length ? 1 : 0);
+    progres.style.width = Math.round((remplis / total) * 100) + '%';
   }
 
-  function watchRadioValue(groupName: string, triggerValue: string, panelId: string) {
-    const sync = () => {
-      const checked = form?.querySelector<HTMLInputElement>(`input[type="radio"][name="${CSS.escape(groupName)}"]:checked`);
-      document.getElementById(panelId)?.classList.toggle('hidden', checked?.value !== triggerValue);
-    };
-    form?.querySelectorAll<HTMLInputElement>(`input[type="radio"][name="${CSS.escape(groupName)}"]`)
-      .forEach(el => el.addEventListener('change', sync));
-  }
+  form?.addEventListener('input', () => { sauvegarder(); majProgres(); });
+  form?.addEventListener('change', () => { sauvegarder(); majProgres(); });
 
-  function syncAllConditionals() {
-    [['contenu_dispo','contenu_dispo-autre'],['reseaux','reseaux-autre'],['valeurs','valeurs-autre'],['boutique_paiement','boutique_paiement-autre']]
-      .forEach(([name, id]) => {
-        const has = !!form?.querySelector(`input[type="checkbox"][name="${CSS.escape(name)}"][value="autre"]:checked`);
-        document.getElementById(id)?.classList.toggle('hidden', !has);
-      });
-    const boutique = form?.querySelector<HTMLInputElement>('input[type="radio"][name="boutique_actif"]:checked');
-    document.getElementById('boutique-extra')?.classList.toggle('hidden', boutique?.value !== 'oui');
-    const statut = form?.querySelector<HTMLInputElement>('input[type="radio"][name="statut_juridique"]:checked');
-    document.getElementById('statut-autre')?.classList.toggle('hidden', statut?.value !== 'autre');
-  }
+  /* ══ Fichiers ══ */
+  const zone     = document.getElementById('upload-zone')  as HTMLElement | null;
+  const champFic = document.getElementById('attachments')  as HTMLInputElement | null;
+  const liste    = document.getElementById('file-list')    as HTMLUListElement | null;
+  const errFic   = document.getElementById('upload-error') as HTMLElement | null;
 
-  watchCbOther('contenu_dispo',      'contenu_dispo-autre');
-  watchCbOther('reseaux',            'reseaux-autre');
-  watchCbOther('valeurs',            'valeurs-autre');
-  watchCbOther('boutique_paiement',  'boutique_paiement-autre');
-  watchRadioValue('boutique_actif',   'oui',   'boutique-extra');
-  watchRadioValue('statut_juridique', 'autre', 'statut-autre');
+  let fichiers: File[] = [];
+  const MAX_FICHIER = 5 * 1024 * 1024;
+  const MAX_TOTAL   = 8 * 1024 * 1024;
 
-  /* ══ Pièces jointes ══ */
-  const uploadZone  = document.getElementById('upload-zone')  as HTMLElement | null;
-  const fileInputEl = document.getElementById('attachments')  as HTMLInputElement | null;
-  const fileListEl  = document.getElementById('file-list')    as HTMLUListElement | null;
-  const uploadErrEl = document.getElementById('upload-error') as HTMLElement | null;
+  const taille = (o: number) => (o < 1024 * 1024 ? Math.round(o / 1024) + ' Ko' : (o / (1024 * 1024)).toFixed(1) + ' Mo');
+  const echap  = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-  let attachedFiles: File[] = [];
-  const MAX_FILE_BYTES  = 5 * 1024 * 1024;
-  const MAX_TOTAL_BYTES = 8 * 1024 * 1024;
-
-  function fmtSize(b: number): string {
-    return b < 1024 * 1024 ? Math.round(b / 1024) + ' Ko' : (b / (1024 * 1024)).toFixed(1) + ' Mo';
-  }
-  function escHtml(s: string): string {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-
-  function renderFiles(): void {
-    if (!fileListEl) return;
-    fileListEl.innerHTML = attachedFiles.map((f, i) => `
-      <li class="b-file-item">
-        <span class="b-file-name">${escHtml(f.name)}</span>
-        <span class="b-file-size">${fmtSize(f.size)}</span>
-        <button type="button" class="b-file-remove" data-i="${i}" aria-label="Retirer ${escHtml(f.name)}">✕</button>
-      </li>
-    `).join('');
-    fileListEl.querySelectorAll<HTMLButtonElement>('.b-file-remove').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const idx = parseInt(btn.dataset.i ?? '0', 10);
-        attachedFiles.splice(idx, 1);
-        renderFiles();
-        if (uploadErrEl) uploadErrEl.classList.add('hidden');
+  function afficherFichiers(): void {
+    if (!liste) return;
+    liste.innerHTML = fichiers.map((f, i) => `
+      <li class="qc-fichier">
+        <span class="qc-fichier-nom">${echap(f.name)}</span>
+        <span class="qc-fichier-taille">${taille(f.size)}</span>
+        <button type="button" class="qc-fichier-x" data-i="${i}" aria-label="Retirer ${echap(f.name)}">Retirer</button>
+      </li>`).join('');
+    liste.querySelectorAll<HTMLButtonElement>('.qc-fichier-x').forEach((b) => {
+      b.addEventListener('click', () => {
+        fichiers.splice(parseInt(b.dataset.i ?? '0', 10), 1);
+        afficherFichiers();
+        errFic?.classList.add('hidden');
+        majProgres();
       });
     });
+    majProgres();
   }
 
-  function addFiles(list: FileList | File[]): void {
-    let totalBytes = attachedFiles.reduce((s, f) => s + f.size, 0);
-    let skipped = false;
-    Array.from(list).forEach(f => {
-      if (f.size > MAX_FILE_BYTES) { skipped = true; return; }
-      if (totalBytes + f.size > MAX_TOTAL_BYTES) { skipped = true; return; }
-      if (attachedFiles.some(ex => ex.name === f.name && ex.size === f.size)) return;
-      attachedFiles.push(f);
-      totalBytes += f.size;
+  function ajouterFichiers(liste2: FileList | File[]): void {
+    let cumul = fichiers.reduce((s, f) => s + f.size, 0);
+    let refuses = 0;
+    Array.from(liste2).forEach((f) => {
+      if (f.size > MAX_FICHIER || cumul + f.size > MAX_TOTAL) { refuses++; return; }
+      fichiers.push(f);
+      cumul += f.size;
     });
-    renderFiles();
-    if (uploadErrEl) {
-      if (skipped) {
-        uploadErrEl.textContent = 'Certains fichiers ont été ignorés (5 Mo max par fichier, 8 Mo total).';
-        uploadErrEl.classList.remove('hidden');
-      } else {
-        uploadErrEl.classList.add('hidden');
-      }
+    if (refuses && errFic) {
+      errFic.textContent = refuses === 1
+        ? 'Un fichier est trop lourd. Passez par un lien de téléchargement, juste en dessous.'
+        : `${refuses} fichiers sont trop lourds. Passez par un lien de téléchargement, juste en dessous.`;
+      errFic.classList.remove('hidden');
     }
+    afficherFichiers();
   }
 
-  fileInputEl?.addEventListener('change', () => {
-    if (fileInputEl.files) addFiles(fileInputEl.files);
-    fileInputEl.value = '';
+  champFic?.addEventListener('change', () => {
+    if (champFic.files) ajouterFichiers(champFic.files);
+    champFic.value = '';
   });
-  uploadZone?.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('is-dragover'); });
-  ['dragleave','dragend'].forEach(ev => uploadZone?.addEventListener(ev, () => uploadZone.classList.remove('is-dragover')));
-  uploadZone?.addEventListener('drop', e => {
+  zone?.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('est-survole'); });
+  ['dragleave', 'dragend'].forEach((ev) => zone?.addEventListener(ev, () => zone.classList.remove('est-survole')));
+  zone?.addEventListener('drop', (e) => {
     e.preventDefault();
-    uploadZone.classList.remove('is-dragover');
-    if ((e as DragEvent).dataTransfer?.files) addFiles((e as DragEvent).dataTransfer!.files);
+    zone.classList.remove('est-survole');
+    const dt = (e as DragEvent).dataTransfer;
+    if (dt?.files) ajouterFichiers(dt.files);
   });
 
-  function showError(msg: string) {
+  /* ══ Envoi ══ */
+  function erreur(msg: string): void {
     if (!formError || !formErrorText) return;
     formErrorText.textContent = msg;
     formError.classList.remove('hidden');
-    formError.scrollIntoView({ behavior:'smooth', block:'center' });
+    formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     formError?.classList.add('hidden');
 
-    const emailInput = form.querySelector<HTMLInputElement>('input[name="email_contact"]');
-    if (!emailInput?.value.trim()) {
-      emailInput?.scrollIntoView({ behavior:'smooth', block:'center' });
-      setTimeout(() => emailInput?.focus(), 400);
-      showError('Votre adresse email est requise pour envoyer le questionnaire.');
+    const email = form.querySelector<HTMLInputElement>('input[name="email_contact"]');
+    if (!email?.value.trim()) {
+      email?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => email?.focus(), 400);
+      erreur('Il me faut votre email pour vous répondre.');
       return;
     }
 
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = 'Envoi en cours… <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>';
-    }
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Envoi en cours…'; }
 
     try {
       const fd = new FormData();
-      const state = getFormState();
-      for (const [k, v] of Object.entries(state)) {
-        if (Array.isArray(v)) v.forEach(val => fd.append(k, val));
-        else fd.append(k, v);
-      }
-      attachedFiles.forEach(f => fd.append('files', f));
+      for (const [k, v] of Object.entries(getFormState())) fd.append(k, v);
+      fichiers.forEach((f) => fd.append('files', f));
 
-      const res  = await fetch('/api/brief', { method:'POST', body:fd });
+      const res  = await fetch('/api/brief', { method: 'POST', body: fd });
       const data = await res.json() as { success?: boolean; error?: string };
 
-      if (data.success) {
-        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
-        formContainer?.classList.add('hidden');
-        restoreBanner?.classList.add('hidden');
-        successScreen?.classList.remove('hidden');
-        window.scrollTo({ top:0, behavior:'smooth' });
-      } else {
-        throw new Error(data.error ?? "Erreur lors de l'envoi");
-      }
+      if (!data.success) throw new Error(data.error ?? "L'envoi n'a pas abouti.");
+
+      try { localStorage.removeItem(STORAGE_KEY); } catch (_) { /* rien à nettoyer */ }
+      formContainer?.classList.add('hidden');
+      restoreBanner?.classList.add('hidden');
+      successScreen?.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
-      showError((err as Error).message ?? 'Erreur. Réessayez ou écrivez à contact@caelestis.fr');
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Envoyer le questionnaire <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-      }
+      erreur((err as Error).message || 'Envoi impossible. Réessayez, ou écrivez à contact@caelestis.fr.');
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Envoyer mes réponses'; }
     }
   });
 
-  const spinStyle = document.createElement('style');
-  spinStyle.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
-  document.head.appendChild(spinStyle);
-
+  /* ══ Reprise ══ */
   (function init() {
-    let saved: Record<string, string | string[]> | null = null;
+    majProgres();
+    let garde: Record<string, string> | null = null;
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) saved = JSON.parse(raw) as Record<string, string | string[]>;
-    } catch (_) {}
-    if (!saved || Object.keys(saved).length === 0) return;
-    const hasContent = Object.values(saved).some(v => Array.isArray(v) ? v.length > 0 : v.trim() !== '');
-    if (!hasContent) return;
+      const brut = localStorage.getItem(STORAGE_KEY);
+      if (brut) garde = JSON.parse(brut) as Record<string, string>;
+    } catch (_) { return; }
+    if (!garde || !Object.values(garde).some((v) => v.trim() !== '')) return;
+
     restoreBanner?.classList.remove('hidden');
     restoreBtn?.addEventListener('click', () => {
-      restoreFormState(saved!);
+      restoreFormState(garde!);
       restoreBanner?.classList.add('hidden');
-      if (saveTimeEl) saveTimeEl.textContent = 'restauré';
-      saveIndicator?.classList.remove('hidden');
     });
     discardBtn?.addEventListener('click', () => {
-      try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+      try { localStorage.removeItem(STORAGE_KEY); } catch (_) { /* rien à nettoyer */ }
       restoreBanner?.classList.add('hidden');
     });
   })();

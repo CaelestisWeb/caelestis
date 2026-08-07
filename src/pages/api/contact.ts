@@ -280,8 +280,8 @@ function buildDevisInviteEmail(prenom: string, dateStr: string): string {
               <table cellpadding="0" cellspacing="0">
                 <tr>
                   <td style="background-color:#12160F;padding:16px 32px;border-radius:3px;">
-                    <a href="https://caelestis.fr/questionnaire-devis" style="font-size:14px;font-weight:600;color:#F4F2EC;text-decoration:none;letter-spacing:0.04em;">
-                      Remplir mon questionnaire de devis →
+                    <a href="https://caelestis.fr/outils/simulateur" style="font-size:14px;font-weight:600;color:#F4F2EC;text-decoration:none;letter-spacing:0.04em;">
+                      Estimer mon projet en 2 minutes →
                     </a>
                   </td>
                 </tr>
@@ -312,7 +312,7 @@ function buildDevisInviteEmail(prenom: string, dateStr: string): string {
             <td style="background-color:#12160F;padding:22px 40px;border-radius:0 0 4px 4px;">
               <p style="margin:0;font-size:11px;color:rgba(242,247,240,0.32);line-height:1.65;">
                 Vous recevez cet email suite à votre demande de devis sur <strong style="color:rgba(242,247,240,0.55);">caelestis.fr</strong><br>
-                Lien direct : <a href="https://caelestis.fr/questionnaire-devis" style="color:rgba(242,247,240,0.45);text-decoration:underline;">caelestis.fr/questionnaire-devis</a>
+                Lien direct : <a href="https://caelestis.fr/outils/simulateur" style="color:rgba(242,247,240,0.45);text-decoration:underline;">caelestis.fr/outils/simulateur</a>
               </p>
             </td>
           </tr>
