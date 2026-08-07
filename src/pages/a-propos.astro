@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import AppelFinal from '../components/AppelFinal.astro';
-import BrandMoment from '../components/BrandMoment.astro';
 import { Image } from 'astro:assets';
 import imgBureau from '../assets/images/photo-bureau.jpg';
 
@@ -156,10 +155,17 @@ const ENGAGEMENTS = [
             </p>
           </div>
 
-          <!-- Moment de marque : la signature « Caelestis » animée, en boucle -->
-          <div class="mt-10" data-reveal data-delay="3">
-            <BrandMoment />
-          </div>
+          <!-- La signature de marque, en toutes lettres. Elle remplace le 07/08/2026
+               le bloc « moment de marque », une animation en boucle du nom Caelestis
+               sur un aplat vert olive #2a3b18, couleur de l'ancienne charte que la
+               palette forêt vivante a remplacée. Deux raisons de ne pas l'avoir
+               simplement repeint : le bloc ne portait aucune information, il animait
+               le nom de la marque sur une page qui l'écrit déjà partout, et la règle
+               du site interdit le décor qui remplit. Seule la phrase méritait de
+               rester, elle est ici en clair, lisible par tous et par les moteurs. -->
+          <p class="font-display font-light leading-snug tracking-tight text-center mx-auto mt-12 text-[#2E7452] text-2xl md:text-3xl max-w-[22ch]" data-reveal data-delay="3">
+            Pour ceux qui créent quelque chose de beau.
+          </p>
 
           <div class="mt-12 flex justify-center" data-reveal data-delay="3">
             <Button href="/contact" variant="primary">Réserver un appel</Button>
@@ -295,5 +301,6 @@ const ENGAGEMENTS = [
     color: rgba(252, 251, 248, 0.8);
     max-width: 54ch;
   }
+
 </style>
 
