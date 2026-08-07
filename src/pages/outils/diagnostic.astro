@@ -18,6 +18,22 @@ const schema = {
   provider: { '@id': 'https://caelestis.fr/#business' },
 };
 
+
+/* Les huit familles du diagnostic. Elles vivaient en dur dans une liste a
+   puces de huit lignes serrees : trois cent quarante mots sans un seul repere
+   visuel, sur une page dont c est pourtant l argument central. En donnees, la
+   planche se dessine et la liste reste lisible par les moteurs. */
+const FAMILLES = [
+  { n: "01", nom: "Vitesse",       points: ["temps de réponse", "poids de la page", "compression", "scripts qui retardent l affichage", "services extérieurs appelés", "format des images"] },
+  { n: "02", nom: "Mobile",        points: ["affichage adapté au téléphone", "zoom autorisé", "largeur figée", "mise en page dépassée", "images qui font sauter le contenu"] },
+  { n: "03", nom: "Sécurité",      points: ["connexion chiffrée", "certificat valide", "éléments chargés sans protection", "redirection non sécurisée", "versions de logiciels en clair"] },
+  { n: "04", nom: "Référencement", points: ["présence dans Google", "titre et description", "adresse déclarée", "plan du site", "fiche d informations", "lien vers la fiche Google", "accès des moteurs de réponse"] },
+  { n: "05", nom: "Contenu",       points: ["volume de texte", "ville et zone d intervention", "avis et références", "réalisations", "textes d exemple oubliés", "fraîcheur des mentions"] },
+  { n: "06", nom: "Conversion",    points: ["moyens de vous contacter", "téléphone cliquable", "bouton visible sans défiler", "longueur du formulaire", "horaires", "adresse", "repères de prix"] },
+  { n: "07", nom: "Lisibilité",    points: ["description des images", "libellés de formulaire", "langue déclarée", "cartes et vidéos intégrées", "code laissé à l abandon"] },
+  { n: "08", nom: "Confiance",     points: ["mentions légales", "accord avant les traceurs", "politique de confidentialité", "conditions de vente", "polices et vidéos chez des tiers"] },
+];
+
 const filArianeDiagnostic = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -83,7 +99,7 @@ const filArianeDiagnostic = {
       </form>
 
       <p id="diagAide" class="font-body text-xs text-brun-mid text-center mt-4">
-        L'analyse porte sur la page d'accueil publique. Aucune donnée n'est conservée.
+        L'analyse porte sur la page d'accueil et sur quelques pages internes. Aucune donnée n'est conservée.
       </p>
 
       <div id="diagStatut" role="status" aria-live="polite" class="font-body text-sm text-center mt-6"></div>
@@ -148,19 +164,31 @@ const filArianeDiagnostic = {
         Chaque famille est notée sur 100. Un point relevé coûte des points à sa
         famille selon sa gravité, et la note générale en découle.
       </p>
-      <ul class="diag-criteres font-body">
-        <li><b>Vitesse</b> : temps de réponse, poids de la page, compression, scripts qui retardent l'affichage, services extérieurs appelés, format des images.</li>
-        <li><b>Mobile</b> : affichage adapté au téléphone, zoom autorisé, largeur figée, mise en page dépassée, images qui font sauter le contenu au chargement.</li>
-        <li><b>Sécurité</b> : connexion chiffrée, certificat valide et pas près d'expirer, éléments encore chargés sans protection, redirection de l'ancienne adresse non sécurisée, versions de logiciels laissées en clair.</li>
-        <li><b>Référencement</b> : présence dans Google (autorisée ou bloquée sans le savoir), titre et description affichés dans les résultats, bonne adresse déclarée, plan du site, fiche d'informations, lien vers votre fiche Google, accès des moteurs de réponse comme ChatGPT.</li>
-        <li><b>Contenu</b> : volume de texte, ville et zone d'intervention, avis et références, réalisations, textes d'exemple oubliés, fraîcheur des mentions.</li>
-        <li><b>Conversion</b> : moyens de vous contacter, téléphone cliquable, bouton visible sans faire défiler, longueur du formulaire, horaires, adresse, repères de prix.</li>
-        <li><b>Lisibilité</b> : description des images, libellés de formulaire, langue de la page déclarée, cartes et vidéos intégrées, code laissé à l'abandon.</li>
-        <li><b>Confiance</b> : mentions légales, accord demandé avant les traceurs, politique de confidentialité, conditions de vente, polices et vidéos chargées chez des tiers.</li>
-      </ul>
+      <!-- La planche des huit familles. Posée le 07/08/2026 à la place d'une
+           liste à puces de huit lignes serrées, trois cent quarante mots sans
+           un seul repère visuel sur la page qui porte l'argument central de
+           l'outil. Chaque famille reçoit sa jauge : elle est vide ici, c'est
+           la seule chose honnête à montrer avant qu'un site ait été analysé, et
+           elle annonce le rapport que le visiteur va recevoir. Les points de
+           contrôle restent en toutes lettres sous chaque nom. -->
+      <ol class="diag-planche" role="list">
+        {FAMILLES.map((f) => (
+          <li class="diag-fam">
+            <div class="diag-fam-tete">
+              <span class="diag-fam-n font-body" aria-hidden="true">{f.n}</span>
+              <h3 class="diag-fam-nom font-display">{f.nom}</h3>
+              <span class="diag-fam-note font-body">
+                <span class="diag-fam-jauge" aria-hidden="true"></span>
+                <span class="diag-fam-sur">/ 100</span>
+              </span>
+            </div>
+            <p class="diag-fam-points font-body">{f.points.join(', ')}.</p>
+          </li>
+        ))}
+      </ol>
       <p class="font-body text-sm text-brun-mid mt-10 text-center max-w-[56ch] mx-auto">
         Chaque point est mesuré sur votre page, aucun n'est une appréciation de goût.
-        L'analyse porte sur la page d'accueil et sur les fichiers techniques du site.
+        L'analyse porte sur la page d'accueil, sur quelques pages internes et sur les fichiers techniques du site.
         Un audit complet examine ensuite chaque page, les concurrents et les chiffres de fréquentation.
       </p>
 
@@ -486,6 +514,74 @@ const filArianeDiagnostic = {
     font-size: .93rem;
     margin: 0;
     line-height: 1.55;
+  }
+
+  /* ═══ La planche des huit familles ═══
+     Une ligne par famille, séparées par un filet : le numéro, le nom, la jauge
+     de note, puis les points de contrôle en corps réduit. Deux colonnes dès que
+     la place le permet. La jauge est vide et le reste : afficher une note avant
+     d analyse serait un décor mensonger. */
+  .diag-planche {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--color-cream-dark);
+  }
+  @media (min-width: 880px) {
+    .diag-planche { grid-template-columns: 1fr 1fr; column-gap: 44px; }
+  }
+  .diag-fam {
+    padding: 17px 0 18px;
+    border-bottom: 1px solid var(--color-cream-dark);
+  }
+  .diag-fam-tete {
+    display: flex;
+    align-items: baseline;
+    gap: 11px;
+  }
+  .diag-fam-n {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: var(--color-sauge-text);
+    flex: none;
+  }
+  .diag-fam-nom {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--color-brun);
+    margin: 0;
+    flex: none;
+  }
+  .diag-fam-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    flex: 1;
+    justify-content: flex-end;
+  }
+  /* Jauge vide : le trait attend la mesure, il ne la simule pas. */
+  .diag-fam-jauge {
+    display: block;
+    height: 3px;
+    flex: 1;
+    max-width: 78px;
+    border-radius: 2px;
+    background: var(--color-cream-dark);
+  }
+  .diag-fam-sur {
+    font-size: 0.68rem;
+    color: var(--color-brun-mid);
+    opacity: 0.7;
+    flex: none;
+  }
+  .diag-fam-points {
+    margin-top: 7px;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--color-brun-mid);
   }
 </style>
 
