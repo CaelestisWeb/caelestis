@@ -119,6 +119,20 @@ if (process.argv.includes('--reseau')) {
     if (a.etat !== 'ok') { echecs.push(`${site} injoignable (${a.etat}), contrôle ignoré`); continue; }
     controler(a);
   }
+
+  /* Réponses qui ne disent rien de l'état du site : elles ne doivent produire
+     aucun verdict. la-poste.fr répond 400 à un outil et 200 à un navigateur. */
+  const refuse = await analyserSite('www.la-poste.fr');
+  verifier("un code 400 n'est pas traité comme une page d'accueil disparue",
+    refuse.etat === 'injoignable',
+    `état ${refuse.etat}` + (refuse.etat === 'constat-unique' ? ` : ${refuse.constats[0].fait}` : ''));
+
+  /* Domaine qui ne pointe nulle part : le dire, plutôt que de laisser croire
+     que l'outil refuse d'examiner le site. */
+  const mort = await analyserSite('www.le-potager-fleuri.com');
+  verifier('domaine sans serveur nommé comme tel',
+    mort.etat === 'refuse' && mort.raison.includes('ne pointe vers aucun serveur'),
+    mort.etat === 'refuse' ? mort.raison : `état ${mort.etat}`);
 }
 
 console.log(`\n${reussis} contrôle(s) réussi(s), ${echecs.length} échec(s).`);

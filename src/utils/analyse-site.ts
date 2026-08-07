@@ -165,20 +165,40 @@ function ipv6Privee(ip: string): boolean {
   return false;
 }
 
-/** Résout le nom et refuse tout hôte qui pointe vers une adresse non publique. */
-async function hotePublic(hostname: string): Promise<boolean> {
+/**
+ * Résout le nom et refuse tout hôte qui pointe vers une adresse non publique.
+ * Distingue les deux causes de refus : un nom qui ne mène nulle part n'est pas
+ * la même chose qu'un nom qui mène au réseau interne. Le dire de la même façon
+ * laissait croire au visiteur que l'outil refusait d'examiner son site, alors
+ * que son domaine ne pointait plus vers aucun serveur.
+ */
+type Resolution = 'public' | 'introuvable' | 'non-public' | 'indeterminee';
+
+async function resoudre(hostname: string): Promise<Resolution> {
   // Une adresse IP saisie directement se teste sans résolution.
-  if (/^\d+\.\d+\.\d+\.\d+$/.test(hostname)) return !ipv4Privee(hostname);
-  if (hostname.includes(':')) return !ipv6Privee(hostname);
-  if (/^(localhost|.*\.local|.*\.internal|.*\.localhost)$/i.test(hostname)) return false;
+  if (/^\d+\.\d+\.\d+\.\d+$/.test(hostname)) return ipv4Privee(hostname) ? 'non-public' : 'public';
+  if (hostname.includes(':')) return ipv6Privee(hostname) ? 'non-public' : 'public';
+  if (/^(localhost|.*\.local|.*\.internal|.*\.localhost)$/i.test(hostname)) return 'non-public';
 
   try {
     const adresses = await lookup(hostname, { all: true });
-    if (adresses.length === 0) return false;
-    return adresses.every((a) => (a.family === 6 ? !ipv6Privee(a.address) : !ipv4Privee(a.address)));
-  } catch {
-    return false;
+    if (adresses.length === 0) return 'introuvable';
+    const publiques = adresses.every((a) =>
+      a.family === 6 ? !ipv6Privee(a.address) : !ipv4Privee(a.address),
+    );
+    return publiques ? 'public' : 'non-public';
+  } catch (erreur: any) {
+    const code = erreur?.code;
+    if (code === 'ENOTFOUND' || code === 'ENODATA') return 'introuvable';
+    /* EAI_AGAIN et consorts : c'est la résolution qui a échoué, pas le domaine
+       qui manque. La requête est refusée par prudence, mais rien ne permet
+       d'affirmer quoi que ce soit sur le site. */
+    return 'indeterminee';
   }
+}
+
+async function hotePublic(hostname: string): Promise<boolean> {
+  return (await resoudre(hostname)) === 'public';
 }
 
 /** Normalise la saisie d'un visiteur en URL exploitable, ou rejette. */
@@ -608,7 +628,20 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   if (!depart) {
     return { etat: 'refuse', raison: "Cette adresse n'est pas exploitable. Saisissez une adresse de site, par exemple mon-entreprise.fr" };
   }
-  if (!(await hotePublic(depart.hostname))) {
+  const resolution = await resoudre(depart.hostname);
+  if (resolution === 'introuvable') {
+    return {
+      etat: 'refuse',
+      raison: `Le domaine ${depart.hostname} ne pointe vers aucun serveur : il n'existe plus, il n'est pas encore configuré, ou son nom comporte une faute de frappe. Rien ne s'affiche pour un visiteur qui saisit cette adresse.`,
+    };
+  }
+  if (resolution === 'indeterminee') {
+    return {
+      etat: 'refuse',
+      raison: `La recherche de l'adresse de ${depart.hostname} n'a pas abouti. Le nom de domaine n'a pas pu être résolu au moment de l'analyse : réessayez dans un instant, et vérifiez l'orthographe de l'adresse.`,
+    };
+  }
+  if (resolution === 'non-public') {
     return { etat: 'refuse', raison: 'Cette adresse ne correspond pas à un site accessible publiquement.' };
   }
 
@@ -659,12 +692,19 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
        par un filtre anti-robot répondent 403 à tout ce qui n'est pas un
        navigateur, tout en fonctionnant parfaitement pour un visiteur. Le dire
        autrement serait une accusation fausse. */
-    if (erreurHttp === 401 || erreurHttp === 403 || erreurHttp === 429) {
+    /* Codes qui traduisent un refus de la requête, et non l'état du site :
+       filtre anti-robot, en-têtes jugés invalides, méthode ou format écartés,
+       restriction géographique. La page existe et s'affiche pour un visiteur.
+       Les confondre avec une page absente produisait une accusation fausse :
+       la-poste.fr, qui répond 400 à un outil et 200 à un navigateur, se voyait
+       reprocher une page d'accueil disparue. */
+    const REFUS_DE_REQUETE = new Set([400, 401, 403, 405, 406, 409, 421, 422, 429, 451]);
+    if (erreurHttp && REFUS_DE_REQUETE.has(erreurHttp)) {
       return {
         etat: 'injoignable', hote, url: depart.href,
         raison: filtreNomme
           ? `Le serveur de ${hote} a refusé l'analyse automatique, code ${erreurHttp} : ${filtreNomme} exige l'exécution d'un script avant de servir la page. Le site s'ouvre normalement dans un navigateur, mais aucun outil extérieur ne peut le mesurer, et il vaut la peine de vérifier que les moteurs de recherche, eux, passent bien.`
-          : `Le serveur de ${hote} a refusé l'analyse automatique, code ${erreurHttp}. C'est le comportement d'un filtre anti-robot : le site fonctionne probablement pour un visiteur, mais il ne peut pas être mesuré depuis l'extérieur. Ce point mérite d'être vérifié à la main.`,
+          : `Le serveur de ${hote} a refusé l'analyse automatique, code ${erreurHttp}. C'est le comportement d'un filtre qui écarte tout ce qui n'est pas un navigateur : le site fonctionne probablement pour un visiteur, mais il ne peut pas être mesuré depuis l'extérieur. Ce point mérite d'être vérifié à la main.`,
       };
     }
     if (erreurHttp && erreurHttp >= 500) {
@@ -674,6 +714,8 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
         "La panne est côté serveur, pas côté visiteur. Tant qu'elle dure, le site est inaccessible à tout le monde, Google compris.",
       );
     }
+    /* Ne restent que les codes qui désignent bien une page absente : 404, 410
+       et leurs voisins. */
     if (erreurHttp) {
       return unique(
         'referencement',
