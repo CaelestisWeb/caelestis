@@ -74,6 +74,29 @@ const breadcrumb = {
 };
 
 // Départements de la région (mention naturelle, pas de pages dédiées)
+
+/* Les villes du schéma du territoire. Repère SVG de 420 par 420, Crest au
+   centre (210, 210), 62 px pour une heure de route, angle réel depuis Crest :
+   x = 210 + r·sin(angle), y = 210 − r·cos(angle). Les durées sont relevées par
+   la route et arrondies au quart d'heure. Le champ « pos » oriente l'étiquette
+   autour de son point (n, s, e, o) pour éviter les chevauchements ; ajouter une
+   ville demande de recalculer sa position et de vérifier qu'aucune étiquette
+   n'en recouvre une autre à 380 px de large, la plus étroite des trois. */
+const VILLES = [
+  { nom: 'Valence', duree: '30 min', x: 190, y: 186, pos: 'o' },
+  { nom: 'Montélimar', duree: '35 min', x: 210, y: 247, pos: 's' },
+  { nom: 'Privas', duree: '50 min', x: 157, y: 212, pos: 'o' },
+  { nom: 'Grenoble', duree: '1 h 20', x: 264, y: 146, pos: 'e' },
+  { nom: 'Saint-Étienne', duree: '1 h 45', x: 133, y: 133, pos: 'o' },
+  { nom: 'Lyon', duree: '1 h 45', x: 191, y: 103, pos: 'n' },
+  // Étiquette au nord et non à l'est : Chambéry et Annecy partagent presque le
+  // même azimut depuis Crest (25 et 32 degrés), leurs deux étiquettes posées à
+  // droite se recouvraient. Les points, eux, restent à leur place exacte.
+  { nom: 'Chambéry', duree: '2 h', x: 262, y: 98, pos: 'n' },
+  { nom: 'Annecy', duree: '2 h 30', x: 292, y: 79, pos: 'e' },
+  { nom: 'Clermont-Ferrand', duree: '3 h', x: 95, y: 63, pos: 'n' },
+];
+
 const departements = [
   'Drôme', 'Ardèche', 'Isère', 'Rhône', 'Loire', 'Savoie',
   'Haute-Savoie', 'Ain', 'Puy-de-Dôme', 'Cantal', 'Haute-Loire', 'Allier',
@@ -113,29 +136,77 @@ const departements = [
     </div>
   </section>
 
-  <!-- ── Une région que nous connaissons ── -->
-  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20">
-    <div class="max-w-4xl mx-auto" data-reveal>
-      <div class="text-center mb-10">
+  <!-- ── Le territoire, à l'échelle du temps de route ──
+       Posé le 07/08/2026. La section énumérait douze départements et huit villes
+       en deux paragraphes centrés, sans rien montrer, et la section suivante
+       traitait à part l'objection de la distance. Le schéma répond aux deux :
+       Crest au centre, les villes placées dans leur direction réelle et à leur
+       distance de route, trois anneaux d'une heure. Le lecteur voit d'un coup
+       que la moitié de la région est à moins de deux heures.
+       Ce n'est pas une carte géographique et cela ne prétend pas l'être : les
+       contours des départements ne sont pas tracés, seules comptent la direction
+       et la durée, qui sont vraies. Durées relevées par la route, arrondies au
+       quart d'heure. Les mettre à jour si une ville est ajoutée. -->
+  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20" aria-labelledby="territoire-title">
+    <div class="max-w-5xl mx-auto">
+
+      <div class="text-center mb-12" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Votre territoire</p>
-        <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
-          Une agence web qui connaît votre région.
+        <h2 id="territoire-title" class="font-display font-light text-brun leading-[1.15] mb-6" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
+          Douze départements, un seul interlocuteur.
         </h2>
-      </div>
-      <div class="max-w-2xl mx-auto space-y-4 text-center">
-        <p class="font-body text-base text-brun-mid leading-relaxed">
-          L'Auvergne-Rhône-Alpes, c'est douze départements de terroirs, de montagnes et de savoir-faire : la Drôme et l'Ardèche aux accents provençaux, l'Isère et les deux Savoie alpines, le Rhône et la Loire, le Puy-de-Dôme et le Cantal volcaniques, sans oublier l'Ain, la Haute-Loire et l'Allier.
-        </p>
-        <p class="font-body text-base text-brun-mid leading-relaxed">
-          Que vous soyez à Valence, Lyon, Grenoble, Annecy, Chambéry, Clermont-Ferrand, Saint-Étienne ou dans un village du Diois, nous construisons votre site avec la même attention et la même connaissance du terrain local.
+        <p class="font-body text-base text-brun-mid leading-relaxed max-w-2xl mx-auto">
+          Nous sommes à Crest, dans la Drôme. Tout se fait à distance quand il le
+          faut, un premier échange en visio, des points réguliers, un site livré
+          sans que vous ayez à vous déplacer. Et si vous êtes à moins de deux
+          heures, on peut se rencontrer.
         </p>
       </div>
 
-      <!-- Bande départements -->
-      <div class="mt-12 grid grid-cols-3 justify-items-center gap-2.5 sm:flex sm:flex-wrap sm:justify-center max-w-xl mx-auto" data-reveal data-delay="1">
-        {departements.map((d) => (
-          <span class="font-body text-xs tracking-[0.08em] text-brun-mid border border-cream-dark rounded-full px-3.5 py-1.5">{d}</span>
-        ))}
+      <div class="terr" data-reveal data-delay="1">
+
+        <!-- Le schéma. Décoratif : les mêmes villes et les mêmes durées sont
+             listées juste en dessous, en toutes lettres. -->
+        <div class="terr-schema" aria-hidden="true">
+          <svg viewBox="0 0 420 420" fill="none">
+            {[1, 2, 3].map((h) => (
+              <circle cx="210" cy="210" r={String(h * 62)} class="terr-anneau" />
+            ))}
+            {VILLES.map((v) => (
+              <line x1="210" y1="210" x2={String(v.x)} y2={String(v.y)} class="terr-rayon" />
+            ))}
+            <text x="210" y="152" class="terr-legende" text-anchor="middle">1 h</text>
+            <text x="210" y="90" class="terr-legende" text-anchor="middle">2 h</text>
+            <text x="210" y="28" class="terr-legende" text-anchor="middle">3 h</text>
+          </svg>
+
+          <span class="terr-centre font-body">
+            <span class="terr-point" aria-hidden="true"></span>
+            Crest
+          </span>
+
+          {VILLES.map((v) => (
+            <span class={`terr-ville font-body est-${v.pos}`} style={`left:${(v.x / 420) * 100}%; top:${(v.y / 420) * 100}%`}>
+              {v.nom}
+            </span>
+          ))}
+        </div>
+
+        <!-- Les villes en clair : c'est ce que lisent les lecteurs d'écran et ce
+             qu'indexe Google, le schéma n'est qu'une mise en forme. -->
+        <div class="terr-texte">
+          <p class="terr-tete font-body">Depuis Crest, par la route</p>
+          <ul class="terr-liste font-body" role="list">
+            {VILLES.map((v) => (
+              <li><span>{v.nom}</span><b>{v.duree}</b></li>
+            ))}
+          </ul>
+          <p class="terr-note font-body">
+            Les {departements.length} départements de la région sont couverts :
+            {departements.slice(0, -1).join(', ')} et {departements[departements.length - 1]}.
+          </p>
+        </div>
+
       </div>
     </div>
   </section>
@@ -152,26 +223,6 @@ const departements = [
       <p class="font-body text-base leading-relaxed text-center max-w-2xl mx-auto" style="color: rgba(252, 251, 248,0.80)" data-reveal data-delay="1">
         Nous travaillons avec les métiers de la nature, du terroir et de la main. Vous cultivez, vous élevez, vous fabriquez, vous accueillez : artisans, producteurs, créateurs et indépendants, dès lors que votre métier se voit, se goûte ou se touche. Maraîchers et apiculteurs, boulangers et brasseurs, ébénistes et charpentiers, paysagistes et pépiniéristes, gîtes et écuries, praticiens du bien-être et associations environnementales. Des métiers de passion, souvent peu visibles en ligne, qui méritent un site à la hauteur de leur savoir-faire.
       </p>
-    </div>
-  </section>
-
-  <!-- ── La distance n'est pas un frein ── -->
-  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark">
-    <div class="max-w-4xl mx-auto" data-reveal>
-      <div class="text-center mb-10">
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Comment ça marche</p>
-        <h2 class="font-display font-light text-brun leading-[1.15]" style="font-size: clamp(1.7rem, 3vw, 2.4rem);">
-          La distance n'est pas un frein.
-        </h2>
-      </div>
-      <div class="max-w-2xl mx-auto space-y-4 text-center">
-        <p class="font-body text-base text-brun-mid leading-relaxed">
-          Pas besoin d'être dans le même village pour bien travailler ensemble. Tout se fait simplement, à distance : un premier échange en visio ou par téléphone, des points réguliers, et un site livré sans que vous ayez à vous déplacer.
-        </p>
-        <p class="font-body text-base text-brun-mid leading-relaxed">
-          Et si vous êtes proches de la Drôme, on peut bien sûr se rencontrer. Où que vous soyez dans la région, vous gardez un interlocuteur unique, disponible avant comme après la mise en ligne.
-        </p>
-      </div>
     </div>
   </section>
 
@@ -235,6 +286,117 @@ const departements = [
   </section>
 
 </BaseLayout>
+
+<style>
+  /* ═══ Le territoire, à l'échelle du temps de route ═══
+     Un schéma radial, pas une carte : Crest au centre, chaque ville dans sa
+     direction réelle et à sa distance de route, un anneau par heure. Les
+     étiquettes sont posées en pourcentage du carré, donc elles suivent le
+     schéma à toutes les tailles. */
+  .terr { display: grid; gap: 40px; align-items: center; }
+  @media (min-width: 900px) {
+    .terr { grid-template-columns: 1fr 20rem; gap: 56px; }
+  }
+
+  .terr-schema {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    aspect-ratio: 1;
+  }
+  .terr-schema svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .terr-anneau { stroke: var(--color-cream-dark); stroke-width: 1; }
+  .terr-rayon { stroke: var(--color-sauge); stroke-width: 0.8; opacity: 0.42; }
+  .terr-legende {
+    font-family: var(--font-body);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    fill: var(--color-brun-mid);
+    opacity: 0.6;
+  }
+
+  .terr-centre {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 6px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--color-brun);
+    white-space: nowrap;
+  }
+  .terr-point {
+    position: absolute;
+    top: -10px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--color-brun);
+  }
+
+  .terr-ville {
+    position: absolute;
+    font-size: 0.7rem;
+    color: var(--color-brun-mid);
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+  }
+  /* Le point de la ville, et l'étiquette poussée vers l'extérieur du cercle. */
+  .terr-ville::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    margin: -2.5px 0 0 -2.5px;
+    border-radius: 50%;
+    background: var(--color-sauge-text);
+  }
+  .terr-ville.est-n { transform: translate(-50%, -160%); }
+  .terr-ville.est-s { transform: translate(-50%, 60%); }
+  .terr-ville.est-e { transform: translate(14px, -50%); }
+  .terr-ville.est-o { transform: translate(calc(-100% - 14px), -50%); }
+  .terr-ville.est-n::before { top: 160%; }
+  .terr-ville.est-s::before { top: -60%; }
+  .terr-ville.est-e::before { left: -14px; }
+  .terr-ville.est-o::before { left: calc(100% + 14px); }
+
+  .terr-tete {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-sauge-text);
+    margin-bottom: 14px;
+  }
+  .terr-liste { list-style: none; margin: 0; padding: 0; }
+  .terr-liste li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--color-cream-dark);
+    font-size: 0.9rem;
+    color: var(--color-brun-mid);
+  }
+  .terr-liste li:last-child { border-bottom: 0; }
+  .terr-liste b { color: var(--color-brun); font-weight: 500; white-space: nowrap; }
+  .terr-note {
+    margin-top: 18px;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--color-brun-mid);
+    opacity: 0.85;
+  }
+</style>
+
 
 <style>
   .seo-faq { border-top: 1px solid var(--color-cream-dark); }
