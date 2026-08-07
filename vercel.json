@@ -113,7 +113,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' data: https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; media-src 'self'; frame-src https://maps.google.com https://www.google.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://www.googletagmanager.com https://stats.g.doubleclick.net https://www.facebook.com; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'none'; manifest-src 'self';"
+          "value": "default-src 'self'; script-src 'self' 'sha256-9GtNaNnKkfg73a2lbqeMsf4xrivTqfnTqkHg3vzQE6A=' 'sha256-GrUTQrNe1Mrtrfr1gbEhhiYmD9kYonZMAz146y77TuM=' 'sha256-PB+E0Ol+gribOBIOEsFF+vyXiChF/mUEsi3cj9qGOm8=' 'sha256-UDeMxuUsQNXZ1dahzEm1AyeCK9PQxBcA0oIlB4QRQfg=' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; media-src 'self'; frame-src https://maps.google.com https://www.google.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://www.googletagmanager.com https://stats.g.doubleclick.net https://www.facebook.com; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'none'; manifest-src 'self';"
         }
       ]
     },

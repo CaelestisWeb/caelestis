@@ -53,5 +53,17 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      // Ne jamais inliner les scripts « hoisted » dans le HTML : ils restent des
+      // fichiers /_astro/*.js (donc 'self' au sens CSP). Cela permet de retirer
+      // 'unsafe-inline' de script-src (voir vercel.json) sans devoir hacher un jeu
+      // de scripts de composants qui change à chaque build. Ne restent inline que
+      // les 2 scripts is:inline de BaseLayout (failsafe reveal, GA4), au contenu
+      // fixe et donc au hash stable. Les autres assets (CSS, polices, images)
+      // gardent le comportement par défaut : la fonction renvoie undefined, ce qui
+      // retombe sur le seuil standard de 4096 octets.
+      assetsInlineLimit: (assetPath) =>
+        assetPath.endsWith('.js') || assetPath.endsWith('.mjs') ? false : undefined,
+    },
   },
 });
