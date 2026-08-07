@@ -167,7 +167,7 @@ const anatomie = [
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute top-24 -left-24 w-72 h-72"></div>
     <div aria-hidden="true" class="light-blob light-blob-bois pointer-events-none absolute -bottom-10 right-0 w-80 h-80"></div>
 
-    <div class="max-w-3xl mx-auto relative">
+    <div class="max-w-5xl mx-auto relative">
       <div class="text-center mb-12" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">L'anatomie de votre page</p>
         <h2 class="font-display font-light leading-[1.15] mb-5" style="font-size: clamp(1.7rem, 3vw, 2.4rem); color: rgba(252, 251, 248,0.94);">
@@ -178,13 +178,34 @@ const anatomie = [
         </p>
       </div>
 
-      <div class="anat-list max-w-lg mx-auto space-y-2.5" data-reveal data-delay="1">
+      <div class="anat-duo" data-reveal data-delay="1">
+      <!-- L'élévation de la page. Posée le 07/08/2026 à côté des blocs
+           existants : la section s'appelle « l'anatomie de votre page » et
+           décrivait neuf sections empilées sans jamais montrer l'empilement.
+           Le dessin est à l'échelle de ce que chaque section occupe vraiment
+           dans une page, et la bande du bloc sélectionné s'allume avec lui.
+           Décoratif : tout ce qu'il dit est écrit dans les blocs à côté. -->
+      <div class="elev" aria-hidden="true">
+        <span class="elev-legende font-body">Votre page, de haut en bas</span>
+        <div class="elev-page">
+          {anatomie.map((s, i) => (
+            <span
+              class={`elev-bande ${i === 0 ? 'est-actif' : ''}`}
+              data-bande={String(i)}
+              style={`flex: ${[26, 10, 20, 16, 13, 10, 12, 14, 7][i] ?? 12}`}
+            ></span>
+          ))}
+        </div>
+      </div>
+
+      <div class="anat-list space-y-2.5">
         {anatomie.map((s, i) => (
-          <button type="button" class={`anat-block ${i === 0 ? 'is-selected' : ''}`} aria-pressed={i === 0 ? 'true' : 'false'}>
+          <button type="button" class={`anat-block ${i === 0 ? 'is-selected' : ''}`} data-section={String(i)} aria-pressed={i === 0 ? 'true' : 'false'}>
             <span class="anat-title">{s.t}</span>
             <span class="anat-desc">{s.d}</span>
           </button>
         ))}
+      </div>
       </div>
 
       <p class="text-center font-body text-sm mt-8 max-w-xl mx-auto" style="color: rgba(252, 251, 248,0.80);" data-reveal data-delay="2">
@@ -404,6 +425,51 @@ const anatomie = [
     .anat-block:hover:not(.is-selected),
     .anat-block.is-selected { transform: none; }
   }
+
+  /* ═══ L élévation de la page ═══
+     Deux colonnes : le dessin de la page à gauche, les sections cliquables à
+     droite. Le dessin est un empilement de bandes dont la hauteur suit celle
+     que chaque section occupe réellement dans une page livrée : la bannière
+     tient un quart de la hauteur, le pied de page une portion. Sur mobile, le
+     dessin passe au-dessus, réduit, il sert alors de repère et non de plan. */
+  .anat-duo { display: grid; gap: 26px; align-items: start; }
+  @media (min-width: 900px) {
+    .anat-duo { grid-template-columns: 168px 1fr; gap: 44px; }
+  }
+
+  .elev { position: sticky; top: 92px; }
+  @media (max-width: 899px) { .elev { position: static; } }
+
+  .elev-legende {
+    display: block;
+    font-size: 0.64rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(252, 251, 248, 0.55);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .elev-page {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    height: 300px;
+    padding: 5px;
+    border: 1px solid rgba(252, 251, 248, 0.22);
+    border-radius: 5px;
+  }
+  @media (max-width: 899px) {
+    .elev-page { flex-direction: row; height: 46px; }
+  }
+  .elev-bande {
+    display: block;
+    background: rgba(252, 251, 248, 0.13);
+    border-radius: 2px;
+    transition: background-color 0.28s ease;
+  }
+  /* Lin-mousse et non sauge : sur le vert forêt, la sauge plafonne à 4,34:1. */
+  .elev-bande.est-actif { background: #E3EFE8; }
+  @media (prefers-reduced-motion: reduce) { .elev-bande { transition: none; } }
 </style>
 
 <script>
@@ -422,6 +488,10 @@ const anatomie = [
         x.setAttribute('aria-pressed', 'false');
       });
       block.classList.add('is-selected');
+      const rang = block.getAttribute('data-section');
+      document.querySelectorAll('.elev-bande').forEach((b) => {
+        b.classList.toggle('est-actif', b.getAttribute('data-bande') === rang);
+      });
       block.setAttribute('aria-pressed', 'true');
     });
   }

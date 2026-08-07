@@ -184,6 +184,24 @@ const inclus = [
         Cinq étapes, cinq endroits où une vente se perd quand c'est mal fait. Chacune est traitée avec le même soin.
       </p>
 
+      <!-- Le tunnel, dessiné. Posé le 07/08/2026 : la section annonce « cinq
+           endroits où une vente se perd » et les présentait en liste verticale
+           numérotée, c'est-à-dire de la façon la moins propre à montrer un
+           chemin. Cinq écrans reliés par des flèches disent le parcours d'un
+           coup d'œil, et le rétrécissement de chacun rappelle qu'à chaque étape
+           il reste moins de monde. Décoratif, tout est repris dans la liste. -->
+      <ol class="tunnel" aria-hidden="true" data-reveal>
+        {parcours.map((p, i) => (
+          <li class="tunnel-etape" style={`--reste: ${96 - i * 8}px`}>
+            <span class="tunnel-ecran">
+              <span class="tunnel-barre"></span>
+              <span class="tunnel-corps"></span>
+            </span>
+            <span class="tunnel-nom font-body">{p.t}</span>
+          </li>
+        ))}
+      </ol>
+
       <ol class="space-y-0" role="list">
         {parcours.map((p, i) => (
           <li class="grid grid-cols-[auto_1fr] gap-6 py-6 border-b border-cream/15" data-reveal data-delay={String(i % 3)}>
@@ -267,3 +285,66 @@ const inclus = [
   />
 
 </BaseLayout>
+
+<style>
+  /* ═══ Le tunnel d achat ═══
+     Cinq écrans reliés, chacun un peu plus court que le précédent : la vente
+     se perd en chemin, la forme le dit avant le texte. Le rétrécissement est
+     une figure, pas une donnée : aucun taux n est avancé, Caelestis n a pas
+     encore de mesure à montrer. Sur mobile, la file passe en défilement
+     horizontal plutôt qu en cinq vignettes illisibles. */
+  .tunnel {
+    list-style: none;
+    margin: 0 0 44px;
+    padding: 0 0 6px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    align-items: end;
+  }
+  @media (max-width: 640px) {
+    .tunnel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      gap: 12px;
+    }
+    .tunnel-etape { flex: 0 0 108px; scroll-snap-align: start; }
+  }
+
+  .tunnel-etape { position: relative; text-align: center; }
+  /* La flèche de liaison, sauf après le dernier écran. */
+  .tunnel-etape:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 34%;
+    right: -8px;
+    width: 7px;
+    height: 7px;
+    border-top: 1px solid rgba(252, 251, 248, 0.4);
+    border-right: 1px solid rgba(252, 251, 248, 0.4);
+    transform: rotate(45deg);
+  }
+
+  .tunnel-ecran {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    height: var(--reste, 96px);
+    padding: 4px;
+    border: 1px solid rgba(252, 251, 248, 0.2);
+    border-radius: 4px;
+    background: rgba(252, 251, 248, 0.05);
+  }
+  .tunnel-barre { display: block; height: 4px; background: rgba(252, 251, 248, 0.26); border-radius: 1px; }
+  .tunnel-corps { display: block; flex: 1; background: rgba(252, 251, 248, 0.12); border-radius: 2px; }
+
+  .tunnel-nom {
+    display: block;
+    margin-top: 9px;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    color: rgba(252, 251, 248, 0.75);
+  }
+</style>
+

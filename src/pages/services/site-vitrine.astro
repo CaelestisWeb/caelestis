@@ -177,6 +177,26 @@ const inclus = [
         Cinq à huit pages en général. Le nombre se décide au cadrage, à partir de ce que vous avez réellement à montrer.
       </p>
 
+      <!-- Le plan du site, dessiné. Posé le 07/08/2026 : la section liste cinq
+           pages numérotées, ce qui décrit un empilement alors qu'un site vitrine
+           est une arborescence. Le dessin montre ce que la liste ne peut pas
+           dire, que l'accueil distribue vers les autres pages et qu'aucune n'est
+           enterrée à deux clics. Décoratif, les noms sont repris dans la liste. -->
+      <div class="arbo" aria-hidden="true" data-reveal>
+        <span class="arbo-racine font-body">{pages[0].t}</span>
+        <svg class="arbo-traits" viewBox="0 0 400 46" fill="none" preserveAspectRatio="none">
+          <path d="M200 0 V16" class="arbo-trait" />
+          <path d="M50 46 V30 H350 V46" class="arbo-trait" />
+          <path d="M150 46 V30 M250 46 V30" class="arbo-trait" />
+          <path d="M200 16 V30" class="arbo-trait" />
+        </svg>
+        <div class="arbo-feuilles">
+          {pages.slice(1).map((p) => (
+            <span class="arbo-feuille font-body">{p.t}</span>
+          ))}
+        </div>
+      </div>
+
       <ol class="space-y-0" role="list">
         {pages.map((p, i) => (
           <li class="grid grid-cols-[auto_1fr] gap-6 py-6 border-b border-cream/15" data-reveal data-delay={String(i % 3)}>
@@ -260,3 +280,51 @@ const inclus = [
   />
 
 </BaseLayout>
+
+<style>
+  /* ═══ Le plan du site vitrine ═══
+     Une racine, quatre feuilles, des traits qui les relient : ce que la liste
+     numérotée ne peut pas montrer, à savoir qu aucune page n est à plus d un
+     clic de l accueil. Sur mobile, les feuilles passent sur deux rangs et les
+     traits disparaissent, un plan illisible ne vaut pas mieux que pas de plan. */
+  .arbo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 30rem;
+    margin: 0 auto 46px;
+  }
+  .arbo-racine, .arbo-feuille {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    padding: 7px 14px;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+  .arbo-racine {
+    background: rgba(252, 251, 248, 0.14);
+    border: 1px solid rgba(252, 251, 248, 0.3);
+    color: #FCFBF8;
+  }
+  .arbo-feuille {
+    border: 1px solid rgba(252, 251, 248, 0.18);
+    color: rgba(252, 251, 248, 0.82);
+  }
+  .arbo-traits { width: 100%; height: 46px; display: block; }
+  .arbo-trait { stroke: rgba(252, 251, 248, 0.28); stroke-width: 1.2; }
+  .arbo-feuilles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    width: 100%;
+    justify-items: center;
+  }
+  @media (max-width: 700px) {
+    .arbo-traits { display: none; }
+    .arbo-feuilles { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 16px; }
+    .arbo-feuille { width: 100%; }
+  }
+</style>
+
