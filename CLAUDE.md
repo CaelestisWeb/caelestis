@@ -121,3 +121,24 @@ Règle accessibilité en place : `.text-sauge` (accent décoratif `#B8C4BB`) ne 
   - **Conséquence pour toute nouvelle réalisation** : le champ `metier` est un mot-clé, plus une étiquette. L'écrire tel qu'un prospect le taperait (« Paysagiste », pas « Créateur d'espaces verts »), au singulier, capitalisé (le gabarit décapitalise et gère l'élision : d'apiculteur, d'éleveur, d'ébéniste, d'horticulteur).
   - **L'accroche doit porter la ville ou la région** (« à Crest », « dans la Drôme ») : elle sort du title faute de place et n'existe plus que là.
   - **Reste ouvert, non lancé** : 3 ou 4 pages par **façon de travailler** et non par métier (vendre sa production, intervenir chez le client, recevoir sur rendez-vous, accueillir sur place). Chacune couvre 10 à 15 métiers en restant précise, puisqu'elle parle d'un besoin et non d'une liste de noms. Décision de Célestin le 01/08 : plus tard, après mesure des métas.
+
+- **07/08/2026, épuration du site, mesure avant tout arbitrage** : dix sites d'agence relevés au navigateur (hauteur de page, mots visibles, sections, libellés de bouton), puis comparaison à Caelestis. La grandeur utile n'est pas la longueur de la page mais la **densité de texte, en mots visibles pour 1 000 px de hauteur**.
+
+  | Site | Hauteur | Mots | Densité | Nav |
+  |---|---|---|---|---|
+  | studiometa.fr | 9 215 px | 469 | 51 | 5 |
+  | agencevauclair.com | 12 029 px | 881 | 73 | 4 |
+  | digidop.com | 11 618 px | 885 | 76 | 7 à 10 |
+  | tatoun.fr | 6 591 px | 1 024 | 155 | 5 |
+  | **caelestis.fr avant** | **11 100 px** | **2 088** | **188** | **7** |
+  | **caelestis.fr après** | **8 848 px** | **1 333** | **151** | **6** |
+
+  Également relevés sans mesure de hauteur : ags.heinlyacademie.com (30 sections, 8 000 mots, mais **deux libellés de bouton seulement**), seriousweb.fr, aleo.agency, wedezign.fr, octaveoctave.com, studioparici.com. Médiane des dix : 13 sections, 5 entrées de navigation.
+
+  - **Les pages des top performers sont aussi longues que la nôtre, elles portent deux à trois fois moins de texte.** Chercher à raccourcir la page est donc un faux objectif : c'est le nombre de mots par écran qu'il faut tenir. Cible de travail : rester sous 155, la valeur de Tatoun, le seul des dix qui vende aux mêmes clients (TPE, artisans).
+  - **Un seul libellé de bouton par page**, l'en-tête excepté qui porte le sien partout. C'est le point commun des trois meilleurs convertisseurs du relevé. L'accueil en affichait trois pour une seule action (« Parler de mon projet », « Demander un devis », « Écrivez-nous »), /services trois également.
+  - **Ce qui a été retiré** : la section « Vérifiable avant de nous croire » de l'accueil (elle redisait Réalisations, cinq blocs plus haut, avec les mêmes liens) ; les trois blocs de l'accueil qui reprenaient /services mot pour mot (référencement, fiche Google, maintenance), remplacés par une phrase et un lien ; huit questions de FAQ sur quinze, toutes traitées sur une page dédiée ; la seconde version de la méthode, qui vivait sur /services avec ses propres textes et 246 lignes de code ; le bandeau « Une question, un conseil ? » du pied de page ; l'entrée « Accueil » de la barre de navigation.
+  - **Règle qui en découle, à tenir** : l'accueil **annonce** l'offre, /services la **détaille**. Toute information qui existe sur une page dédiée ne revient sur l'accueil que sous forme d'une phrase et d'un lien. Ne pas réintroduire sur l'accueil les prestations Google, le détail de la maintenance ni un second appel à l'action en fin de section.
+  - **La méthode n'existe plus qu'à un seul endroit, l'accueil** (`#methode`), parce que sa version y est la meilleure : durées et rôle du client à chaque étape. `/ressources/combien-de-temps-pour-creer-un-site` y renvoie déjà. Si elle devait revenir sur /services, il faudrait alors la retirer de l'accueil, pas la dupliquer.
+  - **Conséquence de rythme traitée** : la frise de méthode portait le seul fond sombre de /services, qui se retrouvait avec six sections crème à la suite. Les engagements et le suivi sont passés en lin-mousse, une section sur deux est teintée. Toute suppression de section colorée demande ce contrôle : relever `getComputedStyle(section).backgroundColor` sur toutes les sections de la page.
+  - **Piège d'édition, rencontré cinq fois** : les sources portent déjà les espaces insécables (`U+00A0`) avant `? : !` et entre le nombre et le `€`. Un remplacement de chaîne écrit avec une espace ordinaire échoue silencieusement. Éditer par script en tolérant `\s`, ou copier la chaîne depuis le fichier.
