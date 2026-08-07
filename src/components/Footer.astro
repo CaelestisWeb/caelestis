@@ -136,14 +136,19 @@ const socials = [
     <div class="text-center mb-7 md:mb-11">
       <p class="font-body text-xs tracking-widest uppercase mb-3.5 md:mb-5" style="color: rgba(252, 251, 248,0.75)">Navigation</p>
       <nav class="flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-2.5 md:gap-x-6 lg:gap-x-7 xl:gap-x-9" aria-label="Navigation du site">
+        {/* Huit entrées et non dix depuis le 07/08/2026. « Référencement » et
+            « Fiche Google » sont des pages filles de Services : elles vivaient
+            ici au même rang que Services lui-même, dans une ligne de dix
+            libellés sans hiérarchie. Elles restent à un clic, par le menu
+            déroulant Services de l'en-tête, présent sur toutes les pages, par
+            la page /services et par l'accueil, ce qui laisse deux à trois liens
+            internes vers chacune sur chaque page du site. */}
         {[
           { href: '/',                      label: 'Accueil'       },
           { href: '/services',              label: 'Services'      },
           { href: '/realisations',          label: 'Réalisations'  },
           { href: '/outils/simulateur',     label: 'Simulateur'    },
           { href: '/outils/diagnostic',     label: 'Diagnostic'    },
-          { href: '/services/referencement-naturel', label: 'Référencement' },
-          { href: '/services/fiche-google-entreprise', label: 'Fiche Google'  },
           { href: '/ressources',            label: 'Ressources'    },
           { href: '/a-propos',              label: 'À propos'      },
           { href: '/contact',               label: 'Contact'       },
@@ -151,8 +156,8 @@ const socials = [
           <Fragment>
             <a href={href} class="font-body text-sm whitespace-nowrap hover:text-cream transition-colors duration-200" style="color: rgba(252, 251, 248,0.82)">{label}</a>
             {/* Entre tablette et desktop, la ligne unique ne tient pas : on la coupe
-                en deux moitiés égales (5 + 5) plutôt qu'un 7 + 3 bancal. */}
-            {i === 4 && <span class="hidden md:block lg:hidden basis-full h-0" aria-hidden="true"></span>}
+                en deux moitiés égales (4 + 4). */}
+            {i === 3 && <span class="hidden md:block lg:hidden basis-full h-0" aria-hidden="true"></span>}
           </Fragment>
         ))}
       </nav>
