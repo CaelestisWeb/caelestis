@@ -170,7 +170,7 @@ const departements = [
               <circle cx="210" cy="210" r={String(h * PX_HEURE)} class="terr-anneau" />
             ))}
             {surCarte.map((v) => (
-              <line x1="210" y1="210" x2={String(v.x)} y2={String(v.y)} class="terr-rayon" />
+              <line x1="210" y1="210" x2={String(v.ex)} y2={String(v.ey)} class="terr-rayon" />
             ))}
             <text x="210" y={String(210 - PX_HEURE + 13)} class="terr-legende" text-anchor="middle">1 h</text>
             <text x="210" y={String(210 - 2 * PX_HEURE + 13)} class="terr-legende" text-anchor="middle">2 h</text>
@@ -333,7 +333,7 @@ const departements = [
   .terr-schema {
     position: relative;
     width: 100%;
-    max-width: 420px;
+    max-width: 480px;
     margin: 0 auto;
     aspect-ratio: 1;
   }
@@ -388,13 +388,17 @@ const departements = [
   }
   .terr-pt {
     position: absolute;
-    width: 6px;
-    height: 6px;
-    margin: -3px 0 0 -3px;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
     border-radius: 50%;
     background: var(--color-sauge-text);
+    box-shadow: 0 0 0 3px var(--color-cream);
   }
-  /* Le point de la ville, et l'étiquette poussée vers l'extérieur du cercle. */
+  /* Le point de la ville, posé sur le rayon qui va du centre jusqu'à
+     l'étiquette : le trait relie donc désormais Crest, le point et son nom d'un
+     seul geste, pour qu'aucune étiquette ne flotte détachée de son point. Le
+     halo crème détache le point des rayons qu'il croise. */
 
   .terr-tete {
     font-size: 0.72rem;

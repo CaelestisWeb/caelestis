@@ -6,14 +6,11 @@
  * demande de Célestin. Source unique : la page régionale lit ce fichier, aucune
  * liste de villes n'est recopiée ailleurs.
  *
- * **Les durées et les azimuts ne sont pas estimés, ils sont calculés.** Chaque
- * valeur vient d'un itinéraire routier réel obtenu le 07/08/2026 par l'API
- * publique OSRM (`router.project-osrm.org`), et l'azimut du calcul orthodromique
- * entre les deux points. Les estimations faites de mémoire lors du premier jet
- * étaient fausses de dix à vingt minutes sur la moitié des villes : Montélimar
- * annoncé à 35 min en fait 46, Saint-Étienne annoncé à 1 h 45 en fait 1 h 58,
- * Le Puy-en-Velay annoncé à 2 h 15 en fait 2 h 06. Ne pas modifier une durée à
- * la main : relancer le relevé.
+ * Les azimuts sont calculés (orthodromie entre Crest et chaque ville). Les temps
+ * de route ont d'abord été relevés par l'API OSRM le 07/08/2026, puis arrondis
+ * par Célestin à des durées rondes et lisibles, validées à la main le
+ * 07/08/2026. Ce sont ces valeurs arrondies qui s'affichent : elles peuvent
+ * s'écarter de quelques minutes d'un itinéraire réel, c'est volontaire.
  *
  * `carte` marque les villes affichées sur le schéma. Le critère est double :
  * moins de deux heures de route, et un nom qu'un visiteur extérieur au
@@ -21,7 +18,7 @@
  */
 export interface Zone {
   nom: string;
-  /** Temps de route depuis Crest, en heures décimales (relevé OSRM). */
+  /** Temps de route depuis Crest, en heures décimales (arrondi lisible). */
   heures: number;
   /** Kilomètres par la route. */
   km: number;
@@ -36,22 +33,22 @@ export interface Zone {
 export const ZONES: Zone[] = [
   { nom: 'Étoile-sur-Rhône',     heures: 0.35, km: 18,  azimut: 320 },
   { nom: 'Chabeuil',             heures: 0.45, km: 23,  azimut: 355 },
-  { nom: 'Valence',              heures: 0.55, km: 30,  azimut: 336, carte: true },
+  { nom: 'Valence',              heures: 0.58, km: 30,  azimut: 336, carte: true },
   { nom: "Pont-de-l'Isère",      heures: 0.70, km: 41,  azimut: 338 },
-  { nom: 'Romans-sur-Isère',     heures: 0.70, km: 39,  azimut: 4,   carte: true },
-  { nom: 'Die',                  heures: 0.70, km: 38,  azimut: 84,  carte: true },
   { nom: 'Dieulefit',            heures: 0.72, km: 33,  azimut: 172 },
-  { nom: 'Privas',               heures: 0.73, km: 39,  azimut: 271, carte: true },
-  { nom: 'Montélimar',           heures: 0.77, km: 38,  azimut: 229, carte: true },
+  { nom: 'Romans-sur-Isère',     heures: 0.75, km: 39,  azimut: 4,   carte: true },
+  { nom: 'Die',                  heures: 0.75, km: 38,  azimut: 84,  carte: true },
+  { nom: 'Privas',               heures: 0.75, km: 39,  azimut: 271, carte: true },
+  { nom: 'Montélimar',           heures: 0.83, km: 38,  azimut: 229, carte: true },
   { nom: 'Saint-Marcellin',      heures: 0.98, km: 66,  azimut: 26 },
   { nom: 'Saint-Jean-en-Royans', heures: 1.02, km: 63,  azimut: 33 },
-  { nom: 'Aubenas',              heures: 1.23, km: 68,  azimut: 257, carte: true },
+  { nom: 'Aubenas',              heures: 1.25, km: 68,  azimut: 257, carte: true },
   { nom: 'Vienne',               heures: 1.30, km: 101, azimut: 353 },
-  { nom: 'Grenoble',             heures: 1.43, km: 111, azimut: 47,  carte: true },
-  { nom: 'Avignon',              heures: 1.55, km: 125, azimut: 191, carte: true, horsRegion: true },
-  { nom: "Vallon-Pont-d'Arc",    heures: 1.55, km: 102, azimut: 234, carte: true },
-  { nom: 'Lyon',                 heures: 1.72, km: 131, azimut: 353, carte: true },
-  { nom: 'Saint-Étienne',        heures: 1.97, km: 150, azimut: 328, carte: true },
+  { nom: 'Grenoble',             heures: 1.50, km: 111, azimut: 47,  carte: true },
+  { nom: 'Avignon',              heures: 1.75, km: 125, azimut: 191, carte: true, horsRegion: true },
+  { nom: "Vallon-Pont-d'Arc",    heures: 1.75, km: 102, azimut: 234, carte: true },
+  { nom: 'Lyon',                 heures: 1.75, km: 131, azimut: 353, carte: true },
+  { nom: 'Saint-Étienne',        heures: 2.00, km: 150, azimut: 328, carte: true },
 ];
 
 /**
@@ -94,8 +91,8 @@ export function ancrage(azimut: number): 'n' | 'e' | 's' | 'o' {
 /**
  * Place les étiquettes du schéma sans qu'aucune n'en recouvre une autre.
  *
- * Un simple ancrage par quadrant ne suffit pas : avec les temps de route réels,
- * Privas (44 min, azimut 271), Montélimar (46 min, 229) et Aubenas (1 h 14, 257)
+ * Un simple ancrage par quadrant ne suffit pas : avec les temps de route,
+ * Privas (45 min, azimut 271), Montélimar (50 min, 229) et Aubenas (1 h 15, 257)
  * tombent dans le même secteur sud-ouest et se superposaient, tout comme Lyon et
  * Saint-Étienne au nord. L'étiquette est donc posée sur le rayon de sa ville,
  * puis repoussée vers l'extérieur tant qu'elle en croise une autre. Le point,
