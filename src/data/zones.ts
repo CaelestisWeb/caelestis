@@ -13,8 +13,9 @@
  * s'écarter de quelques minutes d'un itinéraire réel, c'est volontaire.
  *
  * `carte` marque les villes affichées sur le schéma. Le critère est double :
- * moins de deux heures de route, et un nom qu'un visiteur extérieur au
- * département reconnaît. Au-delà de douze, les étiquettes se recouvrent.
+ * dans les deux heures de route, et un nom qu'un visiteur extérieur au
+ * département reconnaît. Quand elles sont nombreuses, ce sont les étiquettes les
+ * plus longues, posées en premier, qui gardent le dessin lisible.
  */
 export interface Zone {
   nom: string;
@@ -35,13 +36,14 @@ export const ZONES: Zone[] = [
   { nom: 'Chabeuil',             heures: 0.45, km: 23,  azimut: 355 },
   { nom: 'Valence',              heures: 0.58, km: 30,  azimut: 336, carte: true },
   { nom: "Pont-de-l'Isère",      heures: 0.70, km: 41,  azimut: 338 },
-  { nom: 'Dieulefit',            heures: 0.72, km: 33,  azimut: 172 },
+  { nom: 'Dieulefit',            heures: 0.75, km: 32,  azimut: 172, carte: true },
   { nom: 'Romans-sur-Isère',     heures: 0.75, km: 39,  azimut: 4,   carte: true },
   { nom: 'Die',                  heures: 0.75, km: 38,  azimut: 84,  carte: true },
   { nom: 'Privas',               heures: 0.75, km: 39,  azimut: 271, carte: true },
   { nom: 'Montélimar',           heures: 0.83, km: 38,  azimut: 229, carte: true },
   { nom: 'Saint-Marcellin',      heures: 0.98, km: 66,  azimut: 26 },
   { nom: 'Saint-Jean-en-Royans', heures: 1.02, km: 63,  azimut: 33 },
+  { nom: 'Nyons',                heures: 1.17, km: 61,  azimut: 167, carte: true },
   { nom: 'Aubenas',              heures: 1.25, km: 68,  azimut: 257, carte: true },
   { nom: 'Vienne',               heures: 1.30, km: 101, azimut: 353 },
   { nom: 'Grenoble',             heures: 1.50, km: 111, azimut: 47,  carte: true },
@@ -89,15 +91,22 @@ export function ancrage(azimut: number): 'n' | 'e' | 's' | 'o' {
 }
 
 /**
- * Place les étiquettes du schéma sans qu'aucune n'en recouvre une autre.
+ * Place les étiquettes du schéma sans qu'aucune n'en recouvre une autre, ni ne
+ * vienne masquer le point d'une ville voisine.
  *
  * Un simple ancrage par quadrant ne suffit pas : avec les temps de route,
  * Privas (45 min, azimut 271), Montélimar (50 min, 229) et Aubenas (1 h 15, 257)
  * tombent dans le même secteur sud-ouest et se superposaient, tout comme Lyon et
- * Saint-Étienne au nord. L'étiquette est donc posée sur le rayon de sa ville,
- * puis repoussée vers l'extérieur tant qu'elle en croise une autre. Le point,
+ * Saint-Étienne au nord. Chaque étiquette est donc posée sur le rayon de sa
+ * ville, puis repoussée vers l'extérieur tant qu'elle croise une autre étiquette
+ * OU le point d'une autre ville : sans ce second test, le fond crème d'un nom
+ * cachait la pastille voisine (Montélimar masquait Vallon-Pont-d'Arc). Le point,
  * lui, ne bouge jamais : la direction et la distance restent exactes, seule
- * l'étiquette s'écarte, reliée à son point par le rayon déjà tracé.
+ * l'étiquette s'écarte, reliée à son point par le rayon tracé jusqu'à elle.
+ *
+ * Les étiquettes les plus longues sont traitées en premier : ce sont les plus
+ * dures à caser, et les garder pour la fin les repoussait hors du cadre
+ * (Vallon-Pont-d'Arc). La liste de droite, elle, reste triée par temps de route.
  *
  * Les largeurs de texte sont estimées (0,7 rem, environ 5,6 px par signe) : le
  * calcul se fait au build, sans navigateur. Marge volontairement large, un
@@ -117,7 +126,20 @@ export function placerEtiquettes(zones: Zone[], centre: number, pxParHeure: numb
   const HAUTEUR = 22;
   const ECHELLE = 1.3;
   const PAS = 13;
-  const ESSAIS = 8;
+  const ESSAIS = 10;
+  /* PT et VT : demi-tailles, en largeur et en hauteur, du point (pastille de
+     8 px et son halo crème) qu'une étiquette ne doit jamais recouvrir. */
+  const PT = 8;
+  const VT = 17;
+
+  /* Tous les points sont calculés d'avance : ils servent aussi d'obstacles,
+     pour qu'aucune étiquette ne vienne se poser sur l'un d'eux. */
+  const points = zones.map((z) => position(z, centre, pxParHeure));
+
+  /* Ordre de placement : les noms les plus longs en premier (voir en-tête). Le
+     résultat, lui, est réécrit dans l'ordre d'origine des villes. */
+  const ordre = zones.map((_, i) => i).sort((a, b) => zones[b].nom.length - zones[a].nom.length);
+
   /* La case du centre est occupée d'avance par l'étiquette « Crest », posée
      vingt-deux pixels sous le point de départ, valeur relevée au navigateur et
      non déduite du CSS. Sans elle dans la liste, Montélimar, la plus proche du
@@ -125,9 +147,11 @@ export function placerEtiquettes(zones: Zone[], centre: number, pxParHeure: numb
   const posees: { x: number; y: number; l: number }[] = [
     { x: centre, y: centre + 22, l: 44 },
   ];
+  const resultat: (Zone & { x: number; y: number; ex: number; ey: number; pos: ReturnType<typeof ancrage> })[] = new Array(zones.length);
 
-  return zones.map((z) => {
-    const p = position(z, centre, pxParHeure);
+  for (const idx of ordre) {
+    const z = zones[idx];
+    const p = points[idx];
     const a = (z.azimut * Math.PI) / 180;
     const largeur = (z.nom.length * 5.6 + 10) * ECHELLE;
 
@@ -136,17 +160,20 @@ export function placerEtiquettes(zones: Zone[], centre: number, pxParHeure: numb
     let y = p.y - Math.cos(a) * ecart;
 
     for (let i = 0; i < ESSAIS; i++) {
-      const croise = posees.some(
+      const surEtiquette = posees.some(
         (q) => Math.abs(q.x - x) < (q.l + largeur) / 2 && Math.abs(q.y - y) < HAUTEUR * ECHELLE,
       );
-      if (!croise) break;
+      const surPoint = points.some(
+        (q, j) => j !== idx && Math.abs(q.x - x) < largeur / 2 + PT && Math.abs(q.y - y) < VT,
+      );
+      if (!surEtiquette && !surPoint) break;
       ecart += PAS;
       x = p.x + Math.sin(a) * ecart;
       y = p.y - Math.cos(a) * ecart;
     }
 
     posees.push({ x, y, l: largeur });
-    return {
+    resultat[idx] = {
       ...z,
       x: p.x,
       y: p.y,
@@ -154,7 +181,9 @@ export function placerEtiquettes(zones: Zone[], centre: number, pxParHeure: numb
       ey: Math.round(y * 10) / 10,
       pos: ancrage(z.azimut),
     };
-  });
+  }
+
+  return resultat;
 }
 
 export const SUR_CARTE = ZONES.filter((z) => z.carte);
