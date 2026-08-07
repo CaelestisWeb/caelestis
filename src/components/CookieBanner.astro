@@ -1,11 +1,10 @@
 ---
 /* Traceur publicitaire : piloté par une seule variable d'environnement.
-   Tant qu'elle est vide, le bandeau reste strictement identique à sa version
-   d'origine (Refuser / Accepter, mesure d'audience seule) et aucun script
-   publicitaire n'existe dans la page. Dès qu'un identifiant est renseigné dans
-   Vercel, la finalité publicitaire apparaît comme un choix SÉPARÉ, conformément
-   aux lignes directrices CNIL : accepter la mesure ne doit jamais emporter le
-   consentement au ciblage. */
+   Tant qu'elle est vide, aucun script publicitaire n'existe dans la page et la
+   finalité « Publicité » n'apparaît nulle part. Dès qu'un identifiant est
+   renseigné dans Vercel, cette finalité s'ajoute comme un choix SÉPARÉ,
+   conformément aux lignes directrices CNIL : accepter la mesure ne doit jamais
+   emporter le consentement au ciblage. */
 const PIXEL_META = import.meta.env.PUBLIC_META_PIXEL_ID ?? '';
 const PUB_ACTIVE = PIXEL_META !== '';
 ---
@@ -21,55 +20,104 @@ const PUB_ACTIVE = PIXEL_META !== '';
   class="fixed bottom-0 left-0 right-0 z-[9990] translate-y-full opacity-0 pointer-events-none"
 >
   <div class="bg-cream/97 backdrop-blur-md border-t border-cream-dark/40 shadow-[0_-8px_32px_rgba(27, 71, 51,0.10)]">
-    <div class="max-w-5xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8">
+    <div class="max-w-5xl mx-auto px-6 py-5">
 
-      <!-- Texte -->
-      <div class="flex-1 min-w-0">
-        <p id="cookie-banner-desc" class="font-body text-[13px] text-brun leading-relaxed">
-          <strong class="font-semibold">Ce site Caelestis</strong> utilise des cookies techniques nécessaires
-          à son fonctionnement et, avec votre accord, Google Analytics pour mesurer la fréquentation.
-          {PUB_ACTIVE
-            ? <span>Vous pouvez aussi accepter, séparément, un cookie publicitaire qui nous permet de vous reproposer nos services. Aucune donnée revendue.</span>
-            : <span>Aucune publicité, aucune donnée revendue.</span>}
-          <a href="/politique-confidentialite" class="text-[#255C41] underline underline-offset-2 hover:text-brun transition-colors ml-1">En savoir plus →</a>
-        </p>
+      <!-- Ligne principale : texte à gauche, actions à droite -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8">
 
-        {PUB_ACTIVE && (
-          <div class="mt-3 flex flex-col gap-2">
-            <label class="flex items-start gap-2.5 cursor-pointer">
-              <input type="checkbox" id="c-mesure" class="mt-0.5 w-4 h-4 accent-[#255C41] cursor-pointer" />
-              <span class="font-body text-[12.5px] text-brun-mid leading-snug">
-                <strong class="text-brun font-semibold">Mesure d'audience</strong> : comprendre combien de personnes visitent le site et quelles pages sont lues.
-              </span>
-            </label>
+        <!-- Texte -->
+        <div class="flex-1 min-w-0">
+          <p id="cookie-banner-desc" class="font-body text-[13px] text-brun leading-relaxed">
+            <strong class="font-semibold">Ce site Caelestis</strong> utilise des cookies techniques nécessaires
+            à son fonctionnement et, avec votre accord, Google Analytics pour mesurer la fréquentation.
+            {PUB_ACTIVE
+              ? <span>Vous pouvez aussi accepter, séparément, un cookie publicitaire qui nous permet de vous reproposer nos services. Aucune donnée revendue.</span>
+              : <span>Aucune publicité, aucune donnée revendue.</span>}
+            <a href="/politique-confidentialite" class="text-[#255C41] underline underline-offset-2 hover:text-brun transition-colors ml-1">En savoir plus →</a>
+          </p>
+        </div>
+
+        <!-- Actions. Règle CNIL : accepter et refuser doivent être aussi simples
+             et aussi visibles l'un que l'autre. « Tout accepter » et « Garder
+             seulement les cookies essentiels » partagent donc exactement la même
+             forme, la même taille et le même poids (deux aplats pleins, seule la
+             teinte les distingue) ; ne jamais repasser l'un des deux en bouton
+             fantôme. « Personnaliser » est un choix neutre : il ouvre le détail
+             des finalités, il peut donc rester en retrait (lien souligné). -->
+        <div class="flex flex-col gap-2.5 w-full sm:w-auto sm:flex-shrink-0 sm:items-end">
+          <div class="flex flex-col sm:flex-row gap-2.5 w-full sm:w-auto">
+            <button
+              id="cookie-essentials"
+              class="font-body text-[12px] font-medium text-cream bg-[#5C6259] hover:bg-[#454A43] transition-colors duration-200 px-5 py-2 rounded-full cursor-pointer whitespace-nowrap w-full sm:w-auto"
+            >
+              Garder seulement les cookies essentiels
+            </button>
+            <button
+              id="cookie-accept"
+              class="font-body text-[12px] font-medium text-cream bg-[#255C41] hover:bg-brun transition-colors duration-200 px-5 py-2 rounded-full cursor-pointer whitespace-nowrap w-full sm:w-auto"
+            >
+              Tout accepter
+            </button>
+          </div>
+          <button
+            id="cookie-customize"
+            type="button"
+            aria-expanded="false"
+            aria-controls="cookie-details"
+            class="font-body text-[12px] font-medium text-brun-mid underline underline-offset-2 hover:text-[#255C41] transition-colors cursor-pointer bg-transparent self-center sm:self-end"
+          >
+            Personnaliser mes choix
+          </button>
+        </div>
+      </div>
+
+      <!-- Détail des finalités, masqué par défaut, déployé par « Personnaliser ».
+           Il rend le bouton « Garder seulement les cookies essentiels » lisible :
+           on voit exactement ce qui est essentiel (non désactivable) et ce qui
+           est optionnel. Cases décochées par défaut, aucun consentement présumé. -->
+      <div id="cookie-details" class="hidden mt-4 pt-4 border-t border-cream-dark/40">
+        <div class="flex flex-col gap-2.5">
+
+          <!-- Essentiels : toujours actifs, non désactivables -->
+          <label class="flex items-start gap-2.5">
+            <input
+              type="checkbox"
+              checked
+              disabled
+              aria-label="Cookies essentiels, toujours actifs, non désactivables"
+              class="mt-0.5 w-4 h-4 accent-[#5C6259] cursor-not-allowed"
+            />
+            <span class="font-body text-[12.5px] text-brun-mid leading-snug">
+              <strong class="text-brun font-semibold">Cookies essentiels</strong> : nécessaires au fonctionnement du site (navigation, sécurité, mémorisation de vos choix). Toujours actifs.
+            </span>
+          </label>
+
+          <!-- Mesure d'audience -->
+          <label class="flex items-start gap-2.5 cursor-pointer">
+            <input type="checkbox" id="c-mesure" class="mt-0.5 w-4 h-4 accent-[#255C41] cursor-pointer" />
+            <span class="font-body text-[12.5px] text-brun-mid leading-snug">
+              <strong class="text-brun font-semibold">Mesure d'audience</strong> : comprendre combien de personnes visitent le site et quelles pages sont lues (Google Analytics).
+            </span>
+          </label>
+
+          {PUB_ACTIVE && (
             <label class="flex items-start gap-2.5 cursor-pointer">
               <input type="checkbox" id="c-pub" class="mt-0.5 w-4 h-4 accent-[#255C41] cursor-pointer" />
               <span class="font-body text-[12.5px] text-brun-mid leading-snug">
                 <strong class="text-brun font-semibold">Publicité</strong> : vous reproposer nos services sur d'autres sites après votre visite.
               </span>
             </label>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
 
-      <!-- Boutons : refuser doit être aussi simple ET aussi visible qu'accepter
-           (lignes directrices CNIL). Les deux boutons partagent donc exactement
-           la même forme, la même taille et le même poids visuel : deux aplats
-           pleins, seule la teinte les distingue. Ne jamais repasser l'un des
-           deux en bouton fantôme. -->
-      <div class="flex items-center gap-3 flex-shrink-0">
-        <button
-          id="cookie-decline"
-          class="font-body text-[12px] font-medium text-cream bg-[#5C6259] hover:bg-[#454A43] transition-colors duration-200 px-5 py-2 rounded-full cursor-pointer"
-        >
-          {PUB_ACTIVE ? 'Tout refuser' : 'Refuser'}
-        </button>
-        <button
-          id="cookie-accept"
-          class="font-body text-[12px] font-medium text-cream bg-[#255C41] hover:bg-brun transition-colors duration-200 px-5 py-2 rounded-full cursor-pointer"
-        >
-          {PUB_ACTIVE ? 'Enregistrer mes choix' : 'Accepter'}
-        </button>
+        <div class="mt-3.5 flex justify-end">
+          <button
+            id="cookie-save"
+            class="font-body text-[12px] font-medium text-cream bg-[#255C41] hover:bg-brun transition-colors duration-200 px-5 py-2 rounded-full cursor-pointer"
+          >
+            Enregistrer mes choix
+          </button>
+        </div>
       </div>
 
     </div>
@@ -144,15 +192,31 @@ const PUB_ACTIVE = PIXEL_META !== '';
       if (pub)    window.dispatchEvent(new CustomEvent('caelestis:consent-pub'));
     }
 
+    /* « Tout accepter » : accepte la mesure et, si la finalité publicitaire est
+       active, la publicité. Sans pixel, pub reste toujours à false. */
     document.getElementById('cookie-accept')?.addEventListener('click', () => {
-      if (!pubActive) { appliquer(true, false); return; }
-      /* Cases décochées par défaut : aucun consentement n'est présumé */
+      appliquer(true, pubActive);
+    });
+
+    /* « Garder seulement les cookies essentiels » : aucune finalité optionnelle */
+    document.getElementById('cookie-essentials')?.addEventListener('click', () => appliquer(false, false));
+
+    /* « Personnaliser » : déploie / replie le détail des finalités */
+    const btnCustomize = document.getElementById('cookie-customize');
+    const details = document.getElementById('cookie-details');
+    btnCustomize?.addEventListener('click', () => {
+      if (!details) return;
+      const willOpen = details.classList.contains('hidden');
+      details.classList.toggle('hidden', !willOpen);
+      btnCustomize.setAttribute('aria-expanded', String(willOpen));
+    });
+
+    /* « Enregistrer mes choix » : applique exactement l'état des cases */
+    document.getElementById('cookie-save')?.addEventListener('click', () => {
       const mesure = (document.getElementById('c-mesure') as HTMLInputElement | null)?.checked ?? false;
       const pub    = (document.getElementById('c-pub') as HTMLInputElement | null)?.checked ?? false;
       appliquer(mesure, pub);
     });
-
-    document.getElementById('cookie-decline')?.addEventListener('click', () => appliquer(false, false));
   })();
 
   /**
@@ -164,6 +228,11 @@ const PUB_ACTIVE = PIXEL_META !== '';
     /* Réinitialise la bannière */
     const banner = document.getElementById('cookie-banner') as HTMLElement | null;
     if (!banner) return;
+    /* Replie le détail et décoche les finalités : on repart d'un choix vierge */
+    const details = document.getElementById('cookie-details');
+    details?.classList.add('hidden');
+    document.getElementById('cookie-customize')?.setAttribute('aria-expanded', 'false');
+    document.querySelectorAll<HTMLInputElement>('#c-mesure, #c-pub').forEach((el) => { el.checked = false; });
     banner.style.transition = 'none';
     banner.classList.remove('translate-y-0', 'opacity-100');
     banner.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
