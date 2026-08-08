@@ -117,7 +117,12 @@ for (const f of htmlFiles) {
     if (/^https?:\/\//i.test(href)) {
       try {
         const u = new URL(href);
-        if (!/(^|\.)caelestis\.fr$/.test(u.hostname)) { externes.add(u.origin); continue; }
+        /* Seuls caelestis.fr et son www sont « internes ». Un sous-domaine est un
+           AUTRE déploiement, avec ses propres routes : apercus.caelestis.fr héberge
+           les sites de démonstration (/ferme, /ecurie…). Le traiter en interne
+           faisait vérifier ces chemins contre les routes de caelestis.fr et les
+           déclarait morts à tort. */
+        if (u.hostname !== 'caelestis.fr' && u.hostname !== 'www.caelestis.fr') { externes.add(u.origin); continue; }
       } catch { continue; }
     }
     let chemin;
