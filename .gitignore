@@ -30,3 +30,9 @@ pnpm-debug.log*
 # Pages de travail déposées dans public/ : elles deviendraient publiques sur
 # caelestis.fr. Exclues aussi du déploiement, voir .vercelignore.
 public/_variantes/
+
+# Fichiers de travail hors du build (maquettes, comparaisons, exports Figma).
+# Vivent sur disque uniquement, personne d'autre n'en a besoin dans git.
+ressources-design/_hors-deploiement/
+identite/_build-comparaison.mjs
+identite/_comparaison-ecarts.html
