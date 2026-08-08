@@ -1,0 +1,91 @@
+---
+/**
+ * GuidesLies.astro : le bloc « À lire ensuite » en pied de guide.
+ *
+ * Deux ou trois guides voisins, curés dans src/data/guides.ts. Il densifie le
+ * maillage entre guides (plusieurs n'étaient atteignables que depuis l'index)
+ * et prolonge la lecture d'une question à la suivante. Le titre du guide sert
+ * de texte de lien : bon pour le lecteur comme pour les moteurs.
+ *
+ * Rendu par GuideLayout pour les dix guides qui l'utilisent, et posé à la main
+ * sur anatomie, seul guide bâti sur BaseLayout directement.
+ */
+import { guidesLies } from '../data/guides.ts';
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+const lies = guidesLies(slug);
+---
+
+{lies.length > 0 && (
+  <section class="px-6 md:px-10 lg:px-20 py-12 md:py-14 border-b border-cream-dark" aria-labelledby="guides-lies-titre">
+    <div class="max-w-3xl mx-auto">
+      <p id="guides-lies-titre" class="guides-lies__label" data-reveal>À lire ensuite</p>
+      <ul class="guides-lies__liste">
+        {lies.map((g) => (
+          <li data-reveal>
+            <a href={`/ressources/${g.slug}`} class="guides-lies__lien">
+              <span class="guides-lies__titre">{g.titre}</span>
+              <svg class="guides-lies__fleche" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 8h8M9 5l3 3-3 3" />
+              </svg>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style>
+  .guides-lies__label {
+    font-family: var(--font-body, inherit);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-sauge-text, #4F7359);
+    margin-bottom: 1.1rem;
+  }
+  .guides-lies__liste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .guides-lies__lien {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--color-cream-dark, #E8E2D6);
+    color: var(--color-brun, #3E3228);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .guides-lies__liste li:last-child .guides-lies__lien {
+    border-bottom: 1px solid var(--color-cream-dark, #E8E2D6);
+  }
+  .guides-lies__titre {
+    font-family: var(--font-display, inherit);
+    font-weight: 400;
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+  .guides-lies__fleche {
+    flex-shrink: 0;
+    color: var(--color-sauge-text, #4F7359);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .guides-lies__lien:hover {
+    color: var(--color-sauge-text, #4F7359);
+  }
+  .guides-lies__lien:hover .guides-lies__fleche {
+    transform: translateX(4px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .guides-lies__fleche { transition: none; }
+  }
+</style>

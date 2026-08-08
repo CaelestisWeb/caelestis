@@ -109,3 +109,32 @@ export const guides: readonly Guide[] = [
     date: '2026-07-31',
   },
 ] as const;
+
+/**
+ * Maillage éditorial : pour chaque guide, deux ou trois voisins à lire ensuite.
+ * Curé à la main, la pertinence prime sur la quantité. Densifie les liens entre
+ * guides (plusieurs n'étaient atteignables que depuis l'index) et mène le lecteur
+ * d'une question à la suivante. Un slug inconnu est simplement ignoré.
+ */
+const LIES: Record<string, readonly string[]> = {
+  'anatomie-d-un-site-qui-convertit': ['un-site-fait-il-venir-des-clients', 'avis-clients-comment-en-obtenir', 'preparer-les-contenus-de-son-site'],
+  'tarifs': ['combien-de-temps-pour-creer-un-site', 'site-vitrine-ou-boutique-en-ligne', 'wordpress-wix-ou-site-sur-mesure'],
+  'une-page-facebook-suffit-elle': ['un-site-fait-il-venir-des-clients', 'pourquoi-mon-site-n-apparait-pas-dans-google', 'site-vitrine-ou-boutique-en-ligne'],
+  'site-vitrine-ou-boutique-en-ligne': ['wordpress-wix-ou-site-sur-mesure', 'tarifs', 'un-site-fait-il-venir-des-clients'],
+  'wordpress-wix-ou-site-sur-mesure': ['site-vitrine-ou-boutique-en-ligne', 'tarifs', 'combien-de-temps-pour-creer-un-site'],
+  'combien-de-temps-pour-creer-un-site': ['preparer-les-contenus-de-son-site', 'tarifs', 'wordpress-wix-ou-site-sur-mesure'],
+  'preparer-les-contenus-de-son-site': ['combien-de-temps-pour-creer-un-site', 'anatomie-d-un-site-qui-convertit', 'avis-clients-comment-en-obtenir'],
+  'un-site-fait-il-venir-des-clients': ['pourquoi-mon-site-n-apparait-pas-dans-google', 'anatomie-d-un-site-qui-convertit', 'une-page-facebook-suffit-elle'],
+  'pourquoi-mon-site-n-apparait-pas-dans-google': ['etre-trouve-par-chatgpt', 'un-site-fait-il-venir-des-clients', 'avis-clients-comment-en-obtenir'],
+  'etre-trouve-par-chatgpt': ['pourquoi-mon-site-n-apparait-pas-dans-google', 'un-site-fait-il-venir-des-clients', 'avis-clients-comment-en-obtenir'],
+  'avis-clients-comment-en-obtenir': ['pourquoi-mon-site-n-apparait-pas-dans-google', 'un-site-fait-il-venir-des-clients', 'anatomie-d-un-site-qui-convertit'],
+};
+
+const parSlug = new Map(guides.map((g) => [g.slug, g] as const));
+
+/** Les guides voisins d'un guide donné, prêts à afficher (objets Guide complets). */
+export function guidesLies(slug: string): Guide[] {
+  return (LIES[slug] ?? [])
+    .map((s) => parSlug.get(s))
+    .filter((g): g is Guide => g !== undefined);
+}
