@@ -306,7 +306,7 @@ function buildClientEmail(d: Record<string, unknown>, dateStr: string, filenames
 
   <tr><td style="background:#fff;padding:28px 36px 20px;">
     <p style="margin:0 0 12px;font-size:15px;color:#12160F;">Bonjour <strong>${prenomEsc}</strong>,</p>
-    <p style="margin:0 0 12px;font-size:14px;color:#5C6259;line-height:1.8;">Votre questionnaire de création a bien été reçu. Je vais le lire attentivement et vous recontacterai <strong style="color:#12160F;">sous 48h maximum</strong>.</p>
+    <p style="margin:0 0 12px;font-size:14px;color:#5C6259;line-height:1.8;">Votre questionnaire de création a bien été reçu. Je vais le lire attentivement et vous recontacterai <strong style="color:#12160F;">sous 48h</strong>.</p>
     <p style="margin:0 0 4px;font-size:14px;color:#5C6259;line-height:1.8;">Ci-dessous le récapitulatif de vos réponses. Si quelque chose est inexact ou si vous souhaitez ajouter une précision, répondez simplement à cet email.</p>
   </td></tr>
 

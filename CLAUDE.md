@@ -17,7 +17,7 @@
 | Boutique en ligne | dès 2 500 € |
 | Sur mesure | dès 3 500 € |
 
-Grille relevée dans le code réel (source de vérité vivante) le 31/07/2026, cohérente sur toutes les pages : services, métas, simulateur, guide `/ressources/tarifs`. Les anciens montants 500/800/1 200/2 500 € étaient périmés. Maintenance en abonnement dès 7,99 €/mois.
+Grille relevée dans le code réel (source de vérité vivante) le 31/07/2026, cohérente sur toutes les pages : services, métas, simulateur, guide `/ressources/tarifs`. Les anciens montants 500/800/1 200/2 500 € étaient périmés. Maintenance en abonnement dès 9,99 €/mois (offerte les 3 premiers mois).
 
 Réponse sous 48h · Devis gratuit · Livraison 2 à 8 semaines.
 Email : caelestis-pro@hotmail.com (envois : contact@caelestis.fr) · Tél : 07 69 36 27 27 · Du lundi au samedi, 9h à 18h (horaires cohérents sur tout le site : contact, accueil, footer).
@@ -96,7 +96,7 @@ Règle accessibilité en place : `.text-sauge` (accent décoratif `#B8C4BB`) ne 
   - **`/creation-site-internet-auvergne-rhone-alpes`** : garde « Création de site internet en Auvergne-Rhône-Alpes ».
   - **`/services`** : page du prix (« Tarifs et formules de création de site »), plus la requête générique.
   - **`/contact`** : « devis ». **`/a-propos`** : « développeur web freelance », qui n'existait que dans le JSON-LD.
-  - **Pages offre** : le prix entre dans le title (dès 1 000, 2 000, 2 500, 3 500 €, 7,99 €/mois). Il trie les visiteurs avant le clic.
+  - **Pages offre** : le prix entre dans le title (dès 1 000, 2 000, 2 500, 3 500 €, 9,99 €/mois). Il trie les visiteurs avant le clic.
   - **Zone géographique** : arbitrage de Célestin, priorité à la région, pas à la ville. Aucune page ville n'est ouverte.
 - **01/08/2026, gabarits de métadonnées** : title ≤ 60 signes, description ≤ 155, et l'argument décisif (prix, délai, garantie) placé **avant le 120e signe**, car c'est là que Google coupe en mobile. Onze descriptions dépassaient et perdaient leur argument. Le gabarit des études de cas (`realisations/[slug].astro`) visait 165, ramené à 155.
   - **Piège typographique** : dans les **métas**, le site pose une espace insécable **uniquement** entre le nombre et le €. Dans le **contenu**, il en pose aussi avant `?` `:` `!`. Un remplacement de chaîne qui ignore cette différence échoue silencieusement.
