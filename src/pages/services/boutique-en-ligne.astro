@@ -170,6 +170,31 @@ const inclus = [
           et il nous arrive de recommander une formule moins chère.
         </p>
       </div>
+      <!-- Commission vs marge (variante A, validée par Célestin le 09/08/2026).
+           Une vente, deux fois : la part hachurée « commission » entame la barre
+           de la place de marché, la boutique propre garde tout. Décoratif
+           (aria-hidden) : le premier paragraphe porte déjà l'argument. La part
+           est indicative, pas un taux (même règle que le tunnel). -->
+      <figure class="mt-12" data-reveal data-delay="2">
+        <div class="marg" aria-hidden="true">
+          <div class="marg-ligne">
+            <span class="marg-lieu font-body">Place de marché</span>
+            <span class="marg-barre">
+              <span class="marg-part marg-commission" style="flex-basis: 30%;"><span class="marg-part-mot">commission</span></span>
+              <span class="marg-part marg-garde" style="flex-basis: 70%;"><span class="marg-part-mot">ce qui vous revient</span></span>
+            </span>
+          </div>
+          <div class="marg-ligne">
+            <span class="marg-lieu font-body">Votre boutique</span>
+            <span class="marg-barre">
+              <span class="marg-part marg-garde" style="flex-basis: 100%;"><span class="marg-part-mot">ce qui vous revient</span></span>
+            </span>
+          </div>
+        </div>
+        <figcaption class="font-body text-sm text-brun-mid mt-4">
+          La part hachurée part à chaque vente. Sur votre boutique, rien ne s'échappe, et les clients restent les vôtres.
+        </figcaption>
+      </figure>
     </div>
   </section>
 
@@ -345,5 +370,43 @@ const inclus = [
     letter-spacing: 0.04em;
     color: rgba(252, 251, 248, 0.75);
   }
+
+  /* ═══ Commission vs marge ═══
+     Une vente représentée deux fois. Sur la place de marché, un segment hachuré
+     « commission » entame la barre ; sur la boutique propre, la barre est
+     pleine. La part n'affiche aucun taux : c'est une figure, comme le tunnel. */
+  .marg { display: grid; gap: 18px; }
+  .marg-ligne { display: grid; gap: 8px; }
+  .marg-lieu { font-size: 0.85rem; font-weight: 500; color: var(--color-brun); }
+  .marg-barre {
+    display: flex;
+    height: 48px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--color-cream-dark);
+  }
+  .marg-part { display: flex; align-items: center; justify-content: center; min-width: 0; }
+  .marg-part-mot {
+    font-family: var(--font-body);
+    font-size: 0.74rem;
+    padding: 0 8px;
+    text-align: center;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .marg-commission {
+    background-color: rgba(92, 98, 89, 0.12);
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(92, 98, 89, 0.28) 0,
+      rgba(92, 98, 89, 0.28) 1.5px,
+      transparent 1.5px,
+      transparent 7px
+    );
+    color: #4A4F47;
+  }
+  .marg-garde { background: #255C41; }
+  .marg-garde .marg-part-mot { color: #E3EFE8; }
 </style>
 

@@ -131,6 +131,41 @@ const etapes = [
         <p class="font-body text-base text-brun-mid leading-relaxed max-w-2xl mx-auto mt-5">
           Contrairement à la publicité, rien ne s'éteint quand vous arrêtez de payer. C'est un investissement de fond : plus lent au départ, puis solide et rentable pour longtemps.
         </p>
+        <!-- Colonnes SEO vs publicité (variante B, validée par Célestin le
+             09/08/2026) : la publicité (grise) est constante tant qu'on paie
+             puis disparaît à l'arrêt, le référencement (vert) monte et se
+             maintient. Décoratif (aria-hidden) : le texte ci-dessus porte déjà
+             l'argument, repris ici en une image. -->
+        <div class="sead mt-12" aria-hidden="true">
+          <svg viewBox="0 0 660 340" class="sead-svg" preserveAspectRatio="xMidYMid meet" role="img">
+            <rect x="60" y="26" width="12" height="12" rx="2" class="sead-sw-pub" />
+            <text x="78" y="36" class="sead-leg">Publicité</text>
+            <rect x="176" y="26" width="12" height="12" rx="2" class="sead-sw-seo" />
+            <text x="194" y="36" class="sead-leg">Référencement</text>
+            <line x1="52" y1="264" x2="616" y2="264" class="sead-axe" />
+            <rect x="70"  y="150" width="26" height="114" class="sead-pub" />
+            <rect x="100" y="228" width="26" height="36"  class="sead-seo" />
+            <rect x="168" y="150" width="26" height="114" class="sead-pub" />
+            <rect x="198" y="196" width="26" height="68"  class="sead-seo" />
+            <rect x="266" y="150" width="26" height="114" class="sead-pub" />
+            <rect x="296" y="158" width="26" height="106" class="sead-seo" />
+            <rect x="364" y="150" width="26" height="114" class="sead-pub" />
+            <rect x="394" y="120" width="26" height="144" class="sead-seo" />
+            <line x1="447" y1="70" x2="447" y2="264" class="sead-stop" />
+            <text x="447" y="60" text-anchor="middle" class="sead-stop-mot">on arrête d'investir</text>
+            <rect x="492" y="96"  width="26" height="168" class="sead-seo" />
+            <text x="479" y="256" class="sead-zero">0</text>
+            <rect x="590" y="86"  width="26" height="178" class="sead-seo" />
+            <text x="577" y="256" class="sead-zero">0</text>
+            <text x="52" y="290" class="sead-axe-mot">premiers mois</text>
+            <text x="616" y="290" text-anchor="end" class="sead-axe-mot">un an plus tard</text>
+          </svg>
+        </div>
+
+        <p class="font-body text-sm text-brun-mid leading-relaxed max-w-2xl mx-auto mt-8">
+          Au démarrage, le temps que le référencement s'installe, la publicité peut prendre le relais.
+          Caelestis met aussi en place Google Ads, sur devis, sur un site conçu avec nous.
+        </p>
       </div>
     </div>
   </section>
@@ -447,6 +482,24 @@ const etapes = [
   @media (prefers-reduced-motion: reduce) {
     .ptq-chap, .ptq-corps, .ptq-num { transition: none; }
   }
+
+  /* ═══ SEO vs publicité, période après période ═══
+     Colonnes au trait, dans le registre des autres schémas du site : aucun
+     aplat nouveau, la palette forêt seule. La publicité (grise) est constante
+     tant qu'on paie puis tombe à zéro ; le référencement (vert) monte et se
+     maintient. Le rétrécissement n'avance aucun taux, c'est une figure. */
+  .sead { max-width: 33rem; margin: 0 auto; }
+  .sead-svg { width: 100%; height: auto; display: block; }
+  .sead-axe { stroke: rgba(37, 92, 65, 0.28); stroke-width: 1.2; }
+  .sead-axe-mot { font-family: var(--font-body); font-size: 11px; fill: var(--color-brun-mid); letter-spacing: 0.02em; }
+  .sead-pub { fill: rgba(92, 98, 89, 0.32); }
+  .sead-seo { fill: #255C41; }
+  .sead-sw-pub { fill: rgba(92, 98, 89, 0.32); }
+  .sead-sw-seo { fill: #255C41; }
+  .sead-leg { font-family: var(--font-body); font-size: 12px; fill: var(--color-brun-mid); }
+  .sead-zero { font-family: var(--font-body); font-size: 11px; fill: rgba(92, 98, 89, 0.7); text-anchor: middle; }
+  .sead-stop { stroke: rgba(92, 98, 89, 0.3); stroke-width: 1; }
+  .sead-stop-mot { font-family: var(--font-body); font-size: 11px; fill: var(--color-brun-mid); }
 </style>
 
 <script>
