@@ -96,18 +96,18 @@ export const realisations: Realisation[] = [
     ville: 'Saint-Paul-lès-Romans',
     url: 'https://lacoquette-bycaro.fr',
     annee: 2026,
-    titre: 'Une boutique en ligne remplacée par une vitrine que la créatrice tient elle-même, 48 pièces en 6 collections',
+    titre: 'Un site vitrine que la créatrice tient elle-même, 48 pièces en 6 collections',
     accroche:
       'Site vitrine et galerie éditable pour un atelier de bijoux fait main, dans la Drôme.',
-    delai: 'Bascule livrée en 3 jours',
+    delai: 'Livré en 19 jours',
     situation:
-      "Caro fabrique ses boucles d'oreilles à la main, une paire à la fois, et les vend sur les marchés et par Instagram. Le projet avait démarré en boutique en ligne. Au fil des semaines, la réalité du métier a tranché : des pièces presque toutes uniques, un stock qui change chaque semaine, et une vente qui se fait en discutant. Une boutique aurait ajouté un travail de gestion quotidien pour un canal qui ne servait pas.",
+      "Caro fabrique ses boucles d'oreilles à la main, une paire à la fois, et les vend sur les marchés et par Instagram. Ses pièces sont presque toutes uniques et son stock change chaque semaine. Pour présenter son travail sérieusement, il lui fallait une vitrine à son nom plutôt qu'un simple compte de réseau social.",
     besoins: [
       "Montrer les pièces telles qu'elles sont, sans promettre une disponibilité qu'un atelier d'une personne ne peut pas tenir.",
       "Ne plus dépendre d'Instagram comme seule adresse pour être trouvée et jugée sérieuse.",
       "Pouvoir changer les photos et les textes seule, sans rappeler l'agence à chaque nouvelle collection.",
       "Ramener les visiteurs là où la vente se fait réellement : la messagerie Instagram et les marchés.",
-      "Un site qui ne coûte rien à faire tourner, sans abonnement de boutique ni frais de transaction.",
+      "Un site qui ne coûte rien à faire tourner, sans abonnement ni frais de transaction.",
     ],
     reponses: [
       "Une page unique qui présente l'atelier, la démarche, les collections et les prochains marchés.",
@@ -118,7 +118,7 @@ export const realisations: Realisation[] = [
       "Un étalonnage des 48 photos, prises à des moments et sous des lumières différentes, pour que la galerie tienne comme une série cohérente.",
     ],
     livre: [
-      'Site en ligne sur son nom de domaine, sans abonnement de boutique ni frais de transaction.',
+      'Site en ligne sur son nom de domaine, sans abonnement ni frais de transaction.',
       'Galerie de 48 pièces en 6 collections, éditable par la créatrice.',
       'Photos, textes et bannière modifiables en autonomie, publication immédiate.',
       'Aucun cookie ni formulaire, donc aucune donnée personnelle collectée sur le site.',
