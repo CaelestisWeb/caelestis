@@ -335,7 +335,7 @@ const organizationSchema = {
 
 
   <!-- ─── HERO ─── -->
-  <section class="hero-screen flex flex-col justify-between px-6 md:px-10 lg:px-20 pt-6 md:pt-10 pb-10 md:pb-14 relative overflow-hidden">
+  <section class="hero-screen flex flex-col justify-between px-6 md:px-10 lg:px-20 pt-8 md:pt-12 pb-10 md:pb-14 relative overflow-hidden">
 
     <!-- Lumière ambiante organique -->
     <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
@@ -384,16 +384,20 @@ const organizationSchema = {
          cible, dont la section « pour qui » se charge juste en dessous. -->
     <div class="max-w-3xl mx-auto w-full text-center relative z-10">
       <h1
-        class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-8 md:mb-10 hero-title"
+        class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-12 md:mb-14 hero-title"
         style="font-size: clamp(1.75rem, 9vw, 4.25rem);"
       >
         <span class="sl"><span>Un site web digne</span></span>
         <span class="sl"><span class="text-sauge">de votre savoir-faire.</span></span>
       </h1>
+      <!-- Troisième ligne en sauge (#2E7452, `.text-sauge`) le 09/08/2026 : la
+           promesse porte l'accent du site, le même vert que « savoir-faire » dans
+           le titre et que le bouton. Les deux premières lignes restent en olive gris
+           (brun-mid), pour que la couleur tombe sur la seule punchline. -->
       <p class="hero-sub font-body text-base md:text-lg leading-relaxed max-w-[42rem] text-brun-mid mx-auto" data-reveal data-delay="1">
         Sur internet,<br>
         on recherche, on compare, on choisit.<br>
-        Nous faisons de vous, le choix évident.
+        <span class="text-sauge">Nous faisons de vous, le choix évident.</span>
       </p>
     </div>
 
