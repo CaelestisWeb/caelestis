@@ -335,7 +335,7 @@ const organizationSchema = {
 
 
   <!-- ─── HERO ─── -->
-  <section class="hero-screen flex flex-col justify-center px-6 md:px-10 lg:px-20 pt-8 md:pt-20 pb-16 relative overflow-hidden">
+  <section class="hero-screen flex flex-col justify-between px-6 md:px-10 lg:px-20 pt-6 md:pt-10 pb-10 md:pb-14 relative overflow-hidden">
 
     <!-- Lumière ambiante organique -->
     <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
@@ -350,71 +350,58 @@ const organizationSchema = {
     <!-- Premier écran typographique : aucune photo. La respiration vient des
          halos de lumière et du blanc généreux, pas d'une image d'illustration.
          Décision de Célestin le 29/07/2026, après relevé sur sept sites d'agence.
-         Depuis le 04/08/2026, le premier écran ne porte plus que quatre éléments,
-         eyebrow, titre, sous-titre et boutons : la réassurance est partie sur
-         /services. La composition est centrée dans la hauteur d'écran. -->
-    <!-- Bloc à 48rem (max-w-3xl) : le titre plafonne à 604 px et le sous-titre
-         à 543 px, tout tient dans cette largeur. -->
-    <div class="max-w-3xl mx-auto w-full text-center relative z-10">
+         Le premier écran ne porte que quatre éléments : eyebrow, titre, sous-titre
+         et bouton (la réassurance est partie sur /services le 04/08/2026).
+         Répartition revue le 09/08/2026 (choix de Célestin) : la section est en
+         `justify-between`, en trois blocs distincts. L'eyebrow est ancré tout en
+         haut, le couple titre + sous-titre est centré dans la hauteur d'écran, le
+         bouton est posé tout en bas. Chaque bloc reste à 48rem (max-w-3xl) : le
+         titre plafonne à 604 px, le sous-titre à 543 px, tout tient dans cette
+         largeur. -->
 
-      <!-- Eyebrow. `whitespace-nowrap` sur le nom de région : sans lui, à 375px
-           la ligne se coupait au tiret et affichait « AUVERGNE- » puis
-           « RHÔNE-ALPES » seul en dessous. Le retour se fait maintenant avant
-           « Auvergne », entre deux mots. -->
-      <p class="hero-eyebrow font-body text-xs tracking-[0.22em] uppercase mb-10 md:mb-14 text-sauge [text-wrap:balance]" data-reveal>
+    <!-- HAUT : eyebrow. `whitespace-nowrap` sur le nom de région : sans lui, à
+         375 px la ligne se coupait au trait d'union et affichait « AUVERGNE- »
+         puis « RHÔNE-ALPES » seul en dessous. Le retour se fait avant
+         « Auvergne », entre deux mots. -->
+    <div class="max-w-3xl mx-auto w-full text-center relative z-10">
+      <p class="hero-eyebrow font-body text-xs tracking-[0.22em] uppercase text-sauge [text-wrap:balance]" data-reveal>
         Création de site web en <a href="/creation-site-internet-auvergne-rhone-alpes" class="whitespace-nowrap underline decoration-sauge/30 underline-offset-2 hover:decoration-sauge transition-colors">Auvergne-Rhône-Alpes</a>
       </p>
+    </div>
 
-      <!-- H1 retenu le 01/08/2026 par Célestin. L'ancienne version, « Un site web
-           qui valorise votre savoir-faire et attire vos futurs clients », finissait
-           sur l'acquisition, que le sous-titre porte désormais entièrement : le
-           hero annonçait deux fois la même promesse. Le titre prend donc la
-           fierté du métier, le sous-titre garde la mécanique commerciale.
-           « Valoriser » et « votre activité » ont été écartés en chemin, l'un
-           parce qu'aucun visiteur ne se représente ce que fait un site qui
-           valorise, l'autre parce que c'est un mot de déclaration administrative.
-           Deux blocs `.sl`, l'accent sauge sur le savoir-faire.
-           Taille : le titre ne mesure plus que 604 px à son plafond, contre 967
-           avant, d'où le plafond remonté à 4,25 rem (68 px, la limite fixée pour
-           les titres du site). La pente 9vw amène ce plafond dès 756 px de large
-           et garantit deux lignes jusqu'à 320 px : la ligne la plus longue y
-           mesure 256 px pour 272 disponibles. -->
+    <!-- CENTRE : titre + sous-titre.
+         H1 retenu le 01/08/2026 par Célestin. L'ancienne version, « Un site web
+         qui valorise votre savoir-faire et attire vos futurs clients », finissait
+         sur l'acquisition, que le sous-titre porte désormais entièrement : le hero
+         annonçait deux fois la même promesse. Le titre prend la fierté du métier,
+         le sous-titre garde la mécanique commerciale. Deux blocs `.sl`, l'accent
+         sauge sur le savoir-faire. La pente 9vw amène le plafond de 4,25 rem (68 px)
+         dès 756 px de large et garantit deux lignes jusqu'à 320 px.
+         Sous-titre coupé en trois lignes le 09/08/2026 (choix de Célestin) :
+         « Sur internet, » isolé en tête pose le décor, puis le rythme ternaire
+         « on recherche, on compare, on choisit. », puis la réponse « Nous faisons
+         de vous, le choix évident. ». Il ne redit pas le H1 et ne nomme pas la
+         cible, dont la section « pour qui » se charge juste en dessous. -->
+    <div class="max-w-3xl mx-auto w-full text-center relative z-10">
       <h1
-        class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-10 md:mb-14 hero-title"
+        class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-8 md:mb-10 hero-title"
         style="font-size: clamp(1.75rem, 9vw, 4.25rem);"
       >
         <span class="sl"><span>Un site web digne</span></span>
         <span class="sl"><span class="text-sauge">de votre savoir-faire.</span></span>
       </h1>
-
-      <!-- Sous-titre. Réécrit le 01/08/2026, première phrase resserrée le
-           04/08/2026 (choix de Célestin : « on recherche, on compare, on
-           choisit », sans les « vous » ni le « puis », rythme ternaire plus
-           net). Il ne doit ni redire le H1, qui porte déjà les deux leviers
-           d'un site (être trouvé, convaincre), ni nommer la cible, dont la
-           section « pour qui » se charge juste en dessous. Il pose le mécanisme
-           de décision du visiteur, la comparaison. Aucune mention de refonte ni
-           de première mise en ligne, aucune supposition sur la notoriété du
-           client : la formule doit valoir pour une vitrine comme pour une
-           boutique. La seconde phrase répond au constat de la première ; les
-           deux lignes ne se lisent jamais séparément. Deux temps et pas trois :
-           une version intermédiaire posait une question au visiteur entre le
-           constat et la réponse, retirée le 01/08 pour tenir en deux lignes.
-           Largeur 42rem. -->
-      <p class="hero-sub font-body text-base md:text-lg leading-relaxed max-w-[42rem] mb-10 md:mb-12 text-brun-mid mx-auto [text-wrap:balance]" data-reveal data-delay="1">
-        Sur internet, on recherche, on compare, on choisit.<br>
+      <p class="hero-sub font-body text-base md:text-lg leading-relaxed max-w-[42rem] text-brun-mid mx-auto" data-reveal data-delay="1">
+        Sur internet,<br>
+        on recherche, on compare, on choisit.<br>
         Nous faisons de vous, le choix évident.
       </p>
+    </div>
 
-      <!-- Boutons CTA. Point d'ancrage bas de la composition depuis le
-           04/08/2026 : les quatre cases de réassurance qui suivaient ont été
-           déplacées vers /services (elles alourdissaient le premier écran). Le
-           hero est redevenu une composition purement typographique, centrée
-           dans la hauteur d'écran, et les CTA en referment le bas. -->
+    <!-- BAS : bouton, ancré au pied de la section par le justify-between. -->
+    <div class="max-w-3xl mx-auto w-full text-center relative z-10">
       <div class="cta-pair flex items-center justify-center" data-reveal data-delay="2">
         <Button href="/contact" variant="primary">Parler de mon projet</Button>
       </div>
-
     </div>
 
     <!-- Scroll indicator -->
@@ -1064,9 +1051,15 @@ const organizationSchema = {
 
 <style>
   /* ── Hero plein écran — dvh évite le débordement sous la barre d'URL mobile ── */
+  /* On retranche la hauteur du header sticky (65 px, mesurée identique à toutes
+     les largeurs le 09/08/2026). Sans ça, la section fait une pleine hauteur
+     d'écran POSÉE sous les 65 px du header, donc son bas déborde de 65 px sous
+     la ligne de flottaison : avec le bouton désormais ancré en pied de section
+     (justify-between), il tombait hors de l'écran au premier chargement. Le
+     retrait cale le bas de la section sur le bas du viewport, bouton compris. */
   .hero-screen {
-    min-height: 100vh;       /* fallback navigateurs anciens */
-    min-height: 100dvh;      /* hauteur dynamique réelle (mobile) */
+    min-height: calc(100vh - 65px);   /* fallback navigateurs anciens */
+    min-height: calc(100dvh - 65px);  /* hauteur dynamique réelle (mobile) */
   }
   /* Sans photo, un premier écran pleine hauteur laisse trop d'air autour du
      texte sur grand écran. On le raccourcit pour que la section suivante
