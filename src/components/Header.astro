@@ -6,12 +6,13 @@
    panneau : /services est une vraie page, on ne la rend pas inaccessible.
    `prefixe` sert à repérer la rubrique active quand l'URL courante est un
    enfant : /outils/diagnostic doit allumer Outils. */
-/* L'entrée « Accueil » a été retirée le 07/08/2026 : le logotype Caelestis, à
-   gauche de la barre et présent sur les deux mises en page, y mène déjà, et
-   c'est la convention que suivent les sites d'agence relevés. Six entrées
-   restent, contre sept auparavant. Le pied de page, lui, garde « Accueil » :
-   c'est un plan du site, pas une barre de navigation. */
+/* L'entrée « Accueil » a d'abord été retirée le 07/08/2026 au profit du seul
+   logotype, puis rétablie le 09/08/2026 : « Caelestis » ne se lit pas comme un
+   lien vers l'accueil, un libellé explicite est plus intuitif. Le logotype y
+   mène toujours, en complément. Sept entrées. Le pied de page garde aussi
+   « Accueil ». */
 const nav = [
+  { href: '/', label: 'Accueil' },
   {
     href: '/services',
     label: 'Services',
@@ -47,7 +48,7 @@ const estActive = (e: { href?: string; prefixe?: string }) => {
 ---
 <header id="header" class="sticky top-0 z-50 bg-cream/80 backdrop-blur-md border-b border-cream-dark/60">
   <!-- Le passage à la navigation déployée se fait à `lg` (1024px) et non à `md` :
-       à 768px, la barre demande ~810px (logo + six liens + loupe + CTA), si bien
+       à 768px, la barre demande plus de 810px (logo + sept liens + loupe + CTA), si bien
        que « À propos » et le bouton « Parler de mon projet » passaient sur deux
        lignes et débordaient de la barre. Toute la tablette portrait reste donc
        sur le menu burger. Ne pas redescendre à `md` sans raccourcir les libellés. -->
