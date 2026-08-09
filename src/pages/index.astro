@@ -372,13 +372,18 @@ const organizationSchema = {
     </div>
 
     <!-- CENTRE : titre + sous-titre.
-         H1 retenu le 01/08/2026 par Célestin. L'ancienne version, « Un site web
-         qui valorise votre savoir-faire et attire vos futurs clients », finissait
-         sur l'acquisition, que le sous-titre porte désormais entièrement : le hero
-         annonçait deux fois la même promesse. Le titre prend la fierté du métier,
-         le sous-titre garde la mécanique commerciale. Deux blocs `.sl`, l'accent
-         sauge sur le savoir-faire. La pente 9vw amène le plafond de 4,25 rem (68 px)
-         dès 756 px de large et garantit deux lignes jusqu'à 320 px.
+         H1 « Optez pour un site web, digne de votre savoir-faire. » retenu le
+         09/08/2026 par Célestin, en place de « Un site web digne de votre
+         savoir-faire. » : l'impératif « Optez pour » ouvre sur une adresse directe,
+         plus proche d'un appel à l'action, sans perdre la fierté du métier que
+         porte « digne de votre savoir-faire ». Le sous-titre garde la mécanique
+         commerciale. Deux blocs `.sl` coupés à la virgule, l'accent sauge sur la
+         seconde ligne. Plafond du clamp ramené de 4,25 rem à 3,9 rem (62 px) le
+         09/08/2026 : plus longue que l'ancienne, la seconde ligne débordait des
+         48 rem (max-w-3xl) à 68 px et tombait sur une troisième ligne. À 3,9 rem
+         (plafond atteint dès 693 px de large) elle tient sur une seule ligne du
+         desktop jusqu'à la tablette large (≈ 820 px) ; en dessous, le titre se
+         replie en trois ou quatre lignes sur mobile, repli assumé.
          Sous-titre coupé en trois lignes le 09/08/2026 (choix de Célestin) :
          « Sur internet, » isolé en tête pose le décor, puis le rythme ternaire
          « on recherche, on compare, on choisit. », puis la réponse « Nous faisons
@@ -389,10 +394,10 @@ const organizationSchema = {
     <div class="max-w-3xl mx-auto w-full text-center relative z-10" data-hero-parallax data-speed="0.2">
       <h1
         class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-12 md:mb-14 hero-title"
-        style="font-size: clamp(1.75rem, 9vw, 4.25rem);"
+        style="font-size: clamp(1.75rem, 9vw, 3.9rem);"
       >
-        <span class="sl"><span>Un site web digne</span></span>
-        <span class="sl"><span class="text-sauge">de votre savoir-faire.</span></span>
+        <span class="sl"><span>Optez pour un site web,</span></span>
+        <span class="sl"><span class="text-sauge">digne de votre savoir-faire.</span></span>
       </h1>
       <!-- Troisième ligne en sauge (#2E7452, `.text-sauge`) le 09/08/2026 : la
            promesse porte l'accent du site, le même vert que « savoir-faire » dans
@@ -1084,7 +1089,7 @@ const organizationSchema = {
      d'effet, elle a été retirée le 01/08/2026 avec le passage à deux lignes. */
 
   /* Téléphones courts (iPhone SE, iPhone 8 et assimilés, 667px de haut).
-     Le titre y tient sur trois lignes et le sous-titre sur quatre : sans ce
+     Le titre y tient sur quatre lignes et le sous-titre sur quatre : sans ce
      resserrement, les boutons tombent sous la ligne de flottaison. Le
      resserrement porte sur les seules marges verticales, rien sur le texte.
      Borné en largeur ET en hauteur : les téléphones hauts et le desktop
