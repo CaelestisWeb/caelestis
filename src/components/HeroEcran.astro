@@ -31,6 +31,11 @@ const menu = [
     <div class="bezel">
       <div class="glass" data-glass>
         <div class="power" aria-hidden="true"></div>
+        <div class="dots">
+          {menu.map((m) => (
+            <button type="button" class={m.key === 'accueil' ? 'dot on' : 'dot'} data-nav={m.key} aria-label={'Aller à ' + m.label}></button>
+          ))}
+        </div>
         <div class="browser">
           <nav class="topnav" aria-label="Menu du site présenté">
             <span class="brand" data-nav="accueil" role="link" tabindex="0">Caelestis</span>
@@ -39,15 +44,17 @@ const menu = [
                 <button type="button" class={m.key === 'accueil' ? 'on' : ''} data-nav={m.key}>{m.label}</button>
               ))}
             </div>
-            <svg class="loupe" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><line x1="12.7" y1="12.7" x2="17" y2="17" stroke-linecap="round"/></svg>
-            <button type="button" class="navcta" data-nav="contact">Parler de mon projet</button>
+            <div class="navend">
+              <svg class="loupe" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><line x1="12.7" y1="12.7" x2="17" y2="17" stroke-linecap="round"/></svg>
+              <button type="button" class="navcta" data-nav="contact">Parler de mon projet</button>
+            </div>
           </nav>
 
           <div class="stack" data-stack>
             <!-- ACCUEIL : la vraie première section -->
             <section class="view accueil active" data-view="accueil">
               <p class="eyebrow">Création de site web en <b>Auvergne-Rhône-Alpes</b></p>
-              <h1>Optez pour un site web,<br><span class="accent">digne de votre savoir-faire.</span></h1>
+              <h1>Optez pour un site web,<br><span class="accent">digne de votre <span class="nobreak">savoir-faire.</span></span></h1>
               <p class="lead">Sur internet, on recherche, on compare, on choisit. <b>Nous faisons de vous, le choix évident.</b></p>
               <button type="button" class="btn" data-nav="contact">Parler de mon projet</button>
             </section>
@@ -196,9 +203,10 @@ const menu = [
   .foot-sh{width:32%;height:18px;border-radius:50%;background:rgba(18,22,15,.16);filter:blur(12px);margin:9px auto 0}
 
   .browser{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--color-cream)}
-  .topnav{display:flex;align-items:center;gap:clamp(8px,1.3vw,20px);padding:13px clamp(14px,2vw,34px);border-bottom:1px solid var(--color-cream-dark);flex:none;z-index:5;background:rgba(252,251,248,.72);backdrop-filter:blur(6px)}
-  .brand{font-weight:700;font-size:clamp(15px,1.4vw,19px);color:var(--color-ocre);letter-spacing:-.02em;margin-right:auto;cursor:pointer}
-  .navlinks{display:flex;gap:clamp(8px,1.15vw,18px)}
+  .topnav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(8px,1.3vw,20px);padding:13px clamp(14px,2vw,34px);border-bottom:1px solid var(--color-cream-dark);flex:none;z-index:5;background:rgba(252,251,248,.72);backdrop-filter:blur(6px)}
+  .brand{font-weight:700;font-size:clamp(15px,1.4vw,19px);color:var(--color-ocre);letter-spacing:-.02em;cursor:pointer}
+  .navend{display:flex;align-items:center;gap:clamp(8px,1.2vw,14px);justify-self:end}
+  .navlinks{display:flex;gap:clamp(8px,1.15vw,18px);justify-self:center}
   .navlinks button{font-family:inherit;background:none;border:0;font-size:clamp(10px,.92vw,13px);font-weight:500;color:var(--color-brun-mid);cursor:pointer;position:relative;padding:0 0 3px;transition:color .2s;white-space:nowrap}
   .navlinks button::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1.5px;background:var(--color-sauge);transform:scaleX(0);transform-origin:right;transition:transform .3s}
   .navlinks button:hover{color:var(--color-ocre)}
@@ -225,6 +233,7 @@ const menu = [
   .accueil .eyebrow b{color:var(--color-ocre);font-weight:500;border-bottom:1px solid rgba(37,92,65,.35);padding-bottom:2px}
   .view h1{font-family:var(--font-display);font-weight:700;font-size:clamp(1.85rem,3.8vw,3.2rem);line-height:1.05;letter-spacing:-.035em;color:var(--color-ocre);margin-bottom:clamp(1rem,2.2vh,1.5rem)}
   .view h1 .accent{color:var(--color-sauge-vif)}
+  .nobreak{white-space:nowrap}
   .lead{font-size:clamp(.95rem,1.3vw,1.12rem);color:var(--color-brun-mid);max-width:52ch;margin-bottom:clamp(1.2rem,2.6vh,2rem);line-height:1.6}
   .lead b{color:var(--color-encre);font-weight:500}
 
@@ -300,7 +309,31 @@ const menu = [
   .finput.tall{padding-bottom:2.2rem}
   .ghost-btn{display:inline-block}
 
-  @media(max-width:760px){.formules,.quatre{grid-template-columns:1fr 1fr}.cas,.duo,.contact-grid,.form2{grid-template-columns:1fr}.glass{height:auto;min-height:0;aspect-ratio:4/3.4}}
+  /* Points de pagination : masqués en desktop (navigation par le menu). */
+  .dots{display:none}
+
+  /* ── Mobile : le moniteur passe en portrait, navigation par points + swipe ── */
+  @media(max-width:760px){
+    .hero-ecran{min-height:calc(100svh - 3.5rem);place-items:start center;padding:clamp(.8rem,2.5vh,1.6rem) clamp(.8rem,4vw,1.5rem)}
+    .rig{width:93vw;animation:none}
+    .bezel{padding:9px;border-radius:22px}
+    .glass{height:min(66svh,560px);min-height:430px;border-radius:15px}
+    .stand,.foot,.foot-sh{display:none}
+    .topnav{padding:12px 16px;gap:10px}
+    .navcta{font-size:11px;padding:.5em .85em}
+    .view{padding:24px 22px 58px}
+    .accueil{padding-bottom:58px}
+    .view h1{font-size:clamp(1.5rem,7.4vw,2.05rem);hyphens:manual}
+    .h-page{font-size:clamp(1.3rem,6vw,1.7rem)}
+    .lead{font-size:1rem;max-width:34ch}
+    .intro{font-size:.95rem}
+    .formules,.quatre,.cas,.duo,.contact-grid,.form2{grid-template-columns:1fr}
+    .fiche{gap:1rem 2rem}
+    .dots{display:flex;position:absolute;bottom:12px;left:50%;transform:translateX(-50%);gap:6px;z-index:9;
+      background:rgba(252,251,248,.92);padding:7px 11px;border-radius:100px;box-shadow:0 6px 16px -8px rgba(18,22,15,.35);backdrop-filter:blur(6px)}
+    .dot{width:7px;height:7px;border-radius:100px;border:0;padding:0;background:var(--color-sauge);cursor:pointer;transition:width .3s,background .3s}
+    .dot.on{width:20px;background:var(--color-ocre)}
+  }
 
   @media(prefers-reduced-motion:reduce){
     .rig{animation:none}
@@ -331,7 +364,7 @@ const menu = [
         v.setAttribute('aria-hidden', on ? 'false' : 'true');
         if(on) { v.removeAttribute('inert'); v.scrollTop = 0; } else { v.setAttribute('inert', ''); }
       });
-      glass.querySelectorAll('.navlinks button').forEach(function(b){
+      glass.querySelectorAll('.navlinks button, .dots .dot').forEach(function(b){
         b.classList.toggle('on', b.getAttribute('data-nav') === order[target]);
       });
       if(!animate){ void stack.offsetWidth; views.forEach(function(v){ v.style.transition = ''; }); }
@@ -352,6 +385,20 @@ const menu = [
     glass.addEventListener('mouseenter', stopAuto);
     glass.addEventListener('mouseleave', startAuto);
     glass.addEventListener('focusin', stopAuto);
+
+    // Swipe tactile (mobile) : feuilleter les pages du doigt.
+    let sx = 0, sy = 0, sw = false;
+    glass.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; sy = e.touches[0].clientY; sw = true; stopAuto(); }, { passive: true });
+    glass.addEventListener('touchend', function(e){
+      if(!sw) return; sw = false;
+      const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      if(Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)){
+        let cur = 0; views.forEach(function(v, i){ if(v.classList.contains('active')) cur = i; });
+        apply(dx < 0 ? (cur + 1) % views.length : (cur - 1 + views.length) % views.length, true);
+      }
+      startAuto();
+    }, { passive: true });
+
     startAuto();
   }
 
