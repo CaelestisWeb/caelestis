@@ -183,7 +183,13 @@ const breadcrumbServices = {
           style="font-size: clamp(2.1rem, 5vw, 3.9rem);"
           data-reveal data-delay="1"
         >
-          <span class="sl"><span>Un site internet qui reflète vraiment</span></span>
+          <!-- Trois blocs .sl et non deux : « Un site internet qui reflète
+               vraiment » mesure 855 px à 62,4 px (canvas), le conteneur
+               max-w-3xl en fait 768 : en un seul bloc, « vraiment » tombait
+               seul sur sa ligne. Segments mesurés : 370 / 470 / 318 px en
+               desktop, 199 / 253 / 171 px à 320 px de fenêtre. -->
+          <span class="sl"><span>Un site internet</span></span>
+          <span class="sl"><span>qui reflète vraiment</span></span>
           <span class="sl"><span class="text-sauge">votre activité.</span></span>
         </h1>
         <p class="font-body text-lg text-brun-mid mt-8 max-w-xl leading-relaxed mx-auto" data-reveal data-delay="2">
