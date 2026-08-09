@@ -79,7 +79,6 @@ const breadcrumb = {
 /* Le schéma du périmètre lit src/data/zones.ts, seule source des villes, des
    temps de route et des azimuts. Ne jamais recopier une durée ici. */
 const PX_HEURE = 56;
-const surCarte = placerEtiquettes(SUR_CARTE, 210, PX_HEURE);
 
 /* Graduations « 1 h » et « 2 h » : posées vers l'est-sud-est (azimut 120°),
    dans le grand secteur vide entre Die et Nyons, et non plus au nord où
@@ -92,6 +91,13 @@ const grad = (h: number) => ({
 });
 const grad1 = grad(1);
 const grad2 = grad(2);
+
+/* Les graduations deviennent des obstacles du placement : aucune étiquette de
+   ville ne doit venir se coller au « 1 h » ni au « 2 h ». */
+const surCarte = placerEtiquettes(SUR_CARTE, 210, PX_HEURE, [
+  { x: grad1.x, y: grad1.y, l: 22 },
+  { x: grad2.x, y: grad2.y, l: 22 },
+]);
 
 
 /* Les quatre gestes de la niche, et les metiers qu ils recouvrent. Ils
@@ -155,7 +161,7 @@ const departements = [
        le déplacement s'arrête à deux heures de route, le service ne s'arrête
        nulle part puisqu'il se fait à distance. -->
   <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20" aria-labelledby="perimetre-title">
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-6xl mx-auto">
 
       <div class="text-center mb-12" data-reveal>
         <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Votre territoire</p>
@@ -181,7 +187,7 @@ const departements = [
               <circle cx="210" cy="210" r={String(h * PX_HEURE)} class="terr-anneau" />
             ))}
             {surCarte.map((v) => (
-              <line x1="210" y1="210" x2={String(v.ex)} y2={String(v.ey)} class="terr-rayon" />
+              <polyline points={`210,210 ${v.x},${v.y} ${v.ex},${v.ey}`} class="terr-rayon" />
             ))}
             <text x={String(grad1.x)} y={String(grad1.y)} class="terr-legende" text-anchor="middle">1 h</text>
             <text x={String(grad2.x)} y={String(grad2.y)} class="terr-legende" text-anchor="middle">2 h</text>
@@ -337,20 +343,20 @@ const departements = [
      schéma à toutes les tailles. */
   .terr { display: grid; gap: 40px; align-items: center; }
   @media (min-width: 900px) {
-    .terr { grid-template-columns: 1fr 20rem; gap: 56px; }
+    .terr { grid-template-columns: 1fr 18rem; gap: 56px; }
   }
 
   .terr-schema {
     position: relative;
     width: 100%;
-    max-width: 480px;
+    max-width: 720px;
     margin: 0 auto;
     aspect-ratio: 1;
   }
   .terr-schema svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 
   .terr-anneau { stroke: var(--color-cream-dark); stroke-width: 1; }
-  .terr-rayon { stroke: var(--color-sauge); stroke-width: 0.8; opacity: 0.42; }
+  .terr-rayon { fill: none; stroke: var(--color-sauge); stroke-width: 0.8; opacity: 0.5; }
   .terr-legende {
     font-family: var(--font-body);
     font-size: 9px;
