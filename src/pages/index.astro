@@ -362,8 +362,10 @@ const organizationSchema = {
     <!-- HAUT : eyebrow. `whitespace-nowrap` sur le nom de région : sans lui, à
          375 px la ligne se coupait au trait d'union et affichait « AUVERGNE- »
          puis « RHÔNE-ALPES » seul en dessous. Le retour se fait avant
-         « Auvergne », entre deux mots. -->
-    <div class="max-w-3xl mx-auto w-full text-center relative z-10">
+         « Auvergne », entre deux mots.
+         `data-hero-parallax` : glissement au défilement (script en bas de page).
+         L'eyebrow a la vitesse la plus forte, il file en premier vers le haut. -->
+    <div class="max-w-3xl mx-auto w-full text-center relative z-10" data-hero-parallax data-speed="0.4">
       <p class="hero-eyebrow font-body text-xs tracking-[0.22em] uppercase text-sauge [text-wrap:balance]" data-reveal>
         Création de site web en <a href="/creation-site-internet-auvergne-rhone-alpes" class="whitespace-nowrap underline decoration-sauge/30 underline-offset-2 hover:decoration-sauge transition-colors">Auvergne-Rhône-Alpes</a>
       </p>
@@ -381,8 +383,10 @@ const organizationSchema = {
          « Sur internet, » isolé en tête pose le décor, puis le rythme ternaire
          « on recherche, on compare, on choisit. », puis la réponse « Nous faisons
          de vous, le choix évident. ». Il ne redit pas le H1 et ne nomme pas la
-         cible, dont la section « pour qui » se charge juste en dessous. -->
-    <div class="max-w-3xl mx-auto w-full text-center relative z-10">
+         cible, dont la section « pour qui » se charge juste en dessous.
+         `data-hero-parallax` à vitesse moyenne : le couple titre + sous-titre suit
+         l'eyebrow, mais glisse moins vite, ce qui creuse l'écart au défilement. -->
+    <div class="max-w-3xl mx-auto w-full text-center relative z-10" data-hero-parallax data-speed="0.2">
       <h1
         class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-12 md:mb-14 hero-title"
         style="font-size: clamp(1.75rem, 9vw, 4.25rem);"
@@ -401,8 +405,10 @@ const organizationSchema = {
       </p>
     </div>
 
-    <!-- BAS : bouton, ancré au pied de la section par le justify-between. -->
-    <div class="max-w-3xl mx-auto w-full text-center relative z-10">
+    <!-- BAS : bouton, ancré au pied de la section par le justify-between.
+         `data-hero-parallax` à la vitesse la plus faible : le bouton traîne, il
+         reste accessible plus longtemps pendant que le reste s'échappe vers le haut. -->
+    <div class="max-w-3xl mx-auto w-full text-center relative z-10" data-hero-parallax data-speed="0.08">
       <div class="cta-pair flex items-center justify-center" data-reveal data-delay="2">
         <Button href="/contact" variant="primary">Parler de mon projet</Button>
       </div>
@@ -1701,4 +1707,58 @@ const organizationSchema = {
   }
   bindComparateur();
   document.addEventListener('astro:page-load', bindComparateur);
+
+  /* ── Glissement du hero au défilement ──
+     Les trois zones du hero (eyebrow, titre + sous-titre, bouton) translatent
+     vers le haut au scroll, à des vitesses différentes (data-speed) : l'eyebrow
+     file en premier, le bouton traîne, ce qui les disperse en échelonné. Effet
+     purement décoratif, coupé sous prefers-reduced-motion.
+     Autonome, sans GSAP ni Lenis (ceux-ci ne sont pas chargés sur mobile), pour
+     que l'effet existe aussi sur tactile. translate3d force une couche GPU et on
+     n'écrit qu'à la frame via requestAnimationFrame : jamais pendant le scroll. */
+  interface HeroLayer { el: HTMLElement; speed: number; }
+  let heroZones: HeroLayer[] = [];
+  let heroEl: HTMLElement | null = null;
+  let heroTicking = false;
+  let heroScrollBound = false;
+
+  function collectHero() {
+    heroEl = document.querySelector<HTMLElement>('.hero-screen');
+    heroZones = heroEl
+      ? Array.from(heroEl.querySelectorAll<HTMLElement>('[data-hero-parallax]')).map((el) => ({
+          el,
+          speed: parseFloat(el.dataset.speed || '0.2'),
+        }))
+      : [];
+  }
+  function updateHero() {
+    heroTicking = false;
+    if (!heroEl || heroZones.length === 0) return;
+    const y = window.scrollY || window.pageYOffset || 0;
+    /* Au-delà de la hauteur du hero, il est hors champ : rien à recalculer. */
+    if (y > heroEl.offsetHeight) return;
+    for (const z of heroZones) {
+      z.el.style.transform = `translate3d(0, ${(-y * z.speed).toFixed(1)}px, 0)`;
+    }
+  }
+  function onHeroScroll() {
+    if (!heroTicking) { heroTicking = true; requestAnimationFrame(updateHero); }
+  }
+  function bindHeroParallax() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    collectHero();
+    if (reduce) {
+      /* Accessibilité : aucun glissement, on efface tout transform résiduel. */
+      heroZones.forEach((z) => { z.el.style.transform = ''; });
+      return;
+    }
+    updateHero();
+    if (!heroScrollBound) {
+      window.addEventListener('scroll', onHeroScroll, { passive: true });
+      window.addEventListener('resize', () => { collectHero(); updateHero(); }, { passive: true });
+      heroScrollBound = true;
+    }
+  }
+  bindHeroParallax();
+  document.addEventListener('astro:page-load', bindHeroParallax);
 </script>
