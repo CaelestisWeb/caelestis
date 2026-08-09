@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
+import HeroEcran from '../components/HeroEcran.astro';
 import { Image, getImage } from 'astro:assets';
 import imgArtisan     from '../assets/images/atelier-botanique.jpg';
 import imgBougies     from '../assets/images/bougies-artisan.jpg';
@@ -334,97 +335,16 @@ const organizationSchema = {
   </div>
 
 
-  <!-- ─── HERO ─── -->
-  <section class="hero-screen flex flex-col justify-between px-6 md:px-10 lg:px-20 pt-8 md:pt-12 pb-10 md:pb-14 relative overflow-hidden">
-
-    <!-- Lumière ambiante organique -->
-    <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
-      <div class="light-blob light-blob-sauge absolute w-[600px] h-[600px]"
-           style="top: -8%; left: -12%; opacity: 0.7;"></div>
-      <div class="light-blob light-blob-ocre absolute w-[420px] h-[420px]"
-           style="bottom: 5%; right: -8%; opacity: 0.55;"></div>
-      <div class="light-blob light-blob-cream absolute w-[300px] h-[300px]"
-           style="top: 40%; left: 38%; opacity: 0.4;"></div>
-    </div>
-
-    <!-- Premier écran typographique : aucune photo. La respiration vient des
-         halos de lumière et du blanc généreux, pas d'une image d'illustration.
-         Décision de Célestin le 29/07/2026, après relevé sur sept sites d'agence.
-         Le premier écran ne porte que quatre éléments : eyebrow, titre, sous-titre
-         et bouton (la réassurance est partie sur /services le 04/08/2026).
-         Répartition revue le 09/08/2026 (choix de Célestin) : la section est en
-         `justify-between`, en trois blocs distincts. L'eyebrow est ancré tout en
-         haut, le couple titre + sous-titre est centré dans la hauteur d'écran, le
-         bouton est posé tout en bas. Chaque bloc reste à 48rem (max-w-3xl) : le
-         titre plafonne à 604 px, le sous-titre à 543 px, tout tient dans cette
-         largeur. -->
-
-    <!-- HAUT : eyebrow. `whitespace-nowrap` sur le nom de région : sans lui, à
-         375 px la ligne se coupait au trait d'union et affichait « AUVERGNE- »
-         puis « RHÔNE-ALPES » seul en dessous. Le retour se fait avant
-         « Auvergne », entre deux mots.
-         `data-hero-parallax` : glissement au défilement (script en bas de page).
-         L'eyebrow a la vitesse la plus forte, il file en premier vers le haut. -->
-    <div class="max-w-3xl mx-auto w-full text-center relative z-10" data-hero-parallax data-speed="0.4">
-      <p class="hero-eyebrow font-body text-xs tracking-[0.22em] uppercase text-sauge [text-wrap:balance]" data-reveal>
-        Création de site web en <a href="/creation-site-internet-auvergne-rhone-alpes" class="whitespace-nowrap underline decoration-sauge/30 underline-offset-2 hover:decoration-sauge transition-colors">Auvergne-Rhône-Alpes</a>
-      </p>
-    </div>
-
-    <!-- CENTRE : titre + sous-titre.
-         H1 « Optez pour un site web, digne de votre savoir-faire. » retenu le
-         09/08/2026 par Célestin, en place de « Un site web digne de votre
-         savoir-faire. » : l'impératif « Optez pour » ouvre sur une adresse directe,
-         plus proche d'un appel à l'action, sans perdre la fierté du métier que
-         porte « digne de votre savoir-faire ». Le sous-titre garde la mécanique
-         commerciale. Deux blocs `.sl` coupés à la virgule, l'accent sauge sur la
-         seconde ligne. Plafond du clamp ramené de 4,25 rem à 3,9 rem (62 px) le
-         09/08/2026 : plus longue que l'ancienne, la seconde ligne débordait des
-         48 rem (max-w-3xl) à 68 px et tombait sur une troisième ligne. À 3,9 rem
-         (plafond atteint dès 693 px de large) elle tient sur une seule ligne du
-         desktop jusqu'à la tablette large (≈ 820 px) ; en dessous, le titre se
-         replie en trois ou quatre lignes sur mobile, repli assumé.
-         Sous-titre coupé en trois lignes le 09/08/2026 (choix de Célestin) :
-         « Sur internet, » isolé en tête pose le décor, puis le rythme ternaire
-         « on recherche, on compare, on choisit. », puis la réponse « Nous faisons
-         de vous, le choix évident. ». Il ne redit pas le H1 et ne nomme pas la
-         cible, dont la section « pour qui » se charge juste en dessous.
-         `data-hero-parallax` à vitesse moyenne : le couple titre + sous-titre suit
-         l'eyebrow, mais glisse moins vite, ce qui creuse l'écart au défilement. -->
-    <div class="max-w-3xl mx-auto w-full text-center relative z-10" data-hero-parallax data-speed="0.2">
-      <h1
-        class="font-display font-light text-brun leading-[1.05] tracking-[-0.03em] mb-12 md:mb-14 hero-title"
-        style="font-size: clamp(1.75rem, 9vw, 3.9rem);"
-      >
-        <span class="sl"><span>Optez pour un site web,</span></span>
-        <span class="sl"><span class="text-sauge">digne de votre savoir-faire.</span></span>
-      </h1>
-      <!-- Troisième ligne en sauge (#2E7452, `.text-sauge`) le 09/08/2026 : la
-           promesse porte l'accent du site, le même vert que « savoir-faire » dans
-           le titre et que le bouton. Les deux premières lignes restent en olive gris
-           (brun-mid), pour que la couleur tombe sur la seule punchline. -->
-      <p class="hero-sub font-body text-base md:text-lg leading-relaxed max-w-[42rem] text-brun-mid mx-auto" data-reveal data-delay="1">
-        Sur internet,<br>
-        on recherche, on compare, on choisit.<br>
-        <span class="text-sauge">Nous faisons de vous, le choix évident.</span>
-      </p>
-    </div>
-
-    <!-- BAS : bouton, ancré au pied de la section par le justify-between.
-         `data-hero-parallax` à la vitesse la plus faible : le bouton traîne, il
-         reste accessible plus longtemps pendant que le reste s'échappe vers le haut. -->
-    <div class="max-w-3xl mx-auto w-full text-center relative z-10" data-hero-parallax data-speed="0.08">
-      <div class="cta-pair flex items-center justify-center" data-reveal data-delay="2">
-        <Button href="/contact" variant="primary">Parler de mon projet</Button>
-      </div>
-    </div>
-
-    <!-- Scroll indicator -->
-    <div class="scroll-indicator absolute bottom-8 left-6 md:left-10 lg:left-20 hidden sm:flex items-center gap-3" aria-hidden="true">
-      <div class="scroll-line w-8 h-px bg-brun opacity-35"></div>
-    </div>
-
-  </section>
+  <!-- ─── HERO : le site dans l'écran ───
+       Remplace le hero typographique le 10/08/2026 (choix de Célestin) : le
+       premier écran devient un moniteur qui affiche le site lui-même, navigable
+       par le menu (chaque page glisse latéralement), avec un glissement
+       automatique toutes les 5 s qui invite le visiteur à explorer. Le H1
+       « Optez pour un site web, digne de votre savoir-faire. » est conservé,
+       porté par la vue d'accueil du moniteur. Tout le composant vit dans
+       src/components/HeroEcran.astro ; Services et Réalisations y lisent les
+       mêmes sources que le reste du site (FORMULES, realisations). -->
+  <HeroEcran />
 
 
   <!-- ─── POUR QUI ─── -->

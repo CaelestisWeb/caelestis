@@ -1,0 +1,360 @@
+---
+/* ─── HERO « le site dans l'écran » ───
+   Le premier écran de l'accueil est un moniteur qui affiche le site lui-même.
+   On y navigue par le menu (chaque page glisse latéralement), et un glissement
+   automatique toutes les 5 s indique au visiteur qu'il peut naviguer dedans.
+
+   Le contenu des pages Services et Réalisations vient des mêmes sources que le
+   reste du site (FORMULES dans utils/tarifs, realisations dans data), pour ne
+   pas dupliquer les libellés ni les prix. Les autres pages sont un aperçu court.
+
+   Décision de Célestin le 10/08/2026, en remplacement du hero typographique. */
+import { FORMULES, euros } from '../utils/tarifs';
+import { realisations } from '../data/realisations';
+
+const menu = [
+  { key: 'accueil',      label: 'Accueil' },
+  { key: 'services',     label: 'Services' },
+  { key: 'realisations', label: 'Réalisations' },
+  { key: 'outils',       label: 'Outils' },
+  { key: 'ressources',   label: 'Ressources' },
+  { key: 'apropos',      label: 'À propos' },
+  { key: 'contact',      label: 'Contact' },
+];
+---
+
+<section class="hero-ecran" aria-label="Aperçu interactif du site Caelestis">
+  <div aria-hidden="true" class="halo halo-1"></div>
+  <div aria-hidden="true" class="halo halo-2"></div>
+
+  <div class="rig">
+    <div class="bezel">
+      <div class="glass" data-glass>
+        <div class="power" aria-hidden="true"></div>
+        <div class="browser">
+          <nav class="topnav" aria-label="Menu du site présenté">
+            <span class="brand" data-nav="accueil" role="link" tabindex="0">Caelestis</span>
+            <div class="navlinks">
+              {menu.map((m) => (
+                <button type="button" class={m.key === 'accueil' ? 'on' : ''} data-nav={m.key}>{m.label}</button>
+              ))}
+            </div>
+            <svg class="loupe" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><line x1="12.7" y1="12.7" x2="17" y2="17" stroke-linecap="round"/></svg>
+            <button type="button" class="navcta" data-nav="contact">Parler de mon projet</button>
+          </nav>
+
+          <div class="stack" data-stack>
+            <!-- ACCUEIL : la vraie première section -->
+            <section class="view accueil active" data-view="accueil">
+              <p class="eyebrow">Création de site web en <b>Auvergne-Rhône-Alpes</b></p>
+              <h1>Optez pour un site web,<br><span class="accent">digne de votre savoir-faire.</span></h1>
+              <p class="lead">Sur internet, on recherche, on compare, on choisit. <b>Nous faisons de vous, le choix évident.</b></p>
+              <button type="button" class="btn" data-nav="contact">Parler de mon projet</button>
+            </section>
+
+            <!-- SERVICES -->
+            <section class="view" data-view="services" aria-hidden="true">
+              <p class="eyebrow">Création de site internet</p>
+              <h2 class="h-page">Un site internet qui reflète vraiment votre activité.</h2>
+              <p class="intro">En 2 à 8 semaines, nous construisons ensemble un site sobre, authentique et durable, qui met en lumière votre travail et transforme les visiteurs en futurs clients.</p>
+              <div class="formules">
+                {FORMULES.map((f) => (
+                  <div class={f.accent ? 'formule reco' : 'formule'}>
+                    {f.accent && <span class="badge">Le plus demandé</span>}
+                    <h3>{f.nom}</h3>
+                    <p>{f.baseline}</p>
+                    <div class="prix">à partir de {euros(f.prix)} €<span>le site</span></div>
+                  </div>
+                ))}
+              </div>
+              <p class="note">30 % d'acompte à la signature, solde à la mise en ligne. Les prix sont nets, sans TVA à ajouter.</p>
+            </section>
+
+            <!-- RÉALISATIONS -->
+            <section class="view" data-view="realisations" aria-hidden="true">
+              <h2 class="h-page">Ce que nous avons livré, et ce que ça change.</h2>
+              <p class="intro">Caelestis a livré {realisations.length} sites en 2026, pour un salon de prothésie ongulaire et pour un atelier de bijoux, tous deux dans la Drôme.</p>
+              <div class="cas">
+                {realisations.map((r, i) => (
+                  <div class="case">
+                    <div class={i === 0 ? 'shot shot-a' : 'shot shot-b'}>
+                      <div class="mini">
+                        <div class="mini-bar"><i></i><i></i><i></i><span class="u"></span></div>
+                        {i === 0 ? (
+                          <div class="mini-body">
+                            <div class="mini-title"></div>
+                            <div class="mini-line" style="width:80%"></div>
+                            <div class="mini-row"><div class="mini-btn"></div><div class="mini-slots"><span class="on"></span><span></span><span class="on"></span><span></span><span></span></div></div>
+                          </div>
+                        ) : (
+                          <div class="mini-body">
+                            <div class="mini-title" style="width:44%"></div>
+                            <div class="mini-gallery"><span class="on"></span><span></span><span></span><span class="on"></span><span></span><span class="on"></span><span></span><span></span></div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div class="meta">
+                      <span class="sect">{r.metier}, {r.ville}</span>
+                      <span class="ct">{r.titre}</span>
+                      <div class="foot2"><span class="delai">{r.delai}</span><span class="lien">Lire l'étude de cas <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <!-- OUTILS -->
+            <section class="view" data-view="outils" aria-hidden="true">
+              <p class="eyebrow">Outils</p>
+              <h2 class="h-page">Deux outils pour y voir clair.</h2>
+              <p class="intro">Estimez votre projet et mesurez votre site actuel, en quelques minutes, sans engagement.</p>
+              <div class="duo">
+                <div class="tuile" data-nav="contact"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h4"/></svg></div><h3>Estimer mon projet</h3><p>Un simulateur qui donne une fourchette de prix adaptée à vos besoins.</p></div>
+                <div class="tuile" data-nav="contact"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg></div><h3>Analyser mon site</h3><p>Un diagnostic clair de votre site actuel, ses points forts et ses freins.</p></div>
+              </div>
+            </section>
+
+            <!-- RESSOURCES -->
+            <section class="view" data-view="ressources" aria-hidden="true">
+              <p class="eyebrow">Ressources</p>
+              <h2 class="h-page">Les réponses qu'on cherche avant de se lancer.</h2>
+              <p class="intro">Prix réels, délais, contenus à préparer, visibilité sur Google et dans les assistants IA : des guides complets, écrits sans jargon et sans rien vous vendre.</p>
+              <div class="quatre">
+                <div class="tuile"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5a2.5 2 0 0 1 5 0c0 2-2.5 1.5-2.5 3"/></svg></div><h3>Les prix réels d'un site</h3><p>Ce que coûte vraiment un site, poste par poste.</p></div>
+                <div class="tuile"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></div><h3>Les délais</h3><p>Combien de temps pour être en ligne, selon la formule.</p></div>
+                <div class="tuile"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11l3 3v13H5z"/><path d="M9 12h6M9 16h6"/></svg></div><h3>Le contenu à préparer</h3><p>Textes, photos, infos : ce qu'on vous demandera.</p></div>
+                <div class="tuile"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></div><h3>Visible sur Google et les IA</h3><p>Être trouvé au bon moment, humains comme assistants.</p></div>
+              </div>
+            </section>
+
+            <!-- À PROPOS -->
+            <section class="view" data-view="apropos" aria-hidden="true">
+              <p class="eyebrow">À propos</p>
+              <h2 class="h-page">Pourquoi Caelestis ?</h2>
+              <div class="apropos">
+                <dl class="fiche">
+                  <div><dt>Âge</dt><dd>22 ans</dd></div>
+                  <div><dt>Basé à</dt><dd>Drôme</dd></div>
+                  <div><dt>Spécialité</dt><dd>Création web</dd></div>
+                  <div><dt>Réponse</dt><dd>Sous 48h</dd></div>
+                </dl>
+                <p>Le nom Caelestis est inspiré de mon prénom Célestin, dont l'origine latine évoque le ciel.</p>
+                <p><b>Je suis Célestin Fruleux, j'ai 22 ans, et je suis passionné par la nature, le bien-être et l'entrepreneuriat.</b></p>
+                <p>Un bon site internet ne change pas votre activité. Il la valorise. Il la rend visible, crédible et facile à trouver, et devient un véritable outil de croissance.</p>
+                <p class="signature">Pour ceux qui créent quelque chose de beau.</p>
+                <button type="button" class="btn" data-nav="contact">Réserver un appel</button>
+              </div>
+            </section>
+
+            <!-- CONTACT -->
+            <section class="view" data-view="contact" aria-hidden="true">
+              <p class="eyebrow">Contact</p>
+              <h2 class="h-page">Faites rayonner ce que vous créez.</h2>
+              <p class="intro">Parlez-nous de votre projet. On revient vers vous sous 48h.</p>
+              <div class="contact-grid">
+                <div class="coord">
+                  <div class="row"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><span><span class="lbl">Email</span><br><span class="val">contact@caelestis.fr</span></span></div>
+                  <div class="row"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><span><span class="lbl">Téléphone</span><br><span class="val">07 69 36 27 27</span></span></div>
+                  <div class="row"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 0 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span><span class="lbl">Localisation</span><br><span class="val">Drôme, France</span></span></div>
+                  <div class="row"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span><span class="lbl">Horaires</span><br><span class="val">Du lundi au samedi, 9h à 18h</span></span></div>
+                </div>
+                <div class="form2" aria-hidden="true">
+                  <div class="field"><span class="flabel">Prénom</span><span class="finput">Votre prénom</span></div>
+                  <div class="field"><span class="flabel">Nom</span><span class="finput">Votre nom</span></div>
+                  <div class="field full"><span class="flabel">Email</span><span class="finput">votre@email.com</span></div>
+                  <div class="field full"><span class="flabel">Votre projet</span><span class="finput tall">En quelques mots…</span></div>
+                  <div class="full"><span class="btn ghost-btn">Envoyer le message</span></div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="stand" aria-hidden="true"></div>
+    <div class="foot" aria-hidden="true"></div>
+    <div class="foot-sh" aria-hidden="true"></div>
+  </div>
+</section>
+
+<style>
+  .hero-ecran{position:relative;min-height:calc(100svh - 4rem);display:grid;place-items:center;overflow:hidden;
+    padding:clamp(1.5rem,4vh,3rem) clamp(1rem,4vw,2.5rem)}
+  .halo{position:absolute;border-radius:50%;pointer-events:none;filter:blur(52px)}
+  .halo-1{width:min(56vw,720px);height:min(56vw,720px);top:-12%;left:-6%;background:radial-gradient(circle,rgba(184,196,187,.38),transparent 66%)}
+  .halo-2{width:min(48vw,600px);height:min(48vw,600px);bottom:-14%;right:-5%;background:radial-gradient(circle,rgba(207,187,153,.32),transparent 66%)}
+
+  .rig{width:min(1180px,96vw);position:relative;z-index:1;animation:he-float 7s ease-in-out infinite}
+  @keyframes he-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .bezel{background:#16180f;border:3px solid #24271c;border-radius:16px;padding:12px;box-shadow:0 46px 84px -32px rgba(18,22,15,.5)}
+  .glass{position:relative;border-radius:8px;overflow:hidden;background:var(--color-cream);height:min(58vw,64vh);min-height:420px}
+  .power{position:absolute;inset:0;background:#0a0c07;z-index:20;animation:he-power 1s ease .2s forwards}
+  @keyframes he-power{to{opacity:0;visibility:hidden}}
+  .stand{width:12%;height:34px;background:linear-gradient(#1f2318,#2b3020);margin:-2px auto 0;border-radius:0 0 5px 5px}
+  .foot{width:26%;height:11px;background:#1f2318;border-radius:100px;margin:0 auto}
+  .foot-sh{width:32%;height:18px;border-radius:50%;background:rgba(18,22,15,.16);filter:blur(12px);margin:9px auto 0}
+
+  .browser{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--color-cream)}
+  .topnav{display:flex;align-items:center;gap:clamp(8px,1.3vw,20px);padding:13px clamp(14px,2vw,34px);border-bottom:1px solid var(--color-cream-dark);flex:none;z-index:5;background:rgba(252,251,248,.72);backdrop-filter:blur(6px)}
+  .brand{font-weight:700;font-size:clamp(15px,1.4vw,19px);color:var(--color-ocre);letter-spacing:-.02em;margin-right:auto;cursor:pointer}
+  .navlinks{display:flex;gap:clamp(8px,1.15vw,18px)}
+  .navlinks button{font-family:inherit;background:none;border:0;font-size:clamp(10px,.92vw,13px);font-weight:500;color:var(--color-brun-mid);cursor:pointer;position:relative;padding:0 0 3px;transition:color .2s;white-space:nowrap}
+  .navlinks button::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1.5px;background:var(--color-sauge);transform:scaleX(0);transform-origin:right;transition:transform .3s}
+  .navlinks button:hover{color:var(--color-ocre)}
+  .navlinks button.on{color:var(--color-ocre)}
+  .navlinks button.on::after,.navlinks button:hover::after{transform:scaleX(1);transform-origin:left}
+  .loupe{width:17px;height:17px;stroke:var(--color-brun-mid);fill:none;stroke-width:1.7;flex:none}
+  .navcta{font-family:inherit;background:var(--color-ocre);color:var(--color-cream);border:0;font-size:clamp(10px,.92vw,12.5px);font-weight:500;padding:.55em 1.05em;border-radius:100px;cursor:pointer;transition:background .2s;white-space:nowrap;flex:none}
+  .navcta:hover{background:var(--color-ocre-dark)}
+  @media(max-width:1000px){.navlinks{display:none}}
+
+  .stack{position:relative;flex:1;overflow:hidden}
+  .view{position:absolute;inset:0;overflow-y:auto;transform:translateX(100%);pointer-events:none;transition:transform .55s cubic-bezier(.7,0,.18,1);padding:clamp(18px,4vh,42px) clamp(20px,5vw,64px)}
+  .view.active{pointer-events:auto}
+  .view::-webkit-scrollbar{width:8px}.view::-webkit-scrollbar-thumb{background:rgba(37,92,65,.2);border-radius:10px}
+
+  .eyebrow{font-size:clamp(.62rem,.9vw,.78rem);font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--color-sauge-text);margin-bottom:clamp(.7rem,1.6vh,1.1rem)}
+  .h-page{font-family:var(--font-display);font-weight:700;font-size:clamp(1.35rem,2.5vw,2.1rem);line-height:1.08;letter-spacing:-.035em;color:var(--color-ocre);margin-bottom:.6rem;max-width:20ch}
+  .intro{color:var(--color-brun-mid);max-width:58ch;margin-bottom:1.6rem;font-size:clamp(.88rem,1.1vw,1rem);line-height:1.6}
+  .btn{font-family:inherit;display:inline-block;background:var(--color-ocre);color:var(--color-cream);border:0;font-weight:500;font-size:clamp(.85rem,1.1vw,.96rem);padding:.82em 1.8em;border-radius:100px;cursor:pointer;transition:background .25s,transform .25s;box-shadow:0 12px 26px -12px rgba(37,92,65,.55)}
+  .btn:hover{background:var(--color-ocre-dark);transform:translateY(-2px)}
+
+  .accueil{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:100%}
+  .accueil .eyebrow{color:var(--color-brun-mid)}
+  .accueil .eyebrow b{color:var(--color-ocre);font-weight:500;border-bottom:1px solid rgba(37,92,65,.35);padding-bottom:2px}
+  .view h1{font-family:var(--font-display);font-weight:700;font-size:clamp(1.85rem,3.8vw,3.2rem);line-height:1.05;letter-spacing:-.035em;color:var(--color-ocre);margin-bottom:clamp(1rem,2.2vh,1.5rem)}
+  .view h1 .accent{color:var(--color-sauge-vif)}
+  .lead{font-size:clamp(.95rem,1.3vw,1.12rem);color:var(--color-brun-mid);max-width:52ch;margin-bottom:clamp(1.2rem,2.6vh,2rem);line-height:1.6}
+  .lead b{color:var(--color-encre);font-weight:500}
+
+  .formules{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+  .formule{position:relative;border:1px solid var(--color-cream-dark);border-radius:14px;padding:1.15rem;background:#fff;transition:transform .3s,box-shadow .3s,border-color .3s;display:flex;flex-direction:column}
+  .formule:hover{transform:translateY(-5px);box-shadow:0 22px 40px -26px rgba(18,22,15,.32);border-color:var(--color-sauge)}
+  .formule.reco{border-color:var(--color-ocre)}
+  .badge{position:absolute;top:-10px;left:1.15rem;background:var(--color-ocre);color:var(--color-cream);font-size:.62rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.28em .7em;border-radius:100px}
+  .formule h3{font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--color-encre);letter-spacing:-.02em;margin-bottom:.45rem}
+  .formule p{font-size:.82rem;color:var(--color-brun-mid);line-height:1.5;margin-bottom:.9rem;flex:1}
+  .formule .prix{font-weight:700;color:var(--color-ocre);font-size:.96rem}
+  .formule .prix span{display:block;font-weight:500;color:var(--color-brun-mid);font-size:.72rem;margin-top:2px}
+  .note{margin-top:1.1rem;font-size:.8rem;color:var(--color-brun-mid)}
+
+  .cas{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+  .case{border:1px solid var(--color-cream-dark);border-radius:16px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s}
+  .case:hover{transform:translateY(-5px);box-shadow:0 24px 44px -26px rgba(18,22,15,.32)}
+  .shot{height:122px;display:flex;align-items:flex-end;justify-content:center;padding:16px 22px 0;overflow:hidden}
+  .shot-a{background:var(--color-sauge-pale)}
+  .shot-b{background:#EDF1EA}
+  .mini{width:100%;max-width:238px;height:100px;overflow:hidden;background:#fff;border-radius:8px 8px 0 0;box-shadow:0 12px 26px -14px rgba(18,22,15,.32)}
+  .mini-bar{display:flex;align-items:center;gap:4px;padding:7px 9px;background:#f4f3ed;border-bottom:1px solid var(--color-cream-dark);border-radius:8px 8px 0 0}
+  .mini-bar i{width:6px;height:6px;border-radius:50%;background:var(--color-sauge)}
+  .mini-bar .u{margin-left:6px;height:7px;flex:1;max-width:96px;background:#e5e4dc;border-radius:3px}
+  .mini-body{padding:11px 12px 12px}
+  .mini-title{height:8px;width:56%;background:var(--color-ocre);border-radius:3px;margin-bottom:7px}
+  .mini-line{height:5px;background:var(--color-cream-dark);border-radius:3px;margin-bottom:8px}
+  .mini-row{display:flex;align-items:center;gap:7px}
+  .mini-btn{height:13px;width:58px;background:var(--color-ocre);border-radius:100px;flex:none}
+  .mini-slots{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;flex:1}
+  .mini-slots span{height:12px;border-radius:3px;background:var(--color-sauge-pale);border:1px solid rgba(37,92,65,.18)}
+  .mini-slots span.on{background:var(--color-ocre);border-color:var(--color-ocre)}
+  .mini-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+  .mini-gallery span{height:16px;border-radius:4px;background:var(--color-sauge-pale)}
+  .mini-gallery span.on{background:var(--color-ocre)}
+  .meta{padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.35rem}
+  .sect{font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--color-sauge-text);font-weight:600}
+  .ct{font-weight:700;color:var(--color-encre);font-size:.96rem;line-height:1.3;letter-spacing:-.01em}
+  .foot2{display:flex;align-items:center;justify-content:space-between;margin-top:.4rem}
+  .delai{font-size:.78rem;color:var(--color-brun-mid)}
+  .lien{font-size:.82rem;font-weight:600;color:var(--color-ocre);display:inline-flex;align-items:center;gap:5px}
+  .lien svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.9}
+
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .quatre{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+  .tuile{border:1px solid var(--color-cream-dark);border-radius:14px;padding:1.15rem;background:#fff;transition:transform .3s,box-shadow .3s,border-color .3s;cursor:pointer}
+  .tuile:hover{transform:translateY(-5px);box-shadow:0 22px 40px -26px rgba(18,22,15,.3);border-color:var(--color-sauge)}
+  .tuile .ic{width:40px;height:40px;border-radius:11px;background:var(--color-sauge-pale);display:flex;align-items:center;justify-content:center;margin-bottom:.85rem}
+  .tuile .ic svg{width:20px;height:20px;stroke:var(--color-ocre);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .tuile h3{font-family:var(--font-display);font-weight:700;font-size:.96rem;color:var(--color-encre);letter-spacing:-.02em;margin-bottom:.32rem}
+  .tuile p{font-size:.82rem;color:var(--color-brun-mid);line-height:1.5}
+
+  .apropos{max-width:64ch}
+  .fiche{display:flex;flex-wrap:wrap;gap:1.2rem 2.4rem;padding:1rem 0 1.3rem;border-top:1px solid var(--color-cream-dark);border-bottom:1px solid var(--color-cream-dark);margin-bottom:1.5rem}
+  .fiche div{display:flex;flex-direction:column;gap:2px}
+  .fiche dt{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--color-sauge-text);font-weight:600}
+  .fiche dd{font-size:1rem;font-weight:500;color:var(--color-encre)}
+  .apropos p{color:var(--color-brun-mid);margin-bottom:.9rem;font-size:clamp(.9rem,1.1vw,1rem);line-height:1.6}
+  .apropos p b{color:var(--color-encre);font-weight:500}
+  .signature{font-family:var(--font-display);font-weight:700;color:var(--color-ocre);font-size:1.1rem;letter-spacing:-.02em;margin:.4rem 0 1.4rem}
+
+  .contact-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:2rem}
+  .coord{display:flex;flex-direction:column;gap:1rem}
+  .coord .row{display:flex;align-items:center;gap:.8rem}
+  .coord .ic{width:38px;height:38px;border-radius:10px;background:var(--color-sauge-pale);display:flex;align-items:center;justify-content:center;flex:none}
+  .coord .ic svg{width:18px;height:18px;stroke:var(--color-ocre);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .coord .lbl{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--color-brun-mid)}
+  .coord .val{font-size:.92rem;font-weight:500;color:var(--color-encre)}
+  .form2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+  .form2 .full{grid-column:1/-1}
+  .flabel{display:block;font-size:.78rem;font-weight:500;color:var(--color-encre);margin-bottom:.35rem}
+  .finput{display:block;border:1px solid var(--color-cream-dark);border-radius:10px;padding:.62rem .8rem;font-size:.88rem;color:var(--color-brun-mid);background:#fff}
+  .finput.tall{padding-bottom:2.2rem}
+  .ghost-btn{display:inline-block}
+
+  @media(max-width:760px){.formules,.quatre{grid-template-columns:1fr 1fr}.cas,.duo,.contact-grid,.form2{grid-template-columns:1fr}.glass{height:auto;min-height:0;aspect-ratio:4/3.4}}
+
+  @media(prefers-reduced-motion:reduce){
+    .rig{animation:none}
+    .power{display:none}
+    .view{transition:none}
+  }
+</style>
+
+<script>
+  function initHeroEcran(){
+    const glass = document.querySelector('[data-glass]');
+    const stack = document.querySelector('[data-stack]');
+    if(!glass || !stack) return;
+    if(glass.dataset.heInit === '1') return;
+    glass.dataset.heInit = '1';
+
+    const views = Array.prototype.slice.call(stack.querySelectorAll('.view'));
+    const order = views.map(function(v){ return v.getAttribute('data-view'); });
+    const links = Array.prototype.slice.call(glass.querySelectorAll('[data-nav]'));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function apply(target, animate){
+      if(!animate) views.forEach(function(v){ v.style.transition = 'none'; });
+      views.forEach(function(v, i){
+        v.style.transform = 'translateX(' + ((i - target) * 100) + '%)';
+        const on = i === target;
+        v.classList.toggle('active', on);
+        v.setAttribute('aria-hidden', on ? 'false' : 'true');
+        if(on) { v.removeAttribute('inert'); v.scrollTop = 0; } else { v.setAttribute('inert', ''); }
+      });
+      glass.querySelectorAll('.navlinks button').forEach(function(b){
+        b.classList.toggle('on', b.getAttribute('data-nav') === order[target]);
+      });
+      if(!animate){ void stack.offsetWidth; views.forEach(function(v){ v.style.transition = ''; }); }
+    }
+    function go(key){ const t = order.indexOf(key); if(t >= 0) apply(t, true); }
+
+    apply(0, false);
+    links.forEach(function(l){
+      l.addEventListener('click', function(){ go(l.getAttribute('data-nav')); startAuto(); });
+      l.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(l.getAttribute('data-nav')); startAuto(); } });
+    });
+
+    // Auto-glissement toutes les 5 s : signale qu'on peut naviguer dans l'écran.
+    let auto = null;
+    function next(){ let cur = 0; views.forEach(function(v, i){ if(v.classList.contains('active')) cur = i; }); apply((cur + 1) % views.length, true); }
+    function startAuto(){ stopAuto(); if(reduce) return; auto = window.setInterval(next, 5000); }
+    function stopAuto(){ if(auto){ clearInterval(auto); auto = null; } }
+    glass.addEventListener('mouseenter', stopAuto);
+    glass.addEventListener('mouseleave', startAuto);
+    glass.addEventListener('focusin', stopAuto);
+    startAuto();
+  }
+
+  initHeroEcran();
+  document.addEventListener('astro:page-load', initHeroEcran);
+</script>
