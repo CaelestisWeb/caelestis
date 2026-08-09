@@ -429,9 +429,12 @@ const organizationSchema = {
   <!-- Le padding bas est repassé à 56 px le 04/08/2026 : les 24 px précédents
        suffisaient sous des cartes blanches, qui portaient leur propre marge
        intérieure. La chute qui les remplace est du texte nu, elle a besoin de
-       la même respiration que le haut de section. Blanc inter-sections obtenu :
-       120 px en mobile, dans la plage 88 à 160 px du barème du 03/08. -->
-  <section class="bg-sauge-pale py-14 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient overflow-hidden" aria-labelledby="pourqui-title">
+       la même respiration que le haut de section.
+       Le 09/08/2026, la section passe à `py-16 md:py-20`, comme toutes les
+       autres : elle était la seule à 56 px, et cet écart se voyait en mobile.
+       Blanc inter-sections obtenu : 128 px en mobile, dans la plage 88 à 160 px
+       du barème du 03/08. -->
+  <section class="bg-sauge-pale py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark section-ambient overflow-hidden" aria-labelledby="pourqui-title">
     <div class="max-w-6xl mx-auto">
 
       <!-- Titre réservé aux lecteurs d'écran : la section n'en porte pas de
@@ -439,8 +442,21 @@ const organizationSchema = {
            sommaire des titres. -->
       <h2 id="pourqui-title" class="sr-only">Pour qui nous créons des sites</h2>
 
-      <!-- Accroche de ciblage : les gestes avant les métiers, pour n'exclure personne -->
-      <p class="font-body text-center text-sm tracking-[0.2em] uppercase text-sauge mb-4" data-reveal>
+      <!-- Accroche de ciblage : les gestes avant les métiers, pour n'exclure personne.
+           Interligne 1,85 et non l'interligne courant : en mobile, la phrase tient
+           sur deux lignes de capitales espacées à 0,2em, et des capitales n'ont ni
+           jambages ni hampes pour creuser l'écart entre les lignes. À 1,5, les deux
+           rangs se touchaient presque. Ne pas monter la taille au-delà de 14 px :
+           à 15 px, la phrase passe à trois lignes de capitales, ce que la charte
+           interdit. La marge basse (32 px, 40 en desktop) sépare franchement
+           l'accroche des pastilles, qui lui étaient collées à 16 px.
+           Interlettrage ramené à 0,15em sous 768 px : à 0,2em, la phrase réclamait
+           638 px et retombait sur trois rangs de capitales dès 375 px de large,
+           deux de plus que ne l'autorise la micro-typographie du site. À 0,15em
+           elle en réclame 609, soit deux lignes de 305 px, qui tiennent dans les
+           327 px utiles d'un iPhone SE. En dessous de 360 px de fenêtre, trois
+           lignes restent inévitables sans descendre la police sous 14 px. -->
+      <p class="font-body text-center text-sm tracking-[0.15em] md:tracking-[0.2em] uppercase leading-[1.85] text-sauge mb-8 md:mb-10" data-reveal>
         Vous cultivez, vous élevez, vous fabriquez, vous accueillez
       </p>
 
@@ -452,7 +468,7 @@ const organizationSchema = {
            ou un apiculteur se reconnaît là, pas dans les pastilles. Ne pas
            rallonger : au-delà de six, le retour à la ligne mobile redevient
            illisible. -->
-      <ul role="list" class="metiers font-body mb-10" data-reveal>
+      <ul role="list" class="metiers font-body mb-12 md:mb-14" data-reveal>
         <li>Artisans</li>
         <li>Commerçants</li>
         <li>Indépendants</li>
@@ -1445,11 +1461,15 @@ const organizationSchema = {
      puisque tout le reste de la section est en pastilles et en images. */
   .chute-pourqui {
     max-width: 44ch;
-    margin: clamp(44px, 6vw, 68px) auto 0;
+    /* 56 px de marge haute en mobile au lieu de 44 : la chute suit une grille
+       de photos, il lui faut plus d'écart qu'entre deux blocs de texte, sinon
+       elle se lit comme une légende de la galerie. Interligne 1,5 et non 1,4 :
+       à 19 px sur trois lignes en mobile, 1,4 serrait la phrase. */
+    margin: clamp(56px, 7vw, 72px) auto 0;
     text-align: center;
     font-weight: 300;
     font-size: clamp(1.1875rem, 2.1vw, 1.625rem);
-    line-height: 1.4;
+    line-height: 1.5;
     color: var(--color-brun);
     text-wrap: balance;
   }
@@ -1481,21 +1501,33 @@ const organizationSchema = {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 8px;
+    /* Écart dissocié : 14 px entre les deux rangs, 8 px entre deux pastilles
+       d'un même rang. C'est le rang collé au suivant qui faisait le pavé compact,
+       pas la pastille collée à sa voisine ; et toute largeur ajoutée entre
+       colonnes ferait retomber la rangée de trois en rangée de deux. */
+    row-gap: 14px;
+    column-gap: 8px;
     max-width: 880px;
     margin-inline: auto;
     list-style: none;
     padding: 0;
   }
   .metiers li {
+    /* La largeur de pastille ne bouge pas, et c'est mesuré : la rangée
+       « Artisans, Commerçants, Indépendants » réclame 308 px pour 312 utiles sur
+       un écran de 360 px. Deux pixels de police ou quatre de rembourrage
+       horizontal en plus, et elle bascule en 2 + 2 + 1, la cinquième pastille
+       seule sur son rang, ce que la rangée bornée à 420 px cherche justement à
+       éviter. Seul le rembourrage vertical monte, de 8 à 10 px : il grandit la
+       pastille sans l'élargir. */
     font-size: 0.8125rem;
     font-weight: 500;
     color: var(--color-brun-mid);
     background: #fff;
     border: 1px solid var(--color-cream-dark);
-    padding: 8px 13px;
+    padding: 10px 13px;
     border-radius: 999px;
-    line-height: 1.2;
+    line-height: 1.25;
     /* Chaque famille tient sur une ligne : une pastille coupée en deux mots
        superposés casse la lecture de la rangée. La plus longue, « Métiers de
        passion », mesure 138 px en mobile ; c'est le plafond à ne pas dépasser
@@ -1523,7 +1555,9 @@ const organizationSchema = {
   .bento-gallery {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    /* 12 px en mobile : à 8, les quatre photos se lisaient comme une seule
+       image découpée en quatre, et non comme quatre métiers distincts. */
+    gap: 12px;
   }
   .bento-cell { aspect-ratio: 3 / 4; }
 
