@@ -442,31 +442,28 @@ const organizationSchema = {
            sommaire des titres. -->
       <h2 id="pourqui-title" class="sr-only">Pour qui nous créons des sites</h2>
 
-      <!-- Accroche de ciblage : les gestes avant les métiers, pour n'exclure personne.
-           Interligne 1,85 et non l'interligne courant : en mobile, la phrase tient
-           sur deux lignes de capitales espacées à 0,2em, et des capitales n'ont ni
-           jambages ni hampes pour creuser l'écart entre les lignes. À 1,5, les deux
-           rangs se touchaient presque. Ne pas monter la taille au-delà de 14 px :
-           à 15 px, la phrase passe à trois lignes de capitales, ce que la charte
-           interdit. La marge basse (32 px, 40 en desktop) sépare franchement
-           l'accroche des pastilles, qui lui étaient collées à 16 px.
-           Interlettrage ramené à 0,15em sous 768 px : à 0,2em, la phrase réclamait
-           638 px et retombait sur trois rangs de capitales dès 375 px de large,
-           deux de plus que ne l'autorise la micro-typographie du site. À 0,15em
-           elle en réclame 609, soit deux lignes de 305 px, qui tiennent dans les
-           327 px utiles d'un iPhone SE. En dessous de 360 px de fenêtre, trois
-           lignes restent inévitables sans descendre la police sous 14 px. -->
-      <p class="font-body text-center text-sm tracking-[0.15em] md:tracking-[0.2em] uppercase leading-[1.85] text-sauge mb-8 md:mb-10" data-reveal>
-        Vous cultivez, vous élevez, vous fabriquez, vous accueillez
+      <!-- Accroche de ciblage : une question, puis l'invitation (choix de Célestin,
+           09/08/2026). Volontairement large, « votre activité » n'exclut aucun
+           métier, là où les quatre gestes concrets d'avant (cultivez, élevez,
+           fabriquez, accueillez) fermaient la porte au bien-être, aux associations
+           et aux métiers de la nature. Le statut reste porté par les pastilles.
+           Casse normale et non capitales : une phrase qui interpelle se lit mieux
+           qu'un label en petites capitales, et chaque ligne garde ainsi sa majuscule
+           d'ouverture. Deux lignes fixées au <br>, la question puis l'appel ; la
+           seconde, en mousse foncée, porte le verbe d'action. La marge basse (32 px,
+           40 en desktop) sépare l'accroche des pastilles. -->
+      <p class="accroche-pourqui font-body text-center text-base md:text-lg leading-relaxed text-sauge mb-8 md:mb-10" data-reveal>
+        Votre activité vous anime ?<br>
+        <span>Partagez-la !</span>
       </p>
 
       <!-- Ligne métiers : cinq familles larges, volontairement englobantes.
            La liste nominative de 14 métiers a été retirée le 01/08/2026 : elle
            tenait sur cinq lignes en mobile et fermait la porte à tout métier non
-           cité. Les statuts remplacent les métiers ; ce sont les quatre verbes
-           de l'accroche au-dessus qui portent encore le geste, donc un maraîcher
-           ou un apiculteur se reconnaît là, pas dans les pastilles. Ne pas
-           rallonger : au-delà de six, le retour à la ligne mobile redevient
+           cité. Les statuts remplacent les métiers ; c'est l'accroche au-dessus
+           (« ce que vous faites ») qui porte le geste, donc un maraîcher, un
+           apiculteur ou une association se reconnaît là, pas dans les pastilles.
+           Ne pas rallonger : au-delà de six, le retour à la ligne mobile redevient
            illisible. -->
       <ul role="list" class="metiers font-body mb-12 md:mb-14" data-reveal>
         <li>Artisans</li>
@@ -538,24 +535,24 @@ const organizationSchema = {
 
       </div>
 
-      <!-- Chute de la section : la seule phrase qui manquait à la page, le manque.
-           Elle remplace, le 04/08/2026, le triptyque de cartes « On vous trouve,
-           on vous comprend, on vous contacte ». Ne pas y remettre de cartes.
-           La première ligne reconnaît le savoir-faire vu en présentiel, la seconde
-           ouvre le manque (le restituer à l'écran) auquel la section suivante
-           répond (« Tout ce qui vous fait choisir, un seul endroit le réunit »).
-           La signature, plus petite et en corps de texte, scelle la chute en
-           désignant le rôle de l'agence : le manque décrit juste au-dessus,
-           restituer le savoir-faire à l'écran, c'est précisément là que
-           Caelestis intervient. -->
+      <!-- Chute de la section, en deux temps. Le premier reconnaît le savoir tel
+           qu'il se perçoit en présentiel ; le second, en mousse foncée, affirme la
+           mission de l'agence, le restituer à l'écran. Reformulée le 09/08/2026 par
+           Célestin : « savoir » et non « savoir-faire », qui doublait le hero ; une
+           virgule lie le constat à la mission au lieu de les opposer (« Encore
+           faut-il »), et le second temps déclare la mission (voix « nous ») là où
+           il ouvrait un manque. Ne pas y remettre de cartes : elle remplace, depuis
+           le 04/08/2026, le triptyque « On vous trouve / comprend / contacte », et
+           la section suivante enchaîne sur « Tout ce qui vous fait choisir, un seul
+           endroit le réunit ». -->
       <p class="chute-pourqui font-display" data-reveal data-delay="2">
-        Votre savoir-faire se reconnaît quand on vous voit à l'œuvre.
-        <span>Encore faut-il un écran qui le fasse ressentir avec la même justesse.</span>
+        Votre savoir se reconnaît lorsqu'on vous voit à l'œuvre,
+        <span>notre mission est de le faire ressentir à travers un écran.</span>
       </p>
-      <!-- La signature « C'est précisément là que nous intervenons. » a été
-           retirée le 07/08/2026 : la chute au-dessus ouvre déjà le manque, et le
-           hero comme la section suivante disent le rôle de l'agence. Une phrase
-           de plus n'ajoutait qu'un temps de lecture. -->
+      <!-- Plus de signature séparée : la mission de l'agence est désormais portée
+           par le second temps de la chute lui-même. La ligne « C'est précisément là
+           que nous intervenons. », retirée le 07/08/2026, ne reviendrait qu'en
+           répétition. -->
 
     </div>
   </section>
@@ -1478,6 +1475,13 @@ const organizationSchema = {
   .chute-pourqui span {
     display: block;
     color: var(--color-sauge-text);
+  }
+  /* Accroche « pour qui » : la question en sauge clair, l'appel à l'action
+     (« Partagez-la ! ») en mousse foncée et un cran plus gras, pour que l'œil
+     tombe sur le verbe. Le <br> du markup gère déjà le retour à la ligne. */
+  .accroche-pourqui span {
+    color: var(--color-sauge-text);
+    font-weight: 600;
   }
   /* Signature d'engagement : une ligne plus petite et en corps de texte, posée
      sous la chute. Volontairement plus discrète (olive #5C6259, pas un troisième
