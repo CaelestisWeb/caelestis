@@ -187,7 +187,7 @@ const departements = [
               <circle cx="210" cy="210" r={String(h * PX_HEURE)} class="terr-anneau" />
             ))}
             {surCarte.map((v) => (
-              <polyline points={`210,210 ${v.x},${v.y} ${v.ex},${v.ey}`} class="terr-rayon" />
+              <line x1="210" y1="210" x2={String(v.x)} y2={String(v.y)} class="terr-rayon" />
             ))}
             <text x={String(grad1.x)} y={String(grad1.y)} class="terr-legende" text-anchor="middle">1 h</text>
             <text x={String(grad2.x)} y={String(grad2.y)} class="terr-legende" text-anchor="middle">2 h</text>
@@ -352,6 +352,12 @@ const departements = [
     max-width: 720px;
     margin: 0 auto;
     aspect-ratio: 1;
+  }
+  /* Schéma décoratif masqué sur téléphone : trop petit pour coller onze noms
+     sans qu'ils se chevauchent. La liste « Depuis Crest, par la route » en
+     dessous porte la même information (villes + durées). */
+  @media (max-width: 560px) {
+    .terr-schema { display: none; }
   }
   .terr-schema svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 

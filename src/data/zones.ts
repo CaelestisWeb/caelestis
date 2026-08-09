@@ -29,20 +29,20 @@ export interface Zone {
   carte?: boolean;
   /** Hors Auvergne-Rhône-Alpes. */
   horsRegion?: boolean;
-  /** Étiquette placée en priorité, au plus près de son point (villes que
-   *  Célestin veut voir collées à leur pastille : Privas, Saint-Étienne). */
-  prioriteEtiquette?: boolean;
+  /** Coin imposé pour l'étiquette, autour de son point (direction artistique de
+   *  Célestin). Sinon le coin est choisi automatiquement, vers l'extérieur. */
+  coin?: 'N' | 'NE' | 'E' | 'SE' | 'S' | 'SW' | 'W' | 'NW';
 }
 
 export const ZONES: Zone[] = [
   { nom: 'Étoile-sur-Rhône',     heures: 0.35, km: 18,  azimut: 320 },
   { nom: 'Chabeuil',             heures: 0.45, km: 23,  azimut: 355 },
-  { nom: 'Valence',              heures: 0.58, km: 30,  azimut: 336, carte: true },
+  { nom: 'Valence',              heures: 0.58, km: 30,  azimut: 336, carte: true, coin: 'NW' },
   { nom: "Pont-de-l'Isère",      heures: 0.70, km: 41,  azimut: 338 },
   { nom: 'Dieulefit',            heures: 0.72, km: 32,  azimut: 172 },
   { nom: 'Romans-sur-Isère',     heures: 0.75, km: 39,  azimut: 4,   carte: true },
   { nom: 'Die',                  heures: 0.75, km: 38,  azimut: 84,  carte: true },
-  { nom: 'Privas',               heures: 0.75, km: 39,  azimut: 271, carte: true, prioriteEtiquette: true },
+  { nom: 'Privas',               heures: 0.75, km: 39,  azimut: 271, carte: true },
   { nom: 'Montélimar',           heures: 0.83, km: 38,  azimut: 229, carte: true },
   { nom: 'Saint-Marcellin',      heures: 0.98, km: 66,  azimut: 26 },
   { nom: 'Saint-Jean-en-Royans', heures: 1.02, km: 63,  azimut: 33 },
@@ -52,8 +52,8 @@ export const ZONES: Zone[] = [
   { nom: 'Grenoble',             heures: 1.50, km: 111, azimut: 47,  carte: true },
   { nom: 'Avignon',              heures: 1.75, km: 125, azimut: 191, carte: true, horsRegion: true },
   { nom: "Vallon-Pont-d'Arc",    heures: 1.75, km: 102, azimut: 234 },
-  { nom: 'Lyon',                 heures: 1.75, km: 131, azimut: 353, carte: true },
-  { nom: 'Saint-Étienne',        heures: 2.00, km: 150, azimut: 328, carte: true, prioriteEtiquette: true },
+  { nom: 'Lyon',                 heures: 1.75, km: 131, azimut: 353, carte: true, coin: 'SW' },
+  { nom: 'Saint-Étienne',        heures: 2.00, km: 150, azimut: 328, carte: true, coin: 'N' },
 ];
 
 /**
@@ -93,28 +93,31 @@ export function ancrage(azimut: number): 'n' | 'e' | 's' | 'o' {
   return 'o';
 }
 
+const DIRS: Record<NonNullable<Zone['coin']>, number> = {
+  N: 0, NE: 45, E: 90, SE: 135, S: 180, SW: 225, W: 270, NW: 315,
+};
+
 /**
- * Place les étiquettes du schéma sans qu'aucune n'en recouvre une autre, ne
- * masque un point de ville, ni ne vienne toucher les graduations « 1 h » / « 2 h ».
+ * Colle chaque nom de ville tout contre sa pastille, dans un coin, sans trait de
+ * liaison : Célestin trouvait que les traits point -> étiquette (et le coude
+ * qu'ils formaient) faisaient désordre. Le nom est donc simplement posé au coin
+ * de son point (haut-gauche, gauche, au-dessus...), assez près pour qu'aucun
+ * trait ne soit nécessaire. Seuls restent les rayons Crest -> point.
  *
- * Plutôt que de repousser chaque nom en ligne droite vers l'extérieur (ce qui
- * l'envoyait très loin quand le couloir était pris : Privas finissait à 109 px
- * de son point), on cherche pour chacun la place libre LA PLUS PROCHE : on
- * essaie des distances croissantes et, à chaque distance, plusieurs angles
- * autour du rayon de la ville. Une place est libre si elle reste dans le cadre,
- * ne chevauche aucune étiquette déjà posée, et ne recouvre aucun point (le sien
- * comme les autres : le fond crème d'un nom cachait sinon la pastille voisine).
+ * Pour chaque ville on essaie les huit coins et on garde le premier qui reste
+ * dans le cadre, ne chevauche ni une autre étiquette, ni les graduations, ni la
+ * pastille d'une AUTRE ville (la sienne, elle, est juste à côté, c'est voulu).
+ * L'ordre des coins essayés part du coin imposé s'il y en a un (`coin`, la
+ * direction artistique : Valence en haut-gauche, Lyon en bas-gauche,
+ * Saint-Étienne au-dessus), puis va du plus proche de l'extérieur au plus loin.
+ * Les villes qui ont un coin imposé sont traitées en premier, puis les noms les
+ * plus larges (les plus durs à caser).
  *
- * L'ordre compte : d'abord les villes prioritaires (Privas, Saint-Étienne, que
- * Célestin veut collées à leur point), puis la plus contrainte d'abord (celle
- * qui a le moins de places libres proches, donc les noms larges comme
- * Romans-sur-Isère ou les secteurs encombrés). Une passe de relaxation rapproche
- * ensuite ce qui peut l'être. La liste de droite, elle, reste triée par temps.
- *
- * Les largeurs de texte sont estimées (environ 5,6 px par signe) puis gonflées
- * par ECHELLE : le schéma est dessiné dans un repère de 420 mais rendu plus
- * étroit sur mobile, alors que les étiquettes gardent leur taille en pixels ; on
- * calcule donc les largeurs comme si l'on était déjà au plus étroit.
+ * ECHELLE réserve les largeurs à l'échelle du DESKTOP, où la carte est grande
+ * (720 px) : c'est là que le collage doit être parfait. Sur un téléphone la
+ * carte est bien plus petite et les noms, à taille de police fixe, y seraient
+ * trop gros pour tenir collés ; le schéma, purement décoratif, y est donc masqué
+ * par CSS (la liste chiffrée en dessous porte la même information).
  *
  * `fixes` reçoit des obstacles supplémentaires (les graduations, passées par la
  * page) qu'aucune étiquette ne doit venir toucher.
@@ -125,122 +128,88 @@ export function placerEtiquettes(
   pxParHeure: number,
   fixes: { x: number; y: number; l: number }[] = [],
 ) {
-  const HAUTEUR = 22;
-  const ECHELLE = 1.3;
-  const PT = 8; // demi-largeur d'un point (pastille + halo) à ne pas recouvrir
-  const VT = 17; // idem en hauteur
-  const TAILLE = centre * 2;
+  const ECHELLE = 0.9; // largeurs réservées à l'échelle desktop (voir en-tête)
+  const HH = 9.5; // demi-hauteur d'une étiquette
+  const GAP = 6; // écart entre la pastille et l'étiquette collée
   const MARGE = 3;
-  const DIST = [14, 18, 22, 26, 30, 34, 38, 43, 48, 54, 60, 68, 76, 84, 92];
-  const ANG = [0, 15, -15, 30, -30, 45, -45, 60, -60, 75, -75, 90, -90, 108, -108, 126, -126, 144, -144, 162, -162, 180];
+  const TAILLE = centre * 2;
 
   const points = zones.map((z) => position(z, centre, pxParHeure));
-  const largeurs = zones.map((z) => (z.nom.length * 5.6 + 10) * ECHELLE);
-  /* « Crest » au centre + les graduations : obstacles présents dès le départ. */
-  const fixesObs = [{ x: centre, y: centre + 22, l: 44 }, ...fixes];
-  const pos: ({ x: number; y: number } | null)[] = new Array(zones.length).fill(null);
+  const demiLargeurs = zones.map((z) => ((z.nom.length * 5.6 + 10) * ECHELLE) / 2);
 
-  const obstacles = (sauf: number) =>
-    fixesObs.concat(
-      zones
-        .map((_, i) => i)
-        .filter((i) => i !== sauf && pos[i])
-        .map((i) => ({ x: pos[i]!.x, y: pos[i]!.y, l: largeurs[i] })),
-    );
+  /* Boîtes déjà occupées : « Crest » au centre, puis les graduations. */
+  const boxes: { x0: number; x1: number; y0: number; y1: number }[] = [
+    { x0: centre - 22, x1: centre + 22, y0: centre + 22 - HH, y1: centre + 22 + HH },
+    ...fixes.map((f) => ({ x0: f.x - f.l / 2, x1: f.x + f.l / 2, y0: f.y - HH, y1: f.y + HH })),
+  ];
 
-  const libre = (x: number, y: number, L: number, obs: { x: number; y: number; l: number }[]) => {
-    if (x - L / 2 < MARGE || x + L / 2 > TAILLE - MARGE || y - 9.5 < MARGE || y + 9.5 > TAILLE - MARGE) return false;
-    if (obs.some((q) => Math.abs(q.x - x) < (q.l + L) / 2 && Math.abs(q.y - y) < HAUTEUR * ECHELLE)) return false;
-    if (points.some((q) => Math.abs(q.x - x) < L / 2 + PT && Math.abs(q.y - y) < VT)) return false;
-    return true;
+  const angDist = (a: number, b: number) => {
+    const d = Math.abs(a - b) % 360;
+    return d > 180 ? 360 - d : d;
   };
 
-  const meilleure = (idx: number, obs: { x: number; y: number; l: number }[]) => {
-    const p = points[idx];
-    const base = zones[idx].azimut;
-    const L = largeurs[idx];
-    for (const d of DIST) {
-      for (const da of ANG) {
-        const a = ((base + da) * Math.PI) / 180;
-        const x = p.x + Math.sin(a) * d;
-        const y = p.y - Math.cos(a) * d;
-        if (libre(x, y, L, obs)) return { x, y, d };
-      }
+  /* Décalage du centre de l'étiquette par rapport au point, pour un coin donné. */
+  const decalage = (dir: number, demiL: number) => {
+    const sx = Math.abs(Math.sin((dir * Math.PI) / 180)) < 0.01 ? 0 : Math.sign(Math.sin((dir * Math.PI) / 180));
+    const sy = Math.abs(Math.cos((dir * Math.PI) / 180)) < 0.01 ? 0 : -Math.sign(Math.cos((dir * Math.PI) / 180));
+    const diag = sx !== 0 && sy !== 0 ? 0.72 : 1; // un coin diagonal serre un peu
+    return { dx: sx * (demiL + GAP) * diag, dy: sy * (HH + GAP) * diag };
+  };
+
+  const chevauche = (x0: number, x1: number, y0: number, y1: number, propre: { x: number; y: number }) =>
+    boxes.some((b) => x0 < b.x1 && b.x0 < x1 && y0 < b.y1 && b.y0 < y1) ||
+    points.some((p) => p !== propre && p.x > x0 - 6 && p.x < x1 + 6 && p.y > y0 - 6 && p.y < y1 + 6);
+
+  const resultat: (Zone & { x: number; y: number; ex: number; ey: number; pos: ReturnType<typeof ancrage> })[] =
+    new Array(zones.length);
+
+  /* Villes à coin imposé d'abord, puis les noms les plus larges. */
+  const coins = Object.keys(DIRS) as NonNullable<Zone['coin']>[];
+  const ordre = zones
+    .map((_, i) => i)
+    .sort((a, b) => (zones[b].coin ? 1 : 0) - (zones[a].coin ? 1 : 0) || demiLargeurs[b] - demiLargeurs[a]);
+
+  for (const i of ordre) {
+    const z = zones[i];
+    const p = points[i];
+    const demiL = demiLargeurs[i];
+    const parProximite = [...coins].sort((u, v) => angDist(DIRS[u], z.azimut) - angDist(DIRS[v], z.azimut));
+    const essais = z.coin ? [z.coin, ...parProximite.filter((c) => c !== z.coin)] : parProximite;
+
+    let choix: { cx: number; cy: number; x0: number; x1: number; y0: number; y1: number } | null = null;
+    for (const coin of essais) {
+      const { dx, dy } = decalage(DIRS[coin], demiL);
+      const cx = p.x + dx;
+      const cy = p.y + dy;
+      const x0 = cx - demiL;
+      const x1 = cx + demiL;
+      const y0 = cy - HH;
+      const y1 = cy + HH;
+      if (x0 < MARGE || x1 > TAILLE - MARGE || y0 < MARGE || y1 > TAILLE - MARGE) continue;
+      if (chevauche(x0, x1, y0, y1, p)) continue;
+      choix = { cx, cy, x0, x1, y0, y1 };
+      break;
     }
-    return null;
-  };
-
-  const nbSlots = (idx: number, obs: { x: number; y: number; l: number }[], seuil: number) => {
-    const p = points[idx];
-    const base = zones[idx].azimut;
-    const L = largeurs[idx];
-    let n = 0;
-    for (const d of DIST) {
-      if (d > seuil) break;
-      for (const da of ANG) {
-        const a = ((base + da) * Math.PI) / 180;
-        if (libre(p.x + Math.sin(a) * d, p.y - Math.cos(a) * d, L, obs)) n++;
-      }
+    if (!choix) {
+      /* Repli : le coin préféré, même s'il touche un peu (cas très serré). */
+      const { dx, dy } = decalage(DIRS[essais[0]], demiL);
+      const cx = p.x + dx;
+      const cy = p.y + dy;
+      choix = { cx, cy, x0: cx - demiL, x1: cx + demiL, y0: cy - HH, y1: cy + HH };
     }
-    return n;
-  };
 
-  const repli = (idx: number) => {
-    const a = (zones[idx].azimut * Math.PI) / 180;
-    return { x: points[idx].x + Math.sin(a) * 68, y: points[idx].y - Math.cos(a) * 68 };
-  };
-
-  const reste = new Set(zones.map((_, i) => i));
-
-  // 1) Villes prioritaires : leur meilleure place, avant tout le monde.
-  for (let i = 0; i < zones.length; i++) {
-    if (zones[i].prioriteEtiquette) {
-      pos[i] = meilleure(i, obstacles(i)) ?? repli(i);
-      reste.delete(i);
-    }
+    boxes.push({ x0: choix.x0, x1: choix.x1, y0: choix.y0, y1: choix.y1 });
+    resultat[i] = {
+      ...z,
+      x: p.x,
+      y: p.y,
+      ex: Math.round(choix.cx * 10) / 10,
+      ey: Math.round(choix.cy * 10) / 10,
+      pos: ancrage(z.azimut),
+    };
   }
 
-  // 2) La plus contrainte d'abord (le moins de places libres proches).
-  while (reste.size) {
-    let pick = -1;
-    let pn = Infinity;
-    let pd = -1;
-    for (const idx of reste) {
-      const obs = obstacles(idx);
-      const n = nbSlots(idx, obs, 38);
-      const b = meilleure(idx, obs);
-      const bd = b ? b.d : 1e6;
-      if (n < pn || (n === pn && bd > pd)) {
-        pn = n;
-        pd = bd;
-        pick = idx;
-      }
-    }
-    pos[pick] = meilleure(pick, obstacles(pick)) ?? repli(pick);
-    reste.delete(pick);
-  }
-
-  // 3) Relaxation : rapprocher les non-prioritaires de leur point si possible.
-  for (let t = 0; t < 6; t++) {
-    for (let i = 0; i < zones.length; i++) {
-      if (zones[i].prioriteEtiquette) continue;
-      const b = meilleure(i, obstacles(i));
-      if (b) {
-        const actuel = pos[i]!;
-        const dOld = Math.hypot(actuel.x - points[i].x, actuel.y - points[i].y);
-        if (b.d < dOld - 0.5) pos[i] = { x: b.x, y: b.y };
-      }
-    }
-  }
-
-  return zones.map((z, i) => ({
-    ...z,
-    x: points[i].x,
-    y: points[i].y,
-    ex: Math.round(pos[i]!.x * 10) / 10,
-    ey: Math.round(pos[i]!.y * 10) / 10,
-    pos: ancrage(z.azimut),
-  }));
+  return resultat;
 }
 
 export const SUR_CARTE = ZONES.filter((z) => z.carte);
