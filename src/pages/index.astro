@@ -1172,6 +1172,10 @@ const organizationSchema = {
   }
   @media (min-width: 940px) {
     .conv { grid-template-columns: 1fr 1fr; }
+    /* Schéma à gauche, texte à droite en desktop. L'ordre du DOM garde le texte
+       en premier (mobile en une colonne, lecteurs d'écran) ; seul l'affichage
+       large est inversé. */
+    .conv-schema { order: -1; }
   }
   .conv-titre {
     font-size: clamp(1.6rem, 3.2vw, 2.35rem);
