@@ -198,6 +198,15 @@
     background-size: 155px 155px;
     mix-blend-mode: multiply;
   }
+  /* Sur mobile, ce voile plein écran est une couche de composition que le
+     navigateur recompose à chaque image du pinch-zoom, avec un fondu multiply
+     par-dessus. Mesuré sur iPhone 14 (CPU bridé ×4, zoom ×2,2 répété) : 53
+     images longues sur 189 avec, 41 sans, pire image 33 ms contre 17 ms. À
+     2,8 % d'opacité le rendu multiply et le rendu normal sont indiscernables,
+     on garde donc le grain et on abandonne seulement le fondu. */
+  @media (hover: none) and (pointer: coarse) {
+    body::after { mix-blend-mode: normal; }
+  }
 
   /* ── Titres — graisse franche et interlettrage serré (direction V7) ── */
   h1, h2, h3, h4 {

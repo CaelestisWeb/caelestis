@@ -1328,7 +1328,11 @@ const organizationSchema = {
     border-radius: 16px; overflow: hidden; background: #fff;
     border: 1px solid var(--color-cream-dark);
     box-shadow: 0 1px 2px rgba(18,22,15,.03), 0 10px 32px rgba(18,22,15,.06);
-    touch-action: pan-y;
+    /* `pan-y` seul EXCLUT le pinch-zoom : le zoom à deux doigts ne répondait plus
+       sur ce bloc, qui occupe 61 % de l'écran d'un iPhone 14. Il faut nommer
+       explicitement `pinch-zoom` pour ne réserver que le glissement horizontal
+       (celui du curseur de comparaison) au profit de l'élément. */
+    touch-action: pan-y pinch-zoom;
   }
   .ba-shot { position: absolute; inset: 0; text-align: left; user-select: none; overflow: hidden; }
   .ba-shot img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
@@ -1361,7 +1365,10 @@ const organizationSchema = {
   /* Sous 700px le comparateur s'empile : deux pages entières, sans curseur */
   @media (max-width: 700px) {
     .ba-legend, .ba-range, .ba-handle { display: none; }
-    .ba-stage { height: auto; aspect-ratio: auto; border: 0; box-shadow: none; background: transparent; display: flex; flex-direction: column; gap: 14px; }
+    /* Le curseur de comparaison disparaît ici : plus aucun glissement à réserver,
+       donc plus aucune raison de contraindre le tactile. Les deux captures
+       s'empilent et le lecteur doit pouvoir les agrandir librement. */
+    .ba-stage { height: auto; aspect-ratio: auto; border: 0; box-shadow: none; background: transparent; display: flex; flex-direction: column; gap: 14px; touch-action: auto; }
     .ba-shot {
       position: relative; inset: auto; aspect-ratio: 1280 / 1080; border-radius: 14px;
       border: 1px solid var(--color-cream-dark);
