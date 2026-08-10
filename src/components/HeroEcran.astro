@@ -191,7 +191,11 @@ const menu = [
     <h1 class="hm-title">Optez pour un site web,<br><span class="accent">digne de votre <span class="nobreak">savoir-faire.</span></span></h1>
     <p class="hm-sub">Sur internet, on recherche, on compare, on choisit.<br><b>Nous faisons de vous, le choix évident.</b></p>
     <a class="hm-cta" href="/contact">Parler de mon projet</a>
-    <svg class="hm-leaf" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c6-1 9-6 9-13-6 0-11 2-11 8"/><path d="M12 21c-4 0-7-3-7-8 4 0 7 2 7 6"/><path d="M12 21v-9"/></svg>
+    <div class="hm-reassure">
+      <div class="hm-r"><span class="hm-ric"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M9 13l2 2 4-4"/></svg></span><span class="hm-rl">Devis gratuit</span></div>
+      <div class="hm-r"><span class="hm-ric"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l8-8h6a2 2 0 0 1 2 2v6l-8 8z"/><circle cx="15.5" cy="8.5" r="1.3"/></svg></span><span class="hm-rl">Dès 1 000 €</span></div>
+      <div class="hm-r"><span class="hm-ric"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></span><span class="hm-rl">En 2 à 8 semaines</span></div>
+    </div>
   </div>
 </section>
 
@@ -356,7 +360,11 @@ const menu = [
     .hm-sub b{color:var(--color-encre);font-weight:500}
     .hm-cta{display:inline-block;background:var(--color-ocre);color:var(--color-cream);font-weight:500;font-size:1rem;padding:.95em 2.2em;border-radius:100px;box-shadow:0 14px 30px -12px rgba(37,92,65,.6)}
     .hm-cta:active{background:var(--color-ocre-dark)}
-    .hm-leaf{margin-top:1.9rem;width:26px;height:26px;stroke:var(--color-sauge);fill:none;stroke-width:1.4;opacity:.85}
+    .hm-reassure{display:flex;justify-content:center;gap:14px;margin-top:1.9rem}
+    .hm-r{display:flex;flex-direction:column;align-items:center;gap:6px;width:92px}
+    .hm-ric{width:32px;height:32px;border-radius:50%;background:var(--color-sauge-pale);display:flex;align-items:center;justify-content:center;flex:none}
+    .hm-ric svg{width:16px;height:16px;stroke:var(--color-ocre);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+    .hm-rl{font-size:11px;font-weight:500;color:var(--color-brun-mid);line-height:1.25;text-align:center}
   }
 
   @media(prefers-reduced-motion:reduce){
