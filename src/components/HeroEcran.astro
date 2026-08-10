@@ -183,6 +183,16 @@ const menu = [
     <div class="foot" aria-hidden="true"></div>
     <div class="foot-sh" aria-hidden="true"></div>
   </div>
+
+  <!-- Version mobile : le moniteur en petit est illisible, on le remplace par un
+       hero épuré (accroche + bouton). Affiché sous 760px, le .rig est masqué. -->
+  <div class="he-mobile">
+    <p class="hm-eyebrow">Création de site web en <b>Auvergne-Rhône-Alpes</b></p>
+    <h1 class="hm-title">Optez pour un site web,<br><span class="accent">digne de votre <span class="nobreak">savoir-faire.</span></span></h1>
+    <p class="hm-sub">Sur internet, on recherche, on compare, on choisit.<br><b>Nous faisons de vous, le choix évident.</b></p>
+    <a class="hm-cta" href="/contact">Parler de mon projet</a>
+    <svg class="hm-leaf" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c6-1 9-6 9-13-6 0-11 2-11 8"/><path d="M12 21c-4 0-7-3-7-8 4 0 7 2 7 6"/><path d="M12 21v-9"/></svg>
+  </div>
 </section>
 
 <style>
@@ -193,6 +203,7 @@ const menu = [
   .halo-2{width:min(48vw,600px);height:min(48vw,600px);bottom:-14%;right:-5%;background:radial-gradient(circle,rgba(207,187,153,.32),transparent 66%)}
 
   .rig{width:min(1180px,96vw);position:relative;z-index:1}
+  .he-mobile{display:none}
   .bezel{background:#16180f;border:3px solid #24271c;border-radius:16px;padding:12px;box-shadow:0 46px 84px -32px rgba(18,22,15,.5)}
   .glass{position:relative;border-radius:8px;overflow:hidden;background:var(--color-cream);height:min(58vw,64vh);min-height:420px}
   .power{position:absolute;inset:0;background:#0a0c07;z-index:20;animation:he-power .45s ease .05s forwards}
@@ -332,6 +343,20 @@ const menu = [
       background:rgba(252,251,248,.92);padding:7px 11px;border-radius:100px;box-shadow:0 6px 16px -8px rgba(18,22,15,.35);backdrop-filter:blur(6px)}
     .dot{width:7px;height:7px;border-radius:100px;border:0;padding:0;background:var(--color-sauge);cursor:pointer;transition:width .3s,background .3s}
     .dot.on{width:20px;background:var(--color-ocre)}
+
+    /* ── Mobile : le moniteur laisse place à un hero épuré (module A) ── */
+    .rig{display:none}
+    .hero-ecran{place-items:center}
+    .he-mobile{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%;max-width:24rem;padding:1.5rem .5rem 2rem}
+    .hm-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--color-brun-mid);margin-bottom:1.5rem}
+    .hm-eyebrow b{color:var(--color-ocre);font-weight:500;border-bottom:1px solid rgba(37,92,65,.35);padding-bottom:1px}
+    .hm-title{font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,8.5vw,2.55rem);line-height:1.06;letter-spacing:-.035em;color:var(--color-ocre);margin-bottom:1.2rem}
+    .hm-title .accent{color:var(--color-sauge-vif)}
+    .hm-sub{font-size:1rem;line-height:1.55;color:var(--color-brun-mid);max-width:32ch;margin-bottom:1.9rem}
+    .hm-sub b{color:var(--color-encre);font-weight:500}
+    .hm-cta{display:inline-block;background:var(--color-ocre);color:var(--color-cream);font-weight:500;font-size:1rem;padding:.95em 2.2em;border-radius:100px;box-shadow:0 14px 30px -12px rgba(37,92,65,.6)}
+    .hm-cta:active{background:var(--color-ocre-dark)}
+    .hm-leaf{margin-top:1.9rem;width:26px;height:26px;stroke:var(--color-sauge);fill:none;stroke-width:1.4;opacity:.85}
   }
 
   @media(prefers-reduced-motion:reduce){
@@ -359,6 +384,7 @@ const menu = [
     const glass = document.querySelector('[data-glass]');
     const stack = document.querySelector('[data-stack]');
     if(!glass || !stack) return;
+    if(glass.offsetParent === null) return;   // moniteur masqué (mobile) : pas d'init
     if(glass.dataset.heInit === '1') return;
     glass.dataset.heInit = '1';
 
