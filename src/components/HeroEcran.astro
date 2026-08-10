@@ -187,10 +187,12 @@ const menu = [
   <!-- Version mobile : le moniteur en petit est illisible, on le remplace par un
        hero épuré (accroche + bouton). Affiché sous 760px, le .rig est masqué. -->
   <div class="he-mobile">
-    <p class="hm-eyebrow">Création de site web en <b>Auvergne-Rhône-Alpes</b></p>
-    <h1 class="hm-title">Optez pour un site web,<br><span class="accent">digne de votre <span class="nobreak">savoir-faire.</span></span></h1>
-    <p class="hm-sub">Sur internet, on recherche, on compare, on choisit.<br><b>Nous faisons de vous, le choix évident.</b></p>
-    <a class="hm-cta" href="/contact">Parler de mon projet</a>
+    <p class="hm-eyebrow">Création de site web en<br><b>Auvergne-Rhône-Alpes</b></p>
+    <div class="hm-core">
+      <h1 class="hm-title">Optez pour un site web,<br><span class="accent">digne de votre <span class="nobreak">savoir-faire.</span></span></h1>
+      <p class="hm-sub">Sur internet, on recherche, on compare, on choisit.<br><b>Nous faisons de vous, le choix évident.</b></p>
+      <a class="hm-cta" href="/contact">Parler de mon projet</a>
+    </div>
     <div class="hm-reassure">
       <div class="hm-r"><span class="hm-ric"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M9 13l2 2 4-4"/></svg></span><span class="hm-rl">Devis gratuit</span></div>
       <div class="hm-r"><span class="hm-ric"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l8-8h6a2 2 0 0 1 2 2v6l-8 8z"/><circle cx="15.5" cy="8.5" r="1.3"/></svg></span><span class="hm-rl">Dès 1 000 €</span></div>
@@ -350,14 +352,15 @@ const menu = [
 
     /* ── Mobile : le moniteur laisse place à un hero épuré (module A) ── */
     .rig{display:none}
-    .hero-ecran{place-items:center}
-    .he-mobile{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%;max-width:24rem;padding:1.5rem .5rem 2rem}
-    .hm-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--color-brun-mid);margin-bottom:1.5rem}
+    .hero-ecran{display:flex;flex-direction:column;align-items:center}
+    .he-mobile{display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;width:100%;max-width:24rem;flex:1;padding:2rem .5rem 2.4rem}
+    .hm-core{display:flex;flex-direction:column;align-items:center}
+    .hm-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--color-brun-mid);margin:0;line-height:1.75}
     .hm-eyebrow b{color:var(--color-ocre);font-weight:500;border-bottom:1px solid rgba(37,92,65,.35);padding-bottom:1px}
-    .hm-title{font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,8.5vw,2.55rem);line-height:1.06;letter-spacing:-.035em;color:var(--color-ocre);margin-bottom:1.2rem}
+    .hm-title{font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,8.5vw,2.55rem);line-height:1.06;letter-spacing:-.035em;color:var(--color-ocre);margin-bottom:1.9rem}
     .hm-title .accent{color:var(--color-sauge-vif)}
-    .hm-sub{font-size:1rem;line-height:1.55;color:var(--color-brun-mid);max-width:32ch;margin-bottom:1.9rem}
-    .hm-sub b{color:var(--color-encre);font-weight:500}
+    .hm-sub{font-size:1rem;line-height:1.6;color:var(--color-encre);max-width:32ch;margin-bottom:2.1rem}
+    .hm-sub b{color:var(--color-encre);font-weight:600}
     .hm-cta{display:inline-block;background:var(--color-ocre);color:var(--color-cream);font-weight:500;font-size:1rem;padding:.95em 2.2em;border-radius:100px;box-shadow:0 14px 30px -12px rgba(37,92,65,.6)}
     .hm-cta:active{background:var(--color-ocre-dark)}
     .hm-reassure{display:flex;justify-content:center;gap:14px;margin-top:1.9rem}
