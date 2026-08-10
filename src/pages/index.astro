@@ -1091,22 +1091,23 @@ const organizationSchema = {
   .offre-ligne:hover .offre-lien,
   .offre-lien:hover { gap: 0.75rem; color: #255C41; }
 
-  /* ══ Le point de rencontre : texte à gauche, schéma à droite ══
+  /* ══ Le point de rencontre : schéma à gauche, texte à droite ══
      Remplace la carte paragraphe verte, retirée le 02/08/2026 avec la section
-     qu'elle portait. Deux colonnes égales à partir de 940 px : en dessous, le
-     schéma passe sous le texte, où il garde tout son sens puisqu'il se lit de
-     l'extérieur vers le centre, quel que soit l'ordre de lecture. */
+     qu'elle portait. Deux colonnes égales à partir de 940 px ; en dessous, une
+     seule colonne, le schéma d'abord et le texte ensuite. */
   .conv {
     display: grid;
     gap: clamp(2.5rem, 5vw, 4.5rem);
     align-items: center;
   }
+  /* Le schéma passe devant le texte à toutes les largeurs (demande de Célestin,
+     10/08/2026 : sur mobile le dessin ouvre la section, le texte le commente).
+     L'ordre du DOM garde le texte en premier pour les lecteurs d'écran, où le
+     schéma est de toute façon aria-hidden et repris en toutes lettres dessous ;
+     seul l'affichage est inversé. */
+  .conv-schema { order: -1; }
   @media (min-width: 940px) {
     .conv { grid-template-columns: 1fr 1fr; }
-    /* Schéma à gauche, texte à droite en desktop. L'ordre du DOM garde le texte
-       en premier (mobile en une colonne, lecteurs d'écran) ; seul l'affichage
-       large est inversé. */
-    .conv-schema { order: -1; }
   }
   .conv-titre {
     font-size: clamp(1.6rem, 3.2vw, 2.35rem);
