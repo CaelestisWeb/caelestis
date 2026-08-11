@@ -498,7 +498,12 @@ const organizationSchema = {
     <div class="conv max-w-6xl mx-auto">
 
       <div class="conv-texte" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-6">
+        <!-- Deux exemplaires du même libellé, un seul affiché à la fois (display
+             none, donc un seul est lu par les lecteurs d'écran) : sur une
+             colonne le schéma passe devant, il lui faut ce titre au-dessus pour
+             qu'on sache de quoi il parle ; en deux colonnes le libellé reprend
+             sa place au-dessus du titre, dans la colonne de texte. -->
+        <p class="conv-surtitre conv-surtitre-desk font-body text-xs tracking-[0.22em] uppercase text-sauge">
           L'importance d'un site web
         </p>
 
@@ -534,10 +539,15 @@ const organizationSchema = {
         </p>
       </div>
 
-      <!-- Schéma décoratif : les huit contenus du site relies au centre. Masqué
-           aux lecteurs d'écran, son contenu est repris en toutes lettres dessous. -->
-      <div class="conv-schema" data-reveal data-delay="1" aria-hidden="true">
-        <div class="conv-carre">
+      <!-- Schéma décoratif : les huit contenus du site relies au centre. Le
+           dessin est masqué aux lecteurs d'écran (son contenu est repris en
+           toutes lettres dessous), mais pas le conteneur : le libellé mobile
+           qui l'introduit doit rester lisible. -->
+      <div class="conv-schema" data-reveal data-delay="1">
+        <p class="conv-surtitre conv-surtitre-mob font-body text-xs tracking-[0.22em] uppercase text-sauge">
+          L'importance d'un site web
+        </p>
+        <div class="conv-carre" aria-hidden="true">
           <svg class="conv-traits" viewBox="0 0 400 400" fill="none">
             {REUNIT.map((c) => (
               <line x1={c.sx} y1={c.sy} x2="200" y2="200" class="conv-trait" />
@@ -1108,6 +1118,16 @@ const organizationSchema = {
   .conv-schema { order: -1; }
   @media (min-width: 940px) {
     .conv { grid-template-columns: 1fr 1fr; }
+  }
+  /* Le libellé de section suit le schéma : au-dessus du dessin sur une colonne,
+     au-dessus du titre dès deux colonnes. Bascule par display, jamais par
+     visibility ni opacity, pour qu'un seul des deux exemplaires existe pour les
+     lecteurs d'écran. */
+  .conv-surtitre { margin-bottom: 1.5rem; }
+  .conv-surtitre-desk { display: none; }
+  @media (min-width: 940px) {
+    .conv-surtitre-mob { display: none; }
+    .conv-surtitre-desk { display: block; }
   }
   .conv-titre {
     font-size: clamp(1.6rem, 3.2vw, 2.35rem);
