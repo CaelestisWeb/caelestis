@@ -51,7 +51,7 @@ const motPlace = trace(f500, 'Caelestis', TUILE * LOCKUP.mot, {
   ls: LOCKUP.interlettrage * TUILE * LOCKUP.mot,
 });
 
-const PROMESSE = 'Des sites web pour ceux qui créent, cultivent et bâtissent';
+const PROMESSE = 'Des sites web pour ceux qui créent, cultivent et bâtissent avec passion.';
 const mesure = trace(f400, PROMESSE, 34);
 const promesse = trace(f400, PROMESSE, 34, {
   x: (L - mesure.avance) / 2,

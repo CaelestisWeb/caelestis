@@ -19,6 +19,8 @@ export function trace(font, texte, taille, { x = 0, y = 0, couleur = CREME, ls =
   let plume = 0;
   let gauche = Infinity;
   let droite = -Infinity;
+  let haut = Infinity;
+  let bas = -Infinity;
   const chemins = [];
 
   run.glyphs.forEach((g, i) => {
@@ -29,6 +31,9 @@ export function trace(font, texte, taille, { x = 0, y = 0, couleur = CREME, ls =
     if (g.bbox && g.bbox.width > 0) {
       gauche = Math.min(gauche, px + g.bbox.minX * k);
       droite = Math.max(droite, px + g.bbox.maxX * k);
+      // L'axe des ordonnees de la police monte, celui du SVG descend : maxY donne le haut.
+      haut = Math.min(haut, -g.bbox.maxY * k);
+      bas = Math.max(bas, -g.bbox.minY * k);
     }
     plume += p.xAdvance * k + ls;
   });
@@ -37,6 +42,12 @@ export function trace(font, texte, taille, { x = 0, y = 0, couleur = CREME, ls =
     markup: `<g fill="${couleur}"${opacite < 1 ? ` opacity="${opacite}"` : ''}>${chemins.join('')}</g>`,
     largeur: +(droite - gauche).toFixed(2),
     avance: +plume.toFixed(2),
+    // Boite d'encre reelle, relative au point (x, y) demande. Sert a cadrer un
+    // fichier au plus juste : un logo doit toucher les bords de son viewBox.
+    gauche: +gauche.toFixed(2),
+    droite: +droite.toFixed(2),
+    haut: +haut.toFixed(2),
+    bas: +bas.toFixed(2),
   };
 }
 

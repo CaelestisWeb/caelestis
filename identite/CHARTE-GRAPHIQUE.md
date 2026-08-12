@@ -74,18 +74,24 @@ Graisses utilisées : 300, 400, 500, 700. **Satoshi n'a pas de graisse 600** : t
 
 Deux éléments : un monogramme géométrique en forme de C ouvert (arc de cercle, ouverture à droite, épaisseur de trait égale à 15 % du côté de la tuile) et le mot « Caelestis » écrit en Satoshi Medium 500, interlettrage -0.02em, **sans point final**.
 
-Fichiers dans `identite/logo/` :
+Fichiers dans `identite/logo/`. Le détail complet, avec le fichier à choisir pour chaque destination, est dans `identite/logo/LISEZ-MOI.md`.
 
 | Fichier | Usage |
 |---|---|
-| `lockup-horizontal-sur-clair.svg` | Usage courant, en-têtes, signatures |
+| `lockup-horizontal-nu-vert.svg` | Usage courant sur fond clair, en-têtes, devis, factures |
+| `lockup-horizontal-sur-clair.svg` | Avec tuile crème, quand le fond n'est pas maîtrisé |
 | `lockup-horizontal-sur-vert.svg` | Bandeaux, couvertures, réseaux |
-| `lockup-vertical-sur-clair.svg` | Formats carrés et étroits |
+| `lockup-vertical-nu-vert.svg`, `-sur-clair.svg` | Formats carrés et étroits |
 | `lockup-vertical-sur-vert.svg` | Publications sociales |
 | `wordmark-vert.svg`, `wordmark-creme.svg` | Mot seul, quand le monogramme est déjà présent |
 | `wordmark-encre-700.svg` | Mot en graisse 700, usage monochrome |
 | `monogramme-nu-vert.svg`, `-creme`, `-encre` | Avatar, favicon, tampon, filigrane |
-| `monogramme-vert-sur-creme.svg` et `.png`, `monogramme-creme-sur-vert.svg` et `.png` | Versions en tuile arrondie, PNG 1024 px pour les outils qui refusent le SVG |
+| `monogramme-vert-sur-creme.svg`, `monogramme-creme-sur-vert.svg` | Versions en tuile arrondie |
+| `png/`, `png-aplat/` | Les mêmes en PNG, fond transparent ou aplat composé, deux tailles |
+| `google/` | Fiche d'établissement Google : logo carré 720 px et couverture 1024 × 576, en PNG et en JPG |
+| `impression/` | Cartes de visite, PDF vectoriel pour l'imprimeur et PNG 300 dpi |
+
+**Le texte des SVG est en tracés**, jamais en `<text>` : un SVG qui embarque sa police ne s'affiche correctement que dans un navigateur, ailleurs la police est substituée et le mot déborde de son cadre. Ces fichiers s'affichent à l'identique partout, y compris chez un imprimeur et dans Canva.
 
 ### Règles d'usage
 
@@ -140,13 +146,17 @@ Deux pistes rendues à l'échelle réelle dans `charte-caelestis.html` :
 5. Créer un format personnalisé 91 × 61 mm pour les cartes, l'enregistrer comme modèle.
 6. Avant export, vérifier trois points : aucune italique, aucun tiret long, aucun texte posé sur la mousse claire.
 
-Si Canva remplace la police à l'import d'un SVG contenant le mot, réécrire le mot en texte Canva (Satoshi Medium 500, interlettrage -20) et importer le monogramme séparément.
+Canva ne peut plus substituer la police à l'import d'un logo : le mot y est en tracés, pas en texte. Les fichiers s'importent tels quels.
 
 ## Régénérer les fichiers
 
 ```bash
 node identite/build-logos.mjs
+node identite/build-exports.mjs
+node identite/build-cartes.mjs
+node identite/build-reseaux.mjs
+node identite/build-og.mjs
 node identite/build-charte.mjs
 ```
 
-`build-logos.mjs` régénère les SVG et PNG à partir des métriques relevées. `build-charte.mjs` recompose `charte-caelestis.html` en incorporant polices et logos, à partir de `charte.template.html`.
+`build-logos.mjs` écrit les SVG de référence, texte converti en tracés par fontkit. `build-exports.mjs` en tire les PNG, les JPG et le pack de la fiche Google. `build-cartes.mjs` compose les quatre faces des cartes de visite en PDF vectoriel et en PNG 300 dpi. `build-reseaux.mjs` et `build-og.mjs` produisent les visuels sociaux et l'image de partage. `build-charte.mjs` recompose `charte-caelestis.html` en incorporant polices et logos, à partir de `charte.template.html`, et doit passer en dernier.
