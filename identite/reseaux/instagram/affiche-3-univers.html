@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, affiche 3, l'univers</title>
+<link rel="stylesheet" href="assets/affiche.css">
+<style>
+  .a3 { background: var(--creme); color: var(--encre); }
+  .a3 .entete .lieu { color: var(--olive); }
+  .a3 .filet { top: 148px; background: var(--creme-fonce); }
+
+  /* frise de portraits, registre du site */
+  .a3 .frise {
+    position: absolute; top: 196px; left: var(--marge); right: var(--marge);
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; z-index: 4;
+  }
+  .a3 .frise figure { margin: 0; border-radius: 10px; overflow: hidden; height: 424px; box-shadow: 0 22px 44px -22px rgba(18, 22, 15, .38); }
+  .a3 .frise img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  .a3 .bloc-texte { position: absolute; top: 676px; left: var(--marge); right: var(--marge); z-index: 5; }
+  .a3 .eyebrow { color: var(--sauge-texte); margin-bottom: 26px; }
+  .a3 h1 { font-size: 56px; color: var(--encre); }
+  .a3 h1 .accent { color: var(--vert); }
+
+  .a3 .metiers { position: absolute; top: 902px; left: var(--marge); right: var(--marge); display: flex; flex-wrap: wrap; gap: 12px; z-index: 5; list-style: none; }
+  .a3 .metiers li {
+    font-size: 18px; font-weight: 500; color: var(--olive);
+    border: 1px solid var(--sauge); border-radius: 24px;
+    padding: 10px 20px 9px; white-space: nowrap;
+  }
+
+  /* pied vert, l'appel */
+  .a3 .pied {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 306px;
+    background: var(--vert); color: var(--creme); z-index: 6;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--marge);
+  }
+  .a3 .pied .dire { font-size: 42px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+  .a3 .pied .sous { margin-top: 14px; font-size: 20px; font-weight: 400; color: rgba(227, 239, 232, .78); }
+  .a3 .pied .droite { text-align: right; }
+  .a3 .pied .bouton {
+    display: inline-block; background: var(--creme); color: var(--vert);
+    font-size: 24px; font-weight: 700; letter-spacing: -0.01em;
+    padding: 19px 34px; border-radius: 40px;
+  }
+  .a3 .pied .tel-num { margin-top: 18px; font-size: 21px; font-weight: 500; color: var(--sauge); letter-spacing: .02em; }
+</style>
+</head>
+<body>
+<div class="affiche a3">
+
+  <div class="entete">
+    <img src="assets/wordmark-vert.svg" alt="Caelestis">
+    <span class="lieu">Agence web, Drôme</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="frise">
+    <figure><img src="assets/atelier-creatif.jpg" alt="Atelier ouvert sur un jardin"></figure>
+    <figure><img src="assets/atelier-botanique.jpg" alt="Table d'atelier, pigments et herbier"></figure>
+    <figure><img src="assets/bougies-artisan.jpg" alt="Bougies de cire d'abeille en atelier"></figure>
+  </div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Pour qui nous travaillons</p>
+    <h1>Votre activité vous tient à cœur.<br><span class="accent">Qu'attendez-vous&nbsp;? Partagez-la.</span></h1>
+  </div>
+
+  <ul class="metiers">
+    <li>Artisans</li>
+    <li>Commerçants</li>
+    <li>Indépendants</li>
+    <li>Lieux d'accueil</li>
+    <li>Métiers de passion</li>
+  </ul>
+
+  <div class="pied">
+    <div>
+      <p class="dire">Parlons de votre projet.</p>
+      <p class="sous">Devis gratuit, réponse sous 48&nbsp;h. En ligne en 2 à 8 semaines.</p>
+    </div>
+    <div class="droite">
+      <span class="bouton">caelestis.fr</span>
+      <p class="tel-num">07 69 36 27 27</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

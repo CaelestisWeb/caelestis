@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, affiche 2, les formules</title>
+<link rel="stylesheet" href="assets/affiche.css">
+<style>
+  .a2 { background: var(--creme); color: var(--encre); }
+  .a2 .entete .lieu { color: var(--olive); }
+  .a2 .filet { top: 148px; background: var(--creme-fonce); }
+
+  .a2 .bloc-texte { position: absolute; top: 206px; left: var(--marge); right: var(--marge); z-index: 5; }
+  .a2 .eyebrow { color: var(--sauge-texte); margin-bottom: 28px; }
+  .a2 h1 { font-size: 62px; color: var(--vert); }
+  .a2 h1 .accent { color: var(--encre); }
+
+  /* liste des formules, chaque prix collé à ce qu'il prouve */
+  .a2 .formules { position: absolute; top: 452px; left: var(--marge); right: var(--marge); z-index: 5; }
+  .a2 .ligne {
+    display: flex; align-items: baseline; gap: 28px;
+    padding: 25px 0 24px;
+    border-top: 1px solid var(--creme-fonce);
+  }
+  .a2 .ligne:last-child { border-bottom: 1px solid var(--creme-fonce); }
+  .a2 .corps { flex: 1; min-width: 0; }
+  .a2 .nom { font-size: 29px; font-weight: 500; color: var(--encre); letter-spacing: -0.01em; }
+  .a2 .badge {
+    display: inline-block; vertical-align: 4px; margin-left: 14px;
+    font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--creme); background: var(--vert);
+    padding: 5px 11px 4px; border-radius: 20px;
+  }
+  .a2 .quoi { margin-top: 7px; font-size: 19px; font-weight: 400; color: var(--olive); line-height: 1.4; }
+  .a2 .prix { text-align: right; white-space: nowrap; }
+  .a2 .prix .des { display: block; font-size: 12px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--olive); margin-bottom: 5px; }
+  .a2 .prix .montant { font-size: 34px; font-weight: 700; color: var(--vert); letter-spacing: -0.01em; }
+
+  .a2 .note { position: absolute; top: 1042px; left: var(--marge); font-size: 17px; color: var(--olive); z-index: 5; }
+
+  /* fenêtre du site, sort par le bas */
+  .a2 .fenetre {
+    top: 1104px; left: 160px; width: 900px;
+    box-shadow: 0 34px 70px -26px rgba(18, 22, 15, .34), 0 0 0 1px rgba(18, 22, 15, .07);
+  }
+  .a2 .fenetre .cadre { height: 250px; overflow: hidden; }
+  .a2 .fenetre .cadre img { display: block; width: 100%; margin-top: -62px; }
+</style>
+</head>
+<body>
+<div class="affiche a2">
+
+  <div class="entete">
+    <img src="assets/wordmark-vert.svg" alt="Caelestis">
+    <span class="lieu">caelestis.fr</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Tarifs affichés</p>
+    <h1>Le prix est sur le site,<br><span class="accent">pas au bout d'un rendez-vous.</span></h1>
+  </div>
+
+  <div class="formules">
+    <div class="ligne">
+      <div class="corps">
+        <div class="nom">Page unique</div>
+        <div class="quoi">L'essentiel de votre activité sur une seule page, pour démarrer simplement.</div>
+      </div>
+      <div class="prix"><span class="des">à partir de</span><span class="montant">1 000&nbsp;€</span></div>
+    </div>
+    <div class="ligne">
+      <div class="corps">
+        <div class="nom">Site vitrine<span class="badge">Le plus demandé</span></div>
+        <div class="quoi">Votre activité en ligne, claire et lisible sur tous les écrans.</div>
+      </div>
+      <div class="prix"><span class="des">à partir de</span><span class="montant">2 000&nbsp;€</span></div>
+    </div>
+    <div class="ligne">
+      <div class="corps">
+        <div class="nom">Boutique en ligne</div>
+        <div class="quoi">Vendez vos produits depuis votre site, avec un paiement sécurisé.</div>
+      </div>
+      <div class="prix"><span class="des">à partir de</span><span class="montant">2 500&nbsp;€</span></div>
+    </div>
+    <div class="ligne">
+      <div class="corps">
+        <div class="nom">Site sur mesure</div>
+        <div class="quoi">Entièrement conçu selon vos besoins, votre identité et vos objectifs.</div>
+      </div>
+      <div class="prix"><span class="des">à partir de</span><span class="montant">3 500&nbsp;€</span></div>
+    </div>
+  </div>
+
+  <p class="note">Prix nets, sans TVA à ajouter. Devis gratuit, réponse sous 48&nbsp;h.</p>
+
+  <div class="fenetre">
+    <div class="barre">
+      <span class="pastille"></span><span class="pastille"></span><span class="pastille"></span>
+      <span class="url">caelestis.fr/realisations</span>
+    </div>
+    <div class="cadre"><img src="captures/ecran-realisations.png" alt="Page des réalisations du site Caelestis"></div>
+  </div>
+
+</div>
+</body>
+</html>

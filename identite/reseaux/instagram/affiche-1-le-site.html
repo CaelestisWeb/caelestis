@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, affiche 1, le site</title>
+<link rel="stylesheet" href="assets/affiche.css">
+<style>
+  .a1 { background: var(--vert-profond); color: var(--creme); }
+  .a1 .entete .lieu { color: rgba(184, 196, 187, .8); }
+  .a1 .filet { top: 148px; background: rgba(184, 196, 187, .28); }
+
+  .a1 .bloc-texte { position: absolute; top: 214px; left: var(--marge); right: var(--marge); z-index: 5; }
+  .a1 .eyebrow { color: var(--sauge); margin-bottom: 36px; }
+  .a1 h1 { font-size: 63px; line-height: 1.08; }
+  .a1 h1 .accent { color: var(--sauge); }
+
+  /* fenêtre desktop, débord à droite et en bas */
+  .a1 .fenetre {
+    top: 640px; left: 168px; width: 984px;
+    box-shadow: 0 46px 90px -24px rgba(0, 0, 0, .55), 0 0 0 1px rgba(252, 251, 248, .07);
+  }
+  .a1 .fenetre .cadre { height: 720px; overflow: hidden; }
+  .a1 .fenetre .cadre img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 0% 46%; }
+
+  /* téléphone posé devant, en bas à gauche */
+  .a1 .tel {
+    left: 56px; top: 850px; width: 244px;
+    box-shadow: 0 34px 64px -18px rgba(0, 0, 0, .6);
+  }
+</style>
+</head>
+<body>
+<div class="affiche a1">
+
+  <div class="entete">
+    <img src="assets/wordmark-creme.svg" alt="Caelestis">
+    <span class="lieu">caelestis.fr</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Agence web en Auvergne-Rhône-Alpes</p>
+    <h1>Sur internet, on recherche,<br>on compare, on choisit.<br><span class="accent">Nous faisons de vous,<br>le choix évident.</span></h1>
+  </div>
+
+  <div class="fenetre">
+    <div class="barre">
+      <span class="pastille"></span><span class="pastille"></span><span class="pastille"></span>
+      <span class="url">caelestis.fr</span>
+    </div>
+    <div class="cadre"><img src="captures/ecran-accueil.png" alt="Page d'accueil du site Caelestis"></div>
+  </div>
+
+  <div class="tel">
+    <img src="captures/accueil-mobile-390.png" alt="Le site Caelestis sur téléphone">
+  </div>
+
+</div>
+</body>
+</html>
