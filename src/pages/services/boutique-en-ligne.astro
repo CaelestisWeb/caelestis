@@ -2,8 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 import AppelFinal from '../../components/AppelFinal.astro';
-import AutresFormules from '../../components/AutresFormules.astro';
-import ApercuDemo from '../../components/ApercuDemo.astro';
+
+import PlanTypes from '../../components/PlanTypes.astro';
 import { euros, formule } from '../../utils/tarifs';
 
 const canonical = 'https://caelestis.fr/services/boutique-en-ligne';
@@ -270,8 +270,8 @@ const inclus = [
     </div>
   </section>
 
-  <!-- ── L'exemple en ligne : la boutique de démonstration ── -->
-  <ApercuDemo cle="boutique" titre="Une boutique, du catalogue au panier." />
+  <!-- ── Les quatre types de site, et où se place celui-ci ── -->
+  <PlanTypes courante="boutique-en-ligne" />
 
   <!-- ── FAQ : les objections propres à la formule ── -->
   <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
@@ -298,7 +298,9 @@ const inclus = [
     </div>
   </section>
 
-  <AutresFormules courante="boutique-en-ligne" />
+  <!-- Le bloc « Les autres formules » vivait ici. Retiré le 12/08/2026 : le
+       module PlanTypes, plus haut, porte déjà les liens vers les trois autres
+       formules avec leur prix. Ne pas le réintroduire. -->
 
   <AppelFinal
     titre="Prêt à vendre"

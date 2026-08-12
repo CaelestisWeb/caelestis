@@ -38,8 +38,13 @@ export type Formule = {
   resume: string;
   /** Trois repères de contenu, ce que la formule apporte concrètement. */
   points: readonly string[];
-  /** Clé de l'aperçu du site de démonstration associé, page Services. */
-  apercu: 'page-unique' | 'vitrine' | 'boutique' | 'sur-mesure';
+  /*
+   * Le champ `apercu` vivait ici : il pointait vers le site de démonstration
+   * de la formule (ferme, écurie, miellerie, ébéniste). Retiré le 12/08/2026
+   * avec les démonstrations elles-mêmes, jugées inabouties par Célestin et
+   * remplacées par le module PlanTypes. Ne pas le réintroduire sans une
+   * démonstration qui tienne la comparaison avec un site réellement livré.
+   */
   /** Une seule formule porte l'accent visuel : la plus demandée. */
   accent?: true;
 };
@@ -59,7 +64,6 @@ export const FORMULES: readonly Formule[] = [
       'Visible sur Google dès la mise en ligne.',
       'La formule la plus rapide à livrer.',
     ],
-    apercu: 'page-unique',
   },
   {
     id: 'site-vitrine',
@@ -75,7 +79,6 @@ export const FORMULES: readonly Formule[] = [
       'Formulaire de contact et coordonnées partout.',
       'Les bases du référencement en place.',
     ],
-    apercu: 'vitrine',
     accent: true,
   },
   {
@@ -92,7 +95,6 @@ export const FORMULES: readonly Formule[] = [
       'Paiement sécurisé pour vos clients.',
       'Commandes simples à suivre au quotidien.',
     ],
-    apercu: 'boutique',
   },
   {
     id: 'site-sur-mesure',
@@ -108,7 +110,6 @@ export const FORMULES: readonly Formule[] = [
       'Des fonctionnalités adaptées à votre métier.',
       'Un travail de référencement approfondi.',
     ],
-    apercu: 'sur-mesure',
   },
 ] as const;
 

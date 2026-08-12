@@ -2,8 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 import AppelFinal from '../../components/AppelFinal.astro';
-import AutresFormules from '../../components/AutresFormules.astro';
-import ApercuDemo from '../../components/ApercuDemo.astro';
+
+import PlanTypes from '../../components/PlanTypes.astro';
 import { euros, formule, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES, MAINTENANCE_RETOUCHES_MIN, TARIF_HORAIRE } from '../../utils/tarifs';
 
 const canonical = 'https://caelestis.fr/services/site-une-page';
@@ -263,8 +263,8 @@ const anatomie = [
     </div>
   </section>
 
-  <!-- ── L'exemple en ligne : la micro-ferme de démonstration ── -->
-  <ApercuDemo cle="page-unique" titre="Une page unique, du haut en bas." />
+  <!-- ── Les quatre types de site, et où se place celui-ci ── -->
+  <PlanTypes courante="page-unique" />
 
   <!-- ── FAQ : les objections propres à la formule ── -->
   <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark" aria-labelledby="faq-page-unique">
@@ -290,8 +290,9 @@ const anatomie = [
     </div>
   </section>
 
-  <!-- ── CTA ── -->
-  <AutresFormules courante="page-unique" />
+  <!-- Le bloc « Les autres formules » vivait ici. Retiré le 12/08/2026 : le
+       module PlanTypes, plus haut, porte déjà les liens vers les trois autres
+       formules avec leur prix. Ne pas le réintroduire. -->
 
   <AppelFinal
     titre="Prêt à exister"

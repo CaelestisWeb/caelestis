@@ -1,0 +1,261 @@
+---
+/**
+ * PlanTypes.astro : les quatre types de site, lus comme un plan de menu.
+ *
+ * Posé le 12/08/2026. Il remplace deux blocs sur chaque page de formule :
+ *  - ApercuDemo, la capture cliquable du site de démonstration. Les quatre
+ *    démonstrations (ferme, écurie, miellerie, ébéniste) ont été retirées du
+ *    site : Célestin les jugeait inabouties et non représentatives d'un vrai
+ *    site livré. Montrer un exemple faible dessert la formule qu'il illustre.
+ *  - AutresFormules, les trois autres formules en cartes. Ce module porte
+ *    déjà les liens vers les trois autres pages : deux blocs sur le même
+ *    sujet dans la même page était une redite.
+ *
+ * Le module dit ce que produit chaque formule, sans photo et sans exemple à
+ * défendre. La profondeur est son langage, et elle est graduée :
+ *   page unique  aucune page, une seule zone qui défile
+ *   vitrine      des pages, aucune sous-page
+ *   boutique     une rubrique se déplie, la boutique et ses collections
+ *   sur mesure   quatre rubriques se déplient, plus une entrée devenue outil
+ * Le contraste se voit sans qu'aucun trait d'arborescence ne soit tiré : la
+ * densité des colonnes suffit. Ne pas y ajouter de légende ni de second
+ * niveau, trois versions plus chargées ont été écartées avant celle-ci.
+ *
+ * Les noms, prix et adresses viennent de tarifs.ts, jamais réécrits ici.
+ */
+import { FORMULES, euros, type Formule } from '../utils/tarifs';
+
+interface Props {
+  /** La formule de la page courante : la seule qui ne soit pas un lien. */
+  courante: Formule['id'];
+}
+
+const { courante } = Astro.props;
+
+/*
+ * menu     : les entrées de la barre de navigation, toutes au même niveau.
+ * colonnes : une par entrée de menu, `sous` donne le nombre de sous-pages.
+ * outil    : l'entrée dessinée en trait discontinu, propre au sur mesure.
+ * enPlus   : ce qui vit à droite du menu sans être une page.
+ *
+ * Le compte client appartient au sur mesure, pas à la boutique : une commande
+ * s'y passe sans création de compte, c'est même annoncé sur la page de la
+ * formule. Déplacé le 12/08/2026 sur décision de Célestin.
+ */
+const PLANS: Record<Formule['id'], {
+  menu: string[];
+  colonnes: { sous: number; outil?: true }[] | null;
+  outil?: string;
+  enPlus?: string;
+  appui: string;
+  phrase: string;
+}> = {
+  'page-unique': {
+    menu: ['Accueil', 'Services', 'Galerie', 'Contact'],
+    colonnes: null,
+    appui: 'Une seule adresse',
+    phrase: 'Le menu ne change pas de page : il fait défiler celle-ci.',
+  },
+  'site-vitrine': {
+    menu: ['Accueil', 'Services', 'Réalisations', 'À propos', 'Contact'],
+    colonnes: [{ sous: 0 }, { sous: 0 }, { sous: 0 }, { sous: 0 }, { sous: 0 }],
+    appui: 'Cinq à huit pages',
+    phrase: 'Chaque entrée du menu est une page, avec sa propre adresse.',
+  },
+  'boutique-en-ligne': {
+    menu: ['Accueil', 'Boutique', 'À propos', 'Contact'],
+    colonnes: [{ sous: 0 }, { sous: 3 }, { sous: 0 }, { sous: 0 }],
+    enPlus: 'panier',
+    appui: 'Vos pages, plus tout votre catalogue',
+    phrase: 'La boutique se range en collections, et le panier suit le visiteur partout.',
+  },
+  'site-sur-mesure': {
+    menu: ['Accueil', 'Services', 'Réalisations', 'Blog', 'Réserver'],
+    colonnes: [{ sous: 0 }, { sous: 3 }, { sous: 4 }, { sous: 3 }, { sous: 2, outil: true }],
+    outil: 'Réserver',
+    enPlus: 'compte client',
+    appui: 'Autant de rubriques que votre métier demande',
+    phrase: 'Des rubriques entières avec leurs sous-pages, et une entrée du menu qui devient un outil.',
+  },
+};
+---
+
+<section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-b border-cream-dark bg-sauge-pale/45" aria-labelledby="plan-types-titre">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="max-w-xl mb-10" data-reveal>
+      <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-3">Les quatre types</p>
+      <h2 id="plan-types-titre" class="font-display font-light text-brun leading-tight" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);">
+        Le menu, et ce qu’il y a derrière.
+      </h2>
+      <p class="font-body text-base text-brun-mid mt-4 leading-relaxed">
+        Chaque entrée de menu ouvre une page. Certaines rubriques en contiennent d’autres :
+        c’est là que les formules s’écartent vraiment.
+      </p>
+    </div>
+
+    <div class="pm-grille" data-reveal data-delay="1">
+      {FORMULES.map((f) => {
+        const p = PLANS[f.id];
+        const estCourante = f.id === courante;
+        const Balise = estCourante ? 'div' : 'a';
+        return (
+          <Balise
+            href={estCourante ? undefined : f.href}
+            class={'pm-carte' + (estCourante ? ' pm-carte-on' : '')}
+            aria-label={estCourante ? undefined : `Découvrir la formule ${f.nom}, à partir de ${euros(f.prix)} euros`}
+          >
+            {estCourante && <span class="pm-badge font-body">La formule de cette page</span>}
+
+            <div class="pm-tete">
+              <h3 class="pm-nom">{f.nom}</h3>
+              <p class="pm-prix">dès {euros(f.prix)}&nbsp;€</p>
+            </div>
+
+            <div class="pm-plan" aria-hidden="true">
+              <div class="pm-menu">
+                <span class="pm-marque"></span>
+                {p.menu.map((m) => (
+                  <span class={'pm-item' + (p.outil === m ? ' pm-item-outil' : '')}>{m}</span>
+                ))}
+                {p.enPlus && <span class="pm-plus">{p.enPlus}</span>}
+              </div>
+
+              {p.colonnes
+                ? <div class="pm-cols">
+                    {p.colonnes.map((c) => (
+                      <div class="pm-col">
+                        <span class={'pm-page' + (c.outil ? ' pm-page-outil' : '')}></span>
+                        {c.sous > 0 && (
+                          <span class="pm-sous">
+                            {Array.from({ length: c.sous }).map(() => (
+                              <span class={c.outil ? 'pm-souspage pm-souspage-outil' : 'pm-souspage'}></span>
+                            ))}
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                : <div class="pm-seule"><span></span><span></span><span></span><span></span></div>}
+            </div>
+
+            <p class="pm-appui">{p.appui}</p>
+            <p class="pm-phrase">{p.phrase}</p>
+          </Balise>
+        );
+      })}
+    </div>
+
+    <p class="font-body text-sm text-brun-mid mt-8 max-w-2xl leading-relaxed" data-reveal data-delay="2">
+      Les plans donnent l’ampleur, pas le détail : le nombre exact de pages se décide au cadrage.
+      <a href="/services" class="text-sauge font-medium underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">Voir les quatre formules côte à côte</a>.
+    </p>
+
+  </div>
+</section>
+
+<style>
+  /* Deux plans par ligne à partir de 700 px. */
+  .pm-grille { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .pm-grille { grid-template-columns: repeat(2, 1fr); gap: 18px; } }
+
+  .pm-carte {
+    display: flex; flex-direction: column; position: relative;
+    background: #FCFBF8; border: 1px solid #E6E4DC; border-radius: 16px;
+    padding: 24px 22px; text-decoration: none; color: inherit;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  a.pm-carte:hover {
+    border-color: rgba(46, 116, 82, 0.45);
+    box-shadow: 0 12px 28px rgba(37, 92, 65, 0.10);
+    transform: translateY(-2px);
+  }
+  a.pm-carte:focus-visible { outline: 2px solid #255C41; outline-offset: 3px; }
+  .pm-carte-on { background: #fff; border-color: rgba(46, 116, 82, 0.55); }
+
+  .pm-badge {
+    position: absolute; top: -10px; left: 22px;
+    background: #255C41; color: #E3EFE8;
+    font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 999px;
+  }
+
+  .pm-tete { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .pm-nom { font-family: var(--font-display); font-weight: 300; font-size: 1.25rem; line-height: 1.2; color: #255C41; }
+  .pm-prix {
+    font-family: var(--font-body); font-size: 0.78rem; font-weight: 500; color: #2E7452;
+    font-variant-numeric: lining-nums tabular-nums; white-space: nowrap;
+  }
+
+  /* Hauteur commune : les quatre plans se comparent à la même échelle, et la
+     colonne la plus dense se voit tout de suite. 120 px, soit la hauteur du
+     plan le plus chargé (menu 33, marge 8, colonnes 77) : au-delà, les deux
+     premières formules traînent un vide qui ne dit rien. */
+  .pm-plan { margin: 18px 0 16px; min-height: 120px; }
+
+  .pm-menu {
+    display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
+    background: #F1F5F1; border: 1px solid #D8E0D9; border-radius: 6px;
+    padding: 8px 10px;
+  }
+  .pm-marque { width: 16px; height: 6px; border-radius: 2px; background: #9FBCA9; flex: none; margin-right: 3px; }
+  .pm-item {
+    font-family: var(--font-body); font-size: 0.66rem; line-height: 1;
+    color: #5C6259; padding: 3px 5px; border-radius: 3px;
+  }
+  .pm-item-outil { border: 1px dashed #2E7452; color: #2E7452; font-weight: 500; }
+  .pm-plus {
+    margin-left: auto;
+    font-family: var(--font-body); font-size: 0.6rem; line-height: 1;
+    color: #2E7452; border: 1px solid #9FBCA9; border-radius: 999px; padding: 4px 8px;
+  }
+
+  /* Une colonne par entrée de menu. La correspondance se lit par le nombre et
+     l'alignement : aucun trait à tirer, aucune légende à apprendre. */
+  .pm-cols { display: flex; gap: 5px; margin-top: 8px; align-items: flex-start; }
+  .pm-col { flex: 1 1 0; min-width: 0; }
+
+  .pm-page { display: block; height: 32px; border-radius: 4px; background: #F6F8F6; border: 1px solid #DDE3DD; }
+  .pm-page-outil { background: transparent; border: 1px dashed #2E7452; }
+
+  /* Les sous-pages : des barres plus fines et plus pâles sous leur rubrique.
+     C'est la seule profondeur du module, et elle suffit à séparer une vitrine
+     d'un site sur mesure. */
+  .pm-sous { display: grid; gap: 3px; margin-top: 4px; }
+  .pm-souspage { display: block; height: 8px; border-radius: 2px; background: #E7ECE7; }
+  .pm-souspage-outil { background: transparent; border: 1px dashed #9FBCA9; height: 10px; }
+
+  /* Page unique : une seule zone, aussi large que le menu entier. */
+  .pm-seule {
+    margin-top: 8px; height: 32px; border-radius: 4px;
+    background: #F6F8F6; border: 1px solid #DDE3DD;
+    display: flex; flex-direction: column; justify-content: center; gap: 4px;
+    padding: 0 12px;
+  }
+  .pm-seule span { display: block; height: 3px; border-radius: 2px; background: #DDE3DD; }
+  .pm-seule span:nth-child(1) { width: 62%; }
+  .pm-seule span:nth-child(2) { width: 100%; }
+  .pm-seule span:nth-child(3) { width: 84%; }
+  .pm-seule span:nth-child(4) { width: 40%; }
+
+  .pm-appui {
+    font-family: var(--font-body); font-size: 0.7rem; letter-spacing: 0.13em;
+    text-transform: uppercase; color: #2E7452; margin-bottom: 6px;
+  }
+  .pm-phrase {
+    font-family: var(--font-body); font-size: 0.86rem; line-height: 1.6;
+    color: #5C6259; margin-top: auto;
+  }
+
+  /* Sous 700 px, cinq colonnes tombent à 55 px : les barres restent lisibles,
+     seul le menu se replie sur deux lignes. Rien à réorganiser. */
+  @media (max-width: 699px) {
+    .pm-plan { min-height: 0; }
+    .pm-item { font-size: 0.62rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pm-carte { transition: none; }
+    a.pm-carte:hover { transform: none; }
+  }
+</style>
