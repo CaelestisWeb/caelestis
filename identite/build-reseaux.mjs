@@ -8,7 +8,7 @@
 
 import { mkdirSync } from 'node:fs';
 import sharp from 'sharp';
-import { police, trace, monogramme, LOCKUP, DECALAGE_OPTIQUE_MONO, VERT } from './lib-traces.mjs';
+import { police, trace, monogramme, LOCKUP, DECALAGE_OPTIQUE_MONO, ENCRE_MONO, VERT } from './lib-traces.mjs';
 
 const SORTIE = 'C:/dev/caelestis/identite/reseaux';
 mkdirSync(SORTIE, { recursive: true });
@@ -30,38 +30,41 @@ await sharp(Buffer.from(avatar)).resize(720, 720).png().toFile(`${SORTIE}/profil
 /* ── Couverture, 1640 x 720 ───────────────────────────────────────────
    Facebook rogne trois fois : 48 px en haut et en bas sur ordinateur,
    180 px a gauche et a droite sur telephone, et la photo de profil
-   recouvre le coin bas gauche. Tout est donc centre, dans la bande
-   horizontale 180-1460 et verticale 150-520. */
+   recouvre le coin bas gauche. Le centre vertical de la zone visible sur
+   ordinateur, 48 a 672, coincide avec celui de l'image : tout est donc
+   centre sur les deux axes, mesure sur l'encre et non sur les tuiles. */
 const L = 1640;
 const H = 720;
 const TUILE = 132;
+const TAILLE_PROMESSE = 34;
+const RESPIRATION = 62; // vide entre le bas du monogramme et le haut de la promesse
+const PROMESSE = 'Des sites web pour ceux qui créent, cultivent et bâtissent avec passion.';
 
-const mot = trace(f500, 'Caelestis', TUILE * LOCKUP.mot, {
-  x: 0,
-  y: 0,
-  ls: LOCKUP.interlettrage * TUILE * LOCKUP.mot,
-});
-const largeurLockup = TUILE + TUILE * LOCKUP.ecart + mot.avance;
-const gaucheLockup = (L - largeurLockup) / 2;
-const HAUT_TUILE = 214;
+const lsMot = LOCKUP.interlettrage * TUILE * LOCKUP.mot;
+const mot = trace(f500, 'Caelestis', TUILE * LOCKUP.mot, { ls: lsMot });
+const decalMotX = TUILE * (1 + LOCKUP.ecart);
+const decalEncreX = TUILE * (DECALAGE_OPTIQUE_MONO + ENCRE_MONO.x0);
+const largeurEncre = decalMotX - decalEncreX + mot.largeur;
+const gaucheLockup = (L - largeurEncre) / 2 - decalEncreX;
+
+const mesure = trace(f400, PROMESSE, TAILLE_PROMESSE);
+const hauteurBloc = TUILE * (ENCRE_MONO.y1 - ENCRE_MONO.y0) + RESPIRATION + (mesure.bas - mesure.haut);
+const hautTuile = (H - hauteurBloc) / 2 - TUILE * ENCRE_MONO.y0;
 
 const motPlace = trace(f500, 'Caelestis', TUILE * LOCKUP.mot, {
-  x: gaucheLockup + TUILE + TUILE * LOCKUP.ecart,
-  y: HAUT_TUILE + TUILE * LOCKUP.baseline,
-  ls: LOCKUP.interlettrage * TUILE * LOCKUP.mot,
+  x: gaucheLockup + decalMotX,
+  y: hautTuile + TUILE * LOCKUP.baseline,
+  ls: lsMot,
 });
-
-const PROMESSE = 'Des sites web pour ceux qui créent, cultivent et bâtissent avec passion.';
-const mesure = trace(f400, PROMESSE, 34);
-const promesse = trace(f400, PROMESSE, 34, {
-  x: (L - mesure.avance) / 2,
-  y: 470,
+const promesse = trace(f400, PROMESSE, TAILLE_PROMESSE, {
+  x: (L - mesure.largeur) / 2 - mesure.gauche,
+  y: hautTuile + TUILE * ENCRE_MONO.y1 + RESPIRATION - mesure.haut,
   opacite: 0.9,
 });
 
 const couverture = `<svg xmlns="http://www.w3.org/2000/svg" width="${L}" height="${H}" viewBox="0 0 ${L} ${H}">
   <rect width="${L}" height="${H}" fill="${VERT}"/>
-  ${monogramme(gaucheLockup, HAUT_TUILE, TUILE)}
+  ${monogramme(gaucheLockup + TUILE * DECALAGE_OPTIQUE_MONO, hautTuile, TUILE)}
   ${motPlace.markup}
   ${promesse.markup}
 </svg>`;

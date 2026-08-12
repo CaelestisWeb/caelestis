@@ -76,10 +76,14 @@ td.mono,th.mono{font-family:ui-monospace,Consolas,monospace}
 .carte-logo .legende b{display:block;color:var(--encre);font-weight:500;font-size:13.5px;margin-bottom:2px}
 
 .zone-protection{background:#fff;border:1px solid var(--cream-dark);border-radius:6px;padding:30px;display:flex;gap:38px;flex-wrap:wrap;align-items:center}
-.zp-visuel{position:relative;flex:0 0 250px}
-.zp-visuel .cadre{position:relative;padding:36px;background:var(--sauge-pale);border-radius:4px}
-.zp-visuel .cadre::before{content:'';position:absolute;inset:36px;border:1px dashed var(--sauge)}
-.zp-visuel .cadre img{position:relative;display:block;width:100%}
+/* La reserve vaut la moitie de la hauteur du monogramme. Le fichier nu mesure
+   58,7 sur 73 : pose a 100 px de large il fait 124,4 px de haut, la reserve
+   vaut donc 62 px sur les quatre cotes. Le visuel demontre ainsi la regle
+   qu'il enonce, a l'echelle. */
+.zp-visuel{position:relative;flex:0 0 auto}
+.zp-visuel .cadre{position:relative;display:inline-block;padding:62px;background:var(--sauge-pale);border-radius:4px}
+.zp-visuel .cadre::before{content:'';position:absolute;inset:62px;border:1px dashed var(--sauge)}
+.zp-visuel .cadre img{position:relative;display:block;width:100px}
 .zp-legende{flex:1;min-width:240px}
 
 .interdits{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
@@ -214,7 +218,7 @@ footer b{color:var(--cream);font-weight:500}
         <div class="legende"><b>Horizontal, fond clair</b>Usage courant, en-têtes et signatures</div>
       </div>
       <div class="carte-logo">
-        <div class="scene vert"><img src="logo/lockup-horizontal-sur-vert.svg" alt="Logo horizontal sur fond vert" style="width:210px"></div>
+        <div class="scene vert"><img src="logo/lockup-horizontal-sur-vert.svg" alt="Logo horizontal sur fond vert" style="width:200px"></div>
         <div class="legende"><b>Horizontal, fond vert</b>Bandeaux, couvertures, réseaux</div>
       </div>
       <div class="carte-logo">

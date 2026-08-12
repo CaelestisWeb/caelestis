@@ -93,6 +93,20 @@ Fichiers dans `identite/logo/`. Le détail complet, avec le fichier à choisir p
 
 **Le texte des SVG est en tracés**, jamais en `<text>` : un SVG qui embarque sa police ne s'affiche correctement que dans un navigateur, ailleurs la police est substituée et le mot déborde de son cadre. Ces fichiers s'affichent à l'identique partout, y compris chez un imprimeur et dans Canva.
 
+### Deux règles de géométrie, à ne jamais perdre de vue
+
+**1. Le C n'est pas centré dans sa tuile, il faut le recentrer.** Son tracé passe par la gauche et s'arrête à l'ouverture : pour une tuile de 100, l'encre occupe 13,5 à 72,2 en largeur et 13,5 à 86,5 en hauteur. Son milieu tombe donc à 42,85 et non à 50. Poser le monogramme sans correction le laisse penché à gauche de 7,15 %, ce qui se voit sur un avatar comme sur un favicon. La correction, `DECALAGE_OPTIQUE_MONO`, et la boîte d'encre, `ENCRE_MONO`, sont dans `identite/lib-traces.mjs` : c'est la source unique, aucun script ne redéfinit ces valeurs.
+
+**2. Un fichier se cadre sur son encre, pas sur sa tuile.** Un lockup sans tuile qui garderait le vide de celle-ci porterait une marge parasite de 13,5 % à gauche : posé centré dans un document, il paraîtrait poussé vers la droite. Les versions à tuile sont cadrées sur la tuile, les versions nues sur l'encre.
+
+### Vérifier
+
+```bash
+node identite/audit-visuels.mjs
+```
+
+L'audit rasterise chaque visuel, mesure l'encre réellement présente et compare les quatre marges. Il ne fait confiance à aucun calcul des scripts de fabrication. Trois attentes selon la famille : `encre` le fichier touche ses quatre bords, `centre` les marges opposées sont égales, `info` composition libre. Les cartes de visite sont mesurées en millimètres, avec contrôle de la zone de sécurité et de l'alignement des blocs. **Tout doit sortir à zéro visuel hors tolérance.**
+
 ### Règles d'usage
 
 - **Zone de protection** : un vide égal à la moitié de la hauteur du monogramme sur les quatre côtés. Aucun texte, aucune photo, aucun bord de page à l'intérieur.
@@ -156,7 +170,11 @@ node identite/build-exports.mjs
 node identite/build-cartes.mjs
 node identite/build-reseaux.mjs
 node identite/build-og.mjs
+node identite/build-favicon.mjs
 node identite/build-charte.mjs
+node identite/audit-visuels.mjs
 ```
 
-`build-logos.mjs` écrit les SVG de référence, texte converti en tracés par fontkit. `build-exports.mjs` en tire les PNG, les JPG et le pack de la fiche Google. `build-cartes.mjs` compose les quatre faces des cartes de visite en PDF vectoriel et en PNG 300 dpi. `build-reseaux.mjs` et `build-og.mjs` produisent les visuels sociaux et l'image de partage. `build-charte.mjs` recompose `charte-caelestis.html` en incorporant polices et logos, à partir de `charte.template.html`, et doit passer en dernier.
+`build-logos.mjs` écrit les SVG de référence, texte converti en tracés par fontkit. `build-exports.mjs` en tire les PNG, les JPG et le pack de la fiche Google. `build-cartes.mjs` compose les quatre faces des cartes de visite en PDF vectoriel et en PNG 300 dpi. `build-reseaux.mjs` et `build-og.mjs` produisent les visuels sociaux et l'image de partage. `build-favicon.mjs` régénère les favicons et les icônes d'application. `build-charte.mjs` recompose `charte-caelestis.html` en incorporant polices et logos, à partir de `charte.template.html`, et doit passer avant l'audit, qui conclut.
+
+Les icônes de `public/` se déclinent en deux familles : les favicons d'onglet gardent la tuile arrondie et le C à sa taille normale, tandis que `apple-touch-icon.png` et les icônes du manifeste sont sur carré plein, sans transparence, avec le C ramené à 47 % de la hauteur. Le système applique son propre masque, parfois circulaire pour une icône `maskable` : une tuile arrondie y ferait apparaître des coins vides, et un dessin trop grand serait rogné. Après toute modification, incrémenter `?v=` sur les liens d'icônes dans `src/layouts/BaseLayout.astro`, sinon les navigateurs gardent l'ancienne.

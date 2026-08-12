@@ -61,8 +61,21 @@ export const monogramme = (x, y, taille, couleur = CREME) => `<g transform="tran
 export const LOCKUP = { mot: 0.82, ecart: 0.28, baseline: 0.7952, interlettrage: -0.02 };
 
 /* L'encre du C ouvert n'occupe pas toute sa tuile : le trajet passe par la
-   gauche, l'ouverture est a droite. Pour une tuile de 100 l'encre va de 13,5 a
-   72,2, son milieu tombe donc a 42,85 et non a 50. Centrer la tuile laisse le
-   monogramme visiblement decale a gauche : compenser de DECALAGE_OPTIQUE_MONO
-   pour cent de la taille des qu'il est pose seul (avatar, tampon, filigrane). */
-export const DECALAGE_OPTIQUE_MONO = 0.0715;
+   gauche, l'ouverture est a droite. En fraction de la tuile, elle va de 0,135
+   a 0,722 en largeur et de 0,135 a 0,865 en hauteur. Son milieu horizontal
+   tombe donc a 0,4285 et non a 0,5. */
+export const ENCRE_MONO = { x0: 0.135, x1: 0.722, y0: 0.135, y1: 0.865 };
+
+/* Poser la tuile centree laisse le C visiblement decale a gauche : le decaler
+   de DECALAGE_OPTIQUE_MONO fois la taille recentre son encre. A appliquer des
+   que le C est pose, dans une tuile comme seul (avatar, tampon, filigrane). */
+export const DECALAGE_OPTIQUE_MONO = +((1 - ENCRE_MONO.x0 - ENCRE_MONO.x1) / 2).toFixed(4);
+
+/* Boite d'encre du C, en unites, pour une tuile de `taille` posee en (x, y)
+   avec le decalage de recentrage applique. */
+export const boiteMono = (x, y, taille) => ({
+  x0: x + taille * (DECALAGE_OPTIQUE_MONO + ENCRE_MONO.x0),
+  x1: x + taille * (DECALAGE_OPTIQUE_MONO + ENCRE_MONO.x1),
+  y0: y + taille * ENCRE_MONO.y0,
+  y1: y + taille * ENCRE_MONO.y1,
+});

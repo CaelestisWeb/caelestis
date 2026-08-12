@@ -7,8 +7,15 @@ modifient pas à la main. Pour les régénérer après une évolution de la char
 node identite/build-logos.mjs     les SVG
 node identite/build-exports.mjs   les PNG et les JPG
 node identite/build-cartes.mjs    les cartes de visite
+node identite/build-favicon.mjs   les favicons du site
 node identite/build-charte.mjs    la charte, qui embarque les SVG
+node identite/audit-visuels.mjs   le contrôle, doit finir à zéro défaut
 ```
+
+L'audit mesure l'encre réellement présente dans chaque fichier et compare les
+quatre marges. Il est la seule preuve qu'un visuel est équilibré : les calculs
+des scripts de fabrication ne suffisent pas, c'est ainsi qu'un monogramme
+décalé de 7 % a vécu longtemps sans être vu.
 
 ## Le point important sur les SVG
 
