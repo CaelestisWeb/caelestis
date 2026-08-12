@@ -44,30 +44,36 @@ const breadcrumbApropos = {
 };
 
 
-/* Les quatre engagements. Chacun est rattaché au moment du projet où il joue :
-   c'est ce qui donne un ordre à la liste, et la seule chose que le module
-   ajoute au texte. Écrits à la première personne, en phrases courtes, sans un
-   mot qui ne se dirait pas au téléphone. */
-const ENGAGEMENTS = [
+/* La démarche, remplaçante des quatre engagements le 12/08/2026 sur retour de
+   Célestin. Les engagements (prix fixé, date annoncée, interlocuteur unique,
+   propriété du site) étaient des conditions de prestation : leur place est sur
+   /services, pas sur la page qui raconte qui je suis. Ici, ce que le lecteur
+   vient chercher, c'est comment se passe la rencontre.
+
+   Chaque étape garde le repère de gauche, seule information que le module
+   ajoute au texte. Ton convivial, phrases courtes, « on » de réciprocité
+   (vous et moi) et non « on » d'agence : la page entière est écrite à la
+   première personne, ne pas y glisser un « nous » d'équipe. */
+const DEMARCHE = [
   {
-    moment: 'Avant de commencer',
-    titre: 'Un prix fixé à l\'avance',
-    texte: "Vous connaissez le montant avant que je commence, et il ne bouge plus. Si vous voulez ajouter quelque chose en cours de route, je vous le chiffre à part et vous décidez. Vous ne découvrirez jamais un supplément sur la facture.",
+    moment: 'On se rencontre',
+    titre: 'J\'apprends à connaître votre entreprise',
+    texte: "Votre métier, votre parcours, ce qui vous distingue de la maison d'à côté. Je pose beaucoup de questions au départ, tout le reste en découle.",
   },
   {
-    moment: 'Au premier rendez-vous',
-    titre: 'Une date de livraison annoncée',
-    texte: "Entre deux et huit semaines selon votre projet. Je fixe le calendrier dès le premier échange, et je vous dis à quels moments j'aurai besoin de vos retours pour tenir la date.",
+    moment: 'On dessine',
+    titre: 'Une identité fidèle à votre image',
+    texte: "Des couleurs, des mots et des photos qui vous ressemblent vraiment. Jamais un modèle repeint aux couleurs du voisin.",
   },
   {
-    moment: 'Pendant tout le projet',
-    titre: 'Toujours la même personne',
-    texte: "C'est moi qui conçois votre site, et c'est moi qui vous réponds. Du premier appel jusqu'après la mise en ligne, vous n'aurez jamais à réexpliquer votre projet à quelqu'un d'autre.",
+    moment: 'On construit',
+    titre: 'Un site agréable à parcourir',
+    texte: "Fluide, clair, pensé pour amener vos visiteurs jusqu'à vous sans qu'ils aient à chercher.",
   },
   {
-    moment: 'Une fois le site payé',
-    titre: 'Le site est à vous',
-    texte: "Le site, vos textes, vos photos et votre nom de domaine vous appartiennent. Si un jour vous préférez travailler avec quelqu'un d'autre, vous partez avec tout, sans avoir à me demander quoi que ce soit.",
+    moment: 'Du début à la fin',
+    titre: 'Vous n\'êtes jamais seul',
+    texte: "Écoute, disponibilité, transparence. Vous savez toujours où en est votre projet et ce que j'attends de vous.",
   },
 ];
 
@@ -176,51 +182,48 @@ const ENGAGEMENTS = [
     </div>
   </section>
 
-  <!-- ─── COMMENT JE TRAVAILLE ───
-       Refaite le 07/08/2026 après retour de Célestin, sur deux points.
+  <!-- ─── LA DÉMARCHE ───
+       Le module de quatre bandes date du 07/08/2026 et il fonctionne : un
+       repère à gauche, l'étape à droite, des filets pour séparer sans encadrer.
+       Seul son contenu change le 12/08/2026. Il portait les quatre engagements
+       commerciaux (prix fixé, date annoncée, interlocuteur unique, propriété du
+       site) : de la condition de prestation, qui parle de l'offre et non de la
+       personne. Ils ont leur place sur /services. Ce que remplit désormais la
+       section, c'est le manque de la page : comment se passe la rencontre.
 
-       Le visuel d'abord : un feuillet de devis avait été posé à gauche des
-       quatre engagements, et il en recopiait les quatre titres mot pour mot.
-       Le lecteur avait donc les mêmes phrases écrites deux fois côte à côte,
-       exactement le défaut que le reste du site vient de corriger. Retiré.
-       Ce qui le remplace n'ajoute pas un dessin de plus : ce sont les
-       engagements eux-mêmes qui deviennent le module, posés en quatre bandes
-       larges, chacune avec le moment du projet où elle joue. Le moment est la
-       seule information ajoutée, et elle ne se lit nulle part ailleurs.
-
-       Le texte ensuite : il était sec et administratif. « Fait l'objet d'un
-       avenant », « le calendrier est posé », « votre validation est attendue »,
-       « au paiement complet ». Des tournures passives et du vocabulaire de
-       contrat, sur une page qui doit rassurer un artisan. Tout est réécrit à la
-       première personne, avec des phrases courtes et des mots de tous les
-       jours. Aucun engagement n'a changé de contenu, seulement de formulation.
-       Ne pas y réintroduire de jargon : si un mot ne se dit pas au téléphone,
-       il n'a rien à faire ici. -->
-  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 bg-brun section-dark-depth" aria-labelledby="engagements-title">
+       Deux règles à ne pas perdre. Le récit des débuts est déjà raconté en haut
+       de page, ne pas le redire ici. Et le ton reste celui d'une conversation :
+       si un mot ne se dit pas au téléphone, il n'a rien à faire ici. -->
+  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 bg-brun section-dark-depth" aria-labelledby="demarche-title">
     <div class="max-w-4xl mx-auto">
 
       <div class="text-center mb-14" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Mes engagements</p>
-        <h2 id="engagements-title" class="font-display text-3xl md:text-4xl font-light text-cream leading-[1.1] mb-5">
-          Comment je travaille.
+        <p class="font-body text-xs tracking-[0.22em] uppercase text-sauge mb-4">Ma façon de faire</p>
+        <h2 id="demarche-title" class="font-display text-3xl md:text-4xl font-light text-cream leading-[1.1] mb-5">
+          D'abord, on apprend à se connaître.
         </h2>
         <p class="font-body text-base max-w-[46ch] mx-auto leading-relaxed" style="color: rgba(252, 251, 248, 0.78)">
-          Quatre choses que je m'engage à tenir. Elles sont écrites dans votre devis,
-          vous pouvez me les rappeler à tout moment.
+          Derrière chaque projet, il y a une rencontre. Je prends le temps de comprendre
+          votre activité avant d'ouvrir la moindre page blanche.
         </p>
       </div>
 
-      <ul class="engs" role="list">
-        {ENGAGEMENTS.map((e) => (
-          <li class="eng" data-reveal>
-            <span class="eng-moment font-body">{e.moment}</span>
-            <div class="eng-corps">
-              <h3 class="eng-titre font-display">{e.titre}</h3>
-              <p class="eng-texte font-body">{e.texte}</p>
+      <ul class="etapes" role="list">
+        {DEMARCHE.map((e) => (
+          <li class="etape" data-reveal>
+            <span class="etape-moment font-body">{e.moment}</span>
+            <div class="etape-corps">
+              <h3 class="etape-titre font-display">{e.titre}</h3>
+              <p class="etape-texte font-body">{e.texte}</p>
             </div>
           </li>
         ))}
       </ul>
+
+      <p class="font-body text-base text-center max-w-[52ch] mx-auto mt-12 leading-relaxed" style="color: rgba(252, 251, 248, 0.78)" data-reveal>
+        Au-delà du design, votre site doit transmettre ce qui fait votre force&nbsp;:
+        votre savoir-faire, vos valeurs, votre identité.
+      </p>
 
     </div>
   </section>
@@ -263,39 +266,38 @@ const ENGAGEMENTS = [
 
 <style>
 
-  /* ═══ Les quatre engagements ═══
-     Quatre bandes larges séparées par un filet, le moment du projet à gauche
-     et l engagement à droite. Pas de carte, pas d encadré : sur un fond vert
-     plein, les filets suffisent à séparer et laissent respirer. La colonne des
-     moments passe au-dessus du titre en mobile, où deux colonnes écraseraient
-     le texte. */
-  .engs { list-style: none; margin: 0; padding: 0; }
-  .eng {
+  /* ═══ Les quatre étapes de la démarche ═══
+     Quatre bandes larges séparées par un filet, le repère à gauche et l étape
+     à droite. Pas de carte, pas d encadré : sur un fond vert plein, les filets
+     suffisent à séparer et laissent respirer. La colonne des repères passe
+     au-dessus du titre en mobile, où deux colonnes écraseraient le texte. */
+  .etapes { list-style: none; margin: 0; padding: 0; }
+  .etape {
     display: grid;
     gap: 6px 34px;
     padding: 26px 0;
     border-top: 1px solid rgba(252, 251, 248, 0.16);
   }
-  .eng:last-child { border-bottom: 1px solid rgba(252, 251, 248, 0.16); }
+  .etape:last-child { border-bottom: 1px solid rgba(252, 251, 248, 0.16); }
   @media (min-width: 760px) {
-    .eng { grid-template-columns: 12.5rem 1fr; padding: 30px 0; }
+    .etape { grid-template-columns: 12.5rem 1fr; padding: 30px 0; }
   }
 
-  .eng-moment {
+  .etape-moment {
     font-size: 0.7rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: #B8C4BB;
     padding-top: 0.35rem;
   }
-  .eng-titre {
+  .etape-titre {
     font-size: clamp(1.2rem, 2.2vw, 1.5rem);
     font-weight: 300;
     line-height: 1.25;
     color: #FCFBF8;
     margin-bottom: 9px;
   }
-  .eng-texte {
+  .etape-texte {
     font-size: 0.95rem;
     line-height: 1.7;
     color: rgba(252, 251, 248, 0.8);
