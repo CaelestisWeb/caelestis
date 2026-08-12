@@ -182,6 +182,14 @@ const menu = [
     <div class="stand" aria-hidden="true"></div>
     <div class="foot" aria-hidden="true"></div>
     <div class="foot-sh" aria-hidden="true"></div>
+
+    <!-- Sans cette ligne, la navigation au clavier n'existe pas pour le visiteur :
+         il n'essaiera pas une touche dont rien n'annonce l'effet. Elle s'efface
+         dès qu'il a pris la main, au clavier comme à la souris. -->
+    <p class="he-clavier" data-he-hint>
+      <kbd aria-hidden="true">←</kbd><kbd aria-hidden="true">→</kbd>
+      <span>Les flèches du clavier font défiler les pages.</span>
+    </p>
   </div>
 
   <!-- Version mobile : le moniteur en petit est illisible, on le remplace par un
@@ -325,6 +333,18 @@ const menu = [
   .finput.tall{padding-bottom:2.2rem}
   .ghost-btn{display:inline-block}
 
+  /* Indice clavier, sous le pied du moniteur. Il entre en fondu une fois le
+     moniteur allumé, et sort dès la première navigation : ce n'est pas un
+     élément de décor, c'est une consigne qui a servi. */
+  .he-clavier{display:flex;align-items:center;justify-content:center;gap:.5rem;
+    margin-top:clamp(.9rem,2vh,1.4rem);font-size:.78rem;color:var(--color-brun-mid);
+    opacity:0;animation:he-hint .6s ease 1.1s forwards;transition:opacity .45s ease,visibility .45s}
+  .he-clavier kbd{font-family:inherit;font-size:.74rem;line-height:1;color:var(--color-brun-mid);
+    background:rgba(252,251,248,.75);border:1px solid var(--color-cream-dark);border-bottom-width:2px;
+    border-radius:5px;padding:.28em .48em}
+  .he-clavier.off{opacity:0;visibility:hidden;animation:none}
+  @keyframes he-hint{to{opacity:1}}
+
   /* Points de pagination : masqués en desktop (navigation par le menu). */
   .dots{display:none}
 
@@ -373,6 +393,7 @@ const menu = [
   @media(prefers-reduced-motion:reduce){
     .power{display:none}
     .view{transition:none}
+    .he-clavier{animation:none;opacity:1;transition:none}
   }
 </style>
 
@@ -453,6 +474,37 @@ const menu = [
         entries.forEach(function(en){ onScreen = en.isIntersecting; if(onScreen){ startAuto(); } else { stopAuto(); } });
       }, { threshold: 0.35 }).observe(glass);
     }
+
+    // Flèches du clavier (ordinateur) : feuilleter le moniteur sans la souris.
+    // L'écoute est sur le document, sinon il faudrait d'abord aller chercher le
+    // focus dans le moniteur, ce qui annule tout l'intérêt. Trois garde-fous :
+    // le moniteur doit être à l'écran, la frappe ne doit pas venir d'un champ ni
+    // d'un composant qui pilote déjà les flèches (recherche, curseur du
+    // comparateur, menus), et seules les flèches horizontales sont interceptées,
+    // donc le défilement vertical de la page n'est jamais confisqué.
+    const hint = document.querySelector('[data-he-hint]');
+    function fleches(e){
+      // Après une navigation Astro, le moniteur de la page précédente n'existe
+      // plus : l'écouteur se retire lui-même au lieu de survivre dans le vide.
+      if(!glass.isConnected){ document.removeEventListener('keydown', fleches); return; }
+      if(e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      if(e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+      if(!onScreen) return;
+      const cible = e.target;
+      if(cible && cible.closest && cible.closest('input, textarea, select, [contenteditable], [role="dialog"], [role="menu"], details[open]')) return;
+      e.preventDefault();
+      stopAuto(true);
+      if(hint) hint.classList.add('off');
+      apply(e.key === 'ArrowRight'
+        ? (current() + 1) % views.length
+        : (current() - 1 + views.length) % views.length, true);
+    }
+    document.addEventListener('keydown', fleches);
+
+    // L'indice a fait son office dès que le visiteur a navigué lui-même : il
+    // s'efface donc aussi au clic dans le moniteur. Le glissement automatique,
+    // lui, le laisse en place, puisque le visiteur n'a encore rien fait.
+    glass.addEventListener('click', function(){ if(hint) hint.classList.add('off'); });
 
     // Swipe tactile (mobile) : feuilleter du doigt, et prendre la main.
     let sx = 0, sy = 0, sw = false;
