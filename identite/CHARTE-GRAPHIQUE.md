@@ -118,9 +118,9 @@ L'audit rasterise chaque visuel, mesure l'encre réellement présente et compare
 
 Déformer, étirer, incliner. Changer la couleur hors palette ou appliquer un dégradé. Ajouter ombre portée, contour, reflet, relief. Réécrire le mot dans une autre police. Poser le vert sur du vert ou le crème sur du crème. **Ajouter un point après le mot**, coloré ou non, dans un logo, une signature, un titre de page ou un document.
 
-### Point ouvert
+### Point tranché le 12/08/2026
 
-La tuile du favicon en production (`public/favicon.svg`) utilise le fond `#F4F2EC`, alors que le fond du site est `#FCFBF8`. Les fichiers de cette charte sont harmonisés sur `#FCFBF8`. À aligner dans le code, ou à assumer comme un écart voulu.
+La tuile du favicon utilisait `#F4F2EC`, seul îlot de cette valeur : les onze autres visuels de l'identité sont sur `#FCFBF8` ou sur le vert forêt. L'écart valait 8, 9 et 12 points par canal, invisible isolément, mais posée sur une page du site la tuile se détachait en carré gris au lieu de disparaître. **Tout est désormais sur `#FCFBF8`**, favicons et icônes d'application compris. Une seule valeur de crème dans toute la marque.
 
 Le point final a été supprimé le 02/08/2026, sur le site comme dans les fichiers de logo. La question de sa couleur ne se pose plus.
 

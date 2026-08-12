@@ -118,11 +118,11 @@ const CIBLES = [
   ['centre', 'identite/logo/png-aplat/monogramme-carre-creme-1024.png', CREME],
   ['info', 'public/og-image.jpg', VERT],
   // Favicons et icones d'application : le C doit etre centre dans sa tuile.
-  ['centre', 'public/favicon.svg', '#F4F2EC'],
-  ['centre', 'public/favicon-32.png', '#F4F2EC'],
-  ['centre', 'public/apple-touch-icon.png', '#F4F2EC'],
-  ['centre', 'public/icon-192.png', '#F4F2EC'],
-  ['centre', 'public/icon-512.png', '#F4F2EC'],
+  ['centre', 'public/favicon.svg', CREME],
+  ['centre', 'public/favicon-32.png', CREME],
+  ['centre', 'public/apple-touch-icon.png', CREME],
+  ['centre', 'public/icon-192.png', CREME],
+  ['centre', 'public/icon-512.png', CREME],
 ];
 
 console.log('type   | fichier                                        |   G /   D |   H /   B | blocs | verdict');

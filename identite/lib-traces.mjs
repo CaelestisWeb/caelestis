@@ -52,7 +52,7 @@ export function trace(font, texte, taille, { x = 0, y = 0, couleur = CREME, ls =
 }
 
 /* Monogramme : C ouvert, geometrie de identite/build-logos.mjs pour une tuile de 100 */
-export const monogramme = (x, y, taille, couleur = CREME) => `<g transform="translate(${x} ${y}) scale(${(taille / 100).toFixed(5)})">
+export const monogramme = (x, y, taille, couleur = CREME) => `<g transform="translate(${+x.toFixed(3)} ${+y.toFixed(3)}) scale(${(taille / 100).toFixed(5)})">
     <path d="M67.66 27 A29 29 0 1 0 67.66 73" fill="none" stroke="${couleur}" stroke-width="15"/>
   </g>`;
 

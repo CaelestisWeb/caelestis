@@ -27,10 +27,11 @@ import { monogramme, DECALAGE_OPTIQUE_MONO, ENCRE_MONO, VERT } from './lib-trace
 
 const PUBLIC = 'C:/dev/caelestis/public';
 
-/* Fond de la tuile. La charte harmonise l'identite sur #FCFBF8 et signale ce
-   #F4F2EC comme le seul ecart restant : point encore ouvert, laisse tel quel
-   pour ne pas le trancher ici. */
-const FOND = '#F4F2EC';
+/* Fond de la tuile, aligne sur le creme du site. Les favicons portaient
+   #F4F2EC, seul ilot de cette valeur face aux onze autres visuels de
+   l'identite : pose sur une page du site, la tuile se detachait en carre gris
+   au lieu de disparaitre. Arbitre par Celestin le 12/08/2026. */
+const FOND = '#FCFBF8';
 
 /* Part de la hauteur occupee par l'encre du C dans une icone masquable. */
 const HAUTEUR_SURE = 0.47;
