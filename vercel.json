@@ -6,6 +6,11 @@
       "permanent": true
     },
     {
+      "source": "/realisations/la-coquette",
+      "destination": "/realisations",
+      "permanent": true
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/sitemap-index.xml",
       "permanent": true

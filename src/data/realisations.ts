@@ -12,8 +12,6 @@
 
 import imgFdoAccueil from '../assets/images/realisations/fee-des-ongles-accueil.jpg';
 import imgFdoReservation from '../assets/images/realisations/fee-des-ongles-reservation.jpg';
-import imgCoquetteAccueil from '../assets/images/realisations/la-coquette-accueil.jpg';
-import imgCoquetteGalerie from '../assets/images/realisations/la-coquette-galerie.jpg';
 
 export interface Realisation {
   slug: string;
@@ -49,10 +47,10 @@ export const realisations: Realisation[] = [
     ville: 'Crest',
     url: 'https://www.feedesongles.fr',
     annee: 2026,
-    titre: 'Un salon qui prend ses rendez-vous en ligne 24 h sur 24, livré en 14 jours',
+    titre: 'Un salon qui prend ses rendez-vous en ligne 24 h sur 24, livré en 14 jours',
     accroche:
       'Site vitrine et moteur de réservation sur mesure pour un salon de prothésie ongulaire, à Crest.',
-    delai: 'Livré en 14 jours',
+    delai: 'Livré en 14 jours',
     situation:
       "Romane reçoit sur rendez-vous dans son salon de Crest. Les demandes arrivaient par téléphone et par messages, à des heures où elle travaille sur les ongles de quelqu'un d'autre. Chaque créneau devait être noté, vérifié, parfois rappelé.",
     besoins: [
@@ -89,55 +87,23 @@ export const realisations: Realisation[] = [
       },
     ],
   },
-  {
-    slug: 'la-coquette',
-    nom: 'La Coquette',
-    metier: 'Créatrice de bijoux',
-    ville: 'Saint-Paul-lès-Romans',
-    url: 'https://lacoquette-bycaro.fr',
-    annee: 2026,
-    titre: 'Un site vitrine que la créatrice tient elle-même, 48 pièces en 6 collections',
-    accroche:
-      'Site vitrine et galerie éditable pour un atelier de bijoux fait main, dans la Drôme.',
-    delai: 'Livré en 19 jours',
-    situation:
-      "Caro fabrique ses boucles d'oreilles à la main, une paire à la fois, et les vend sur les marchés et par Instagram. Ses pièces sont presque toutes uniques et son stock change chaque semaine. Pour présenter son travail sérieusement, il lui fallait une vitrine à son nom plutôt qu'un simple compte de réseau social.",
-    besoins: [
-      "Montrer les pièces telles qu'elles sont, sans promettre une disponibilité qu'un atelier d'une personne ne peut pas tenir.",
-      "Ne plus dépendre d'Instagram comme seule adresse pour être trouvée et jugée sérieuse.",
-      "Pouvoir changer les photos et les textes seule, sans rappeler l'agence à chaque nouvelle collection.",
-      "Ramener les visiteurs là où la vente se fait réellement : la messagerie Instagram et les marchés.",
-      "Un site qui ne coûte rien à faire tourner, sans abonnement ni frais de transaction.",
-    ],
-    reponses: [
-      "Une page unique qui présente l'atelier, la démarche, les collections et les prochains marchés.",
-      "Une galerie séparée qui montre les 48 pièces classées en 6 collections, avec le nombre de pièces affiché par collection.",
-      "Un espace d'édition privé où Caro remplace les photos, renomme et réordonne ses collections, change les textes et la photo de bannière, puis publie sans nous.",
-      "Un repli automatique : si l'espace d'édition est indisponible, le site continue de s'afficher avec son dernier contenu figé dans le code.",
-      "Toute la conversion dirigée vers Instagram, sans formulaire ni collecte de données, ce qui simplifie aussi le volet RGPD.",
-      "Un étalonnage des 48 photos, prises à des moments et sous des lumières différentes, pour que la galerie tienne comme une série cohérente.",
-    ],
-    livre: [
-      'Site en ligne sur son nom de domaine, sans abonnement ni frais de transaction.',
-      'Galerie de 48 pièces en 6 collections, éditable par la créatrice.',
-      'Photos, textes et bannière modifiables en autonomie, publication immédiate.',
-      'Aucun cookie ni formulaire, donc aucune donnée personnelle collectée sur le site.',
-      "Un guide d'utilisation de l'espace d'édition, remis en PDF.",
-    ],
-    images: [
-      {
-        src: imgCoquetteAccueil,
-        alt: "Page d'accueil du site La Coquette, bijoux fait main",
-        legende: "La page d'accueil : la promesse en une phrase, une vraie photo de ses créations, et deux chemins seulement, la galerie ou Instagram.",
-      },
-      {
-        src: imgCoquetteGalerie,
-        alt: 'Page galerie du site La Coquette, collections de boucles d\'oreilles',
-        legende: 'La galerie : 6 collections, le nombre de pièces annoncé pour chacune, et les photos étalonnées en une série cohérente.',
-      },
-    ],
-  },
 ];
+
+/*
+ * La Coquette (bijoux fait main, Saint-Paul-lès-Romans) a été retirée de cette
+ * liste le 12/08/2026, sur décision de Célestin : le site livré ne tient pas le
+ * niveau qu'une étude de cas est censée démontrer, et il ne veut pas qu'un
+ * prospect le voie. Le site reste en ligne pour la cliente, il n'est simplement
+ * plus présenté comme référence.
+ *
+ * Ses deux captures dorment dans src/assets/images/realisations/ : elles ne
+ * sont plus importées, donc plus buildées ni déployées. Elles attendent une
+ * éventuelle refonte du site, après laquelle l'étude de cas pourra être
+ * réécrite à partir de l'historique Git.
+ *
+ * L'adresse /realisations/la-coquette a été publiée : une redirection 301 vers
+ * /realisations est posée dans vercel.json. Ne pas la retirer.
+ */
 
 export const realisationParSlug = (slug: string) =>
   realisations.find((r) => r.slug === slug);
