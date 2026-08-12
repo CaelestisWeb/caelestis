@@ -276,13 +276,22 @@ function versPDF(elements, chemin) {
 }
 
 /* ── Fabrication ───────────────────────────────────────────── */
+const PX = (mmValeur) => Math.round((mmValeur / 25.4) * 300);
+
 for (const [nom, elements] of Object.entries(CARTES)) {
   const svg = versSVG(elements);
   writeFileSync(`${SORTIE}/carte-${nom}.svg`, svg);
-  await sharp(Buffer.from(svg), { density: 300 })
-    .resize({ width: Math.round((L / 25.4) * 300) })
+  const rendu = await sharp(Buffer.from(svg), { density: 300 }).resize({ width: PX(L) }).png().toBuffer();
+  writeFileSync(`${SORTIE}/carte-${nom}-300dpi.png`, rendu);
+
+  /* Version au format fini, fond perdu rogne : c'est celle qu'on montre a
+     l'ecran ou qu'on joint a un courriel, l'imprimeur seul a besoin des
+     3 mm de debord. */
+  await sharp(rendu)
+    .extract({ left: PX(FOND_PERDU), top: PX(FOND_PERDU), width: PX(CARTE_L), height: PX(CARTE_H) })
     .png()
-    .toFile(`${SORTIE}/carte-${nom}-300dpi.png`);
+    .toFile(`${SORTIE}/carte-${nom}-apercu.png`);
+
   await versPDF(elements, `${SORTIE}/carte-${nom}.pdf`);
 }
 
