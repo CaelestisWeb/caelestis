@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Affiches Instagram Caelestis, la planche</title>
+<link rel="stylesheet" href="assets/affiche.css">
+<style>
+  body { display: block; background: var(--creme); padding: 0; }
+  .page { max-width: 1420px; margin: 0 auto; padding: 72px 48px 96px; }
+
+  header { border-bottom: 1px solid var(--creme-fonce); padding-bottom: 34px; margin-bottom: 54px; }
+  header .haut { display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+  header img { height: 30px; width: auto; display: block; }
+  header .lieu { font-size: 15px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--olive); }
+  header h1 { margin-top: 40px; font-size: 54px; font-weight: 700; letter-spacing: -0.038em; line-height: 1.06; color: var(--encre); }
+  header h1 .accent { color: var(--vert); }
+  header p { margin-top: 20px; font-size: 19px; line-height: 1.6; color: var(--olive); max-width: 760px; }
+  header code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 16px;
+    background: var(--sauge-pale); color: var(--vert); padding: 4px 10px; border-radius: 6px;
+  }
+
+  .grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 52px 40px; }
+
+  figure { margin: 0; }
+  figure > a { display: block; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 40px -22px rgba(18, 22, 15, .42); }
+  figure > a:hover { box-shadow: 0 26px 54px -20px rgba(18, 22, 15, .55); }
+  figure img { display: block; width: 100%; height: auto; }
+
+  figcaption { margin-top: 18px; }
+  figcaption .rang { font-size: 13px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--sauge-texte); }
+  figcaption .nom { margin-top: 7px; font-size: 24px; font-weight: 700; letter-spacing: -0.028em; color: var(--encre); }
+  figcaption .quoi { margin-top: 7px; font-size: 17px; line-height: 1.5; color: var(--olive); }
+  figcaption .fichiers { margin-top: 12px; font-size: 15px; }
+  figcaption .fichiers a { color: var(--vert); font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--sauge); }
+  figcaption .fichiers a:hover { border-bottom-color: var(--vert); }
+  figcaption .fichiers span { color: var(--sauge); margin-right: 8px; }
+
+  footer { margin-top: 76px; border-top: 1px solid var(--creme-fonce); padding-top: 30px; font-size: 17px; color: var(--olive); }
+  footer b { color: var(--encre); font-weight: 500; }
+
+  @media (max-width: 1100px) { .grille { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 720px) { .grille { grid-template-columns: 1fr; } .page { padding: 48px 24px 64px; } header h1 { font-size: 38px; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="haut">
+      <img src="assets/wordmark-vert.svg" alt="Caelestis">
+      <span class="lieu">Réseaux sociaux, Instagram</span>
+    </div>
+    <h1>Dix affiches,<br><span class="accent">un format, une charte.</span></h1>
+    <p>Format natif du fil, 1080 x 1350 pixels, rendu sans interpolation. Chaque vignette ouvre le PNG en taille réelle. Pour régénérer l'ensemble après une modification, lancer <code>node identite/reseaux/instagram/build.mjs</code> depuis la racine du projet.</p>
+  </header>
+
+  <div class="grille">
+
+    <figure>
+      <a href="export/caelestis-instagram-1-le-site.png"><img src="export/caelestis-instagram-1-le-site.jpg" alt="Affiche 1, l'accroche"></a>
+      <figcaption>
+        <p class="rang">01, accroche</p>
+        <p class="nom">Le site</p>
+        <p class="quoi">La promesse de marque, le site en fenêtre de navigateur et sa version mobile.</p>
+        <p class="fichiers"><a href="export/caelestis-instagram-1-le-site.png">PNG</a><span>,</span><a href="export/caelestis-instagram-1-le-site.jpg">JPEG</a><span>,</span><a href="affiche-1-le-site.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-instagram-2-formules.png"><img src="export/caelestis-instagram-2-formules.jpg" alt="Affiche 2, les formules"></a>
+      <figcaption>
+        <p class="rang">02, prix</p>
+        <p class="nom">Les formules</p>
+        <p class="quoi">Les quatre formules et leur tarif, la page réalisations en pied.</p>
+        <p class="fichiers"><a href="export/caelestis-instagram-2-formules.png">PNG</a><span>,</span><a href="export/caelestis-instagram-2-formules.jpg">JPEG</a><span>,</span><a href="affiche-2-formules.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-instagram-3-univers.png"><img src="export/caelestis-instagram-3-univers.jpg" alt="Affiche 3, l'univers"></a>
+      <figcaption>
+        <p class="rang">03, univers et appel</p>
+        <p class="nom">Pour qui nous travaillons</p>
+        <p class="quoi">Trois ateliers en photo, les statuts visés, le contact en pavé vert.</p>
+        <p class="fichiers"><a href="export/caelestis-instagram-3-univers.png">PNG</a><span>,</span><a href="export/caelestis-instagram-3-univers.jpg">JPEG</a><span>,</span><a href="affiche-3-univers.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-instagram-4-realisations.png"><img src="export/caelestis-instagram-4-realisations.jpg" alt="Affiche 4, les réalisations"></a>
+      <figcaption>
+        <p class="rang">04, preuve</p>
+        <p class="nom">Les réalisations</p>
+        <p class="quoi">Les deux sites clients en ligne, chacun avec sa propre identité.</p>
+        <p class="fichiers"><a href="export/caelestis-instagram-4-realisations.png">PNG</a><span>,</span><a href="export/caelestis-instagram-4-realisations.jpg">JPEG</a><span>,</span><a href="affiche-4-realisations.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-instagram-5-deroule.png"><img src="export/caelestis-instagram-5-deroule.jpg" alt="Affiche 5, le déroulé"></a>
+      <figcaption>
+        <p class="rang">05, pédagogie</p>
+        <p class="nom">Le déroulé</p>
+        <p class="quoi">Les quatre temps, du premier échange à la mise en ligne.</p>
+        <p class="fichiers"><a href="export/caelestis-instagram-5-deroule.png">PNG</a><span>,</span><a href="export/caelestis-instagram-5-deroule.jpg">JPEG</a><span>,</span><a href="affiche-5-deroule.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-instagram-6-fondateur.png"><img src="export/caelestis-instagram-6-fondateur.jpg" alt="Affiche 6, le fondateur"></a>
+      <figcaption>
+        <p class="rang">06, humain</p>
+        <p class="nom">Le fondateur</p>
+        <p class="quoi">Qui répond au téléphone, d'où vient le nom, la fiche d'identité.</p>
+        <p class="fichiers"><a href="export/caelestis-instagram-6-fondateur.png">PNG</a><span>,</span><a href="export/caelestis-instagram-6-fondateur.jpg">JPEG</a><span>,</span><a href="affiche-6-fondateur.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-instagram-7-point-de-rencontre.png"><img src="export/caelestis-instagram-7-point-de-rencontre.jpg" alt="Affiche 7, le point de rencontre"></a>
+      <figcaption>
+        <p class="rang">07, problème résolu</p>
+        <p class="nom">Le point de rencontre</p>
+        <p class="quoi">Les six canaux qui ramènent déjà vers vous, et l'endroit qui manque.</p>
+        <p class="fichiers"><a href="export/caelestis-instagram-7-point-de-rencontre.png">PNG</a><span>,</span><a href="export/caelestis-instagram-7-point-de-rencontre.jpg">JPEG</a><span>,</span><a href="affiche-7-point-de-rencontre.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-instagram-8-engagements.png"><img src="export/caelestis-instagram-8-engagements.jpg" alt="Affiche 8, les engagements"></a>
+      <figcaption>
+        <p class="rang">08, confiance</p>
+        <p class="nom">Les engagements</p>
+        <p class="quoi">Quatre repères tenus, vérifiables avant même le premier échange.</p>
+        <p class="fichiers"><a href="export/caelestis-instagram-8-engagements.png">PNG</a><span>,</span><a href="export/caelestis-instagram-8-engagements.jpg">JPEG</a><span>,</span><a href="affiche-8-engagements.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-instagram-9-referencement.png"><img src="export/caelestis-instagram-9-referencement.jpg" alt="Affiche 9, le référencement"></a>
+      <figcaption>
+        <p class="rang">09, utilité</p>
+        <p class="nom">Le référencement</p>
+        <p class="quoi">Une page de résultats évoquée, et la méthode en trois points.</p>
+        <p class="fichiers"><a href="export/caelestis-instagram-9-referencement.png">PNG</a><span>,</span><a href="export/caelestis-instagram-9-referencement.jpg">JPEG</a><span>,</span><a href="affiche-9-referencement.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-instagram-10-identite.png"><img src="export/caelestis-instagram-10-identite.jpg" alt="Affiche 10, la charte"></a>
+      <figcaption>
+        <p class="rang">10, savoir-faire</p>
+        <p class="nom">La charte</p>
+        <p class="quoi">Les neuf teintes de la marque, les quatre graisses de Satoshi.</p>
+        <p class="fichiers"><a href="export/caelestis-instagram-10-identite.png">PNG</a><span>,</span><a href="export/caelestis-instagram-10-identite.jpg">JPEG</a><span>,</span><a href="affiche-10-identite.html">source</a></p>
+      </figcaption>
+    </figure>
+
+  </div>
+
+  <footer>
+    <p><b>Ordre conseillé.</b> Premier carrousel : 1, 4, 2. Second carrousel : 7, 5, 8. Les affiches 6, 9 et 10 fonctionnent seules. Les légendes rédigées pour chacune sont dans le fichier LISEZ-MOI du dossier.</p>
+  </footer>
+
+</div>
+</body>
+</html>

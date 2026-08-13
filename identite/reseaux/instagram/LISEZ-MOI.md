@@ -17,6 +17,14 @@ Dix affiches au format **1080 x 1350** (4:5, le format qui occupe le plus de pla
 
 Ordre conseillé pour un premier carrousel : 1, 4, 2. Pour un second : 7, 5, 8. Les affiches 6, 9 et 10 fonctionnent seules.
 
+## Les voir toutes
+
+`planche.html` réunit les dix vignettes avec leur rôle et un lien vers chaque fichier. À ouvrir dans Chrome :
+
+```powershell
+Start-Process "C:\Program Files\Google\Chrome\Application\chrome.exe" "file:///C:/dev/caelestis/identite/reseaux/instagram/planche.html"
+```
+
 ## Régénérer
 
 ```bash
