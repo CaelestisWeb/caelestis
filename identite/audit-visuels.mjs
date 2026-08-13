@@ -195,7 +195,17 @@ for (const [rel, fond] of [
 console.log('\n--- Cartes de visite, mesures en millimetres ---');
 const CARTE = { L: 91, H: 61, coupe: 3, securite: 8 };  // securite = 3 mm de fond perdu + 5 mm
 const cartesHorsZone = [];
-for (const face of ['piste-A-recto', 'piste-A-verso', 'piste-B-recto', 'piste-B-verso']) {
+/* Le controle des bords gauches ne vaut que pour une composition alignee a
+   gauche : sur une carte centree, chaque bloc a son propre bord, c'est voulu. */
+const FACES = [
+  ['piste-A-recto', 'gauche'],
+  ['piste-A-verso', 'gauche'],
+  ['piste-B-recto', 'gauche'],
+  ['piste-B-verso', 'gauche'],
+  ['piste-C-recto', 'centre'],
+  ['piste-C-verso', 'centre'],
+];
+for (const [face, composition] of FACES) {
   const svg = `${ID}/logo/impression/carte-${face}.svg`;
   if (!existsSync(svg)) { console.log(`  ${face} : absent`); continue; }
   // Le fond de la carte occupe toute la page : on mesure sur cette couleur.
@@ -210,11 +220,22 @@ for (const face of ['piste-A-recto', 'piste-A-verso', 'piste-B-recto', 'piste-B-
   console.log(`  ${face.padEnd(14)} marges G ${String(g).padStart(5)} D ${String(d).padStart(5)} H ${String(h).padStart(5)} B ${String(b).padStart(5)} | securite ${CARTE.securite} mm : ${ok ? 'respectee' : 'DEBORDEMENT'}`);
   if (!ok) cartesHorsZone.push(face);
 
-  // Alignement a gauche : chaque bande horizontale doit partir de la meme marge
-  const gauches = a.blocsY.map(([y0, y1]) => enMm(a.boiteBande(y0, y1, true).min, a.L));
-  const ecartAlign = +(Math.max(...gauches) - Math.min(...gauches)).toFixed(2);
-  console.log(`    ${a.blocsY.length} bloc(s), bords gauches ${gauches.join(' | ')} mm, ecart ${ecartAlign} mm${ecartAlign > 0.4 ? '  <-- ALIGNEMENT A REVOIR' : ''}`);
-  if (ecartAlign > 0.4) cartesHorsZone.push(`${face} (alignement)`);
+  if (composition === 'gauche') {
+    // Chaque bande horizontale doit partir de la meme marge
+    const gauches = a.blocsY.map(([y0, y1]) => enMm(a.boiteBande(y0, y1, true).min, a.L));
+    const ecart = +(Math.max(...gauches) - Math.min(...gauches)).toFixed(2);
+    console.log(`    ${a.blocsY.length} bloc(s) alignes a gauche : ${gauches.join(' | ')} mm, ecart ${ecart} mm${ecart > 0.4 ? '  <-- ALIGNEMENT A REVOIR' : ''}`);
+    if (ecart > 0.4) cartesHorsZone.push(`${face} (alignement)`);
+  } else {
+    // Chaque bande doit avoir son propre centre sur l'axe de la carte
+    const ecarts = a.blocsY.map(([y0, y1]) => {
+      const b = a.boiteBande(y0, y1, true);
+      return +(enMm((b.min + b.max) / 2, a.L) - CARTE.L / 2).toFixed(2);
+    });
+    const max = Math.max(...ecarts.map(Math.abs));
+    console.log(`    ${a.blocsY.length} bloc(s) centres, ecart a l'axe ${ecarts.join(' | ')} mm${max > 0.4 ? '  <-- CENTRAGE A REVOIR' : ''}`);
+    if (max > 0.4) cartesHorsZone.push(`${face} (centrage)`);
+  }
 }
 
 console.log(`\n${problemes.length} visuel(s) hors tolerance${cartesHorsZone.length ? `, ${cartesHorsZone.length} probleme(s) sur les cartes` : ''} :`);
