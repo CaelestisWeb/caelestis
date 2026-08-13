@@ -19,11 +19,14 @@ Ordre conseillé pour un premier carrousel : 1, 4, 2. Pour un second : 7, 5, 8. 
 
 ## Les voir toutes
 
-`planche.html` réunit les dix vignettes avec leur rôle et un lien vers chaque fichier. À ouvrir dans Chrome :
+`planche.html` réunit les dix vignettes avec leur rôle et un lien vers chaque fichier. Elle se sert en local, sur le port 4600 :
 
 ```powershell
-Start-Process "C:\Program Files\Google\Chrome\Application\chrome.exe" "file:///C:/dev/caelestis/identite/reseaux/instagram/planche.html"
+node identite/reseaux/instagram/serve.mjs
+Start-Process "C:\Program Files\Google\Chrome\Application\chrome.exe" "http://localhost:4600"
 ```
+
+Le serveur ne sert que ce dossier et refuse toute remontée d'arborescence. Changer de port si besoin avec la variable `PORT`.
 
 ## Régénérer
 
