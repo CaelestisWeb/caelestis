@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, affiche 9, le référencement</title>
+<link rel="stylesheet" href="assets/affiche.css">
+<style>
+  .a9 { background: var(--creme); color: var(--encre); }
+  .a9 .entete .lieu { color: var(--olive); }
+  .a9 .filet { top: 148px; background: var(--creme-fonce); }
+
+  .a9 .bloc-texte { position: absolute; top: 206px; left: var(--marge); right: var(--marge); z-index: 5; }
+  .a9 .eyebrow { color: var(--sauge-texte); margin-bottom: 26px; }
+  .a9 h1 { font-size: 56px; color: var(--vert); }
+  .a9 h1 .accent { color: var(--encre); }
+
+  /* évocation neutre d'une page de résultats, aucune marque reprise */
+  .a9 .recherche {
+    position: absolute; top: 442px; left: var(--marge); right: var(--marge); z-index: 5;
+    height: 68px; border-radius: 34px; background: var(--creme);
+    border: 1px solid var(--sauge);
+    box-shadow: 0 12px 26px -18px rgba(18, 22, 15, .3);
+    display: flex; align-items: center; gap: 18px; padding: 0 30px;
+  }
+  .a9 .recherche svg { width: 24px; height: 24px; stroke: var(--olive); stroke-width: 1.6; fill: none; stroke-linecap: round; flex: none; }
+  .a9 .recherche span { font-size: 22px; color: var(--olive); }
+
+  .a9 .resultats {
+    position: absolute; top: 548px; bottom: 262px; left: var(--marge); right: var(--marge); z-index: 5;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .a9 .res { padding: 24px 0 24px 26px; border-left: 3px solid transparent; }
+  .a9 .res.premier { border-left-color: var(--vert); background: var(--sauge-pale); border-radius: 0 12px 12px 0; }
+  .a9 .res.suivant { border-left-color: var(--creme-fonce); }
+  .a9 .res .lien { font-size: 25px; font-weight: 500; color: var(--vert); letter-spacing: -0.018em; }
+  .a9 .res .adresse { margin-top: 5px; font-size: 16px; color: var(--olive); }
+  .a9 .res .txt { margin-top: 10px; font-size: 17px; line-height: 1.5; color: var(--olive); max-width: 640px; }
+  .a9 .res .barre { height: 12px; border-radius: 6px; background: var(--creme-fonce); }
+  .a9 .res .barre + .barre { margin-top: 11px; }
+  .a9 .res .barre.titre { height: 20px; border-radius: 10px; background: var(--sauge); }
+  .a9 .res .barre.mince { height: 9px; margin-top: 13px; }
+  .a9 .rang-note { margin-top: 14px; font-size: 14px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--sauge-texte); }
+
+  .a9 .methode {
+    position: absolute; bottom: 92px; left: var(--marge); right: var(--marge); z-index: 5;
+    border-top: 1px solid var(--creme-fonce); padding-top: 24px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
+  }
+  .a9 .methode .t { font-size: 20px; font-weight: 700; letter-spacing: -0.024em; color: var(--encre); }
+  .a9 .methode .d { margin-top: 7px; font-size: 16px; line-height: 1.48; color: var(--olive); }
+</style>
+</head>
+<body>
+<div class="affiche a9">
+
+  <div class="entete">
+    <img src="assets/wordmark-vert.svg" alt="Caelestis">
+    <span class="lieu">Référencement naturel</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Être visible sans payer la publicité</p>
+    <h1>Être trouvé par ceux<br><span class="accent">qui vous cherchent déjà.</span></h1>
+  </div>
+
+  <div class="recherche">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4L21 21"/></svg>
+    <span>savonnerie artisanale près de Crest</span>
+  </div>
+
+  <div class="resultats">
+    <div class="res premier">
+      <p class="lien">Votre atelier, à Crest</p>
+      <p class="adresse">votre-nom.fr</p>
+      <p class="txt">Savons à froid fabriqués sur place, visite de l'atelier sur rendez-vous, vente directe du mardi au samedi.</p>
+      <p class="rang-note">La place que nous visons</p>
+    </div>
+    <div class="res suivant">
+      <div class="barre titre" style="width: 42%"></div>
+      <div class="barre mince" style="width: 24%"></div>
+      <div class="barre" style="width: 68%"></div>
+      <div class="barre" style="width: 51%"></div>
+    </div>
+    <div class="res suivant">
+      <div class="barre titre" style="width: 36%"></div>
+      <div class="barre mince" style="width: 21%"></div>
+      <div class="barre" style="width: 61%"></div>
+      <div class="barre" style="width: 44%"></div>
+    </div>
+  </div>
+
+  <div class="methode">
+    <div>
+      <p class="t">Les bons mots</p>
+      <p class="d">Ceux que vos clients tapent vraiment, pas le vocabulaire du métier.</p>
+    </div>
+    <div>
+      <p class="t">Un site rapide</p>
+      <p class="d">La vitesse et la structure comptent autant que le texte.</p>
+    </div>
+    <div>
+      <p class="t">Un travail de fond</p>
+      <p class="d">Mené avec méthode, mesuré, sans promesse de première place.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

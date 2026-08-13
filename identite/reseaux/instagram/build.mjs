@@ -32,6 +32,13 @@ const AFFICHES = [
   ['affiche-1-le-site.html', 'caelestis-instagram-1-le-site.png'],
   ['affiche-2-formules.html', 'caelestis-instagram-2-formules.png'],
   ['affiche-3-univers.html', 'caelestis-instagram-3-univers.png'],
+  ['affiche-4-realisations.html', 'caelestis-instagram-4-realisations.png'],
+  ['affiche-5-deroule.html', 'caelestis-instagram-5-deroule.png'],
+  ['affiche-6-fondateur.html', 'caelestis-instagram-6-fondateur.png'],
+  ['affiche-7-point-de-rencontre.html', 'caelestis-instagram-7-point-de-rencontre.png'],
+  ['affiche-8-engagements.html', 'caelestis-instagram-8-engagements.png'],
+  ['affiche-9-referencement.html', 'caelestis-instagram-9-referencement.png'],
+  ['affiche-10-identite.html', 'caelestis-instagram-10-identite.png'],
 ];
 
 const nav = await chromium.launch();

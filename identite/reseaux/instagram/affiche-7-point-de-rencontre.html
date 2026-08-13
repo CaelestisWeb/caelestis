@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, affiche 7, le point de rencontre</title>
+<link rel="stylesheet" href="assets/affiche.css">
+<style>
+  .a7 { background: var(--creme); color: var(--encre); }
+  .a7 .entete .lieu { color: var(--olive); }
+  .a7 .filet { top: 148px; background: var(--creme-fonce); }
+
+  .a7 .bloc-texte { position: absolute; top: 206px; left: var(--marge); right: var(--marge); z-index: 5; }
+  .a7 .eyebrow { color: var(--sauge-texte); margin-bottom: 26px; }
+  .a7 h1 { font-size: 56px; color: var(--encre); }
+  .a7 h1 .accent { color: var(--vert); }
+
+  /* schéma : deux colonnes d'étiquettes qui convergent, aucun chevauchement possible
+     (gauche 0 à 210, centre 326 à 586, droite 702 à 912) */
+  .a7 .schema { position: absolute; top: 396px; left: var(--marge); right: var(--marge); z-index: 5; }
+  .a7 .schema svg { display: block; width: 100%; height: auto; }
+  .a7 .etiq { fill: var(--creme); stroke: var(--sauge); stroke-width: 1; }
+  .a7 .etiq-t { font-family: 'Satoshi'; font-size: 18px; font-weight: 500; fill: var(--olive); }
+  .a7 .lien { fill: none; stroke: var(--sauge); stroke-width: 1.2; }
+  .a7 .coeur { fill: var(--vert); }
+  .a7 .coeur-t { font-family: 'Satoshi'; font-size: 23px; font-weight: 700; letter-spacing: -0.02em; fill: var(--creme); }
+
+  .a7 .dire {
+    position: absolute; top: 1004px; left: var(--marge); right: 200px; z-index: 5;
+    font-size: 21px; line-height: 1.62; color: var(--olive);
+  }
+  .a7 .dire b { font-weight: 500; color: var(--encre); }
+
+  .a7 .clore {
+    position: absolute; bottom: 96px; left: var(--marge); right: var(--marge); z-index: 5;
+    border-top: 1px solid var(--creme-fonce); padding-top: 22px;
+    font-size: 24px; font-weight: 700; letter-spacing: -0.024em; color: var(--vert);
+  }
+</style>
+</head>
+<body>
+<div class="affiche a7">
+
+  <div class="entete">
+    <img src="assets/wordmark-vert.svg" alt="Caelestis">
+    <span class="lieu">caelestis.fr</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Pourquoi un site</p>
+    <h1>Tout ce que vous avez bâti,<br><span class="accent">enfin réuni.</span></h1>
+  </div>
+
+  <div class="schema">
+    <svg viewBox="0 0 912 540" role="img" aria-label="Six canaux qui ramènent vers votre site">
+      <path class="lien" d="M210 67 C 262 67, 274 270, 326 270"/>
+      <path class="lien" d="M210 270 L 326 270"/>
+      <path class="lien" d="M210 473 C 262 473, 274 270, 326 270"/>
+      <path class="lien" d="M702 67 C 650 67, 638 270, 586 270"/>
+      <path class="lien" d="M702 270 L 586 270"/>
+      <path class="lien" d="M702 473 C 650 473, 638 270, 586 270"/>
+
+      <rect class="etiq" x="0" y="40" width="210" height="54" rx="27"/>
+      <text class="etiq-t" x="105" y="67" text-anchor="middle" dominant-baseline="central">Fiche Google</text>
+      <rect class="etiq" x="0" y="243" width="210" height="54" rx="27"/>
+      <text class="etiq-t" x="105" y="270" text-anchor="middle" dominant-baseline="central">Bouche à oreille</text>
+      <rect class="etiq" x="0" y="446" width="210" height="54" rx="27"/>
+      <text class="etiq-t" x="105" y="473" text-anchor="middle" dominant-baseline="central">Les marchés</text>
+
+      <rect class="etiq" x="702" y="40" width="210" height="54" rx="27"/>
+      <text class="etiq-t" x="807" y="67" text-anchor="middle" dominant-baseline="central">Instagram</text>
+      <rect class="etiq" x="702" y="243" width="210" height="54" rx="27"/>
+      <text class="etiq-t" x="807" y="270" text-anchor="middle" dominant-baseline="central">Facebook</text>
+      <rect class="etiq" x="702" y="446" width="210" height="54" rx="27"/>
+      <text class="etiq-t" x="807" y="473" text-anchor="middle" dominant-baseline="central">Presse locale</text>
+
+      <rect class="coeur" x="326" y="222" width="260" height="96" rx="20"/>
+      <text class="coeur-t" x="456" y="270" text-anchor="middle" dominant-baseline="central">Votre site</text>
+    </svg>
+  </div>
+
+  <p class="dire">Une fiche Google, de belles photos, des clients qui vous recommandent, un bouche-à-oreille qui tourne. <b>Vous avez déjà semé partout, et chacun travaille pour vous.</b> Il ne manque que l'endroit qui rassemble le tout.</p>
+
+  <p class="clore">Une adresse à votre nom, où chaque canal ramène.</p>
+
+</div>
+</body>
+</html>

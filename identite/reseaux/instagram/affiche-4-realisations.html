@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, affiche 4, les réalisations</title>
+<link rel="stylesheet" href="assets/affiche.css">
+<style>
+  .a4 { background: var(--creme); color: var(--encre); }
+  .a4 .entete .lieu { color: var(--olive); }
+  .a4 .filet { top: 148px; background: var(--creme-fonce); }
+
+  .a4 .bloc-texte { position: absolute; top: 206px; left: var(--marge); right: var(--marge); z-index: 5; }
+  .a4 .eyebrow { color: var(--sauge-texte); margin-bottom: 26px; }
+  .a4 h1 { font-size: 58px; color: var(--vert); }
+  .a4 h1 .accent { color: var(--encre); }
+
+  .a4 .fenetre {
+    top: 424px; left: 302px; width: 736px;
+    box-shadow: 0 38px 74px -26px rgba(18, 22, 15, .38), 0 0 0 1px rgba(18, 22, 15, .07);
+  }
+  .a4 .fenetre .cadre { height: 424px; overflow: hidden; }
+  .a4 .fenetre .cadre img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; }
+
+  .a4 .tel { left: 84px; top: 582px; width: 254px; box-shadow: 0 30px 58px -20px rgba(18, 22, 15, .42); }
+
+  .a4 .legendes {
+    position: absolute; top: 1176px; left: var(--marge); right: var(--marge);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px; z-index: 7;
+  }
+  .a4 .legendes .item { border-top: 1px solid var(--creme-fonce); padding-top: 18px; }
+  .a4 .legendes .nom { font-size: 25px; font-weight: 700; letter-spacing: -0.024em; color: var(--encre); }
+  .a4 .legendes .quoi { margin-top: 6px; font-size: 17px; color: var(--olive); }
+  .a4 .legendes .adresse { margin-top: 10px; font-size: 17px; font-weight: 500; color: var(--sauge-texte); }
+</style>
+</head>
+<body>
+<div class="affiche a4">
+
+  <div class="entete">
+    <img src="assets/wordmark-vert.svg" alt="Caelestis">
+    <span class="lieu">Réalisations</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Des sites en ligne, pas des maquettes</p>
+    <h1>Deux clientes, deux univers.<br><span class="accent">Aucun modèle réutilisé.</span></h1>
+  </div>
+
+  <div class="fenetre">
+    <div class="barre">
+      <span class="pastille"></span><span class="pastille"></span><span class="pastille"></span>
+      <span class="url">lacoquette-bycaro.fr</span>
+    </div>
+    <div class="cadre"><img src="captures/client-la-coquette-desktop.png" alt="Site de La Coquette, atelier de bijoux"></div>
+  </div>
+
+  <div class="tel">
+    <img src="captures/client-fee-des-ongles-mobile.png" alt="Site de Fée des Ongles sur téléphone">
+  </div>
+
+  <div class="legendes">
+    <div class="item">
+      <p class="nom">La Coquette</p>
+      <p class="quoi">Atelier de bijoux faits main, Drôme</p>
+      <p class="adresse">lacoquette-bycaro.fr</p>
+    </div>
+    <div class="item">
+      <p class="nom">Fée des Ongles</p>
+      <p class="quoi">Prothésiste ongulaire, Crest</p>
+      <p class="adresse">feedesongles.fr</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

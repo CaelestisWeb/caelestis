@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, affiche 10, l'identité</title>
+<link rel="stylesheet" href="assets/affiche.css">
+<style>
+  .a10 { background: var(--creme); color: var(--encre); }
+  .a10 .entete .lieu { color: var(--olive); }
+  .a10 .filet { top: 148px; background: var(--creme-fonce); }
+
+  .a10 .bloc-texte { position: absolute; top: 206px; left: var(--marge); right: var(--marge); z-index: 5; }
+  .a10 .eyebrow { color: var(--sauge-texte); margin-bottom: 26px; }
+  .a10 h1 { font-size: 56px; color: var(--encre); }
+  .a10 h1 .accent { color: var(--vert); }
+  .a10 .sous { margin-top: 22px; font-size: 20px; line-height: 1.5; color: var(--olive); max-width: 700px; }
+
+  /* z-index 10 : les aplats passent au-dessus du grain, la teinte reste exacte */
+  .a10 .nuancier {
+    position: absolute; top: 476px; left: var(--marge); right: var(--marge); z-index: 10;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .a10 .teinte .aplat { height: 126px; border-radius: 8px; border: 1px solid rgba(18, 22, 15, .08); }
+  .a10 .teinte .nom { margin-top: 10px; font-size: 16px; font-weight: 500; color: var(--encre); }
+  .a10 .teinte .hex { margin-top: 2px; font-size: 14px; color: var(--olive); letter-spacing: .04em; }
+
+  .a10 .typo {
+    position: absolute; bottom: 92px; left: var(--marge); right: var(--marge); z-index: 5;
+    border-top: 1px solid var(--creme-fonce); padding-top: 26px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 24px; align-items: end;
+  }
+  .a10 .typo .aa { font-size: 52px; line-height: 1; color: var(--vert); }
+  .a10 .typo .g300 { font-weight: 300; }
+  .a10 .typo .g400 { font-weight: 400; }
+  .a10 .typo .g500 { font-weight: 500; }
+  .a10 .typo .g700 { font-weight: 700; }
+  .a10 .typo .lab { margin-top: 12px; font-size: 14px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--olive); }
+</style>
+</head>
+<body>
+<div class="affiche a10">
+
+  <div class="entete">
+    <img src="assets/wordmark-vert.svg" alt="Caelestis">
+    <span class="lieu">Notre charte</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Une identité par client</p>
+    <h1>Neuf teintes, une police,<br><span class="accent">et rien d'autre.</span></h1>
+    <p class="sous">Voici la nôtre. Chaque client repart avec la sienne&nbsp;: sa palette, ses photos, son vocabulaire. Jamais celle-ci, jamais celle du voisin.</p>
+  </div>
+
+  <div class="nuancier">
+    <div class="teinte"><div class="aplat" style="background:#255C41"></div><p class="nom">Vert forêt</p><p class="hex">#255C41</p></div>
+    <div class="teinte"><div class="aplat" style="background:#1B4733"></div><p class="nom">Vert profond</p><p class="hex">#1B4733</p></div>
+    <div class="teinte"><div class="aplat" style="background:#2E7452"></div><p class="nom">Mousse foncée</p><p class="hex">#2E7452</p></div>
+    <div class="teinte"><div class="aplat" style="background:#B8C4BB"></div><p class="nom">Mousse</p><p class="hex">#B8C4BB</p></div>
+    <div class="teinte"><div class="aplat" style="background:#E3EFE8"></div><p class="nom">Lin mousse</p><p class="hex">#E3EFE8</p></div>
+    <div class="teinte"><div class="aplat" style="background:#FCFBF8"></div><p class="nom">Crème</p><p class="hex">#FCFBF8</p></div>
+    <div class="teinte"><div class="aplat" style="background:#E6E4DC"></div><p class="nom">Parchemin</p><p class="hex">#E6E4DC</p></div>
+    <div class="teinte"><div class="aplat" style="background:#5C6259"></div><p class="nom">Pierre</p><p class="hex">#5C6259</p></div>
+    <div class="teinte"><div class="aplat" style="background:#12160F"></div><p class="nom">Encre</p><p class="hex">#12160F</p></div>
+  </div>
+
+  <div class="typo">
+    <div><p class="aa g300">Aa</p><p class="lab">Light 300</p></div>
+    <div><p class="aa g400">Aa</p><p class="lab">Regular 400</p></div>
+    <div><p class="aa g500">Aa</p><p class="lab">Medium 500</p></div>
+    <div><p class="aa g700">Aa</p><p class="lab">Bold 700</p></div>
+  </div>
+
+</div>
+</body>
+</html>

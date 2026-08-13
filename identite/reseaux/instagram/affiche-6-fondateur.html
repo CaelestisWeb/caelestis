@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, affiche 6, le fondateur</title>
+<link rel="stylesheet" href="assets/affiche.css">
+<style>
+  .a6 { background: var(--sauge-pale); color: var(--encre); }
+  .a6 .entete .lieu { color: var(--olive); }
+  .a6 .filet { top: 148px; background: rgba(37, 92, 65, .18); }
+
+  /* texte à gauche, photo à droite sur toute la hauteur : les deux colonnes
+     se terminent au même niveau, sans vide résiduel */
+  .a6 .colonnes {
+    position: absolute; top: 206px; bottom: 186px; left: var(--marge); right: var(--marge);
+    display: grid; grid-template-columns: 1fr 396px; gap: 48px; z-index: 5;
+  }
+  .a6 .photo { height: 100%; border-radius: 10px; overflow: hidden; box-shadow: 0 26px 50px -24px rgba(18, 22, 15, .42); }
+  .a6 .photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 54% 50%; }
+
+  .a6 .propos { display: flex; flex-direction: column; min-width: 0; }
+  .a6 .eyebrow { color: var(--sauge-texte); margin-bottom: 24px; }
+  .a6 h1 { font-size: 46px; color: var(--vert); }
+  .a6 .dire { margin-top: 28px; font-size: 21px; line-height: 1.6; color: var(--encre); }
+  .a6 .dire + .dire { color: var(--olive); }
+
+  .a6 .exergue {
+    margin-top: 40px;
+    font-size: 30px; font-weight: 700; letter-spacing: -0.038em; line-height: 1.2; color: var(--vert);
+    border-left: 3px solid var(--vert); padding-left: 24px;
+  }
+
+  /* la fiche vient clore la colonne de texte, pas de bloc flottant en pied */
+  .a6 .fiche {
+    margin-top: auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 22px 26px;
+    border-top: 1px solid rgba(37, 92, 65, .22); padding-top: 24px;
+  }
+  .a6 .fiche dt { font-size: 13px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--sauge-texte); }
+  .a6 .fiche dd { margin-top: 8px; font-size: 22px; font-weight: 500; color: var(--encre); }
+
+  .a6 .pied {
+    position: absolute; bottom: 92px; left: var(--marge); right: var(--marge); z-index: 5;
+    display: flex; align-items: baseline; justify-content: space-between;
+    font-size: 21px; font-weight: 500;
+  }
+  .a6 .pied .g { color: var(--vert); font-weight: 700; letter-spacing: -0.024em; font-size: 24px; }
+  .a6 .pied .d { color: var(--olive); }
+</style>
+</head>
+<body>
+<div class="affiche a6">
+
+  <div class="entete">
+    <img src="assets/wordmark-vert.svg" alt="Caelestis">
+    <span class="lieu">À propos</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="colonnes">
+    <div class="propos">
+      <p class="eyebrow">Derrière l'agence</p>
+      <h1>Une personne, pas un standard téléphonique.</h1>
+      <p class="dire">Je suis Célestin Fruleux. Le nom Caelestis vient de mon prénom, dont l'origine latine évoque le ciel.</p>
+      <p class="dire">Un bon site internet ne change pas votre activité. Il la valorise, la rend visible, crédible et facile à trouver, et devient un véritable outil de croissance.</p>
+      <p class="dire">Vous avez la même personne au téléphone, au premier échange comme deux ans après la mise en ligne.</p>
+      <p class="exergue">Pour ceux qui créent quelque chose de beau.</p>
+      <dl class="fiche">
+        <div><dt>Basé à</dt><dd>Drôme</dd></div>
+        <div><dt>Métier</dt><dd>Création web</dd></div>
+        <div><dt>Aussi</dt><dd>Référencement</dd></div>
+        <div><dt>Réponse</dt><dd>Sous 48&nbsp;h</dd></div>
+      </dl>
+    </div>
+    <figure class="photo"><img src="assets/bureau-jardin.jpg" alt="Bureau de bois sous une pergola, dans un jardin"></figure>
+  </div>
+
+  <div class="pied">
+    <span class="g">caelestis.fr</span>
+    <span class="d">07 69 36 27 27</span>
+  </div>
+
+</div>
+</body>
+</html>
