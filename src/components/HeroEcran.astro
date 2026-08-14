@@ -208,8 +208,14 @@ const menu = [
   <div class="he-mobile">
     <p class="hm-eyebrow">Création de site web en<br><b>Auvergne-Rhône-Alpes</b></p>
     <div class="hm-core">
-      <h1 class="hm-title">Optez pour un site web,<br><span class="accent">digne de votre <span class="nobreak">savoir-faire.</span></span></h1>
-      <p class="hm-sub">Sur internet, on recherche, on compare, on choisit.<br><b>Nous faisons de vous, le choix évident.</b></p>
+      <!-- Trois lignes forcées, comme pour le sous-titre : sous 330 px de large,
+           la police descend assez bas pour que « digne de votre savoir-faire. »
+           se recompose sur une seule ligne et que le titre perde son étagement. -->
+      <h1 class="hm-title">Optez pour un site web,<br><span class="accent">digne de votre<br><span class="nobreak">savoir-faire.</span></span></h1>
+      <!-- Les deux retours forcés donnent trois lignes qui cassent sur les
+           virgules. Sans eux, la première ligne se termine par « on » et le mot
+           « compare » se retrouve seul en tête de deuxième ligne. -->
+      <p class="hm-sub">Sur internet, on recherche,<br>on compare, on choisit.<br><b>Nous faisons de vous, le choix évident.</b></p>
       <a class="hm-cta" href="/contact">Parler de mon projet</a>
     </div>
     <div class="hm-reassure">
@@ -380,7 +386,10 @@ const menu = [
 
   /* ── Mobile : le moniteur passe en portrait, navigation par points + swipe ── */
   @media(max-width:760px){
-    .hero-ecran{min-height:calc(100svh - 3.5rem);place-items:start center;padding:clamp(.8rem,2.5vh,1.6rem) clamp(.8rem,4vw,1.5rem)}
+    /* 4,05rem et non 3,5rem : le header mobile mesure 64,8 px, le hero
+       réservait 56 px et débordait donc de 9 px sous la ligne de flottaison,
+       ce qui rognait l'air prévu sous la réassurance. */
+    .hero-ecran{min-height:calc(100svh - 4.05rem);place-items:start center;padding:clamp(.8rem,2.5vh,1.6rem) clamp(.8rem,4vw,1.5rem)}
     .rig{width:93vw;animation:none}
     .bezel{padding:9px;border-radius:22px}
     .glass{height:min(66svh,560px);min-height:430px;border-radius:15px}
@@ -400,20 +409,46 @@ const menu = [
     .dot{width:7px;height:7px;border-radius:100px;border:0;padding:0;background:var(--color-sauge);cursor:pointer;transition:width .3s,background .3s}
     .dot.on{width:20px;background:var(--color-ocre)}
 
-    /* ── Mobile : le moniteur laisse place à un hero épuré (module A) ── */
+    /* ── Mobile : le moniteur laisse place à un hero épuré (module A) ──
+       Rythme vertical, revu le 14/08/2026. Trois groupes seulement : le
+       surtitre (ancré en haut), le cœur du message (titre, sous-titre, bouton)
+       et la réassurance (ancrée en bas). L'air se joue dans les deux rangées
+       vides, et non plus en space-between : celui-ci partageait le vide à
+       parts égales, ce qui posait le cœur trop haut (113 px au-dessus contre
+       144 px en dessous, mesuré sur 390 × 844). Les rangées valent 1,55 pour
+       une : le bloc central tombe juste sous le milieu de l'écran, là où le
+       pouce et le regard arrivent. Les minmax gardent de l'air sur les petits
+       écrans, où les fractions se réduisent presque à rien. */
     .rig{display:none}
     .hero-ecran{display:flex;flex-direction:column;align-items:center}
-    .he-mobile{display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;width:100%;max-width:24rem;flex:1;padding:2rem .5rem 2.4rem}
-    .hm-core{display:flex;flex-direction:column;align-items:center}
+    .he-mobile{display:grid;grid-template-rows:auto minmax(1.4rem,1.55fr) auto minmax(1.1rem,1fr) auto;
+      justify-items:center;text-align:center;width:100%;max-width:24rem;flex:1;padding:2rem .5rem 2.4rem}
+    .hm-eyebrow{grid-row:1}
+    .hm-core{grid-row:3;display:flex;flex-direction:column;align-items:center}
+    .hm-reassure{grid-row:5}
     .hm-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--color-brun-mid);margin:0;line-height:1.75}
     .hm-eyebrow b{color:var(--color-ocre);font-weight:500;border-bottom:1px solid rgba(37,92,65,.35);padding-bottom:1px}
-    .hm-title{font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,8.5vw,2.55rem);line-height:1.06;letter-spacing:-.035em;color:var(--color-ocre);margin-bottom:2.6rem}
+    /* Le titre s'interligne à 35 px : sous 2,4rem d'écart, le sous-titre se
+       lirait comme une quatrième ligne du titre. Le bouton, lui, se détache
+       nettement plus (3,2rem), c'est une action et non la suite de la phrase. */
+    /* 8,2vw et non 8,5vw. Mesuré le 14/08/2026 : à 8,5vw, « Optez pour un site
+       web, » ne tenait dans sa ligne qu'à 1 px près sur 390 px de large, et il
+       manquait 0,7 px sur 360 px, où « web, » tombait donc seul sur une
+       quatrième ligne. 8,2vw laisse 10 à 16 px de marge sur toute la plage
+       mobile, pour un corps de titre plus petit d'un pixel à peine. Le plancher
+       de 1,6rem couvre les écrans de 320 px, où les retours forcés du titre
+       maintiennent l'étagement en trois lignes.
+
+       Les deux écarts suivent la hauteur de l'écran, pas seulement la taille du
+       texte : sur un petit écran ils se resserrent d'une vingtaine de pixels,
+       qui repartent aux respirations entre les trois groupes. */
+    .hm-title{font-family:var(--font-display);font-weight:700;font-size:clamp(1.6rem,8.2vw,2.55rem);line-height:1.06;letter-spacing:-.035em;color:var(--color-ocre);margin-bottom:clamp(1.7rem,4.5vh,2.4rem)}
     .hm-title .accent{color:var(--color-sauge-vif)}
-    .hm-sub{font-size:1rem;line-height:1.6;color:var(--color-encre);max-width:32ch;margin-bottom:2.8rem}
+    .hm-sub{font-size:1rem;line-height:1.6;color:var(--color-encre);max-width:32ch;margin-bottom:clamp(2.2rem,6vh,3.2rem)}
     .hm-sub b{color:var(--color-encre);font-weight:600}
     .hm-cta{display:inline-block;background:var(--color-ocre);color:var(--color-cream);font-weight:500;font-size:1rem;padding:.95em 2.2em;border-radius:100px;box-shadow:0 14px 30px -12px rgba(37,92,65,.6)}
     .hm-cta:active{background:var(--color-ocre-dark)}
-    .hm-reassure{display:flex;justify-content:center;gap:14px;margin-top:1.9rem}
+    .hm-reassure{display:flex;justify-content:center;gap:14px}
     .hm-r{display:flex;flex-direction:column;align-items:center;gap:6px;width:92px}
     .hm-ric{width:32px;height:32px;border-radius:50%;background:var(--color-sauge-pale);display:flex;align-items:center;justify-content:center;flex:none}
     .hm-ric svg{width:16px;height:16px;stroke:var(--color-ocre);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
