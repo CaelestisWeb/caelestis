@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, offre 2, les trois métiers</title>
+<link rel="stylesheet" href="pub.css">
+<style>
+  .o2 { background: var(--vert); }
+  .o2 .bloc-texte { top: 214px; }
+  .o2 h1 { font-size: 82px; line-height: 1.04; }
+  .o2 h1 .b { color: var(--sauge); }
+
+  .o2 .sous {
+    position: absolute; top: 560px; left: var(--marge); right: 220px; z-index: 6;
+    font-size: 24px; line-height: 1.45; color: rgba(227, 239, 232, .84);
+  }
+
+  /* les trois lignes occupent toute la hauteur restante, aucun vide en pied */
+  .o2 .lignes {
+    position: absolute; top: 682px; bottom: 200px; left: var(--marge); right: var(--marge); z-index: 6;
+    display: flex; flex-direction: column;
+  }
+  .o2 .ligne {
+    flex: 1;
+    display: flex; align-items: center; justify-content: space-between; gap: 26px;
+    border-top: 1px solid rgba(252, 251, 248, .26);
+  }
+  .o2 .ligne:last-child { border-bottom: 1px solid rgba(252, 251, 248, .26); }
+  .o2 .ligne .g { min-width: 0; }
+  .o2 .ligne .quoi { font-size: 26px; font-weight: 500; letter-spacing: -0.02em; color: var(--creme); }
+  .o2 .ligne .d { margin-top: 7px; font-size: 18px; line-height: 1.45; color: rgba(227, 239, 232, .72); }
+  .o2 .ligne .prix { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--sauge); white-space: nowrap; text-align: right; }
+</style>
+</head>
+<body>
+<div class="affiche pub sur-vert o2">
+
+  <div class="entete">
+    <img src="../assets/wordmark-creme.svg" alt="Caelestis">
+    <span class="lieu">Drôme, Auvergne-Rhône-Alpes</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Ce que nous faisons</p>
+    <h1>Site internet.<br><span class="b">Fiche Google.</span><br>Référencement.</h1>
+  </div>
+
+  <p class="sous">Trois leviers pour la même chose&nbsp;: que l'on vous trouve, et que l'on vous choisisse. Un seul interlocuteur pour les trois.</p>
+
+  <div class="lignes">
+    <div class="ligne">
+      <div class="g">
+        <p class="quoi">Créer votre site</p>
+        <p class="d">Une page ou un site complet, écrit pour votre métier, en ligne en 2 à 8 semaines.</p>
+      </div>
+      <p class="prix">dès 1 000&nbsp;€</p>
+    </div>
+    <div class="ligne">
+      <div class="g">
+        <p class="quoi">Tenir votre fiche Google</p>
+        <p class="d">Photos, horaires, description, avis. La première chose qu'on voit de vous.</p>
+      </div>
+      <p class="prix">300&nbsp;€</p>
+    </div>
+    <div class="ligne">
+      <div class="g">
+        <p class="quoi">Vous faire remonter</p>
+        <p class="d">Les bases du référencement sont comprises dans chaque site. Sur devis pour un site existant.</p>
+      </div>
+      <p class="prix">compris</p>
+    </div>
+  </div>
+
+  <div class="cta">
+    <span class="bouton">07 69 36 27 27</span>
+    <span class="note">caelestis.fr<br>Devis gratuit sous 48&nbsp;h</span>
+  </div>
+
+</div>
+</body>
+</html>

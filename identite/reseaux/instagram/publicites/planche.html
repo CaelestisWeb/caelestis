@@ -21,6 +21,13 @@
 
   .grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 52px 40px; }
 
+  .titre-section {
+    font-size: 15px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--sauge-texte); margin-bottom: 26px;
+    border-top: 1px solid var(--creme-fonce); padding-top: 26px;
+  }
+  .titre-section:first-of-type { border-top: 0; padding-top: 0; }
+
   figure { margin: 0; }
   figure > a { display: block; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 40px -22px rgba(18, 22, 15, .42); }
   figure > a:hover { box-shadow: 0 26px 54px -20px rgba(18, 22, 15, .55); }
@@ -49,11 +56,48 @@
       <img src="../assets/wordmark-vert.svg" alt="Caelestis">
       <span class="lieu">Affiches publicitaires</span>
     </div>
-    <h1>Dix affiches,<br><span class="accent">dix messages qui vendent.</span></h1>
+    <h1>Trois affiches d'offre,<br><span class="accent">dix affiches par sujet.</span></h1>
     <p>Une phrase forte tirée du site, un module visuel qui prouve, un appel à l'action. Format 1080 x 1350 pixels, rendu sans interpolation. Chaque vignette ouvre le PNG en taille réelle.</p>
+    <p style="margin-top: 14px;">Les trois premières disent l'offre entière, sites internet, fiches Google et référencement. Ce sont celles à publier en premier, et à republier.</p>
     <p class="lien-serie"><a href="../planche.html">Voir la première série, les dix affiches éditoriales</a></p>
   </header>
 
+  <p class="titre-section">L'offre complète, les trois métiers réunis</p>
+  <div class="grille" style="margin-bottom: 68px;">
+
+    <figure>
+      <a href="export/caelestis-offre-1-parcours.png"><img src="export/caelestis-offre-1-parcours.jpg" alt="On vous cherche, on vous trouve, on vous choisit"></a>
+      <figcaption>
+        <p class="rang">A, le parcours</p>
+        <p class="nom">On vous cherche. On vous trouve. On vous choisit.</p>
+        <p class="quoi">Les trois services en trois temps : la recherche, la fiche, le site.</p>
+        <p class="fichiers"><a href="export/caelestis-offre-1-parcours.png">PNG</a><span>,</span><a href="export/caelestis-offre-1-parcours.jpg">JPEG</a><span>,</span><a href="offre-1-parcours.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-offre-2-trois-metiers.png"><img src="export/caelestis-offre-2-trois-metiers.jpg" alt="Site internet, fiche Google, référencement"></a>
+      <figcaption>
+        <p class="rang">B, les trois métiers</p>
+        <p class="nom">Site internet. Fiche Google. Référencement.</p>
+        <p class="quoi">L'offre nommée noir sur blanc, avec le prix d'entrée de chacune.</p>
+        <p class="fichiers"><a href="export/caelestis-offre-2-trois-metiers.png">PNG</a><span>,</span><a href="export/caelestis-offre-2-trois-metiers.jpg">JPEG</a><span>,</span><a href="offre-2-trois-metiers.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-offre-3-signature.png"><img src="export/caelestis-offre-3-signature.jpg" alt="Tout ce qu'il faut pour qu'on vous trouve"></a>
+      <figcaption>
+        <p class="rang">C, la signature</p>
+        <p class="nom">Tout ce qu'il faut pour qu'on vous trouve.</p>
+        <p class="quoi">Les trois services en pastilles, un site livré en grand, le numéro.</p>
+        <p class="fichiers"><a href="export/caelestis-offre-3-signature.png">PNG</a><span>,</span><a href="export/caelestis-offre-3-signature.jpg">JPEG</a><span>,</span><a href="offre-3-signature.html">source</a></p>
+      </figcaption>
+    </figure>
+
+  </div>
+
+  <p class="titre-section">Les dix affiches par sujet</p>
   <div class="grille">
 
     <figure>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, offre 3, la signature</title>
+<link rel="stylesheet" href="pub.css">
+<style>
+  .o3 { background: var(--vert-profond); }
+  .o3 h1 { font-size: 66px; }
+  .o3 .sous { margin-top: 26px; font-size: 23px; }
+
+  .o3 .services {
+    position: absolute; top: 604px; left: var(--marge); right: var(--marge); z-index: 7;
+    display: flex; flex-wrap: wrap; gap: 12px;
+  }
+  .o3 .services span {
+    display: inline-flex; align-items: center; gap: 11px;
+    font-size: 19px; font-weight: 500; color: var(--vert);
+    background: var(--creme); border-radius: 30px; padding: 14px 24px;
+    box-shadow: 0 20px 40px -22px rgba(0, 0, 0, .5);
+  }
+  .o3 .services span i { width: 8px; height: 8px; border-radius: 50%; background: var(--vert); display: block; flex: none; }
+
+  .o3 .fenetre {
+    top: 762px; left: 118px; width: 1044px;
+    box-shadow: 0 50px 96px -26px rgba(0, 0, 0, .62), 0 0 0 1px rgba(252, 251, 248, .07);
+  }
+  .o3 .fenetre .cadre { height: 560px; overflow: hidden; }
+  .o3 .fenetre .cadre img { display: block; width: 100%; margin-top: -46px; }
+
+  /* carte verte : sur une capture de site crème, une carte crème se fondrait */
+  .o3 .appel {
+    position: absolute; bottom: 84px; left: var(--marge); z-index: 9;
+    background: var(--vert); border-radius: 20px; padding: 26px 32px;
+    box-shadow: 0 40px 74px -20px rgba(0, 0, 0, .7);
+  }
+  .o3 .appel .t { font-size: 30px; font-weight: 700; letter-spacing: -0.028em; color: var(--creme); }
+  .o3 .appel .d { margin-top: 9px; font-size: 19px; font-weight: 500; color: var(--sauge); line-height: 1.45; }
+</style>
+</head>
+<body>
+<div class="affiche pub sur-vert o3">
+
+  <div class="entete">
+    <img src="../assets/wordmark-creme.svg" alt="Caelestis">
+    <span class="lieu">Agence web, Drôme</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Création de sites et visibilité en ligne</p>
+    <h1>Tout ce qu'il faut<br><span class="accent">pour qu'on vous trouve.</span></h1>
+    <p class="sous">Votre site, votre fiche Google, votre place dans les recherches.</p>
+  </div>
+
+  <div class="services">
+    <span><i></i>Site internet</span>
+    <span><i></i>Fiche Google</span>
+    <span><i></i>Référencement naturel</span>
+  </div>
+
+  <div class="fenetre">
+    <div class="barre">
+      <span class="pastille"></span><span class="pastille"></span><span class="pastille"></span>
+      <span class="url">lacoquette-bycaro.fr</span>
+    </div>
+    <div class="cadre"><img src="../captures/client-la-coquette-desktop.png" alt="Un site livré par Caelestis"></div>
+  </div>
+
+  <div class="appel">
+    <p class="t">07 69 36 27 27</p>
+    <p class="d">caelestis.fr<br>Devis gratuit, réponse sous 48&nbsp;h</p>
+  </div>
+
+</div>
+</body>
+</html>

@@ -26,6 +26,9 @@ async function chargerPlaywright() {
 const { chromium } = await chargerPlaywright();
 
 const AFFICHES = [
+  'offre-1-parcours',
+  'offre-2-trois-metiers',
+  'offre-3-signature',
   'pub-1-site-qui-reflete',
   'pub-2-etre-trouve',
   'pub-3-fiche-google',
@@ -50,7 +53,7 @@ for (const nom of AFFICHES) {
   await p.goto(pathToFileURL(chemin(nom + '.html')).href, { waitUntil: 'networkidle' });
   await p.evaluate(() => document.fonts.ready);
   await p.waitForTimeout(700);
-  const png = chemin('export', 'caelestis-pub-' + nom.replace(/^pub-/, '') + '.png');
+  const png = chemin('export', 'caelestis-' + nom.replace(/^pub-/, 'pub-') + '.png');
   await p.locator('.affiche').screenshot({ path: png });
   if (sharp) {
     await sharp(png).jpeg({ quality: 92, chromaSubsampling: '4:4:4' }).toFile(png.replace('.png', '.jpg'));

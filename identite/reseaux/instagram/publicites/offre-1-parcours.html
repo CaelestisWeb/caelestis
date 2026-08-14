@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, offre 1, le parcours</title>
+<link rel="stylesheet" href="pub.css">
+<style>
+  .o1 { background: var(--vert-profond); }
+  .o1 h1 { font-size: 60px; }
+  .o1 .bloc-texte { top: 206px; }
+
+  .o1 .etapes { position: absolute; top: 508px; left: var(--marge); right: var(--marge); z-index: 6; }
+  .o1 .etape + .etape { margin-top: 34px; }
+  .o1 .lab {
+    font-size: 14px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--sauge); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .o1 .lab i { width: 26px; height: 1px; background: rgba(184, 196, 187, .55); display: block; flex: none; }
+
+  /* 01, la recherche */
+  .o1 .recherche {
+    height: 62px; border-radius: 31px; background: var(--creme);
+    display: flex; align-items: center; gap: 16px; padding: 0 26px;
+    box-shadow: 0 24px 46px -24px rgba(0, 0, 0, .5);
+  }
+  .o1 .recherche svg { width: 21px; height: 21px; stroke: var(--olive); stroke-width: 1.7; fill: none; stroke-linecap: round; flex: none; }
+  .o1 .recherche span { font-size: 20px; color: var(--olive); }
+
+  /* 02, la fiche */
+  .o1 .fiche {
+    background: var(--creme); border-radius: 16px; padding: 22px 26px;
+    box-shadow: 0 24px 46px -24px rgba(0, 0, 0, .5);
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .o1 .fiche .nom { font-size: 24px; font-weight: 700; letter-spacing: -0.028em; color: var(--encre); }
+  .o1 .fiche .quoi { margin-top: 5px; font-size: 16px; color: var(--olive); }
+  .o1 .fiche .etoiles { display: flex; gap: 3px; margin-top: 9px; }
+  .o1 .fiche .etoiles svg { width: 16px; height: 16px; fill: var(--vert); }
+  .o1 .fiche .boutons { display: flex; gap: 9px; flex: none; }
+  .o1 .fiche .boutons span {
+    font-size: 15px; font-weight: 500; padding: 10px 18px; border-radius: 22px;
+    border: 1px solid var(--sauge); color: var(--vert);
+  }
+  .o1 .fiche .boutons span.plein { background: var(--vert); color: var(--creme); border-color: var(--vert); }
+
+  /* 03, le site */
+  .o1 .fenetre {
+    position: relative; top: auto; left: auto; width: 100%;
+    box-shadow: 0 30px 58px -26px rgba(0, 0, 0, .55), 0 0 0 1px rgba(252, 251, 248, .07);
+  }
+  .o1 .fenetre .barre { height: 38px; padding: 0 14px; }
+  .o1 .fenetre .pastille { width: 9px; height: 9px; }
+  .o1 .fenetre .url { height: 22px; font-size: 12px; }
+  .o1 .fenetre .cadre { height: 196px; overflow: hidden; }
+  .o1 .fenetre .cadre img { display: block; width: 100%; margin-top: -112px; }
+</style>
+</head>
+<body>
+<div class="affiche pub sur-vert o1">
+
+  <div class="entete">
+    <img src="../assets/wordmark-creme.svg" alt="Caelestis">
+    <span class="lieu">caelestis.fr</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Sites internet, fiches Google, référencement</p>
+    <h1>On vous cherche.<br>On vous trouve.<br><span class="accent">On vous choisit.</span></h1>
+  </div>
+
+  <div class="etapes">
+
+    <div class="etape">
+      <p class="lab"><i></i>01, Référencement naturel</p>
+      <div class="recherche">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4L21 21"/></svg>
+        <span>savonnerie artisanale près de Crest</span>
+      </div>
+    </div>
+
+    <div class="etape">
+      <p class="lab"><i></i>02, Fiche Google Entreprise</p>
+      <div class="fiche">
+        <div>
+          <p class="nom">Votre entreprise</p>
+          <p class="quoi">Savonnerie artisanale, Crest. Ouvert, ferme à 18 h 30</p>
+          <span class="etoiles">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+          </span>
+        </div>
+        <div class="boutons"><span class="plein">Itinéraire</span><span>Appeler</span></div>
+      </div>
+    </div>
+
+    <div class="etape">
+      <p class="lab"><i></i>03, Création de site internet</p>
+      <div class="fenetre">
+        <div class="barre">
+          <span class="pastille"></span><span class="pastille"></span><span class="pastille"></span>
+          <span class="url">votre-nom.fr</span>
+        </div>
+        <div class="cadre"><img src="../captures/client-la-coquette-desktop.png" alt="Un site livré par Caelestis"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cta">
+    <span class="bouton">Parler de mon projet</span>
+    <span class="note">caelestis.fr<br>07 69 36 27 27</span>
+  </div>
+
+</div>
+</body>
+</html>
