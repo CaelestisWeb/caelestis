@@ -6,36 +6,64 @@
 <link rel="stylesheet" href="pub.css">
 <style>
   .o3 { background: var(--vert-profond); }
-  .o3 h1 { font-size: 66px; }
-  .o3 .sous { margin-top: 26px; font-size: 23px; }
+  .o3 h1 { font-size: 64px; }
+  .o3 .sous { margin-top: 24px; font-size: 23px; }
 
-  .o3 .services {
-    position: absolute; top: 604px; left: var(--marge); right: var(--marge); z-index: 7;
-    display: flex; flex-wrap: wrap; gap: 12px;
+  /* trois cartes de service, chacune avec son module dessiné */
+  .o3 .cartes {
+    position: absolute; top: 594px; left: var(--marge); right: var(--marge); z-index: 6;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
   }
-  .o3 .services span {
-    display: inline-flex; align-items: center; gap: 11px;
-    font-size: 19px; font-weight: 500; color: var(--vert);
-    background: var(--creme); border-radius: 30px; padding: 14px 24px;
-    box-shadow: 0 20px 40px -22px rgba(0, 0, 0, .5);
+  .o3 .carte-s {
+    background: var(--creme); border-radius: 20px; padding: 22px 22px 24px;
+    box-shadow: 0 36px 68px -26px rgba(0, 0, 0, .55);
+    display: flex; flex-direction: column;
   }
-  .o3 .services span i { width: 8px; height: 8px; border-radius: 50%; background: var(--vert); display: block; flex: none; }
+  .o3 .carte-s .num {
+    font-size: 12px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--sauge-texte);
+  }
+  .o3 .carte-s .t { margin-top: 10px; font-size: 24px; font-weight: 700; letter-spacing: -0.03em; color: var(--encre); line-height: 1.15; }
+  .o3 .carte-s .d { margin-top: 8px; font-size: 15px; line-height: 1.45; color: var(--olive); }
+  .o3 .carte-s .module { margin-top: 18px; }
+  .o3 .carte-s .prix {
+    margin-top: auto; padding-top: 18px; border-top: 1px solid var(--creme-fonce);
+    font-size: 19px; font-weight: 700; letter-spacing: -0.02em; color: var(--vert);
+  }
 
-  .o3 .fenetre {
-    top: 762px; left: 118px; width: 1044px;
-    box-shadow: 0 50px 96px -26px rgba(0, 0, 0, .62), 0 0 0 1px rgba(252, 251, 248, .07);
-  }
-  .o3 .fenetre .cadre { height: 560px; overflow: hidden; }
-  .o3 .fenetre .cadre img { display: block; width: 100%; margin-top: -46px; }
+  /* module 2, la fiche */
+  .o3 .mod-fiche { background: var(--sauge-pale); border-radius: 12px; padding: 14px; }
+  .o3 .mod-fiche .nom { height: 12px; width: 66%; border-radius: 6px; background: var(--vert); }
+  .o3 .mod-fiche .ligne { height: 8px; width: 84%; border-radius: 4px; background: rgba(37, 92, 65, .22); margin-top: 9px; }
+  .o3 .mod-fiche .etoiles { display: flex; gap: 3px; margin-top: 12px; }
+  .o3 .mod-fiche .etoiles svg { width: 14px; height: 14px; fill: var(--vert); }
+  .o3 .mod-fiche .boutons { display: flex; gap: 6px; margin-top: 13px; }
+  .o3 .mod-fiche .boutons b { width: 58px; height: 22px; border-radius: 11px; background: var(--vert); display: block; }
+  .o3 .mod-fiche .boutons u { width: 46px; height: 22px; border-radius: 11px; border: 1px solid var(--sauge); display: block; }
 
-  /* carte verte : sur une capture de site crème, une carte crème se fondrait */
+  /* module 3, la recherche */
+  .o3 .mod-serp { background: var(--sauge-pale); border-radius: 12px; padding: 14px; }
+  .o3 .mod-serp .champ {
+    height: 30px; border-radius: 15px; background: var(--creme); border: 1px solid var(--sauge);
+    display: flex; align-items: center; gap: 8px; padding: 0 12px;
+  }
+  .o3 .mod-serp .champ svg { width: 13px; height: 13px; stroke: var(--olive); stroke-width: 1.8; fill: none; stroke-linecap: round; flex: none; }
+  .o3 .mod-serp .champ i { height: 7px; width: 62%; border-radius: 4px; background: var(--creme-fonce); display: block; }
+  .o3 .mod-serp .gagnant { margin-top: 12px; background: var(--creme); border-left: 3px solid var(--vert); border-radius: 0 8px 8px 0; padding: 10px 12px; }
+  .o3 .mod-serp .gagnant b { height: 10px; width: 74%; border-radius: 5px; background: var(--vert); display: block; }
+  .o3 .mod-serp .gagnant u { height: 7px; width: 90%; border-radius: 4px; background: var(--creme-fonce); display: block; margin-top: 7px; }
+  .o3 .mod-serp .autre { height: 7px; border-radius: 4px; background: rgba(37, 92, 65, .18); margin-top: 10px; }
+  .o3 .mod-serp .autre.court { width: 62%; }
+
   .o3 .appel {
-    position: absolute; bottom: 84px; left: var(--marge); z-index: 9;
-    background: var(--vert); border-radius: 20px; padding: 26px 32px;
-    box-shadow: 0 40px 74px -20px rgba(0, 0, 0, .7);
+    position: absolute; bottom: 88px; left: var(--marge); right: var(--marge); z-index: 8;
+    display: flex; align-items: center; justify-content: space-between; gap: 26px;
   }
-  .o3 .appel .t { font-size: 30px; font-weight: 700; letter-spacing: -0.028em; color: var(--creme); }
-  .o3 .appel .d { margin-top: 9px; font-size: 19px; font-weight: 500; color: var(--sauge); line-height: 1.45; }
+  .o3 .appel .bouton {
+    background: var(--creme); color: var(--vert); white-space: nowrap;
+    font-size: 27px; font-weight: 700; letter-spacing: -0.026em;
+    padding: 21px 38px; border-radius: 46px;
+  }
+  .o3 .appel .note { font-size: 20px; font-weight: 500; color: var(--sauge); text-align: right; line-height: 1.45; }
 </style>
 </head>
 <body>
@@ -53,23 +81,74 @@
     <p class="sous">Votre site, votre fiche Google, votre place dans les recherches.</p>
   </div>
 
-  <div class="services">
-    <span><i></i>Site internet</span>
-    <span><i></i>Fiche Google</span>
-    <span><i></i>Référencement naturel</span>
-  </div>
+  <div class="cartes">
 
-  <div class="fenetre">
-    <div class="barre">
-      <span class="pastille"></span><span class="pastille"></span><span class="pastille"></span>
-      <span class="url">lacoquette-bycaro.fr</span>
+    <div class="carte-s">
+      <p class="num">01</p>
+      <p class="t">Site internet</p>
+      <p class="d">Une page ou un site complet, écrit pour votre métier.</p>
+      <div class="module">
+        <div class="maquette mini" role="img" aria-label="Aperçu d'une page de site">
+          <div class="mq-barre"><i></i><i></i><i></i><span></span></div>
+          <div class="mq-corps">
+            <div class="mq-titre"></div>
+            <div class="mq-titre court"></div>
+            <div class="mq-texte"></div>
+            <div class="mq-bouton"></div>
+            <div class="mq-vignettes">
+              <div class="mq-vignette"></div>
+              <div class="mq-vignette"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="prix">dès 1 000&nbsp;€</p>
     </div>
-    <div class="cadre"><img src="../captures/client-la-coquette-desktop.png" alt="Un site livré par Caelestis"></div>
+
+    <div class="carte-s">
+      <p class="num">02</p>
+      <p class="t">Fiche Google</p>
+      <p class="d">Photos, horaires, avis. Ce qu'on voit avant votre site.</p>
+      <div class="module">
+        <div class="mod-fiche" role="img" aria-label="Aperçu d'une fiche d'établissement">
+          <div class="nom"></div>
+          <div class="ligne"></div>
+          <div class="etoiles">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+          </div>
+          <div class="boutons"><b></b><u></u></div>
+        </div>
+      </div>
+      <p class="prix">300&nbsp;€</p>
+    </div>
+
+    <div class="carte-s">
+      <p class="num">03</p>
+      <p class="t">Référencement</p>
+      <p class="d">Remonter dans Google, sans payer de publicité.</p>
+      <div class="module">
+        <div class="mod-serp" role="img" aria-label="Aperçu d'une page de résultats">
+          <div class="champ">
+            <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4L21 21"/></svg>
+            <i></i>
+          </div>
+          <div class="gagnant"><b></b><u></u></div>
+          <div class="autre"></div>
+          <div class="autre court"></div>
+        </div>
+      </div>
+      <p class="prix">compris</p>
+    </div>
+
   </div>
 
   <div class="appel">
-    <p class="t">07 69 36 27 27</p>
-    <p class="d">caelestis.fr<br>Devis gratuit, réponse sous 48&nbsp;h</p>
+    <span class="bouton">07 69 36 27 27</span>
+    <span class="note">caelestis.fr<br>Devis gratuit, réponse sous 48&nbsp;h</span>
   </div>
 
 </div>

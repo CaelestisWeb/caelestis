@@ -48,6 +48,12 @@ Les captures de `captures/` datent du 13/08/2026 et viennent de la production. P
 - le site Caelestis, une capture de `.hero-ecran .browser` sur caelestis.fr, largeur 1800, `deviceScaleFactor: 2`, en cliquant sur `.dot[data-nav="…"]` pour changer de vue ;
 - les sites clients, une capture pleine fenêtre en 1440 x 900 et une en 390 x 844 avec `isMobile`.
 
+## Règle de la série d'offre
+
+Les trois affiches d'offre (`publicites/offre-*.html`) ne montrent **aucune capture d'écran**, ni d'un site client ni du site Caelestis. Les pages, les fiches et les résultats de recherche y sont **dessinés** avec des blocs de la charte : voir `.maquette`, `.mod-fiche` et `.mod-serp` dans `publicites/pub.css`. Une capture vieillit dès que le site change, un module dessiné reste valable et ne met en avant aucun client en particulier.
+
+Quatre affiches de la série par sujet contiennent encore des captures : `pub-1` (page services), `pub-6` et `pub-7` (sites clients), `pub-9` (accueil sur téléphone).
+
 ## Règles tenues
 
 - Satoshi uniquement, auto-hébergée depuis `src/assets/fonts`, aucune police de la liste noire. Titres à -0.038em et surtitres à 0.18em, comme le prescrit `identite/CHARTE-GRAPHIQUE.md`.

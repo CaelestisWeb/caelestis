@@ -44,16 +44,8 @@
   }
   .o1 .fiche .boutons span.plein { background: var(--vert); color: var(--creme); border-color: var(--vert); }
 
-  /* 03, le site */
-  .o1 .fenetre {
-    position: relative; top: auto; left: auto; width: 100%;
-    box-shadow: 0 30px 58px -26px rgba(0, 0, 0, .55), 0 0 0 1px rgba(252, 251, 248, .07);
-  }
-  .o1 .fenetre .barre { height: 38px; padding: 0 14px; }
-  .o1 .fenetre .pastille { width: 9px; height: 9px; }
-  .o1 .fenetre .url { height: 22px; font-size: 12px; }
-  .o1 .fenetre .cadre { height: 196px; overflow: hidden; }
-  .o1 .fenetre .cadre img { display: block; width: 100%; margin-top: -112px; }
+  /* 03, le site, dessiné et non capturé */
+  .o1 .maquette { box-shadow: 0 30px 58px -26px rgba(0, 0, 0, .55), 0 0 0 1px rgba(252, 251, 248, .07); }
 </style>
 </head>
 <body>
@@ -100,12 +92,25 @@
 
     <div class="etape">
       <p class="lab"><i></i>03, Création de site internet</p>
-      <div class="fenetre">
-        <div class="barre">
-          <span class="pastille"></span><span class="pastille"></span><span class="pastille"></span>
-          <span class="url">votre-nom.fr</span>
+      <div class="maquette large" role="img" aria-label="Aperçu d'une page de site">
+        <div class="mq-barre"><i></i><i></i><i></i><span></span></div>
+        <div class="mq-corps">
+          <div class="mq-nav"><b></b><u></u><u></u><u></u><u></u></div>
+          <div class="mq-bas">
+            <div class="mq-texte-col">
+              <div class="mq-titre"></div>
+              <div class="mq-titre court"></div>
+              <div class="mq-texte"></div>
+              <div class="mq-texte court"></div>
+              <div class="mq-bouton"></div>
+            </div>
+            <div class="mq-vignettes">
+              <div class="mq-vignette"></div>
+              <div class="mq-vignette"></div>
+              <div class="mq-vignette"></div>
+            </div>
+          </div>
         </div>
-        <div class="cadre"><img src="../captures/client-la-coquette-desktop.png" alt="Un site livré par Caelestis"></div>
       </div>
     </div>
 

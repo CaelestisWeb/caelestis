@@ -38,6 +38,43 @@
 }
 .badge .point { width: 9px; height: 9px; border-radius: 50%; background: var(--vert); flex: none; }
 
+/* ---------- maquette de site dessinée ----------
+   Aucune capture d'écran : la page est évoquée par des blocs, dans la charte.
+   .large pour un module pleine largeur, .mini pour une carte de service. */
+.maquette { background: var(--creme); border-radius: 14px; overflow: hidden; }
+.maquette .mq-barre {
+  height: 34px; background: #EFEDE6; border-bottom: 1px solid rgba(18, 22, 15, .08);
+  display: flex; align-items: center; gap: 6px; padding: 0 12px;
+}
+.maquette .mq-barre i { width: 7px; height: 7px; border-radius: 50%; background: #CFCCC2; display: block; }
+.maquette .mq-barre span { flex: 1; height: 16px; border-radius: 8px; background: var(--creme); margin-left: 10px; }
+
+.maquette .mq-nav { display: flex; align-items: center; gap: 14px; }
+.maquette .mq-nav b { width: 62px; height: 11px; border-radius: 6px; background: var(--vert); display: block; }
+.maquette .mq-nav u { width: 34px; height: 8px; border-radius: 4px; background: var(--creme-fonce); display: block; }
+.maquette .mq-nav u:last-child { margin-left: auto; width: 74px; height: 22px; border-radius: 11px; background: var(--vert); }
+
+.maquette .mq-titre { height: 17px; border-radius: 9px; background: var(--vert); }
+.maquette .mq-titre.court { width: 62%; }
+.maquette .mq-texte { height: 9px; border-radius: 5px; background: var(--creme-fonce); }
+.maquette .mq-texte.court { width: 74%; }
+.maquette .mq-bouton { width: 128px; height: 30px; border-radius: 15px; background: var(--vert); }
+.maquette .mq-vignette { border-radius: 8px; background: var(--sauge-pale); border: 1px solid rgba(37, 92, 65, .12); }
+
+/* pleine largeur : nav en haut, texte à gauche, vignettes à droite */
+.maquette.large .mq-corps { padding: 20px 22px 22px; }
+.maquette.large .mq-bas { display: flex; gap: 26px; margin-top: 20px; }
+.maquette.large .mq-texte-col { flex: 1; display: flex; flex-direction: column; gap: 11px; }
+.maquette.large .mq-vignettes { display: flex; gap: 10px; flex: none; }
+.maquette.large .mq-vignette { width: 74px; height: 74px; }
+
+/* compacte : tout empilé */
+.maquette.mini .mq-corps { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 9px; }
+.maquette.mini .mq-titre { height: 13px; }
+.maquette.mini .mq-bouton { width: 84px; height: 22px; border-radius: 11px; margin-top: 3px; }
+.maquette.mini .mq-vignettes { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 4px; }
+.maquette.mini .mq-vignette { height: 42px; }
+
 /* ---------- photo de fond couverte d'un voile ---------- */
 .fond-photo { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
 .fond-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
