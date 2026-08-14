@@ -4,7 +4,7 @@ import Button from '../components/Button.astro';
 import HeroEcran from '../components/HeroEcran.astro';
 import { Image, getImage } from 'astro:assets';
 import imgArtisan     from '../assets/images/atelier-botanique.jpg';
-import imgBougies     from '../assets/images/bougies-artisan.jpg';
+import imgCabane      from '../assets/images/cabane-nature.jpg';
 import imgYoga        from '../assets/images/yoga-soleil.jpg';
 import imgJardin      from '../assets/images/jardin-communautaire.jpg';
 import imgAvant       from '../assets/images/comparateur/avant.jpg';
@@ -382,83 +382,94 @@ const organizationSchema = {
         Qu'attendez-vous ? <span>Partagez-la.</span>
       </p>
 
-      <!-- Ligne métiers : cinq familles larges, volontairement englobantes.
-           La liste nominative de 14 métiers a été retirée le 01/08/2026 : elle
-           tenait sur cinq lignes en mobile et fermait la porte à tout métier non
-           cité. Les statuts remplacent les métiers ; c'est l'accroche au-dessus
-           (« ce que vous faites ») qui porte le geste, donc un maraîcher, un
-           apiculteur ou une association se reconnaît là, pas dans les pastilles.
-           Ne pas rallonger : au-delà de six, le retour à la ligne mobile redevient
-           illisible. -->
-      <ul role="list" class="metiers font-body mb-12 md:mb-14" data-reveal>
-        <li>Artisans</li>
-        <li>Commerçants</li>
-        <li>Indépendants</li>
-        <li>Lieux d'accueil</li>
-        <li>Métiers de passion</li>
-      </ul>
+      <!-- Galerie parlante : la frise de photos porte elle-même le ciblage.
+           Remplace, le 13/08/2026, la ligne de pastilles de statuts et la frise
+           muette. Au repos, seul le nom de la famille s'affiche en bas de chaque
+           photo, un voile bas garantissant le contraste ; au survol, un voile
+           vert forêt monte et révèle la phrase (on ne rend jamais la photo
+           transparente, elle se délaverait sur le fond sauge). Sur mobile, faute
+           de survol, nom et phrase restent lisibles en permanence. Quatre
+           familles, une photo chacune : la photo et le mot disent ensemble à qui
+           l'agence s'adresse, là où les pastilles n'énuméraient que des statuts. -->
+      <ul role="list" class="gp-frise" data-reveal data-delay="1">
 
-      <!-- Galerie portfolio : 4 photos, toutes en portrait, affichées en portrait.
-           Frise de 4 colonnes sur desktop, 2×2 sur mobile : chaque sujet est visible
-           en entier, aucune source portrait n'est écrasée dans une cellule paysage.
-           La cinquième (bureau au jardin) a été retirée : réserve de pixels sous le
-           seuil (0,93), floue par construction. Ne réintroduire une photo ici qu'à
-           réserve de pixels ≥ 4 à la taille d'affichage. -->
-      <div class="bento-gallery" data-reveal data-delay="1">
-
-        <!-- Jardin communautaire -->
-        <div class="bento-cell bento-jardin img-zoom overflow-hidden">
-          <Image
-            src={imgJardin}
-            alt="Jardin maraîcher et espace vert verdoyant"
-            class="w-full h-full object-cover object-center"
-            widths={[200, 300, 440, 560]}
-            sizes="(max-width: 767px) 50vw, (min-width: 1440px) 273px, 22vw"
-            loading="lazy"
-            quality={62}
-          />
-        </div>
-
-        <!-- Yoga au coucher de soleil -->
-        <div class="bento-cell bento-yoga img-zoom overflow-hidden">
-          <Image
-            src={imgYoga}
-            alt="Praticien bien-être, yoga au coucher de soleil"
-            class="w-full h-full object-cover object-center"
-            widths={[200, 300, 440, 560]}
-            sizes="(max-width: 767px) 50vw, (min-width: 1440px) 273px, 22vw"
-            loading="lazy"
-            quality={62}
-          />
-        </div>
-
-        <!-- Atelier botanique -->
-        <div class="bento-cell bento-artisan img-zoom overflow-hidden">
+        <!-- Créateurs et artisans d'art -->
+        <li class="gp-cell">
           <Image
             src={imgArtisan}
             alt="Artisane dans son atelier botanique, créatrice indépendante"
-            class="w-full h-full object-cover"
-            widths={[200, 300, 440, 560]}
+            class="gp-img"
+            style="object-position: center 38%;"
+            widths={[300, 440, 560, 760]}
             sizes="(max-width: 767px) 50vw, (min-width: 1440px) 273px, 22vw"
             loading="lazy"
-            quality={62}
+            quality={64}
           />
-        </div>
+          <span class="gp-voile" aria-hidden="true"></span>
+          <span class="gp-legende">
+            <span class="gp-nom font-display">Créateurs et artisans d'art</span>
+            <span class="gp-phrase font-body">Vous fabriquez de vos mains, en pièce unique ou en petite série.</span>
+          </span>
+        </li>
 
-        <!-- Bougies artisan -->
-        <div class="bento-cell bento-bougies img-zoom overflow-hidden">
+        <!-- Praticiens du bien-être -->
+        <li class="gp-cell">
           <Image
-            src={imgBougies}
-            alt="Atelier de bougies artisanales, artisan"
-            class="w-full h-full object-cover object-center"
-            widths={[200, 300, 440, 560]}
+            src={imgYoga}
+            alt="Praticien bien-être, séance au coucher du soleil"
+            class="gp-img"
+            style="object-position: center 40%;"
+            widths={[300, 440, 560, 760]}
             sizes="(max-width: 767px) 50vw, (min-width: 1440px) 273px, 22vw"
             loading="lazy"
-            quality={62}
+            quality={64}
           />
-        </div>
+          <span class="gp-voile" aria-hidden="true"></span>
+          <span class="gp-legende">
+            <span class="gp-nom font-display">Praticiens du bien-être</span>
+            <span class="gp-phrase font-body">Vous prenez soin des personnes, dans leur globalité.</span>
+          </span>
+        </li>
 
-      </div>
+        <!-- Porteurs de projets environnementaux -->
+        <li class="gp-cell">
+          <Image
+            src={imgJardin}
+            alt="Jardin maraîcher entretenu collectivement"
+            class="gp-img"
+            style="object-position: center center;"
+            widths={[300, 440, 560, 760]}
+            sizes="(max-width: 767px) 50vw, (min-width: 1440px) 273px, 22vw"
+            loading="lazy"
+            quality={64}
+          />
+          <span class="gp-voile" aria-hidden="true"></span>
+          <span class="gp-legende">
+            <span class="gp-nom font-display">Porteurs de projets environnementaux</span>
+            <span class="gp-phrase font-body">Vous protégez, cultivez et transmettez ce qui pousse et ce qui vit.</span>
+          </span>
+        </li>
+
+        <!-- Lieux tournés vers le vivant -->
+        <li class="gp-cell">
+          <Image
+            src={imgCabane}
+            alt="Cabane en bois illuminée au crépuscule, en pleine forêt"
+            class="gp-img"
+            style="object-position: center 62%;"
+            widths={[300, 440, 560, 760]}
+            sizes="(max-width: 767px) 50vw, (min-width: 1440px) 273px, 22vw"
+            loading="lazy"
+            quality={64}
+          />
+          <span class="gp-voile" aria-hidden="true"></span>
+          <span class="gp-legende">
+            <span class="gp-nom font-display">Lieux tournés vers le vivant</span>
+            <span class="gp-phrase font-body">On vient chez vous pour respirer : ferme, gîte, cabane, jardin.</span>
+          </span>
+        </li>
+
+      </ul>
 
       <!-- Chute de la section, en deux temps. Le premier reconnaît le savoir-faire
            tel qu'il se perçoit en présentiel ; le second, en mousse foncée, affirme
@@ -1475,91 +1486,105 @@ const organizationSchema = {
     color: var(--color-brun-mid);
   }
 
-  /* ── Ligne métiers : pastilles statiques centrées, sur toutes les tailles.
-     Aucun défilement : le bandeau en boucle est banni de la charte, et une
-     animation infinie dans le viewport empêche Lighthouse de considérer la
-     page comme stabilisée (Speed Index dégradé). ── */
-  .metiers {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    /* Écart dissocié : 14 px entre les deux rangs, 8 px entre deux pastilles
-       d'un même rang. C'est le rang collé au suivant qui faisait le pavé compact,
-       pas la pastille collée à sa voisine ; et toute largeur ajoutée entre
-       colonnes ferait retomber la rangée de trois en rangée de deux. */
-    row-gap: 14px;
-    column-gap: 8px;
-    max-width: 880px;
-    margin-inline: auto;
-    list-style: none;
-    padding: 0;
-  }
-  .metiers li {
-    /* La largeur de pastille ne bouge pas, et c'est mesuré : la rangée
-       « Artisans, Commerçants, Indépendants » réclame 308 px pour 312 utiles sur
-       un écran de 360 px. Deux pixels de police ou quatre de rembourrage
-       horizontal en plus, et elle bascule en 2 + 2 + 1, la cinquième pastille
-       seule sur son rang, ce que la rangée bornée à 420 px cherche justement à
-       éviter. Seul le rembourrage vertical monte, de 8 à 10 px : il grandit la
-       pastille sans l'élargir. */
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--color-brun-mid);
-    background: #fff;
-    border: 1px solid var(--color-cream-dark);
-    padding: 10px 13px;
-    border-radius: 999px;
-    line-height: 1.25;
-    /* Chaque famille tient sur une ligne : une pastille coupée en deux mots
-       superposés casse la lecture de la rangée. La plus longue, « Métiers de
-       passion », mesure 138 px en mobile ; c'est le plafond à ne pas dépasser
-       si un libellé change, sinon le pavage ci-dessous casse. */
-    white-space: nowrap;
-  }
-  @media (min-width: 768px) {
-    .metiers li {
-      font-size: 0.9375rem;
-      padding: 10px 22px;
-    }
-  }
-  /* Les cinq pastilles réclament environ 815 px de fenêtre pour tenir sur une
-     seule rangée. En dessous, la largeur libre en laisse passer quatre et
-     abandonne la cinquième seule sur sa ligne, ou trois et en abandonne deux.
-     On borne la rangée pour obtenir un franc 3 + 2 sur toute cette plage,
-     jusqu'au 2 + 2 + 1 des très petits écrans où 420 px ne s'applique plus. */
-  @media (max-width: 840px) {
-    .metiers { max-width: 420px; }
-  }
-
-  /* ── Galerie bento ── */
-  /* Frise de portraits : les quatre sources sont en portrait, on les affiche
-     en portrait pour ne rien écraser. Mobile 2×2, desktop 4 colonnes en ligne. */
-  .bento-gallery {
+  /* ── Galerie parlante ──
+     Frise de portraits, 2 colonnes en mobile, 4 en desktop. Chaque cellule
+     empile trois couches : la photo, un voile bas permanent qui garantit la
+     lecture du nom, et un aplat vert forêt qui ne monte qu'au survol pour
+     révéler la phrase. La légende passe au-dessus des deux voiles. La photo
+     n'est jamais rendue transparente : elle se délaverait sur le fond sauge. */
+  .gp-frise {
     display: grid;
     grid-template-columns: 1fr 1fr;
     /* 12 px en mobile : à 8, les quatre photos se lisaient comme une seule
-       image découpée en quatre, et non comme quatre métiers distincts. */
+       image découpée en quatre, et non comme quatre familles distinctes. */
     gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
-  .bento-cell { aspect-ratio: 3 / 4; }
-
-  /* L'atelier est la plus verticale des sources (0,56) : on recentre pour
-     garder les mains et les coupelles dans le cadre. */
-  .bento-artisan :global(img) { object-position: center 38%; }
-
-  @media (min-width: 768px) {
-    .bento-gallery {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-    .bento-cell { aspect-ratio: 2 / 3; }
-  }
-
-  .bento-cell {
+  .gp-cell {
+    position: relative;
+    isolation: isolate;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
     border-radius: 6px;
     box-shadow: 0 2px 12px rgba(37, 92, 65, 0.10);
     outline: 1px solid rgba(37, 92, 65, 0.07);
     outline-offset: -1px;
+  }
+  .gp-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* Voile bas permanent : sans lui, le nom en bas de photo serait illisible sur
+     les zones claires (ciel du yoga, sable). Dégradé du bas vers le transparent. */
+  .gp-voile {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(to top,
+      rgba(12, 15, 9, 0.84) 0%,
+      rgba(12, 15, 9, 0.46) 26%,
+      rgba(12, 15, 9, 0) 56%);
+  }
+  /* Aplat vert forêt, révélé au survol (desktop). Couvre la photo pour faire
+     ressortir la phrase. */
+  .gp-cell::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: var(--color-brun);
+    opacity: 0;
+    transition: opacity 0.45s ease;
+  }
+  .gp-legende {
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 14px 14px 16px;
+    display: block;
+  }
+  .gp-nom {
+    display: block;
+    color: var(--color-cream);
+    font-weight: 400;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  }
+  .gp-phrase {
+    display: block;
+    margin-top: 6px;
+    color: rgba(252, 251, 248, 0.92);
+    font-size: 0.78rem;
+    line-height: 1.45;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.55);
+  }
+  @media (min-width: 768px) {
+    .gp-frise { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .gp-cell { aspect-ratio: 2 / 3; }
+    .gp-nom { font-size: 1.0625rem; }
+    /* En desktop, la phrase attend le survol ; le nom, lui, reste toujours là. */
+    .gp-phrase {
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .gp-cell:hover .gp-img { transform: scale(1.05); }
+    .gp-cell:hover::after { opacity: 0.9; }
+    .gp-cell:hover .gp-phrase { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gp-img, .gp-cell::after, .gp-phrase { transition: none; }
   }
 
   /* ── FAQ accordéon ── */
