@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, publicité 1, un site qui reflète</title>
+<link rel="stylesheet" href="pub.css">
+<style>
+  .p1 { background: var(--vert-profond); }
+  .p1 h1 { font-size: 68px; }
+
+  .p1 .fenetre {
+    top: 664px; left: 64px; width: 952px;
+    box-shadow: 0 50px 96px -26px rgba(0, 0, 0, .6), 0 0 0 1px rgba(252, 251, 248, .07);
+  }
+  /* cadrage sur les quatre formules : le titre de la page répéterait celui de l'affiche,
+     et aucune carte ne doit être rognée sur les côtés */
+  .p1 .fenetre .cadre { height: 246px; overflow: hidden; }
+  .p1 .fenetre .cadre img { display: block; width: 100%; margin-top: -230px; }
+
+  .p1 .badge { top: 592px; right: 84px; }
+</style>
+</head>
+<body>
+<div class="affiche pub sur-vert p1">
+
+  <div class="entete">
+    <img src="../assets/wordmark-creme.svg" alt="Caelestis">
+    <span class="lieu">caelestis.fr</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Création de site internet</p>
+    <h1>Un site internet<br>qui reflète vraiment<br><span class="accent">votre activité.</span></h1>
+    <p class="sous">Pas un modèle repeint à vos couleurs. Un site écrit pour votre métier, vos clients, votre région.</p>
+  </div>
+
+  <div class="badge"><span class="point"></span>En ligne en 2 à 8 semaines</div>
+
+  <div class="fenetre">
+    <div class="barre">
+      <span class="pastille"></span><span class="pastille"></span><span class="pastille"></span>
+      <span class="url">caelestis.fr/services</span>
+    </div>
+    <div class="cadre"><img src="../captures/ecran-services.png" alt="Les quatre formules sur le site Caelestis"></div>
+  </div>
+
+  <div class="cta">
+    <span class="bouton">Parler de mon projet</span>
+    <span class="note">caelestis.fr<br>Devis gratuit sous 48&nbsp;h</span>
+  </div>
+
+</div>
+</body>
+</html>

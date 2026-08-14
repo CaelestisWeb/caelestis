@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, publicité 7, le sur mesure</title>
+<link rel="stylesheet" href="pub.css">
+<style>
+  .p7 { background: var(--vert); }
+  .p7 h1 { font-size: 62px; }
+
+  .p7 .tel { left: 84px; top: 528px; width: 330px; box-shadow: 0 44px 84px -22px rgba(0, 0, 0, .58); }
+
+  /* la colonne de droite porte les preuves puis l'appel : rien ne recouvre le téléphone */
+  .p7 .preuves { position: absolute; top: 560px; left: 480px; right: var(--marge); z-index: 7; }
+  .p7 .preuves .carte-p {
+    background: var(--creme); border-radius: 16px; padding: 24px 26px;
+    box-shadow: 0 30px 58px -26px rgba(0, 0, 0, .48);
+  }
+  .p7 .preuves .carte-p + .carte-p { margin-top: 20px; }
+  .p7 .preuves .t { font-size: 23px; font-weight: 700; letter-spacing: -0.026em; color: var(--vert); }
+  .p7 .preuves .d { margin-top: 7px; font-size: 17px; line-height: 1.45; color: var(--olive); }
+  .p7 .preuves .signature {
+    margin-top: 22px; font-size: 17px; line-height: 1.5; color: rgba(227, 239, 232, .82);
+  }
+  .p7 .preuves .signature b { color: var(--creme); font-weight: 500; }
+  .p7 .preuves .appel { margin-top: 34px; }
+  .p7 .preuves .appel .bouton {
+    display: inline-block; background: var(--creme); color: var(--vert);
+    font-size: 24px; font-weight: 700; letter-spacing: -0.024em;
+    padding: 19px 34px; border-radius: 44px;
+  }
+  .p7 .preuves .appel .coord { margin-top: 18px; font-size: 19px; font-weight: 500; color: var(--sauge); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="affiche pub sur-vert p7">
+
+  <div class="entete">
+    <img src="../assets/wordmark-creme.svg" alt="Caelestis">
+    <span class="lieu">Site sur mesure</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Quand le standard ne suffit plus</p>
+    <h1>Un site qui fait ce que<br><span class="accent">votre métier demande.</span></h1>
+  </div>
+
+  <div class="tel">
+    <img src="../captures/client-fdo-reservation-mobile.png" alt="Moteur de réservation du salon Fée des Ongles">
+  </div>
+
+  <div class="preuves">
+    <div class="carte-p">
+      <p class="t">Réserver à 22 h, un dimanche</p>
+      <p class="d">Les clientes choisissent leur créneau seules, sans attendre de réponse.</p>
+    </div>
+    <div class="carte-p">
+      <p class="t">Aucun créneau pris deux fois</p>
+      <p class="d">Le salon garde la main sur son agenda, y compris pour les rendez-vous pris de vive voix.</p>
+    </div>
+    <p class="signature"><b>Fée des Ongles</b>, prothésiste ongulaire à Crest.<br>Moteur de réservation développé sur mesure, livré en 14 jours.</p>
+    <div class="appel">
+      <span class="bouton">Racontez-nous</span>
+      <p class="coord">caelestis.fr<br>07 69 36 27 27</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

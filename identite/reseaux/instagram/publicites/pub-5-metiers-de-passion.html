@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, publicité 5, métiers de passion</title>
+<link rel="stylesheet" href="pub.css">
+<style>
+  .p5 { background: var(--creme); }
+  .p5 h1 { font-size: 64px; }
+
+  /* mosaïque qui déborde par le bas, chaque photo reste au-dessus de sa réserve */
+  .p5 .mosaique {
+    position: absolute; top: 646px; left: 0; right: 0; bottom: 0; z-index: 4;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  }
+  .p5 .mosaique figure { margin: 0; overflow: hidden; }
+  .p5 .mosaique img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .p5 .mosaique figure:nth-child(1) { margin-top: 46px; }
+  .p5 .mosaique figure:nth-child(3) { margin-top: 46px; }
+
+  .p5 .bandeau {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 214px; z-index: 7;
+    background: var(--vert); color: var(--creme);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--marge);
+  }
+  .p5 .bandeau .dire { font-size: 30px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.18; }
+  .p5 .bandeau .bouton {
+    background: var(--creme); color: var(--vert); white-space: nowrap;
+    font-size: 24px; font-weight: 700; letter-spacing: -0.024em;
+    padding: 19px 34px; border-radius: 44px;
+  }
+</style>
+</head>
+<body>
+<div class="affiche pub sur-clair p5">
+
+  <div class="entete">
+    <img src="../assets/wordmark-vert.svg" alt="Caelestis">
+    <span class="lieu">Agence web, Drôme</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Artisans, créateurs, métiers de passion</p>
+    <h1>Pour ceux qui créent<br><span class="accent">quelque chose de beau.</span></h1>
+    <p class="sous">Votre travail se voit de près. Votre site devrait en dire autant.</p>
+  </div>
+
+  <div class="mosaique">
+    <figure><img src="../assets/atelier-creatif.jpg" alt="Atelier ouvert sur un jardin"></figure>
+    <figure><img src="../assets/atelier-botanique.jpg" alt="Table d'atelier, pigments et herbier"></figure>
+    <figure><img src="../assets/bougies-artisan.jpg" alt="Bougies de cire d'abeille"></figure>
+    <figure><img src="../assets/bureau-jardin.jpg" alt="Bureau de bois sous une pergola"></figure>
+  </div>
+
+  <div class="bandeau">
+    <p class="dire">Votre métier mérite<br>d'être vu comme vous le faites.</p>
+    <span class="bouton">caelestis.fr</span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, publicité 9, une seule page</title>
+<link rel="stylesheet" href="pub.css">
+<style>
+  .p9 { background: var(--creme); }
+  .p9 h1 { font-size: 62px; }
+  .p9 .bloc-texte { right: 430px; }
+
+  /* le téléphone entre par la droite et sort par le bas */
+  .p9 .tel {
+    right: -34px; top: 316px; width: 352px;
+    box-shadow: 0 46px 88px -26px rgba(18, 22, 15, .48);
+  }
+
+  .p9 .arguments {
+    position: absolute; top: 578px; left: var(--marge); right: 430px; z-index: 6;
+  }
+  .p9 .arguments li {
+    list-style: none; display: flex; align-items: flex-start; gap: 16px;
+    font-size: 21px; line-height: 1.42; color: var(--encre);
+    border-top: 1px solid var(--creme-fonce); padding: 20px 0;
+  }
+  .p9 .arguments li:last-child { border-bottom: 1px solid var(--creme-fonce); }
+  .p9 .arguments svg { width: 22px; height: 22px; stroke: var(--vert); stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; flex: none; margin-top: 4px; }
+
+  .p9 .prix {
+    position: absolute; top: 928px; left: var(--marge); z-index: 6;
+    font-size: 21px; color: var(--olive);
+  }
+  .p9 .prix b { font-size: 32px; font-weight: 700; letter-spacing: -0.028em; color: var(--vert); display: block; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="affiche pub sur-clair p9">
+
+  <div class="entete">
+    <img src="../assets/wordmark-vert.svg" alt="Caelestis">
+    <span class="lieu">Page unique</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Le moyen le plus simple de commencer</p>
+    <h1>Une seule page suffit<br><span class="accent">pour exister en ligne.</span></h1>
+    <p class="sous">Pour démarrer simplement, sans rien sacrifier d'essentiel.</p>
+  </div>
+
+  <div class="tel">
+    <img src="../captures/accueil-mobile-390.png" alt="Un site Caelestis sur téléphone">
+  </div>
+
+  <ul class="arguments">
+    <li><svg viewBox="0 0 24 24"><path d="M5 12.6l4.2 4.2L19 7"/></svg>Qui vous êtes, ce que vous faites, à quel prix, comment vous joindre.</li>
+    <li><svg viewBox="0 0 24 24"><path d="M5 12.6l4.2 4.2L19 7"/></svg>Lisible sur téléphone, là où vos clients vous découvrent.</li>
+    <li><svg viewBox="0 0 24 24"><path d="M5 12.6l4.2 4.2L19 7"/></svg>Une adresse à votre nom, que vous gardez pour toujours.</li>
+  </ul>
+
+  <p class="prix">à partir de<b>1 000&nbsp;€</b></p>
+
+  <div class="cta">
+    <span class="bouton">Parler de mon projet</span>
+    <span class="note">caelestis.fr<br>Devis gratuit sous 48&nbsp;h</span>
+  </div>
+
+</div>
+</body>
+</html>

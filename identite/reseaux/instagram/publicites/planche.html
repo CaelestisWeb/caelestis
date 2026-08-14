@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Affiches publicitaires Caelestis</title>
+<link rel="stylesheet" href="../assets/affiche.css">
+<style>
+  body { display: block; background: var(--creme); padding: 0; }
+  .page { max-width: 1420px; margin: 0 auto; padding: 72px 48px 96px; }
+
+  header { border-bottom: 1px solid var(--creme-fonce); padding-bottom: 34px; margin-bottom: 54px; }
+  header .haut { display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+  header img { height: 30px; width: auto; display: block; }
+  header .lieu { font-size: 15px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--olive); }
+  header h1 { margin-top: 40px; font-size: 54px; font-weight: 700; letter-spacing: -0.038em; line-height: 1.06; color: var(--encre); }
+  header h1 .accent { color: var(--vert); }
+  header p { margin-top: 20px; font-size: 19px; line-height: 1.6; color: var(--olive); max-width: 800px; }
+  header .lien-serie { margin-top: 22px; font-size: 18px; }
+  header .lien-serie a { color: var(--vert); font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--sauge); }
+
+  .grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 52px 40px; }
+
+  figure { margin: 0; }
+  figure > a { display: block; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 40px -22px rgba(18, 22, 15, .42); }
+  figure > a:hover { box-shadow: 0 26px 54px -20px rgba(18, 22, 15, .55); }
+  figure img { display: block; width: 100%; height: auto; }
+
+  figcaption { margin-top: 18px; }
+  figcaption .rang { font-size: 13px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--sauge-texte); }
+  figcaption .nom { margin-top: 7px; font-size: 23px; font-weight: 700; letter-spacing: -0.028em; color: var(--encre); line-height: 1.2; }
+  figcaption .quoi { margin-top: 7px; font-size: 17px; line-height: 1.5; color: var(--olive); }
+  figcaption .fichiers { margin-top: 12px; font-size: 15px; }
+  figcaption .fichiers a { color: var(--vert); font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--sauge); }
+  figcaption .fichiers span { color: var(--sauge); margin-right: 8px; }
+
+  footer { margin-top: 76px; border-top: 1px solid var(--creme-fonce); padding-top: 30px; font-size: 17px; line-height: 1.6; color: var(--olive); }
+  footer b { color: var(--encre); font-weight: 500; }
+
+  @media (max-width: 1100px) { .grille { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 720px) { .grille { grid-template-columns: 1fr; } .page { padding: 48px 24px 64px; } header h1 { font-size: 38px; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="haut">
+      <img src="../assets/wordmark-vert.svg" alt="Caelestis">
+      <span class="lieu">Affiches publicitaires</span>
+    </div>
+    <h1>Dix affiches,<br><span class="accent">dix messages qui vendent.</span></h1>
+    <p>Une phrase forte tirée du site, un module visuel qui prouve, un appel à l'action. Format 1080 x 1350 pixels, rendu sans interpolation. Chaque vignette ouvre le PNG en taille réelle.</p>
+    <p class="lien-serie"><a href="../planche.html">Voir la première série, les dix affiches éditoriales</a></p>
+  </header>
+
+  <div class="grille">
+
+    <figure>
+      <a href="export/caelestis-pub-1-site-qui-reflete.png"><img src="export/caelestis-pub-1-site-qui-reflete.jpg" alt="Un site qui reflète votre activité"></a>
+      <figcaption>
+        <p class="rang">01, création de site</p>
+        <p class="nom">Un site internet qui reflète vraiment votre activité.</p>
+        <p class="quoi">Les quatre formules et leurs tarifs, dans la fenêtre du site.</p>
+        <p class="fichiers"><a href="export/caelestis-pub-1-site-qui-reflete.png">PNG</a><span>,</span><a href="export/caelestis-pub-1-site-qui-reflete.jpg">JPEG</a><span>,</span><a href="pub-1-site-qui-reflete.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-pub-2-etre-trouve.png"><img src="export/caelestis-pub-2-etre-trouve.jpg" alt="Être trouvé par ceux qui vous cherchent déjà"></a>
+      <figcaption>
+        <p class="rang">02, référencement</p>
+        <p class="nom">Être trouvé par ceux qui vous cherchent déjà.</p>
+        <p class="quoi">Une recherche, un premier résultat, les autres qui s'effacent.</p>
+        <p class="fichiers"><a href="export/caelestis-pub-2-etre-trouve.png">PNG</a><span>,</span><a href="export/caelestis-pub-2-etre-trouve.jpg">JPEG</a><span>,</span><a href="pub-2-etre-trouve.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-pub-3-fiche-google.png"><img src="export/caelestis-pub-3-fiche-google.jpg" alt="Votre fiche Google"></a>
+      <figcaption>
+        <p class="rang">03, fiche Google</p>
+        <p class="nom">La première chose qu'on voit de vous.</p>
+        <p class="quoi">Une fiche d'établissement évoquée, avec ses avis et ses boutons.</p>
+        <p class="fichiers"><a href="export/caelestis-pub-3-fiche-google.png">PNG</a><span>,</span><a href="export/caelestis-pub-3-fiche-google.jpg">JPEG</a><span>,</span><a href="pub-3-fiche-google.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-pub-4-tout-reunir.png"><img src="export/caelestis-pub-4-tout-reunir.jpg" alt="Il ne reste plus qu'à le réunir"></a>
+      <figcaption>
+        <p class="rang">04, visibilité</p>
+        <p class="nom">Vous avez déjà tout ce qu'il faut.</p>
+        <p class="quoi">Six canaux qui convergent vers une seule adresse, la vôtre.</p>
+        <p class="fichiers"><a href="export/caelestis-pub-4-tout-reunir.png">PNG</a><span>,</span><a href="export/caelestis-pub-4-tout-reunir.jpg">JPEG</a><span>,</span><a href="pub-4-tout-reunir.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-pub-5-metiers-de-passion.png"><img src="export/caelestis-pub-5-metiers-de-passion.jpg" alt="Pour ceux qui créent quelque chose de beau"></a>
+      <figcaption>
+        <p class="rang">05, métiers de passion</p>
+        <p class="nom">Pour ceux qui créent quelque chose de beau.</p>
+        <p class="quoi">Quatre ateliers en mosaïque, un bandeau vert qui referme.</p>
+        <p class="fichiers"><a href="export/caelestis-pub-5-metiers-de-passion.png">PNG</a><span>,</span><a href="export/caelestis-pub-5-metiers-de-passion.jpg">JPEG</a><span>,</span><a href="pub-5-metiers-de-passion.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-pub-6-pas-des-promesses.png"><img src="export/caelestis-pub-6-pas-des-promesses.jpg" alt="Des sites en ligne, pas des promesses"></a>
+      <figcaption>
+        <p class="rang">06, preuve</p>
+        <p class="nom">Des sites en ligne, pas des promesses.</p>
+        <p class="quoi">Les deux sites clients, sur écran et sur téléphone.</p>
+        <p class="fichiers"><a href="export/caelestis-pub-6-pas-des-promesses.png">PNG</a><span>,</span><a href="export/caelestis-pub-6-pas-des-promesses.jpg">JPEG</a><span>,</span><a href="pub-6-pas-des-promesses.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-pub-7-sur-mesure.png"><img src="export/caelestis-pub-7-sur-mesure.jpg" alt="Un site qui fait ce que votre métier demande"></a>
+      <figcaption>
+        <p class="rang">07, sur mesure</p>
+        <p class="nom">Un site qui fait ce que votre métier demande.</p>
+        <p class="quoi">Le moteur de réservation livré à Fée des Ongles, en fonctionnement.</p>
+        <p class="fichiers"><a href="export/caelestis-pub-7-sur-mesure.png">PNG</a><span>,</span><a href="export/caelestis-pub-7-sur-mesure.jpg">JPEG</a><span>,</span><a href="pub-7-sur-mesure.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-pub-8-engagement-nature.png"><img src="export/caelestis-pub-8-engagement-nature.jpg" alt="2 % de chaque projet reversés à la nature"></a>
+      <figcaption>
+        <p class="rang">08, engagement</p>
+        <p class="nom">2 % de chaque projet reversés à la nature.</p>
+        <p class="quoi">Photo pleine page sous voile vert, le message posé en bas.</p>
+        <p class="fichiers"><a href="export/caelestis-pub-8-engagement-nature.png">PNG</a><span>,</span><a href="export/caelestis-pub-8-engagement-nature.jpg">JPEG</a><span>,</span><a href="pub-8-engagement-nature.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-pub-9-une-seule-page.png"><img src="export/caelestis-pub-9-une-seule-page.jpg" alt="Une seule page suffit pour exister en ligne"></a>
+      <figcaption>
+        <p class="rang">09, page unique</p>
+        <p class="nom">Une seule page suffit pour exister en ligne.</p>
+        <p class="quoi">Trois arguments, un prix d'entrée, un téléphone qui entre par la droite.</p>
+        <p class="fichiers"><a href="export/caelestis-pub-9-une-seule-page.png">PNG</a><span>,</span><a href="export/caelestis-pub-9-une-seule-page.jpg">JPEG</a><span>,</span><a href="pub-9-une-seule-page.html">source</a></p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <a href="export/caelestis-pub-10-partagez-la.png"><img src="export/caelestis-pub-10-partagez-la.jpg" alt="Qu'attendez-vous ? Partagez-la"></a>
+      <figcaption>
+        <p class="rang">10, appel</p>
+        <p class="nom">Qu'attendez-vous ? Partagez-la.</p>
+        <p class="quoi">Le numéro en grand, le bouton, les quatre repères. Rien d'autre.</p>
+        <p class="fichiers"><a href="export/caelestis-pub-10-partagez-la.png">PNG</a><span>,</span><a href="export/caelestis-pub-10-partagez-la.jpg">JPEG</a><span>,</span><a href="pub-10-partagez-la.html">source</a></p>
+      </figcaption>
+    </figure>
+
+  </div>
+
+  <footer>
+    <p><b>Rythme conseillé.</b> Une affiche par semaine, dans cet ordre : 1, 6, 2, 5, 3, 9, 4, 7, 8, 10. L'affiche 10 se republie sans lassitude, c'est celle qui fait décrocher le téléphone.</p>
+    <p style="margin-top: 14px;"><b>Ce qui est affirmé est vérifiable.</b> Les tarifs viennent de <code>src/utils/tarifs.ts</code>, les délais et l'engagement nature du site, les deux réalisations sont en ligne. Le premier résultat de l'affiche 2 et la fiche de l'affiche 3 sont des exemples génériques, jamais une entreprise réelle.</p>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,6 +1,13 @@
 # Affiches Instagram Caelestis
 
-Dix affiches au format **1080 x 1350** (4:5, le format qui occupe le plus de place dans le fil). Elles se publient en carrousel de trois ou quatre, ou une par une sur plusieurs semaines.
+Deux séries de dix affiches au format **1080 x 1350** (4:5, le format qui occupe le plus de place dans le fil).
+
+- **Série éditoriale**, ce dossier : des pages qui expliquent, à publier en carrousel.
+- **Série publicitaire**, `publicites/` : une phrase forte, un module visuel, un appel à l'action. Une affiche = un message. C'est la série à privilégier pour les posts qui doivent faire décrocher le téléphone. Sa propre planche est dans `publicites/planche.html`, son build dans `publicites/build.mjs`.
+
+## Série éditoriale
+
+Elles se publient en carrousel de trois ou quatre, ou une par une sur plusieurs semaines.
 
 | Fichier | Rôle | Fond | Ce qu'elle montre |
 |---|---|---|---|

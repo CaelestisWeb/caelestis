@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, publicité 3, la fiche Google</title>
+<link rel="stylesheet" href="pub.css">
+<style>
+  .p3 { background: var(--creme); }
+  .p3 h1 { font-size: 62px; }
+
+  /* évocation d'une fiche d'établissement, aucune marque reprise */
+  .p3 .carte { top: 660px; left: 128px; right: 128px; padding: 36px 38px 34px; background: var(--creme); }
+  .p3 .carte .haut { display: flex; align-items: flex-start; justify-content: space-between; gap: 28px; }
+  .p3 .carte .nom { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; color: var(--encre); }
+  .p3 .carte .categorie { margin-top: 6px; font-size: 18px; color: var(--olive); }
+  .p3 .carte .vignette { width: 108px; height: 108px; border-radius: 12px; overflow: hidden; flex: none; }
+  .p3 .carte .vignette img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .p3 .avis-note { margin-top: 20px; display: flex; align-items: center; gap: 12px; }
+  .p3 .avis-note .etoiles { display: flex; gap: 4px; }
+  .p3 .avis-note .etoiles svg { width: 21px; height: 21px; fill: var(--vert); }
+  .p3 .avis-note .avis { font-size: 17px; color: var(--olive); }
+
+  .p3 .infos { margin-top: 22px; border-top: 1px solid var(--creme-fonce); padding-top: 20px; display: grid; gap: 12px; }
+  .p3 .infos li { display: flex; align-items: center; gap: 14px; font-size: 18px; color: var(--olive); list-style: none; }
+  .p3 .infos li b { font-weight: 500; color: var(--vert); }
+  .p3 .infos svg { width: 20px; height: 20px; stroke: var(--sauge-texte); stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+  .p3 .actions { margin-top: 26px; display: flex; gap: 12px; }
+  .p3 .actions span {
+    font-size: 17px; font-weight: 500; padding: 13px 24px; border-radius: 26px;
+    border: 1px solid var(--sauge); color: var(--vert);
+  }
+  .p3 .actions span.plein { background: var(--vert); color: var(--creme); border-color: var(--vert); }
+</style>
+</head>
+<body>
+<div class="affiche pub sur-clair p3">
+
+  <div class="entete">
+    <img src="../assets/wordmark-vert.svg" alt="Caelestis">
+    <span class="lieu">Fiche Google Entreprise</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Visibilité locale</p>
+    <h1>Votre fiche Google,<br>la première chose<br><span class="accent">qu'on voit de vous.</span></h1>
+    <p class="sous">Avant votre site, avant vos réseaux. Autant qu'elle soit à la hauteur.</p>
+  </div>
+
+  <div class="carte">
+    <div class="haut">
+      <div>
+        <p class="nom">Votre entreprise</p>
+        <p class="categorie">Savonnerie artisanale, Crest</p>
+      </div>
+      <figure class="vignette"><img src="../assets/bougies-artisan.jpg" alt="Atelier d'artisan"></figure>
+    </div>
+
+    <div class="avis-note">
+      <span class="etoiles">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .9-5 4.8 1.2 7L12 18l-6.2 3.3L7 14.3 2 9.5l7-.9z"/></svg>
+      </span>
+      <span class="avis">Les avis de vos clients, en évidence</span>
+    </div>
+
+    <ul class="infos">
+      <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 1.9"/></svg><span><b>Ouvert</b>, ferme à 18 h 30</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M12 21s7-5.4 7-11a7 7 0 10-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>Votre rue, 26400 Crest</li>
+      <li><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Photos, horaires et description à jour</li>
+    </ul>
+
+    <div class="actions">
+      <span class="plein">Itinéraire</span>
+      <span>Appeler</span>
+      <span>Site web</span>
+    </div>
+  </div>
+
+  <div class="cta">
+    <span class="bouton">caelestis.fr</span>
+    <span class="note">Création 300&nbsp;€, reprise 200&nbsp;€<br>Comprise dans la formule sur mesure</span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, publicité 10, partagez-la</title>
+<link rel="stylesheet" href="pub.css">
+<style>
+  .p10 { background: var(--vert); }
+  .p10 .bloc-texte { top: 268px; }
+  .p10 h1 { font-size: 76px; }
+
+  .p10 .appel {
+    position: absolute; top: 792px; left: var(--marge); right: var(--marge); z-index: 7;
+    border-top: 1px solid rgba(252, 251, 248, .28); padding-top: 40px;
+  }
+  .p10 .appel .bouton {
+    display: inline-block; background: var(--creme); color: var(--vert);
+    font-size: 32px; font-weight: 700; letter-spacing: -0.028em;
+    padding: 26px 46px; border-radius: 54px;
+  }
+  .p10 .appel .tel-num {
+    margin-top: 34px; font-size: 44px; font-weight: 700; letter-spacing: -0.028em; color: var(--creme);
+  }
+  .p10 .appel .site { margin-top: 12px; font-size: 26px; font-weight: 500; color: var(--sauge); }
+
+  .p10 .reperes {
+    position: absolute; bottom: 88px; left: var(--marge); right: var(--marge); z-index: 7;
+    display: flex; flex-wrap: wrap; gap: 12px;
+  }
+  .p10 .reperes span {
+    font-size: 18px; font-weight: 500; color: var(--sauge);
+    border: 1px solid rgba(184, 196, 187, .5); border-radius: 26px; padding: 11px 22px;
+  }
+</style>
+</head>
+<body>
+<div class="affiche pub sur-vert p10">
+
+  <div class="entete">
+    <img src="../assets/wordmark-creme.svg" alt="Caelestis">
+    <span class="lieu">Création de sites, Drôme</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Votre projet commence par un appel</p>
+    <h1>Votre activité vous<br>tient à cœur.<br><span class="accent">Qu'attendez-vous&nbsp;?<br>Partagez-la.</span></h1>
+  </div>
+
+  <div class="appel">
+    <span class="bouton">Parler de mon projet</span>
+    <p class="tel-num">07 69 36 27 27</p>
+    <p class="site">caelestis.fr</p>
+  </div>
+
+  <div class="reperes">
+    <span>Devis gratuit</span>
+    <span>Réponse sous 48&nbsp;h</span>
+    <span>Sans engagement</span>
+    <span>Dès 1 000&nbsp;€</span>
+  </div>
+
+</div>
+</body>
+</html>

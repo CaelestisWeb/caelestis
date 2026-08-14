@@ -1,0 +1,65 @@
+@import url('../assets/affiche.css');
+
+/* Modules propres aux affiches publicitaires : un message dominant,
+   un visuel qui déborde, un appel à l'action. */
+
+/* ---------- appel à l'action ---------- */
+.cta {
+  position: absolute; bottom: 84px; left: var(--marge); right: var(--marge); z-index: 8;
+  display: flex; align-items: center; justify-content: space-between; gap: 26px;
+}
+.cta .bouton {
+  font-size: 25px; font-weight: 700; letter-spacing: -0.024em;
+  padding: 20px 36px; border-radius: 44px; white-space: nowrap;
+}
+.cta .note { font-size: 20px; font-weight: 500; text-align: right; line-height: 1.4; }
+
+.sur-vert .cta .bouton { background: var(--creme); color: var(--vert); }
+.sur-vert .cta .note { color: var(--sauge); }
+.sur-clair .cta .bouton { background: var(--vert); color: var(--creme); }
+.sur-clair .cta .note { color: var(--olive); }
+
+/* ---------- carte flottante ---------- */
+.carte {
+  position: absolute; z-index: 6;
+  background: var(--creme); border-radius: 18px;
+  box-shadow: 0 40px 80px -28px rgba(0, 0, 0, .5);
+}
+.sur-clair .carte { box-shadow: 0 34px 66px -28px rgba(18, 22, 15, .4), 0 0 0 1px rgba(18, 22, 15, .06); }
+
+/* ---------- pastille d'appui ---------- */
+.badge {
+  position: absolute; z-index: 7;
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 17px; font-weight: 500; letter-spacing: .02em;
+  padding: 14px 22px; border-radius: 30px;
+  background: var(--creme); color: var(--vert);
+  box-shadow: 0 22px 44px -20px rgba(0, 0, 0, .45);
+}
+.badge .point { width: 9px; height: 9px; border-radius: 50%; background: var(--vert); flex: none; }
+
+/* ---------- photo de fond couverte d'un voile ---------- */
+.fond-photo { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.fond-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.voile { position: absolute; inset: 0; z-index: 1; background: rgba(27, 71, 51, .78); }
+.voile-bas { position: absolute; inset: 0; z-index: 2; background: rgba(18, 22, 15, .22); }
+
+/* ---------- surtitre et titre, échelle publicitaire ---------- */
+.pub .bloc-texte { position: absolute; top: 214px; left: var(--marge); right: var(--marge); z-index: 5; }
+.pub .bloc-texte.serre { right: 200px; }
+.pub h1 { font-size: 66px; }
+.pub .sous { margin-top: 28px; font-size: 24px; line-height: 1.45; font-weight: 400; }
+.sur-vert .eyebrow { color: var(--sauge); }
+.sur-vert h1 { color: var(--creme); }
+.sur-vert h1 .accent { color: var(--sauge); }
+.sur-vert .sous { color: rgba(227, 239, 232, .8); }
+.sur-clair .eyebrow { color: var(--sauge-texte); }
+.sur-clair h1 { color: var(--encre); }
+.sur-clair h1 .accent { color: var(--vert); }
+.sur-clair .sous { color: var(--olive); }
+.pub .eyebrow { margin-bottom: 32px; }
+
+.sur-vert .entete .lieu { color: rgba(184, 196, 187, .82); }
+.sur-vert .filet { top: 148px; background: rgba(184, 196, 187, .28); }
+.sur-clair .entete .lieu { color: var(--olive); }
+.sur-clair .filet { top: 148px; background: var(--creme-fonce); }

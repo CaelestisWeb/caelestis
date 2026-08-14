@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, publicité 2, être trouvé</title>
+<link rel="stylesheet" href="pub.css">
+<style>
+  .p2 { background: var(--vert); }
+  .p2 h1 { font-size: 64px; }
+
+  /* la barre de recherche, puis le résultat qui remonte */
+  .p2 .recherche {
+    position: absolute; top: 604px; left: 128px; right: 128px; z-index: 6;
+    height: 76px; border-radius: 38px; background: var(--creme);
+    display: flex; align-items: center; gap: 20px; padding: 0 34px;
+    box-shadow: 0 30px 60px -26px rgba(0, 0, 0, .5);
+  }
+  .p2 .recherche svg { width: 26px; height: 26px; stroke: var(--olive); stroke-width: 1.6; fill: none; stroke-linecap: round; flex: none; }
+  .p2 .recherche span { font-size: 24px; color: var(--olive); }
+
+  .p2 .carte { top: 726px; left: 128px; right: 128px; padding: 34px 38px 32px; }
+  .p2 .carte .rang { font-size: 13px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--sauge-texte); }
+  .p2 .carte .lien { margin-top: 14px; font-size: 32px; font-weight: 500; letter-spacing: -0.024em; color: var(--vert); }
+  .p2 .carte .adresse { margin-top: 6px; font-size: 18px; color: var(--olive); }
+  .p2 .carte .txt { margin-top: 14px; font-size: 19px; line-height: 1.5; color: var(--olive); }
+
+  .p2 .autres { position: absolute; top: 1010px; left: 152px; right: 152px; z-index: 5; opacity: .3; }
+  .p2 .autres .barre { height: 14px; border-radius: 7px; background: var(--sauge); }
+  .p2 .autres .barre + .barre { margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="affiche pub sur-vert p2">
+
+  <div class="entete">
+    <img src="../assets/wordmark-creme.svg" alt="Caelestis">
+    <span class="lieu">Référencement naturel</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Visibilité en ligne</p>
+    <h1>Être trouvé par ceux<br><span class="accent">qui vous cherchent déjà.</span></h1>
+    <p class="sous">Remonter dans Google, sans payer de publicité.</p>
+  </div>
+
+  <div class="recherche">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4L21 21"/></svg>
+    <span>savonnerie artisanale près de Crest</span>
+  </div>
+
+  <div class="carte">
+    <p class="rang">Premier résultat</p>
+    <p class="lien">Votre atelier, à Crest</p>
+    <p class="adresse">votre-nom.fr</p>
+    <p class="txt">Savons à froid fabriqués sur place, visite de l'atelier sur rendez-vous, vente directe du mardi au samedi.</p>
+  </div>
+
+  <div class="autres">
+    <div class="barre" style="width: 44%"></div>
+    <div class="barre" style="width: 66%"></div>
+    <div class="barre" style="width: 52%"></div>
+  </div>
+
+  <div class="cta">
+    <span class="bouton">Audit gratuit</span>
+    <span class="note">caelestis.fr<br>07 69 36 27 27</span>
+  </div>
+
+</div>
+</body>
+</html>
