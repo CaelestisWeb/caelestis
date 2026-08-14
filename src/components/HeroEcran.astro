@@ -428,18 +428,17 @@ const menu = [
     .hm-reassure{grid-row:5}
     .hm-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--color-brun-mid);margin:0;line-height:1.75}
     .hm-eyebrow b{color:var(--color-ocre);font-weight:500;border-bottom:1px solid rgba(37,92,65,.35);padding-bottom:1px}
-    /* Le titre s'interligne à 35 px : sous 2,4rem d'écart, le sous-titre se
-       lirait comme une quatrième ligne du titre. Le bouton, lui, se détache
-       nettement plus (3,2rem), c'est une action et non la suite de la phrase. */
-    /* 8,2vw et non 8,5vw. Mesuré le 14/08/2026 : à 8,5vw, « Optez pour un site
-       web, » ne tenait dans sa ligne qu'à 1 px près sur 390 px de large, et il
-       manquait 0,7 px sur 360 px, où « web, » tombait donc seul sur une
-       quatrième ligne. 8,2vw laisse 10 à 16 px de marge sur toute la plage
-       mobile, pour un corps de titre plus petit d'un pixel à peine. Le plancher
-       de 1,6rem couvre les écrans de 320 px, où les retours forcés du titre
-       maintiennent l'étagement en trois lignes.
+    /* Corps du titre : 8,2vw et non 8,5vw. Mesuré le 14/08/2026, à 8,5vw
+       « Optez pour un site web, » ne tenait dans sa ligne qu'à 1 px près sur
+       390 px de large, et il manquait 0,7 px sur 360 px, où « web, » tombait
+       seul sur une quatrième ligne. 8,2vw laisse 10 à 16 px de marge sur toute
+       la plage mobile, pour un corps plus petit d'un pixel à peine. Le plancher
+       de 1,6rem couvre les écrans de 320 px.
 
-       Les deux écarts suivent la hauteur de l'écran, pas seulement la taille du
+       Écarts internes : le titre s'interligne à 35 px, sous 2,4rem le
+       sous-titre se lirait comme une quatrième ligne de titre. Le bouton se
+       détache davantage (3,2rem), c'est une action et non la suite de la
+       phrase. Les deux suivent la hauteur de l'écran et non la seule taille du
        texte : sur un petit écran ils se resserrent d'une vingtaine de pixels,
        qui repartent aux respirations entre les trois groupes. */
     .hm-title{font-family:var(--font-display);font-weight:700;font-size:clamp(1.6rem,8.2vw,2.55rem);line-height:1.06;letter-spacing:-.035em;color:var(--color-ocre);margin-bottom:clamp(1.7rem,4.5vh,2.4rem)}
