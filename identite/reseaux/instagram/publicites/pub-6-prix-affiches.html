@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Caelestis, publicité 6, les prix affichés</title>
+<link rel="stylesheet" href="pub.css">
+<style>
+  .p6 { background: var(--vert-profond); }
+  .p6 h1 { font-size: 62px; }
+
+  .p6 .formules {
+    position: absolute; top: 566px; bottom: 194px; left: var(--marge); right: var(--marge); z-index: 6;
+    display: flex; flex-direction: column;
+  }
+  .p6 .ligne {
+    flex: 1;
+    display: flex; align-items: center; justify-content: space-between; gap: 26px;
+    border-top: 1px solid rgba(184, 196, 187, .28);
+  }
+  .p6 .ligne:last-child { border-bottom: 1px solid rgba(184, 196, 187, .28); }
+  .p6 .nom { font-size: 30px; font-weight: 500; letter-spacing: -0.022em; color: var(--creme); }
+  .p6 .nom .marque {
+    display: inline-block; vertical-align: 5px; margin-left: 14px;
+    font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--vert-profond); background: var(--sauge); padding: 5px 11px 4px; border-radius: 20px;
+  }
+  .p6 .quoi { margin-top: 7px; font-size: 18px; color: rgba(227, 239, 232, .72); }
+  .p6 .prix { font-size: 34px; font-weight: 700; letter-spacing: -0.024em; color: var(--sauge); white-space: nowrap; }
+  .p6 .prix .des { display: block; font-size: 12px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: rgba(184, 196, 187, .72); margin-bottom: 4px; text-align: right; }
+</style>
+</head>
+<body>
+<div class="affiche pub sur-vert p6">
+
+  <div class="entete">
+    <img src="../assets/wordmark-creme.svg" alt="Caelestis">
+    <span class="lieu">Tarifs affichés</span>
+  </div>
+  <div class="filet"></div>
+
+  <div class="bloc-texte">
+    <p class="eyebrow">Aucun devis à rallonge</p>
+    <h1>Le prix est sur le site,<br><span class="accent">pas au bout d'un rendez-vous.</span></h1>
+  </div>
+
+  <div class="formules">
+    <div class="ligne">
+      <div>
+        <p class="nom">Page unique</p>
+        <p class="quoi">L'essentiel de votre activité sur une seule page.</p>
+      </div>
+      <p class="prix"><span class="des">à partir de</span>1 000&nbsp;€</p>
+    </div>
+    <div class="ligne">
+      <div>
+        <p class="nom">Site vitrine<span class="marque">Le plus demandé</span></p>
+        <p class="quoi">Votre activité en ligne, page après page.</p>
+      </div>
+      <p class="prix"><span class="des">à partir de</span>2 000&nbsp;€</p>
+    </div>
+    <div class="ligne">
+      <div>
+        <p class="nom">Boutique en ligne</p>
+        <p class="quoi">Vos produits en vente, avec un paiement sécurisé.</p>
+      </div>
+      <p class="prix"><span class="des">à partir de</span>2 500&nbsp;€</p>
+    </div>
+    <div class="ligne">
+      <div>
+        <p class="nom">Site sur mesure</p>
+        <p class="quoi">Conçu selon vos besoins et vos objectifs.</p>
+      </div>
+      <p class="prix"><span class="des">à partir de</span>3 500&nbsp;€</p>
+    </div>
+  </div>
+
+  <div class="cta">
+    <span class="bouton">07 69 36 27 27</span>
+    <span class="note">Prix nets, sans TVA à ajouter<br>caelestis.fr</span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -34,7 +34,7 @@ const AFFICHES = [
   'pub-3-fiche-google',
   'pub-4-tout-reunir',
   'pub-5-metiers-de-passion',
-  'pub-6-pas-des-promesses',
+  'pub-6-prix-affiches',
   'pub-7-sur-mesure',
   'pub-8-engagement-nature',
   'pub-9-une-seule-page',

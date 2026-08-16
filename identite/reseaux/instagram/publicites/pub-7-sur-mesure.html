@@ -8,28 +8,23 @@
   .p7 { background: var(--vert); }
   .p7 h1 { font-size: 62px; }
 
-  .p7 .tel { left: 84px; top: 528px; width: 330px; box-shadow: 0 44px 84px -22px rgba(0, 0, 0, .58); }
+  /* la carte s'arrête à 618, la liste commence à 656 : aucun recouvrement */
+  .p7 .mod-resa {
+    position: absolute; top: 628px; left: var(--marge); right: 462px; z-index: 6;
+    box-shadow: 0 40px 76px -26px rgba(0, 0, 0, .5);
+  }
+  .p7 .mod-resa .jours span { height: 52px; }
+  .p7 .mod-resa .creneaux span { height: 46px; }
+  .p7 .mod-resa .valider { height: 50px; border-radius: 25px; }
 
-  /* la colonne de droite porte les preuves puis l'appel : rien ne recouvre le téléphone */
-  .p7 .preuves { position: absolute; top: 560px; left: 480px; right: var(--marge); z-index: 7; }
-  .p7 .preuves .carte-p {
-    background: var(--creme); border-radius: 16px; padding: 24px 26px;
-    box-shadow: 0 30px 58px -26px rgba(0, 0, 0, .48);
+  .p7 .aptitudes { position: absolute; top: 628px; right: var(--marge); width: 340px; z-index: 6; }
+  .p7 .aptitudes li {
+    list-style: none; display: flex; align-items: flex-start; gap: 14px;
+    font-size: 19px; line-height: 1.45; color: var(--creme);
+    border-top: 1px solid rgba(252, 251, 248, .26); padding: 20px 0;
   }
-  .p7 .preuves .carte-p + .carte-p { margin-top: 20px; }
-  .p7 .preuves .t { font-size: 23px; font-weight: 700; letter-spacing: -0.026em; color: var(--vert); }
-  .p7 .preuves .d { margin-top: 7px; font-size: 17px; line-height: 1.45; color: var(--olive); }
-  .p7 .preuves .signature {
-    margin-top: 22px; font-size: 17px; line-height: 1.5; color: rgba(227, 239, 232, .82);
-  }
-  .p7 .preuves .signature b { color: var(--creme); font-weight: 500; }
-  .p7 .preuves .appel { margin-top: 34px; }
-  .p7 .preuves .appel .bouton {
-    display: inline-block; background: var(--creme); color: var(--vert);
-    font-size: 24px; font-weight: 700; letter-spacing: -0.024em;
-    padding: 19px 34px; border-radius: 44px;
-  }
-  .p7 .preuves .appel .coord { margin-top: 18px; font-size: 19px; font-weight: 500; color: var(--sauge); line-height: 1.5; }
+  .p7 .aptitudes li:last-child { border-bottom: 1px solid rgba(252, 251, 248, .26); }
+  .p7 .aptitudes svg { width: 21px; height: 21px; stroke: var(--sauge); stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; flex: none; margin-top: 3px; }
 </style>
 </head>
 <body>
@@ -44,26 +39,31 @@
   <div class="bloc-texte">
     <p class="eyebrow">Quand le standard ne suffit plus</p>
     <h1>Un site qui fait ce que<br><span class="accent">votre métier demande.</span></h1>
+    <p class="sous">Réservation en ligne, agenda, devis, espace client. Développé pour vous, pas acheté sur étagère.</p>
   </div>
 
-  <div class="tel">
-    <img src="../captures/client-fdo-reservation-mobile.png" alt="Moteur de réservation du salon Fée des Ongles">
+  <div class="mod-resa" role="img" aria-label="Aperçu d'un module de réservation">
+    <div class="titre"></div>
+    <div class="jours">
+      <span>Lun</span><span>Mar</span><span class="on">Mer</span><span>Jeu</span><span>Ven</span>
+    </div>
+    <div class="creneaux">
+      <span>9 h</span><span class="pris">10 h</span><span>11 h</span><span>12 h</span>
+      <span>14 h</span><span class="pris">15 h</span><span>16 h</span><span>17 h</span>
+      <span class="pris">18 h</span><span>19 h</span><span>20 h</span><span class="pris">21 h</span>
+    </div>
+    <div class="valider">Réserver ce créneau</div>
   </div>
 
-  <div class="preuves">
-    <div class="carte-p">
-      <p class="t">Réserver à 22 h, un dimanche</p>
-      <p class="d">Les clientes choisissent leur créneau seules, sans attendre de réponse.</p>
-    </div>
-    <div class="carte-p">
-      <p class="t">Aucun créneau pris deux fois</p>
-      <p class="d">Le salon garde la main sur son agenda, y compris pour les rendez-vous pris de vive voix.</p>
-    </div>
-    <p class="signature"><b>Fée des Ongles</b>, prothésiste ongulaire à Crest.<br>Moteur de réservation développé sur mesure, livré en 14 jours.</p>
-    <div class="appel">
-      <span class="bouton">Racontez-nous</span>
-      <p class="coord">caelestis.fr<br>07 69 36 27 27</p>
-    </div>
+  <ul class="aptitudes">
+    <li><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Vos clients réservent seuls, à 22 h un dimanche.</li>
+    <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.4l2.6 2.6L16 9.6"/></svg>Jamais deux réservations sur le même créneau.</li>
+    <li><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h13"/></svg>Vous gardez la main sur votre agenda.</li>
+  </ul>
+
+  <div class="cta">
+    <span class="bouton">07 69 36 27 27</span>
+    <span class="note">caelestis.fr<br>Racontez-nous ce qui vous bloque</span>
   </div>
 
 </div>

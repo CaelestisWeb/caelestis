@@ -6,31 +6,29 @@
 <link rel="stylesheet" href="pub.css">
 <style>
   .p9 { background: var(--creme); }
-  .p9 h1 { font-size: 62px; }
-  .p9 .bloc-texte { right: 430px; }
+  .p9 h1 { font-size: 54px; }
+  .p9 .bloc-texte { right: 436px; }
+  .p9 .sous { font-size: 21px; }
 
-  /* le téléphone entre par la droite et sort par le bas */
-  .p9 .tel {
-    right: -34px; top: 316px; width: 352px;
-    box-shadow: 0 46px 88px -26px rgba(18, 22, 15, .48);
+  .p9 .tel-dessine {
+    position: absolute; right: 62px; top: 268px; width: 354px; z-index: 5;
+    box-shadow: 0 46px 88px -26px rgba(18, 22, 15, .45);
   }
 
-  .p9 .arguments {
-    position: absolute; top: 578px; left: var(--marge); right: 430px; z-index: 6;
-  }
+  .p9 .arguments { position: absolute; top: 566px; left: var(--marge); right: 436px; z-index: 6; }
   .p9 .arguments li {
     list-style: none; display: flex; align-items: flex-start; gap: 16px;
     font-size: 21px; line-height: 1.42; color: var(--encre);
-    border-top: 1px solid var(--creme-fonce); padding: 20px 0;
+    border-top: 1px solid var(--creme-fonce); padding: 22px 0;
   }
   .p9 .arguments li:last-child { border-bottom: 1px solid var(--creme-fonce); }
   .p9 .arguments svg { width: 22px; height: 22px; stroke: var(--vert); stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; flex: none; margin-top: 4px; }
 
   .p9 .prix {
-    position: absolute; top: 928px; left: var(--marge); z-index: 6;
-    font-size: 21px; color: var(--olive);
+    position: absolute; top: 908px; left: var(--marge); z-index: 6;
+    font-size: 20px; color: var(--olive);
   }
-  .p9 .prix b { font-size: 32px; font-weight: 700; letter-spacing: -0.028em; color: var(--vert); display: block; margin-top: 4px; }
+  .p9 .prix b { font-size: 34px; font-weight: 700; letter-spacing: -0.028em; color: var(--vert); display: block; margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -48,8 +46,21 @@
     <p class="sous">Pour démarrer simplement, sans rien sacrifier d'essentiel.</p>
   </div>
 
-  <div class="tel">
-    <img src="../captures/accueil-mobile-390.png" alt="Un site Caelestis sur téléphone">
+  <div class="tel-dessine" role="img" aria-label="Aperçu d'une page unique sur téléphone">
+    <div class="ecran">
+      <div class="barre-h"><i></i><u></u></div>
+      <div class="corps">
+        <div class="t"></div>
+        <div class="t court"></div>
+        <div class="p"></div>
+        <div class="p court"></div>
+        <div class="bouton"></div>
+        <div class="bloc"></div>
+        <div class="duo"><span></span><span></span></div>
+        <div class="p"></div>
+        <div class="p court"></div>
+      </div>
+    </div>
   </div>
 
   <ul class="arguments">
@@ -61,7 +72,7 @@
   <p class="prix">à partir de<b>1 000&nbsp;€</b></p>
 
   <div class="cta">
-    <span class="bouton">Parler de mon projet</span>
+    <span class="bouton">07 69 36 27 27</span>
     <span class="note">caelestis.fr<br>Devis gratuit sous 48&nbsp;h</span>
   </div>
 

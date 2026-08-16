@@ -8,16 +8,17 @@
   .p1 { background: var(--vert-profond); }
   .p1 h1 { font-size: 68px; }
 
-  .p1 .fenetre {
-    top: 664px; left: 64px; width: 952px;
+  .p1 .maquette {
+    position: absolute; top: 686px; left: 64px; width: 952px; z-index: 5;
     box-shadow: 0 50px 96px -26px rgba(0, 0, 0, .6), 0 0 0 1px rgba(252, 251, 248, .07);
   }
-  /* cadrage sur les quatre formules : le titre de la page répéterait celui de l'affiche,
-     et aucune carte ne doit être rognée sur les côtés */
-  .p1 .fenetre .cadre { height: 246px; overflow: hidden; }
-  .p1 .fenetre .cadre img { display: block; width: 100%; margin-top: -230px; }
+  .p1 .maquette .mq-corps { padding: 26px 28px 30px; }
+  .p1 .maquette .mq-bas { margin-top: 26px; }
+  .p1 .maquette .mq-vignette { width: 92px; height: 92px; }
+  .p1 .maquette .mq-titre { height: 21px; }
+  .p1 .maquette .mq-bouton { width: 148px; height: 34px; border-radius: 17px; }
 
-  .p1 .badge { top: 592px; right: 84px; }
+  .p1 .badge { top: 610px; right: 84px; }
 </style>
 </head>
 <body>
@@ -37,16 +38,30 @@
 
   <div class="badge"><span class="point"></span>En ligne en 2 à 8 semaines</div>
 
-  <div class="fenetre">
-    <div class="barre">
-      <span class="pastille"></span><span class="pastille"></span><span class="pastille"></span>
-      <span class="url">caelestis.fr/services</span>
+  <div class="maquette large" role="img" aria-label="Aperçu d'une page de site">
+    <div class="mq-barre"><i></i><i></i><i></i><span></span></div>
+    <div class="mq-corps">
+      <div class="mq-nav"><b></b><u></u><u></u><u></u><u></u></div>
+      <div class="mq-bas">
+        <div class="mq-texte-col">
+          <div class="mq-titre"></div>
+          <div class="mq-titre court"></div>
+          <div class="mq-texte"></div>
+          <div class="mq-texte court"></div>
+          <div class="mq-bouton"></div>
+        </div>
+        <div class="mq-vignettes">
+          <div class="mq-vignette"></div>
+          <div class="mq-vignette"></div>
+          <div class="mq-vignette"></div>
+        </div>
+      </div>
+      <div class="mq-sections"><span></span><span></span><span></span></div>
     </div>
-    <div class="cadre"><img src="../captures/ecran-services.png" alt="Les quatre formules sur le site Caelestis"></div>
   </div>
 
   <div class="cta">
-    <span class="bouton">Parler de mon projet</span>
+    <span class="bouton">07 69 36 27 27</span>
     <span class="note">caelestis.fr<br>Devis gratuit sous 48&nbsp;h</span>
   </div>
 

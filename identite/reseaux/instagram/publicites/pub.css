@@ -67,6 +67,11 @@
 .maquette.large .mq-texte-col { flex: 1; display: flex; flex-direction: column; gap: 11px; }
 .maquette.large .mq-vignettes { display: flex; gap: 10px; flex: none; }
 .maquette.large .mq-vignette { width: 74px; height: 74px; }
+.maquette.large .mq-sections { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
+.maquette.large .mq-sections span {
+  height: 104px; border-radius: 10px; display: block;
+  background: var(--sauge-pale); border: 1px solid rgba(37, 92, 65, .12);
+}
 
 /* compacte : tout empilé */
 .maquette.mini .mq-corps { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 9px; }
@@ -74,6 +79,47 @@
 .maquette.mini .mq-bouton { width: 84px; height: 22px; border-radius: 11px; margin-top: 3px; }
 .maquette.mini .mq-vignettes { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 4px; }
 .maquette.mini .mq-vignette { height: 42px; }
+
+/* ---------- téléphone dessiné ---------- */
+.tel-dessine { background: var(--encre); border-radius: 38px; padding: 9px; }
+.tel-dessine .ecran { background: var(--creme); border-radius: 30px; overflow: hidden; }
+.tel-dessine .barre-h {
+  height: 36px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+}
+.tel-dessine .barre-h i { width: 44px; height: 7px; border-radius: 4px; background: var(--creme-fonce); display: block; }
+.tel-dessine .barre-h u { width: 26px; height: 7px; border-radius: 4px; background: var(--creme-fonce); display: block; }
+.tel-dessine .corps { padding: 18px 20px 26px; display: flex; flex-direction: column; gap: 11px; }
+.tel-dessine .t { height: 16px; border-radius: 8px; background: var(--vert); }
+.tel-dessine .t.court { width: 64%; }
+.tel-dessine .p { height: 8px; border-radius: 4px; background: var(--creme-fonce); }
+.tel-dessine .p.court { width: 78%; }
+.tel-dessine .bouton { width: 128px; height: 30px; border-radius: 15px; background: var(--vert); margin-top: 4px; }
+.tel-dessine .bloc { height: 92px; border-radius: 10px; background: var(--sauge-pale); border: 1px solid rgba(37, 92, 65, .12); margin-top: 6px; }
+.tel-dessine .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tel-dessine .duo span { height: 64px; border-radius: 9px; background: var(--sauge-pale); border: 1px solid rgba(37, 92, 65, .12); display: block; }
+
+/* ---------- moteur de réservation dessiné ---------- */
+.mod-resa { background: var(--creme); border-radius: 18px; padding: 24px 26px 26px; }
+.mod-resa .titre { height: 15px; width: 52%; border-radius: 8px; background: var(--vert); }
+.mod-resa .jours { display: flex; gap: 9px; margin-top: 20px; }
+.mod-resa .jours span {
+  flex: 1; height: 46px; border-radius: 12px; border: 1px solid var(--creme-fonce);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 500; color: var(--olive);
+}
+.mod-resa .jours span.on { background: var(--vert); border-color: var(--vert); color: var(--creme); }
+.mod-resa .creneaux { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-top: 12px; }
+.mod-resa .creneaux span {
+  height: 40px; border-radius: 10px; border: 1px solid var(--sauge);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 500; color: var(--vert);
+}
+.mod-resa .creneaux span.pris { border-color: var(--creme-fonce); color: var(--creme-fonce); background: #F5F3EE; }
+.mod-resa .valider {
+  margin-top: 16px; height: 44px; border-radius: 22px; background: var(--vert);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: var(--creme); letter-spacing: -0.01em;
+}
 
 /* ---------- photo de fond couverte d'un voile ---------- */
 .fond-photo { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
