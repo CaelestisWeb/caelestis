@@ -49,7 +49,7 @@ const promesse2 = trace(f400, 'cultivent et bâtissent avec passion.', TAILLE_PR
 
 /* Pied : adresse du site a gauche, activite a droite, memes marges */
 const site = trace(f700, 'caelestis.fr', TAILLE_PIED, { x: MARGE - mesurePied.gauche, y: basePied, ls: 0.5 });
-const ACTIVITE = 'Création de sites internet et référencement naturel, Drôme';
+const ACTIVITE = 'Création de sites internet, fiche Google et référencement';
 const mesureAct = trace(f400, ACTIVITE, 22);
 const activitePlace = trace(f400, ACTIVITE, 22, {
   x: L - MARGE - mesureAct.droite,
@@ -70,6 +70,6 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${L}" height="${H}" 
 
 await sharp(Buffer.from(svg))
   .jpeg({ quality: 92, chromaSubsampling: '4:4:4' })
-  .toFile(`${RACINE}/public/og-image.jpg`);
+  .toFile(`${RACINE}/public/og-image-2026.jpg`);
 
-console.log('public/og-image.jpg regenere, 1200 x 630');
+console.log('public/og-image-2026.jpg regenere, 1200 x 630');
