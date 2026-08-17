@@ -1013,7 +1013,13 @@ const organizationSchema = {
       <div class="cta-pair flex items-center justify-center">
         <Button href="/contact" variant="primary">Parler de mon projet</Button>
       </div>
-      <p class="font-body text-sm text-brun-mid mt-6">Réponse sous 48h, devis gratuit et sans engagement.</p>
+      <!-- La mention régionale est celle que portent déjà les pages de service
+           sous leur bouton. Elle donne à l'accueil son seul lien en plein
+           contenu vers la page régionale, qui n'en recevait que deux sur tout
+           le site alors qu'elle porte la requête « création de site internet en
+           Auvergne-Rhône-Alpes ». Un lien de pied de page pèse peu, un lien en
+           contenu compte. -->
+      <p class="font-body text-sm text-brun-mid mt-6">Réponse sous 48h, devis gratuit et sans engagement.<br>Partout en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">Auvergne-Rhône-Alpes</a>.</p>
     </div>
   </section>
 
