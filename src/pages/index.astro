@@ -371,15 +371,16 @@ const organizationSchema = {
            et aux métiers de la nature. Le statut reste porté par les pastilles.
            Casse normale et non capitales : une phrase qui interpelle se lit mieux
            qu'un label en petites capitales, et chaque phrase garde ainsi sa
-           majuscule d'ouverture. Deux lignes fixées au <br> ; sur la seconde, la
-           question rhétorique en sauge et l'impératif « Partagez-la. » en mousse
-           foncée, pour que l'œil tombe sur le verbe. Ponctuation en deux phrases
-           nettes (« Qu'attendez-vous ? Partagez-la. ») plutôt qu'une virgule, qui
-           laissait une interrogative sans point d'interrogation. La marge basse
+           majuscule d'ouverture. Deux lignes fixées au <br> ; sur la seconde,
+           l'infinitif « la faire connaître » en mousse foncée, pour que l'œil
+           tombe sur le verbe. Une seule phrase enjambant les deux lignes depuis
+           le 17/08/2026 : la question rhétorique « Qu'attendez-vous ? » séparait
+           le pronom « la » de son référent (« votre activité »), au point qu'on
+           lisait la relance sans savoir ce qu'il fallait partager. La marge basse
            (32 px, 40 en desktop) sépare l'accroche des pastilles. -->
       <p class="accroche-pourqui font-body text-center text-base md:text-lg leading-relaxed text-sauge mb-8 md:mb-10" data-reveal>
         Votre activité vous tient à cœur.<br>
-        Qu'attendez-vous ? <span>Partagez-la.</span>
+        Reste à <span>la faire connaître.</span>
       </p>
 
       <!-- Galerie parlante : la frise de photos porte elle-même le ciblage.
@@ -488,8 +489,8 @@ const organizationSchema = {
            enchaîne sur « Tout ce qui vous fait choisir, un seul endroit le
            réunit ». -->
       <p class="chute-pourqui font-display" data-reveal data-delay="2">
-        Votre savoir-faire se reconnaît lorsqu'on vous voit à l'œuvre,
-        <span>notre mission est de le faire ressentir à travers un écran.</span>
+        Votre travail se reconnaît quand on vous voit à l'œuvre.
+        <span>Reste à le faire ressentir à travers un écran.</span>
       </p>
       <!-- Plus de signature séparée : la mission de l'agence est désormais portée
            par le second temps de la chute lui-même. La ligne « C'est précisément là
@@ -671,7 +672,7 @@ const organizationSchema = {
           Vous avez déjà un site ?
         </h2>
         <p class="font-body text-base leading-relaxed max-w-[48ch]" style="color: rgba(252, 251, 248, 0.75)">
-          Notre outil de diagnostic l'analyse en une minute : vitesse, affichage mobile,
+          Notre outil de diagnostic l'analyse en quelques secondes : vitesse, affichage mobile,
           sécurité, référencement et moyens de contact. Sans inscription, sans email.
         </p>
       </div>
@@ -758,7 +759,7 @@ const organizationSchema = {
           Ce que nous pouvons faire pour vous.
         </h2>
         <p class="font-body text-base text-brun-mid">
-          Quatre formules pour une même exigence. Le choix dépend de ce que votre activité demande, et nous en discutons ensemble.
+          Quatre formules, du plus simple au sur mesure. Le choix dépend de ce que votre activité demande, et nous en discutons ensemble.
         </p>
       </div>
 
@@ -913,7 +914,7 @@ const organizationSchema = {
           2&nbsp;% de chaque projet reversés à la nature.
         </h2>
         <p class="font-body text-base leading-relaxed" style="color: rgba(252, 251, 248,0.82)">
-          Chaque site que nous créons finance le travail de <a href="https://www.fne.asso.fr" target="_blank" rel="noopener noreferrer" class="text-sauge hover:opacity-80 transition-opacity">France Nature Environnement<span class="sr-only"> (nouvelle fenêtre)</span></a>, première fédération française de protection de la nature. Parce que construire quelque chose de beau ne s'arrête pas à soi.
+          Chaque site que nous créons finance le travail de <a href="https://www.fne.asso.fr" target="_blank" rel="noopener noreferrer" class="text-sauge hover:opacity-80 transition-opacity">France Nature Environnement<span class="sr-only"> (nouvelle fenêtre)</span></a>, première fédération française de protection de la nature. Nos clients vivent de ce qui pousse et de ce qui vit : autant y contribuer.
         </p>
       </div>
 
@@ -1471,9 +1472,9 @@ const organizationSchema = {
     display: block;
     color: var(--color-sauge-text);
   }
-  /* Accroche « pour qui » : la question en sauge clair, l'appel à l'action
-     (« Partagez-la ! ») en mousse foncée et un cran plus gras, pour que l'œil
-     tombe sur le verbe. Le <br> du markup gère déjà le retour à la ligne. */
+  /* Accroche « pour qui » : le constat en sauge clair, le verbe d'action
+     (« la faire connaître ») en mousse foncée et un cran plus gras, pour que
+     l'œil tombe dessus. Le <br> du markup gère déjà le retour à la ligne. */
   .accroche-pourqui span {
     color: var(--color-sauge-text);
     font-weight: 600;

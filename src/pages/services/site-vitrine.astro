@@ -4,7 +4,7 @@ import Button from '../../components/Button.astro';
 import AppelFinal from '../../components/AppelFinal.astro';
 
 import PlanTypes from '../../components/PlanTypes.astro';
-import { euros, formule, MAINTENANCE_RETOUCHES_MIN, TARIF_HORAIRE } from '../../utils/tarifs';
+import { euros, formule, MAINTENANCE, MAINTENANCE_MOIS_OFFERTS_LETTRES, MAINTENANCE_RETOUCHES_MIN, TARIF_HORAIRE } from '../../utils/tarifs';
 
 const canonical = 'https://caelestis.fr/services/site-vitrine';
 
@@ -236,6 +236,10 @@ const inclus = [
           à partir du moment où nous avons vos contenus. Le devis annonce un prix ferme et une date, avant que le travail commence.
           Voir <a href="/realisations" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">ce que nous avons déjà livré</a>.
         </p>
+
+        <p class="font-body text-sm text-brun-mid leading-relaxed mt-5">
+          <strong class="text-brun font-medium">Maintenance obligatoire</strong>, offerte les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois puis <a href="/maintenance" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">{euros(MAINTENANCE['site-vitrine'])} € par mois</a>, résiliable avec un mois de préavis&nbsp;: votre site reste en ligne, rapide et sécurisé.
+        </p>
       </div>
     </div>
   </section>
@@ -273,8 +277,8 @@ const inclus = [
        formules avec leur prix. Ne pas le réintroduire. -->
 
   <AppelFinal
-    titre="Votre activité mérite"
-    titreAccent="mieux qu'une page."
+    titre="Une page ne suffit plus"
+    titreAccent="pour tout dire ?"
     texte="Parlons de vos pages, de vos contenus et du calendrier. Devis gratuit, réponse sous 48h."
     href="/contact#devis"
     libelle="Demander un devis"

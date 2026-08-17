@@ -104,7 +104,7 @@ export const FORMULES: readonly Formule[] = [
     action: { href: '/services/site-sur-mesure', libelle: 'Découvrir le site sur mesure' },
     kicker: 'Pour aller plus loin',
     baseline: 'Entièrement conçu selon vos besoins, votre identité et vos objectifs.',
-    resume: 'Un site entièrement adapté à votre projet, avec davantage de contenu, de fonctionnalités et un travail SEO plus approfondi.',
+    resume: 'Un site entièrement adapté à votre projet, avec davantage de contenu, de fonctionnalités et un travail de référencement plus approfondi.',
     points: [
       'Davantage de pages et de contenu.',
       'Des fonctionnalités adaptées à votre métier.',

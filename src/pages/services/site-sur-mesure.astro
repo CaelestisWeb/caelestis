@@ -4,7 +4,7 @@ import Button from '../../components/Button.astro';
 import AppelFinal from '../../components/AppelFinal.astro';
 
 import PlanTypes from '../../components/PlanTypes.astro';
-import { euros, formule } from '../../utils/tarifs';
+import { euros, formule, MAINTENANCE, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../../utils/tarifs';
 
 const canonical = 'https://caelestis.fr/services/site-sur-mesure';
 
@@ -255,7 +255,12 @@ const inclus = [
         <p class="font-body text-sm text-brun-mid leading-relaxed">
           <strong class="text-brun font-medium">Six à huit semaines</strong> pour un projet courant, davantage si les fonctionnalités sont nombreuses.
           Le calendrier est posé au cadrage, avec les dates auxquelles nous avons besoin de vos contenus.
+          Votre fiche Google Entreprise est comprise dans cette formule, qu'il faille la créer ou la reprendre.
           Voir <a href="/realisations/fee-des-ongles" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">un exemple de réservation sur mesure déjà en service</a>.
+        </p>
+
+        <p class="font-body text-sm text-brun-mid leading-relaxed mt-5">
+          <strong class="text-brun font-medium">Maintenance obligatoire</strong>, offerte les {MAINTENANCE_MOIS_OFFERTS_LETTRES} premiers mois puis <a href="/maintenance" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">{euros(MAINTENANCE['site-sur-mesure'])} € par mois</a>, résiliable avec un mois de préavis&nbsp;: votre site reste en ligne, rapide et sécurisé.
         </p>
       </div>
     </div>

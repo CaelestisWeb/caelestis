@@ -49,7 +49,11 @@ export const realisations: Realisation[] = [
     annee: 2026,
     titre: 'Un salon qui prend ses rendez-vous en ligne 24 h sur 24, livré en 14 jours',
     accroche:
-      'Site vitrine et moteur de réservation sur mesure pour un salon de prothésie ongulaire, à Crest.',
+      'Page unique et moteur de réservation sur mesure pour un salon de prothésie ongulaire, à Crest.',
+    /* « Site vitrine » jusqu'au 17/08/2026, alors que le détail décrit une page
+       unique : l'accroche annonçait une formule (3 à 5 semaines) et le délai
+       affiché en donnait une autre. La page unique se livre en 2 à 3 semaines,
+       les 14 jours tiennent donc dans la fourchette publiée. */
     delai: 'Livré en 14 jours',
     situation:
       "Romane reçoit sur rendez-vous dans son salon de Crest. Les demandes arrivaient par téléphone et par messages, à des heures où elle travaille sur les ongles de quelqu'un d'autre. Chaque créneau devait être noté, vérifié, parfois rappelé.",
@@ -66,7 +70,7 @@ export const realisations: Realisation[] = [
       "Une garantie technique contre la double réservation, assurée par la base de données elle-même et non par un simple contrôle à l'écran.",
       "Un rappel automatique avant le rendez-vous, par email ou par SMS au choix de la cliente.",
       "Une règle de trois absences non prévenues, appliquée automatiquement.",
-      "Un espace de gestion privé où Romane tient son agenda, ajoute les rendez-vous pris au téléphone, modifie ses prestations, ses tarifs, ses horaires et ses congés sans passer par moi.",
+      "Un espace de gestion privé où Romane tient son agenda, ajoute les rendez-vous pris au téléphone, modifie ses prestations, ses tarifs, ses horaires et ses congés sans avoir à nous solliciter.",
     ],
     livre: [
       'Réservation ouverte en continu, sans intervention humaine.',
