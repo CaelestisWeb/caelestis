@@ -29,6 +29,47 @@ const origineAutorisee = (origin: string | null): boolean =>
 
 
 /* ══════════════════════════════════════════════════════════
+   PIÈCES JOINTES : LES MÊMES LIMITES QUE LE FORMULAIRE
+
+   Elles n'existaient que dans ClientBrief.astro, c'est-à-dire dans le
+   navigateur : cet endpoint acceptait donc n'importe quel fichier, en
+   n'importe quel nombre et de n'importe quelle taille, et le réexpédiait
+   tel quel en pièce jointe vers contact@caelestis.fr. Un contrôle posé
+   uniquement côté client ne protège personne, il suffit d'appeler la route
+   directement. Les valeurs sont celles annoncées au visiteur, et les types
+   ceux de l'attribut `accept` du champ de dépôt.
+══════════════════════════════════════════════════════════ */
+const MAX_FICHIER_OCTETS = 5 * 1024 * 1024;
+const MAX_TOTAL_OCTETS   = 8 * 1024 * 1024;
+const MAX_FICHIERS       = 10;
+
+const TYPES_ACCEPTES = new Set([
+  'image/jpeg', 'image/png', 'image/webp', 'image/gif',
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+]);
+
+const EXTENSIONS_ACCEPTEES = /\.(jpe?g|png|webp|gif|pdf|docx?)$/i;
+
+/**
+ * Réduit un nom de fichier à ce qui peut voyager sans risque dans un en-tête
+ * de pièce jointe : ni chemin, ni caractère de contrôle, ni guillemet.
+ * Un nom reste un nom, il n'est jamais utilisé pour écrire sur le disque,
+ * mais il est affiché dans l'e-mail et posé dans le champ `filename`.
+ */
+function nomDeFichierSur(nom: string): string {
+  const base = nom.split(/[\\/]/).pop() ?? 'piece-jointe';
+  const propre = base
+    .replace(/[\u0000-\u001f\u007f]/g, '')   // caracteres de controle, CR et LF compris
+    .replace(/["'`<>|:*?]/g, '')               // ce qui casse un en-tete ou un chemin
+    .replace(/\s+/g, ' ')
+    .trim();
+  return propre.slice(0, 120) || 'piece-jointe';
+}
+
+
+/* ══════════════════════════════════════════════════════════
    HELPERS
 ══════════════════════════════════════════════════════════ */
 function esc(s: unknown): string {
@@ -634,13 +675,33 @@ export const POST: APIRoute = async ({ request }) => {
     const body: Record<string, unknown> = {};
     const fileAttachments: { filename: string; content: Buffer; contentType: string }[] = [];
 
+    /* Cumul des pièces jointes, contrôlé au fil de la lecture : un fichier
+       refusé n'est jamais chargé en mémoire, et le total ne peut pas dépasser
+       la limite même si l'appelant ignore le formulaire. */
+    let totalOctets = 0;
+    let fichiersRefuses = 0;
+
     for (const [key, value] of fd.entries()) {
       if (key === 'files' && value instanceof File && value.size > 0) {
+        const typeAnnonce = (value.type || '').toLowerCase();
+        const recevable =
+          fileAttachments.length < MAX_FICHIERS &&
+          value.size <= MAX_FICHIER_OCTETS &&
+          totalOctets + value.size <= MAX_TOTAL_OCTETS &&
+          /* Le type déclaré par le navigateur et l'extension doivent tous deux
+             correspondre. Aucun des deux n'est une preuve du contenu réel, mais
+             exiger les deux ferme le cas du fichier renommé à la volée. */
+          (TYPES_ACCEPTES.has(typeAnnonce) || typeAnnonce === '') &&
+          EXTENSIONS_ACCEPTEES.test(value.name);
+
+        if (!recevable) { fichiersRefuses++; continue; }
+
         const buffer = Buffer.from(await value.arrayBuffer());
+        totalOctets += buffer.byteLength;
         fileAttachments.push({
-          filename:    value.name,
+          filename:    nomDeFichierSur(value.name),
           content:     buffer,
-          contentType: value.type || 'application/octet-stream',
+          contentType: TYPES_ACCEPTES.has(typeAnnonce) ? typeAnnonce : 'application/octet-stream',
         });
       } else if (typeof value === 'string') {
         if (key in body) {
@@ -654,6 +715,12 @@ export const POST: APIRoute = async ({ request }) => {
           body[key] = value;
         }
       }
+    }
+
+    if (fichiersRefuses > 0) {
+      console.warn(
+        `[brief] ${fichiersRefuses} piece(s) jointe(s) ecartee(s) : type, taille ou nombre hors limites.`,
+      );
     }
 
     /* Honeypot */

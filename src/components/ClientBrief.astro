@@ -631,7 +631,13 @@
   const MAX_TOTAL   = 8 * 1024 * 1024;
 
   const taille = (o: number) => (o < 1024 * 1024 ? Math.round(o / 1024) + ' Ko' : (o / (1024 * 1024)).toFixed(1) + ' Mo');
-  const echap  = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  /* Les guillemets doivent être échappés eux aussi : le nom de fichier est
+     injecté dans l'attribut `aria-label` du bouton de retrait, entre guillemets
+     doubles. Sans cette ligne, un fichier nommé avec un guillemet sort de
+     l'attribut et peut y greffer un gestionnaire d'événement. Windows interdit
+     ce caractère dans un nom de fichier, macOS et Linux l'acceptent. */
+  const echap  = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                                 .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
   function afficherFichiers(): void {
     if (!liste) return;
