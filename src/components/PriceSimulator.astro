@@ -311,7 +311,7 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
     <!-- s3s — Complexité technique -->
     <div class="sim-step" id="s3s" data-branch-q="q3" data-overline-prefix="Votre projet">
       <p class="sim-overline">Votre projet</p>
-      <h2 class="sim-headline">Quel niveau de complexité<br>envisagez-vous&nbsp;?</h2>
+      <h2 class="sim-headline">Qu'est-ce que votre site<br>doit savoir faire&nbsp;?</h2>
       <p class="sim-intro-sub">La formule sur mesure comprend la création ou la reprise de votre fiche Google Business, sans supplément.</p>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="simple" aria-pressed="false">
@@ -402,7 +402,7 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
     <!-- ══ s4b — Volume de contenu (boutique) ══ -->
     <div class="sim-step" id="s4b" data-branch-q="qc" data-overline-prefix="Votre projet">
       <p class="sim-overline">Votre projet</p>
-      <h2 class="sim-headline">Quel volume de contenu<br>éditorial prévoyez-vous&nbsp;?</h2>
+      <h2 class="sim-headline">Combien de contenu<br>y aura-t-il à écrire&nbsp;?</h2>
       <div class="sim-cards-col">
         <button class="sim-card" data-value="few" aria-pressed="false">
           <span class="sim-card-num">01</span>
@@ -521,7 +521,7 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
               <strong class="sim-card-title">J'en ai une, reprenez-la</strong>
               <span class="sim-badge">+{FICHE_GOOGLE.refonte}&nbsp;€</span>
             </span>
-            <span class="sim-card-desc">Votre fiche existe déjà, je la reprends en entier pour qu'elle ressorte mieux dans les recherches locales.</span>
+            <span class="sim-card-desc">Votre fiche existe déjà, elle est reprise en entier pour ressortir davantage dans les recherches locales.</span>
           </span>
           <span class="sim-card-check" aria-hidden="true"></span>
         </button>
@@ -640,8 +640,8 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
         </div>
 
         <div class="sim-field sim-interest-field">
-          <span class="sim-field-label">À quel point êtes-vous intéressé par la création d'un site internet&nbsp;?</span>
-          <div class="sim-scale" id="sim-stars" role="radiogroup" aria-label="Niveau d'intérêt de 1 à 5">
+          <span class="sim-field-label">Où en êtes-vous dans votre décision&nbsp;?</span>
+          <div class="sim-scale" id="sim-stars" role="radiogroup" aria-label="Où vous en êtes dans votre décision, de 1 à 5">
             <button type="button" class="sim-star-opt sim-scale-opt" data-val="1">1</button>
             <button type="button" class="sim-star-opt sim-scale-opt" data-val="2">2</button>
             <button type="button" class="sim-star-opt sim-scale-opt" data-val="3">3</button>
@@ -649,8 +649,8 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
             <button type="button" class="sim-star-opt sim-scale-opt" data-val="5">5</button>
           </div>
           <div class="sim-scale-labels">
-            <span>Peu intéressé</span>
-            <span>Prêt à lancer</span>
+            <span>Je me renseigne</span>
+            <span>Je veux lancer</span>
           </div>
         </div>
 
@@ -1340,7 +1340,7 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
       const honeypot = form.querySelector<HTMLInputElement>('input[name="website"]')?.value ?? '';
 
       if (!prenom || !activity || !email) { showErr('Veuillez remplir tous les champs.'); return; }
-      if (!state.interest) { showErr("Veuillez indiquer votre niveau d'intérêt."); return; }
+      if (!state.interest) { showErr("Indiquez où vous en êtes dans votre décision."); return; }
 
       /* Blocage adresses fictives / jetables */
       const _el = email.toLowerCase(); const _at = _el.indexOf('@');

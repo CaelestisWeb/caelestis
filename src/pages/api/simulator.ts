@@ -706,7 +706,7 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'Données invalides (contenu).' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
     if (!interest || interest < 1 || interest > 5) {
-      return new Response(JSON.stringify({ error: "Veuillez indiquer votre niveau d'intérêt." }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ error: "Indiquez où vous en êtes dans votre décision." }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
 
     /* Si "autre" sélectionné, le texte libre est requis */
