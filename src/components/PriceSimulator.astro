@@ -887,7 +887,10 @@ import { FICHE_GOOGLE } from '../utils/tarifs';
     display: flex;
     justify-content: flex-end;
   }
-  .sim-interlude-em { font-style: normal; color: #B8C4BB; }
+  /* Mousse foncée et non `#B8C4BB` : ce texte est posé sur le fond crème du
+     simulateur, où la sauge décorative plafonne à 1,8:1. La charte réserve
+     `#B8C4BB` aux bordures et aux accents, jamais au texte sur fond clair. */
+  .sim-interlude-em { font-style: normal; color: #2E7452; }
   /* ── Champs formulaire ── */
   .sim-fields-row {
     display: grid;

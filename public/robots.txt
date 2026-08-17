@@ -7,4 +7,29 @@ Allow: /
 # de la lire et laisserait ces URL indexées sans description.
 Disallow: /api/
 
+# ── Moteurs de réponse (IA) ──
+# La règle « User-agent: * » les autorise déjà. Ils sont nommés quand même,
+# pour trois raisons : une autorisation explicite survit à toute modification
+# future de la règle générale ; certains outils d'audit et certains prestataires
+# lisent la présence du nom comme la seule preuve d'un choix délibéré ; et
+# c'est la position commerciale de l'agence, que ses clients ont besoin de voir
+# écrite (voir le gabarit C:\dev\seo-geo-gabarits\robots.txt).
+# OAI-SearchBot alimente ChatGPT Search, c'est le plus important d'entre eux.
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: Google-Extended
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Applebot-Extended
+User-agent: Bytespider
+User-agent: YouBot
+User-agent: cohere-ai
+User-agent: meta-externalagent
+Allow: /
+Disallow: /api/
+
 Sitemap: https://caelestis.fr/sitemap-index.xml
