@@ -99,6 +99,8 @@ const article = /^[aàâeéèêëiîïoôuùûyh]/i.test(metierEnPhrase) ? "d'" 
   title={`Site internet ${article}${metierEnPhrase}, ${nom}`}
   description={`${accroche} Étude de cas ${annee}, le site est en ligne.`}
   canonical={`https://caelestis.fr/realisations/${realisation.slug}`}
+  ogType="article"
+  publieLe={`${annee}-01-01`}
   schema={schema}
 >
 

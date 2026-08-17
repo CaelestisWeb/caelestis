@@ -24,11 +24,20 @@ interface Props {
   slug: string;
   /** Date de publication, au format AAAA-MM-JJ. */
   date: string;
+  /**
+   * Date de la dernière reprise du contenu, au format AAAA-MM-JJ.
+   * À ne renseigner que si le texte a réellement changé : `dateModified` est un
+   * signal de fraîcheur, une date avancée sans modification est un mensonge
+   * vérifiable au diff. À l'inverse, la laisser à la date de publication alors
+   * que le guide a été repris fait passer pour périmé un contenu à jour, ce qui
+   * était le cas des onze guides jusqu'au 17/08/2026.
+   */
+  miseAJour?: string;
   /** Accroche sous le H1 : la réponse courte, en deux phrases. */
   chapo: string;
 }
 
-const { titre, titleTag, description, slug, date, chapo } = Astro.props;
+const { titre, titleTag, description, slug, date, miseAJour, chapo } = Astro.props;
 const canonical = `https://caelestis.fr/ressources/${slug}`;
 
 const articleSchema = {
@@ -41,7 +50,7 @@ const articleSchema = {
   mainEntityOfPage: canonical,
   inLanguage: 'fr-FR',
   datePublished: date,
-  dateModified: date,
+  dateModified: miseAJour ?? date,
   author: {
     '@type': 'Person',
     name: 'Célestin Fruleux',
@@ -60,15 +69,23 @@ const breadcrumb = {
   ],
 };
 
-const dateAffichee = new Date(`${date}T12:00:00`).toLocaleDateString('fr-FR', {
+const enClair = (iso: string) => new Date(`${iso}T12:00:00`).toLocaleDateString('fr-FR', {
   day: 'numeric', month: 'long', year: 'numeric',
 });
+const dateAffichee = enClair(date);
+/* La date de reprise s'affiche aussi à l'écran : Google demande que la date du
+   balisage soit visible dans la page, et un lecteur qui la voit sait que le
+   guide est tenu à jour. Masquée si elle est identique à la publication. */
+const majAffichee = miseAJour && miseAJour !== date ? enClair(miseAJour) : null;
 ---
 
 <BaseLayout
   title={titleTag ?? `${titre}, Caelestis`}
   description={description}
   canonical={canonical}
+  ogType="article"
+  publieLe={date}
+  modifieLe={miseAJour}
   schema={[articleSchema, breadcrumb]}
 >
 
@@ -92,7 +109,7 @@ const dateAffichee = new Date(`${date}T12:00:00`).toLocaleDateString('fr-FR', {
         {chapo}
       </p>
       <p class="font-body text-xs text-brun-mid mt-7" data-reveal data-delay="2">
-        Publié le {dateAffichee}, par <a href="/a-propos" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">Célestin, Caelestis</a>
+        Publié le {dateAffichee}, par <a href="/a-propos" class="text-sauge underline underline-offset-4 decoration-sauge/40 hover:decoration-sauge transition-colors">Célestin, Caelestis</a>{majAffichee && <>. Mis à jour le {majAffichee}</>}
       </p>
     </div>
   </section>

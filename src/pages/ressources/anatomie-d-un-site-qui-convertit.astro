@@ -146,26 +146,68 @@ const anatomie = [
   },
 ];
 
+/* Ce guide n'utilise pas GuideLayout (sa mise en page commentée lui est propre),
+   mais son balisage doit être celui des dix autres, sans quoi il est le seul de
+   /ressources à ne pas être reconnu comme un article daté et signé.
+   Trois écarts corrigés le 17/08/2026 :
+   · l'auteur était l'organisation, il est la même personne que partout ailleurs ;
+   · le publisher redéclarait une entité Organization complète au lieu de pointer
+     l'@id du site, ce qui donnait deux Caelestis distincts dans le graphe ;
+   · ni date, ni url, ni @id, ni fil d'Ariane. */
+const canonical = 'https://caelestis.fr/ressources/anatomie-d-un-site-qui-convertit';
+const datePublication = '2026-08-02';
+/* Reprise du 08/08/2026 (enrichissement à 17 blocs, puis bloc « À lire ensuite »).
+   Voir la note de GuideLayout : une dateModified figée sur la publication fait
+   passer pour périmé un guide qui ne l'est pas. */
+const dateMiseAJour = '2026-08-08';
+
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
+  '@id': `${canonical}#article`,
   headline: titre,
   description,
-  author: { '@type': 'Organization', name: 'Caelestis', url: 'https://caelestis.fr' },
-  publisher: {
-    '@type': 'Organization',
-    name: 'Caelestis',
-    logo: { '@type': 'ImageObject', url: 'https://caelestis.fr/apple-touch-icon.png' },
-  },
-  mainEntityOfPage: 'https://caelestis.fr/ressources/anatomie-d-un-site-qui-convertit',
+  url: canonical,
+  mainEntityOfPage: canonical,
   inLanguage: 'fr-FR',
+  datePublished: datePublication,
+  dateModified: dateMiseAJour,
+  author: {
+    '@type': 'Person',
+    name: 'Célestin Fruleux',
+    url: 'https://caelestis.fr/a-propos',
+  },
+  publisher: { '@id': 'https://caelestis.fr/#business' },
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Ressources', item: 'https://caelestis.fr/ressources' },
+    { '@type': 'ListItem', position: 3, name: titre, item: canonical },
+  ],
 };
 ---
 
-<BaseLayout title={titre} description={description} schema={schema}>
+<BaseLayout
+  title={titre}
+  description={description}
+  canonical={canonical}
+  ogType="article"
+  publieLe={datePublication}
+  modifieLe={dateMiseAJour}
+  schema={[schema, breadcrumb]}
+>
   <article class="anat">
     <!-- Intro -->
     <header class="anat-tete">
+      <nav aria-label="Fil d'ariane" class="anat-fil">
+        <a href="/">Accueil</a>
+        <span aria-hidden="true">/</span>
+        <a href="/ressources">Ressources</a>
+      </nav>
       <p class="anat-eyebrow">Le décryptage</p>
       <h1>Anatomie d'un site qui convertit.</h1>
       <p class="anat-chapo">
@@ -331,6 +373,17 @@ const schema = {
 
   /* ── Intro ── */
   .anat-tete { max-width: 40rem; }
+  /* Fil d'ariane, aligné sur celui des guides de GuideLayout : même corps, même
+     couleur, même écart avant le sur-titre. */
+  .anat-fil {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--color-brun-mid);
+    margin-bottom: 2rem;
+  }
+  .anat-fil a { color: inherit; transition: color 0.2s ease; }
+  .anat-fil a:hover { color: var(--color-sauge-text); }
+  .anat-fil span { margin: 0 0.5rem; color: var(--color-cream-dark); }
   .anat-eyebrow {
     font-family: var(--font-body);
     font-size: 0.72rem;
