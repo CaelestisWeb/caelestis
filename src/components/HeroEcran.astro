@@ -54,7 +54,19 @@ const menu = [
             <!-- ACCUEIL : la vraie première section -->
             <section class="view accueil active" data-view="accueil">
               <p class="eyebrow">Création de site web en <b>Auvergne-Rhône-Alpes</b></p>
-              <h1>Optez pour un site web,<br><span class="accent">digne de votre <span class="nobreak">savoir-faire.</span></span></h1>
+              <!-- Titre de niveau 1 porté par ARIA et non par une balise de titre :
+                   le hero existe en deux exemplaires (ce moniteur en desktop,
+                   `.he-mobile` sous 760 px), et deux titres de niveau 1 dans le
+                   DOM font une page à deux titres pour les robots. Aucun nom de
+                   balise n'est écrit en toutes lettres ici : un chevron dans un
+                   commentaire trompe les parseurs à expression régulière, qui
+                   sont légion parmi les outils d'audit. Google indexant en
+                   mobile-first, la balise <h1> reste sur la version mobile,
+                   celle qu'il rend. Pour un lecteur d'écran le résultat est
+                   identique : `role=heading aria-level=1` produit le même
+                   niveau, et la version masquée est hors de l'arbre
+                   d'accessibilité (display:none). -->
+              <div class="h-hero" role="heading" aria-level="1">Optez pour un site web,<br><span class="accent">digne de votre <span class="nobreak">savoir-faire.</span></span></div>
               <p class="lead">Sur internet, on recherche, on compare, on choisit.<br><b>Nous faisons de vous, le choix évident.</b></p>
               <a class="btn" href="/contact" data-nav="contact">Parler de mon projet</a>
             </section>
@@ -68,7 +80,7 @@ const menu = [
                 {FORMULES.map((f) => (
                   <div class={f.accent ? 'formule reco' : 'formule'}>
                     {f.accent && <span class="badge">Le plus demandé</span>}
-                    <h3>{f.nom}</h3>
+                    <div class="t-nom">{f.nom}</div>
                     <p>{f.baseline}</p>
                     <div class="prix">à partir de {euros(f.prix)} €<span>le site</span></div>
                   </div>
@@ -117,8 +129,8 @@ const menu = [
               <p class="h-page">Deux outils pour y voir clair.</p>
               <p class="intro">Estimez votre projet et mesurez votre site actuel, en quelques minutes, sans engagement.</p>
               <div class="duo">
-                <a class="tuile" href="/outils/simulateur"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h4"/></svg></div><h3>Estimer mon projet</h3><p>Un simulateur qui donne une fourchette de prix adaptée à vos besoins.</p></a>
-                <a class="tuile" href="/outils/diagnostic"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg></div><h3>Analyser mon site</h3><p>Un diagnostic clair de votre site actuel, ses points forts et ses freins.</p></a>
+                <a class="tuile" href="/outils/simulateur"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h4"/></svg></div><div class="t-nom">Estimer mon projet</div><p>Un simulateur qui donne une fourchette de prix adaptée à vos besoins.</p></a>
+                <a class="tuile" href="/outils/diagnostic"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/></svg></div><div class="t-nom">Analyser mon site</div><p>Un diagnostic clair de votre site actuel, ses points forts et ses freins.</p></a>
               </div>
             </section>
 
@@ -128,10 +140,10 @@ const menu = [
               <p class="h-page">Les réponses qu'on cherche avant de se lancer.</p>
               <p class="intro">Prix réels, délais, contenus à préparer, visibilité sur Google et dans les assistants IA : des guides complets, écrits sans jargon et sans rien vous vendre.</p>
               <div class="quatre">
-                <div class="tuile"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5a2.5 2 0 0 1 5 0c0 2-2.5 1.5-2.5 3"/></svg></div><h3>Les prix réels d'un site</h3><p>Ce que coûte vraiment un site, poste par poste.</p></div>
-                <div class="tuile"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></div><h3>Les délais</h3><p>Combien de temps pour être en ligne, selon la formule.</p></div>
-                <div class="tuile"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11l3 3v13H5z"/><path d="M9 12h6M9 16h6"/></svg></div><h3>Le contenu à préparer</h3><p>Textes, photos, infos : ce qu'on vous demandera.</p></div>
-                <div class="tuile"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></div><h3>Visible sur Google et les IA</h3><p>Être trouvé au bon moment, humains comme assistants.</p></div>
+                <div class="tuile"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5a2.5 2 0 0 1 5 0c0 2-2.5 1.5-2.5 3"/></svg></div><div class="t-nom">Les prix réels d'un site</div><p>Ce que coûte vraiment un site, poste par poste.</p></div>
+                <div class="tuile"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></div><div class="t-nom">Les délais</div><p>Combien de temps pour être en ligne, selon la formule.</p></div>
+                <div class="tuile"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11l3 3v13H5z"/><path d="M9 12h6M9 16h6"/></svg></div><div class="t-nom">Le contenu à préparer</div><p>Textes, photos, infos : ce qu'on vous demandera.</p></div>
+                <div class="tuile"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></div><div class="t-nom">Visible sur Google et les IA</div><p>Être trouvé au bon moment, humains comme assistants.</p></div>
               </div>
             </section>
 
@@ -275,8 +287,14 @@ const menu = [
   .accueil{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:100%}
   .accueil .eyebrow{color:var(--color-brun-mid)}
   .accueil .eyebrow b{color:var(--color-ocre);font-weight:500;border-bottom:1px solid rgba(37,92,65,.35);padding-bottom:2px}
-  .view h1{font-family:var(--font-display);font-weight:700;font-size:clamp(1.85rem,3.8vw,3.2rem);line-height:1.05;letter-spacing:-.035em;color:var(--color-ocre);margin-bottom:clamp(1rem,2.2vh,1.5rem)}
-  .view h1 .accent{color:var(--color-sauge-vif)}
+  /* `.h-hero` et `.t-nom` remplacent des balises de titre déclassées en div (voir
+     les commentaires du balisage). Une div ne reçoit plus les règles globales
+     `h1,h2,h3,h4` de global.css : `text-wrap`, `font-feature-settings` et
+     `overflow-wrap` sont donc repris ici, sans quoi le rendu changerait de
+     quelques pixels sur les libellés qui passent à la ligne. */
+  .view .h-hero,.formule .t-nom,.tuile .t-nom{text-wrap:balance;font-feature-settings:"kern" 1,"liga" 1;overflow-wrap:break-word}
+  .view .h-hero{font-family:var(--font-display);font-weight:700;font-size:clamp(1.85rem,3.8vw,3.2rem);line-height:1.05;letter-spacing:-.035em;color:var(--color-ocre);margin-bottom:clamp(1rem,2.2vh,1.5rem)}
+  .view .h-hero .accent{color:var(--color-sauge-vif)}
   .nobreak{white-space:nowrap}
   .lead{font-size:clamp(.95rem,1.3vw,1.12rem);color:var(--color-brun-mid);max-width:52ch;margin-bottom:clamp(1.2rem,2.6vh,2rem);line-height:1.6}
   .lead b{color:var(--color-encre);font-weight:500}
@@ -286,7 +304,12 @@ const menu = [
   .formule:hover{transform:translateY(-5px);box-shadow:0 22px 40px -26px rgba(18,22,15,.32);border-color:var(--color-sauge)}
   .formule.reco{border-color:var(--color-ocre)}
   .badge{position:absolute;top:-10px;left:1.15rem;background:var(--color-ocre);color:var(--color-cream);font-size:.62rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.28em .7em;border-radius:100px}
-  .formule h3{font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--color-encre);letter-spacing:-.02em;margin-bottom:.45rem}
+  /* `.t-nom` remplace un <h3> : ces libellés dessinent des pages du site à
+     l'intérieur du moniteur, ce ne sont pas des sections de la page d'accueil.
+     En <h3> ils ouvraient un saut h1 → h3 dans la hiérarchie de titres et
+     faisaient passer une illustration pour du plan de page. `line-height` est
+     repris de la règle globale `h3,h4` de global.css, que la div ne reçoit plus. */
+  .formule .t-nom{font-family:var(--font-display);font-weight:700;font-size:1rem;line-height:1.22;color:var(--color-encre);letter-spacing:-.02em;margin-bottom:.45rem}
   .formule p{font-size:.82rem;color:var(--color-brun-mid);line-height:1.5;margin-bottom:.9rem;flex:1}
   .formule .prix{font-weight:700;color:var(--color-ocre);font-size:.96rem}
   .formule .prix span{display:block;font-weight:500;color:var(--color-brun-mid);font-size:.72rem;margin-top:2px}
@@ -330,7 +353,7 @@ const menu = [
   .tuile:hover{transform:translateY(-5px);box-shadow:0 22px 40px -26px rgba(18,22,15,.3);border-color:var(--color-sauge)}
   .tuile .ic{width:40px;height:40px;border-radius:11px;background:var(--color-sauge-pale);display:flex;align-items:center;justify-content:center;margin-bottom:.85rem}
   .tuile .ic svg{width:20px;height:20px;stroke:var(--color-ocre);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-  .tuile h3{font-family:var(--font-display);font-weight:700;font-size:.96rem;color:var(--color-encre);letter-spacing:-.02em;margin-bottom:.32rem}
+  .tuile .t-nom{font-family:var(--font-display);font-weight:700;font-size:.96rem;line-height:1.22;color:var(--color-encre);letter-spacing:-.02em;margin-bottom:.32rem}
   .tuile p{font-size:.82rem;color:var(--color-brun-mid);line-height:1.5}
 
   .apropos{max-width:64ch}
@@ -398,7 +421,7 @@ const menu = [
     .navcta{font-size:11px;padding:.5em .85em}
     .view{padding:24px 22px 58px}
     .accueil{padding-bottom:58px}
-    .view h1{font-size:clamp(1.5rem,7.4vw,2.05rem);hyphens:manual}
+    .view .h-hero{font-size:clamp(1.5rem,7.4vw,2.05rem);hyphens:manual}
     .h-page{font-size:clamp(1.3rem,6vw,1.7rem)}
     .lead{font-size:1rem;max-width:34ch}
     .intro{font-size:.95rem}
