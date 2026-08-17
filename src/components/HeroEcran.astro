@@ -223,11 +223,11 @@ const menu = [
       <!-- Trois lignes forcées, comme pour le sous-titre : sous 330 px de large,
            la police descend assez bas pour que « digne de votre savoir-faire. »
            se recompose sur une seule ligne et que le titre perde son étagement. -->
-      <h1 class="hm-title">Optez pour un site web,<br><span class="accent">digne de votre<br><span class="nobreak">savoir-faire.</span></span></h1>
+      <h1 class="hm-title">Un site web<br><span class="accent">digne de votre<br><span class="nobreak">savoir-faire.</span></span></h1>
       <!-- Les deux retours forcés donnent trois lignes qui cassent sur les
            virgules. Sans eux, la première ligne se termine par « on » et le mot
            « compare » se retrouve seul en tête de deuxième ligne. -->
-      <p class="hm-sub">Sur internet, on recherche,<br>on compare, on choisit.<br><b>Nous faisons de vous, le choix évident.</b></p>
+      <p class="hm-sub">Sur internet, on recherche,<br>on compare, on choisit.<br><b>Nous faisons de vous le choix évident.</b></p>
       <a class="hm-cta" href="/contact">Parler de mon projet</a>
     </div>
     <div class="hm-reassure">
@@ -452,9 +452,10 @@ const menu = [
     .hm-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--color-brun-mid);margin:0;line-height:1.75}
     .hm-eyebrow b{color:var(--color-ocre);font-weight:500;border-bottom:1px solid rgba(37,92,65,.35);padding-bottom:1px}
     /* Corps du titre : 8,2vw et non 8,5vw. Mesuré le 14/08/2026, à 8,5vw
-       « Optez pour un site web, » ne tenait dans sa ligne qu'à 1 px près sur
-       390 px de large, et il manquait 0,7 px sur 360 px, où « web, » tombait
-       seul sur une quatrième ligne. 8,2vw laisse 10 à 16 px de marge sur toute
+       « Optez pour un site web, », alors en tête du titre, ne tenait dans sa
+       ligne qu'à 1 px près sur 390 px de large, et il manquait 0,7 px sur
+       360 px, où « web, » tombait seul sur une quatrième ligne. Le titre a
+       raccourci depuis (17/08/2026), la marge n'en est que plus large. 8,2vw laisse 10 à 16 px de marge sur toute
        la plage mobile, pour un corps plus petit d'un pixel à peine. Le plancher
        de 1,6rem couvre les écrans de 320 px.
 
