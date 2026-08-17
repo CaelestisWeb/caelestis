@@ -2,7 +2,7 @@
 
 Document de travail interne. Rédigé le 03/08/2026, tarifs lus dans `src/utils/tarifs.ts`.
 Services et descriptions revus le 17/08/2026 : la création de fiche Google passe à 400 €,
-sa reprise reste à 200 €.
+sa reprise à 300 €.
 Les coordonnées reprennent à l'identique le schema Organization de `src/pages/index.astro`,
 pour que Google lise la même information sur la fiche et sur le site.
 
@@ -104,7 +104,7 @@ compris, et ne contiennent ni URL ni numéro de téléphone (Google les refuse).
 | Création de site internet sur mesure | 3 500 € | Pour un projet qui sort du cadre : davantage de contenu, des fonctionnalités pensées pour votre métier (réservation, espace privé, outils de gestion) et un référencement approfondi. Fiche Google comprise. |
 | Référencement naturel (SEO) | sur devis | Être trouvé au moment où l'on cherche votre métier. Audit de l'existant, structure et contenus repris, vitesse et lisibilité corrigées, fiche Google travaillée, positions suivies mois après mois. Sur un site Caelestis comme sur un site déjà en ligne. |
 | Création de fiche Google Business | 400 € | Votre établissement sur Google Maps et dans la recherche locale : création et validation de la fiche, catégories, description, services, horaires, photos, zone desservie. Comprise dans la formule sur mesure. |
-| Refonte de fiche Google | 200 € | Reprise d'une fiche existante mal renseignée : catégories, description, services, photos, cohérence avec votre site. |
+| Refonte de fiche Google | 300 € | Reprise d'une fiche existante mal renseignée : catégories, description, services, photos, cohérence avec votre site. |
 | Refonte de site internet | sur devis | Reconstruction d'un site vieillissant ou lent, en gardant ce qui fonctionne et en corrigeant ce qui freine vos visiteurs. |
 | Maintenance de site | à partir de 9,99 €/mois | Hébergement, nom de domaine, certificat, sauvegardes, mises à jour de sécurité et veille des liens cassés. Offerte les trois premiers mois. |
 

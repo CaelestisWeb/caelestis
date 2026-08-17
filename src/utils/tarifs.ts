@@ -191,20 +191,21 @@ export const MAINTENANCE_PREMIERE_ECHEANCE_LETTRES =
  * Supplément pour la fiche Google Business, en euros.
  *
  * Cette prestation se vend en plus du site. Créer une fiche depuis zéro
- * (validation de l'établissement, catégories, description, photos, horaires)
- * demande plus de travail que reprendre une fiche qui existe déjà.
+ * demande la validation de l'établissement, que la reprise n'exige pas, mais
+ * tout le reste est identique : catégories, description, services, horaires,
+ * photos, zone desservie, méthode pour les avis.
  *
  * La formule sur mesure la comprend : son supplément est nul, et c'est un
  * argument de vente annoncé sur la page comme dans le simulateur.
  *
- * Création portée de 300 à 400 € le 17/08/2026 (décision de Célestin), la
- * reprise reste à 200 €. L'écart entre les deux montants double : il fallait
- * qu'il se voie, créer une fiche depuis zéro demande la validation de
- * l'établissement, que la reprise n'exige pas.
+ * Grille arrêtée le 17/08/2026 (décision de Célestin) : création 400 €,
+ * reprise 300 €. Elle succède à 300 / 200 €. L'écart se resserre à 100 €
+ * parce que le travail se ressemble d'un cas à l'autre : facturer la reprise
+ * moitié moins que la création revenait à brader le même remplissage.
  */
 export const FICHE_GOOGLE = {
   creation: 400,
-  refonte: 200,
+  refonte: 300,
 } as const;
 
 /**
