@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import AppelFinal from '../components/AppelFinal.astro';
 import { Image } from 'astro:assets';
-import { euros, formule, FORMULES, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../utils/tarifs';
+import { euros, formule, FORMULES, FICHE_GOOGLE, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../utils/tarifs';
 
 /* Icône fine monochrome par formule, à gauche du titre dans la liste.
    Traits seuls, aucun aplat, aucun emoji : conformes à la charte. Les
@@ -781,7 +781,7 @@ const breadcrumbServices = {
             L'encadré qui s'affiche sur Google et sur Maps avec vos horaires, votre téléphone et vos avis. Il fonctionne <strong class="text-brun font-semibold">même sans site internet</strong>.
           </p>
           <p class="font-display text-lg font-light text-brun mt-5 pt-4 border-t border-cream-dark">
-            <span class="text-sauge">300 €</span><span class="font-body text-xs text-brun-mid ml-2">une seule fois</span>
+            <span class="text-sauge">{FICHE_GOOGLE.creation} €</span><span class="font-body text-xs text-brun-mid ml-2">une seule fois</span>
           </p>
           <span class="inline-flex items-center gap-1.5 mt-3 font-body text-sm font-medium text-[#2E7452] group-hover:gap-2.5 transition-all">
             Découvrir <span aria-hidden="true">→</span>

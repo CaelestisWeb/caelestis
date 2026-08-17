@@ -1,6 +1,8 @@
 # Fiche Google Business Profile, contenu à coller
 
 Document de travail interne. Rédigé le 03/08/2026, tarifs lus dans `src/utils/tarifs.ts`.
+Services et descriptions revus le 17/08/2026 : la création de fiche Google passe à 400 €,
+sa reprise reste à 200 €.
 Les coordonnées reprennent à l'identique le schema Organization de `src/pages/index.astro`,
 pour que Google lise la même information sur la fiche et sur le site.
 
@@ -80,20 +82,28 @@ Fondée par Célestin Fruleux, développeur web installé à Crest. Devis gratui
 
 ## 4. Services et prix
 
-À saisir dans « Éditer services ». Le prix se renseigne en « à partir de ».
+À saisir dans « Éditer services ». Le prix se renseigne en « à partir de ». Si le menu
+déroulant ne propose que « Aucun prix » ou « Prix fixe », choisir « Aucun prix » plutôt
+qu'un prix fixe qui serait faux, et terminer la description par « À partir de 2 000 € »
+(le montant de la ligne). Les deux prestations de fiche Google, elles, sont des montants
+fermes : « Prix fixe » leur convient.
 
 Ces montants corrigent une information périmée qui circule : l'aperçu IA de Google annonce
 aujourd'hui « à partir de 600 € » en citant Pages Jaunes. Un prospect arrive donc avec un
 budget faux en tête.
 
+Ordre de saisie : Google affiche les services dans l'ordre où ils sont créés, le premier
+porte le plus. Les descriptions ci-dessous sont calibrées sous 300 caractères, espaces
+compris, et ne contiennent ni URL ni numéro de téléphone (Google les refuse).
+
 | Service | Prix | Description (300 caractères max) |
 |---|---|---|
-| Création de site une page | 1 000 € | L'essentiel de votre activité sur une seule page qui défile. La formule la plus rapide à livrer, visible sur Google dès la mise en ligne. |
-| Création de site vitrine | 2 000 € | Plusieurs pages pour présenter votre activité, vos services et vos réalisations. Formulaire de contact et coordonnées partout, bases du référencement en place. |
-| Création de boutique en ligne | 2 500 € | Vendez vos produits depuis votre site. Catalogue en ligne, paiement sécurisé pour vos clients, commandes simples à suivre au quotidien. |
-| Création de site sur mesure | 3 500 € | Un site entièrement adapté à votre projet : davantage de pages, des fonctionnalités propres à votre métier et un travail de référencement approfondi. |
-| Référencement naturel | sur devis | Travail SEO pour être trouvé sur les recherches de votre métier et de votre secteur. Compris dans la création, disponible seul pour un site existant. |
-| Création de fiche Google | 300 € | Création complète de votre fiche d'établissement : validation, catégories, description, services, photos et horaires. Comprise dans la formule sur mesure. |
+| Création de site internet vitrine | 2 000 € | Un site de plusieurs pages pour présenter votre activité, vos services et vos réalisations. Dessiné pour votre métier, lisible sur téléphone comme sur ordinateur, avec les bases du référencement en place et un formulaire de contact accessible partout. |
+| Création de site internet une page | 1 000 € | L'essentiel de votre activité sur une seule page qui défile : qui vous êtes, ce que vous proposez, comment vous joindre. La formule la plus rapide à mettre en ligne, et la plus abordable pour être présent sérieusement. |
+| Création de boutique en ligne | 2 500 € | Vendez vos produits depuis votre site : catalogue clair, paiement sécurisé, commandes simples à suivre au quotidien. Vous restez maître de vos fiches, de vos prix et de vos stocks, sans dépendre d'une plateforme. |
+| Création de site internet sur mesure | 3 500 € | Pour un projet qui sort du cadre : davantage de contenu, des fonctionnalités pensées pour votre métier (réservation, espace privé, outils de gestion) et un référencement approfondi. Fiche Google comprise. |
+| Référencement naturel (SEO) | sur devis | Être trouvé au moment où l'on cherche votre métier. Audit de l'existant, structure et contenus repris, vitesse et lisibilité corrigées, fiche Google travaillée, positions suivies mois après mois. Sur un site Caelestis comme sur un site déjà en ligne. |
+| Création de fiche Google Business | 400 € | Votre établissement sur Google Maps et dans la recherche locale : création et validation de la fiche, catégories, description, services, horaires, photos, zone desservie. Comprise dans la formule sur mesure. |
 | Refonte de fiche Google | 200 € | Reprise d'une fiche existante mal renseignée : catégories, description, services, photos, cohérence avec votre site. |
 | Refonte de site internet | sur devis | Reconstruction d'un site vieillissant ou lent, en gardant ce qui fonctionne et en corrigeant ce qui freine vos visiteurs. |
 | Maintenance de site | à partir de 9,99 €/mois | Hébergement, nom de domaine, certificat, sauvegardes, mises à jour de sécurité et veille des liens cassés. Offerte les trois premiers mois. |

@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 import AppelFinal from '../../components/AppelFinal.astro';
+import { FICHE_GOOGLE } from '../../utils/tarifs';
 
 const canonical = 'https://caelestis.fr/services/fiche-google-entreprise';
 
@@ -24,11 +25,11 @@ const schema = {
   ],
   offers: {
     '@type': 'Offer',
-    price: '300',
+    price: String(FICHE_GOOGLE.creation),
     priceCurrency: 'EUR',
     priceSpecification: {
       '@type': 'PriceSpecification',
-      price: '300',
+      price: String(FICHE_GOOGLE.creation),
       priceCurrency: 'EUR',
       valueAddedTaxIncluded: false,
     },
@@ -93,7 +94,7 @@ const etapes = [
 
 <BaseLayout
   title="Créer sa fiche Google d'établissement, Caelestis"
-  description="L'encadré qui s'affiche sur Google et sur Maps avec vos horaires, votre téléphone et vos avis. 300 € une fois, efficace même sans site internet."
+  description={`L'encadré qui s'affiche sur Google et sur Maps avec vos horaires, votre téléphone et vos avis. ${FICHE_GOOGLE.creation} € une fois, efficace même sans site internet.`}
   canonical={canonical}
   schema={[schema, breadcrumb, faqSchema]}
 >
@@ -296,9 +297,9 @@ const etapes = [
       <div class="max-w-2xl mx-auto bg-cream border border-cream-dark rounded-2xl p-7 lg:p-8 text-center" data-reveal data-delay="2">
         <p class="font-body text-xs tracking-[0.16em] uppercase text-brun-mid mb-1">Tarif</p>
         <p class="font-display font-light text-brun leading-none" style="font-size: clamp(2.2rem, 5vw, 3rem); letter-spacing: -0.02em;">
-          <span class="text-sauge">300 €</span>
+          <span class="text-sauge">{FICHE_GOOGLE.creation} €</span>
         </p>
-        <p class="font-body text-sm text-brun-mid mt-2">une seule fois, création ou reprise complète de votre fiche</p>
+        <p class="font-body text-sm text-brun-mid mt-2">une seule fois, pour la création complète de votre fiche. Si elle existe déjà, sa reprise est à {FICHE_GOOGLE.refonte} €.</p>
 
         <ul class="mt-7 space-y-3 text-left max-w-md mx-auto">
           <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">

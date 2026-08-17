@@ -196,9 +196,14 @@ export const MAINTENANCE_PREMIERE_ECHEANCE_LETTRES =
  *
  * La formule sur mesure la comprend : son supplément est nul, et c'est un
  * argument de vente annoncé sur la page comme dans le simulateur.
+ *
+ * Création portée de 300 à 400 € le 17/08/2026 (décision de Célestin), la
+ * reprise reste à 200 €. L'écart entre les deux montants double : il fallait
+ * qu'il se voie, créer une fiche depuis zéro demande la validation de
+ * l'établissement, que la reprise n'exige pas.
  */
 export const FICHE_GOOGLE = {
-  creation: 300,
+  creation: 400,
   refonte: 200,
 } as const;
 
