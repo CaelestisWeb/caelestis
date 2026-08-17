@@ -24,7 +24,7 @@ Email : caelestis-pro@hotmail.com (envois : contact@caelestis.fr) · Tél : 07 6
 
 ## Stack
 
-Astro + Tailwind + Vercel (déploiement : `npx vercel deploy --prod` depuis ce dossier, après chaque modification).
+Astro **7.2.2** + Tailwind v4 + Vercel, adaptateur `@astrojs/vercel` **11** (déploiement : `npx vercel deploy --prod` depuis ce dossier, après chaque modification). Migration depuis Astro 6 faite le 17/08/2026, `npm audit` à **zéro vulnérabilité**. **Ne pas réintroduire d'`overrides` sur `vite` dans `package.json`** : c'est ce qui bloquait la migration, en forçant Vite 7 quand Astro 7 réclame Vite 8, sans qu'npm ne signale rien.
 Endpoints API : `src/pages/api/` (contact, devis, brief, simulator).
 Routes 410 Gone (`src/utils/gone.ts` + routes catch-all author/category/tag/feed/comments/page) : le domaine a un passé WordPress/WoW encore indexé, ne pas les supprimer.
 
@@ -71,6 +71,11 @@ Règle accessibilité en place : `.text-sauge` (accent décoratif `#B8C4BB`) ne 
 - Une exploration de refonte « V2 Awwwards » a été stoppée en juillet 2026 sans direction validée (maquettes archivées dans `C:\dev\caelestis-v2-directions`). Ne pas relancer sans demander ce qui coinçait.
 
 ## Décisions de session
+
+- **17/08/2026, migration en Astro 7** : Astro 6.4.8 → 7.2.2, `@astrojs/vercel` 10 → 11.0.5, **retrait de l'`overrides` sur `vite`**, puis `npm audit fix` pour `nanoid`. `npm audit` passe de **6 vulnérabilités, dont 4 hautes, à zéro**. Les deux blocages historiques étaient levés : l'override était la vraie cause de l'échec du 01/08, et Smart App Control laisse passer le binaire natif d'Astro 7 depuis le 10/08. **Aucune ligne de code n'a changé**, seulement `package.json` et `package-lock.json`.
+  - **Méthode de contrôle, à refaire pour toute migration majeure** : builder les deux versions **sur le même commit**, puis comparer les 33 pages du HTML servi champ par champ (title, description, canonical, robots, og:type, h1, structure complète des titres, schémas JSON-LD, liens, images, mots). Résultat : **aucun écart**. Complété au navigateur : un seul h1, hero à 51,2 px, carrousel du moniteur fonctionnel, zéro erreur console, zéro débordement à 375 et 1440 px. Endpoints revérifiés en production après coup, l'adaptateur ayant changé de version majeure : CSRF en 403, SSRF refusée, diagnostic fonctionnel sur un vrai site, routes 410 intactes.
+  - **Deux pièges de mesure rencontrés, à ne pas rejouer** : une première comparaison a sorti 29 écarts, tous dus à des commits de contenu intervenus entre les deux builds, aucun à Astro. Et une capture d'écran a montré le moniteur du hero vide, les sept vues au même `translateX` : c'était l'instant d'une transition du carrousel, pas une régression, ce qu'ont établi une mesure à 0, 4 et 8 secondes et la comparaison avec la production.
+  - **⚠️ Sessions parallèles, le piège s'est produit pour de vrai** : une autre session travaillait sur ce dépôt pendant la migration. Comme l'index et le HEAD sont partagés, son commit de 13:26 a atterri **sur la branche de migration** au lieu de `main`, et il a fallu le cherry-picker. **Conclusion : ne pas créer de branche quand une autre session est active, travailler sur `main` et commiter par pathspec.** Un serveur de développement laissé tourner depuis la nuit verrouillait aussi `esbuild.exe` et faisait échouer `npm install` sur `EBUSY`.
 
 - **17/08/2026, audit de sécurité complet** : surface d'attaque passée en revue, endpoints, dépendances, en-têtes, secrets, et tests menés contre la production.
   - **Ce qui tient, et c'est mesuré** : les huit en-têtes de sécurité sont posés (HSTS 2 ans avec preload, CSP à hachages sur `script-src`, X-Frame-Options DENY, COOP, Permissions-Policy) · aucun fichier sensible servi (`.env`, `.git/config`, `package.json`, `astro.config.mjs`, `.vercel/project.json` tous en 404) · aucun secret dans le code ni dans l'historique git, `.gitignore` couvrant `.env*` · aucun cookie serveur · erreurs génériques, aucune trace d'exécution renvoyée · **CSRF : 403 sans en-tête Origin comme avec une origine étrangère**, sur tous les endpoints.
