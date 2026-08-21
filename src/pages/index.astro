@@ -11,6 +11,7 @@ import imgAvant       from '../assets/images/comparateur/avant.jpg';
 import imgApres       from '../assets/images/comparateur/apres.jpg';
 import { realisations } from '../data/realisations';
 import { euros, formule, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../utils/tarifs';
+import { ADRESSE, CONTACT, COORDONNEES, HORAIRES, IDENTIFIANT, IMAGE_PARTAGE, LOGO, PROFILS, TERRITOIRE } from '../data/entite';
 
 /* Ce que le site réunit. Réécrit le 02/08/2026, affiné le 04/08/2026 avec
    Célestin : le schéma montrait au départ les canaux concurrents du site (fiche
@@ -62,46 +63,31 @@ const localBusiness = {
   alternateName: 'CaelestisWeb',
   description: 'Développeur web freelance et agence web indépendante. Création de sites internet sur mesure et référencement naturel pour artisans, producteurs et indépendants en Auvergne-Rhône-Alpes. Basé à Crest (26400), dans la Drôme.',
   url: 'https://caelestis.fr',
-  email: 'contact@caelestis.fr',
-  telephone: '+33769362727',
-  image: 'https://caelestis.fr/og-image-2026.jpg',
-  logo: 'https://caelestis.fr/favicon.svg',
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Crest',
-    addressRegion: 'Drôme',
-    postalCode: '26400',
-    addressCountry: 'FR',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: '44.7308',
-    longitude: '5.0197',
-  },
-  openingHoursSpecification: {
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-    opens: '09:00',
-    closes: '18:00',
-  },
+  email: CONTACT.email,
+  telephone: CONTACT.telephone,
+  image: IMAGE_PARTAGE,
+  logo: { '@type': 'ImageObject', url: LOGO.url, width: LOGO.largeur, height: LOGO.hauteur },
+  identifier: IDENTIFIANT,
+  address: ADRESSE,
+  geo: { '@type': 'GeoCoordinates', ...COORDONNEES },
+  openingHoursSpecification: HORAIRES,
   priceRange: '€€',
   currenciesAccepted: 'EUR',
   paymentAccepted: 'Virement bancaire, Carte bancaire',
-  areaServed: [
-    { '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' },
-    { '@type': 'AdministrativeArea', name: 'Drôme' },
-    { '@type': 'AdministrativeArea', name: 'Ardèche' },
-    { '@type': 'Country', name: 'France' },
+  areaServed: TERRITOIRE,
+  knowsAbout: [
+    'Création de site internet',
+    'Création de site internet dans la Drôme',
+    'Création de site internet en Ardèche',
+    'Référencement naturel',
+    'SEO local Auvergne-Rhône-Alpes',
+    'Agence web Drôme Ardèche',
+    'Développement Astro',
   ],
-  knowsAbout: ['Création de site web', 'Référencement naturel', 'SEO local Auvergne-Rhône-Alpes', 'Agence web Auvergne-Rhône-Alpes', 'Développement Astro', 'Création site internet Drôme'],
-  sameAs: [
-    'https://share.google/IKYSIPaXxlTN0W5Zz',
-    'https://www.facebook.com/CaelestisWeb',
-    'https://www.instagram.com/caelestis_web/',
-  ],
+  sameAs: PROFILS,
   serviceArea: {
     '@type': 'GeoCircle',
-    geoMidpoint: { '@type': 'GeoCoordinates', latitude: '44.7308', longitude: '5.0197' },
+    geoMidpoint: { '@type': 'GeoCoordinates', ...COORDONNEES },
     geoRadius: '220000',
   },
   hasOfferCatalog: {
@@ -260,28 +246,14 @@ const organizationSchema = {
   name: 'Caelestis',
   alternateName: 'CaelestisWeb',
   url: 'https://caelestis.fr',
-  logo: {
-    '@type': 'ImageObject',
-    url: 'https://caelestis.fr/og-image-2026.jpg',
-    width: 1200,
-    height: 630,
-  },
+  logo: { '@type': 'ImageObject', url: LOGO.url, width: LOGO.largeur, height: LOGO.hauteur },
+  image: IMAGE_PARTAGE,
+  identifier: IDENTIFIANT,
   description: 'Développeur web freelance et agence web indépendante, spécialisé dans la création de sites internet sur mesure et le référencement naturel pour artisans, producteurs et indépendants en Auvergne-Rhône-Alpes. Basé à Crest (26400), dans la Drôme.',
-  email: 'contact@caelestis.fr',
-  telephone: '+33769362727',
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Crest',
-    addressRegion: 'Drôme',
-    postalCode: '26400',
-    addressCountry: 'FR',
-  },
-  areaServed: [
-    { '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' },
-    { '@type': 'AdministrativeArea', name: 'Drôme' },
-    { '@type': 'AdministrativeArea', name: 'Ardèche' },
-    { '@type': 'Country', name: 'France' },
-  ],
+  email: CONTACT.email,
+  telephone: CONTACT.telephone,
+  address: ADRESSE,
+  areaServed: TERRITOIRE,
   foundingDate: '2024',
   founder: {
     '@type': 'Person',
@@ -289,12 +261,8 @@ const organizationSchema = {
     jobTitle: 'Développeur web & consultant SEO',
     url: 'https://caelestis.fr/a-propos',
   },
-  knowsAbout: ['Création de site web', 'Développement Astro', 'Référencement naturel', 'SEO local Drôme', 'Agence web Drôme', 'Création site internet Crest'],
-  sameAs: [
-    'https://share.google/IKYSIPaXxlTN0W5Zz',
-    'https://www.facebook.com/CaelestisWeb',
-    'https://www.instagram.com/caelestis_web/',
-  ],
+  knowsAbout: ['Création de site web', 'Développement Astro', 'Référencement naturel', 'SEO local Drôme', 'Agence web Drôme Ardèche', 'Création site internet Crest'],
+  sameAs: PROFILS,
 };
 
 // ── Hero mobile (LCP) ──
@@ -914,7 +882,7 @@ const organizationSchema = {
           2&nbsp;% de chaque projet reversés à la nature.
         </h2>
         <p class="font-body text-base leading-relaxed" style="color: rgba(252, 251, 248,0.82)">
-          Chaque site que nous créons finance le travail de <a href="https://www.fne.asso.fr" target="_blank" rel="noopener noreferrer" class="text-sauge hover:opacity-80 transition-opacity">France Nature Environnement<span class="sr-only"> (nouvelle fenêtre)</span></a>, première fédération française de protection de la nature. Nos clients vivent de ce qui pousse et de ce qui vit : autant y contribuer.
+          Chaque site que nous créons finance le travail de <a href="https://www.fne.asso.fr" target="_blank" rel="noopener noreferrer" class="text-sauge underline underline-offset-4 decoration-sauge-pale/50 hover:decoration-sauge-pale transition-colors">France Nature Environnement<span class="sr-only"> (nouvelle fenêtre)</span></a>, première fédération française de protection de la nature. Nos clients vivent de ce qui pousse et de ce qui vit : autant y contribuer.
         </p>
       </div>
 
