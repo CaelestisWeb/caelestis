@@ -4,6 +4,14 @@ import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
 import typographieFrancaise from './integrations/typographie-francaise.mjs';
+import { existsSync, readFileSync } from 'node:fs';
+
+/* Dates de dernière modification pour le sitemap. Produites par
+   `npm run lastmod`, commitées. Absentes, le sitemap se construit sans elles. */
+const CHEMIN_LASTMOD = new URL('./src/data/lastmod.json', import.meta.url);
+const datesDeModification = existsSync(CHEMIN_LASTMOD)
+  ? JSON.parse(readFileSync(CHEMIN_LASTMOD, 'utf8'))
+  : {};
 
 // https://astro.build/config
 export default defineConfig({
@@ -25,17 +33,18 @@ export default defineConfig({
         // Pages de travail (comparaisons de variantes) : en noindex, donc hors sitemap.
         // Une URL noindex listee dans le sitemap est remontee en erreur par Search Console.
         !page.includes('/zz-'),
-      changefreq: 'monthly',
-      priority: 0.7,
-      // Priorités différenciées par importance stratégique
+      /* Ni changefreq ni priority : Google déclare publiquement les ignorer, et
+         les émettre revient à remplir le sitemap de bruit. Seul `lastmod` est
+         lu, c'est donc la seule chose qu'on émet.
+
+         Les dates viennent de src/data/lastmod.json, produit par
+         `npm run lastmod` et commité (le clone de Vercel est trop peu profond
+         pour que `git log` y réponde). Une page absente du fichier sort sans
+         lastmod : mieux vaut pas de date qu'une date inventée, un lastmod faux
+         finit par être ignoré en bloc. */
       serialize(item) {
-        if (item.url === 'https://caelestis.fr/') {
-          return { ...item, changefreq: /** @type {any} */ ('weekly'), priority: 1.0 };
-        }
-        if (['/services', '/simulateur', '/contact'].some(p => item.url.endsWith(p))) {
-          return { ...item, changefreq: /** @type {any} */ ('monthly'), priority: 0.9 };
-        }
-        return item;
+        const date = datesDeModification[item.url];
+        return date ? { ...item, lastmod: date } : item;
       },
     }),
     /* Espaces insécables devant ; : ? ! » et entre un nombre et son unité.
