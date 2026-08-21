@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
+import FilAriane from '../../components/FilAriane.astro';
 import { Image } from 'astro:assets';
 import { realisations } from '../../data/realisations';
 
@@ -108,13 +109,11 @@ const article = /^[aàâeéèêëiîïoôuùûyh]/i.test(metierEnPhrase) ? "d'" 
   <section class="pt-20 pb-14 md:pt-24 px-6 md:px-10 lg:px-20">
     <div class="max-w-4xl mx-auto">
 
-      <nav aria-label="Fil d'ariane" class="font-body text-xs text-brun-mid mb-8">
-        <a href="/" class="hover:text-sauge-text transition-colors">Accueil</a>
-        <span class="mx-2 text-cream-dark" aria-hidden="true">/</span>
-        <a href="/realisations" class="hover:text-sauge-text transition-colors">Réalisations</a>
-        <span class="mx-2 text-cream-dark" aria-hidden="true">/</span>
-        <span class="text-brun">{nom}</span>
-      </nav>
+      <FilAriane maillons={[
+        { nom: 'Accueil', href: '/' },
+        { nom: 'Réalisations', href: '/realisations' },
+        { nom },
+      ]} />
 
       <p class="inline-block font-body text-xs tracking-[0.22em] uppercase text-sauge border border-sauge/40 rounded-full px-4 py-1.5 mb-7">
         {metier}, {ville}

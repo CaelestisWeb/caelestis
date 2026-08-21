@@ -12,6 +12,8 @@
  * Article + BreadcrumbList et l'appel final vers le contact.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import FilAriane from './FilAriane.astro';
+import { guides } from '../data/guides';
 import AppelFinal from './AppelFinal.astro';
 import GuidesLies from './GuidesLies.astro';
 
@@ -59,13 +61,22 @@ const articleSchema = {
   publisher: { '@id': 'https://caelestis.fr/#business' },
 };
 
+/* Le dernier maillon du fil porte la question courte, pas le titre complet :
+   « Combien ca coute, vraiment ? » plutot que « Combien coute un site internet
+   pour un artisan ou un independant ? ». Un fil d'Ariane se lit d'un coup d'oeil,
+   et Google tronque les libelles longs dans ses resultats. La question est lue
+   dans guides.ts, qui la porte deja pour la page d'index : aucune saisie en
+   double, donc aucune divergence possible. Le meme libelle sert au balisage et
+   a l'affichage, comme Google le demande. */
+const libelleCourt = guides.find((g) => g.slug === slug)?.question ?? titre;
+
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
     { '@type': 'ListItem', position: 2, name: 'Ressources', item: 'https://caelestis.fr/ressources' },
-    { '@type': 'ListItem', position: 3, name: titre, item: canonical },
+    { '@type': 'ListItem', position: 3, name: libelleCourt, item: canonical },
   ],
 };
 
@@ -93,11 +104,13 @@ const majAffichee = miseAJour && miseAJour !== date ? enClair(miseAJour) : null;
   <section class="pt-20 pb-14 md:pt-24 px-6 md:px-10 lg:px-20 border-b border-cream-dark section-ambient overflow-hidden relative" style="isolation: isolate;">
     <div aria-hidden="true" class="light-blob light-blob-sauge pointer-events-none absolute -top-20 -right-24 w-[380px] h-[380px]"></div>
     <div class="max-w-3xl mx-auto relative">
-      <nav aria-label="Fil d'ariane" class="font-body text-xs text-brun-mid mb-8" data-reveal>
-        <a href="/" class="hover:text-sauge-text transition-colors">Accueil</a>
-        <span class="mx-2 text-cream-dark" aria-hidden="true">/</span>
-        <a href="/ressources" class="hover:text-sauge-text transition-colors">Ressources</a>
-      </nav>
+      <div data-reveal>
+        <FilAriane maillons={[
+          { nom: 'Accueil', href: '/' },
+          { nom: 'Ressources', href: '/ressources' },
+          { nom: libelleCourt },
+        ]} />
+      </div>
       <h1
         class="font-display font-light text-brun leading-[1.08] tracking-tight mb-7"
         style="font-size: clamp(1.9rem, 4.4vw, 3.3rem);"

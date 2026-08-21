@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { guides } from '../../data/guides';
 import Button from '../../components/Button.astro';
 import GuidesLies from '../../components/GuidesLies.astro';
 
@@ -180,13 +181,17 @@ const schema = {
   publisher: { '@id': 'https://caelestis.fr/#business' },
 };
 
+/* Comme dans GuideLayout : le dernier maillon porte la question courte de
+   guides.ts, la meme a l'ecran et dans le balisage. */
+const libelleCourt = guides.find((g) => g.slug === 'anatomie-d-un-site-qui-convertit')?.question ?? titre;
+
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://caelestis.fr' },
     { '@type': 'ListItem', position: 2, name: 'Ressources', item: 'https://caelestis.fr/ressources' },
-    { '@type': 'ListItem', position: 3, name: titre, item: canonical },
+    { '@type': 'ListItem', position: 3, name: libelleCourt, item: canonical },
   ],
 };
 ---
@@ -203,10 +208,12 @@ const breadcrumb = {
   <article class="anat">
     <!-- Intro -->
     <header class="anat-tete">
-      <nav aria-label="Fil d'ariane" class="anat-fil">
+      <nav aria-label="Fil d'Ariane" class="anat-fil">
         <a href="/">Accueil</a>
         <span aria-hidden="true">/</span>
         <a href="/ressources">Ressources</a>
+        <span aria-hidden="true">/</span>
+        <span class="anat-fil-actif" aria-current="page">{libelleCourt}</span>
       </nav>
       <p class="anat-eyebrow">Le décryptage</p>
       <h1>Anatomie d'un site qui convertit.</h1>
@@ -384,6 +391,9 @@ const breadcrumb = {
   .anat-fil a { color: inherit; transition: color 0.2s ease; }
   .anat-fil a:hover { color: var(--color-sauge-text); }
   .anat-fil span { margin: 0 0.5rem; color: var(--color-cream-dark); }
+  /* Le dernier maillon est la page courante : il reprend la couleur du texte,
+     pas celle des barres obliques, et ne porte pas leur marge. */
+  .anat-fil .anat-fil-actif { margin: 0; color: var(--color-brun); }
   .anat-eyebrow {
     font-family: var(--font-body);
     font-size: 0.72rem;

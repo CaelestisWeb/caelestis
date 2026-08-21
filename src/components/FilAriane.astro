@@ -1,0 +1,48 @@
+---
+/**
+ * FilAriane.astro : le chemin depuis l'accueil, affiché en haut de page.
+ *
+ * Pourquoi il existe. Au crawl du 21/08/2026, treize pages portaient un
+ * BreadcrumbList en JSON-LD sans rien montrer à l'écran. Google demande que le
+ * balisage décrive ce que le visiteur voit, et un fil d'Ariane visible sert
+ * aussi le maillage : il donne à chaque page un lien remontant vers sa rubrique.
+ *
+ * Le dessin reprend exactement celui qui existait déjà dans GuideLayout et sur
+ * les pages de réalisation, désormais lu depuis ici pour qu'il n'y ait qu'une
+ * seule version à maintenir.
+ *
+ * Le dernier maillon est la page courante : pas de lien, et `aria-current` pour
+ * que les lecteurs d'écran l'annoncent comme telle.
+ */
+export interface Maillon {
+  nom: string;
+  /** Absent sur le dernier maillon, qui est la page affichée. */
+  href?: string;
+}
+
+interface Props {
+  maillons: Maillon[];
+  /** Classes de marge, la place du fil variant d'une mise en page à l'autre. */
+  class?: string;
+  /** Sur fond sombre, le contraste des liens change. */
+  sombre?: boolean;
+}
+
+const { maillons, class: classe = 'mb-8', sombre = false } = Astro.props;
+
+const couleurBase = sombre ? 'text-sauge-pale/70' : 'text-brun-mid';
+const couleurLien = sombre ? 'hover:text-sauge-pale' : 'hover:text-sauge-text';
+const couleurActif = sombre ? 'text-sauge-pale' : 'text-brun';
+const couleurSepar = sombre ? 'text-sauge-pale/35' : 'text-cream-dark';
+---
+
+<nav aria-label="Fil d'Ariane" class={`font-body text-xs ${couleurBase} ${classe}`}>
+  {maillons.map((maillon, index) => (
+    <>
+      {index > 0 && <span class={`mx-2 ${couleurSepar}`} aria-hidden="true">/</span>}
+      {maillon.href
+        ? <a href={maillon.href} class={`${couleurLien} transition-colors`}>{maillon.nom}</a>
+        : <span class={couleurActif} aria-current="page">{maillon.nom}</span>}
+    </>
+  ))}
+</nav>
