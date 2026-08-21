@@ -311,6 +311,105 @@ bouton « Demander des avis ».
 
 Un avis se demande par message personnel, jamais par envoi groupé, et sans jamais souffler
 le texte : Google filtre les avis qui se ressemblent.
+---
+
+## 13. Les posts suivants, calendrier
+
+Un post reste actif six mois, mais Google valorise la régularité : viser un post
+toutes les deux à trois semaines. Seuls les cent premiers caractères s'affichent avant
+le bouton « plus », l'accroche porte donc tout le poids. Chaque post veut une photo en
+format paysage et un bouton d'action.
+
+Ne jamais annoncer de promotion ni de réduction dans un post standard, Google réserve
+cela au type « Offre ».
+
+### Post 2, la preuve par une réalisation
+
+**Accroche** (les cent premiers caractères comptent)
+
+```
+Un salon de prothésie ongulaire à Crest prend désormais ses rendez-vous directement sur son site.
+```
+
+**Texte**
+
+```
+Un salon de prothésie ongulaire à Crest prend désormais ses rendez-vous directement sur son site, sans intermédiaire et sans commission sur chaque réservation.
+
+Le site présente les prestations et leurs tarifs, puis laisse la cliente choisir son créneau et payer son acompte. Les rendez-vous arrivent dans un agenda, plus besoin de répondre au téléphone entre deux poses.
+
+C'est ce que permet un site conçu pour un métier précis plutôt qu'un modèle acheté tout fait.
+```
+
+**Bouton** : « En savoir plus » vers `https://caelestis.fr/realisations/fee-des-ongles`
+
+### Post 3, l'objection du prix
+
+**Texte**
+
+```
+Combien coûte un site internet quand on est artisan ou producteur ?
+
+Chez Caelestis, quatre formules et des prix annoncés : une seule page à partir de 1 000 €, un site vitrine à partir de 2 000 €, une boutique à partir de 2 500 €, un site sur mesure à partir de 3 500 €.
+
+Pas d'abonnement obligatoire pour rester en ligne, pas de commission sur vos ventes, et le site vous appartient. Le devis est gratuit et arrive sous 48 heures.
+```
+
+**Bouton** : « En savoir plus » vers `https://caelestis.fr/services`
+
+### Post 4, l'objection du délai
+
+**Texte**
+
+```
+« Combien de temps pour avoir mon site ? »
+
+Comptez deux à quatre semaines pour un site vitrine, une à deux pour une page unique. Ce délai dépend surtout d'une chose : le temps qu'il vous faut pour réunir vos photos et vos textes.
+
+C'est pour cela que la première étape n'est pas le dessin du site, mais un rendez-vous où l'on fait le tour de votre métier, de vos clients et de ce que vous voulez qu'ils comprennent en dix secondes.
+```
+
+**Bouton** : « Devis » vers `https://caelestis.fr/contact`
+
+### Post 5, la niche
+
+**Texte**
+
+```
+Paysagistes, maraîchers, apiculteurs, éleveurs, bureaux d'études environnement : vos métiers se voient et se touchent, et la plupart des sites qu'on vous propose les racontent avec des photos de banque d'images.
+
+Caelestis travaille avec les métiers du vivant, en Drôme et en Ardèche. Vos photos, vos mots, votre saison. Un site qui ressemble à ce que vous faites vraiment.
+```
+
+**Bouton** : « En savoir plus » vers `https://caelestis.fr`
+
+### Post 6, le référencement local
+
+**Texte**
+
+```
+Votre entreprise n'apparaît pas quand on cherche votre métier près de chez vous ?
+
+Bien souvent, la cause n'est pas le site mais la fiche Google : catégorie mal choisie, zone desservie absente, aucune photo, aucun avis. Une fiche bien remplie sort avant un site parfait.
+
+Caelestis crée la fiche et la valide pour 400 €, ou reprend une fiche existante mal renseignée pour 300 €.
+```
+
+**Bouton** : « En savoir plus » vers `https://caelestis.fr/services/fiche-google-entreprise`
+
+### Post 7, les avis
+
+**Texte**
+
+```
+Seize avis à 4,5 pèsent souvent plus lourd, dans le classement local, qu'un site plus beau sans aucun avis.
+
+L'effet se joue surtout entre trois et seize avis : c'est là que le classement bouge le plus. Inutile de viser le cinq sur cinq, une note entre 4,2 et 4,7 inspire plus confiance qu'un sans-faute qui semble arrangé.
+
+Le plus efficace reste le message personnel, un client à la fois, sans texte tout prêt à recopier.
+```
+
+**Bouton** : « En savoir plus » vers `https://caelestis.fr/ressources/avis-clients-comment-en-obtenir`
 
 ---
 
