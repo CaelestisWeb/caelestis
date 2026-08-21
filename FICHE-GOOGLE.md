@@ -1,6 +1,7 @@
 # Fiche Google Business Profile, contenu à coller
 
 Document de travail interne. Rédigé le 03/08/2026, tarifs lus dans `src/utils/tarifs.ts`.
+Diagnostic et section 0 refaits le 21/08/2026.
 Services et descriptions revus le 17/08/2026 : la création de fiche Google passe à 400 €,
 sa reprise à 300 €.
 Les coordonnées reprennent à l'identique le schema Organization de `src/pages/index.astro`,
@@ -8,24 +9,73 @@ pour que Google lise la même information sur la fiche et sur le site.
 
 ---
 
-## 0. Deux réglages à régler AVANT le contenu
+## 0. Diagnostic du 21/08/2026 : la fiche existe, mais elle n'est rattachée à aucun lieu
 
-Remplir une fiche mal localisée ne sert à rien : elle ne sortira sur aucune recherche locale.
+Mesuré ce jour, navigateur non connecté, adresse IP localisée en Drôme (Bourdeaux).
 
-**a. La localisation.** Le repère de la mini carte apparaît en plein océan Atlantique.
-Ouvrir « Éditer la fiche », onglet « Localisation » :
+| Test | Résultat |
+|---|---|
+| Google Maps, « Caelestis Crest 26400 » | « Correspondance partielle », aucun établissement, Google propose « Ajouter un lieu manquant » |
+| Google Maps, « Caelestis » centré sur Crest | Sept homonymes : un médium suisse, deux temples romains, un éleveur de chiens. Aucune agence web |
+| Recherche « Caelestis Crest » | Aucun panneau de connaissance. Pages Jaunes et Mappy occupent la place, et l'aperçu IA les cite comme source |
+| Le lien `sameAs` du site, `share.google/IKYSIPaXxlTN0W5Zz` | Redirige vers `kgmid=/g/11nk0p5w4n`. Google y affiche la déesse romaine, le Wiktionnaire et un projet aéronautique européen |
 
-- Si une adresse figure et que le repère est mal placé, le faire glisser sur Crest.
-- Si aucune adresse ne figure, déclarer la fiche en « zone desservie », puis renseigner
-  les zones de la section 6. Une fiche sans adresse ET sans zone n'est rattachée à rien.
+**La fiche existe donc bien**, elle porte un identifiant Knowledge Graph, **mais elle n'est rattachée à aucun point de la carte**. C'est exactement ce que montrait le repère en plein océan Atlantique relevé le 03/08 : latitude zéro, longitude zéro, autrement dit aucune localisation valide. Une fiche sans localisation ne peut sortir sur aucune recherche locale, d'où que l'on cherche. Dix-huit jours plus tard, rien n'a bougé : ce document a été écrit mais pas appliqué.
 
-**Recommandation : zone desservie, sans adresse publique.** L'activité ne reçoit pas de
-clients dans un local. Google demande alors une adresse pour la validation, puis la masque.
-C'est aussi ce que fait le site, dont le schema ne porte aucun numéro de rue.
+### La cause, trouvée le 21/08
 
-**b. La visibilité.** Depuis un navigateur non connecté, la fiche ne ressort ni sur
-« Caelestis Crest 26400 », ni sur Google Maps. Vérifier dans la fiche qu'aucun bandeau
-d'établissement en attente de validation ou suspendu n'est affiché.
+Les mentions légales du site déclarent :
+
+```
+Adresse de l'établissement : 60 rue François 1er, 75008 Paris
+Adresse de domiciliation : LegalPlace, 60 rue François 1er, 75008 Paris
+```
+
+Trois conséquences :
+
+1. **Une adresse de domiciliation est éliminatoire chez Google.** La règle interdit les bureaux virtuels « sauf si du personnel y travaille pendant les horaires d'ouverture », ainsi que les boîtes aux lettres à adresse distante. Saisir Paris, c'est la suspension, et une localisation à 500 km du marché réel.
+2. **Dans les registres publics, l'entreprise n'existe pas en Drôme.** SIREN 999 959 497, établissement unique à Paris 8e. Google ne trouve aucune source officielle pour corroborer une fiche à Crest, ce qui explique aussi qu'aucune fiche n'ait jamais été générée spontanément, alors que Google en crée pour la plupart des entreprises.
+3. **Le site se contredit lui-même** : le contenu et le schema disent Crest 26400, les mentions légales disent Paris 75008.
+
+### L'éligibilité, vérifiée à la source
+
+Règle officielle : une entreprise présente uniquement en ligne, sans local recevant du public **et** sans déplacement chez le client, n'est pas éligible à une fiche. Caelestis se déplace chez une partie de ses clients, en Drôme et en Ardèche : **l'éligibilité est acquise**, en établissement de services de proximité, avec adresse renseignée puis masquée. Il n'est pas nécessaire de rencontrer tous ses clients, une partie suffit.
+
+Le masquage n'est d'ailleurs pas une option, c'est une obligation : « si vous n'accueillez pas de clients dans votre établissement, vous devez supprimer votre adresse de votre fiche ».
+
+### Les trois gestes, dans cet ordre
+
+**a. Régulariser le lieu d'exercice à Crest.** Guichet unique INPI, gratuit : déclarer l'établissement à l'adresse réelle de travail à Crest, en gardant LegalPlace comme siège social. Google retrouve alors une trace officielle en Drôme. Sans ce geste, la validation ne repose que sur des preuves matérielles, et reste fragile.
+
+**b. Localiser la fiche.** Dans « Éditer la fiche », onglet « Localisation » : saisir l'adresse de Crest, cocher « Je livre des biens et services à mes clients », ce qui masque l'adresse au public, puis renseigner les zones de la section 6. Contrôler que le repère se pose bien sur Crest, et non au large de l'Afrique.
+
+**c. Aligner les mentions légales.** Ajouter le lieu d'exercice à côté du siège de domiciliation, pour que le site cesse de contredire la fiche.
+
+### Ce que la validation demandera
+
+Pour une activité sans local ouvert au public, Google demande presque toujours une vidéo en une seule prise, sans coupure. À préparer avant de lancer la demande, sous peine de refus :
+
+- un repère extérieur reconnaissable, la rue et le numéro
+- le poste de travail réel
+- une preuve d'activité au nom de l'entreprise : facture, avis de situation SIRENE, espace d'administration ouvert à l'écran
+- la preuve que c'est bien vous qui gérez, en accédant aux outils devant la caméra
+
+### Ce que la fiche vaut, mesuré depuis Crest
+
+Pack local Google Maps, requête « création site internet » centrée sur Crest, le 21/08/2026 :
+
+| Établissement | Note et avis | Adresse affichée |
+|---|---|---|
+| Logia, résultat sponsorisé | 5,0 sur 107 avis | oui |
+| Réacticom | 5,0 sur 30 avis | oui |
+| Web et Plus | 5,0 sur 11 avis | oui |
+| Les Oiseaux rares | 5,0 sur 7 avis | oui |
+| Meteoben | 5,0 sur 4 avis | **non** |
+| Eregion Web | 5,0 sur 4 avis | oui |
+| Lucide Web | 5,0 sur 3 avis | **non** |
+| Val d'Internet | aucun avis | oui |
+
+Deux enseignements. Le ticket d'entrée n'est pas à cent avis : Lucide Web y figure avec trois, et Val d'Internet sans aucun. Et deux fiches sur huit n'affichent aucune adresse : la configuration visée ici, zone desservie sans adresse publique, ne ferme donc aucune porte.
 
 ---
 
@@ -209,8 +259,8 @@ Cela dépend de la formule et de la rapidité à réunir les textes et les photo
 unique se livre en quelques jours, un site vitrine en deux à trois semaines.
 
 **Travaillez vous en dehors de la Drôme ?**
-Oui. L'atelier est à Crest et le travail se fait aussi bien sur place qu'à distance, dans
-toute l'Auvergne-Rhône-Alpes et partout en France.
+Oui. La base est à Crest. Les rendez-vous se font sur place en Drôme et en Ardèche, et le
+reste du travail à distance, partout en France.
 
 **Faut il payer un abonnement après la livraison ?**
 Un abonnement de maintenance accompagne chaque site : hébergement, nom de domaine,
@@ -248,9 +298,12 @@ sous 48 heures.
 
 ## 12. Le vrai levier, les avis
 
-La fiche affiche zéro avis. Les concurrents qui sortent sur « concepteur de sites web »
-dans le secteur en affichent 329, 23, 22, 21, 11, 3, 3 et 2. Aucune fiche sans avis ne se
-classe devant celles là, quelle que soit la qualité du remplissage.
+La fiche affiche zéro avis. Relevé du 21/08/2026 dans le pack local de Crest : 107, 30, 11,
+7, 4, 4 et 3 avis, plus une fiche visible sans aucun avis. Le remplissage seul ne suffit
+donc pas, mais le ticket d’entrée est bas : trois avis suffisent à figurer dans ce classement.
+
+Palier à viser : seize avis à 4,2 minimum. L’effet sur le classement se joue surtout entre
+trois et seize avis. Ne pas chercher le 5,0, la zone de confiance est 4,2 à 4,7.
 
 Deux clientes peuvent laisser un avis dès cette semaine : Caro Deshayes pour La Coquette,
 et Romane pour la Fée des Ongles. Le lien de demande d'avis se récupère dans la fiche,
