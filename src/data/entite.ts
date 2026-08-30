@@ -123,18 +123,16 @@ export const HORAIRES = {
  * précis au plus large : c'est ainsi qu'on lit une couverture, et les communes
  * passent avant les départements, eux-mêmes avant la région.
  *
- * Les villes reprennent, au mot près, les zones desservies déclarées dans la
- * fiche d'établissement (relevées le 30/08/2026). Deux listes identiques des
- * deux côtés valent mieux qu'un site et une fiche qui annoncent chacun leur
+ * Les dix-huit villes reprennent, au mot près, les zones desservies déclarées
+ * dans la fiche d'établissement (relevées le 30/08/2026). Deux listes identiques
+ * des deux côtés valent mieux qu'un site et une fiche qui annoncent chacun leur
  * périmètre : c'est le même croisement que pour le nom, le téléphone et les
  * horaires.
  */
 export const TERRITOIRE = [
   { '@type': 'City', name: 'Valence' },
-  { '@type': 'City', name: 'Montélimar' },
   { '@type': 'City', name: 'Annonay' },
   { '@type': 'City', name: 'Aubenas' },
-  { '@type': 'City', name: 'Die' },
   { '@type': 'City', name: 'Saint-Péray' },
   { '@type': 'City', name: 'Guilherand-Granges' },
   { '@type': 'City', name: 'Chabeuil' },
@@ -143,6 +141,13 @@ export const TERRITOIRE = [
   { '@type': 'City', name: 'Bourg-lès-Valence' },
   { '@type': 'City', name: 'Livron-sur-Drôme' },
   { '@type': 'City', name: 'Étoile-sur-Rhône' },
+  { '@type': 'City', name: 'Montélimar' },
+  { '@type': 'City', name: 'Die' },
+  { '@type': 'City', name: 'Privas' },
+  { '@type': 'City', name: 'Romans-sur-Isère' },
+  { '@type': 'City', name: 'Bourg-de-Péage' },
+  { '@type': 'City', name: 'Tournon-sur-Rhône' },
+  { '@type': 'City', name: 'Saint-Jean-en-Royans' },
   { '@type': 'AdministrativeArea', name: 'Drôme' },
   { '@type': 'AdministrativeArea', name: 'Ardèche' },
   { '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' },
