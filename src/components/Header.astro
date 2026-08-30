@@ -226,6 +226,18 @@ const estActive = (e: { href?: string; prefixe?: string }) => {
     white-space: nowrap;
   }
 
+  /* Cible tactile des liens : au moins 24 px de haut (critère WCAG 2.5.8, relevé
+     par Lighthouse desktop). En `text-sm`, le lien ne faisait que ~20 px de haut.
+     Le `min-height` sur une boîte inline-flex agrandit la zone cliquable sans
+     déplacer le texte — la barre est déjà centrée verticalement (`items-center`)
+     et rien ne bouge horizontalement. */
+  nav[aria-label="Navigation principale"] .nav-link,
+  nav[aria-label="Navigation principale"] .nav-groupe > span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+  }
+
   /* La cible tactile fait 24 par 24, le minimum du critère WCAG 2.5.8. Elle en
      mesurait 13 par 17, relevé par Lighthouse le 21/08/2026.
 
@@ -239,7 +251,11 @@ const estActive = (e: { href?: string; prefixe?: string }) => {
     padding: 0;
     min-width: 24px;
     min-height: 24px;
-    margin: -3.5px -5.5px;
+    /* Marge verticale négative : la cible de 24 px ne grandit pas la hauteur du
+       groupe. Horizontalement, on ne remonte qu'à -2 px (au lieu de -5,5) pour que
+       le chevron ne chevauche plus la boîte du lien voisin — c'est ce chevauchement
+       que Lighthouse signalait comme espacement insuffisant. */
+    margin: -3.5px -2px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
