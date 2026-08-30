@@ -41,11 +41,20 @@ export const CONTACT = {
   telephoneAffiche: '07 69 36 27 27',
 } as const;
 
+/**
+ * L'adresse telle que les moteurs doivent la lire.
+ *
+ * Réduite au département le 30/08/2026, pour coller à la fiche d'établissement :
+ * celle-ci est déclarée en zone de service, elle annonce « Drôme et les zones à
+ * proximité » et masque toute adresse postale. Un site qui nomme une commune
+ * quand la fiche reste muette fait diverger les deux sources sur le même signal.
+ *
+ * PostalAddress accepte cette forme : schema.org laisse chacun de ses champs
+ * facultatif. La commune demeure là où la loi l'exige, dans les mentions légales.
+ */
 export const ADRESSE = {
   '@type': 'PostalAddress',
-  addressLocality: 'Crest',
   addressRegion: 'Drôme',
-  postalCode: '26400',
   addressCountry: 'FR',
 } as const;
 
@@ -111,10 +120,29 @@ export const HORAIRES = {
 
 /**
  * Le territoire desservi, tel qu'il est déclaré aux moteurs. L'ordre va du plus
- * précis au plus large : c'est ainsi qu'on lit une couverture, et les deux
- * départements d'ancrage passent avant la région.
+ * précis au plus large : c'est ainsi qu'on lit une couverture, et les communes
+ * passent avant les départements, eux-mêmes avant la région.
+ *
+ * Les villes reprennent, au mot près, les zones desservies déclarées dans la
+ * fiche d'établissement (relevées le 30/08/2026). Deux listes identiques des
+ * deux côtés valent mieux qu'un site et une fiche qui annoncent chacun leur
+ * périmètre : c'est le même croisement que pour le nom, le téléphone et les
+ * horaires.
  */
 export const TERRITOIRE = [
+  { '@type': 'City', name: 'Valence' },
+  { '@type': 'City', name: 'Montélimar' },
+  { '@type': 'City', name: 'Annonay' },
+  { '@type': 'City', name: 'Aubenas' },
+  { '@type': 'City', name: 'Die' },
+  { '@type': 'City', name: 'Saint-Péray' },
+  { '@type': 'City', name: 'Guilherand-Granges' },
+  { '@type': 'City', name: 'Chabeuil' },
+  { '@type': 'City', name: 'Portes-lès-Valence' },
+  { '@type': 'City', name: 'Pont-de-l’Isère' },
+  { '@type': 'City', name: 'Bourg-lès-Valence' },
+  { '@type': 'City', name: 'Livron-sur-Drôme' },
+  { '@type': 'City', name: 'Étoile-sur-Rhône' },
   { '@type': 'AdministrativeArea', name: 'Drôme' },
   { '@type': 'AdministrativeArea', name: 'Ardèche' },
   { '@type': 'AdministrativeArea', name: 'Auvergne-Rhône-Alpes' },
