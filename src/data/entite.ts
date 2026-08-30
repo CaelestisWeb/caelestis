@@ -53,16 +53,35 @@ export const ADRESSE = {
 export const COORDONNEES = { latitude: '44.7308', longitude: '5.0197' } as const;
 
 /**
- * Identifiant de l'entreprise dans le Knowledge Graph de Google, relevé le
- * 21/08/2026 en suivant le lien de partage de la fiche d'établissement, qui
- * redirige vers une recherche portant `kgmid=/g/11nk0p5w4n`.
+ * Identifiant de l'entreprise dans le Knowledge Graph de Google.
  *
  * Il sert à `identifier` : c'est la façon la moins ambiguë de dire à Google
  * « l'entreprise décrite ici est celle que tu connais déjà sous cet identifiant ».
  * Utile parce que le nom Caelestis est partagé : le domaine a d'abord hébergé une
  * communauté de jeu vidéo, dont des pages figurent encore dans les index.
+ *
+ * Corrigé le 30/08/2026. La valeur précédente, `/g/11nk0p5w4n`, venait d'un lien
+ * de partage ; testée sur `google.com/search?kgmid=`, elle répond « aucun document
+ * ne correspond ». La valeur ci-dessous vient du paramètre `16s` de l'URL Maps de
+ * la fiche, et la même recherche affiche alors la fiche et le site.
+ *
+ * Pour la revérifier : ouvrir `google.com/maps?cid=4976660435782760136`, lire la
+ * portion `16s%2Fg%2F…` de l'URL une fois la fiche chargée, puis contrôler avec
+ * `google.com/search?kgmid=/g/…`.
  */
-export const KGMID = '/g/11nk0p5w4n';
+export const KGMID = '/g/11zdrv5m9q';
+
+/**
+ * L'adresse stable de la fiche d'établissement sur Maps, construite sur le CID
+ * (identifiant public du lieu, relevé le 30/08/2026). Elle alimente `hasMap`,
+ * la propriété que schema.org réserve à la carte d'un lieu : le site déclare
+ * ainsi lui-même le lien vers sa fiche, en plus du `identifier` ci-dessus.
+ *
+ * Le CID reste hors des identifiants visibles dans l'interface Google Business,
+ * qui affiche des numéros internes : celui-ci se lit dans l'URL Maps de la fiche
+ * (second hexadécimal après `!1s`, converti en décimal).
+ */
+export const FICHE_GOOGLE = 'https://www.google.com/maps?cid=4976660435782760136';
 
 /**
  * Les profils officiels, pour `sameAs`.

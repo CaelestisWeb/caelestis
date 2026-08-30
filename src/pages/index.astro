@@ -11,7 +11,7 @@ import imgAvant       from '../assets/images/comparateur/avant.jpg';
 import imgApres       from '../assets/images/comparateur/apres.jpg';
 import { realisations } from '../data/realisations';
 import { euros, formule, MAINTENANCE_MIN, MAINTENANCE_MOIS_OFFERTS, MAINTENANCE_MOIS_OFFERTS_LETTRES } from '../utils/tarifs';
-import { ADRESSE, CONTACT, COORDONNEES, HORAIRES, IDENTIFIANT, IMAGE_PARTAGE, LOGO, PROFILS, TERRITOIRE } from '../data/entite';
+import { ADRESSE, CONTACT, COORDONNEES, FICHE_GOOGLE, HORAIRES, IDENTIFIANT, IMAGE_PARTAGE, LOGO, PROFILS, TERRITOIRE } from '../data/entite';
 
 /* Ce que le site réunit. Réécrit le 02/08/2026, affiné le 04/08/2026 avec
    Célestin : le schéma montrait au départ les canaux concurrents du site (fiche
@@ -70,6 +70,7 @@ const localBusiness = {
   identifier: IDENTIFIANT,
   address: ADRESSE,
   geo: { '@type': 'GeoCoordinates', ...COORDONNEES },
+  hasMap: FICHE_GOOGLE,
   openingHoursSpecification: HORAIRES,
   priceRange: '€€',
   currenciesAccepted: 'EUR',
