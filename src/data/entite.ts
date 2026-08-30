@@ -92,8 +92,9 @@ export const FICHE_GOOGLE = 'https://www.google.com/maps?cid=4976660435782760136
  * avant d'arriver quelque part, et une redirection est un signal plus faible
  * qu'une adresse stable.
  *
- * La fiche d'établissement n'y figure pas volontairement : Google la relie déjà
- * au site par la validation du domaine, et `identifier` porte le kgmid.
+ * La fiche d'établissement a sa propre place : `identifier` porte son kgmid et
+ * `hasMap` porte son adresse Maps, les deux propriétés que schema.org réserve à
+ * cet usage. `sameAs` reste donc la liste des profils sociaux.
  */
 export const PROFILS: string[] = [
   'https://www.facebook.com/CaelestisWeb',
@@ -104,7 +105,7 @@ export const PROFILS: string[] = [
 export const HORAIRES = {
   '@type': 'OpeningHoursSpecification',
   dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-  opens: '09:00',
+  opens: '08:00',
   closes: '18:00',
 } as const;
 
