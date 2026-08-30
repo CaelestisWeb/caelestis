@@ -60,6 +60,16 @@ export default defineConfig({
     defaultStrategy: 'hover',
     prefetchAll: false,
   },
+  build: {
+    /* Inline le CSS dans le <head> plutôt que de le servir en <link rel="stylesheet">
+       bloquant le rendu. Lighthouse relevait deux feuilles critiques (global + CSS
+       de page, ~24 Kio) qui retardaient le premier rendu de ~120 ms, mobile comme
+       desktop. En inline, le CSS arrive avec le HTML : zéro requête bloquante, FCP/LCP
+       plus rapides. Le HTML est compressé (brotli) par Vercel, donc le surcoût réel
+       est de quelques Kio par page. Autorisé par la CSP : style-src porte déjà
+       'unsafe-inline' (voir vercel.json). */
+    inlineStylesheets: 'always',
+  },
   vite: {
     plugins: [tailwindcss()],
     build: {
