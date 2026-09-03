@@ -1239,8 +1239,14 @@ const organizationSchema = {
      donc resserrés ensemble : 100 + 90 + 100 = 290 px, il reste 16 px de marge
      de chaque côté. Ne pas relever l'un sans rabaisser l'autre. */
   @media (max-width: 420px) {
-    .conv-canal { font-size: 0.625rem; width: 7rem; padding: 0.3rem 0.4rem; }
-    .conv-noyau { width: 28%; }
+    /* Corps remonté de 10 à 11 px le 03/09/2026 : à 10 px les libellés
+       passaient sous le seuil de lisibilité, et la place se prend au noyau,
+       comme l'annonce la règle ci-dessus. Le disque cède 2 points de largeur
+       (28 à 26 %), les pastilles en gagnent 4 (7 à 7,25 rem) et le jour entre
+       les deux passe de 2 à 16 px sur un écran de 390 px. Mesuré sans
+       chevauchement ni débordement à 375, 390 et 414 px. */
+    .conv-canal { font-size: 0.6875rem; width: 7.25rem; padding: 0.3rem 0.35rem; }
+    .conv-noyau { width: 26%; }
     .conv-noyau span { font-size: 0.6875rem; }
     .conv-noyau svg { width: 20px; height: 20px; }
   }
@@ -1249,61 +1255,13 @@ const organizationSchema = {
      mesuré, sans débordement, mais trop juste. Pastilles resserrées, le plus
      long libellé « Adresse et horaires » tient encore sur une ligne à ce corps. */
   @media (max-width: 360px) {
-    .conv-canal { font-size: 0.5625rem; width: 6.5rem; padding: 0.28rem 0.35rem; }
+    /* Corps remonté de 9 à 10 px le 03/09/2026, même mouvement qu'au-dessus :
+       à 320 px le carré ne fait plus que 320 px de large, les 11 px n'y
+       tiennent pas, les 10 px oui avec 1,6 px de jour au bord et 25 px devant
+       le noyau. Mesuré à 320 et 360 px. */
+    .conv-canal { font-size: 0.625rem; width: 7rem; padding: 0.28rem 0.3rem; }
   }
 
-  /* Sous 480 px, le schéma circulaire cesse d'être lisible. Mesuré le
-     03/09/2026 sur un écran de 390 px : les huit pastilles y tombent à 10 px de
-     corps, sous le seuil de 12 px que Lighthouse signale. Les trois blocs
-     ci-dessus racontent d'ailleurs cette descente, palier par palier, à mesure
-     que le cercle rétrécissait : c'est la géométrie qui imposait le corps du
-     texte, jamais un choix de lecture.
-
-     Le module garde son sens (un centre, ses composantes) et abandonne sa
-     géométrie : le noyau passe en tête, les huit canaux s'alignent en deux
-     colonnes à 13 px, les traits et l'orbite disparaissent puisqu'ils ne
-     décrivent plus rien. La section y gagne en plus une centaine de pixels.
-     Ce bloc vient après les paliers 520, 420 et 360 : il les neutralise par
-     l'ordre du document, à spécificité égale. Ne pas le remonter. */
-  @media (max-width: 480px) {
-    .conv-carre {
-      width: 100%;
-      max-width: none;
-      margin-inline: 0;
-      aspect-ratio: auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-    }
-    .conv-traits { display: none; }
-    .conv-noyau {
-      position: static;
-      grid-column: 1 / -1;
-      width: auto;
-      aspect-ratio: auto;
-      transform: none;
-      flex-direction: row;
-      gap: 0.6rem;
-      border-radius: 999px;
-      padding: 0.8rem 1rem;
-      margin-bottom: 0.25rem;
-      box-shadow: 0 10px 24px rgba(37, 92, 65, 0.22);
-    }
-    .conv-noyau svg { width: 22px; height: 22px; }
-    .conv-noyau span { font-size: 0.875rem; }
-    .conv-canal {
-      position: static;
-      transform: none;
-      width: auto;
-      font-size: 0.8125rem;
-      padding: 0.55rem 0.6rem;
-      white-space: normal;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .conv-canal:hover { transform: none; }
-  }
   @media (prefers-reduced-motion: reduce) {
     .conv-trait { animation: none; }
     /* Le survol garde son changement de couleur, mais perd l'agrandissement et
