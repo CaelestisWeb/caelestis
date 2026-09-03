@@ -165,7 +165,7 @@ export function constatsDuSite(pages: PageParcourue[]): Constat[] {
     constats.push({
       famille: 'referencement',
       gravite: sansTitre >= total * 0.2 ? 'moyen' : 'mineur',
-      fait: `${sansTitre} page${sansTitre > 1 ? 's' : ''} sur ${total} attend${sansTitre > 1 ? 'ent' : ''} son titre.`,
+      fait: `${sansTitre} page${sansTitre > 1 ? 's' : ''} sur ${total} attend${sansTitre > 1 ? 'ent' : ''} ${sansTitre > 1 ? 'leur' : 'son'} titre.`,
       consequence: 'Google fabrique alors une ligne de résultat avec des bouts de page, souvent bancale.',
     });
   }

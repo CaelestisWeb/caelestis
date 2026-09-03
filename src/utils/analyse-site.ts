@@ -1491,7 +1491,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   controle();
   if (page.duree >= SEUILS.chargementCritique) {
     ajouter('vitesse', 'critique', `La page met ${secondes(page.duree)} secondes à répondre.`,
-      "Au-delà de trois secondes, une part importante des visiteurs ferme l'onglet avant d'avoir rien vu.");
+      "Au-delà de trois secondes, une part importante des visiteurs ferme l'onglet avant la première image.");
   } else if (page.duree >= SEUILS.chargementLent) {
     ajouter('vitesse', 'moyen', `La page met ${secondes(page.duree)} secondes à répondre.`,
       'Google intègre ce délai dans son classement, et les visiteurs mobiles y sont particulièrement sensibles.');
@@ -1523,7 +1523,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     'Chaque fichier tiers ou bloquant est une attente supplémentaire avant que la page devienne utilisable.');
 
   verifier('vitesse', 'moyen', scriptsBloquants >= 3,
-    `${scriptsBloquants} scripts sont chargés sans différé, en haut de page.`,
+    `${scriptsBloquants} scripts sont chargés en haut de page, devant l'affichage.`,
     "Le navigateur interrompt l'affichage à chacun d'eux : le visiteur voit une page blanche pendant ce temps.");
 
   verifier('vitesse', 'moyen', domainesTiers.size > SEUILS.tiersNombreux,
@@ -1532,13 +1532,13 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
 
   if (entetes) {
     verifier('vitesse', 'moyen', !compresse,
-      "Le serveur envoie la page sans compression.",
+      "La compression reste à activer sur le serveur.",
       'La compression réduit le poids transféré de 60 à 80 pour cent. Elle est gratuite et se règle côté serveur.');
   }
 
   verifier('vitesse', 'mineur', images >= 5 && imagesSansLazy >= images * 0.8,
     `${imagesSansLazy} images sur ${images} sont chargées immédiatement, même celles en bas de page.`,
-    "Le visiteur attend le téléchargement d'images qu'il ne verra peut-être jamais.");
+    "Le visiteur attend le téléchargement d'images qu'il aurait peut-être fait défiler sans les voir.");
 
   verifier('vitesse', 'mineur', images >= 4 && imagesFormatDate >= images * 0.8,
     `${imagesFormatDate} images sur ${images} sont en JPEG ou PNG.`,
@@ -1582,7 +1582,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
      pas de saut de mise en page, même sans attributs de dimensions. */
   const proportionEnCss = /aspect-ratio\s*:/i.test(html);
   verifier('mobile', 'moyen', images >= 3 && imagesSansDimensions >= images * 0.7 && !proportionEnCss,
-    `${imagesSansDimensions} images sur ${images} ne déclarent pas leurs dimensions.`,
+    `${imagesSansDimensions} images sur ${images} attendent leurs dimensions.`,
     'Le contenu saute pendant le chargement, et le visiteur clique parfois à côté de ce qu\'il visait.');
 
   verifierPresence('mobile', 'reglage', !balMeta('theme-color'),
@@ -1740,7 +1740,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
 
   if (lectureComplete) controle();
   if (lectureComplete && pagesInternes.size === 0) {
-    ajouter('referencement', 'moyen', "L'accueil reste seul, sans lien vers une autre page.",
+    ajouter('referencement', 'moyen', "L'accueil reste seul : les liens vers les autres pages restent à poser.",
       "Google dispose alors d'une seule page à proposer, sur un seul sujet. Chaque prestation détaillée sur sa propre page est une porte d'entrée supplémentaire.");
   } else if (lectureComplete && pagesInternes.size <= 3) {
     ajouter('referencement', 'mineur', `Le site ne compte que ${pagesInternes.size} pages accessibles depuis l'accueil.`,
@@ -1793,7 +1793,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     controle();
     if (page404!.statut === 404 && texteVisible(page404!.corps).split(' ').length < 25) {
       ajouter('confiance', 'mineur', "La page d'erreur n'est pas personnalisée.",
-        "Un visiteur qui suit un lien périmé tombe sur un message technique brut, sans chemin de retour vers votre site.");
+        "Un visiteur qui suit un lien périmé tombe sur un message technique brut, resté sans chemin de retour vers votre site.");
     }
   }
 
@@ -1937,7 +1937,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     "Les horaires d'ouverture restent à afficher.",
     "C'est l'une des informations les plus recherchées, et l'un des motifs d'appel les plus fréquents.",
     (page) => `Les horaires d'ouverture attendent une page plus loin : ils sont sur ${page}.`,
-    "C'est l'une des informations les plus recherchées. La donner d'emblée épargne un appel pour la demander, et un déplacement pour rien.");
+    "C'est l'une des informations les plus recherchées. La donner d'emblée épargne un appel pour la demander, et un déplacement inutile.");
 
   verifierSurLeSite('conversion', 'mineur', !aAdresse,
     /\b\d{5}\b[\s,]{0,3}[A-Za-zÀ-ÿ][\wÀ-ÿ'-]{2,}|\b(?:rue|avenue|boulevard|chemin|route|impasse|allée|place|quai)\b\s+[\wÀ-ÿ]/i,
@@ -1964,12 +1964,12 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   if (images > 0 && imagesSansAlt > 0) {
     const part = imagesSansAlt / images;
     ajouter('lisibilite', part > 0.5 ? 'moyen' : 'mineur',
-      `${imagesSansAlt} image${imagesSansAlt > 1 ? 's' : ''} sur ${images} sans description alternative.`,
+      `${imagesSansAlt} image${imagesSansAlt > 1 ? 's' : ''} sur ${images} attend${imagesSansAlt > 1 ? 'ent' : ''} ${imagesSansAlt > 1 ? 'leur' : 'sa'} description alternative.`,
       "Ces images sont invisibles pour Google Images et pour les personnes qui naviguent avec un lecteur d'écran.");
   }
 
   verifier('lisibilite', 'moyen', champsSansLibelle > 0,
-    `${champsSansLibelle} champ${champsSansLibelle > 1 ? 's' : ''} de formulaire sans libellé associé.`,
+    `${champsSansLibelle} champ${champsSansLibelle > 1 ? 's' : ''} de formulaire attend${champsSansLibelle > 1 ? 'ent' : ''} ${champsSansLibelle > 1 ? 'leur' : 'son'} libellé.`,
     "Le champ reste muet pour les personnes qui utilisent un lecteur d'écran, et le texte d'aide disparaît dès la première frappe.");
 
   verifier('lisibilite', 'moyen', !langue,
@@ -1977,7 +1977,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     "Un lecteur d'écran lit alors le français avec une prononciation anglaise, et les moteurs de recherche doivent deviner à quel public destiner vos pages.");
 
   verifier('lisibilite', 'mineur', iframesSansTitre >= 1,
-    `${iframesSansTitre} contenu${iframesSansTitre > 1 ? 's' : ''} intégré${iframesSansTitre > 1 ? 's' : ''} sans intitulé, carte ou vidéo.`,
+    `${iframesSansTitre} contenu${iframesSansTitre > 1 ? 's' : ''} intégré${iframesSansTitre > 1 ? 's' : ''} attend${iframesSansTitre > 1 ? 'ent' : ''} ${iframesSansTitre > 1 ? 'leur' : 'son'} intitulé, carte ou vidéo.`,
     "Une personne qui navigue au clavier ou au lecteur d'écran découvre un contenu anonyme.");
 
   verifier('lisibilite', 'mineur', balisesObsoletes >= 1,
