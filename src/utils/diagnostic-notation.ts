@@ -91,11 +91,11 @@ export function noter(constats: Constat[]): {
   );
 
   const verdict =
-    note >= 85 ? "Rien de bloquant. Les points restants relèvent du réglage fin."
+    note >= 85 ? "Les fondations tiennent. Les points restants relèvent du réglage fin."
     : note >= 70 ? "Les fondations sont saines. Plusieurs réglages manquants coûtent des visites et des demandes."
-    : note >= 50 ? "Le site est en ligne et fonctionne, sans exploiter ce qu'il pourrait apporter."
+    : note >= 50 ? "Le site est en ligne et fonctionne. Il lui reste à donner tout ce qu'il peut."
     : note >= 30 ? "Plusieurs fondations manquent à la fois : le site est moins visité qu'il ne devrait, et transforme moins qu'il ne pourrait."
-    : "La majorité des points de contrôle n'est pas tenue, et sur presque toutes les familles en même temps.";
+    : "La majorité des points de contrôle reste à traiter, sur presque toutes les familles en même temps.";
 
   return { familles, note, verdict };
 }
@@ -149,7 +149,7 @@ export function constatsDuSite(pages: PageParcourue[]): Constat[] {
       gravite: titresDoubles >= total * 0.3 ? 'moyen' : 'mineur',
       fait: `${titresDoubles} pages sur ${total} portent le même titre qu'une autre page.`,
       consequence:
-        "Google affiche ce titre en tête de son résultat. Quand plusieurs pages partagent le même, il ne sait pas laquelle proposer, choisit lui-même, et leurs positions se font concurrence au lieu de s'additionner.",
+        "Google affiche ce titre en tête de son résultat. Quand plusieurs pages partagent le même, Google choisit lui-même laquelle proposer, et leurs positions se font concurrence au lieu de s'additionner.",
     });
   }
   if (descriptionsDoubles >= 2) {
@@ -158,7 +158,7 @@ export function constatsDuSite(pages: PageParcourue[]): Constat[] {
       gravite: 'mineur',
       fait: `${descriptionsDoubles} pages sur ${total} ont la même description que d'autres.`,
       consequence:
-        "La description est le texte affiché sous le titre dans les résultats. Répétée, elle ne donne aucune raison de cliquer sur une page plutôt qu'une autre.",
+        "La description est le texte affiché sous le titre dans les résultats. Distincte pour chaque page, elle donne une raison de cliquer sur celle-ci plutôt qu'une autre.",
     });
   }
   if (sansTitre > 0) {
@@ -175,7 +175,7 @@ export function constatsDuSite(pages: PageParcourue[]): Constat[] {
       gravite: 'mineur',
       fait: `${sansDescription} pages sur ${total} n'ont pas de description pour les résultats de recherche.`,
       consequence:
-        "Google compose alors un extrait au hasard dans la page, souvent sans rapport avec ce qu'elle vend.",
+        "Google compose alors un extrait au hasard dans la page, souvent très loin de ce qu'elle vend.",
     });
   }
   if (sansH1 >= Math.max(2, total * 0.3)) {
@@ -184,7 +184,7 @@ export function constatsDuSite(pages: PageParcourue[]): Constat[] {
       gravite: sansH1 >= total * 0.5 ? 'moyen' : 'mineur',
       fait: `${sansH1} pages sur ${total} n'ont aucun titre principal.`,
       consequence:
-        "C'est sur ce titre que Google s'appuie pour comprendre le sujet d'une page. Sans lui, elle est plus difficile à classer.",
+        "C'est sur ce titre que Google s'appuie pour comprendre le sujet d'une page. Il rend son classement bien plus facile.",
     });
   }
   if (maigres >= Math.max(2, total * 0.3)) {

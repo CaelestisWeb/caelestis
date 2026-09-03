@@ -40,11 +40,11 @@ const schema = {
 const faq = [
   {
     q: "Qu'est-ce qui justifie un site sur mesure ?",
-    a: "Une fonctionnalité que les formules standard ne couvrent pas : réserver un créneau en ligne, configurer un produit et voir le prix évoluer, consulter un espace client, gérer plusieurs langues ou plusieurs établissements. Si votre besoin tient dans des pages classiques, le site vitrine suffira et coûtera moins cher.",
+    a: "Une fonctionnalité qui dépasse les formules standard : réserver un créneau en ligne, configurer un produit et voir le prix évoluer, consulter un espace client, gérer plusieurs langues ou plusieurs établissements. Si votre besoin tient dans des pages classiques, le site vitrine suffira et coûtera moins cher.",
   },
   {
     q: 'Comment le prix est-il fixé ?',
-    a: "Le prix de départ couvre un site complet avec une fonctionnalité principale sur mesure. Au-delà, chaque brique est chiffrée séparément après le cadrage, et le devis annonce un montant ferme avant que le travail commence. Aucun dépassement n'apparaît en cours de route : ce qui n'était pas prévu fait l'objet d'un avenant que vous validez.",
+    a: "Le prix de départ couvre un site complet avec une fonctionnalité principale sur mesure. Au-delà, chaque brique est chiffrée séparément après le cadrage, et le devis annonce un montant ferme avant que le travail commence. Le montant tient jusqu'à la livraison. Il couvre tout ce que le cadrage a de route : ce qui n'était pas prévu fait l'objet d'un avenant que vous validez.",
   },
   {
     q: 'Combien de temps faut-il prévoir ?',
@@ -52,7 +52,7 @@ const faq = [
   },
   {
     q: 'À qui appartient le site une fois livré ?',
-    a: "À vous, entièrement, dès le paiement complet : le code, les contenus, le nom de domaine et les accès. Vous pouvez le confier à quelqu'un d'autre à tout moment, sans nous demander l'autorisation et sans rien racheter.",
+    a: "À vous, entièrement, dès le paiement complet : le code, les contenus, le nom de domaine et les accès. Vous pouvez le confier à quelqu'un d'autre quand vous voulez : tout est déjà à vous.",
   },
   {
     q: 'Pourrai-je faire évoluer le site ensuite ?',
@@ -89,8 +89,8 @@ const breadcrumb = {
 const possibles = [
   { t: 'Réservation en ligne', d: "Créneaux, durées, acompte, rappels automatiques. En service chez un salon de Crest, ouvert jour et nuit." },
   { t: 'Configurateur', d: "Le client compose son produit et voit le prix et le délai évoluer en direct. Utile en menuiserie, en mobilier, en aménagement." },
-  { t: 'Espace de gestion', d: "Vous modifiez vos contenus, vos tarifs ou vos disponibilités vous-même, sans nous solliciter." },
-  { t: 'Plusieurs lieux ou langues', d: "Une page par établissement, ou un site accessible dans plusieurs langues, sans dupliquer le travail." },
+  { t: 'Espace de gestion', d: "Vous modifiez vos contenus, vos tarifs ou vos disponibilités vous-même, en toute autonomie." },
+  { t: 'Plusieurs lieux ou langues', d: "Une page par établissement, ou un site accessible dans plusieurs langues, sur un seul socle à tenir à jour." },
   { t: 'Connexion à vos outils', d: "Agenda, logiciel de caisse, comptabilité : ce que vous utilisez déjà continue de fonctionner." },
 ];
 
@@ -149,17 +149,17 @@ const inclus = [
   <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
     <div class="max-w-3xl mx-auto">
       <h2 class="font-display font-light text-brun leading-tight mb-8" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);" data-reveal>
-        Quand le standard<br class="hidden sm:block"> ne suffit plus.
+        Quand votre besoin<br class="hidden sm:block"> dépasse le standard.
       </h2>
       <div class="space-y-5 font-body text-base text-brun-mid leading-relaxed" data-reveal data-delay="1">
         <p>
           Un atelier d'ébénisterie dont les clients veulent connaître le prix d'un meuble avant d'appeler.
-          Un salon qui perd des rendez-vous parce que personne ne décroche pendant une prestation.
-          Dans ces situations, ce n'est pas une page de plus qu'il faut : c'est un outil.
+          Un salon qui perd des rendez-vous pendant que le téléphone sonne dans le vide.
+          Dans ces situations, il faut un outil plutôt qu'une page de plus.
         </p>
         <p>
           Le sur mesure part donc du problème, pas du site. Nous cadrons ce que l'outil doit faire,
-          ce qu'il doit empêcher, et qui s'en sert au quotidien. Le site se construit ensuite autour.
+          ce qu'il doit garantir, et qui s'en sert au quotidien. Le site se construit ensuite autour.
         </p>
         <p>
           Si votre besoin tient dans des pages classiques, nous vous orientons vers
@@ -178,7 +178,7 @@ const inclus = [
         Ce qu'on peut construire.
       </h2>
       <p class="font-body text-base text-cream/70 leading-relaxed mb-12 max-w-2xl" data-reveal data-delay="1">
-        Quelques exemples parmi les plus demandés. Le vôtre n'y figure probablement pas : c'est le principe.
+        Quelques exemples parmi les plus demandés. Le vôtre ressemblera à autre chose : c'est le principe.
       </p>
 
       <!-- Le socle et les greffes. Posé le 07/08/2026 après relevé : c'était la
@@ -305,7 +305,7 @@ const inclus = [
     href="/contact#devis"
     libelle="Demander un devis"
   >
-    Sans engagement. Partout en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">Auvergne-Rhône-Alpes</a>.
+    Vous décidez ensuite. Partout en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">Auvergne-Rhône-Alpes</a>.
   </AppelFinal>
 
 </BaseLayout>

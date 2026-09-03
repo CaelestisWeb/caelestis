@@ -41,11 +41,11 @@ const schema = {
 const faq = [
   {
     q: 'Combien de produits puis-je vendre ?',
-    a: "Il n'y a pas de plafond technique. Le prix de départ couvre un catalogue courant, de quelques dizaines de références organisées en catégories. Au-delà de plusieurs centaines de produits, ou avec des variantes nombreuses (tailles, couleurs, contenances), le travail de structuration augmente et nous l'annonçons dans le devis.",
+    a: "Le catalogue peut grandir autant que votre activité le demande. Le prix de départ couvre un catalogue courant, de quelques dizaines de références organisées en catégories. Au-delà de plusieurs centaines de produits, ou avec des variantes nombreuses (tailles, couleurs, contenances), le travail de structuration augmente et nous l'annonçons dans le devis.",
   },
   {
     q: 'Comment mes clients paient-ils, et quand je reçois l\'argent ?',
-    a: "Le paiement se fait par carte bancaire sur votre boutique, via un prestataire agréé. L'argent arrive sur votre compte bancaire, en général sous quelques jours ouvrés. Chaque prestataire prélève une commission par transaction : elle n'est pas facturée par nous, elle est prélevée directement et nous vous indiquons son montant exact avant de choisir la solution.",
+    a: "Le paiement se fait par carte bancaire sur votre boutique, via un prestataire agréé. L'argent arrive sur votre compte bancaire, en général sous quelques jours ouvrés. Chaque prestataire prélève une commission par transaction : elle est prélevée directement par lui, et nous vous indiquons son montant exact avant de choisir la solution.",
   },
   {
     q: 'Qui gère les commandes et les stocks au quotidien ?',
@@ -57,11 +57,11 @@ const faq = [
   },
   {
     q: 'Que dois-je prévoir en plus du prix du site ?',
-    a: "Trois postes récurrents : la commission du prestataire de paiement sur chaque vente, l'hébergement et la maintenance, et le transport de vos colis. Ils sont chiffrés dans le devis, sans surprise après coup. Nous vous dirons aussi franchement si votre volume de ventes prévu ne justifie pas encore une boutique.",
+    a: "Trois postes récurrents : la commission du prestataire de paiement sur chaque vente, l'hébergement et la maintenance, et le transport de vos colis. Ils sont tous chiffrés dans le devis, dès le départ. Nous vous dirons aussi franchement si votre volume de ventes prévu ne justifie pas encore une boutique.",
   },
   {
-    q: 'Et si je préfère vendre sans boutique en ligne ?',
-    a: "C'est parfois le bon choix. Une créatrice qui vend sur les marchés et par message n'a pas besoin d'un tunnel de paiement : un site vitrine avec une galerie soignée lui rapporte davantage, pour moins cher et moins de travail. Nous le disons quand c'est le cas, y compris quand cela nous fait vendre une formule moins chère.",
+    q: 'Et si je préfère vendre autrement ?',
+    a: "C'est parfois le bon choix. Une créatrice qui vend sur les marchés et par message gagne davantage avec un site vitrine et une galerie soignée : moins cher, et moins de travail. Nous le disons quand c'est le cas, y compris quand cela nous fait vendre une formule moins chère.",
   },
 ];
 
@@ -90,8 +90,8 @@ const breadcrumb = {
 const parcours = [
   { t: 'Le catalogue', d: 'Vos produits classés par catégories, avec des filtres quand il y en a beaucoup. Trouvable en deux clics.' },
   { t: 'La fiche produit', d: 'Photos, description précise, prix, et les frais de livraison annoncés dès cet écran. Une information manquante fait fermer la page.' },
-  { t: 'Le panier', d: 'Le total, les frais et le délai, sans surprise à la dernière étape.' },
-  { t: 'Le paiement', d: 'Carte bancaire, sécurisé, en quelques champs. Aucun compte à créer obligatoirement.' },
+  { t: 'Le panier', d: 'Le total, les frais et le délai, affichés dès le départ.' },
+  { t: 'Le paiement', d: 'Carte bancaire, sécurisé, en quelques champs. La création de compte reste facultative.' },
   { t: 'La confirmation', d: 'Un e-mail récapitulatif avec la référence de commande, pour votre client comme pour vous.' },
 ];
 
@@ -130,7 +130,7 @@ const inclus = [
         Vos produits en vente,<br class="hidden sm:block"> <span class="text-sauge">jour et nuit.</span>
       </h1>
       <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed mx-auto" data-reveal data-delay="2">
-        Vendez directement sur votre site grâce à une boutique simple, claire et facile à tenir au quotidien. Sans commission prélevée par une plateforme sur chacune de vos ventes.
+        Vendez directement sur votre site grâce à une boutique simple, claire et facile à tenir au quotidien. Chaque vente vous revient en entier.
       </p>
 
       <!-- Prix -->
@@ -151,7 +151,7 @@ const inclus = [
   <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-b border-cream-dark">
     <div class="max-w-3xl mx-auto">
       <h2 class="font-display font-light text-brun leading-tight mb-8" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem);" data-reveal>
-        Votre commerce,<br class="hidden sm:block"> sans intermédiaire.
+        Votre commerce,<br class="hidden sm:block"> en direct.
       </h2>
       <div class="space-y-5 font-body text-base text-brun-mid leading-relaxed" data-reveal data-delay="1">
         <p>
@@ -165,7 +165,7 @@ const inclus = [
           et vous y ajoutez la vente.
         </p>
         <p>
-          La question à se poser avant de se lancer n'est pas technique, elle est commerciale :
+          La question à se poser avant de se lancer est commerciale avant d'être technique :
           avez-vous assez de volume pour que la boutique se rembourse ? Nous en parlons franchement au cadrage,
           et il nous arrive de recommander une formule moins chère.
         </p>
@@ -192,7 +192,7 @@ const inclus = [
           </div>
         </div>
         <figcaption class="font-body text-sm text-brun-mid mt-4">
-          La part hachurée part à chaque vente. Sur votre boutique, rien ne s'échappe, et les clients restent les vôtres.
+          La part hachurée part à chaque vente. Sur votre boutique, la vente entière vous revient, et les clients restent les vôtres.
         </figcaption>
       </figure>
     </div>
@@ -313,7 +313,7 @@ const inclus = [
     href="/contact#devis"
     libelle="Demander un devis"
   >
-    Sans engagement. Partout en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">Auvergne-Rhône-Alpes</a>.
+    Vous décidez ensuite. Partout en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">Auvergne-Rhône-Alpes</a>.
   </AppelFinal>
 
 </BaseLayout>

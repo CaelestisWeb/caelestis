@@ -26,7 +26,7 @@ const schema = {
 const faq = [
   {
     q: "Pourquoi la maintenance est-elle obligatoire ?",
-    a: "Parce qu'un site vit sur des serveurs et des logiciels qui évoluent en permanence. Sans suivi, un site se dégrade en quelques mois : failles de sécurité, formulaire qui cesse d'envoyer, affichage cassé après une mise à jour de navigateur. L'abonnement couvre l'hébergement, le nom de domaine, les sauvegardes et la surveillance technique. Il évite qu'un site payé plusieurs centaines d'euros devienne inutilisable.",
+    a: "Parce qu'un site vit sur des serveurs et des logiciels qui évoluent en permanence. Un suivi régulier garde le site en état : sécurité à jour, formulaires qui partent, affichage intact après les mises à jour de navigateur. L'abonnement couvre l'hébergement, le nom de domaine, les sauvegardes et la surveillance technique. Il protège l'investissement que représente le site, plusieurs centaines d'euros.",
   },
   {
     q: "Que comprend exactement l'abonnement ?",
@@ -34,15 +34,15 @@ const faq = [
   },
   {
     q: "Que se passe-t-il si mon site tombe en panne ?",
-    a: "Nous intervenons dès votre signalement, ou dès que nous constatons nous-mêmes l'incident. Les formules Boutique en ligne et Site sur mesure bénéficient d'un délai garanti : le site est rétabli sous 48 heures ouvrées. Pour une page unique ou un site vitrine, nous intervenons avec le même soin, sans durée garantie. Dans tous les cas, une panne dont la cause est extérieure, chez l'hébergeur ou un service de paiement par exemple, ne dépend pas de nous : nous vous en donnons la cause et nous suivons le rétablissement auprès du prestataire concerné. Le détail figure à l'article 10.6 de nos conditions générales de vente.",
+    a: "Nous intervenons dès votre signalement, ou dès que nous constatons nous-mêmes l'incident. Les formules Boutique en ligne et Site sur mesure bénéficient d'un délai garanti : le site est rétabli sous 48 heures ouvrées. Pour une page unique ou un site vitrine, nous intervenons avec le même soin, sans durée garantie. Dans tous les cas, une panne dont la cause est extérieure, chez l'hébergeur ou un service de paiement par exemple, relève du prestataire concerné : nous vous en donnons la cause et nous suivons le rétablissement auprès du prestataire concerné. Le détail figure à l'article 10.6 de nos conditions générales de vente.",
   },
   {
     q: "Puis-je résilier quand je veux ?",
-    a: "Oui, avec un mois de préavis, sans justification ni frais. Le site et le nom de domaine restent votre propriété : nous vous transmettons l'ensemble des fichiers et des accès pour que vous puissiez les confier à quelqu'un d'autre.",
+    a: "Oui, avec un mois de préavis, librement et gratuitement. Le site et le nom de domaine restent votre propriété : nous vous transmettons l'ensemble des fichiers et des accès pour que vous puissiez les confier à quelqu'un d'autre.",
   },
   {
     q: "Les modifications de contenu sont-elles comprises ?",
-    a: `L'abonnement comprend ${MAINTENANCE_RETOUCHES_MIN} minutes de retouches par mois, non reportables d'un mois sur l'autre : changer un horaire, un tarif, une photo, corriger une coquille. De quoi couvrir les ajustements courants sans compter à la minute près. Au-delà, ou pour une nouvelle page, nous chiffrons le travail avant de le faire, à ${TARIF_HORAIRE} € de l'heure. Vous ne découvrez jamais une facture après coup.`,
+    a: `L'abonnement comprend ${MAINTENANCE_RETOUCHES_MIN} minutes de retouches par mois, non reportables d'un mois sur l'autre : changer un horaire, un tarif, une photo, corriger une coquille. De quoi couvrir largement les ajustements courants. Au-delà, ou pour une nouvelle page, nous chiffrons le travail avant de le faire, à ${TARIF_HORAIRE} € de l'heure. Vous ne découvrez jamais une facture après coup.`,
   },
   {
     q: "Et si mon site est déjà en ligne, créé par quelqu'un d'autre ?",
@@ -146,7 +146,7 @@ const couvert = [
         Votre site reste entre<br class="hidden sm:block"> <span class="text-sauge">de bonnes mains.</span>
       </h1>
       <p class="font-body text-lg text-brun-mid mt-8 max-w-2xl leading-relaxed mx-auto" data-reveal data-delay="2">
-        La mise en ligne n'est pas une fin. Un site internet n'est jamais figé : les technologies évoluent, des failles de sécurité apparaissent, et sans entretien il se fragilise avec le temps. Chaque semaine, nous veillons à ce que le vôtre reste rapide, sécurisé et toujours en ligne, en coulisses, sans que vous ayez à y penser. Un service pensé pour les indépendants, TPE et PME qui n'ont pas de service technique en interne.
+        La mise en ligne ouvre une nouvelle étape. Un site internet reste vivant : les technologies évoluent, des failles de sécurité apparaissent, et l&rsquo;entretien le garde solide. Chaque semaine, nous veillons à ce que le vôtre reste rapide, sécurisé et toujours en ligne, en coulisses, sans que vous ayez à y penser. Un service pensé pour les indépendants, TPE et PME qui n'ont pas de service technique en interne.
       </p>
     </div>
   </section>
@@ -181,7 +181,7 @@ const couvert = [
           <h3 class="font-display text-brun">La maintenance</h3>
           <p class="prt-intro font-body">
             Le socle technique qui garde votre site en ligne, rapide et protégé.
-            Il tourne tout seul, en fond, sans rien vous demander.
+            Il tourne tout seul, en fond, pendant que vous travaillez.
           </p>
           <ul class="prt-liste prt-liste-inclus font-body" role="list">
             {couvert.map((c) => <li>{c}</li>)}
@@ -208,7 +208,7 @@ const couvert = [
             <li>Ajouter une fonctionnalité</li>
           </ul>
           <p class="prt-prix font-body">
-            Sur devis, sans engagement.
+            Sur devis, vous décidez ensuite.
           </p>
         </div>
 
@@ -234,11 +234,7 @@ const couvert = [
           Un tarif selon votre site.
         </h2>
         <p class="font-body text-base text-brun-mid max-w-2xl mx-auto leading-relaxed">
-          Le tarif suit ce qu'il y a à maintenir. Une page à surveiller ne demande pas
-          le même suivi qu'une boutique qui encaisse ou qu'un site dont les
-          fonctionnalités n'existent que chez vous.
-          L'abonnement est sans durée d'engagement : il se résilie quand vous le
-          voulez, avec un mois de préavis, sans justification ni frais.
+          Le tarif suit ce qu'il y a à maintenir. Une page à surveiller demande moins de suivi qu'une boutique qui encaisse ou qu'un site aux fonctionnalités uniques. L'abonnement se résilie quand vous le voulez, avec un mois de préavis, sans justification ni frais.
         </p>
       </div>
 
@@ -280,11 +276,11 @@ const couvert = [
       </p>
       <p class="font-body text-xs text-brun-mid mt-3 text-center max-w-2xl mx-auto" data-reveal data-delay="2">
         Le délai de 48&nbsp;heures est attaché aux deux dernières formules et court à
-        compter du signalement, en jours ouvrés. Il ne s'applique pas aux
-        interruptions dont la cause est extérieure au site (hébergeur, service de
-        paiement, fournisseur d'accès), traitées dès leur rétablissement par le
+        compter du signalement, en jours ouvrés. Il couvre les interruptions qui
+        viennent du site. Celles qui viennent d'un tiers (hébergeur, service de
+        paiement, fournisseur d'accès) sont traitées dès leur rétablissement par le
         prestataire concerné. Sur les deux premières formules, nous intervenons
-        avec le même soin, sans durée garantie.
+        avec le même soin, au fil de l'eau.
       </p>
 
       <!-- Rappel modifications -->
@@ -320,7 +316,7 @@ const couvert = [
       </div>
 
       <p class="font-body text-sm text-brun-mid text-center mt-10" data-reveal data-delay="1">
-        Une question qui n'est pas là ? <a href="/contact" class="text-sauge underline underline-offset-2 hover:text-brun transition-colors">Posez-la directement</a>, réponse sous 48h.
+        Une autre question ? <a href="/contact" class="text-sauge underline underline-offset-2 hover:text-brun transition-colors">Posez-la directement</a>, réponse sous 48h.
       </p>
     </div>
   </section>

@@ -58,11 +58,11 @@ export const realisations: Realisation[] = [
     situation:
       "Romane reçoit sur rendez-vous dans son salon de Crest. Les demandes arrivaient par téléphone et par messages, à des heures où elle travaille sur les ongles de quelqu'un d'autre. Chaque créneau devait être noté, vérifié, parfois rappelé.",
     besoins: [
-      "Permettre à une cliente de réserver seule, y compris le soir et le week-end, sans attendre une réponse.",
-      "Rendre impossible la double réservation d'un même créneau, quelle que soit l'affluence.",
+      "Permettre à une cliente de réserver seule, y compris le soir et le week-end, avec une confirmation immédiate.",
+      "Garantir un seul rendez-vous par créneau, quelle que soit l'affluence.",
       "Garder la main sur l'agenda pour les rendez-vous pris de vive voix ou par téléphone.",
-      "Réduire les rendez-vous oubliés sans avoir à relancer chaque cliente à la main.",
-      "Présenter les prestations et les tarifs sans dépendre d'une page de réseau social.",
+      "Réduire les rendez-vous oubliés par un rappel envoyé tout seul.",
+      "Présenter les prestations et les tarifs sur une adresse qui lui appartient.",
     ],
     reponses: [
       "Une page unique qui présente le salon, les prestations, la galerie et les avis, avec les tarifs à jour.",
@@ -70,10 +70,10 @@ export const realisations: Realisation[] = [
       "Une garantie technique contre la double réservation, assurée par la base de données elle-même et non par un simple contrôle à l'écran.",
       "Un rappel automatique avant le rendez-vous, par email ou par SMS au choix de la cliente.",
       "Une règle de trois absences non prévenues, appliquée automatiquement.",
-      "Un espace de gestion privé où Romane tient son agenda, ajoute les rendez-vous pris au téléphone, modifie ses prestations, ses tarifs, ses horaires et ses congés sans avoir à nous solliciter.",
+      "Un espace de gestion privé où Romane tient son agenda, ajoute les rendez-vous pris au téléphone, modifie ses prestations, ses tarifs, ses horaires et ses congés en toute autonomie.",
     ],
     livre: [
-      'Réservation ouverte en continu, sans intervention humaine.',
+      'Réservation ouverte en continu, confirmée automatiquement.',
       'Agenda et tarifs administrés en autonomie par la cliente.',
       'Rappels envoyés automatiquement avant chaque rendez-vous.',
       'Site en ligne sur son propre nom de domaine, hébergé et sauvegardé.',

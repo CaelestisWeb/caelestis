@@ -60,7 +60,7 @@ export const FORMULES: readonly Formule[] = [
     baseline: "L'essentiel de votre activité sur une seule page, pour démarrer simplement.",
     resume: "L'essentiel de votre activité sur une seule page qui défile, pour être présent vite et simplement.",
     points: [
-      'Tout tient sur une page, sans menu à chercher.',
+      'Tout tient sur une page, du haut vers le bas.',
       'Visible sur Google dès la mise en ligne.',
       'La formule la plus rapide à livrer.',
     ],

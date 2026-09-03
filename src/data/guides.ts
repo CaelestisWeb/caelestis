@@ -39,9 +39,9 @@ export const guides: readonly Guide[] = [
   {
     slug: 'une-page-facebook-suffit-elle',
     titre: 'Une page Facebook suffit-elle, ou faut-il un site internet ?',
-    question: 'Facebook ne suffit pas ?',
+    question: 'Facebook, jusqu'où ça porte ?',
     description:
-      'Ce qu\'une page Facebook fait bien, ce qu\'elle ne fera jamais, et comment décider si votre activité a besoin d\'un site. 87 % des clients passent par Google, presque jamais par Facebook.',
+      'Ce qu'une page Facebook fait bien, ce qu'un site fait à sa place, et comment décider ce dont votre activité a besoin. 87 % des clients passent par Google pour évaluer une entreprise locale.',
     date: '2026-07-29',
   },
   {
@@ -89,7 +89,7 @@ export const guides: readonly Guide[] = [
     titre: 'Pourquoi mon site n\'apparaît pas dans Google ?',
     question: 'Pourquoi Google ne me trouve pas ?',
     description:
-      'Selon Ahrefs, plus de 90 % des pages web ne reçoivent aucun trafic de Google. Les vraies raisons pour lesquelles un site reste invisible, et comment y remédier.',
+      'Selon Ahrefs, moins de 10 % des pages web reçoivent du trafic depuis Google. Les vraies raisons pour lesquelles un site reste invisible, et comment y remédier.',
     date: '2026-07-31',
   },
   {

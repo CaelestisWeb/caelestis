@@ -48,16 +48,16 @@ const breadcrumb = {
 // FAQ affichée en bas de page, le schéma reprend mot pour mot le contenu visible
 const faq = [
   {
-    q: "Je n'ai pas de site internet, est-ce que ça vaut le coup ?",
+    q: "Est-ce que ça vaut le coup avant même d'avoir un site ?",
     a: "Oui, et c'est même souvent le moyen le plus rapide d'exister en ligne. Une fiche bien remplie affiche votre téléphone, vos horaires, vos photos et l'itinéraire vers chez vous. Beaucoup d'artisans reçoivent leurs premiers appels par là, avant d'avoir un site.",
   },
   {
-    q: "Ma fiche existe déjà alors que je ne l'ai jamais créée, c'est normal ?",
+    q: "Google a créé ma fiche tout seul, c'est normal ?",
     a: "Oui, cela arrive souvent : Google crée parfois une fiche automatiquement à partir d'informations publiques. Le problème, c'est qu'elle est incomplète et que personne ne la contrôle. Nous la récupérons pour vous, afin que vous en repreniez la main.",
   },
   {
     q: "En combien de temps ma fiche est-elle visible ?",
-    a: "La fiche elle-même se prépare en quelques jours. Ensuite, Google demande une vérification (par courrier, téléphone ou vidéo) qui prend de quelques jours à quelques semaines. Ce délai dépend de Google, pas de nous, et nous vous accompagnons pendant toute l'étape.",
+    a: "La fiche elle-même se prépare en quelques jours. Ensuite, Google demande une vérification (par courrier, téléphone ou vidéo) qui prend de quelques jours à quelques semaines. Ce délai appartient à Google, et nous vous accompagnons pendant toute l'étape.",
   },
   {
     q: "Pouvez-vous faire supprimer un avis négatif ?",
@@ -77,11 +77,11 @@ const faqSchema = {
 
 // Ce que contient la prestation
 const travaux = [
-  { t: 'Création ou récupération', d: "On crée votre fiche si elle n'existe pas, ou on récupère celle que Google a générée sans vous, pour que vous en soyez officiellement propriétaire." },
+  { t: 'Création ou récupération', d: "On crée votre fiche, ou on récupère celle que Google a générée de son côté, pour que vous en soyez officiellement propriétaire." },
   { t: 'Les bonnes catégories', d: "C'est le réglage le plus décisif : votre catégorie principale détermine sur quelles recherches vous apparaissez. On la choisit avec précision, pas au hasard." },
   { t: 'Une fiche complète', d: "Services, horaires, jours fériés, zone d'intervention, description, moyens de paiement. Google met en avant les fiches complètes et à jour." },
   { t: 'Vos vraies photos', d: "Votre lieu, vos réalisations, votre visage. Ce sont les premières choses que regardent les gens, et elles font souvent la différence avec le concurrent d'à côté." },
-  { t: 'Une méthode pour les avis', d: "Comment demander un avis au bon moment, et répondre à tous, y compris aux négatifs. Jamais de faux avis : c'est interdit et cela peut faire suspendre votre fiche." },
+  { t: 'Une méthode pour les avis', d: "Comment demander un avis au bon moment, et répondre à tous, y compris aux plus sévères. Uniquement des avis authentiques : Google suspend les fiches qui trichent." },
 ];
 
 // Les 3 temps de la mission
@@ -124,7 +124,7 @@ const etapes = [
         <Button href="/contact#devis" variant="primary">Faire vérifier ma fiche</Button>
       </div>
       <p class="font-body text-xs text-brun-mid mt-6" data-reveal data-delay="3">
-        Avec ou sans site internet, la fiche fonctionne seule
+        La fiche fonctionne seule, avant même votre site
       </p>
     </div>
   </section>
@@ -217,7 +217,7 @@ const etapes = [
           <li>
             <span class="gm-n" aria-hidden="true">2</span>
             <b>Votre note et vos avis</b>
-            Le premier chiffre que lit un client, avant même votre nom. Il se travaille en demandant, jamais en achetant.
+            Le premier chiffre que lit un client, avant même votre nom. Il se gagne en demandant, un client à la fois.
           </li>
           <li>
             <span class="gm-n" aria-hidden="true">3</span>
@@ -239,7 +239,7 @@ const etapes = [
       </div>
 
       <p class="font-body text-xs text-brun-mid text-center mt-9 max-w-xl mx-auto leading-relaxed" data-reveal data-delay="2">
-        Exemple dessiné pour la démonstration, dans les couleurs du site. L'Atelier des Quatre Saisons n'existe pas.
+        Exemple dessiné pour la démonstration, dans les couleurs du site. L'Atelier des Quatre Saisons est un commerce imaginaire.
       </p>
 
     </div>
@@ -312,7 +312,7 @@ const etapes = [
           </li>
           <li class="flex items-start gap-3 font-body text-sm text-brun-mid leading-relaxed">
             <span class="sup-check shrink-0 mt-0.5" aria-hidden="true"></span>
-            <span>Jamais de faux avis ni de fausse adresse. C'est interdit par Google et cela peut faire suspendre votre fiche du jour au lendemain.</span>
+            <span>Des avis authentiques et une adresse réelle, uniquement : Google suspend du jour au lendemain les fiches qui trichent.</span>
           </li>
         </ul>
 
@@ -355,7 +355,7 @@ const etapes = [
     href="/contact#devis"
     libelle="Faire vérifier ma fiche"
   >
-    Réponse sous 48h, sans engagement. Partout en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">Auvergne-Rhône-Alpes</a>.
+    Réponse sous 48h, vous décidez ensuite. Partout en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">Auvergne-Rhône-Alpes</a>.
   </AppelFinal>
 
 </BaseLayout>

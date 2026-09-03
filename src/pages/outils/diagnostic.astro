@@ -26,7 +26,7 @@ const schema = {
 const FAMILLES = [
   { n: "01", nom: "Vitesse",       points: ["temps de réponse", "poids de la page", "compression", "scripts qui retardent l affichage", "services extérieurs appelés", "format des images"] },
   { n: "02", nom: "Mobile",        points: ["affichage adapté au téléphone", "zoom autorisé", "largeur figée", "mise en page dépassée", "images qui font sauter le contenu"] },
-  { n: "03", nom: "Sécurité",      points: ["connexion chiffrée", "certificat valide", "éléments chargés sans protection", "redirection non sécurisée", "versions de logiciels en clair"] },
+  { n: "03", nom: "Sécurité",      points: ["connexion chiffrée", "certificat valide", "éléments chargés en clair", "redirection non sécurisée", "versions de logiciels en clair"] },
   { n: "04", nom: "Référencement", points: ["présence dans Google", "titre et description", "adresse déclarée", "plan du site", "fiche d informations", "lien vers la fiche Google", "accès des moteurs de réponse"] },
   { n: "05", nom: "Contenu",       points: ["volume de texte", "ville et zone d intervention", "avis et références", "réalisations", "textes d exemple oubliés", "fraîcheur des mentions"] },
   { n: "06", nom: "Conversion",    points: ["moyens de vous contacter", "téléphone cliquable", "bouton visible sans défiler", "longueur du formulaire", "horaires", "adresse", "repères de prix"] },
@@ -66,7 +66,7 @@ const filArianeDiagnostic = {
       <p class="font-body text-lg text-brun-mid leading-relaxed max-w-[58ch] mx-auto">
         Entrez son adresse. En quelques secondes, plus de 65 points de contrôle
         sont passés sur huit familles, de la vitesse à la conformité légale,
-        et chacune reçoit sa note. Rien à installer, aucune inscription.
+        et chacune reçoit sa note. Tout se passe dans le navigateur, en un clic.
       </p>
 
     </div>
@@ -99,7 +99,7 @@ const filArianeDiagnostic = {
       </form>
 
       <p id="diagAide" class="font-body text-xs text-brun-mid text-center mt-4">
-        L'analyse porte sur la page d'accueil et sur quelques pages internes. Aucune donnée n'est conservée.
+        L'analyse porte sur la page d'accueil et sur quelques pages internes, et s'efface aussitôt.
       </p>
 
       <div id="diagStatut" role="status" aria-live="polite" class="font-body text-sm text-center mt-6"></div>
@@ -142,8 +142,7 @@ const filArianeDiagnostic = {
         <p id="leadStatut" role="status" aria-live="polite" class="font-body text-sm text-center mt-4"></p>
 
         <p class="font-body text-xs text-brun-mid text-center mt-3 max-w-[52ch] mx-auto">
-          Votre adresse ne sert qu'à vous répondre. Aucune inscription à une liste,
-          aucune revente, et vous pouvez demander sa suppression à tout moment.
+          Votre adresse sert uniquement à vous répondre, elle reste chez nous, et vous pouvez demander sa suppression à tout moment.
         </p>
 
         <div class="text-center mt-8">
@@ -187,7 +186,7 @@ const filArianeDiagnostic = {
         ))}
       </ol>
       <p class="font-body text-sm text-brun-mid mt-10 text-center max-w-[56ch] mx-auto">
-        Chaque point est mesuré sur votre page, aucun n'est une appréciation de goût.
+        Chaque point est mesuré sur votre page, chiffres à l'appui.
         L'analyse porte sur la page d'accueil, sur quelques pages internes et sur les fichiers techniques du site.
         Un <a href="/services/referencement-naturel" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">audit complet</a> examine ensuite chaque page, les concurrents et les chiffres de fréquentation.
       </p>
@@ -195,12 +194,10 @@ const filArianeDiagnostic = {
       <div class="diag-astuce font-body">
         <p class="diag-astuce-titre">Vérifier vous-même votre présence dans Google</p>
         <p>
-          Le diagnostic contrôle si Google a le droit d'afficher votre site et si
-          rien ne l'en empêche à votre insu. Pour voir les pages qu'il connaît déjà,
+          Le diagnostic contrôle que Google a le droit d'afficher votre site et que la voie lui reste ouverte. Pour voir les pages qu'il connaît déjà,
           tapez dans la barre de recherche Google&nbsp;:
           <span class="diag-code">site:votre-domaine.fr</span>. Le nombre de résultats
-          correspond aux pages actuellement présentes dans Google. Aucun résultat pour
-          un site en ligne depuis plusieurs semaines signale <a href="/ressources/pourquoi-mon-site-n-apparait-pas-dans-google" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">un blocage à lever en
+          correspond aux pages actuellement présentes dans Google. Une liste vide pour un site en ligne depuis plusieurs semaines signale <a href="/ressources/pourquoi-mon-site-n-apparait-pas-dans-google" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">un blocage à lever en
           priorité</a>, et c'est justement ce que le diagnostic cherche à repérer.
         </p>
       </div>
