@@ -39,9 +39,9 @@ export const guides: readonly Guide[] = [
   {
     slug: 'une-page-facebook-suffit-elle',
     titre: 'Une page Facebook suffit-elle, ou faut-il un site internet ?',
-    question: 'Facebook, jusqu'où ça porte ?',
+    question: "Facebook, jusqu'où ça porte ?",
     description:
-      'Ce qu'une page Facebook fait bien, ce qu'un site fait à sa place, et comment décider ce dont votre activité a besoin. 87 % des clients passent par Google pour évaluer une entreprise locale.',
+      "Ce qu'une page Facebook fait bien, ce qu'un site fait à sa place, et comment décider ce dont votre activité a besoin. 87 % des clients passent par Google pour évaluer une entreprise locale.",
     date: '2026-07-29',
   },
   {

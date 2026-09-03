@@ -1563,16 +1563,16 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
 
   /* ══ MOBILE ═══════════════════════════════════════════ */
   verifier('mobile', 'critique', !viewport,
-    "Le site ne déclare pas de balise d'affichage mobile.",
+    "La balise d'affichage mobile reste à déclarer.",
     'Sur téléphone, la page apparaît en version ordinateur réduite : textes minuscules, boutons difficiles à toucher.');
 
   verifier('mobile', 'moyen', !!viewport && /user-scalable\s*=\s*no|maximum-scale\s*=\s*1/i.test(viewport),
     'Le site interdit le zoom sur téléphone.',
-    "Toute personne qui a besoin d'agrandir un texte pour le lire ne peut pas le faire. C'est aussi un manquement aux règles d'accessibilité.");
+    "Agrandir un texte pour le lire devient impossible, ce qui contrevient aussi aux règles d'accessibilité.");
 
   verifier('mobile', 'moyen', !!viewport && /width\s*=\s*\d/i.test(viewport),
     "L'affichage mobile est figé sur une largeur fixe.",
-    "La page ne s'adapte pas à la taille réelle de l'écran : selon le téléphone, le contenu débordera ou sera minuscule.");
+    "La page s'affiche à une taille fixe : selon le téléphone, le contenu déborde ou devient minuscule.");
 
   verifier('mobile', 'moyen', tableauxMiseEnPage >= 3,
     `La mise en page repose sur ${tableauxMiseEnPage} tableaux HTML.`,
@@ -1586,18 +1586,18 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     'Le contenu saute pendant le chargement, et le visiteur clique parfois à côté de ce qu\'il visait.');
 
   verifierPresence('mobile', 'reglage', !balMeta('theme-color'),
-    "Aucune couleur de thème n'est déclarée.",
+    "La couleur de thème reste à déclarer.",
     "Sur mobile, la barre du navigateur reste grise au lieu de reprendre vos couleurs. C'est un détail, mais il se voit.");
 
   verifierPresence('mobile', 'mineur',
     !baliseOu(html, 'link', 'rel', /^apple-touch-icon(-precomposed)?$/i) &&
       !baliseOu(html, 'link', 'rel', /^manifest$/i),
-    "Aucune icône n'est prévue pour l'écran d'accueil des iPhone.",
-    "Si un client ajoute votre site à son écran d'accueil, il obtient une vignette grise sans identité.");
+    "L'icône pour l'écran d'accueil des iPhone reste à fournir.",
+    "Si un client ajoute votre site à son écran d'accueil, il obtient une vignette grise et anonyme.");
 
   /* ══ SÉCURITÉ ═════════════════════════════════════════ */
   verifier('securite', 'critique', !httpsDisponible,
-    "Le site n'est pas accessible en connexion sécurisée.",
+    "Le site répond en connexion simple, sans HTTPS.",
     "Les navigateurs affichent un avertissement avant l'ouverture de la page, et Google déclasse les sites non sécurisés.");
 
   /* L'expiration n'est comptée comme contrôle que si le certificat a pu être lu :
@@ -1613,16 +1613,16 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   }
 
   verifier('securite', 'critique', formulaireNonChiffre,
-    'Un formulaire envoie ses données en clair, sans chiffrement.',
+    'Un formulaire envoie ses données en clair.',
     "Le navigateur affiche un avertissement au moment de l'envoi, et les informations saisies circulent lisiblement sur le réseau.");
 
   verifier('securite', 'moyen', contenuMixte,
-    'Une partie de la page (image, script) se charge encore sans connexion sécurisée.',
+    'Une partie de la page (image, script) se charge encore en clair.',
     "Le petit cadenas du navigateur disparaît ou se barre, alors même que le site est bien en connexion sécurisée par ailleurs. Le visiteur croit à un site non protégé.");
 
   if (versionHttp) {
     verifier('securite', 'moyen', versionHttp.statut === 200,
-      "La version non sécurisée du site reste accessible sans redirection.",
+      "La version en clair du site répond encore, en parallèle de la version sécurisée.",
       "Deux adresses servent le même contenu : Google les traite comme des doublons, et les visiteurs restent en connexion non chiffrée.");
   }
 
@@ -1632,34 +1632,34 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
      reviendrait à noter tout le monde pareil. */
   if (entetes) {
     verifier('securite', 'reglage', !enTete('strict-transport-security'),
-      "Le serveur ne force pas la connexion sécurisée pour les visites suivantes.",
-      "Un visiteur qui tape l'adresse sans le préfixe passe une première fois en clair avant d'être redirigé.");
+      "La consigne qui force la connexion sécurisée pour les visites suivantes reste à poser.",
+      "Un visiteur qui tape l'adresse seule passe une première fois en clair avant d'être redirigé.");
 
     verifier('securite', 'reglage',
       !enTete('x-frame-options') && !enTete('content-security-policy').includes('frame-ancestors'),
-      "Rien n'empêche un autre site d'afficher vos pages dans un cadre.",
+      "Un autre site peut afficher vos pages dans un cadre, à sa guise.",
       "C'est la technique utilisée pour faire cliquer un visiteur sur autre chose que ce qu'il croit voir.");
 
     verifier('securite', 'reglage', !enTete('content-security-policy'),
-      "La page ne limite pas les contenus extérieurs qu'elle a le droit de charger.",
-      "Si un script étranger parvient à s'insérer dans une page, rien ne l'empêche de s'exécuter.");
+      "La liste des contenus extérieurs que la page a le droit de charger reste à établir.",
+      "Un script étranger qui parviendrait à s'insérer dans la page s'exécuterait librement.");
 
     verifier('securite', 'reglage', !enTete('x-content-type-options').includes('nosniff'),
       "Le serveur laisse le navigateur deviner le type des fichiers qu'il envoie.",
       "Un fichier déposé par un visiteur, une image ou un document, peut alors être interprété comme du code et s'exécuter.");
 
     verifier('securite', 'reglage', !enTete('referrer-policy'),
-      "Le site ne limite pas l'adresse de provenance transmise en quittant une page.",
+      "L'adresse de provenance transmise en quittant une page part en entier.",
       "En cliquant vers un autre site, l'adresse complète de votre page, parfois privée, lui est communiquée.");
 
     verifier('securite', 'reglage', !enTete('permissions-policy'),
-      "Le site ne restreint pas l'accès des scripts aux capteurs de l'appareil.",
-      "Rien ne borne quels scripts peuvent réclamer la caméra, le micro ou la position si l'un d'eux venait à être compromis.");
+      "L'accès des scripts aux capteurs de l'appareil reste ouvert.",
+      "Tout script compromis pourrait réclamer la caméra, le micro ou la position.");
 
     /* Qualité de la CSP, quand elle existe : voir cspFaible. */
     verifier('securite', 'reglage', cspFaible(enTete('content-security-policy')),
       "La politique de sécurité autorise l'exécution de scripts écrits dans la page elle-même.",
-      "Avec 'unsafe-inline' sans empreinte, ou 'unsafe-eval', un script étranger inséré dans la page s'exécute malgré la politique : sa protection principale ne joue plus.");
+      "Avec 'unsafe-inline' sans empreinte, ou 'unsafe-eval', un script étranger inséré dans la page s'exécute malgré la politique : sa protection principale devient décorative.");
   }
 
   /* Un numéro de version, et non un simple chiffre : « Apache » ne dit rien,
@@ -1674,28 +1674,28 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   /* ══ RÉFÉRENCEMENT ════════════════════════════════════ */
   verifier('referencement', 'critique', noindex,
     "Le code du site demande à Google de ne pas l'afficher dans les résultats de recherche.",
-    "Tant que cette consigne est en place, aucune page ne peut apparaître dans Google, quel que soit le reste du travail. C'est souvent un réglage oublié après la mise en ligne.");
+    "Tant que cette consigne est en place, Google laisse toutes les pages de côté, quel que soit le reste du travail. C'est souvent un réglage oublié après la mise en ligne.");
 
   verifier('referencement', 'moyen', nofollow && !noindex,
-    "Le code demande à Google de ne suivre aucun lien de la page.",
+    "Le code demande à Google de laisser de côté tous les liens de la page.",
     "Google lit votre page d'accueil mais s'interdit d'aller voir les autres. Vos pages de services restent invisibles tant qu'il ne les trouve pas par un autre chemin.");
 
   controle();
   if (!titre) {
-    ajouter('referencement', 'critique', "La page n'a pas de titre affiché dans Google.",
-      "C'est la ligne bleue cliquable en tête d'un résultat de recherche. Sans elle, Google en fabrique une avec des bouts de page, souvent bancale.");
+    ajouter('referencement', 'critique', "Le titre affiché dans Google reste à écrire.",
+      "C'est la ligne bleue cliquable en tête d'un résultat de recherche. À défaut, Google en fabrique une avec des bouts de page, souvent bancale.");
   } else if (titreGenerique) {
-    ajouter('referencement', 'moyen', `Le titre affiché dans Google ne dit rien de précis : « ${titre} ».`,
-      "Il ne mentionne ni votre métier ni votre ville. Sur la page de résultats, rien ne distingue votre site des autres, et rien n'incite à cliquer dessus.");
+    ajouter('referencement', 'moyen', `Le titre affiché dans Google reste vague : « ${titre} ».`,
+      "Votre métier et votre ville y gagneraient leur place : ce sont eux qui distinguent votre site des autres sur la page de résultats, et qui donnent envie de cliquer.");
   } else if (titre.length < SEUILS.titreMin || titre.length > SEUILS.titreMax) {
     ajouter('referencement', 'moyen', `Le titre affiché dans Google fait ${titre.length} caractères.`,
-      `En dessous de ${SEUILS.titreMin} il n'exploite pas la place disponible, au-delà de ${SEUILS.titreMax} Google le coupe en plein milieu.`);
+      `En dessous de ${SEUILS.titreMin} il laisse de la place inutilisée, au-delà de ${SEUILS.titreMax} Google le coupe en plein milieu.`);
   }
 
   controle();
   if (!description) {
-    ajouter('referencement', 'moyen', "Aucune description n'est fournie pour les résultats de recherche.",
-      'Google compose alors un extrait au hasard dans la page, souvent sans rapport avec ce que vous vendez.');
+    ajouter('referencement', 'moyen', "La description affichée dans les résultats de recherche reste à écrire.",
+      'Google compose alors un extrait au hasard dans la page, souvent très loin de ce que vous vendez.');
   } else if (description.length < SEUILS.descriptionMin || description.length > SEUILS.descriptionMax) {
     ajouter('referencement', 'mineur', `La description des résultats de recherche fait ${description.length} caractères.`,
       `La zone affichée par Google tient dans ${SEUILS.descriptionMin} à ${SEUILS.descriptionMax} caractères.`);
@@ -1703,7 +1703,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
 
   controle();
   if (h1 === 0) {
-    ajouter('referencement', 'moyen', "La page n'a aucun titre principal.",
+    ajouter('referencement', 'moyen', "Le titre principal de la page reste à poser.",
       "Google s'appuie sur ce titre pour comprendre le sujet de la page.");
   } else if (h1 > 1) {
     ajouter('referencement', 'mineur', `La page contient ${h1} titres principaux au lieu d'un seul.`,
@@ -1711,13 +1711,13 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   }
 
   verifier('referencement', 'moyen', h2 === 0 && mots > 200,
-    "La page n'a aucun titre de section.",
-    "Le texte se présente comme un bloc unique : ni Google ni le visiteur pressé ne peuvent en repérer les sujets.");
+    "Les titres de section restent à poser.",
+    "Le texte se présente comme un bloc unique : Google comme le visiteur pressé y cherchent les sujets à tâtons.");
 
   controle();
   if (!canonique) {
-    ajouter('referencement', 'moyen', "La page n'indique pas à Google sa bonne adresse.",
-      "Si elle est joignable par plusieurs adresses (avec ou sans www, avec ou sans barre finale), Google choisit lui-même laquelle garder et répartit sa valeur entre elles au lieu de la concentrer.");
+    ajouter('referencement', 'moyen', "Son adresse de référence reste à indiquer à Google.",
+      "Si elle est joignable par plusieurs adresses (www ou non, barre finale ou non), Google choisit lui-même laquelle garder et répartit sa valeur entre elles au lieu de la concentrer.");
   } else if (canoniqueDetourne) {
     ajouter('referencement', 'critique', "La page désigne une autre adresse comme sa version officielle.",
       "Elle demande à Google d'afficher cette autre adresse à sa place. Si ce réglage est une erreur, c'est la page d'accueil elle-même qui disparaît des résultats.");
@@ -1727,21 +1727,21 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
      des données existent sans décrire l'entreprise elle-même. */
   controle();
   if (jsonLd.trim() === '') {
-    ajouter('referencement', 'moyen', "Le site ne fournit à Google aucune fiche d'informations à afficher.",
-      "Ce sont ces informations (adresse, horaires, note) qui remplissent l'encadré affiché à côté de votre résultat. Sans elles, votre résultat reste une simple ligne de texte.");
+    ajouter('referencement', 'moyen', "La fiche d'informations à afficher dans Google reste à fournir.",
+      "Ce sont ces informations (adresse, horaires, note) qui remplissent l'encadré affiché à côté de votre résultat. À défaut, il reste une simple ligne de texte.");
   } else if (!ficheEntreprise) {
-    ajouter('referencement', 'mineur', "Les informations fournies à Google ne décrivent pas votre établissement.",
-      "Le code transmet bien des informations, mais aucune fiche d'entreprise : ni adresse, ni horaires, ni zone desservie.");
+    ajouter('referencement', 'mineur', "Les informations fournies à Google décrivent autre chose que votre établissement.",
+      "Le code transmet des informations, et la fiche d'entreprise reste à ajouter : adresse, horaires et zone desservie.");
   }
 
   verifierPresence('referencement', 'mineur', !aFicheGoogle && !estBoutique,
-    "Aucun lien vers votre fiche Google (Maps, avis) depuis la page d'accueil.",
+    "Le lien vers votre fiche Google (Maps, avis) reste à poser sur la page d'accueil.",
     "Sur une recherche locale, la fiche Google est souvent le premier résultat et l'endroit où s'affichent vos avis. Un lien depuis le site aide Google à relier votre site et votre établissement.");
 
   if (lectureComplete) controle();
   if (lectureComplete && pagesInternes.size === 0) {
-    ajouter('referencement', 'moyen', "L'accueil ne mène à aucune autre page.",
-      "Google n'a qu'une seule page à proposer, sur un seul sujet. Chaque prestation détaillée sur sa propre page est une porte d'entrée supplémentaire.");
+    ajouter('referencement', 'moyen', "L'accueil reste seul, sans lien vers une autre page.",
+      "Google dispose alors d'une seule page à proposer, sur un seul sujet. Chaque prestation détaillée sur sa propre page est une porte d'entrée supplémentaire.");
   } else if (lectureComplete && pagesInternes.size <= 3) {
     ajouter('referencement', 'mineur', `Le site ne compte que ${pagesInternes.size} pages accessibles depuis l'accueil.`,
       'Le nombre de recherches sur lesquelles vous pouvez apparaître est limité par le nombre de sujets traités.');
@@ -1758,7 +1758,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   if (conclusif(robots)) {
     verifier('referencement', 'mineur', robots!.statut !== 200,
       "Le fichier robots.txt est absent.",
-      "C'est le premier fichier que lit un moteur de recherche. Son absence n'est pas bloquante, mais elle empêche d'y déclarer le plan du site.");
+      "C'est le premier fichier que lit un moteur de recherche. Il sert à déclarer le plan du site, le reste continue de fonctionner sans lui.");
 
     if (robots!.statut === 200) {
       const contenuRobots = robots!.corps;
@@ -1770,7 +1770,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
       verifier('referencement', 'moyen',
         /gptbot|oai-searchbot|claudebot|perplexitybot|google-extended/i.test(contenuRobots),
         "Le site bloque les robots des moteurs de réponse comme ChatGPT ou Perplexity.",
-        "Une part croissante des recherches se termine dans une réponse rédigée par une IA. Un site bloqué n'y est jamais cité.");
+        "Une part croissante des recherches se termine dans une réponse rédigée par une IA. Seuls les sites ouverts à ces robots y sont cités.");
 
       /* Un plan de site peut être déclaré dans robots.txt, servi à l'adresse
          habituelle, ou renvoyer vers un index : les trois valent déclaration. */
@@ -1779,8 +1779,8 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
         (planSite ? planSite.statut === 200 || redirige(planSite) : false);
       if (planSite) {
         verifier('referencement', 'moyen', !planTrouve,
-          "Aucun plan de site n'est déclaré ni trouvé à l'adresse habituelle.",
-          "Le plan de site est la liste que vous fournissez à Google. Sans lui, il découvre vos pages au hasard des liens.");
+          "Le plan de site reste à déclarer, et l'adresse habituelle est vide.",
+          "Le plan de site est la liste que vous fournissez à Google. À défaut, il découvre vos pages au hasard des liens.");
       }
     }
   }
@@ -1793,7 +1793,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     controle();
     if (page404!.statut === 404 && texteVisible(page404!.corps).split(' ').length < 25) {
       ajouter('confiance', 'mineur', "La page d'erreur n'est pas personnalisée.",
-        "Un visiteur qui suit un lien périmé tombe sur un message technique brut, sans moyen de revenir à votre site.");
+        "Un visiteur qui suit un lien périmé tombe sur un message technique brut, sans chemin de retour vers votre site.");
     }
   }
 
@@ -1808,8 +1808,8 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   verifier('referencement', 'mineur',
     !baliseOu(html, 'meta', 'property', /^og:image$/i) &&
       !baliseOu(html, 'meta', 'name', /^(?:og:image|twitter:image)$/i),
-    "Aucune image de partage n'est configurée.",
-    "Quand le lien est partagé sur les réseaux ou par message, aucun visuel n'apparaît : le lien passe pour suspect.");
+    "L'image de partage reste à configurer.",
+    "Quand le lien est partagé sur les réseaux ou par message, il apparaît nu : le lien passe pour suspect.");
 
   /* ══ CONTENU ══════════════════════════════════════════ */
   /* Un texte quasi absent du code alors que la page charge des scripts n'est
@@ -1820,8 +1820,8 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   controle();
   if (contenuFabriqueParScript) {
     ajouter('referencement', 'critique',
-      "Le texte de la page n'est pas dans le code source : il est fabriqué par un script à l'ouverture.",
-      "Un visiteur voit bien la page, mais les robots qui lisent le code sans exécuter les scripts n'y trouvent presque rien. C'est le cas des moteurs de réponse comme ChatGPT, et le référencement classique en pâtit aussi.");
+      "Le texte de la page est fabriqué par un script à l'ouverture, en dehors du code source.",
+      "Un visiteur voit bien la page, mais les robots qui lisent le code brut y trouvent une page presque vide. C'est le cas des moteurs de réponse comme ChatGPT, et le référencement classique en pâtit aussi.");
   } else if (mots < SEUILS.motsCritique) {
     ajouter('contenu', 'critique', `La page d'accueil contient environ ${mots} mots.`,
       "C'est trop peu pour que Google comprenne votre métier, et trop peu pour qu'un visiteur sache s'il est au bon endroit.");
@@ -1832,23 +1832,23 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
 
   verifier('contenu', 'critique', gabarit,
     'La page contient encore du texte de gabarit non remplacé.',
-    "Un visiteur qui tombe sur ce texte comprend que le site n'a jamais été terminé.");
+    "Un visiteur qui tombe sur ce texte comprend que le site attend encore sa finition.");
 
   verifierPresence('contenu', 'moyen', !aAdresse && !aZone,
-    "Aucune ville, aucun code postal, aucune zone d'intervention n'apparaît sur la page d'accueil.",
-    "Les recherches locales du type métier plus ville comptent parmi les plus rentables. Sans ancrage géographique, vous n'y êtes pas éligible.");
+    "La ville, le code postal et la zone d'intervention restent à afficher sur la page d'accueil.",
+    "Les recherches locales du type métier plus ville comptent parmi les plus rentables, et l'ancrage géographique y donne accès.");
 
   /* Un avis, pas le mot « avis » : les politiques de confidentialité écrivent
      « votre avis » ou « avis de réception » sans qu'aucun client s'exprime. */
   verifierSurLeSite('contenu', 'moyen', !aPreuve,
     /avis (?:de nos |clients?|v[ée]rifi|google)|nos avis|t[ée]moignages?\b|ils nous ont fait confiance|nos clients (?:t[ée]moignent|en parlent)|★|⭐|\d[,.]\d\s*\/\s*5|\d+\s*avis\b/i,
-    "Aucun avis, témoignage ni référence client sur le site.",
+    "Les avis, témoignages et références clients restent à publier.",
     "C'est le premier élément que cherche un visiteur avant de vous contacter. Son absence le renvoie comparer ailleurs.",
-    (page) => `Les avis et témoignages ne sont pas sur la page d'accueil : il faut ouvrir ${page}.`,
+    (page) => `Les avis et témoignages attendent une page plus loin : il faut ouvrir ${page}.`,
     "C'est le premier élément que cherche un visiteur avant de vous contacter. Le laisser sur une page secondaire, c'est le réserver aux plus patients.");
 
   verifierPresence('contenu', 'mineur', !aRealisations,
-    "Aucun lien vers des réalisations ou une galerie de photos.",
+    "Les réalisations et la galerie de photos restent à montrer.",
     "Sur un métier où le résultat se voit, les photos de ce que vous avez déjà fait convainquent plus que n'importe quel argumentaire.");
 
   verifier('contenu', 'mineur', liensVagues >= SEUILS.liensVagues,
@@ -1862,7 +1862,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     const derniere = Math.max(...annees);
     if (anneeCourante - derniere >= 2) {
       ajouter('contenu', 'moyen', `La mention de copyright affiche encore ${derniere}.`,
-        "Un visiteur en déduit que le site n'est plus tenu à jour, et parfois que l'entreprise ne l'est plus non plus.");
+        "Un visiteur en déduit que le site dort, et parfois que l'entreprise dort avec lui.");
     }
   }
 
@@ -1875,14 +1875,14 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
   if (lectureComplete) {
     controle();
     if (!contactDirect && !aTel && !aReseau) {
-      ajouter('conversion', 'critique', "Aucun moyen de vous contacter depuis la page d'accueil.",
-        "Ni formulaire, ni adresse email, ni téléphone cliquable, ni lien vers une page de contact. Un visiteur convaincu n'a aucun moyen simple de laisser une demande.");
+      ajouter('conversion', 'critique', "Le moyen de vous contacter reste à poser sur la page d'accueil.",
+        "Formulaire, adresse email, téléphone cliquable ou lien vers une page de contact : il en faut au moins un pour que le visiteur convaincu laisse sa demande.");
     } else if (!contactDirect) {
       ajouter('conversion', 'moyen',
-        `Aucune demande écrite n'est possible depuis l'accueil : le seul contact proposé est ${aTel ? 'le téléphone' : 'un réseau social'}.`,
-        "Un visiteur qui consulte le soir, en réunion ou depuis son travail ne peut rien laisser. Il remet sa demande à plus tard, et le plus souvent ne revient pas.");
+        `L'accueil propose un seul contact, à l'oral : ${aTel ? 'le téléphone' : 'un réseau social'}.`,
+        "Un visiteur qui consulte le soir, en réunion ou depuis son travail remet alors sa demande à plus tard, et repart le plus souvent pour de bon.");
     } else if (!aFormulaire && !aMailto) {
-      ajouter('conversion', 'mineur', "La page d'accueil renvoie vers une page de contact, sans formulaire direct.",
+      ajouter('conversion', 'mineur', "La page d'accueil renvoie vers une page de contact, le formulaire direct restant à ajouter.",
         'Chaque clic supplémentaire avant le formulaire fait perdre une part des demandes.');
     }
   }
@@ -1896,12 +1896,12 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     controle();
     if (numeroAffiche) {
       ajouter('conversion', 'moyen', "Le numéro de téléphone affiché n'est pas cliquable sur mobile.",
-        'Un visiteur sur téléphone doit le recopier à la main, ce que beaucoup ne font pas.');
+        'Un visiteur sur téléphone doit le recopier à la main, ce que peu de gens acceptent de faire.');
     } else {
       const ailleurs = trouveAilleurs(MOTIF_TELEPHONE, { saufPagesLegales: true });
       if (ailleurs) {
         ajouter('conversion', 'mineur',
-          `Le numéro de téléphone n'apparaît pas sur la page d'accueil : il faut aller jusqu'à ${ailleurs} pour le trouver.`,
+          `Le numéro de téléphone attend une page plus loin : il faut aller jusqu'à ${ailleurs} pour le trouver.`,
           "Le visiteur arrive sur l'accueil. Chaque page à ouvrir avant de vous joindre écarte une partie de ceux qui allaient appeler.");
       } else {
         ajouter('conversion', 'moyen', "Aucun numéro de téléphone n'apparaît sur le site.",
@@ -1923,7 +1923,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
       !premiersLiens.some(
         (l) => CIBLE_CONTACT.test(l.href) || /contact|devis|rendez-vous|réserv|reserv|appel/i.test(texteVisible(l.contenu)),
       ),
-    "Aucun bouton de contact n'apparaît en haut de page.",
+    "Le bouton de contact reste à poser en haut de page.",
     "Le visiteur doit chercher comment vous joindre. Une part de ceux qui étaient prêts à le faire abandonne en route.");
 
   verifier('conversion', 'moyen', champs > SEUILS.champsNombreux,
@@ -1934,25 +1934,25 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
      conditions de vente ne dit pas quand la porte est ouverte. */
   verifierSurLeSite('conversion', 'moyen', !aHoraires,
     /(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|lun\.|mar\.|mer\.|jeu\.|ven\.|sam\.|dim\.)[^.!?]{0,40}?\d{1,2}\s?[h:]/i,
-    "Aucun horaire d'ouverture n'apparaît sur le site.",
+    "Les horaires d'ouverture restent à afficher.",
     "C'est l'une des informations les plus recherchées, et l'un des motifs d'appel les plus fréquents.",
-    (page) => `Les horaires d'ouverture n'apparaissent pas sur la page d'accueil : ils sont sur ${page}.`,
-    "C'est l'une des informations les plus recherchées. La donner d'emblée évite un appel pour la demander, ou un déplacement pour rien.");
+    (page) => `Les horaires d'ouverture attendent une page plus loin : ils sont sur ${page}.`,
+    "C'est l'une des informations les plus recherchées. La donner d'emblée épargne un appel pour la demander, et un déplacement pour rien.");
 
   verifierSurLeSite('conversion', 'mineur', !aAdresse,
     /\b\d{5}\b[\s,]{0,3}[A-Za-zÀ-ÿ][\wÀ-ÿ'-]{2,}|\b(?:rue|avenue|boulevard|chemin|route|impasse|allée|place|quai)\b\s+[\wÀ-ÿ]/i,
-    "Aucune adresse postale n'apparaît sur le site.",
+    "L'adresse postale reste à afficher.",
     "Elle rassure sur le fait que l'entreprise existe physiquement, et alimente votre référencement local.",
-    (page) => `L'adresse postale n'apparaît pas sur la page d'accueil : elle est sur ${page}.`,
+    (page) => `L'adresse postale attend une page plus loin : elle est sur ${page}.`,
     "Elle rassure sur le fait que l'entreprise existe physiquement, et sa présence sur l'accueil alimente le référencement local.");
 
   /* Un vrai prix, pas le mot « tarif » croisé dans une phrase : les conditions
      de vente parlent de « conditions tarifaires » sans donner un seul montant. */
   verifierSurLeSite('conversion', 'mineur', !aRepereTarif,
     /\d[\d\s,.]*\s?(?:€|euros?)\b|à partir de\s+\d|\btarifs?\s*:|nos (?:tarifs|prix)\b/i,
-    "Aucun repère de prix n'est donné sur le site.",
-    "Un visiteur sans aucun ordre de grandeur reporte sa demande, ou demande trois devis pour se faire une idée.",
-    (page) => `Aucun repère de prix sur la page d'accueil : les tarifs sont sur ${page}.`,
+    "Un repère de prix reste à donner.",
+    "Un visiteur privé d'ordre de grandeur reporte sa demande, ou demande trois devis pour se faire une idée.",
+    (page) => `Le repère de prix attend une page plus loin : les tarifs sont sur ${page}.`,
     "Un visiteur qui doit chercher les prix compare ailleurs pendant ce temps.");
 
   verifier('conversion', 'mineur', aMailto && !aFormulaire,
@@ -1970,19 +1970,19 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
 
   verifier('lisibilite', 'moyen', champsSansLibelle > 0,
     `${champsSansLibelle} champ${champsSansLibelle > 1 ? 's' : ''} de formulaire sans libellé associé.`,
-    "Le champ n'est pas annoncé aux personnes qui utilisent un lecteur d'écran, et le texte d'aide disparaît dès la première frappe.");
+    "Le champ reste muet pour les personnes qui utilisent un lecteur d'écran, et le texte d'aide disparaît dès la première frappe.");
 
   verifier('lisibilite', 'moyen', !langue,
-    "La langue de la page n'est pas déclarée dans le code.",
+    "La langue de la page reste à déclarer dans le code.",
     "Un lecteur d'écran lit alors le français avec une prononciation anglaise, et les moteurs de recherche doivent deviner à quel public destiner vos pages.");
 
   verifier('lisibilite', 'mineur', iframesSansTitre >= 1,
     `${iframesSansTitre} contenu${iframesSansTitre > 1 ? 's' : ''} intégré${iframesSansTitre > 1 ? 's' : ''} sans intitulé, carte ou vidéo.`,
-    "Une personne qui navigue au clavier ou au lecteur d'écran ne sait pas ce qu'elle vient d'atteindre.");
+    "Une personne qui navigue au clavier ou au lecteur d'écran découvre un contenu anonyme.");
 
   verifier('lisibilite', 'mineur', balisesObsoletes >= 1,
     `La page utilise ${balisesObsoletes} balise${balisesObsoletes > 1 ? 's' : ''} abandonnée${balisesObsoletes > 1 ? 's' : ''} depuis plus de quinze ans.`,
-    'Les navigateurs les tolèrent encore, sans garantie. Leur présence indique un code jamais repris depuis sa création.');
+    "Les navigateurs les tolèrent encore, à titre transitoire. Leur présence indique un code resté en l'état depuis sa création.");
 
   verifier('lisibilite', 'mineur', stylesEnLigne > SEUILS.stylesEnLigne,
     `${stylesEnLigne} éléments portent leur mise en forme directement dans le code.`,
@@ -1996,7 +1996,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     !!baliseOu(html, 'link', 'rel', /^(?:apple-touch-icon(-precomposed)?|mask-icon|manifest)$/i);
   if (iconeDeclaree || conclusif(favicon)) {
     verifier('lisibilite', 'mineur', !iconeDeclaree && favicon!.statut !== 200,
-      "Le site n'a pas d'icône d'onglet.",
+      "L'icône d'onglet reste à fournir.",
       "Dans une barre de navigateur chargée ou dans les favoris, votre site est le seul à ne pas être identifiable d'un coup d'œil.");
   }
 
@@ -2009,7 +2009,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
      continue après cette réponse, et un chiffre écrit maintenant serait
      démenti quelques secondes plus tard. Il figure dans les mesures. */
   verifierPresence('confiance', 'moyen', !aMentions,
-    'Aucune trace de mentions légales sur les pages lues.',
+    'Les mentions légales restent à publier sur les pages lues.',
     "Elles sont obligatoires pour tout site professionnel en France, article 6 de la loi pour la confiance dans l'économie numérique. Leur absence est sanctionnable et se remarque en cas de litige.");
 
   verifierPresence('confiance', 'critique', traceurs.length > 0 && !consentement,
@@ -2021,7 +2021,7 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     "Le RGPD impose d'indiquer qui traite les données, pourquoi, et combien de temps elles sont conservées, au moment même de la collecte.");
 
   verifierPresence('confiance', 'moyen', estBoutique && !aConditions,
-    "Le site vend en ligne sans conditions générales de vente accessibles.",
+    "Le site vend en ligne, les conditions générales de vente restant à rendre accessibles.",
     "Elles sont obligatoires pour toute vente à distance, et ce sont elles qui vous protègent en cas de contestation d'une commande.");
 
   verifier('confiance', 'moyen', /fonts\.googleapis\.com|fonts\.gstatic\.com/i.test(html),
@@ -2030,11 +2030,11 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
 
   verifier('confiance', 'moyen', youtubeSuivi,
     'Une vidéo YouTube est intégrée en mode standard.',
-    'Elle dépose des traceurs publicitaires dès le chargement de la page, avant tout consentement. Le mode sans cookie existe et se règle en changeant une adresse.');
+    'Elle dépose des traceurs publicitaires dès le chargement de la page, avant tout consentement. Le mode dépourvu de cookie existe et se règle en changeant une adresse.');
 
   verifier('confiance', 'mineur', !!editeurEnLigne,
     `Le site est construit avec ${editeurEnLigne}.`,
-    "Le code produit n'est pas modifiable en profondeur : la vitesse, la structure et le référencement technique restent plafonnés par l'outil.");
+    "Le code produit reste figé : la vitesse, la structure et le référencement technique plafonnent au niveau de l'outil.");
 
   /* Ce sont les extensions distinctes qui comptent, pas leurs fichiers : une
      seule extension qui charge quinze scripts n'est pas un empilement. */
@@ -2046,8 +2046,8 @@ export async function analyserSite(saisie: string): Promise<Analyse> {
     'Chaque extension ajoute du poids et une surface de panne. C\'est la première cause de site cassé après une mise à jour.');
 
   verifierPresence('confiance', 'mineur', !aReseau,
-    'Aucun lien vers un réseau social.',
-    "Un visiteur qui veut vérifier votre activité récente n'a nulle part où aller. Une page active rassure autant qu'un avis.");
+    'Le lien vers un réseau social reste à poser.',
+    "Un visiteur qui veut vérifier votre activité récente cherche en vain. Une page active rassure autant qu'un avis.");
 
   /* ── Reste du site à parcourir ──
      Le plan de site donne la liste complète quand il existe, les liens de

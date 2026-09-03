@@ -165,7 +165,7 @@ export function constatsDuSite(pages: PageParcourue[]): Constat[] {
     constats.push({
       famille: 'referencement',
       gravite: sansTitre >= total * 0.2 ? 'moyen' : 'mineur',
-      fait: `${sansTitre} page${sansTitre > 1 ? 's' : ''} sur ${total} n'${sansTitre > 1 ? 'ont' : 'a'} aucun titre.`,
+      fait: `${sansTitre} page${sansTitre > 1 ? 's' : ''} sur ${total} attend${sansTitre > 1 ? 'ent' : ''} son titre.`,
       consequence: 'Google fabrique alors une ligne de résultat avec des bouts de page, souvent bancale.',
     });
   }
@@ -173,7 +173,7 @@ export function constatsDuSite(pages: PageParcourue[]): Constat[] {
     constats.push({
       famille: 'referencement',
       gravite: 'mineur',
-      fait: `${sansDescription} pages sur ${total} n'ont pas de description pour les résultats de recherche.`,
+      fait: `${sansDescription} pages sur ${total} attendent leur description pour les résultats de recherche.`,
       consequence:
         "Google compose alors un extrait au hasard dans la page, souvent très loin de ce qu'elle vend.",
     });
@@ -182,7 +182,7 @@ export function constatsDuSite(pages: PageParcourue[]): Constat[] {
     constats.push({
       famille: 'referencement',
       gravite: sansH1 >= total * 0.5 ? 'moyen' : 'mineur',
-      fait: `${sansH1} pages sur ${total} n'ont aucun titre principal.`,
+      fait: `${sansH1} pages sur ${total} attendent leur titre principal.`,
       consequence:
         "C'est sur ce titre que Google s'appuie pour comprendre le sujet d'une page. Il rend son classement bien plus facile.",
     });
