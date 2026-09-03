@@ -57,8 +57,9 @@ Règle accessibilité en place : `.text-sauge` (accent décoratif `#B8C4BB`) ne 
 ## Règles rédactionnelles (strictes, comme partout)
 
 - Jamais d'italique (aucune exception, y compris citations).
-- Jamais de tiret cadratin ou demi-cadratin en ponctuation ni en décoration : utiliser virgule, deux-points, point, parenthèses ou « · ». Contrôler aussi title/meta/OG.
+- Jamais de tiret cadratin ou demi-cadratin en ponctuation ni en décoration : utiliser virgule, deux-points, point ou parenthèses. Le point médian « · » est banni lui aussi depuis la règle globale, l'ancienne rédaction de cette ligne l'autorisait encore. Contrôler aussi title/meta/OG.
 - Chiffres de réassurance réels uniquement, jamais inventés.
+- **Formulation affirmative sur tout le site** (passe complète du 03/09/2026, 262 phrases). Dire ce qui est plutôt que ce qui manque : « vous décidez ensuite » et non « sans engagement », « le montant affiché est celui que vous réglez » et non « sans TVA à ajouter », « le titre reste à écrire » et non « la page n'a pas de titre ». Trois exceptions tenues : les pages juridiques (CGV, mentions légales, politique de confidentialité) où la négation porte une déclaration de conformité, le titre du guide « Pourquoi mon site n'apparaît pas dans Google ? » qui est la requête cible, et les commentaires de code. Dictionnaire complet dans la mémoire `feedback_formulation_affirmative`.
 
 ## SEO
 
