@@ -679,7 +679,7 @@ const organizationSchema = {
           href="/realisations"
           class="tap-44 inline-flex items-center gap-2 font-body text-sm font-medium text-sauge hover:gap-3 transition-all"
         >
-          Voir toutes les réalisations
+          Voir nos réalisations
           <span aria-hidden="true">→</span>
         </a>
       </div>
@@ -1250,6 +1250,59 @@ const organizationSchema = {
      long libellé « Adresse et horaires » tient encore sur une ligne à ce corps. */
   @media (max-width: 360px) {
     .conv-canal { font-size: 0.5625rem; width: 6.5rem; padding: 0.28rem 0.35rem; }
+  }
+
+  /* Sous 480 px, le schéma circulaire cesse d'être lisible. Mesuré le
+     03/09/2026 sur un écran de 390 px : les huit pastilles y tombent à 10 px de
+     corps, sous le seuil de 12 px que Lighthouse signale. Les trois blocs
+     ci-dessus racontent d'ailleurs cette descente, palier par palier, à mesure
+     que le cercle rétrécissait : c'est la géométrie qui imposait le corps du
+     texte, jamais un choix de lecture.
+
+     Le module garde son sens (un centre, ses composantes) et abandonne sa
+     géométrie : le noyau passe en tête, les huit canaux s'alignent en deux
+     colonnes à 13 px, les traits et l'orbite disparaissent puisqu'ils ne
+     décrivent plus rien. La section y gagne en plus une centaine de pixels.
+     Ce bloc vient après les paliers 520, 420 et 360 : il les neutralise par
+     l'ordre du document, à spécificité égale. Ne pas le remonter. */
+  @media (max-width: 480px) {
+    .conv-carre {
+      width: 100%;
+      max-width: none;
+      margin-inline: 0;
+      aspect-ratio: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .conv-traits { display: none; }
+    .conv-noyau {
+      position: static;
+      grid-column: 1 / -1;
+      width: auto;
+      aspect-ratio: auto;
+      transform: none;
+      flex-direction: row;
+      gap: 0.6rem;
+      border-radius: 999px;
+      padding: 0.8rem 1rem;
+      margin-bottom: 0.25rem;
+      box-shadow: 0 10px 24px rgba(37, 92, 65, 0.22);
+    }
+    .conv-noyau svg { width: 22px; height: 22px; }
+    .conv-noyau span { font-size: 0.875rem; }
+    .conv-canal {
+      position: static;
+      transform: none;
+      width: auto;
+      font-size: 0.8125rem;
+      padding: 0.55rem 0.6rem;
+      white-space: normal;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .conv-canal:hover { transform: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .conv-trait { animation: none; }
