@@ -633,31 +633,6 @@ const organizationSchema = {
   </section>
 
 
-  <!-- ─── PONT DIAGNOSTIC : l'outil gratuit était orphelin, aucun lien ne menait à lui ─── -->
-  <section class="py-14 px-6 md:px-10 lg:px-20 border-t border-cream-dark bg-brun section-dark-depth" aria-labelledby="diagnostic-title">
-    <div class="max-w-4xl mx-auto md:flex items-center justify-between gap-10 text-center md:text-left">
-      <div data-reveal>
-        <h2 id="diagnostic-title" class="font-display text-2xl md:text-3xl text-cream leading-[1.15] mb-3">
-          Vous avez déjà un site ?
-        </h2>
-        <p class="font-body text-base leading-relaxed max-w-[48ch]" style="color: rgba(252, 251, 248, 0.75)">
-          Notre outil de diagnostic l'analyse en quelques secondes : vitesse, affichage mobile,
-          sécurité, référencement et moyens de contact. Sans inscription, sans email.
-        </p>
-      </div>
-      <div class="mt-7 md:mt-0 shrink-0" data-reveal data-delay="1">
-        <a
-          href="/outils/diagnostic"
-          class="inline-flex items-center gap-2 bg-cream text-brun font-body text-sm font-medium px-7 py-3.5 rounded-full hover:bg-blanc transition-colors"
-        >
-          Analyser mon site
-          <span aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-
   <!-- ─── RÉALISATIONS : la preuve avant le prix ─── -->
   <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark" id="realisations" aria-labelledby="realisations-title">
     <div class="max-w-6xl mx-auto">
@@ -868,29 +843,6 @@ const organizationSchema = {
   </section>
 
 
-  <!-- ─── POURQUOI MOI ─── -->
-  <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 bg-brun text-cream section-dark-depth">
-    <div class="max-w-6xl mx-auto">
-
-      <!-- Les trois blocs qui occupaient cette section répétaient mot pour mot la
-           méthode détaillée qui suit, titre compris. Supprimés : chaque scroll doit
-           apporter une information nouvelle. L'engagement nature, jusqu'ici relégué
-           en note de bas de section, prend leur place : c'est un différenciateur
-           réel sur la niche des métiers de la nature. -->
-      <div class="max-w-2xl mx-auto text-center" data-reveal>
-        <p class="font-body text-xs tracking-[0.22em] uppercase mb-5 text-sauge">Notre engagement</p>
-        <h2 class="font-display text-3xl md:text-4xl leading-[1.15] mb-6" style="color: rgba(252, 251, 248,0.94);">
-          2&nbsp;% de chaque projet reversés à la nature.
-        </h2>
-        <p class="font-body text-base leading-relaxed" style="color: rgba(252, 251, 248,0.82)">
-          Chaque site que nous créons finance le travail de <a href="https://www.fne.asso.fr" target="_blank" rel="noopener noreferrer" class="text-sauge underline underline-offset-4 decoration-sauge-pale/50 hover:decoration-sauge-pale transition-colors">France Nature Environnement<span class="sr-only"> (nouvelle fenêtre)</span></a>, première fédération française de protection de la nature. Nos clients vivent de ce qui pousse et de ce qui vit : autant y contribuer.
-        </p>
-      </div>
-
-    </div>
-  </section>
-
-
   <!-- ─── MÉTHODE : le déroulé complet, durées et rôle du client ─── -->
   <section class="py-16 md:py-20 px-6 md:px-10 lg:px-20 border-t border-cream-dark" id="methode" aria-labelledby="methode-title">
     <div class="max-w-5xl mx-auto text-center">
@@ -922,7 +874,16 @@ const organizationSchema = {
       <!-- Aucun bouton en pied de section : « Parler de mon projet » figure déjà
            dans le hero, dans l'en-tête collant et dans l'appel final, à deux
            sections d'ici. Le répéter une quatrième fois n'ajoute pas une
-           occasion de cliquer, il banalise le bouton. -->
+           occasion de cliquer, il banalise le bouton.
+
+           L'engagement nature occupait ici même une section entière sur fond
+           sombre, pour trois phrases (03/09/2026). Il devient la chute de la
+           méthode : le versement a lieu à la mise en ligne, sa place est donc
+           à la fin du déroulé, et la page économise une section. Le détail
+           vit sur /a-propos. -->
+      <p class="font-body text-base text-brun-mid max-w-[58ch] mx-auto mt-14 leading-relaxed" data-reveal data-delay="2">
+        <b class="text-brun">2&nbsp;% du montant</b> de chaque site que nous livrons financent le travail de <a href="https://www.fne.asso.fr" target="_blank" rel="noopener noreferrer" class="text-[#2E7452] underline underline-offset-4 decoration-sauge/50 hover:decoration-[#2E7452] transition-colors">France Nature Environnement<span class="sr-only"> (nouvelle fenêtre)</span></a>, première fédération française de protection de la nature. Nos clients vivent de ce qui pousse et de ce qui vit : autant y contribuer.
+      </p>
 
     </div>
   </section>
@@ -970,8 +931,15 @@ const organizationSchema = {
   </section>
 
 
-  <!-- ─── CTA FINAL ─── -->
-  <section class="bg-sauge-pale py-16 md:py-20 px-6 md:px-10 lg:px-20 text-center section-ambient border-t border-cream-dark" data-reveal>
+  <!-- ─── APPEL FINAL ───
+       Fond crème depuis le 03/09/2026, à la place du sauge pâle : la FAQ qui
+       précède est elle-même en sauge pâle, les deux sections se lisaient comme
+       une seule et l'appel se fondait dans la question précédente.
+       Le fond sombre a été essayé puis écarté le même jour : le pied de page
+       est déjà du #255C41, un appel vert lui aurait été collé et les deux
+       auraient formé une masse verte de deux écrans. Le contraste de la fin de
+       page vient du pied de page, pas de l'appel. -->
+  <section class="bg-cream py-16 md:py-20 px-6 md:px-10 lg:px-20 text-center section-ambient border-t border-cream-dark" data-reveal>
     <div class="max-w-xl mx-auto">
       <p class="inline-block font-body text-xs tracking-[0.22em] uppercase text-sauge border border-sauge/40 rounded-full px-4 py-1.5 mb-6">Un premier échange</p>
       <h2 class="font-display text-3xl md:text-5xl font-light text-brun leading-[1.1] mb-6">
@@ -990,6 +958,16 @@ const organizationSchema = {
            Auvergne-Rhône-Alpes ». Un lien de pied de page pèse peu, un lien en
            contenu compte. -->
       <p class="font-body text-sm text-brun-mid mt-6">Réponse sous 48h, devis gratuit et sans engagement.<br>Partout en <a href="/creation-site-internet-auvergne-rhone-alpes" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">Auvergne-Rhône-Alpes</a>.</p>
+
+      <!-- Le diagnostic avait sa propre section, son titre et son bouton, posés
+           juste avant les réalisations : une deuxième sortie au milieu du
+           parcours. Il devient une ligne sous l'appel, à l'endroit où le
+           visiteur qui possède déjà un site se reconnaît, sans concurrencer le
+           bouton. L'outil reste atteignable par le menu Outils et par le pied
+           de page, il n'est donc plus orphelin comme en juillet. -->
+      <p class="font-body text-sm text-brun-mid/80 mt-10">
+        Vous avez déjà un site ? <a href="/outils/diagnostic" class="underline decoration-sauge/40 underline-offset-2 hover:text-brun transition-colors">Notre diagnostic l'analyse en quelques secondes</a>, sans inscription.
+      </p>
     </div>
   </section>
 
@@ -1334,6 +1312,33 @@ const organizationSchema = {
   @media (max-width: 940px) {
     .etapes { grid-template-columns: 1fr; }
     .etapes li, .etapes li:nth-child(4), .etapes li:nth-child(5) { grid-column: auto; }
+  }
+
+  /* Sur téléphone, les cinq étapes empilées occupaient 2,34 écrans à elles
+     seules (mesuré le 03/09/2026 sur 390 × 844), soit le plus gros bloc de la
+     page : cinq cartes centrées, chacune posant une pastille de 42 px au-dessus
+     du texte, puis le badge de durée seul sur sa ligne. Le contenu reste
+     entier, la mise en page se resserre : lecture alignée à gauche, numéro et
+     durée sur la même ligne, marges et rayons réduits. */
+  @media (max-width: 640px) {
+    .etapes { gap: 10px; }
+    .etapes li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      column-gap: 13px;
+      text-align: left;
+      padding: 17px 19px;
+      border-radius: 14px;
+    }
+    .etapes li > *:not(.et-n) { grid-column: 2; }
+    .et-n {
+      grid-column: 1; grid-row: 1;
+      width: 30px; height: 30px; margin: 0;
+      border-radius: 9px; font-size: 12px;
+    }
+    .et-duree { margin-bottom: 0; align-self: center; justify-self: start; }
+    .etapes h3 { margin: 9px 0 5px; }
+    .et-vous { margin-top: 11px; padding-top: 10px; }
   }
 
   /* ══ Comparateur avant / après ══ */
