@@ -10,6 +10,8 @@ export const OUVERTURE = {
 
 export const DEPART = {
   titre: 'Le point de départ',
+  titreGarde: 'Ce que les cinq pistes gardent',
+  specimen: { chemin: 'identite/logo/monogramme-creme-sur-vert.svg', legende: 'Le monogramme en service' },
   texte: [
     "Le monogramme actuel est un C ouvert : un arc de cercle d'épaisseur constante, l'ouverture à droite, posé sur une tuile arrondie. Il est net, il tient à toutes les tailles, et sa géométrie est documentée au dixième dans la charte.",
     "Sa limite tient en une phrase : il dit la première lettre du nom, et il s'arrête là. Un C ouvert appartient à toutes les marques dont le nom commence par C. Les cinq pistes cherchent un signe qui parle de Caelestis en particulier : un nom latin qui veut dire céleste, un métier qui rend visible, une clientèle qui travaille dehors et dont le savoir-faire se voit.",
@@ -82,6 +84,7 @@ export const PLANCHES = {
 
 export const BILAN = {
   titre: 'Les cinq côte à côte',
+  pied: "Fichiers vectoriels dans identite/pistes-logo/, onze par piste. Fabrication : node identite/pistes-logo/build-pistes.mjs, qui écrit les fichiers puis mesure leur cadrage au pixel. Cette planche : node identite/pistes-logo/build-planche.mjs.",
   chapo: "Un logo se juge à la taille où il vit vraiment : l'onglet du navigateur, l'avatar d'une fiche Google, le coin d'un devis. Voici les cinq à 64, 32 et 16 px, puis en une seule couleur.",
   recommandation: {
     titre: 'Ce que je recommande',

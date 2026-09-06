@@ -4,6 +4,8 @@ Cinq signes différents pour Caelestis, à départager. Ce dossier vit à côté
 
 **Planche de présentation** : ouvrir `planche-pistes.html` dans un navigateur. Le fichier est autonome, polices comprises, il s'envoie par courriel et se lit hors ligne.
 
+Une seconde série existe dans `identite/pistes-nature/` : la nature et le web dans la même forme. Celle-ci cherche un signe de marque, l'autre cherche un signe de métier.
+
 ## Les cinq
 
 | Dossier | Nom | Le signe | Ce qu'il dit |
