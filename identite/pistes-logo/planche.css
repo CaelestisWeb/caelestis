@@ -1,0 +1,312 @@
+/* Planche des pistes de logotype. Palette et typographie de la charte
+   Caelestis. Les specimens restent sur fond crème dans les deux thèmes :
+   un specimen se regarde sur du papier, pas sur l'écran de qui l'ouvre. */
+
+:root {
+  /* Teintes invariables, celles des fichiers livrés */
+  --vert-fixe: #255C41;
+  --creme-fixe: #FCFBF8;
+  --parchemin-fixe: #E6E4DC;
+  --mousse-fixe: #B8C4BB;
+
+  /* Teintes de page, thème clair */
+  --fond: #FCFBF8;
+  --fond-doux: #E3EFE8;
+  --texte: #12160F;
+  --texte-doux: #5C6259;
+  --accent: #2E7452;
+  --filet: #E6E4DC;
+  --bande: #255C41;
+  --bande-texte: #FCFBF8;
+
+  --mesure: 62ch;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --fond: #12160F;
+    --fond-doux: #1B4733;
+    --texte: #FCFBF8;
+    --texte-doux: #B8C4BB;
+    --accent: #B8C4BB;
+    --filet: rgba(184, 196, 187, 0.24);
+    --bande: #1B4733;
+    --bande-texte: #FCFBF8;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --fond: #12160F;
+  --fond-doux: #1B4733;
+  --texte: #FCFBF8;
+  --texte-doux: #B8C4BB;
+  --accent: #B8C4BB;
+  --filet: rgba(184, 196, 187, 0.24);
+  --bande: #1B4733;
+  --bande-texte: #FCFBF8;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--fond);
+  color: var(--texte);
+  font-family: Satoshi, "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+.planche {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px 96px;
+}
+@media (min-width: 768px) { .planche { padding: 0 40px 120px; } }
+@media (min-width: 1024px) { .planche { padding: 0 80px 140px; } }
+
+h1, h2, h3 {
+  margin: 0;
+  text-wrap: balance;
+  font-feature-settings: "ss01";
+}
+h1 {
+  font-size: clamp(2.1rem, 5.2vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.038em;
+  line-height: 1.06;
+}
+h2 {
+  font-size: clamp(1.7rem, 3.6vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.038em;
+  line-height: 1.1;
+}
+h3 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.024em;
+  line-height: 1.3;
+}
+p { margin: 0; max-width: var(--mesure); }
+
+.surtitre {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  line-height: 1.4;
+}
+.chapo {
+  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+  font-weight: 300;
+  line-height: 1.55;
+  max-width: 58ch;
+}
+
+/* ── Tête ─────────────────────────────────────────────────────────── */
+.tete {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 72px 0 56px;
+  border-bottom: 1px solid var(--filet);
+}
+.tete-marque { color: var(--texte); margin-bottom: 20px; }
+.tete-marque svg { display: block; }
+
+.sommaire {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin-top: 12px;
+}
+.sommaire a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  color: var(--texte);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  border-bottom: 1px solid var(--filet);
+  padding-bottom: 3px;
+}
+.sommaire a span {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+.sommaire a:hover { border-bottom-color: var(--accent); }
+.sommaire a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ── Le point de départ ───────────────────────────────────────────── */
+.depart { padding: 64px 0; border-bottom: 1px solid var(--filet); }
+.depart h2 { margin-bottom: 28px; }
+.depart-corps {
+  display: grid;
+  gap: 32px;
+  align-items: start;
+}
+@media (min-width: 860px) { .depart-corps { grid-template-columns: 1fr 260px; gap: 56px; } }
+.depart-texte { display: flex; flex-direction: column; gap: 18px; }
+
+.titre-garde { margin: 48px 0 20px; }
+.garde, .suite {
+  display: grid;
+  gap: 24px 40px;
+  margin: 0;
+}
+@media (min-width: 720px) { .garde { grid-template-columns: repeat(2, 1fr); } }
+.garde dt, .suite dt {
+  font-weight: 700;
+  letter-spacing: -0.024em;
+  margin-bottom: 4px;
+}
+.garde dd, .suite dd {
+  margin: 0;
+  color: var(--texte-doux);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  max-width: 46ch;
+}
+
+/* ── Une piste ────────────────────────────────────────────────────── */
+.piste { padding: 76px 0; border-bottom: 1px solid var(--filet); }
+.piste-tete { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+.resume {
+  font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+  font-weight: 300;
+  color: var(--texte-doux);
+  max-width: 46ch;
+}
+
+.duo { display: grid; gap: 14px; margin-bottom: 14px; }
+@media (min-width: 720px) { .duo { grid-template-columns: 1fr 1fr; } }
+
+.etagere {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+/* ── Plaque de specimen ───────────────────────────────────────────── */
+.plaque {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--creme-fixe);
+  border: 1px solid var(--parchemin-fixe);
+  color: var(--vert-fixe);
+}
+.plaque-scene {
+  flex: 1;
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+}
+.plaque-haute .plaque-scene { min-height: 320px; }
+.plaque svg { display: block; max-width: 100%; height: auto; }
+.plaque figcaption {
+  border-top: 1px solid var(--parchemin-fixe);
+  padding: 10px 14px 11px;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: #5C6259;
+}
+.tailles { display: flex; align-items: center; gap: 18px; }
+
+.reperes .guides { opacity: 0.42; }
+.reperes .signe-pale { opacity: 0.2; }
+
+/* ── Bande verte ──────────────────────────────────────────────────── */
+.bande {
+  margin-top: 14px;
+  background: var(--vert-fixe);
+  padding: 52px 28px;
+  display: grid;
+  place-items: center;
+}
+.bande svg { display: block; }
+
+/* ── Blocs de texte ───────────────────────────────────────────────── */
+.texte {
+  display: grid;
+  gap: 36px;
+  margin-top: 44px;
+}
+@media (min-width: 860px) { .texte { grid-template-columns: 1fr 1fr; gap: 56px; } }
+.colonne { display: flex; flex-direction: column; gap: 14px; }
+.colonne h3 { margin-top: 10px; }
+.colonne h3:first-child { margin-top: 0; }
+.mesure {
+  font-size: 0.875rem;
+  color: var(--texte-doux);
+  border-top: 1px solid var(--filet);
+  padding-top: 12px;
+  margin-top: 6px;
+}
+
+/* ── Comparatif ───────────────────────────────────────────────────── */
+.bilan { padding: 76px 0 0; }
+.bilan h2 { margin-bottom: 20px; }
+.comparatif {
+  margin-top: 36px;
+  background: var(--creme-fixe);
+  border: 1px solid var(--parchemin-fixe);
+  color: var(--vert-fixe);
+  padding: 8px 20px 24px;
+  overflow-x: auto;
+}
+.ligne-comparatif { min-width: 460px; padding-top: 20px; }
+.ligne-comparatif + .ligne-comparatif { border-top: 1px solid var(--parchemin-fixe); }
+.legende-ligne {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #5C6259;
+  margin-bottom: 14px;
+}
+.serie {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: 16px;
+  padding-bottom: 4px;
+}
+.serie svg { display: block; }
+.nom-serie {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #12160F;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ── Pied ─────────────────────────────────────────────────────────── */
+.pied {
+  margin-top: 76px;
+  padding-top: 28px;
+  border-top: 1px solid var(--filet);
+  color: var(--texte-doux);
+  font-size: 0.875rem;
+}
+.pied p { max-width: 78ch; }
+code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  background: var(--fond-doux);
+  color: var(--texte);
+  padding: 1px 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
