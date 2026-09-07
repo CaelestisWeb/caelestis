@@ -13,7 +13,8 @@ Septembre 2026. **C'est le seul signe encore travaillé.** Les neuf séries de r
 | `favicon` | La même tuile, **redessinée pour la petite taille** : contour à 8 au lieu de 7,5, col et ligne d'une unité de plus | L'onglet du navigateur, la barre de favoris, la tuile d'écran d'accueil. Ce n'est pas la tuile réduite, c'est un dessin à part |
 | `lockup-horizontal-vert`, `-creme`, `-encre` | **Le signe et le mot côte à côte** | L'usage courant : en-tête du site, haut d'un devis ou d'une facture, signature de courriel, bandeau |
 | `lockup-vertical-vert`, `-creme` | **Le signe au-dessus du mot** | Les formats étroits ou carrés : publication sociale, carte de visite en portrait, tampon, marquage textile |
-| `lockup-mot-a-l-ecran-vert`, `-creme`, `-encre` | **Le mot dans l'écran**, à 58 unités, cadre entier | Les grands formats où le logo est le sujet : couverture, première page, affiche, écran d'accueil. À réserver aux tailles où le mot se lit |
+| `lockup-mot-a-l-ecran-vert`, `-creme`, `-encre` | **Le mot dans l'écran**, à 58 unités, cadre entier | Les grands formats où le logo est le sujet : couverture, première page, affiche, écran d'accueil |
+| `tuile-mot-creme-sur-vert`, `-vert-sur-creme` | La même chose **dans un carré**, fond compris | Les carrés affichés en grand : publication sociale, image de partage, tampon de document, carré imprimé. **À partir de 128 px, jamais en dessous** |
 
 **Signe et tuile, la différence en une phrase** : le signe est la forme nue, elle prend la couleur qu'on lui donne et le fond de la page. La tuile est la même forme livrée avec son fond, pour les endroits où l'on n'a pas la main sur ce qu'il y a derrière.
 
@@ -44,6 +45,14 @@ Sans la Pousse dans l'écran, ce qui distingue ce signe du pictogramme ordinaire
 - **la ligne fait 68**, là où un socle de moniteur ordinaire en fait 44.
 
 Un col droit, ou une ligne ramenée à 48, et le signe devient une icône comme il en existe des milliers. Ces deux valeurs se tiennent au dixième sur tous les supports, et toute simplification qui les rabote est à refuser.
+
+## Pourquoi la tuile au mot ne remplace ni la tuile ni le favicon
+
+Mesure faite en montant le mot dans un carré : **il occupe 48,6 unités sur 100**, et sa hauteur d'encre 8,5. Rendu aux tailles réelles, le mot est une tache en dessous de 48 px, une barre grise à 48, devinable à 64, et il ne devient lisible qu'à partir de 96, confortable à 128.
+
+Or **la tuile et le favicon vivent précisément en dessous de ce seuil** : le favicon s'affiche entre 16 et 32 px, et l'avatar d'une fiche Google ou d'un profil social s'affiche entre 32 et 60 px dans les résultats et les fils, même quand on le téléverse en 720. Un mot illisible n'est pas neutre, il salit l'écran et abîme la lecture du signe.
+
+`tuile-mot-*` existe donc à côté, pour les carrés affichés en grand, avec un plancher écrit dans le code : `TUILE_MOT_MINIMUM = 128`.
 
 ## Le mot à l'écran, et les trois traitements écartés
 
