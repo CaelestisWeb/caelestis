@@ -105,7 +105,7 @@ const typo = (t) => t
   .replace(/(\d) ?€/g, `$1${NB}€`);
 
 const fonte = (poids) => readFileSync(resolve(RACINE, `src/assets/fonts/satoshi-${poids}.woff2`)).toString('base64');
-const FACES = () => [300, 400, 500, 700]
+export const FACES = () => [300, 400, 500, 700]
   .map((p) => `@font-face{font-family:Satoshi;src:url(data:font/woff2;base64,${fonte(p)}) format("woff2");font-weight:${p};font-style:normal;font-display:swap}`)
   .join('');
 
