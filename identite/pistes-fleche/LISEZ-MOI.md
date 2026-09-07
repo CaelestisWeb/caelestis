@@ -4,7 +4,7 @@ Cinq pistes, septembre 2026. Demande de Célestin : une flèche de développemen
 
 **Planche de présentation** : `planche-fleche.html`, ou `node identite/serveur.mjs` puis http://localhost:4600.
 
-> **Arbitrage du 7 septembre 2026.** Célestin retient **La Flèche feuillue** et écarte les quatre autres : la Courbe, les Trois pousses, l'Escalier et le Badge. Les fichiers restent en place comme trace de la recherche, et la page d'accueil les marque comme écartés. Les réglages du signe retenu vivent dans `identite/pistes-fleche-affinee/`. Ne pas rouvrir les quatre autres sans motif nouveau.
+> **Arbitrage du 7 septembre 2026, puis révision le même jour : la flèche est abandonnée entièrement, la Flèche feuillue comprise.** Célestin avait d'abord retenu **La Flèche feuillue** et écarté les quatre autres : la Courbe, les Trois pousses, l'Escalier et le Badge. Les fichiers restent en place comme trace de la recherche, et la page d'accueil les marque comme écartés. Les réglages du signe retenu vivent dans `identite/pistes-fleche-affinee/`. Ne pas rouvrir les quatre autres sans motif nouveau.
 
 ## Le problème posé, et les trois réponses
 

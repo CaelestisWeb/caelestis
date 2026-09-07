@@ -16,6 +16,7 @@ import { PISTES as NATURE } from './pistes-nature/signes.mjs';
 import { PISTES as POUSSE } from './pistes-pousse/signes.mjs';
 import { PISTES as FLECHE } from './pistes-fleche/signes.mjs';
 import { PISTES as AFFINEE } from './pistes-fleche-affinee/signes.mjs';
+import { PISTES as ARBRE } from './pistes-arbre-ecran/signes.mjs';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
 const NB = ' ';
@@ -40,18 +41,27 @@ const SERIES = [
   {
     dossier: 'pistes-fleche', pistes: FLECHE, planche: 'pistes-fleche/planche-fleche.html',
     titre: 'Quatrième série, la flèche et le vivant',
-    resume: "Cinq voies pour dire le développement d'activité sans quitter le registre végétal. La Flèche feuillue est retenue, les quatre autres sont écartées le 7 septembre.",
+    resume: "Cinq voies pour dire le développement d'activité sans quitter le registre végétal. Série entière écartée le 7 septembre, la flèche est abandonnée.",
   },
   {
     dossier: 'pistes-fleche-affinee', pistes: AFFINEE, planche: 'pistes-fleche-affinee/planche-fleche-affinee.html',
     titre: 'Cinquième série, les réglages de la flèche',
-    resume: "Le signe retenu, avec un seul réglage qui change d'une piste à l'autre : la proportion de la tête, le nombre de feuilles, le fuselage de la hampe, le carré autour. La sixième est la somme des trois recommandés.",
+    resume: "Le signe retenu, avec un seul réglage qui change d'une piste à l'autre : la proportion de la tête, le nombre de feuilles, le fuselage de la hampe, le carré autour. La sixième est la somme des trois recommandés. Écartée le 7 septembre.",
+  },
+  {
+    dossier: 'pistes-arbre-ecran', pistes: ARBRE, planche: 'pistes-arbre-ecran/planche-arbre-ecran.html',
+    titre: "Sixième série, l'ordinateur-arbre",
+    resume: "Le carré de l'écran, et sous lui un tronc et des racines. Cinq façons de tenir les deux ensemble, de la plus explicite à la plus contenue.",
   },
 ];
 
 /* Arbitrages de Celestin, 7 septembre 2026. */
-const RETENUES = new Set(['pistes-pousse/pousse', 'pistes-pousse/pousse-cadree', 'pistes-fleche/fleche-feuillue']);
-const ECARTEES = new Set(['pistes-fleche/courbe', 'pistes-fleche/trois-pousses', 'pistes-fleche/escalier', 'pistes-fleche/badge']);
+const RETENUES = new Set(['pistes-pousse/pousse', 'pistes-pousse/pousse-cadree']);
+const ECARTEES = new Set([
+  'pistes-fleche/courbe', 'pistes-fleche/trois-pousses', 'pistes-fleche/escalier', 'pistes-fleche/badge',
+  'pistes-fleche/fleche-feuillue',
+  ...['feuillue', 'elancee', 'sobre', 'fuselee', 'cadree', 'combinee'].map((c) => `pistes-fleche-affinee/${c}`),
+]);
 
 const inline = (a, maxL, maxH) => {
   const k = Math.min(maxL / a.l, maxH / a.h);
@@ -106,13 +116,13 @@ const corps = `
   <div class="planche">
     <header class="tete">
       <p class="surtitre">Identité Caelestis, septembre 2026</p>
-      <h1>Vingt-six pistes de logotype</h1>
-      <p class="chapo">Cinq séries, toutes livrées en fichiers vectoriels complets. Chaque série a sa planche de présentation, avec la construction de chaque signe et ses déclinaisons jusqu'au favicon.</p>
+      <h1>Trente et une pistes de logotype</h1>
+      <p class="chapo">Six séries, toutes livrées en fichiers vectoriels complets. Chaque série a sa planche de présentation, avec la construction de chaque signe et ses déclinaisons jusqu'au favicon.</p>
     </header>
 
     <section class="preferees">
       <h2>Ce qui est retenu</h2>
-      <p class="chapo">Arbitrages du 7 septembre. La Pousse et la Pousse cadrée peuvent former une seule identité, le cadre étant un contenant et non un second logo. La Flèche feuillue ouvre l'autre voie, celle du développement d'activité, et la cinquième série en règle le dessin.</p>
+      <p class="chapo">Arbitrages du 7 septembre. La Pousse et la Pousse cadrée peuvent former une seule identité, le cadre étant un contenant et non un second logo. La voie de la flèche a été ouverte puis abandonnée le même jour, et la sixième série reprend celle de l'ordinateur-arbre.</p>
       <div class="duo-preferees">
         ${retenues.map(({ s, r }) => `
         <a class="plaque-preferee" href="${s.planche}#${r.p.cle}">

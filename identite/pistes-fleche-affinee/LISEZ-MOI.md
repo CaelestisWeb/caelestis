@@ -4,6 +4,8 @@ Septembre 2026. Célestin a retenu la Flèche feuillue de la quatrième série e
 
 **Planche de présentation** : `planche-fleche-affinee.html`, ou `node identite/serveur.mjs` puis http://localhost:4600.
 
+> **Arbitrage du 7 septembre 2026, quelques heures après.** Célestin abandonne la flèche entièrement, y compris la Flèche feuillue qu'il avait retenue. Les fichiers restent en place comme trace de la recherche, et la page d'accueil marque la série comme écartée. La voie suivante est l'ordinateur-arbre, dans `identite/pistes-arbre-ecran/`. Ne pas rouvrir la flèche sans motif nouveau.
+
 | Dossier | Nom | Le réglage |
 |---|---|---|
 | `feuillue/` | La Flèche feuillue | Le signe tel que retenu, sans retouche. La référence |
