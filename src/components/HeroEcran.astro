@@ -11,6 +11,7 @@
    Décision de Célestin le 10/08/2026, en remplacement du hero typographique. */
 import { FORMULES, euros } from '../utils/tarifs';
 import { realisations } from '../data/realisations';
+import Logo from './Logo.astro';
 
 const menu = [
   { key: 'accueil',      label: 'Accueil',      href: '/' },
@@ -38,7 +39,7 @@ const menu = [
         </div>
         <div class="browser">
           <nav class="topnav" aria-label="Menu du site présenté">
-            <a class="brand" href="/" data-nav="accueil">Caelestis</a>
+            <a class="brand" href="/" data-nav="accueil"><Logo poids={700} /></a>
             <div class="navlinks">
               {menu.map((m) => (
                 <a href={m.href} class={m.key === 'accueil' ? 'on' : ''} data-nav={m.key}>{m.label}</a>
