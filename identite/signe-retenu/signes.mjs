@@ -91,22 +91,23 @@ export const REPERES = { signe: () => base() };
 /* ══ Le lockup au mot a l'ecran ══════════════════════════════════════
    Septieme piece de la famille : le mot passe dans l'ecran.
 
-   Quatre traitements du croisement entre le mot et le cadre, parce qu'un
-   cadre entier et un mot de la meme couleur se confondent la ou ils se
-   croisent :
+   `dedans` est le traitement retenu le 7 septembre : le mot rentre
+   entierement dans l'ecran, a 58 unites au lieu de 108. Une seule couleur,
+   aucun croisement, l'ordinateur reste entier.
 
-   `interrompu`  le cadre s'ouvre de part et d'autre du mot. Une seule
-                 couleur, mais l'ecran est coupe en deux morceaux.
-   `ferme`       le cadre reste entier, le mot passe dessus. Une seule
-                 couleur, et le croisement se confond.
-   `mousse`      le cadre passe en mousse, le mot garde le vert foret.
-                 Deux couleurs, le relief se lit sans coupure.
-   `dedans`      le mot rentre entierement dans l'ecran, plus petit.
-                 Une seule couleur, aucun croisement.
+   Un mot qui deborde de l'ecran oblige a traiter son croisement avec le
+   cadre, puisqu'un cadre entier et un mot de la meme couleur se confondent la
+   ou ils se croisent. Les trois traitements essayes restent disponibles ici,
+   sans etre livres en fichiers :
 
-   La mousse #B8C4BB est la teinte de la charte reservee aux bordures, aux
-   filets et au decor. Elle ne porte jamais de texte, ce qui tombe bien : ici
-   elle porte le cadre, et le texte reste en vert foret. */
+   `ferme`       le cadre entier, le mot par-dessus. Ecarte : le C et le s
+                 sont manges par les montants, le mot ne se lit plus.
+   `interrompu`  le cadre s'ouvre de part et d'autre du mot. Ecarte : il
+                 coupe l'ecran en deux morceaux pour rien.
+   `mousse`      le cadre en #B8C4BB, le mot en vert foret. Le relief se lit,
+                 mais le logo passe a deux couleurs, ce que la charte
+                 interdit pour le signe, et le contraste de la mousse sur
+                 creme vaut 1,7 pour 1. Grands formats seulement. */
 export const MOT = { largeur: 108, largeurDedans: 58, cy: 32, jour: 3.2, poids: 500 };
 
 function tracerMot(largeur, couleur) {

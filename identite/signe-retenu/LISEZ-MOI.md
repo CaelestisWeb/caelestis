@@ -13,9 +13,7 @@ Septembre 2026. **C'est le seul signe encore travaillé.** Les neuf séries de r
 | `favicon` | La même tuile, **redessinée pour la petite taille** : contour à 8 au lieu de 7,5, col et ligne d'une unité de plus | L'onglet du navigateur, la barre de favoris, la tuile d'écran d'accueil. Ce n'est pas la tuile réduite, c'est un dessin à part |
 | `lockup-horizontal-vert`, `-creme`, `-encre` | **Le signe et le mot côte à côte** | L'usage courant : en-tête du site, haut d'un devis ou d'une facture, signature de courriel, bandeau |
 | `lockup-vertical-vert`, `-creme` | **Le signe au-dessus du mot** | Les formats étroits ou carrés : publication sociale, carte de visite en portrait, tampon, marquage textile |
-| `lockup-mot-a-l-ecran-*` | **Le mot dans l'écran**, débordant, cadre interrompu | Grands formats où le logo est le sujet : couverture, première page, affiche |
-| `lockup-mot-mousse-sur-clair`, `-sur-vert` | Le même, **cadre en mousse** et mot en vert forêt. Deux couleurs | Les mêmes grands formats, quand le relief doit se lire sans couper le cadre. Interdit en petite taille et en une seule couleur |
-| `lockup-mot-dedans-*` | Le mot **entièrement dans l'écran**, plus petit, cadre entier | La version sûre du mot à l'écran : une seule couleur, aucun croisement, l'ordinateur reste intact |
+| `lockup-mot-a-l-ecran-vert`, `-creme`, `-encre` | **Le mot dans l'écran**, à 58 unités, cadre entier | Les grands formats où le logo est le sujet : couverture, première page, affiche, écran d'accueil. À réserver aux tailles où le mot se lit |
 
 **Signe et tuile, la différence en une phrase** : le signe est la forme nue, elle prend la couleur qu'on lui donne et le fond de la page. La tuile est la même forme livrée avec son fond, pour les endroits où l'on n'a pas la main sur ce qu'il y a derrière.
 
@@ -47,20 +45,19 @@ Sans la Pousse dans l'écran, ce qui distingue ce signe du pictogramme ordinaire
 
 Un col droit, ou une ligne ramenée à 48, et le signe devient une icône comme il en existe des milliers. Ces deux valeurs se tiennent au dixième sur tous les supports, et toute simplification qui les rabote est à refuser.
 
-## Le mot à l'écran : quatre traitements du croisement
+## Le mot à l'écran, et les trois traitements écartés
 
-Un cadre entier et un mot de la même couleur se confondent là où ils se croisent. Quatre façons de traiter ce croisement ont été fabriquées, et le fichier `signes.mjs` les produit toutes depuis le paramètre `traitement`.
+Le mot rentre **entièrement dans l'écran, à 58 unités**, le cadre reste entier. Une seule couleur, aucun croisement, l'ordinateur intact.
 
-| Traitement | Ce qu'il fait | Verdict |
-|---|---|---|
-| `interrompu` | Le cadre s'ouvre de part et d'autre du mot, jour de 3,2 unités | Marche, mais l'écran est coupé en deux morceaux |
-| `ferme` | Le cadre reste entier, le mot passe dessus | **Écarté** : le C et le s sont mangés par les montants, le mot ne se lit plus |
-| `mousse` | Le cadre passe en mousse `#B8C4BB`, le mot garde le vert forêt | Le relief se lit sans coupure. **Deux couleurs**, donc grands formats seulement |
-| `dedans` | Le mot rentre entièrement dans l'écran, à 58 unités au lieu de 108 | La version sûre : une couleur, aucun croisement, l'ordinateur intact |
+Un mot qui déborderait de l'écran obligerait à traiter son croisement avec le cadre, puisqu'un cadre entier et un mot de la même couleur se confondent là où ils se croisent. Trois traitements ont été fabriqués puis écartés le 7 septembre. Ils restent disponibles dans `signes.mjs` par le paramètre `traitement`, sans être livrés en fichiers.
 
-**La mousse `#B8C4BB` est la teinte que la charte réserve aux bordures, aux filets et au décor, et qui ne porte jamais de texte.** Ici elle porte le cadre et le texte reste en vert forêt, ce qui respecte la règle. En revanche son contraste sur crème est de 1,7 pour 1 : ce fichier est réservé aux grands formats, et il ne remplace pas une version en une seule couleur pour un tampon, une gravure ou une broderie.
+| Traitement | Pourquoi il est écarté |
+|---|---|
+| `ferme` | Le cadre entier et le mot par-dessus : le C et le s sont mangés par les montants, le mot ne se lit plus |
+| `interrompu` | Le cadre s'ouvre de part et d'autre du mot : ça marche, mais l'écran est coupé en deux morceaux pour rien |
+| `mousse` | Le cadre en `#B8C4BB` et le mot en vert forêt : le relief se lit, mais le logo passe à **deux couleurs**, ce que la charte interdit pour le signe, et le contraste de la mousse sur crème vaut 1,7 pour 1. Grands formats seulement |
 
-Le mot débordant fait 108 unités de large pour un écran dont l'encre en mesure 83,5 : il dépasse de 12,25 de chaque côté.
+Ne pas rouvrir ces trois-là sans motif nouveau. Le refus est une décision.
 
 ## Fabriquer
 
