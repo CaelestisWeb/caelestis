@@ -16,6 +16,7 @@
 
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
+import { police, trace, INTERLETTRAGE } from '../pistes-logo/pistes.mjs';
 
 export const DOSSIER = dirname(fileURLToPath(import.meta.url));
 
@@ -86,3 +87,39 @@ const base = (largeurSol = SOL.l) => `<rect x="${ECRAN.x}" y="${ECRAN.y}" width=
   + axe(f(50 + COL.haut / 2), 56, f(50 + COL.bas / 2), SOL.colJusque);
 
 export const REPERES = { signe: () => base() };
+
+/* ══ Le lockup au mot a l'ecran ══════════════════════════════════════
+   Septieme piece de la famille : le mot passe dans l'ecran et deborde de ses
+   deux cotes, pour se poser au premier plan.
+
+   Le relief se fait sans seconde couleur ni ombre. Le cadre de l'ecran est
+   trace en deux morceaux, un pour le haut et un pour le bas, avec un jour de
+   part et d'autre du mot : ses montants s'interrompent la ou le mot passe, et
+   c'est cette interruption qui met le mot devant. Peindre le mot par-dessus un
+   cadre entier ne donnerait rien, le vert se confondrait avec le vert. */
+export const MOT = { largeur: 108, cy: 32, jour: 3.2, poids: 500 };
+
+export function motEcran(couleur) {
+  const font = police(MOT.poids);
+  const sonde = trace(font, 'Caelestis', 100, { ls: INTERLETTRAGE * 100 });
+  const taille = (100 * MOT.largeur) / sonde.largeur;
+  const ls = INTERLETTRAGE * taille;
+  const m = trace(font, 'Caelestis', taille, { ls });
+  const mot = trace(font, 'Caelestis', taille, {
+    x: 50 - m.largeur / 2 - m.gauche,
+    y: MOT.cy - m.hauteur / 2 - m.haut,
+    couleur, ls,
+  }).markup;
+
+  const y0 = f(MOT.cy - m.hauteur / 2 - MOT.jour);
+  const y1 = f(MOT.cy + m.hauteur / 2 + MOT.jour);
+  const r = ECRAN.r, xg = ECRAN.x, xd = ECRAN.x + ECRAN.l, yh = ECRAN.y, yb = ECRAN.y + ECRAN.h;
+  const haut = `M${xg} ${y0}L${xg} ${f(yh + r)}A${r} ${r} 0 0 1 ${f(xg + r)} ${yh}`
+    + `L${f(xd - r)} ${yh}A${r} ${r} 0 0 1 ${xd} ${f(yh + r)}L${xd} ${y0}`;
+  const bas = `M${xg} ${y1}L${xg} ${f(yb - r)}A${r} ${r} 0 0 0 ${f(xg + r)} ${yb}`
+    + `L${f(xd - r)} ${yb}A${r} ${r} 0 0 0 ${xd} ${f(yb - r)}L${xd} ${y1}`;
+
+  return `<g fill="none" stroke="${couleur}" stroke-width="7.5" stroke-linecap="butt">`
+    + `<path d="${haut}"/><path d="${bas}"/></g>`
+    + col(COL.haut, COL.bas, couleur) + sol(SOL.l, SOL.h, couleur) + mot;
+}
