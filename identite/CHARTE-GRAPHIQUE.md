@@ -136,7 +136,7 @@ Le point final a été supprimé le 02/08/2026, sur le site comme dans les fichi
 
 ### Le signe retenu le 7 septembre 2026
 
-L'Écran planté succède au monogramme en C, un arc de cercle ouvert à droite qui a porté la marque jusqu'à cette date. Le C disait le nom, il ne disait pas le métier. Neuf séries de recherche, gardées dans `identite/recherche/`, ont mené à ce signe : elles restent consultables et ne sont plus en jeu.
+L'Écran planté succède au monogramme en C, un arc de cercle ouvert à droite qui a porté la marque jusqu'à cette date. Le C disait le nom, il ne disait pas le métier. Neuf séries de recherche ont mené à ce signe. Elles sont sorties du dépôt le même jour : `identite/RECHERCHE.md` garde ce qui a été essayé et pourquoi c'est écarté, avec la commande pour ressortir les fichiers de l'historique git.
 
 ⚠️ **Le site sert encore le monogramme.** Les fichiers de `public/` datent du C et le basculement est un geste à part, à faire quand la décision est prise. Tant qu'il n'a pas eu lieu, la marque a deux visages : l'Écran planté sur les supports fabriqués depuis `identite/marque/`, le C sur caelestis.fr.
 

@@ -16,7 +16,7 @@
 
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
-import { police, trace, INTERLETTRAGE } from '../recherche/commun/base.mjs';
+import { police, trace, INTERLETTRAGE } from './commun/base.mjs';
 
 export const DOSSIER = dirname(fileURLToPath(import.meta.url));
 

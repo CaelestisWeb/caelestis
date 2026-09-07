@@ -3,17 +3,27 @@
    node identite/serveur.mjs            puis ouvrir http://localhost:4600
    node identite/serveur.mjs 5000       pour choisir le port
 
-   Aucune dependance : ni npm install, ni build du site. Il sert le dossier
-   identite/ tel quel, avec la page d'accueil en racine et un listage pour les
-   dossiers qui n'en ont pas. Le site de production n'est pas touche. */
+   Aucune dependance : ni npm install, ni build du site. Il sert identite/ tel
+   quel, avec la page d'accueil en racine et un listage pour les dossiers qui
+   n'en ont pas. Le site de production n'est pas touche, rien n'est ecrit.
+
+   Il sert aussi src/assets/ en lecture seule : les affiches vont y chercher
+   les photos et les polices du site plutot que d'en garder une copie, et sans
+   cette exception elles s'afficheraient sans Satoshi. Aucun autre dossier du
+   depot n'est atteignable, ni les fichiers caches, ni .env. */
 
 import { createServer } from 'node:http';
 import { readFile, stat, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, extname, normalize, relative } from 'node:path';
+import { dirname, join, resolve, extname, normalize, relative } from 'node:path';
 
 const RACINE = dirname(fileURLToPath(import.meta.url));
+const DEPOT = resolve(RACINE, '..');
 const PORT_DEMANDE = Number(process.argv[2]) || 4600;
+
+/* Seuls ces dossiers sortent d'identite/. La liste est fermee : servir la
+   racine du depot exposerait .env, .git et le code du site a un navigateur. */
+const HORS_IDENTITE = ['src/assets'];
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -53,11 +63,26 @@ h1{font-size:1.25rem;font-weight:700;margin:0 0 24px}a{color:#255C41}ul{list-sty
 const serveur = createServer(async (req, res) => {
   try {
     const url = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
-    const cible = normalize(join(RACINE, url));
-    /* Aucune sortie du dossier identite, meme avec des ../ dans l'adresse. */
-    if (relative(RACINE, cible).startsWith('..')) {
+    const chemin = normalize(url).replace(/^[/\\]+/, '');
+
+    /* Les affiches vont chercher les photos et les polices du site plutot que
+       d'en garder une copie. Leur ../../../src/... arrive ici normalise par le
+       navigateur en /src/..., il se resout donc depuis la racine du depot et
+       non depuis identite/. La liste est fermee : servir toute la racine
+       exposerait .env, .git et le code du site a un navigateur. */
+    const horsIdentite = HORS_IDENTITE.some((d) => chemin === d || chemin.startsWith(`${d}/`));
+    const base = horsIdentite ? DEPOT : RACINE;
+    const cible = normalize(join(base, chemin));
+
+    /* Aucune sortie du perimetre, meme avec des ../ en trop dans l'adresse. */
+    if (relative(base, cible).startsWith('..')) {
       res.writeHead(403, { 'content-type': 'text/plain; charset=utf-8' });
-      return res.end('Hors du dossier identite.');
+      return res.end('Hors du perimetre servi.');
+    }
+    /* Aucun fichier ni dossier cache, jamais : .env, .git, .vercel. */
+    if (relative(DEPOT, cible).split(/[/\\]/).some((n) => n.startsWith('.'))) {
+      res.writeHead(403, { 'content-type': 'text/plain; charset=utf-8' });
+      return res.end('Hors du perimetre servi.');
     }
 
     const info = await stat(cible);

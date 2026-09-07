@@ -14,7 +14,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
 import sharp from 'sharp';
-import { police, trace, INTERLETTRAGE, VERT, CREME } from '../recherche/commun/base.mjs';
+import { police, trace, INTERLETTRAGE, VERT, CREME } from './commun/base.mjs';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
 const SORTIE = `${ICI}/exports`;

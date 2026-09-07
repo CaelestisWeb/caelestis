@@ -1,6 +1,6 @@
 # La marque Caelestis : l'Écran planté
 
-Septembre 2026. **C'est le signe de la marque**, retenu le 7 septembre. Il succède au monogramme en C, sorti du dépôt le même jour. Les neuf séries de recherche restent dans `identite/recherche/` comme trace, elles ne sont plus en jeu.
+Septembre 2026. **C'est le signe de la marque**, retenu le 7 septembre. Il succède au monogramme en C, sorti du dépôt le même jour. Les neuf séries de recherche qui y ont mené sont sorties du dépôt le même jour : leur raisonnement est dans `identite/RECHERCHE.md`, leurs fichiers dans l'historique git.
 
 **Planche** : `planche-marque.html`, ou `node identite/serveur.mjs` puis http://localhost:4600.
 

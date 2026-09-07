@@ -29,7 +29,7 @@ Ordre conseillé pour un premier carrousel : 1, 4, 2. Pour un second : 7, 5, 8. 
 `planche.html` réunit les dix vignettes avec leur rôle et un lien vers chaque fichier. Elle se sert en local, sur le port 4600 :
 
 ```powershell
-node identite/supports/instagram/serve.mjs
+node identite/serveur.mjs
 Start-Process "C:\Program Files\Google\Chrome\Application\chrome.exe" "http://localhost:4600"
 ```
 
@@ -41,7 +41,7 @@ Le serveur ne sert que ce dossier et refuse toute remontée d'arborescence. Chan
 node identite/supports/instagram/build.mjs
 ```
 
-Le script rend chaque HTML dans Chromium à `deviceScaleFactor: 1`, donc en 1080 x 1350 exact : aucune interpolation, ni agrandissement ni réduction, avant l'envoi. Il écrit un PNG (source) et un JPEG qualité 92 sans sous-échantillonnage chroma (plus léger à téléverser depuis le téléphone). Playwright n'est pas une dépendance du site : le script le cherche là où `npx` l'a déposé.
+Le script rend chaque HTML dans Chromium à `deviceScaleFactor: 1`, donc en 1080 x 1350 exact : aucune interpolation, ni agrandissement ni réduction, avant l'envoi. Il écrit un PNG intermédiaire, puis un JPEG qualité 92 sans sous-échantillonnage chroma, celui qui part sur Instagram. **Seul le JPEG est suivi par git** : le PNG ne porte rien de plus et coûtait 19 Mo, il se refabrique par ce script. Playwright n'est pas une dépendance du site : le script le cherche là où `npx` l'a déposé.
 
 Les captures de `captures/` datent du 13/08/2026 et viennent de la production. Pour les rafraîchir après une refonte :
 

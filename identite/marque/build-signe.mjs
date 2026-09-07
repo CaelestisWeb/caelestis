@@ -7,9 +7,9 @@
 
 import { writeFileSync, readdirSync } from 'node:fs';
 import { PISTES, DOSSIER, motEcran } from './signes.mjs';
-import { ecrireSerie } from '../recherche/commun/fabrique.mjs';
-import { boiteEncre, enveloppe } from '../recherche/commun/artefacts.mjs';
-import { VERT, CREME, ENCRE } from '../recherche/commun/base.mjs';
+import { ecrireSerie } from './commun/fabrique.mjs';
+import { boiteEncre, enveloppe } from './commun/artefacts.mjs';
+import { VERT, CREME, ENCRE } from './commun/base.mjs';
 
 await ecrireSerie(PISTES, DOSSIER);
 

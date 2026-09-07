@@ -2,7 +2,7 @@
    node identite/marque/build-planche.mjs */
 
 import { PISTES, REPERES, DOSSIER } from './signes.mjs';
-import { construirePlanche } from '../recherche/commun/fabrique.mjs';
+import { construirePlanche } from './commun/fabrique.mjs';
 import * as copie from './copie.mjs';
 
 await construirePlanche({
