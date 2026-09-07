@@ -16,7 +16,7 @@ export const DEPART = {
     "Le signe se réduit à trois pièces, et c'est sa force : il se dessine de mémoire, il tient à 16 px, et il ne dépend d'aucun détail. Il n'y a plus rien à perdre en réduisant.",
     "Il faut savoir ce que le retrait coûte, et le dire une fois pour toutes. Le vivant ne repose plus que sur deux traits, le fuselage du col et la ligne de sol. Le signe se rapproche donc du pictogramme ordinaire du moniteur, dont il ne se distingue plus que par deux écarts mesurables. Le col s'évase de 11 à 19 unités là où un pied de moniteur est droit. Et la ligne fait 60 là où un socle en fait 44.",
     "Ces deux écarts sont ce qui reste de toute la recherche, et ils se tiennent au dixième. Un col droit, ou une ligne ramenée à 48, et le signe devient une icône de moniteur comme il en existe des milliers.",
-    "La Pousse n'est pas perdue pour autant. Elle peut vivre ailleurs dans l'identité, en pictogramme sur le site, en motif de section, ou en second signe sur les imprimés, sans être enfermée dans l'écran. Les fichiers existent déjà dans identite/pistes-pousse/.",
+    "La Pousse n'est pas perdue pour autant. Elle peut vivre ailleurs dans l'identité, en pictogramme sur le site, en motif de section, ou en second signe sur les imprimés, sans être enfermée dans l'écran. Les fichiers existent déjà dans identite/recherche/pistes-pousse/.",
   ],
   garde: [
     ["L'écran", "76 sur 48 unités, du 16/10, angles à 7, contour de 7,5. Son encre mesure donc 83,5 de large."],

@@ -16,7 +16,7 @@
 
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
-import { police, trace, INTERLETTRAGE } from '../pistes-logo/pistes.mjs';
+import { police, trace, INTERLETTRAGE } from '../recherche/commun/base.mjs';
 
 export const DOSSIER = dirname(fileURLToPath(import.meta.url));
 

@@ -5,11 +5,11 @@
    des signes de plus mais des pieces du meme signe, et ils ne passent donc
    pas par la fabrique de serie. Leur cadrage est mesure ici, comme le reste. */
 
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, readdirSync } from 'node:fs';
 import { PISTES, DOSSIER, motEcran } from './signes.mjs';
-import { ecrireSerie } from '../pistes-logo/fabrique.mjs';
-import { boiteEncre, enveloppe } from '../pistes-logo/artefacts.mjs';
-import { VERT, CREME, ENCRE } from '../pistes-logo/pistes.mjs';
+import { ecrireSerie } from '../recherche/commun/fabrique.mjs';
+import { boiteEncre, enveloppe } from '../recherche/commun/artefacts.mjs';
+import { VERT, CREME, ENCRE } from '../recherche/commun/base.mjs';
 
 await ecrireSerie(PISTES, DOSSIER);
 
@@ -47,3 +47,8 @@ export const TUILE_MOT_MINIMUM = 128;
   }
   console.log(`Tuile au mot : deux fonds, a n'employer qu'a partir de ${TUILE_MOT_MINIMUM} px.`);
 }
+
+/* Total compte sur le dossier et non additionne a la main : les cinq fichiers
+   du mot a l'ecran s'ecrivent apres la serie, et un total ecrit en dur se
+   perimerait au prochain ajout. */
+console.log(`\nAu total : ${readdirSync(`${DOSSIER}/signe`).filter((f) => f.endsWith('.svg')).length} fichiers dans signe-retenu/signe/.`);

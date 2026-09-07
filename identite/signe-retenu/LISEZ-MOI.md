@@ -1,6 +1,6 @@
 # Le signe retenu : l'écran planté
 
-Septembre 2026. **C'est le seul signe encore travaillé.** Les neuf séries de recherche restent dans `identite/` comme trace, elles ne sont plus en jeu.
+Septembre 2026. **C'est le seul signe encore travaillé.** Les neuf séries de recherche restent dans `identite/recherche/` comme trace, elles ne sont plus en jeu.
 
 **Planche** : `planche-signe-retenu.html`, ou `node identite/serveur.mjs` puis http://localhost:4600.
 
@@ -87,6 +87,6 @@ Ne pas rouvrir ces trois-là sans motif nouveau. Le refus est une décision.
 ## Fabriquer
 
 ```bash
-node identite/signe-retenu/build-pistes.mjs     # les 11 fichiers, puis le contrôle de cadrage
+node identite/signe-retenu/build-pistes.mjs     # les 16 fichiers, puis le contrôle de cadrage
 node identite/signe-retenu/build-planche.mjs    # la planche
 ```

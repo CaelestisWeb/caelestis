@@ -9,17 +9,17 @@
 import { writeFileSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
-import { VERT, CREME, RACINE } from './pistes-logo/pistes.mjs';
-import { preparer } from './pistes-logo/artefacts.mjs';
-import { PISTES as ABSTRAITES } from './pistes-logo/pistes.mjs';
-import { PISTES as NATURE } from './pistes-nature/signes.mjs';
-import { PISTES as POUSSE } from './pistes-pousse/signes.mjs';
-import { PISTES as FLECHE } from './pistes-fleche/signes.mjs';
-import { PISTES as AFFINEE } from './pistes-fleche-affinee/signes.mjs';
-import { PISTES as ARBRE } from './pistes-arbre-ecran/signes.mjs';
-import { PISTES as MONITEUR } from './pistes-moniteur/signes.mjs';
-import { PISTES as MPLANTE } from './pistes-moniteur-plante/signes.mjs';
-import { PISTES as TIGESOL } from './pistes-tige-au-sol/signes.mjs';
+import { VERT, CREME, RACINE } from './recherche/commun/base.mjs';
+import { preparer } from './recherche/commun/artefacts.mjs';
+import { PISTES as ABSTRAITES } from './recherche/pistes-logo/signes.mjs';
+import { PISTES as NATURE } from './recherche/pistes-nature/signes.mjs';
+import { PISTES as POUSSE } from './recherche/pistes-pousse/signes.mjs';
+import { PISTES as FLECHE } from './recherche/pistes-fleche/signes.mjs';
+import { PISTES as AFFINEE } from './recherche/pistes-fleche-affinee/signes.mjs';
+import { PISTES as ARBRE } from './recherche/pistes-arbre-ecran/signes.mjs';
+import { PISTES as MONITEUR } from './recherche/pistes-moniteur/signes.mjs';
+import { PISTES as MPLANTE } from './recherche/pistes-moniteur-plante/signes.mjs';
+import { PISTES as TIGESOL } from './recherche/pistes-tige-au-sol/signes.mjs';
 import { PISTES as RETENU } from './signe-retenu/signes.mjs';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
@@ -28,47 +28,47 @@ const typo = (t) => t.replace(/ ([:;?!»])/g, `${NB}$1`).replace(/« /g, `«${NB
 
 const SERIES = [
   {
-    dossier: 'pistes-logo', pistes: ABSTRAITES, planche: 'pistes-logo/planche-pistes.html',
+    dossier: 'recherche/pistes-logo', pistes: ABSTRAITES, planche: 'recherche/pistes-logo/planche-pistes.html',
     titre: 'Première série, le signe de marque',
     resume: "Cinq signes abstraits, cherchant ce que Caelestis dit en propre : un nom latin qui veut dire céleste, un métier qui rend visible.",
   },
   {
-    dossier: 'pistes-nature', pistes: NATURE, planche: 'pistes-nature/planche-nature.html',
+    dossier: 'recherche/pistes-nature', pistes: NATURE, planche: 'recherche/pistes-nature/planche-nature.html',
     titre: 'Deuxième série, la nature et le web',
     resume: "Cinq fusions, bâties sur une règle : ne garder que les endroits où une forme du vivant et une forme du web sont déjà la même forme.",
   },
   {
-    dossier: 'pistes-pousse', pistes: POUSSE, planche: 'pistes-pousse/planche-pousse.html',
+    dossier: 'recherche/pistes-pousse', pistes: POUSSE, planche: 'recherche/pistes-pousse/planche-pousse.html',
     titre: 'Troisième série, la pousse et le carré',
     resume: "Cinq variations sur les deux formes retenues. Un seul paramètre change, la place du carré, et le dessin de la feuille est repris au dixième.",
   },
   {
-    dossier: 'pistes-fleche', pistes: FLECHE, planche: 'pistes-fleche/planche-fleche.html',
+    dossier: 'recherche/pistes-fleche', pistes: FLECHE, planche: 'recherche/pistes-fleche/planche-fleche.html',
     titre: 'Quatrième série, la flèche et le vivant',
     resume: "Cinq voies pour dire le développement d'activité sans quitter le registre végétal. Série entière écartée le 7 septembre, la flèche est abandonnée.",
   },
   {
-    dossier: 'pistes-fleche-affinee', pistes: AFFINEE, planche: 'pistes-fleche-affinee/planche-fleche-affinee.html',
+    dossier: 'recherche/pistes-fleche-affinee', pistes: AFFINEE, planche: 'recherche/pistes-fleche-affinee/planche-fleche-affinee.html',
     titre: 'Cinquième série, les réglages de la flèche',
     resume: "Le signe retenu, avec un seul réglage qui change d'une piste à l'autre : la proportion de la tête, le nombre de feuilles, le fuselage de la hampe, le carré autour. La sixième est la somme des trois recommandés. Écartée le 7 septembre.",
   },
   {
-    dossier: 'pistes-arbre-ecran', pistes: ARBRE, planche: 'pistes-arbre-ecran/planche-arbre-ecran.html',
+    dossier: 'recherche/pistes-arbre-ecran', pistes: ARBRE, planche: 'recherche/pistes-arbre-ecran/planche-arbre-ecran.html',
     titre: "Sixième série, l'ordinateur-arbre",
     resume: "Le carré de l'écran, et sous lui un tronc et des racines. Écartée le 7 septembre : trop illustrative, et le carré ne dit pas ordinateur.",
   },
   {
-    dossier: 'pistes-moniteur', pistes: MONITEUR, planche: 'pistes-moniteur/planche-moniteur.html',
+    dossier: 'recherche/pistes-moniteur', pistes: MONITEUR, planche: 'recherche/pistes-moniteur/planche-moniteur.html',
     titre: 'Septième série, le moniteur enraciné',
     resume: "Le carré devient un écran en 16/10, avec un col et un socle. Le Moniteur planté est retenu le 7 septembre, mais ses racines sont écartées.",
   },
   {
-    dossier: 'pistes-moniteur-plante', pistes: MPLANTE, planche: 'pistes-moniteur-plante/planche-moniteur-plante.html',
+    dossier: 'recherche/pistes-moniteur-plante', pistes: MPLANTE, planche: 'recherche/pistes-moniteur-plante/planche-moniteur-plante.html',
     titre: 'Huitième série, le moniteur planté sans racines',
     resume: "Le signe retenu, débarrassé de ses racines. Une ligne de sol dit planté sans forme organique. La Tige au sol est retenue le 7 septembre, sa ligne raccourcie de 96 à 80.",
   },
   {
-    dossier: 'pistes-tige-au-sol', pistes: TIGESOL, planche: 'pistes-tige-au-sol/planche-tige-au-sol.html',
+    dossier: 'recherche/pistes-tige-au-sol', pistes: TIGESOL, planche: 'recherche/pistes-tige-au-sol/planche-tige-au-sol.html',
     titre: 'Neuvième série, la largeur de la ligne de sol',
     resume: "Cinq longueurs de ligne de sol entre 60 et 84 unités. La largeur de 60 est retenue le 7 septembre, et la Pousse est retirée de l'écran.",
   },
@@ -82,13 +82,12 @@ const SERIES = [
 /* Arbitrages de Celestin, 7 septembre 2026. */
 const RETENUES = new Set(['signe-retenu/signe']);
 const ECARTEES = new Set([
-  'pistes-fleche/courbe', 'pistes-fleche/trois-pousses', 'pistes-fleche/escalier', 'pistes-fleche/badge',
-  'pistes-fleche/fleche-feuillue',
-  ...['feuillue', 'elancee', 'sobre', 'fuselee', 'cadree', 'combinee'].map((c) => `pistes-fleche-affinee/${c}`),
-  ...['enracine', 'plante', 'festonnee', 'reserve', 'feuillu'].map((c) => `pistes-arbre-ecran/${c}`),
-  ...['moniteur', 'pousse-ecran', 'complet', 'portable'].map((c) => `pistes-moniteur/${c}`),
-  ...['socle', 'sol', 'tige', 'plein'].map((c) => `pistes-moniteur-plante/${c}`),
-  ...['ras', 'retrait', 'aplomb', 'courte'].map((c) => `pistes-tige-au-sol/${c}`),
+  ...['courbe', 'trois-pousses', 'escalier', 'badge', 'fleche-feuillue'].map((c) => `recherche/pistes-fleche/${c}`),
+  ...['feuillue', 'elancee', 'sobre', 'fuselee', 'cadree', 'combinee'].map((c) => `recherche/pistes-fleche-affinee/${c}`),
+  ...['enracine', 'plante', 'festonnee', 'reserve', 'feuillu'].map((c) => `recherche/pistes-arbre-ecran/${c}`),
+  ...['moniteur', 'pousse-ecran', 'complet', 'portable'].map((c) => `recherche/pistes-moniteur/${c}`),
+  ...['socle', 'sol', 'tige', 'plein'].map((c) => `recherche/pistes-moniteur-plante/${c}`),
+  ...['ras', 'retrait', 'aplomb', 'courte'].map((c) => `recherche/pistes-tige-au-sol/${c}`),
 ]);
 
 const inline = (a, maxL, maxH) => {
@@ -174,7 +173,7 @@ ${blocs}
     </footer>
   </div>`;
 
-const style = `${readFileSync(`${ICI}/pistes-logo/planche.css`, 'utf8')}
+const style = `${readFileSync(`${ICI}/recherche/commun/planche.css`, 'utf8')}
 /* ── Accueil ──────────────────────────────────────────────────────────
    Les classes portent le prefixe bloc- : .serie appartient deja au comparatif
    de planche.css, et la reutiliser cassait la mise en page des vignettes. */
