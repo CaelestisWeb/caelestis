@@ -26,7 +26,7 @@ Les planches sont aussi des fichiers autonomes : elles s'ouvrent directement par
 | `pistes-moniteur/` | Septième série, le moniteur enraciné. Le Moniteur planté y est retenu |
 | `pistes-moniteur-plante/` | Huitième série, le même sans racines. La Tige au sol y est retenue |
 | `pistes-tige-au-sol/` | Neuvième série, cinq largeurs de ligne de sol |
-| `signe-retenu/` | **Le signe retenu**, l'Écran planté, et ses trois réglages |
+| `signe-retenu/` | **Le signe retenu**, l'Écran planté. Le seul encore travaillé |
 | `reseaux/`, `signature-mail/` | Gabarits des supports |
 
 `CHARTE-GRAPHIQUE.md` reste la source de vérité de l'identité en service, et `charte-caelestis.html` sa planche visuelle.
@@ -48,11 +48,11 @@ Les scripts des pistes résolvent leurs chemins depuis `import.meta.url`, à la 
 **Décidé le 7 septembre 2026, deux voies ouvertes en parallèle.**
 
 - **La Pousse** et **La Pousse cadrée** (`pistes-pousse/`) : le végétal seul. Elles peuvent former une seule identité, le cadre étant un contenant et non un second logo.
-- **L'Écran planté** (`signe-retenu/`) : un écran 16/10 en contour, un col fuselé qui plonge de quatre unités dans une ligne de sol de 60. Aucune racine, et **l'écran est vide**, la Pousse ayant été retirée le 7 septembre. C'est le signe retenu.
-  - ⚠️ **Ce qui distingue ce signe d'une icône de moniteur ordinaire tient à deux écarts fins** : le col s'évase de 11 à 19 unités là où un pied de moniteur est droit, et la ligne fait 60 là où un socle en fait 44. Un col droit ou une ligne ramenée à 48, et le signe devient une icône comme il en existe des milliers. Ces valeurs se tiennent au dixième.
+- **L'Écran planté** (`signe-retenu/`) : un écran 16/10 en contour, un col fuselé qui plonge de quatre unités dans une ligne de sol de 68. Aucune racine, et **l'écran est vide**, la Pousse ayant été retirée le 7 septembre. C'est le signe retenu.
+  - ⚠️ **Ce qui distingue ce signe d'une icône de moniteur ordinaire tient à deux écarts fins** : le col s'évase de 11 à 19 unités là où un pied de moniteur est droit, et la ligne fait 68 là où un socle en fait 44. Un col droit ou une ligne ramenée à 48, et le signe devient une icône comme il en existe des milliers. Ces valeurs se tiennent au dixième.
 
 **Écarté le 7 septembre 2026** : toute la voie de la flèche (quatrième et cinquième séries), l'ordinateur-arbre de la sixième, jugé trop illustratif et pas assez ordinateur, et **toute forme de racine dessinée**. Une racine est une forme organique, et à côté d'un rectangle aux angles calculés elle fait illustration. Le refus est une décision, ne pas les rouvrir sans motif nouveau.
 
-**Ouvert** : l'épaisseur du contour de l'écran, 7,5 ou 9,5 (`signe-retenu/contour-epais/`). Un écran vide porte un trait plus fort qu'un écran habité.
+**La recherche est close.** Seul `signe-retenu/` est encore travaillé, les neuf séries restent comme trace et ne sont plus en jeu.
 
 **Le rôle de la Pousse reste à décider.** Elle n'est plus dans l'écran, mais elle ferait un bon second signe : pictogramme de section sur le site, motif, ou marque de fin de document. Ses fichiers sont complets dans `pistes-pousse/pousse/`.

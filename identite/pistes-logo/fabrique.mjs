@@ -183,7 +183,7 @@ export async function construirePlanche({ pistes, reperes, copie, titre, sortie,
   const rangee = (rendu, legende) => `
         <div class="ligne-comparatif">
           ${legende ? `<p class="legende-ligne">${typo(legende)}</p>` : ''}
-          <div class="serie">${prepas.map(rendu).join('')}</div>
+          <div class="serie" style="grid-template-columns: repeat(${prepas.length}, 1fr)">${prepas.map(rendu).join('')}</div>
         </div>`;
   const comparatif = [
     rangee(({ a }) => `<span>${inline(a.tuile(VERT, CREME), 64, 64)}</span>`, 'À 64 px'),

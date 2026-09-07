@@ -75,12 +75,12 @@ const SERIES = [
   {
     dossier: 'signe-retenu', pistes: RETENU, planche: 'signe-retenu/planche-signe-retenu.html',
     titre: 'Le signe retenu',
-    resume: "L'écran planté : un écran 16/10 en contour, un col fuselé, une ligne de sol de 60 unités dans laquelle il plonge. Livré en famille complète, avec trois réglages proposés à côté.",
+    resume: "L'écran planté : un écran 16/10 en contour, un col fuselé, une ligne de sol de 68 unités dans laquelle il plonge. C'est le seul signe encore travaillé.",
   },
 ];
 
 /* Arbitrages de Celestin, 7 septembre 2026. */
-const RETENUES = new Set(['signe-retenu/retenu', 'pistes-pousse/pousse']);
+const RETENUES = new Set(['signe-retenu/signe']);
 const ECARTEES = new Set([
   'pistes-fleche/courbe', 'pistes-fleche/trois-pousses', 'pistes-fleche/escalier', 'pistes-fleche/badge',
   'pistes-fleche/fleche-feuillue',
@@ -144,13 +144,13 @@ const corps = `
   <div class="planche">
     <header class="tete">
       <p class="surtitre">Identité Caelestis, septembre 2026</p>
-      <h1>Le signe retenu, et cinquante pistes</h1>
-      <p class="chapo">Neuf séries de recherche et le signe retenu, tous livrés en fichiers vectoriels complets. Chaque série a sa planche de présentation, avec la construction de chaque signe et ses déclinaisons jusqu'au favicon.</p>
+      <h1>L'Écran planté</h1>
+      <p class="chapo">Le signe retenu, livré en famille complète, et les neuf séries de recherche qui y ont mené. Chaque série garde sa planche, avec la construction de chaque signe et ses déclinaisons jusqu'au favicon.</p>
     </header>
 
     <section class="preferees">
       <h2>Ce qui est retenu</h2>
-      <p class="chapo">Arbitrage du 7 septembre. <strong>L'Écran planté</strong> est le signe retenu : un écran 16/10 en contour, un col fuselé, une ligne de sol de 60 unités dans laquelle il plonge. La Pousse reste disponible en second signe, en pictogramme de section ou en marque de fin de document, sans revenir dans l'écran.</p>
+      <p class="chapo">Arbitrage du 7 septembre. <strong>L'Écran planté</strong> est le signe retenu, et le seul encore travaillé : un écran 16/10 en contour de 7,5, un col fuselé de 11 à 19, une ligne de sol de 68 dans laquelle il plonge de 4. Les neuf séries qui suivent restent comme trace de la recherche.</p>
       <div class="duo-preferees">
         ${retenues.map(({ s, r }) => `
         <a class="plaque-preferee" href="${s.planche}#${r.p.cle}">
