@@ -46,6 +46,22 @@ Sans la Pousse dans l'écran, ce qui distingue ce signe du pictogramme ordinaire
 
 Un col droit, ou une ligne ramenée à 48, et le signe devient une icône comme il en existe des milliers. Ces deux valeurs se tiennent au dixième sur tous les supports, et toute simplification qui les rabote est à refuser.
 
+## Quel fichier pour quel compte
+
+| Emplacement | Fichier | Pourquoi |
+|---|---|---|
+| Photo de profil, fiche Google | `tuile-creme-sur-vert` | Elle est téléversée en 720 mais **affichée petite**, de l'ordre de 40 à 60 px dans les résultats, Maps et le panneau de droite |
+| Photo de profil, Facebook, Instagram, LinkedIn, X | `tuile-creme-sur-vert` | Même chose : une centaine de pixels sur la page de profil, mais 32 à 60 dans les fils et les commentaires, là où elle est vue le plus souvent |
+| Favicon du site | `favicon` | 16 à 32 px |
+| Couverture de fiche Google, bannière de page sociale | `lockup-horizontal-creme` sur aplat vert | Format large : le lockup horizontal y est fait pour ça |
+| Publication sociale carrée, 1080 × 1080 | `tuile-mot-creme-sur-vert` | Le carré est affiché en grand, le mot se lit |
+| Image de partage d'une page, 1200 × 630 | `lockup-horizontal-creme` | Format large |
+| Tampon de document, carré imprimé | `tuile-mot-*` si le carré fait plus de 128 px, sinon `tuile-*` | Le seuil de lisibilité du mot |
+
+**L'argument qui tranche pour les avatars** : sur Google comme sur les réseaux, **la plateforme écrit déjà votre nom à côté de l'image**. Mettre le nom dans l'avatar redit ce que l'interface affiche déjà, et le paie en lisibilité. Un avatar sert à être reconnu d'un coup d'œil, pas à être lu.
+
+La tuile au mot serait lisible sur la page de profil elle-même, où l'image est grande, et illisible dans les fils, les commentaires et les résultats de recherche. Comme on ne téléverse qu'une seule image pour les deux, c'est le petit affichage qui décide.
+
 ## Pourquoi la tuile au mot ne remplace ni la tuile ni le favicon
 
 Mesure faite en montant le mot dans un carré : **il occupe 48,6 unités sur 100**, et sa hauteur d'encre 8,5. Rendu aux tailles réelles, le mot est une tache en dessous de 48 px, une barre grise à 48, devinable à 64, et il ne devient lisible qu'à partir de 96, confortable à 128.
