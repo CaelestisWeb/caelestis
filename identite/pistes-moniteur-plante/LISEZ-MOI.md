@@ -4,11 +4,13 @@ Septembre 2026. Célestin retient le Moniteur planté de la septième série et 
 
 **Planche de présentation** : `planche-moniteur-plante.html`, ou `node identite/serveur.mjs` puis http://localhost:4600.
 
+> **Arbitrage du 7 septembre 2026.** Célestin retient **La Tige au sol** (`tige-sol/`), col fuselé et ligne de sol, et écarte les quatre autres. **La ligne de sol est jugée trop longue** : elle mesurait 96 unités et débordait l'écran des deux côtés. Elle est raccourcie à 80 dans toute cette série, et sa valeur définitive se choisit dans `identite/pistes-tige-au-sol/`, qui en pose cinq entre 60 et 84.
+
 ## Dire planté sans dessiner de racine
 
 Une racine est une forme organique : elle se courbe, elle se ramifie, elle se fusèle. À côté d'un rectangle aux angles calculés, elle fera toujours illustration. C'est le reproche adressé à la sixième série, et il valait encore pour la septième.
 
-**La solution est géométrique : une ligne de sol plus large que l'écran, dans laquelle le col plonge de quatre unités.** 96 unités contre 76 pour l'écran, 8 d'épaisseur. C'est le débordement qui la fait lire comme le sol plutôt que comme un socle : plus étroite que l'écran, elle redevient un socle et le signe ne dit plus rien.
+**La solution est géométrique : une ligne de sol nettement plus large qu'un socle, dans laquelle le col plonge de quatre unités.** 80 unités contre 44 pour un socle de moniteur ordinaire, 8 d'épaisseur. C'est cet écart avec le socle qui la fait lire comme le sol, et non le fait de déborder l'écran : la première version, à 96, débordait et le signe paraissait posé sur une planche.
 
 ## Les cinq pistes
 

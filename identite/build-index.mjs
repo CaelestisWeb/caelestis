@@ -19,6 +19,7 @@ import { PISTES as AFFINEE } from './pistes-fleche-affinee/signes.mjs';
 import { PISTES as ARBRE } from './pistes-arbre-ecran/signes.mjs';
 import { PISTES as MONITEUR } from './pistes-moniteur/signes.mjs';
 import { PISTES as MPLANTE } from './pistes-moniteur-plante/signes.mjs';
+import { PISTES as TIGESOL } from './pistes-tige-au-sol/signes.mjs';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
 const NB = ' ';
@@ -63,18 +64,24 @@ const SERIES = [
   {
     dossier: 'pistes-moniteur-plante', pistes: MPLANTE, planche: 'pistes-moniteur-plante/planche-moniteur-plante.html',
     titre: 'Huitième série, le moniteur planté sans racines',
-    resume: "Le signe retenu, débarrassé de ses racines. Une ligne de sol plus large que l'écran dit planté sans forme organique. Restent deux pièces à régler, le col et le pied.",
+    resume: "Le signe retenu, débarrassé de ses racines. Une ligne de sol dit planté sans forme organique. La Tige au sol est retenue le 7 septembre, sa ligne raccourcie de 96 à 80.",
+  },
+  {
+    dossier: 'pistes-tige-au-sol', pistes: TIGESOL, planche: 'pistes-tige-au-sol/planche-tige-au-sol.html',
+    titre: 'Neuvième série, la largeur de la ligne de sol',
+    resume: "Le signe retenu, avec cinq longueurs de ligne de sol entre 60 et 84 unités. Un seul réglage reste ouvert, et il se tranche à l'œil plutôt qu'au chiffre.",
   },
 ];
 
 /* Arbitrages de Celestin, 7 septembre 2026. */
-const RETENUES = new Set(['pistes-pousse/pousse', 'pistes-pousse/pousse-cadree', 'pistes-moniteur/plante']);
+const RETENUES = new Set(['pistes-pousse/pousse', 'pistes-pousse/pousse-cadree', 'pistes-moniteur-plante/tige-sol']);
 const ECARTEES = new Set([
   'pistes-fleche/courbe', 'pistes-fleche/trois-pousses', 'pistes-fleche/escalier', 'pistes-fleche/badge',
   'pistes-fleche/fleche-feuillue',
   ...['feuillue', 'elancee', 'sobre', 'fuselee', 'cadree', 'combinee'].map((c) => `pistes-fleche-affinee/${c}`),
   ...['enracine', 'plante', 'festonnee', 'reserve', 'feuillu'].map((c) => `pistes-arbre-ecran/${c}`),
   ...['moniteur', 'pousse-ecran', 'complet', 'portable'].map((c) => `pistes-moniteur/${c}`),
+  ...['socle', 'sol', 'tige', 'plein'].map((c) => `pistes-moniteur-plante/${c}`),
 ]);
 
 const inline = (a, maxL, maxH) => {
@@ -130,13 +137,13 @@ const corps = `
   <div class="planche">
     <header class="tete">
       <p class="surtitre">Identité Caelestis, septembre 2026</p>
-      <h1>Quarante et une pistes de logotype</h1>
-      <p class="chapo">Huit séries, toutes livrées en fichiers vectoriels complets. Chaque série a sa planche de présentation, avec la construction de chaque signe et ses déclinaisons jusqu'au favicon.</p>
+      <h1>Quarante-six pistes de logotype</h1>
+      <p class="chapo">Neuf séries, toutes livrées en fichiers vectoriels complets. Chaque série a sa planche de présentation, avec la construction de chaque signe et ses déclinaisons jusqu'au favicon.</p>
     </header>
 
     <section class="preferees">
       <h2>Ce qui est retenu</h2>
-      <p class="chapo">Arbitrages du 7 septembre. La Pousse et la Pousse cadrée peuvent former une seule identité, le cadre étant un contenant et non un second logo. La voie de la flèche a été ouverte puis abandonnée le même jour, et l'ordinateur-arbre de la sixième série a été écarté à son tour. La septième reprend l'idée avec un vrai moniteur, dont le Moniteur planté est retenu sans ses racines : la huitième série le règle.</p>
+      <p class="chapo">Arbitrages du 7 septembre. La Pousse et la Pousse cadrée peuvent former une seule identité, le cadre étant un contenant et non un second logo. La voie de la flèche a été ouverte puis abandonnée le même jour, et l'ordinateur-arbre de la sixième série a été écarté à son tour. La septième reprend l'idée avec un vrai moniteur, dont le Moniteur planté est retenu sans ses racines. La huitième série le règle et retient la Tige au sol ; la neuvième n'ajuste plus que la largeur de sa ligne de sol.</p>
       <div class="duo-preferees">
         ${retenues.map(({ s, r }) => `
         <a class="plaque-preferee" href="${s.planche}#${r.p.cle}">

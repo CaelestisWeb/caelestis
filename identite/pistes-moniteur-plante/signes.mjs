@@ -45,10 +45,16 @@ const colDroit = (yB, w, c) => `<rect x="${f(50 - w / 2)}" y="56" width="${f(w)}
 const colFusele = (yB, wH, wB, c) => `<path d="M${f(50 - wH / 2)} 56L${f(50 - wB / 2)} ${f(yB)}L${f(50 + wB / 2)} ${f(yB)}L${f(50 + wH / 2)} 56Z" fill="${c}"/>`;
 const barre = (y, l, h, c) => `<rect x="${f(50 - l / 2)}" y="${f(y)}" width="${f(l)}" height="${f(h)}" rx="${f(h / 2)}" fill="${c}"/>`;
 
-/* Le socle du moniteur, et la ligne de sol. La ligne est plus large que
-   l'ecran et le col y plonge de quatre unites : c'est ce qui dit plante. */
+/* Le socle du moniteur, et la ligne de sol. Le col plonge de quatre unites
+   dans la ligne : c'est ce qui dit plante.
+
+   La ligne mesurait 96 unites et depassait l'ecran des deux cotes. Celestin
+   l'a fait raccourcir a 80 le 7 septembre : elle s'arrete desormais en deca
+   du bord de l'ecran, dont l'encre fait 83,5 contour compris. Elle reste
+   presque deux fois plus large qu'un socle de moniteur, ce qui suffit a la
+   faire lire comme le sol plutot que comme un pied. */
 const SOCLE = { y: 78, l: 44, h: 9, colJusque: 78 };
-const SOL = { y: 76, l: 96, h: 8, colJusque: 80 };
+const SOL = { y: 76, l: 80, h: 8, colJusque: 80 };
 
 /* La Pousse, pleine, posee dans l'ecran en contour. */
 function pousse(cx, cy, k, c) {

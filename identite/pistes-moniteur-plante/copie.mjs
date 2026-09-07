@@ -20,7 +20,7 @@ export const DEPART = {
   garde: [
     ["L'écran", "76 sur 48 unités, du 16/10, angles à 7, contour de 7,5. C'est le dessin que vous avez retenu, il n'est pas retouché."],
     ['La Pousse', "Votre signe, posé dans l'écran. Même feuille que partout ailleurs : deux arcs de rayons différents, un ventre et un dos, pivot sur le point d'attache."],
-    ['La ligne de sol', "96 unités de large contre 76 pour l'écran, 8 d'épaisseur, et le col y plonge de 4. Plus étroite que l'écran, elle redeviendrait un socle et le signe ne dirait plus planté."],
+    ['La ligne de sol', "80 unités de large, 8 d'épaisseur, et le col y plonge de 4. Elle mesurait 96 et débordait l'écran des deux côtés : raccourcie le 7 septembre, elle s'arrête en deçà du bord et reste presque deux fois plus large qu'un socle de moniteur."],
     ['Aucune forme organique', "Aucune courbe à main levée, aucun renflement irrégulier. Le col fuselé de la piste 3 est un trapèze, pas une tige dessinée."],
   ],
 };
@@ -41,11 +41,11 @@ export const PLANCHES = {
     numero: 'Piste 2',
     resume: 'Col droit, ligne de sol. Le moniteur planté.',
     idee: [
-      "La ligne de sol fait 96 unités contre 76 pour l'écran : elle passe sous le signe et le déborde des deux côtés. C'est ce débordement qui la fait lire comme le sol plutôt que comme un socle.",
+      "La ligne de sol fait 80 unités, presque deux fois la largeur d'un socle de moniteur. C'est cet écart avec le socle qui la fait lire comme le sol, sans avoir besoin de déborder l'écran.",
       "Le col y plonge de quatre unités. L'objet n'est pas posé dessus, il est dedans, et cela suffit à dire planté sans une seule forme organique.",
     ],
     dit: "Un site installé quelque part, pour durer. C'est la lecture que vous cherchiez, obtenue par la géométrie seule.",
-    demande: "La ligne large rend le signe nettement plus étendu que haut, ce qui va bien en en-tête et moins bien dans un carré. La tuile et le favicon le compensent en le recentrant.",
+    demande: "Une première version la donnait à 96 unités : elle débordait l'écran des deux côtés et le signe paraissait posé sur une planche. Raccourcie à 80, elle s'arrête en deçà du bord. La largeur exacte se règle piste par piste dans la neuvième série.",
     mesure: 'Lecture à 16 px : très bonne, la ligne pose le signe et lui donne son assise.',
   },
   tige: {
