@@ -198,14 +198,15 @@ export const MAINTENANCE_PREMIERE_ECHEANCE_LETTRES =
  * La formule sur mesure la comprend : son supplément est nul, et c'est un
  * argument de vente annoncé sur la page comme dans le simulateur.
  *
- * Grille arrêtée le 17/08/2026 (décision de Célestin) : création 400 €,
- * reprise 300 €. Elle succède à 300 / 200 €. L'écart se resserre à 100 €
- * parce que le travail se ressemble d'un cas à l'autre : facturer la reprise
- * moitié moins que la création revenait à brader le même remplissage.
+ * Grille arrêtée le 07/09/2026 (décision de Célestin) : création 300 €,
+ * reprise 200 €. Elle succède à 400 / 300 €, ramenée pour mieux coller à la
+ * prestation et rester accessible. L'écart reste de 100 € parce que le travail
+ * se ressemble d'un cas à l'autre : la reprise garde les deux tiers du prix de
+ * la création, elle vaut le même remplissage.
  */
 export const FICHE_GOOGLE = {
-  creation: 400,
-  refonte: 300,
+  creation: 300,
+  refonte: 200,
 } as const;
 
 /**
