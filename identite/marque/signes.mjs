@@ -8,7 +8,7 @@
    vivant ne repose plus que sur deux traits, le fuselage du col et la ligne
    de sol. Le signe gagne en sobriete et se rapproche du pictogramme ordinaire
    du moniteur. Les deux ecarts qui l'en distinguent sont mesurables et doivent
-   etre tenus : le col s'evase de 11 a 19 unites, et la ligne fait 60 la ou un
+   etre tenus : le col s'evase de 11 a 19 unites, et la ligne fait 68 la ou un
    socle de moniteur en fait 44.
 
    La piste 1 est le signe demande. Les trois suivantes sont des reglages

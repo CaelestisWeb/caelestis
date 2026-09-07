@@ -56,6 +56,7 @@ const EXPORTS = [
   ['exports/google', 'Fiche Google', 'Logo carré 720 et couverture 1024 × 576.'],
   ['exports/reseaux', 'Réseaux sociaux', 'Avatar 1080, profil 720, couverture 1640 × 720.'],
   ['exports/partage', 'Image de partage', 'Open Graph, 1200 × 630.'],
+  ['exports/impression', 'Cartes de visite', 'Deux pistes, recto et verso. Un PDF par face, plus la vue.'],
 ];
 
 const corps = `

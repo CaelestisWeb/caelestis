@@ -109,7 +109,7 @@ td.mono,th.mono{font-family:ui-monospace,Consolas,monospace}
 .cv{width:85mm;height:55mm;border-radius:2mm;overflow:hidden;position:relative;box-shadow:0 1px 3px rgba(18,22,15,.14);display:flex;flex-direction:column;justify-content:space-between;padding:8mm 7mm}
 .cv.recto{background:var(--vert);color:var(--cream)}
 .cv.verso{background:var(--cream);color:var(--encre);border:1px solid var(--cream-dark)}
-.cv .mono-img{width:13mm;height:auto}
+.cv-vue{display:block;width:85mm;height:55mm;border-radius:2.4mm;box-shadow:0 1px 2px rgba(18,22,15,.10),0 14px 34px -16px rgba(18,22,15,.34)}
 .cv .nom{font-size:5.4mm;font-weight:700;letter-spacing:-0.035em;line-height:1.05}
 .cv .role{font-size:2.7mm;letter-spacing:0.13em;text-transform:uppercase;font-weight:500;margin-top:1.6mm}
 .cv.recto .role{color:var(--sauge-pale)}
@@ -376,58 +376,27 @@ footer b{color:var(--cream);font-weight:500}
   <div class="wrap">
     <span class="num">05, Carte de visite</span>
     <h2>Deux pistes, à l'échelle réelle</h2>
-    <p class="chapo">Format français 85 par 55 millimètres. Les blocs ci-dessous sont affichés à leur taille d'impression, mesurables sur un écran à l'échelle 100 %.</p>
+    <p class="chapo">Format français 85 par 55 millimètres. Les quatre vues ci-dessous sont les fichiers d'impression eux-mêmes, rognés au format fini, affichés à leur taille réelle sur un écran à l'échelle 100 %. Elles sortent de <code>identite/marque/build-cartes.mjs</code>, avec le PDF vectoriel qui part à l'imprimeur. <strong>La piste reste à choisir</strong>, et une seule part à l'impression.</p>
 
     <div class="cv-grille">
       <div class="cv-bloc">
         <div class="cv-titre">Piste A, recto</div>
-        <div class="cv recto">
-          <img class="mono-img" src="marque/signe/signe-creme.svg" alt="">
-          <div>
-            <div class="nom">Célestin</div>
-            <div class="role">Fondateur</div>
-          </div>
-        </div>
+        <img class="cv-vue" src="marque/exports/impression/carte-piste-A-recto-vue.png" alt="Carte de visite, piste A, recto">
         <div class="cv-cotes">85 × 55 mm, aplat #255C41</div>
       </div>
-
       <div class="cv-bloc">
         <div class="cv-titre">Piste A, verso</div>
-        <div class="cv verso">
-          <div class="sign">Caelestis</div>
-          <div>
-            <div class="filet"></div>
-            <div class="coord">
-              <b>07 69 36 27 27</b><br>
-              contact@caelestis.fr<br>
-              caelestis.fr
-            </div>
-          </div>
-          <div class="coord" style="font-size:2.5mm">Création de sites internet et référencement, Drôme</div>
-        </div>
+        <img class="cv-vue" src="marque/exports/impression/carte-piste-A-verso-vue.png" alt="Carte de visite, piste A, verso">
         <div class="cv-cotes">85 × 55 mm, fond #FCFBF8</div>
       </div>
-
       <div class="cv-bloc">
         <div class="cv-titre">Piste B, recto</div>
-        <div class="cv verso" style="justify-content:center;align-items:flex-start">
-          <img src="marque/signe/lockup-horizontal-vert.svg" alt="" style="width:46mm">
-          <div class="coord" style="margin-top:5mm;font-size:2.7mm;letter-spacing:0.1em;text-transform:uppercase;color:var(--sauge-texte);font-weight:500">Sites internet et référencement</div>
-        </div>
+        <img class="cv-vue" src="marque/exports/impression/carte-piste-B-recto-vue.png" alt="Carte de visite, piste B, recto">
         <div class="cv-cotes">Logo horizontal, fond crème</div>
       </div>
-
       <div class="cv-bloc">
         <div class="cv-titre">Piste B, verso</div>
-        <div class="cv recto" style="justify-content:center">
-          <div class="nom" style="font-size:4.6mm">Célestin</div>
-          <div class="role" style="margin-bottom:4mm">Fondateur</div>
-          <div class="coord">
-            <b>07 69 36 27 27</b><br>
-            contact@caelestis.fr<br>
-            caelestis.fr
-          </div>
-        </div>
+        <img class="cv-vue" src="marque/exports/impression/carte-piste-B-verso-vue.png" alt="Carte de visite, piste B, verso">
         <div class="cv-cotes">Coordonnées sur aplat vert</div>
       </div>
     </div>

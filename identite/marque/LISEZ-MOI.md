@@ -16,6 +16,7 @@ Septembre 2026. **C'est le signe de la marque**, retenu le 7 septembre. Il succ�
 | `exports/google/` | Fiche d'établissement : logo carré 720 et couverture 1024 × 576 |
 | `exports/reseaux/` | Avatar 1080, profil 720, couverture 1640 × 720 |
 | `exports/partage/` | Image de partage Open Graph, 1200 × 630 |
+| `exports/impression/` | Les cartes de visite : un PDF, un PNG et un SVG par face |
 
 ⚠️ **Rien n'écrit dans `public/`.** Le site sert encore le monogramme : le jeu de favicons attend dans `exports/favicon/`, à copier quand le basculement sera décidé, avec un `?v=` incrémenté dans `src/layouts/BaseLayout.astro`.
 
@@ -105,4 +106,5 @@ Ne pas rouvrir ces trois-là sans motif nouveau. Le refus est une décision.
 node identite/marque/build-signe.mjs      # les 16 SVG, puis le contrôle de cadrage
 node identite/marque/build-exports.mjs    # tout le reste : PNG, JPEG, favicons, Google, réseaux, partage
 node identite/marque/build-planche.mjs    # la planche
+node identite/marque/build-cartes.mjs     # les cartes de visite, puis le contrôle du cadrage
 ```

@@ -32,6 +32,7 @@ Les planches sont aussi des fichiers autonomes : elles s'ouvrent par double-clic
 node identite/marque/build-signe.mjs      # les 16 SVG, puis le contrôle de cadrage
 node identite/marque/build-exports.mjs    # PNG, JPEG, favicons, Google, réseaux, partage
 node identite/marque/build-planche.mjs    # la planche du signe
+node identite/marque/build-cartes.mjs     # les cartes de visite, puis leur cadrage
 node identite/build-charte.mjs            # la charte en planche visuelle
 node identite/build-index.mjs             # la page d'accueil
 ```
@@ -52,7 +53,7 @@ node identite/build-index.mjs             # la page d'accueil
 
 ⚠️ **Le site sert encore le monogramme en C.** Ses fichiers de `public/` sont en place et rien ne les régénère depuis le retrait du C. Le basculement est un geste à part : copier `marque/exports/favicon/` dans `public/`, y porter l'image de partage, puis incrémenter `?v=` sur les liens d'icônes dans `src/layouts/BaseLayout.astro`, sinon les navigateurs gardent l'ancienne.
 
-**Les cartes de visite restent à redessiner.** Les fichiers d'impression sont partis avec le C. Format et contraintes sont dans la charte, section 5.
+**Les cartes de visite sont redessinées**, deux pistes en recto et verso. Les fichiers d'impression vivent dans `marque/exports/impression/`, un PDF par face, et `marque/planche-cartes.html` les montre à l'échelle réelle. **La piste reste à choisir.**
 
 **Le rôle de la Pousse reste à décider.** Elle ferait un bon second signe : pictogramme de section, motif, ou marque de fin de document. Son dessin est dans l'historique git, série 3, dossier `pousse` : `RECHERCHE.md` donne la commande pour le ressortir.
 

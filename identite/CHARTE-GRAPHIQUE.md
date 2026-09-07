@@ -149,7 +149,18 @@ Format français **85 × 55 mm**, fond perdu 3 mm (fichier 91 × 61 mm), zone de
 - **Pelliculage** : mat. Le brillant contredit le registre artisanal.
 - **Canva** : format personnalisé 91 × 61 mm, repère de fond perdu activé, export PDF pour impression avec repères et fond perdu cochés.
 
-Deux pistes ont été rendues à l'échelle réelle du temps du monogramme : recto vert forêt plein avec le signe en crème, ou recto crème avec le logo horizontal et une ligne de spécialité en capitales espacées. **Elles restent à redessiner pour l'Écran planté**, les fichiers d'impression ayant été retirés avec le C.
+Les deux pistes sont redessinées pour l'Écran planté, recto et verso. Les fichiers vivent dans `identite/marque/exports/impression/`, un PDF vectoriel par face pour l'imprimeur, un PNG à 300 points par pouce pour Canva, et une vue au format fini pour montrer à l'écran. `identite/marque/planche-cartes.html` les présente à l'échelle réelle.
+
+| Piste | Recto | Verso |
+|---|---|---|
+| **A**, le signe seul | Vert forêt plein, le signe en crème calé sur la marge haute, le nom et la fonction sur la marge basse | Crème, le logo horizontal, le métier, les coordonnées |
+| **B**, le logo et la spécialité | Crème, le logo horizontal et la ligne de spécialité en capitales espacées, calés sur la même largeur | Vert forêt, le nom, la fonction, les coordonnées |
+
+La piste A présente une personne, la piste B une activité. Les deux partagent leur marge, 8 mm depuis le trait de coupe, et la même famille de corps : posées côte à côte, elles se lisent comme deux cartes d'une même maison. **La piste reste à choisir**, et une seule part à l'impression.
+
+Aucun filet ne sépare les blocs : la règle d'écriture bannit le tiret décoratif, un filet posé avant un label en est un. La composition tient par l'espace et par les corps.
+
+Le logo n'y est jamais redessiné, il est posé depuis `signe/`. Un export qui recomposerait le signe et le mot donnerait un centrage différent de celui que reçoit l'imprimeur.
 
 ## 6. Applications
 
@@ -181,11 +192,12 @@ Canva ne peut plus substituer la police à l'import d'un logo : le mot y est en 
 node identite/marque/build-signe.mjs      # les 16 SVG, puis le contrôle de cadrage
 node identite/marque/build-exports.mjs    # les PNG, JPG, favicons, Google, réseaux, partage
 node identite/marque/build-planche.mjs    # la planche du signe
+node identite/marque/build-cartes.mjs     # les cartes de visite, puis leur cadrage
 node identite/build-charte.mjs            # cette charte en planche visuelle
 node identite/build-index.mjs             # la page d'accueil de l'identité
 ```
 
-`build-signe.mjs` écrit les SVG de référence, texte converti en tracés par fontkit, puis rasterise chaque fichier écrit pour comparer ses quatre marges. `build-exports.mjs` en tire tout le reste : PNG à fond transparent, aplats en PNG et JPG, jeu de favicons avec son `.ico`, visuels de la fiche Google, des réseaux sociaux et l'image de partage. `build-charte.mjs` recompose `charte-caelestis.html` en incorporant polices et logos, à partir de `charte.template.html`.
+`build-signe.mjs` écrit les SVG de référence, texte converti en tracés par fontkit, puis rasterise chaque fichier écrit pour comparer ses quatre marges. `build-cartes.mjs` fait de même sur les cartes, et y ajoute un second contrôle : il relit le flux de chaque PDF, suit ses matrices et mesure la boîte de ses tracés, le PDF étant le seul des trois fichiers qu'aucun œil ne vérifie ici. `build-exports.mjs` en tire tout le reste : PNG à fond transparent, aplats en PNG et JPG, jeu de favicons avec son `.ico`, visuels de la fiche Google, des réseaux sociaux et l'image de partage. `build-charte.mjs` recompose `charte-caelestis.html` en incorporant polices et logos, à partir de `charte.template.html`.
 
 **Tous ces scripts résolvent leurs chemins depuis `import.meta.url`.** Les scripts du monogramme portaient `C:/dev/caelestis` en dur et ne tournaient donc que sur un poste, depuis ce chemin exact ; ils ont été retirés avec le C.
 

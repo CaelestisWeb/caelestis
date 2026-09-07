@@ -22,8 +22,9 @@ let html = readFileSync(`${ICI}/charte.template.html`, 'utf8')
 /* Les <img src="marque/..."> sont incorpores pour que le fichier reste
    autonome hors serveur. Un chemin relatif suffirait dans un navigateur ouvert
    sur le dossier, il casse des que le fichier voyage seul. */
-html = html.replace(/src="(marque\/[^"]+\.svg)"/g, (_, chemin) =>
-  `src="data:image/svg+xml;base64,${readFileSync(`${ICI}/${chemin}`).toString('base64')}"`);
+const TYPES = { svg: 'image/svg+xml', png: 'image/png', jpg: 'image/jpeg' };
+html = html.replace(/src="(marque\/[^"]+\.(svg|png|jpg))"/g, (_, chemin, ext) =>
+  `src="data:${TYPES[ext]};base64,${readFileSync(`${ICI}/${chemin}`).toString('base64')}"`);
 
 /* Icone d'onglet, incorporee elle aussi. Sans balise icon le navigateur
    reclame un favicon.ico inexistant et affiche une erreur en console, ce qui
