@@ -8,7 +8,7 @@ node identite/serveur.mjs
 
 Puis ouvrir **http://localhost:4600**. Aucune dépendance, aucun `npm install`, aucun build du site : le serveur sert le dossier `identite/` tel quel. `node identite/serveur.mjs 5000` choisit un autre port, et si le port est occupé le serveur passe au suivant tout seul.
 
-La page d'accueil rassemble les **quatre séries de pistes de logotype**, avec les vingt signes en vignettes, les deux préférées mises en avant, un comparatif de tous à 32 et 16 px, et un lien vers chaque planche et chaque dossier de fichiers. Les dossiers sans page d'accueil sont listés, ce qui permet de parcourir les SVG un par un.
+La page d'accueil rassemble les **cinq séries de pistes de logotype**, avec tous les signes en vignettes, les retenues mises en avant et les écartées marquées comme telles, un comparatif de tous à 32 et 16 px, et un lien vers chaque planche et chaque dossier de fichiers. Les dossiers sans page d'accueil sont listés, ce qui permet de parcourir les SVG un par un.
 
 Les planches sont aussi des fichiers autonomes : elles s'ouvrent directement par double-clic, polices comprises, et s'envoient par courriel.
 
@@ -20,7 +20,8 @@ Les planches sont aussi des fichiers autonomes : elles s'ouvrent directement par
 | `pistes-logo/` | Première série, le signe de marque. Cinq signes abstraits |
 | `pistes-nature/` | Deuxième série, la nature et le web dans la même forme |
 | `pistes-pousse/` | Troisième série, la pousse et le carré. **Les deux préférées y sont** |
-| `pistes-fleche/` | Quatrième série, la flèche de croissance et le vivant |
+| `pistes-fleche/` | Quatrième série, la flèche de croissance et le vivant. Une retenue, quatre écartées |
+| `pistes-fleche-affinee/` | Cinquième série, les réglages de la Flèche feuillue |
 | `reseaux/`, `signature-mail/` | Gabarits des supports |
 
 `CHARTE-GRAPHIQUE.md` reste la source de vérité de l'identité en service, et `charte-caelestis.html` sa planche visuelle.
@@ -39,6 +40,11 @@ Les scripts des pistes résolvent leurs chemins depuis `import.meta.url`, à la 
 
 ## Ce qui est décidé, et ce qui reste ouvert
 
-**Décidé le 7 septembre 2026** : les deux préférées sont **La Pousse** et **La Pousse cadrée** (`pistes-pousse/`). Elles peuvent former une seule identité, le cadre étant un contenant et non un second logo : le signe nu sur les documents et les en-têtes, le signe cadré partout où il faut un carré.
+**Décidé le 7 septembre 2026, deux voies ouvertes en parallèle.**
 
-**Ouvert** : la symétrie des deux feuilles. Elles sont rigoureusement symétriques, ce qui est calme ; une feuille légèrement plus haute que l'autre serait plus vivante et botaniquement plus juste. Ce réglage se décide sur le signe retenu, pas avant.
+- **La Pousse** et **La Pousse cadrée** (`pistes-pousse/`) : le végétal seul. Elles peuvent former une seule identité, le cadre étant un contenant et non un second logo.
+- **La Flèche feuillue** (`pistes-fleche/`) : le développement d'activité. Ses réglages vivent dans `pistes-fleche-affinee/`, où la Combinée est la proposition.
+
+**Écarté le 7 septembre 2026** : la Courbe, les Trois pousses, l'Escalier et le Badge de la quatrième série. Le refus est une décision, ne pas les rouvrir sans motif nouveau.
+
+**Ouvert** : la symétrie des feuilles. Sur la Pousse elles sont rigoureusement symétriques, ce qui est calme ; sur la Flèche elles sont alternées, ce qui est vivant. Le choix se tranche sur le signe retenu, pas avant.

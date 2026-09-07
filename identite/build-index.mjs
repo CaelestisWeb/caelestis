@@ -15,6 +15,7 @@ import { PISTES as ABSTRAITES } from './pistes-logo/pistes.mjs';
 import { PISTES as NATURE } from './pistes-nature/signes.mjs';
 import { PISTES as POUSSE } from './pistes-pousse/signes.mjs';
 import { PISTES as FLECHE } from './pistes-fleche/signes.mjs';
+import { PISTES as AFFINEE } from './pistes-fleche-affinee/signes.mjs';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
 const NB = ' ';
@@ -39,11 +40,18 @@ const SERIES = [
   {
     dossier: 'pistes-fleche', pistes: FLECHE, planche: 'pistes-fleche/planche-fleche.html',
     titre: 'Quatrième série, la flèche et le vivant',
-    resume: "Cinq voies pour dire le développement d'activité sans quitter le registre végétal, de la flèche explicite au signe qui n'en montre aucune.",
+    resume: "Cinq voies pour dire le développement d'activité sans quitter le registre végétal. La Flèche feuillue est retenue, les quatre autres sont écartées le 7 septembre.",
+  },
+  {
+    dossier: 'pistes-fleche-affinee', pistes: AFFINEE, planche: 'pistes-fleche-affinee/planche-fleche-affinee.html',
+    titre: 'Cinquième série, les réglages de la flèche',
+    resume: "Le signe retenu, avec un seul réglage qui change d'une piste à l'autre : la proportion de la tête, le nombre de feuilles, le fuselage de la hampe, le carré autour. La sixième est la somme des trois recommandés.",
   },
 ];
 
-const PREFEREES = new Set(['pistes-pousse/pousse', 'pistes-pousse/pousse-cadree']);
+/* Arbitrages de Celestin, 7 septembre 2026. */
+const RETENUES = new Set(['pistes-pousse/pousse', 'pistes-pousse/pousse-cadree', 'pistes-fleche/fleche-feuillue']);
+const ECARTEES = new Set(['pistes-fleche/courbe', 'pistes-fleche/trois-pousses', 'pistes-fleche/escalier', 'pistes-fleche/badge']);
 
 const inline = (a, maxL, maxH) => {
   const k = Math.min(maxL / a.l, maxH / a.h);
@@ -64,10 +72,11 @@ for (const s of SERIES) {
 }
 
 const vignette = (s, { p, a, cle }, taille = 92) => `
-        <a class="vignette${PREFEREES.has(cle) ? ' est-preferee' : ''}" href="${s.planche}#${p.cle}">
+        <a class="vignette${RETENUES.has(cle) ? ' est-retenue' : ''}${ECARTEES.has(cle) ? ' est-ecartee' : ''}" href="${s.planche}#${p.cle}">
           <span class="vignette-scene">${inline(a.signe('currentColor'), taille, taille)}</span>
           <span class="vignette-nom">${p.nom}</span>
           <span class="vignette-fichiers">${s.dossier}/${p.cle}/</span>
+          ${RETENUES.has(cle) ? '<span class="etiquette">Retenue</span>' : ''}${ECARTEES.has(cle) ? '<span class="etiquette etiquette-ecartee">Écartée</span>' : ''}
         </a>`;
 
 const blocs = prets.map((s) => `
@@ -85,7 +94,7 @@ const blocs = prets.map((s) => `
       </div>
     </section>`).join('');
 
-const preferees = prets.flatMap((s) => s.rendus.filter((r) => PREFEREES.has(r.cle)).map((r) => ({ s, r })));
+const retenues = prets.flatMap((s) => s.rendus.filter((r) => RETENUES.has(r.cle)).map((r) => ({ s, r })));
 
 const comparatif = prets.map((s) => `
         <div class="ligne-comparatif">
@@ -97,15 +106,15 @@ const corps = `
   <div class="planche">
     <header class="tete">
       <p class="surtitre">Identité Caelestis, septembre 2026</p>
-      <h1>Vingt pistes de logotype</h1>
-      <p class="chapo">Quatre séries, cinq pistes chacune, toutes livrées en fichiers vectoriels complets. Chaque série a sa planche de présentation, avec la construction de chaque signe et ses déclinaisons jusqu'au favicon.</p>
+      <h1>Vingt-six pistes de logotype</h1>
+      <p class="chapo">Cinq séries, toutes livrées en fichiers vectoriels complets. Chaque série a sa planche de présentation, avec la construction de chaque signe et ses déclinaisons jusqu'au favicon.</p>
     </header>
 
     <section class="preferees">
-      <h2>Vos préférées</h2>
-      <p class="chapo">Retenues le 7 septembre. Elles peuvent former une seule identité : le signe nu sur les documents et les en-têtes, le signe cadré partout où il faut un carré, l'onglet du navigateur, l'avatar de la fiche Google, le tampon.</p>
+      <h2>Ce qui est retenu</h2>
+      <p class="chapo">Arbitrages du 7 septembre. La Pousse et la Pousse cadrée peuvent former une seule identité, le cadre étant un contenant et non un second logo. La Flèche feuillue ouvre l'autre voie, celle du développement d'activité, et la cinquième série en règle le dessin.</p>
       <div class="duo-preferees">
-        ${preferees.map(({ s, r }) => `
+        ${retenues.map(({ s, r }) => `
         <a class="plaque-preferee" href="${s.planche}#${r.p.cle}">
           <span class="scene-preferee">${inline(r.a.signe('currentColor'), 150, 150)}</span>
           <span class="nom-preferee">${r.p.nom}</span>
@@ -115,7 +124,7 @@ const corps = `
 ${blocs}
 
     <section class="bilan">
-      <h2>Les vingt à la taille de l'onglet</h2>
+      <h2>Toutes à la taille de l'onglet</h2>
       <p class="chapo">Un logo se juge à la taille où il vit vraiment. Chaque piste est montrée ici à 32 et à 16 px, dans sa version optique pour petite taille.</p>
       <div class="comparatif">${comparatif}
       </div>
@@ -153,20 +162,27 @@ const style = `${readFileSync(`${ICI}/pistes-logo/planche.css`, 'utf8')}
   letter-spacing: -0.024em; color: #12160F; }
 .vignette-fichiers { padding: 0 12px 10px; font-size: 0.75rem; color: #5C6259;
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
-.est-preferee { border-color: var(--vert-fixe); box-shadow: inset 0 0 0 1px var(--vert-fixe); }
+.vignette { position: relative; }
+.est-retenue { border-color: var(--vert-fixe); box-shadow: inset 0 0 0 1px var(--vert-fixe); }
+.est-ecartee { opacity: 0.44; }
+.est-ecartee:hover { opacity: 1; }
+.etiquette { position: absolute; top: 8px; right: 8px; font-size: 0.6875rem; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; background: var(--vert-fixe);
+  color: var(--creme-fixe); }
+.etiquette-ecartee { background: #5C6259; }
 
 .duo-preferees { display: grid; gap: 14px; margin-top: 28px; }
-@media (min-width: 640px) { .duo-preferees { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 640px) { .duo-preferees { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); } }
 .plaque-preferee { display: flex; flex-direction: column; text-decoration: none; background: var(--creme-fixe);
   border: 1px solid var(--parchemin-fixe); color: var(--vert-fixe); }
-.scene-preferee { display: grid; place-items: center; min-height: 260px; padding: 32px; }
+.scene-preferee { display: grid; place-items: center; min-height: 230px; padding: 32px; }
 .nom-preferee { border-top: 1px solid var(--parchemin-fixe); padding: 12px 16px 14px; font-size: 1rem;
   font-weight: 700; letter-spacing: -0.024em; color: #12160F; }
 
-.rangee-comparee { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; justify-items: center; }
+.rangee-comparee { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 16px; justify-items: center; }
 .rangee-comparee span { display: flex; align-items: center; gap: 12px; }
 .pied p + p { margin-top: 10px; }`;
 
 writeFileSync(`${ICI}/index.html`,
-  `<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Identité Caelestis</title>\n<style>${FACES}\n${style}</style>\n</head>\n<body>${corps}\n</body>\n</html>\n`);
+  `<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Identité Caelestis</title>\n<link rel="icon" href="logo/monogramme-creme-sur-vert.svg">\n<style>${FACES}\n${style}</style>\n</head>\n<body>${corps}\n</body>\n</html>\n`);
 console.log('identite/index.html');

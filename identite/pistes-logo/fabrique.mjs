@@ -244,7 +244,11 @@ ${sections}
   </div>`;
 
   const tete = `<title>${titre}</title>\n<style>${FACES()}\n${readFileSync(`${COMMUN}/planche.css`, 'utf8')}</style>`;
-  writeFileSync(sortie, `<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n${tete}\n</head>\n<body>${corps}\n</body>\n</html>\n`);
+  /* Le monogramme en service sert d'icone d'onglet aux pages locales : sans
+     lui, chaque ouverture reclame un favicon.ico inexistant et la console
+     affiche une erreur qui fait douter de la page. */
+  const icone = '<link rel="icon" href="../logo/monogramme-creme-sur-vert.svg">';
+  writeFileSync(sortie, `<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n${icone}\n${tete}\n</head>\n<body>${corps}\n</body>\n</html>\n`);
   console.log(sortie);
   if (fragment) { writeFileSync(fragment, `${tete}\n${corps}\n`); console.log(fragment); }
 }

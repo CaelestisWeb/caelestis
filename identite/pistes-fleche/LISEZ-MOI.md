@@ -4,6 +4,8 @@ Cinq pistes, septembre 2026. Demande de Célestin : une flèche de développemen
 
 **Planche de présentation** : `planche-fleche.html`, ou `node identite/serveur.mjs` puis http://localhost:4600.
 
+> **Arbitrage du 7 septembre 2026.** Célestin retient **La Flèche feuillue** et écarte les quatre autres : la Courbe, les Trois pousses, l'Escalier et le Badge. Les fichiers restent en place comme trace de la recherche, et la page d'accueil les marque comme écartés. Les réglages du signe retenu vivent dans `identite/pistes-fleche-affinee/`. Ne pas rouvrir les quatre autres sans motif nouveau.
+
 ## Le problème posé, et les trois réponses
 
 Une flèche vers le haut se comprend en un dixième de seconde, dans toutes les langues, et elle dit exactement ce qu'un artisan vient chercher. Elle a un défaut : **elle promet un résultat**, or le référencement n'en garantit aucun, le classement appartient à Google. Les cinq pistes cherchent la même énergie sans la promesse, par trois moyens.
