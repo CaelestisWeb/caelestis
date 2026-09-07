@@ -19,7 +19,12 @@
     box-shadow: 0 38px 74px -26px rgba(18, 22, 15, .38), 0 0 0 1px rgba(18, 22, 15, .07);
   }
   .a4 .fenetre .cadre { height: 424px; overflow: hidden; }
-  .a4 .fenetre .cadre img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; }
+  /* La capture porte la barre de defilement du navigateur qui l'a prise,
+     15 px sur 1440, soit 1,04 %. Elle est rognee ici plutot que dans le
+     fichier : celui-ci vit dans src/ et sert la page de realisation du site.
+     Le 102 % la fait sortir du cadre par la droite, l'image restant calee a
+     gauche et en haut. */
+  .a4 .fenetre .cadre img { display: block; width: 102%; height: 102%; object-fit: cover; object-position: 0% 0%; }
 
   .a4 .tel { left: 84px; top: 582px; width: 254px; box-shadow: 0 30px 58px -20px rgba(18, 22, 15, .42); }
 
@@ -30,7 +35,7 @@
   .a4 .legendes .item { border-top: 1px solid var(--creme-fonce); padding-top: 18px; }
   .a4 .legendes .nom { font-size: 25px; font-weight: 700; letter-spacing: -0.024em; color: var(--encre); }
   .a4 .legendes .quoi { margin-top: 6px; font-size: 17px; color: var(--olive); }
-  .a4 .legendes .adresse { margin-top: 10px; font-size: 17px; font-weight: 500; color: var(--sauge-texte); }
+  .a4 .legendes .appui { margin-top: 10px; font-size: 17px; font-weight: 500; color: var(--sauge-texte); }
 </style>
 </head>
 <body>
@@ -43,32 +48,34 @@
   <div class="filet"></div>
 
   <div class="bloc-texte">
-    <p class="eyebrow">Des sites en ligne, ouverts à la visite</p>
-    <h1>Deux clientes, deux univers.<br><span class="accent">Aucun modèle réutilisé.</span></h1>
+    <p class="eyebrow">Fée des Ongles, prothésiste ongulaire à Crest</p>
+    <h1>Romane travaille.<br><span class="accent">Le site prend les rendez-vous.</span></h1>
   </div>
 
+  <!-- Les captures vivent dans src/assets/images/ : le site est leur source, et
+       une copie ici montrerait l'ancienne version le jour d'une refonte. -->
   <div class="fenetre">
     <div class="barre">
       <span class="pastille"></span><span class="pastille"></span><span class="pastille"></span>
-      <span class="url">lacoquette-bycaro.fr</span>
+      <span class="url">feedesongles.fr</span>
     </div>
-    <div class="cadre"><img src="captures/client-la-coquette-desktop.png" alt="Site de La Coquette, atelier de bijoux"></div>
+    <div class="cadre"><img src="../../../src/assets/images/realisations/fee-des-ongles-reservation.jpg" alt="Écran de réservation du site Fée des Ongles"></div>
   </div>
 
   <div class="tel">
-    <img src="captures/client-fee-des-ongles-mobile.png" alt="Site de Fée des Ongles sur téléphone">
+    <img src="captures/client-fee-des-ongles-mobile.png" alt="Page d'accueil de Fée des Ongles sur téléphone">
   </div>
 
   <div class="legendes">
     <div class="item">
-      <p class="nom">La Coquette</p>
-      <p class="quoi">Atelier de bijoux faits main, Drôme</p>
-      <p class="adresse">lacoquette-bycaro.fr</p>
+      <p class="nom">Le site</p>
+      <p class="quoi">Une page unique, prestations, tarifs, galerie et avis</p>
+      <p class="appui">feedesongles.fr</p>
     </div>
     <div class="item">
-      <p class="nom">Fée des Ongles</p>
-      <p class="quoi">Prothésiste ongulaire, Crest</p>
-      <p class="adresse">feedesongles.fr</p>
+      <p class="nom">La réservation</p>
+      <p class="quoi">Créneaux calculés en temps réel, confirmation immédiate</p>
+      <p class="appui">En ligne en 14 jours</p>
     </div>
   </div>
 
