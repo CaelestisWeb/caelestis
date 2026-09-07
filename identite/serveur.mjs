@@ -63,14 +63,19 @@ h1{font-size:1.25rem;font-weight:700;margin:0 0 24px}a{color:#255C41}ul{list-sty
 const serveur = createServer(async (req, res) => {
   try {
     const url = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+    /* `normalize` rend des antislashs sur Windows : la comparaison qui suit
+       se fait donc sur une forme a separateurs POSIX, sinon la liste fermee
+       ne reconnait jamais src/assets et les affiches perdent leurs photos
+       comme leur police, sans autre trace qu'un 404 dans la console. */
     const chemin = normalize(url).replace(/^[/\\]+/, '');
+    const compare = chemin.replaceAll('\\', '/');
 
     /* Les affiches vont chercher les photos et les polices du site plutot que
        d'en garder une copie. Leur ../../../src/... arrive ici normalise par le
        navigateur en /src/..., il se resout donc depuis la racine du depot et
        non depuis identite/. La liste est fermee : servir toute la racine
        exposerait .env, .git et le code du site a un navigateur. */
-    const horsIdentite = HORS_IDENTITE.some((d) => chemin === d || chemin.startsWith(`${d}/`));
+    const horsIdentite = HORS_IDENTITE.some((d) => compare === d || compare.startsWith(`${d}/`));
     const base = horsIdentite ? DEPOT : RACINE;
     const cible = normalize(join(base, chemin));
 
