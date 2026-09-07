@@ -11,7 +11,7 @@ export const OUVERTURE = {
 export const DEPART = {
   titre: 'La règle que ces cinq suivent',
   titreGarde: 'Ce que les cinq pistes tiennent',
-  specimen: { chemin: 'identite/logo/monogramme-creme-sur-vert.svg', legende: 'Le monogramme en service' },
+  specimen: { chemin: 'identite/marque/signe/tuile-creme-sur-vert.svg', legende: "L'Écran planté, le signe retenu" },
   texte: [
     "La demande était un arbre dans un ordinateur. Prise au pied de la lettre, elle donne un pictogramme : un sapin dans une télévision, deux objets empilés dont l'un décore l'autre. Prise au sérieux, elle donne une règle de dessin : chercher les endroits où une forme du vivant et une forme du web sont déjà la même forme, et ne dessiner que celle-là.",
     "Ces endroits existent, et le vocabulaire du métier les nomme déjà. Une arborescence est le plan d'un site autant que la charpente d'un arbre. Une balise se ferme par une barre oblique, qui est le dessin d'une nervure. Une lentille de loupe et une feuille ont la même amande. Une flèche de croissance et une jeune pousse font le même geste. Chaque piste tient sur une de ces coïncidences, et sur une seule.",

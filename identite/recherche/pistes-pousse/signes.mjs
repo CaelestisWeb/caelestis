@@ -26,7 +26,7 @@ const f = (n) => +n.toFixed(3);
 /* Rayon d'un arc decrit par sa corde et sa fleche. */
 const rayon = (fleche, corde) => f((fleche * fleche + (corde / 2) ** 2) / (2 * fleche));
 
-/* Rayon d'angle de la tuile Caelestis : 24 % du cote (identite/logo). */
+/* Rayon d'angle de la tuile Caelestis : 24 % du cote, valeur de la charte. */
 export const RAYON_TUILE = 0.24;
 
 /* ── La feuille ───────────────────────────────────────────────────────

@@ -199,7 +199,7 @@ export async function construirePlanche({ pistes, reperes, copie, titre, sortie,
   const corps = `
   <div class="planche">
     <header class="tete">
-      <div class="tete-marque">${fichierSVG('identite/logo/lockup-horizontal-nu-vert.svg', 168, 30, { recolorer: true })}</div>
+      <div class="tete-marque">${fichierSVG('identite/marque/signe/lockup-horizontal-vert.svg', 168, 30, { recolorer: true })}</div>
       <p class="surtitre">${typo(OUVERTURE.surtitre)}</p>
       <h1>${OUVERTURE.titre}</h1>
       <p class="chapo">${typo(OUVERTURE.chapo)}</p>
@@ -251,9 +251,9 @@ ${sections}
      lui, chaque ouverture reclame un favicon.ico inexistant et la console
      affiche une erreur qui fait douter de la page. Le chemin est calcule
      depuis la sortie et non ecrit en dur : les series ne sont pas toutes a
-     la meme profondeur, un ../logo/ casserait des qu'une planche descend. */
-  const monogramme = resolve(RACINE, 'identite/logo/monogramme-creme-sur-vert.svg');
-  const icone = `<link rel="icon" href="${relative(dirname(sortie), monogramme).split(sep).join('/')}">`;
+     la meme profondeur, un chemin relatif ecrit en dur casserait des qu'une planche descend. */
+  const icôneOnglet = resolve(RACINE, 'identite/marque/signe/tuile-creme-sur-vert.svg');
+  const icone = `<link rel="icon" href="${relative(dirname(sortie), icôneOnglet).split(sep).join('/')}">`;
   writeFileSync(sortie, `<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n${icone}\n${tete}\n</head>\n<body>${corps}\n</body>\n</html>\n`);
   console.log(sortie);
   if (fragment) { writeFileSync(fragment, `${tete}\n${corps}\n`); console.log(fragment); }

@@ -20,7 +20,7 @@ import { PISTES as ARBRE } from './recherche/pistes-arbre-ecran/signes.mjs';
 import { PISTES as MONITEUR } from './recherche/pistes-moniteur/signes.mjs';
 import { PISTES as MPLANTE } from './recherche/pistes-moniteur-plante/signes.mjs';
 import { PISTES as TIGESOL } from './recherche/pistes-tige-au-sol/signes.mjs';
-import { PISTES as RETENU } from './signe-retenu/signes.mjs';
+import { PISTES as RETENU } from './marque/signes.mjs';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
 const NB = ' ';
@@ -73,14 +73,14 @@ const SERIES = [
     resume: "Cinq longueurs de ligne de sol entre 60 et 84 unités. La largeur de 60 est retenue le 7 septembre, et la Pousse est retirée de l'écran.",
   },
   {
-    dossier: 'signe-retenu', pistes: RETENU, planche: 'signe-retenu/planche-signe-retenu.html',
+    dossier: 'marque', pistes: RETENU, planche: 'marque/planche-marque.html',
     titre: 'Le signe retenu',
     resume: "L'écran planté : un écran 16/10 en contour, un col fuselé, une ligne de sol de 68 unités dans laquelle il plonge. C'est le seul signe encore travaillé.",
   },
 ];
 
 /* Arbitrages de Celestin, 7 septembre 2026. */
-const RETENUES = new Set(['signe-retenu/signe']);
+const RETENUES = new Set(['marque/signe']);
 const ECARTEES = new Set([
   ...['courbe', 'trois-pousses', 'escalier', 'badge', 'fleche-feuillue'].map((c) => `recherche/pistes-fleche/${c}`),
   ...['feuillue', 'elancee', 'sobre', 'fuselee', 'cadree', 'combinee'].map((c) => `recherche/pistes-fleche-affinee/${c}`),
@@ -169,7 +169,7 @@ ${blocs}
 
     <footer class="pied">
       <p>Cette page&nbsp;: <code>node identite/build-index.mjs</code>. Les fichiers d'une série&nbsp;: <code>node identite/&lt;série&gt;/build-pistes.mjs</code>, qui les écrit puis mesure leur cadrage au pixel. Sa planche&nbsp;: <code>node identite/&lt;série&gt;/build-planche.mjs</code>.</p>
-      <p>L'identité en service reste dans <a href="logo/">logo/</a>, la charte dans <a href="CHARTE-GRAPHIQUE.md">CHARTE-GRAPHIQUE.md</a> et sa planche visuelle dans <a href="charte-caelestis.html">charte-caelestis.html</a>. Rien n'en a été retiré.</p>
+      <p>L'identité en vigueur vit dans <a href="marque/">marque/</a>, la charte dans <a href="CHARTE-GRAPHIQUE.md">CHARTE-GRAPHIQUE.md</a> et sa planche visuelle dans <a href="charte-caelestis.html">charte-caelestis.html</a>. Le monogramme en C a été retiré le 7 septembre 2026.</p>
     </footer>
   </div>`;
 
@@ -221,5 +221,5 @@ const style = `${readFileSync(`${ICI}/recherche/commun/planche.css`, 'utf8')}
 .pied p + p { margin-top: 10px; }`;
 
 writeFileSync(`${ICI}/index.html`,
-  `<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Identité Caelestis</title>\n<link rel="icon" href="logo/monogramme-creme-sur-vert.svg">\n<style>${FACES}\n${style}</style>\n</head>\n<body>${corps}\n</body>\n</html>\n`);
+  `<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>Identité Caelestis</title>\n<link rel="icon" href="marque/signe/tuile-creme-sur-vert.svg">\n<style>${FACES}\n${style}</style>\n</head>\n<body>${corps}\n</body>\n</html>\n`);
 console.log('identite/index.html');
