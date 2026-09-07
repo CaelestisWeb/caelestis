@@ -4,6 +4,8 @@ Septembre 2026. La Tige au sol est retenue. Un seul réglage reste ouvert : la l
 
 **Planche de présentation** : `planche-tige-au-sol.html`, ou `node identite/serveur.mjs` puis http://localhost:4600.
 
+> **Arbitrage du 7 septembre 2026.** Célestin retient la largeur **60** (`minimale/`) et fait **retirer la Pousse de l'écran**. Le signe définitif vit dans `identite/signe-retenu/`, avec les conséquences du retrait notées.
+
 | Dossier | Largeur | Le jour de chaque côté |
 |---|---|---|
 | `ras/` | 84 | Aucun, la ligne s'arrête au bord de l'encre de l'écran |

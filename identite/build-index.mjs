@@ -20,6 +20,7 @@ import { PISTES as ARBRE } from './pistes-arbre-ecran/signes.mjs';
 import { PISTES as MONITEUR } from './pistes-moniteur/signes.mjs';
 import { PISTES as MPLANTE } from './pistes-moniteur-plante/signes.mjs';
 import { PISTES as TIGESOL } from './pistes-tige-au-sol/signes.mjs';
+import { PISTES as RETENU } from './signe-retenu/signes.mjs';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
 const NB = ' ';
@@ -69,12 +70,17 @@ const SERIES = [
   {
     dossier: 'pistes-tige-au-sol', pistes: TIGESOL, planche: 'pistes-tige-au-sol/planche-tige-au-sol.html',
     titre: 'Neuvième série, la largeur de la ligne de sol',
-    resume: "Le signe retenu, avec cinq longueurs de ligne de sol entre 60 et 84 unités. Un seul réglage reste ouvert, et il se tranche à l'œil plutôt qu'au chiffre.",
+    resume: "Cinq longueurs de ligne de sol entre 60 et 84 unités. La largeur de 60 est retenue le 7 septembre, et la Pousse est retirée de l'écran.",
+  },
+  {
+    dossier: 'signe-retenu', pistes: RETENU, planche: 'signe-retenu/planche-signe-retenu.html',
+    titre: 'Le signe retenu',
+    resume: "L'écran planté : un écran 16/10 en contour, un col fuselé, une ligne de sol de 60 unités dans laquelle il plonge. Livré en famille complète, avec trois réglages proposés à côté.",
   },
 ];
 
 /* Arbitrages de Celestin, 7 septembre 2026. */
-const RETENUES = new Set(['pistes-pousse/pousse', 'pistes-pousse/pousse-cadree', 'pistes-moniteur-plante/tige-sol']);
+const RETENUES = new Set(['signe-retenu/retenu', 'pistes-pousse/pousse']);
 const ECARTEES = new Set([
   'pistes-fleche/courbe', 'pistes-fleche/trois-pousses', 'pistes-fleche/escalier', 'pistes-fleche/badge',
   'pistes-fleche/fleche-feuillue',
@@ -82,6 +88,7 @@ const ECARTEES = new Set([
   ...['enracine', 'plante', 'festonnee', 'reserve', 'feuillu'].map((c) => `pistes-arbre-ecran/${c}`),
   ...['moniteur', 'pousse-ecran', 'complet', 'portable'].map((c) => `pistes-moniteur/${c}`),
   ...['socle', 'sol', 'tige', 'plein'].map((c) => `pistes-moniteur-plante/${c}`),
+  ...['ras', 'retrait', 'aplomb', 'courte'].map((c) => `pistes-tige-au-sol/${c}`),
 ]);
 
 const inline = (a, maxL, maxH) => {
@@ -137,13 +144,13 @@ const corps = `
   <div class="planche">
     <header class="tete">
       <p class="surtitre">Identité Caelestis, septembre 2026</p>
-      <h1>Quarante-six pistes de logotype</h1>
-      <p class="chapo">Neuf séries, toutes livrées en fichiers vectoriels complets. Chaque série a sa planche de présentation, avec la construction de chaque signe et ses déclinaisons jusqu'au favicon.</p>
+      <h1>Le signe retenu, et cinquante pistes</h1>
+      <p class="chapo">Neuf séries de recherche et le signe retenu, tous livrés en fichiers vectoriels complets. Chaque série a sa planche de présentation, avec la construction de chaque signe et ses déclinaisons jusqu'au favicon.</p>
     </header>
 
     <section class="preferees">
       <h2>Ce qui est retenu</h2>
-      <p class="chapo">Arbitrages du 7 septembre. La Pousse et la Pousse cadrée peuvent former une seule identité, le cadre étant un contenant et non un second logo. La voie de la flèche a été ouverte puis abandonnée le même jour, et l'ordinateur-arbre de la sixième série a été écarté à son tour. La septième reprend l'idée avec un vrai moniteur, dont le Moniteur planté est retenu sans ses racines. La huitième série le règle et retient la Tige au sol ; la neuvième n'ajuste plus que la largeur de sa ligne de sol.</p>
+      <p class="chapo">Arbitrage du 7 septembre. <strong>L'Écran planté</strong> est le signe retenu : un écran 16/10 en contour, un col fuselé, une ligne de sol de 60 unités dans laquelle il plonge. La Pousse reste disponible en second signe, en pictogramme de section ou en marque de fin de document, sans revenir dans l'écran.</p>
       <div class="duo-preferees">
         ${retenues.map(({ s, r }) => `
         <a class="plaque-preferee" href="${s.planche}#${r.p.cle}">
