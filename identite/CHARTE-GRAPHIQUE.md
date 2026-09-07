@@ -199,7 +199,7 @@ node identite/build-index.mjs             # la page d'accueil de l'identité
 
 `build-signe.mjs` écrit les SVG de référence, texte converti en tracés par fontkit, puis rasterise chaque fichier écrit pour comparer ses quatre marges. `build-cartes.mjs` fait de même sur les cartes, et y ajoute un second contrôle : il relit le flux de chaque PDF, suit ses matrices et mesure la boîte de ses tracés, le PDF étant le seul des trois fichiers qu'aucun œil ne vérifie ici. `build-exports.mjs` en tire tout le reste : PNG à fond transparent, aplats en PNG et JPG, jeu de favicons avec son `.ico`, visuels de la fiche Google, des réseaux sociaux et l'image de partage. `build-charte.mjs` recompose `charte-caelestis.html` en incorporant polices et logos, à partir de `charte.template.html`.
 
-**Tous ces scripts résolvent leurs chemins depuis `import.meta.url`.** Les scripts du monogramme portaient `C:/dev/caelestis` en dur et ne tournaient donc que sur un poste, depuis ce chemin exact ; ils ont été retirés avec le C.
+**Tous ces scripts résolvent leurs chemins depuis `import.meta.url`.** Les scripts du monogramme portaient `C:/dev/sites/caelestis` en dur et ne tournaient donc que sur un poste, depuis ce chemin exact ; ils ont été retirés avec le C.
 
 ⚠️ **Rien n'écrit dans `public/`.** Le jeu de favicons sort dans `identite/marque/exports/favicon/` et attend d'être copié. Quand le basculement sera décidé, copier ce dossier dans `public/`, régénérer l'image de partage au même moment, et **incrémenter `?v=` sur les liens d'icônes dans `src/layouts/BaseLayout.astro`**, sinon les navigateurs gardent l'ancienne.
 

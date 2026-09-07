@@ -26,8 +26,8 @@ Modifier `catalogue-caelestis.html`, puis **imprimer directement le fichier loca
 ```bash
 "C:\Program Files\Google\Chrome\Application\chrome.exe" --headless=new --disable-gpu ^
   --no-pdf-header-footer --virtual-time-budget=8000 ^
-  --print-to-pdf="C:\dev\caelestis\ressources-design\Catalogue-modules-Caelestis.pdf" ^
-  "file:///C:/dev/caelestis/ressources-design/catalogue-caelestis.html"
+  --print-to-pdf="C:\dev\sites\caelestis\ressources-design\Catalogue-modules-Caelestis.pdf" ^
+  "file:///C:/dev/sites/caelestis/ressources-design/catalogue-caelestis.html"
 ```
 
 Le HTML contient déjà une feuille de style d'impression (A4, marges 14 mm, sauts de page propres).
@@ -40,7 +40,7 @@ Le HTML contient déjà une feuille de style d'impression (A4, marges 14 mm, sau
 ### Après modification, mettre à jour le Hub
 
 ```bash
-cd C:\dev\caelestis-admin
+cd C:\dev\outils\caelestis-admin
 node scripts/add-catalogue.mjs
 ```
 
@@ -48,7 +48,7 @@ Le script téléverse le PDF dans le bucket `hub-agence` et met à jour l'entré
 
 ## Source de vérité
 
-La bibliothèque technique vit dans `C:\dev\_composants` :
+La bibliothèque technique vit dans `C:\dev\outils\composants` :
 - `index.html` : la galerie interne avec le code (usage développeur, **ne pas envoyer au client**)
 - `composants.css` : les composants pilotés par variables
 - `REGISTRE.md` : qui a reçu quel module, pour ne jamais se répéter d'un client à l'autre

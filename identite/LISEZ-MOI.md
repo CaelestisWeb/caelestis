@@ -37,7 +37,7 @@ node identite/build-charte.mjs            # la charte en planche visuelle
 node identite/build-index.mjs             # la page d'accueil
 ```
 
-**Tous ces scripts résolvent leurs chemins depuis `import.meta.url`.** Les huit scripts du monogramme portaient `C:/dev/caelestis` en dur et ne tournaient donc que sur un poste, depuis ce chemin exact. Ils sont partis avec le C.
+**Tous ces scripts résolvent leurs chemins depuis `import.meta.url`.** Les huit scripts du monogramme portaient `C:/dev/sites/caelestis` en dur et ne tournaient donc que sur un poste, depuis ce chemin exact. Ils sont partis avec le C.
 
 **Le cadrage est mesuré, jamais calculé.** `build-signe.mjs` rasterise chaque fichier écrit et compare ses quatre marges : une coupe de trait, un cap ou un tracé de police déplacent le bord sans prévenir.
 

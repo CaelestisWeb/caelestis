@@ -43,7 +43,7 @@ const AFFICHES = [
 
 const require = createRequire(import.meta.url);
 let sharp = null;
-try { sharp = require(join('C:/dev/caelestis/node_modules/sharp')); } catch { console.log('sharp absent : pas de version JPEG'); }
+try { sharp = require(join('C:/dev/sites/caelestis/node_modules/sharp')); } catch { console.log('sharp absent : pas de version JPEG'); }
 
 const nav = await chromium.launch();
 const ctx = await nav.newContext({ viewport: { width: 1160, height: 1400 }, deviceScaleFactor: 1 });

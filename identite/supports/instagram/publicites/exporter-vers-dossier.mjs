@@ -1,4 +1,4 @@
-/* Copie les affiches rendues dans "C:\dev\caelestis\Affiches publicitaires",
+/* Copie les affiches rendues dans "C:\dev\sites\caelestis\Affiches publicitaires",
    avec des noms lisibles et l'ordre de publication.
    Lancement : node identite/supports/instagram/publicites/exporter-vers-dossier.mjs */
 import { copyFileSync, mkdirSync, readdirSync, rmSync, existsSync, writeFileSync } from 'node:fs';
@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
 const SOURCE = join(ICI, 'export');
-const CIBLE = 'C:\\dev\\caelestis\\Affiches publicitaires';
+const CIBLE = 'C:\\dev\\sites\\caelestis\\Affiches publicitaires';
 
 /* [fichier rendu, nom lisible] dans l'ordre de publication conseillé */
 const AFFICHES = [

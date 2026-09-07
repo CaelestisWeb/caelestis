@@ -3,7 +3,7 @@
 
    Une seule chaine remplace les six scripts du monogramme (build-exports,
    build-favicon, build-og, build-reseaux, et leurs dependances), qui portaient
-   tous C:/dev/caelestis en dur et ne tournaient donc que sur un poste, depuis
+   tous C:/dev/sites/caelestis en dur et ne tournaient donc que sur un poste, depuis
    ce chemin exact. Ici tout se resout depuis import.meta.url.
 
    Les SVG de signe/ sont la source : ils sont ecrits et mesures par

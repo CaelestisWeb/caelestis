@@ -6,7 +6,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const RACINE = 'C:/dev/caelestis';
+const RACINE = 'C:/dev/sites/caelestis';
 const FONTS = `${RACINE}/src/assets/fonts`;
 const b64 = (f) => readFileSync(`${FONTS}/${f}`).toString('base64');
 

@@ -5,7 +5,7 @@
       "name": "caelestis-dev",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "cwd": "C:/dev/caelestis",
+      "cwd": "C:/dev/sites/caelestis",
       "port": 4321,
       "autoPort": true
     }
