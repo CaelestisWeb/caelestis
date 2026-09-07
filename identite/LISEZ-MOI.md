@@ -8,7 +8,7 @@ node identite/serveur.mjs
 
 Puis ouvrir **http://localhost:4600**. Aucune dépendance, aucun `npm install`, aucun build du site : le serveur sert le dossier `identite/` tel quel. `node identite/serveur.mjs 5000` choisit un autre port, et si le port est occupé le serveur passe au suivant tout seul.
 
-La page d'accueil rassemble les **sept séries de pistes de logotype**, avec tous les signes en vignettes, les retenues mises en avant et les écartées marquées comme telles, un comparatif de tous à 32 et 16 px, et un lien vers chaque planche et chaque dossier de fichiers. Les dossiers sans page d'accueil sont listés, ce qui permet de parcourir les SVG un par un.
+La page d'accueil rassemble les **huit séries de pistes de logotype**, avec tous les signes en vignettes, les retenues mises en avant et les écartées marquées comme telles, un comparatif de tous à 32 et 16 px, et un lien vers chaque planche et chaque dossier de fichiers. Les dossiers sans page d'accueil sont listés, ce qui permet de parcourir les SVG un par un.
 
 Les planches sont aussi des fichiers autonomes : elles s'ouvrent directement par double-clic, polices comprises, et s'envoient par courriel.
 
@@ -23,7 +23,8 @@ Les planches sont aussi des fichiers autonomes : elles s'ouvrent directement par
 | `pistes-fleche/` | Quatrième série, la flèche de croissance et le vivant. Écartée |
 | `pistes-fleche-affinee/` | Cinquième série, les réglages de la Flèche feuillue. Écartée |
 | `pistes-arbre-ecran/` | Sixième série, l'ordinateur-arbre. Écartée |
-| `pistes-moniteur/` | Septième série, le moniteur enraciné : un vrai écran, un col, des racines |
+| `pistes-moniteur/` | Septième série, le moniteur enraciné. Le Moniteur planté y est retenu |
+| `pistes-moniteur-plante/` | Huitième série, le même sans racines : une ligne de sol à la place |
 | `reseaux/`, `signature-mail/` | Gabarits des supports |
 
 `CHARTE-GRAPHIQUE.md` reste la source de vérité de l'identité en service, et `charte-caelestis.html` sa planche visuelle.
@@ -45,8 +46,8 @@ Les scripts des pistes résolvent leurs chemins depuis `import.meta.url`, à la 
 **Décidé le 7 septembre 2026, deux voies ouvertes en parallèle.**
 
 - **La Pousse** et **La Pousse cadrée** (`pistes-pousse/`) : le végétal seul. Elles peuvent former une seule identité, le cadre étant un contenant et non un second logo.
-- **Le moniteur enraciné** (`pistes-moniteur/`) : un vrai écran en 16/10 avec son col, dont le socle devient des racines et dont l'écran affiche la Pousse. Proposition : la Pousse à l'écran.
+- **Le Moniteur planté** (`pistes-moniteur/plante/`) : un écran en 16/10 en contour, un col, et la Pousse affichée dedans. **Retenu, mais sans ses racines.** Les réglages qui restent, le col et le pied, vivent dans `pistes-moniteur-plante/`, où une ligne de sol plus large que l'écran remplace les racines. Proposition : le Sol.
 
-**Écarté le 7 septembre 2026** : toute la voie de la flèche (quatrième et cinquième séries), et l'ordinateur-arbre de la sixième, jugé trop illustratif et pas assez ordinateur. Le refus est une décision, ne pas les rouvrir sans motif nouveau.
+**Écarté le 7 septembre 2026** : toute la voie de la flèche (quatrième et cinquième séries), l'ordinateur-arbre de la sixième, jugé trop illustratif et pas assez ordinateur, et **toute forme de racine dessinée**. Une racine est une forme organique, et à côté d'un rectangle aux angles calculés elle fait illustration. Le refus est une décision, ne pas les rouvrir sans motif nouveau.
 
 **Ouvert** : la symétrie des feuilles. Sur la Pousse elles sont rigoureusement symétriques, ce qui est calme ; sur la Flèche elles sont alternées, ce qui est vivant. Le choix se tranche sur le signe retenu, pas avant.

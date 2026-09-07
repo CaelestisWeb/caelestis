@@ -4,6 +4,8 @@ Septembre 2026. Célestin a trouvé la sixième série trop brouillonne et trop 
 
 **Planche de présentation** : `planche-moniteur.html`, ou `node identite/serveur.mjs` puis http://localhost:4600.
 
+> **Arbitrage du 7 septembre 2026.** Célestin retient **Le Moniteur planté** (`plante/`), l'écran en contour, et écarte les quatre autres pistes. **Il écarte aussi les racines.** La suite se règle dans `identite/pistes-moniteur-plante/`, où une ligne de sol remplace les racines.
+
 | Dossier | Nom | Ce qui change |
 |---|---|---|
 | `moniteur/` | Le Moniteur enraciné | Écran plein, le socle est remplacé par trois racines |
