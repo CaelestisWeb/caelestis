@@ -89,37 +89,59 @@ const base = (largeurSol = SOL.l) => `<rect x="${ECRAN.x}" y="${ECRAN.y}" width=
 export const REPERES = { signe: () => base() };
 
 /* ══ Le lockup au mot a l'ecran ══════════════════════════════════════
-   Septieme piece de la famille : le mot passe dans l'ecran et deborde de ses
-   deux cotes, pour se poser au premier plan.
+   Septieme piece de la famille : le mot passe dans l'ecran.
 
-   Le relief se fait sans seconde couleur ni ombre. Le cadre de l'ecran est
-   trace en deux morceaux, un pour le haut et un pour le bas, avec un jour de
-   part et d'autre du mot : ses montants s'interrompent la ou le mot passe, et
-   c'est cette interruption qui met le mot devant. Peindre le mot par-dessus un
-   cadre entier ne donnerait rien, le vert se confondrait avec le vert. */
-export const MOT = { largeur: 108, cy: 32, jour: 3.2, poids: 500 };
+   Quatre traitements du croisement entre le mot et le cadre, parce qu'un
+   cadre entier et un mot de la meme couleur se confondent la ou ils se
+   croisent :
 
-export function motEcran(couleur) {
+   `interrompu`  le cadre s'ouvre de part et d'autre du mot. Une seule
+                 couleur, mais l'ecran est coupe en deux morceaux.
+   `ferme`       le cadre reste entier, le mot passe dessus. Une seule
+                 couleur, et le croisement se confond.
+   `mousse`      le cadre passe en mousse, le mot garde le vert foret.
+                 Deux couleurs, le relief se lit sans coupure.
+   `dedans`      le mot rentre entierement dans l'ecran, plus petit.
+                 Une seule couleur, aucun croisement.
+
+   La mousse #B8C4BB est la teinte de la charte reservee aux bordures, aux
+   filets et au decor. Elle ne porte jamais de texte, ce qui tombe bien : ici
+   elle porte le cadre, et le texte reste en vert foret. */
+export const MOT = { largeur: 108, largeurDedans: 58, cy: 32, jour: 3.2, poids: 500 };
+
+function tracerMot(largeur, couleur) {
   const font = police(MOT.poids);
   const sonde = trace(font, 'Caelestis', 100, { ls: INTERLETTRAGE * 100 });
-  const taille = (100 * MOT.largeur) / sonde.largeur;
+  const taille = (100 * largeur) / sonde.largeur;
   const ls = INTERLETTRAGE * taille;
   const m = trace(font, 'Caelestis', taille, { ls });
-  const mot = trace(font, 'Caelestis', taille, {
+  const markup = trace(font, 'Caelestis', taille, {
     x: 50 - m.largeur / 2 - m.gauche,
     y: MOT.cy - m.hauteur / 2 - m.haut,
     couleur, ls,
   }).markup;
+  return { markup, hauteur: m.hauteur };
+}
 
-  const y0 = f(MOT.cy - m.hauteur / 2 - MOT.jour);
-  const y1 = f(MOT.cy + m.hauteur / 2 + MOT.jour);
+/* Le cadre en deux morceaux, avec un jour de part et d'autre du mot. */
+function cadreOuvert(hauteurMot, couleur) {
+  const y0 = f(MOT.cy - hauteurMot / 2 - MOT.jour);
+  const y1 = f(MOT.cy + hauteurMot / 2 + MOT.jour);
   const r = ECRAN.r, xg = ECRAN.x, xd = ECRAN.x + ECRAN.l, yh = ECRAN.y, yb = ECRAN.y + ECRAN.h;
   const haut = `M${xg} ${y0}L${xg} ${f(yh + r)}A${r} ${r} 0 0 1 ${f(xg + r)} ${yh}`
     + `L${f(xd - r)} ${yh}A${r} ${r} 0 0 1 ${xd} ${f(yh + r)}L${xd} ${y0}`;
   const bas = `M${xg} ${y1}L${xg} ${f(yb - r)}A${r} ${r} 0 0 0 ${f(xg + r)} ${yb}`
     + `L${f(xd - r)} ${yb}A${r} ${r} 0 0 0 ${xd} ${f(yb - r)}L${xd} ${y1}`;
-
   return `<g fill="none" stroke="${couleur}" stroke-width="7.5" stroke-linecap="butt">`
-    + `<path d="${haut}"/><path d="${bas}"/></g>`
-    + col(COL.haut, COL.bas, couleur) + sol(SOL.l, SOL.h, couleur) + mot;
+    + `<path d="${haut}"/><path d="${bas}"/></g>`;
+}
+
+export function motEcran(couleur, { traitement = 'interrompu', couleurCadre } = {}) {
+  const dedans = traitement === 'dedans';
+  const { markup, hauteur } = tracerMot(dedans ? MOT.largeurDedans : MOT.largeur, couleur);
+  const cc = couleurCadre || couleur;
+  const cadre = traitement === 'interrompu'
+    ? cadreOuvert(hauteur, cc)
+    : ecran(cc, 7.5);
+  return cadre + col(COL.haut, COL.bas, cc) + sol(SOL.l, SOL.h, cc) + markup;
 }
