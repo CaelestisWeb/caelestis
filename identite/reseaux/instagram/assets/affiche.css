@@ -1,9 +1,9 @@
 /* Affiches Instagram Caelestis, 1080 x 1350. Charte Forêt Vivante + Satoshi. */
 
-@font-face { font-family: 'Satoshi'; src: url('satoshi-300.woff2') format('woff2'); font-weight: 300; font-display: block; }
-@font-face { font-family: 'Satoshi'; src: url('satoshi-400.woff2') format('woff2'); font-weight: 400; font-display: block; }
-@font-face { font-family: 'Satoshi'; src: url('satoshi-500.woff2') format('woff2'); font-weight: 500; font-display: block; }
-@font-face { font-family: 'Satoshi'; src: url('satoshi-700.woff2') format('woff2'); font-weight: 700; font-display: block; }
+@font-face { font-family: 'Satoshi'; src: url('../../../../src/assets/fonts/satoshi-300.woff2') format('woff2'); font-weight: 300; font-display: block; }
+@font-face { font-family: 'Satoshi'; src: url('../../../../src/assets/fonts/satoshi-400.woff2') format('woff2'); font-weight: 400; font-display: block; }
+@font-face { font-family: 'Satoshi'; src: url('../../../../src/assets/fonts/satoshi-500.woff2') format('woff2'); font-weight: 500; font-display: block; }
+@font-face { font-family: 'Satoshi'; src: url('../../../../src/assets/fonts/satoshi-700.woff2') format('woff2'); font-weight: 700; font-display: block; }
 
 :root {
   --creme: #FCFBF8;
