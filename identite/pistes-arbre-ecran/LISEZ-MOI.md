@@ -4,6 +4,8 @@ Septembre 2026. Demande de Célestin : un carré d'ordinateur avec du feuillage,
 
 **Planche de présentation** : `planche-arbre-ecran.html`, ou `node identite/serveur.mjs` puis http://localhost:4600.
 
+> **Arbitrage du 7 septembre 2026.** Série écartée : trop brouillonne et trop illustrative, et le carré ne ressemble pas assez à un ordinateur. Les deux reproches sont traités dans `identite/pistes-moniteur/`, où l'écran devient un vrai moniteur en 16/10 et les racines des prismes droits.
+
 | Dossier | Nom | Ce qui pousse |
 |---|---|---|
 | `enracine/` | L'Enraciné | La tuile en cime, un tronc, trois racines |

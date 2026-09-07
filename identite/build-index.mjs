@@ -17,6 +17,7 @@ import { PISTES as POUSSE } from './pistes-pousse/signes.mjs';
 import { PISTES as FLECHE } from './pistes-fleche/signes.mjs';
 import { PISTES as AFFINEE } from './pistes-fleche-affinee/signes.mjs';
 import { PISTES as ARBRE } from './pistes-arbre-ecran/signes.mjs';
+import { PISTES as MONITEUR } from './pistes-moniteur/signes.mjs';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
 const NB = ' ';
@@ -51,7 +52,12 @@ const SERIES = [
   {
     dossier: 'pistes-arbre-ecran', pistes: ARBRE, planche: 'pistes-arbre-ecran/planche-arbre-ecran.html',
     titre: "Sixième série, l'ordinateur-arbre",
-    resume: "Le carré de l'écran, et sous lui un tronc et des racines. Cinq façons de tenir les deux ensemble, de la plus explicite à la plus contenue.",
+    resume: "Le carré de l'écran, et sous lui un tronc et des racines. Écartée le 7 septembre : trop illustrative, et le carré ne dit pas ordinateur.",
+  },
+  {
+    dossier: 'pistes-moniteur', pistes: MONITEUR, planche: 'pistes-moniteur/planche-moniteur.html',
+    titre: 'Septième série, le moniteur enraciné',
+    resume: "Le carré devient un écran en 16/10, avec un col et un socle. Comme un moniteur possède déjà un pied, échanger son socle contre des racines suffit à en faire un arbre.",
   },
 ];
 
@@ -61,6 +67,7 @@ const ECARTEES = new Set([
   'pistes-fleche/courbe', 'pistes-fleche/trois-pousses', 'pistes-fleche/escalier', 'pistes-fleche/badge',
   'pistes-fleche/fleche-feuillue',
   ...['feuillue', 'elancee', 'sobre', 'fuselee', 'cadree', 'combinee'].map((c) => `pistes-fleche-affinee/${c}`),
+  ...['enracine', 'plante', 'festonnee', 'reserve', 'feuillu'].map((c) => `pistes-arbre-ecran/${c}`),
 ]);
 
 const inline = (a, maxL, maxH) => {
@@ -116,13 +123,13 @@ const corps = `
   <div class="planche">
     <header class="tete">
       <p class="surtitre">Identité Caelestis, septembre 2026</p>
-      <h1>Trente et une pistes de logotype</h1>
-      <p class="chapo">Six séries, toutes livrées en fichiers vectoriels complets. Chaque série a sa planche de présentation, avec la construction de chaque signe et ses déclinaisons jusqu'au favicon.</p>
+      <h1>Trente-six pistes de logotype</h1>
+      <p class="chapo">Sept séries, toutes livrées en fichiers vectoriels complets. Chaque série a sa planche de présentation, avec la construction de chaque signe et ses déclinaisons jusqu'au favicon.</p>
     </header>
 
     <section class="preferees">
       <h2>Ce qui est retenu</h2>
-      <p class="chapo">Arbitrages du 7 septembre. La Pousse et la Pousse cadrée peuvent former une seule identité, le cadre étant un contenant et non un second logo. La voie de la flèche a été ouverte puis abandonnée le même jour, et la sixième série reprend celle de l'ordinateur-arbre.</p>
+      <p class="chapo">Arbitrages du 7 septembre. La Pousse et la Pousse cadrée peuvent former une seule identité, le cadre étant un contenant et non un second logo. La voie de la flèche a été ouverte puis abandonnée le même jour, et l'ordinateur-arbre de la sixième série a été écarté à son tour. La septième reprend l'idée avec un vrai moniteur.</p>
       <div class="duo-preferees">
         ${retenues.map(({ s, r }) => `
         <a class="plaque-preferee" href="${s.planche}#${r.p.cle}">
