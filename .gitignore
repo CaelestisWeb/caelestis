@@ -39,7 +39,7 @@ identite/_comparaison-ecarts.html
 
 # Rendus intermediaires des affiches. Playwright ecrit un PNG, sharp en tire le
 # JPG qui part sur Instagram : seul le JPG est un livrable, le PNG se refabrique
-# par `node identite/reseaux/instagram/build.mjs`. Les garder suivis coutait
+# par `node identite/supports/instagram/build.mjs`. Les garder suivis coutait
 # 19 Mo pour zero information que le JPG ne porte pas.
-identite/reseaux/instagram/export/*.png
-identite/reseaux/instagram/publicites/export/*.png
+identite/supports/instagram/export/*.png
+identite/supports/instagram/publicites/export/*.png

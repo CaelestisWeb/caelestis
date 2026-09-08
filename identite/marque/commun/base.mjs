@@ -30,7 +30,7 @@ export const ENCRE = '#12160F';
 
 export const police = (poids) => fontkit.openSync(`${FONTS}/satoshi-${poids}.woff2`);
 
-/* Texte en traces, meme principe que identite/lib-traces.mjs : un SVG qui
+/* Texte en traces et non en <text> : un SVG qui
    embarque sa police ne s'affiche qu'en navigateur, ailleurs le mot deborde. */
 export function trace(font, texte, taille, { x = 0, y = 0, couleur = VERT, ls = 0 } = {}) {
   const k = taille / font.unitsPerEm;

@@ -56,7 +56,7 @@ export const BILAN = {
     etapes: [
       ['Le dessin final', "Reprise au dixième : rayon des angles, largeurs du col en haut et en bas, épaisseur et longueur de la ligne, corrections optiques aux jonctions."],
       ['La famille complète', "PNG et PDF pour l’imprimeur, image de partage, couverture et logo carré de la fiche Google, icônes d’application dans toutes les tailles."],
-      ['La charte', "Zone de protection, tailles minimales à l’écran et à l’impression, interdits, et mise à jour de identite/CHARTE-GRAPHIQUE.md ainsi que de identite/build-logos.mjs."],
+      ['La charte', "Zone de protection, tailles minimales à l’écran et à l’impression, interdits, et mise à jour de identite/CHARTE-GRAPHIQUE.md."],
       ['Le site', "En-tête, pied de page, favicon, icônes d’application, signature de courriel, cartes de visite et gabarits de devis."],
     ],
   },
