@@ -11,6 +11,8 @@
    lien vers l'accueil, un libellé explicite est plus intuitif. Le logotype y
    mène toujours, en complément. Sept entrées. Le pied de page garde aussi
    « Accueil ». */
+import Logo from './Logo.astro';
+
 const nav = [
   { href: '/', label: 'Accueil' },
   {
@@ -72,9 +74,11 @@ const estActive = (e: { href?: string; prefixe?: string }) => {
       </button>
     </div>
 
-    <!-- Logo — droite sur mobile et tablette (ml-auto), gauche sur desktop (lg:ml-0) -->
-    <a href="/" class="font-display text-xl font-medium text-brun tracking-[-0.02em] hover:text-ocre transition-colors duration-300 flex items-center ml-auto lg:ml-0">
-      Caelestis
+    <!-- Logo — droite sur mobile et tablette (ml-auto), gauche sur desktop (lg:ml-0).
+         Le centrage vertical vient de `items-center` sur la barre, qui vaut aussi
+         pour la grille du desktop : le lien n'a donc pas à être lui-même un flex. -->
+    <a href="/" class="font-display text-xl font-bold text-brun tracking-[-0.02em] hover:text-ocre transition-colors duration-300 ml-auto lg:ml-0">
+      <Logo poids={700} />
     </a>
 
     <!-- Desktop nav — parfaitement centré -->

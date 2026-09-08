@@ -76,7 +76,7 @@ td.mono,th.mono{font-family:ui-monospace,Consolas,monospace}
 .carte-logo .legende b{display:block;color:var(--encre);font-weight:500;font-size:13.5px;margin-bottom:2px}
 
 .zone-protection{background:#fff;border:1px solid var(--cream-dark);border-radius:6px;padding:30px;display:flex;gap:38px;flex-wrap:wrap;align-items:center}
-/* La reserve vaut la moitie de la hauteur du monogramme. Le fichier nu mesure
+/* La reserve vaut la moitie de la hauteur du signe. Le fichier nu mesure
    58,7 sur 73 : pose a 100 px de large il fait 124,4 px de haut, la reserve
    vaut donc 62 px sur les quatre cotes. Le visuel demontre ainsi la regle
    qu'il enonce, a l'echelle. */
@@ -109,7 +109,7 @@ td.mono,th.mono{font-family:ui-monospace,Consolas,monospace}
 .cv{width:85mm;height:55mm;border-radius:2mm;overflow:hidden;position:relative;box-shadow:0 1px 3px rgba(18,22,15,.14);display:flex;flex-direction:column;justify-content:space-between;padding:8mm 7mm}
 .cv.recto{background:var(--vert);color:var(--cream)}
 .cv.verso{background:var(--cream);color:var(--encre);border:1px solid var(--cream-dark)}
-.cv .mono-img{width:13mm;height:auto}
+.cv-vue{display:block;width:85mm;height:55mm;border-radius:2.4mm;box-shadow:0 1px 2px rgba(18,22,15,.10),0 14px 34px -16px rgba(18,22,15,.34)}
 .cv .nom{font-size:5.4mm;font-weight:700;letter-spacing:-0.035em;line-height:1.05}
 .cv .role{font-size:2.7mm;letter-spacing:0.13em;text-transform:uppercase;font-weight:500;margin-top:1.6mm}
 .cv.recto .role{color:var(--sauge-pale)}
@@ -165,7 +165,7 @@ footer b{color:var(--cream);font-weight:500}
 <header class="hero">
   <div class="wrap">
     <div>
-      <span class="num" style="color:var(--sauge-pale)">Charte graphique, version 2026.08</span>
+      <span class="num" style="color:var(--sauge-pale)">Charte graphique, version 2026.09</span>
       <h1>Caelestis</h1>
       <p style="margin-top:16px">Création de sites internet et référencement naturel, Drôme. Ce document décrit l'identité relevée dans le code du site en production. Il sert de source unique pour toute production imprimée ou graphique, Canva compris.</p>
     </div>
@@ -173,7 +173,7 @@ footer b{color:var(--cream);font-weight:500}
       <div><b>Positionnement</b>Métiers de la nature</div>
       <div><b>Typographie</b>Satoshi, graisses 300 à 700</div>
       <div><b>Couleur directrice</b>Vert forêt #255C41</div>
-      <div><b>Relevé le</b>1er août 2026</div>
+      <div><b>Relevé le</b>7 septembre 2026</div>
     </div>
   </div>
 </header>
@@ -210,45 +210,45 @@ footer b{color:var(--cream);font-weight:500}
   <div class="wrap">
     <span class="num">02, Logotype</span>
     <h2>Le logo et ses déclinaisons</h2>
-    <p class="chapo">La marque repose sur deux éléments, un monogramme géométrique en forme de C ouvert et un mot écrit en Satoshi. Ils s'utilisent seuls ou associés, jamais redessinés.</p>
+    <p class="chapo">La marque repose sur deux éléments, l'Écran planté et le mot « Caelestis » écrit en Satoshi. Ils s'utilisent seuls ou associés, jamais redessinés.</p>
 
     <div class="logos">
       <div class="carte-logo">
-        <div class="scene clair"><img src="logo/lockup-horizontal-sur-clair.svg" alt="Logo horizontal sur fond clair" style="width:210px"></div>
+        <div class="scene clair"><img src="marque/signe/lockup-horizontal-vert.svg" alt="Logo horizontal sur fond clair" style="width:210px"></div>
         <div class="legende"><b>Horizontal, fond clair</b>Usage courant, en-têtes et signatures</div>
       </div>
       <div class="carte-logo">
-        <div class="scene vert"><img src="logo/lockup-horizontal-sur-vert.svg" alt="Logo horizontal sur fond vert" style="width:200px"></div>
+        <div class="scene vert"><img src="marque/signe/lockup-horizontal-creme.svg" alt="Logo horizontal sur fond vert" style="width:200px"></div>
         <div class="legende"><b>Horizontal, fond vert</b>Bandeaux, couvertures, réseaux</div>
       </div>
       <div class="carte-logo">
-        <div class="scene clair"><img src="logo/lockup-vertical-sur-clair.svg" alt="Logo vertical sur fond clair" style="width:120px"></div>
+        <div class="scene clair"><img src="marque/signe/lockup-vertical-vert.svg" alt="Logo vertical sur fond clair" style="width:120px"></div>
         <div class="legende"><b>Vertical, fond clair</b>Formats carrés et étroits</div>
       </div>
       <div class="carte-logo">
-        <div class="scene vert"><img src="logo/lockup-vertical-sur-vert.svg" alt="Logo vertical sur fond vert" style="width:120px"></div>
+        <div class="scene vert"><img src="marque/signe/lockup-vertical-creme.svg" alt="Logo vertical sur fond vert" style="width:120px"></div>
         <div class="legende"><b>Vertical, fond vert</b>Publications sociales</div>
       </div>
       <div class="carte-logo">
-        <div class="scene clair"><img src="logo/wordmark-vert.svg" alt="Mot Caelestis en vert" style="width:190px"></div>
-        <div class="legende"><b>Mot seul</b>Quand le monogramme est déjà présent</div>
+        <div class="scene clair"><img src="marque/mot/wordmark-vert.svg" alt="Mot Caelestis en vert" style="width:190px"></div>
+        <div class="legende"><b>Mot seul</b>Quand le signe est déjà présent</div>
       </div>
       <div class="carte-logo">
-        <div class="scene douce"><img src="logo/monogramme-nu-vert.svg" alt="Monogramme seul" style="width:64px"></div>
-        <div class="legende"><b>Monogramme seul</b>Avatar, favicon, tampon, filigrane</div>
+        <div class="scene douce"><img src="marque/signe/signe-vert.svg" alt="Le signe seul" style="width:64px"></div>
+        <div class="legende"><b>Le signe seul</b>Avatar, favicon, tampon, filigrane</div>
       </div>
     </div>
 
     <h3>Zone de protection et taille minimale</h3>
     <div class="zone-protection">
       <div class="zp-visuel">
-        <div class="cadre"><img src="logo/monogramme-nu-vert.svg" alt="Zone de protection du monogramme"></div>
+        <div class="cadre"><img src="marque/signe/signe-vert.svg" alt="Zone de protection du signe"></div>
       </div>
       <div class="zp-legende">
         <ul>
-          <li><strong>Zone de protection</strong> : un espace vide égal à la moitié de la hauteur du monogramme, sur les quatre côtés. Aucun texte, aucune photo, aucun bord de page à l'intérieur.</li>
-          <li><strong>Taille minimale imprimée</strong> : 9 mm de haut pour le monogramme seul, 22 mm de large pour le logo horizontal.</li>
-          <li><strong>Taille minimale à l'écran</strong> : 32 px pour le monogramme, 120 px pour le logo horizontal.</li>
+          <li><strong>Zone de protection</strong> : un espace vide égal à la moitié de la hauteur du signe, sur les quatre côtés. Aucun texte, aucune photo, aucun bord de page à l'intérieur.</li>
+          <li><strong>Taille minimale imprimée</strong> : 9 mm de haut pour le signe seul, 22 mm de large pour le logo horizontal.</li>
+          <li><strong>Taille minimale à l'écran</strong> : 32 px pour le signe, 120 px pour le logo horizontal, 128 px pour une tuile au mot.</li>
           <li><strong>Sur photo</strong> : uniquement en crème, sur une zone sombre et calme de l'image, jamais posé sur un feuillage détaillé.</li>
         </ul>
       </div>
@@ -260,7 +260,7 @@ footer b{color:var(--cream);font-weight:500}
       <li>Changer sa couleur pour une teinte hors palette, ou lui appliquer un dégradé</li>
       <li>Lui ajouter une ombre portée, un contour, un reflet ou un effet de relief</li>
       <li>Réécrire le mot dans une autre police que Satoshi</li>
-      <li>Poser le monogramme vert sur un fond vert, ou crème sur un fond crème</li>
+      <li>Poser le signe vert sur un fond vert, ou crème sur un fond crème</li>
     </ul>
 
     <div class="alerte">
@@ -276,7 +276,7 @@ footer b{color:var(--cream);font-weight:500}
     <p class="chapo">Neuf teintes, aucune de plus. Un vert forêt qui porte la marque, un crème chaud qui porte les pages, une mousse claire pour respirer, une encre pour lire. Les valeurs ci-dessous sont celles du code en production.</p>
 
     <div class="nuancier">
-      <div class="teinte"><div class="pastille" style="background:#255C41"></div><div class="info"><div class="nom">Vert forêt</div><div class="hex">#255C41</div><div class="rgb">R 37, V 92, B 65</div><div class="role">Couleur directrice. Boutons, sections sombres, titres forts, monogramme.</div><div class="token">--color-ocre, --color-brun, --color-bois</div></div></div>
+      <div class="teinte"><div class="pastille" style="background:#255C41"></div><div class="info"><div class="nom">Vert forêt</div><div class="hex">#255C41</div><div class="rgb">R 37, V 92, B 65</div><div class="role">Couleur directrice. Boutons, sections sombres, titres forts, le signe.</div><div class="token">--color-ocre, --color-brun, --color-bois</div></div></div>
       <div class="teinte"><div class="pastille" style="background:#1B4733"></div><div class="info"><div class="nom">Vert profond</div><div class="hex">#1B4733</div><div class="rgb">R 27, V 71, B 51</div><div class="role">État survolé des boutons, aplats les plus denses.</div><div class="token">--color-ocre-dark</div></div></div>
       <div class="teinte"><div class="pastille" style="background:#2E7452"></div><div class="info"><div class="nom">Mousse foncée</div><div class="hex">#2E7452</div><div class="rgb">R 46, V 116, B 82</div><div class="role">Accents de texte sur fond clair, surtitres, liens. La seule teinte verte claire autorisée en texte.</div><div class="token">--color-sauge-text, --color-sauge-vif</div></div></div>
       <div class="teinte"><div class="pastille" style="background:#B8C4BB"></div><div class="info"><div class="nom">Mousse</div><div class="hex">#B8C4BB</div><div class="rgb">R 184, V 196, B 187</div><div class="role">Bordures, filets, décor. Jamais en couleur de texte, contraste 1,7 pour 1 seulement.</div><div class="token">--color-sauge</div></div></div>
@@ -376,58 +376,27 @@ footer b{color:var(--cream);font-weight:500}
   <div class="wrap">
     <span class="num">05, Carte de visite</span>
     <h2>Deux pistes, à l'échelle réelle</h2>
-    <p class="chapo">Format français 85 par 55 millimètres. Les blocs ci-dessous sont affichés à leur taille d'impression, mesurables sur un écran à l'échelle 100 %.</p>
+    <p class="chapo">Format français 85 par 55 millimètres. Les quatre vues ci-dessous sont les fichiers d'impression eux-mêmes, rognés au format fini, affichés à leur taille réelle sur un écran à l'échelle 100 %. Elles sortent de <code>identite/marque/build-cartes.mjs</code>, avec le PDF vectoriel qui part à l'imprimeur. <strong>La piste reste à choisir</strong>, et une seule part à l'impression.</p>
 
     <div class="cv-grille">
       <div class="cv-bloc">
         <div class="cv-titre">Piste A, recto</div>
-        <div class="cv recto">
-          <img class="mono-img" src="logo/monogramme-nu-creme.svg" alt="">
-          <div>
-            <div class="nom">Célestin</div>
-            <div class="role">Fondateur</div>
-          </div>
-        </div>
+        <img class="cv-vue" src="marque/exports/impression/carte-piste-A-recto-vue.png" alt="Carte de visite, piste A, recto">
         <div class="cv-cotes">85 × 55 mm, aplat #255C41</div>
       </div>
-
       <div class="cv-bloc">
         <div class="cv-titre">Piste A, verso</div>
-        <div class="cv verso">
-          <div class="sign">Caelestis</div>
-          <div>
-            <div class="filet"></div>
-            <div class="coord">
-              <b>07 69 36 27 27</b><br>
-              contact@caelestis.fr<br>
-              caelestis.fr
-            </div>
-          </div>
-          <div class="coord" style="font-size:2.5mm">Création de sites internet et référencement, Drôme</div>
-        </div>
+        <img class="cv-vue" src="marque/exports/impression/carte-piste-A-verso-vue.png" alt="Carte de visite, piste A, verso">
         <div class="cv-cotes">85 × 55 mm, fond #FCFBF8</div>
       </div>
-
       <div class="cv-bloc">
         <div class="cv-titre">Piste B, recto</div>
-        <div class="cv verso" style="justify-content:center;align-items:flex-start">
-          <img src="logo/lockup-horizontal-sur-clair.svg" alt="" style="width:46mm">
-          <div class="coord" style="margin-top:5mm;font-size:2.7mm;letter-spacing:0.1em;text-transform:uppercase;color:var(--sauge-texte);font-weight:500">Sites internet et référencement</div>
-        </div>
+        <img class="cv-vue" src="marque/exports/impression/carte-piste-B-recto-vue.png" alt="Carte de visite, piste B, recto">
         <div class="cv-cotes">Logo horizontal, fond crème</div>
       </div>
-
       <div class="cv-bloc">
         <div class="cv-titre">Piste B, verso</div>
-        <div class="cv recto" style="justify-content:center">
-          <div class="nom" style="font-size:4.6mm">Célestin</div>
-          <div class="role" style="margin-bottom:4mm">Fondateur</div>
-          <div class="coord">
-            <b>07 69 36 27 27</b><br>
-            contact@caelestis.fr<br>
-            caelestis.fr
-          </div>
-        </div>
+        <img class="cv-vue" src="marque/exports/impression/carte-piste-B-verso-vue.png" alt="Carte de visite, piste B, verso">
         <div class="cv-cotes">Coordonnées sur aplat vert</div>
       </div>
     </div>
@@ -470,7 +439,7 @@ footer b{color:var(--cream);font-weight:500}
             contact@caelestis.fr<br>
             caelestis.fr
           </div>
-          <p style="margin-top:16px;font-size:12.5px">Aucune image de fond, aucun logo lourd. Le monogramme en 64 pixels au maximum, sinon il est coupé par les messageries.</p>
+          <p style="margin-top:16px;font-size:12.5px">Aucune image de fond, aucun logo lourd. Le signe en 64 pixels au maximum, sinon il est coupé par les messageries.</p>
         </div>
       </div>
       <div>
@@ -550,13 +519,13 @@ footer b{color:var(--cream);font-weight:500}
       <li>Créer le kit de marque, rubrique Marque du menu de gauche.</li>
       <li>Ajouter les neuf couleurs de la section 03 en collant chaque code hexadécimal, dans l'ordre du nuancier.</li>
       <li>Importer les quatre fichiers Satoshi téléchargés sur Fontshare, puis les affecter, Bold 700 pour les titres, Regular 400 pour le texte.</li>
-      <li>Téléverser le dossier <code>identite/logo</code> dans les logos de la marque, les fichiers SVG conservent leur netteté à toute taille.</li>
+      <li>Téléverser <code>identite/marque/signe</code> et <code>identite/marque/mot</code> dans les logos de la marque, les fichiers SVG conservent leur netteté à toute taille.</li>
       <li>Créer un format personnalisé de 91 × 61 mm pour les cartes de visite, et enregistrer le résultat comme modèle.</li>
       <li>Avant chaque export, vérifier trois points, aucune italique, aucun tiret long, aucun texte posé sur la mousse claire.</li>
     </ul>
 
     <div class="alerte">
-      <p><b>Si le mot Caelestis ne s'affiche pas correctement.</b> Les fichiers SVG de cette charte embarquent la police. Certains outils, Canva compris, la remplacent à l'import. Dans ce cas, réécrivez le mot en texte Canva, Satoshi Medium 500, interlettrage -20, et placez-le à côté du monogramme importé séparément.</p>
+      <p><b>Si le mot Caelestis ne s'affiche pas correctement.</b> Les fichiers SVG de cette charte embarquent la police. Certains outils, Canva compris, la remplacent à l'import. Dans ce cas, réécrivez le mot en texte Canva, Satoshi Medium 500, interlettrage -20, et placez-le à côté du signe importé séparément.</p>
     </div>
   </div>
 </section>
@@ -565,7 +534,7 @@ footer b{color:var(--cream);font-weight:500}
   <div class="wrap">
     <b>Caelestis</b>, création de sites internet et référencement naturel, Drôme.<br>
     07 69 36 27 27, contact@caelestis.fr, caelestis.fr<br>
-    <span style="display:block;margin-top:14px;font-size:12.5px;opacity:.75">Document relevé dans le code de production le 1er août 2026. En cas d'écart, le fichier <code style="background:rgba(252,251,248,.12);color:#E3EFE8">src/styles/global.css</code> fait foi.</span>
+    <span style="display:block;margin-top:14px;font-size:12.5px;opacity:.75">Document relevé dans le code de production le 7 septembre 2026. En cas d'écart, le fichier <code style="background:rgba(252,251,248,.12);color:#E3EFE8">src/styles/global.css</code> fait foi.</span>
   </div>
 </footer>
 

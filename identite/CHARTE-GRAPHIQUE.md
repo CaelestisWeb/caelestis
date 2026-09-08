@@ -1,7 +1,8 @@
 # Caelestis, charte graphique
 
-> Relevée dans le code de production le 1er août 2026. En cas d'écart, `src/styles/global.css` fait foi.
-> Version visuelle à ouvrir dans un navigateur : `identite/charte-caelestis.html` (fichier autonome, polices incluses).
+> Version 2026.09, relevée dans le code de production le 7 septembre 2026. Version visuelle à ouvrir dans un navigateur : `identite/charte-caelestis.html` (fichier autonome, polices incluses).
+>
+> Le signe de la marque est **l'Écran planté**, retenu le 7 septembre 2026. Il succède au monogramme en C, dont les fichiers sont sortis du dépôt le même jour.
 
 ## 1. Territoire de marque
 
@@ -17,7 +18,7 @@ Valeurs exactes du code (`@theme` dans `src/styles/global.css`). Neuf teintes, a
 
 | Nom | Hex | RVB | Rôle | Token CSS |
 |---|---|---|---|---|
-| Vert forêt | `#255C41` | 37, 92, 65 | Couleur directrice : boutons, sections sombres, titres forts, monogramme | `--color-ocre`, `--color-brun`, `--color-bois` |
+| Vert forêt | `#255C41` | 37, 92, 65 | Couleur directrice : boutons, sections sombres, titres forts, le signe | `--color-ocre`, `--color-brun`, `--color-bois` |
 | Vert profond | `#1B4733` | 27, 71, 51 | Survol des boutons, aplats les plus denses | `--color-ocre-dark` |
 | Mousse foncée | `#2E7452` | 46, 116, 82 | Accents de texte sur fond clair, surtitres, liens | `--color-sauge-text`, `--color-sauge-vif` |
 | Mousse | `#B8C4BB` | 184, 196, 187 | Bordures, filets, décor. **Jamais de texte** | `--color-sauge` |
@@ -72,57 +73,72 @@ Graisses utilisées : 300, 400, 500, 700. **Satoshi n'a pas de graisse 600** : t
 
 ## 4. Logotype
 
-Deux éléments : un monogramme géométrique en forme de C ouvert (arc de cercle, ouverture à droite, épaisseur de trait égale à 15 % du côté de la tuile) et le mot « Caelestis » écrit en Satoshi Medium 500, interlettrage -0.02em, **sans point final**.
+Deux éléments : **l'Écran planté**, un moniteur en contour dont le col fuselé plonge dans une ligne de sol, et le mot « Caelestis » écrit en Satoshi Medium 500, interlettrage -0.02em, **sans point final**.
 
-Fichiers dans `identite/logo/`. Le détail complet, avec le fichier à choisir pour chaque destination, est dans `identite/logo/LISEZ-MOI.md`.
+Fichiers dans `identite/marque/`. Le détail complet, avec le fichier à choisir pour chaque destination, est dans `identite/marque/LISEZ-MOI.md`.
 
 | Fichier | Usage |
 |---|---|
-| `lockup-horizontal-nu-vert.svg` | Usage courant sur fond clair, en-têtes, devis, factures |
-| `lockup-horizontal-sur-clair.svg` | Avec tuile crème, quand le fond n'est pas maîtrisé |
-| `lockup-horizontal-sur-vert.svg` | Bandeaux, couvertures, réseaux |
-| `lockup-vertical-nu-vert.svg`, `-sur-clair.svg` | Formats carrés et étroits |
-| `lockup-vertical-sur-vert.svg` | Publications sociales |
-| `wordmark-vert.svg`, `wordmark-creme.svg` | Mot seul, quand le monogramme est déjà présent |
-| `wordmark-encre-700.svg` | Mot en graisse 700, usage monochrome |
-| `monogramme-nu-vert.svg`, `-creme`, `-encre` | Avatar, favicon, tampon, filigrane |
-| `monogramme-vert-sur-creme.svg`, `monogramme-creme-sur-vert.svg` | Versions en tuile arrondie |
-| `png/`, `png-aplat/` | Les mêmes en PNG, fond transparent ou aplat composé, deux tailles |
-| `google/` | Fiche d'établissement Google : logo carré 720 px et couverture 1024 × 576, en PNG et en JPG |
-| `impression/` | Cartes de visite, PDF vectoriel pour l'imprimeur et PNG 300 dpi |
+| `signe/signe-vert.svg`, `-creme`, `-encre` | Le signe seul, cadré au plus juste sur son encre : filigrane, puce, icône de bloc, tampon |
+| `signe/tuile-creme-sur-vert.svg`, `tuile-vert-sur-creme.svg` | Le signe dans un carré arrondi, fond compris : avatar, icône d'application, annuaire |
+| `signe/favicon.svg` | La tuile redessinée pour la petite taille, contour à 8 au lieu de 7,5 |
+| `signe/lockup-horizontal-vert.svg`, `-creme`, `-encre` | Usage courant : en-tête du site, devis, facture, signature de courriel |
+| `signe/lockup-vertical-vert.svg`, `-creme` | Formats étroits ou carrés : publication sociale, carte en portrait, marquage |
+| `signe/lockup-mot-a-l-ecran-*.svg` | Le mot dans l'écran, pour les grands formats où le logo est le sujet |
+| `signe/tuile-mot-*.svg` | Le mot dans l'écran, en carré. **À partir de 128 px, jamais en dessous** |
+| `mot/wordmark-vert.svg`, `-creme`, `-encre-700` | Le mot seul, quand le signe est déjà présent |
+| `exports/png/`, `exports/aplat/` | Les mêmes en PNG, fond transparent ou aplat composé, deux tailles |
+| `exports/favicon/` | Le jeu complet pour `public/` : SVG, six PNG et un `favicon.ico` de 16, 32 et 48 px |
+| `exports/google/` | Fiche d'établissement Google : logo carré 720 px et couverture 1024 × 576 |
+| `exports/reseaux/` | Avatar 1080, photo de profil 720, couverture 1640 × 720 |
+| `exports/partage/` | Image de partage Open Graph, 1200 × 630 |
 
 **Le texte des SVG est en tracés**, jamais en `<text>` : un SVG qui embarque sa police ne s'affiche correctement que dans un navigateur, ailleurs la police est substituée et le mot déborde de son cadre. Ces fichiers s'affichent à l'identique partout, y compris chez un imprimeur et dans Canva.
 
-### Deux règles de géométrie, à ne jamais perdre de vue
+### Les deux écarts qui font le signe, à tenir au dixième
 
-**1. Le C n'est pas centré dans sa tuile, il faut le recentrer.** Son tracé passe par la gauche et s'arrête à l'ouverture : pour une tuile de 100, l'encre occupe 13,5 à 72,2 en largeur et 13,5 à 86,5 en hauteur. Son milieu tombe donc à 42,85 et non à 50. Poser le monogramme sans correction le laisse penché à gauche de 7,15 %, ce qui se voit sur un avatar comme sur un favicon. La correction, `DECALAGE_OPTIQUE_MONO`, et la boîte d'encre, `ENCRE_MONO`, sont dans `identite/lib-traces.mjs` : c'est la source unique, aucun script ne redéfinit ces valeurs.
+Sur un carré de 100, l'écran mesure 76 × 48 en 16/10, angles à 7, contour à 7,5. Deux valeurs seulement le séparent d'une icône de moniteur ordinaire, et elles portent toute l'idée.
 
-**2. Un fichier se cadre sur son encre, pas sur sa tuile.** Un lockup sans tuile qui garderait le vide de celle-ci porterait une marge parasite de 13,5 % à gauche : posé centré dans un document, il paraîtrait poussé vers la droite. Les versions à tuile sont cadrées sur la tuile, les versions nues sur l'encre.
+**1. Le col s'évase de 11 à 19.** Un pied de moniteur est droit. Le fuselage donne un tronc, et c'est lui qui fait lire l'arbre sous la machine.
+
+**2. La ligne de sol fait 68, un socle en ferait 44.** L'écart avec la largeur d'un socle est ce qui fait lire le sol plutôt que le pied. Le col y plonge de quatre unités : il entre dans la terre au lieu de se poser dessus.
+
+Un col droit ou une ligne ramenée à 48, et le signe redevient une icône comme il en existe des milliers. Ces valeurs vivent dans `identite/marque/signes.mjs`, source unique, aucun script ne les redéfinit.
+
+### Le favicon est un dessin à part, jamais la tuile réduite
+
+Aux petites tailles le contour passe à 8, le col et la ligne gagnent chacun une unité. Réduire la tuile donnerait un trait plus fin que l'écran ne peut rendre, et le signe deviendrait gris. Constante `PETIT` dans `signes.mjs`.
 
 ### Vérifier
 
 ```bash
-node identite/audit-visuels.mjs
+node identite/marque/build-signe.mjs
 ```
 
-L'audit rasterise chaque visuel, mesure l'encre réellement présente et compare les quatre marges. Il ne fait confiance à aucun calcul des scripts de fabrication. Trois attentes selon la famille : `encre` le fichier touche ses quatre bords, `centre` les marges opposées sont égales, `info` composition libre. Les cartes de visite sont mesurées en millimètres, avec contrôle de la zone de sécurité et de l'alignement des blocs. **Tout doit sortir à zéro visuel hors tolérance.**
+Le script rasterise chaque fichier écrit et compare ses quatre marges. Il ne fait confiance à aucun calcul de géométrie : une coupe de trait, un cap ou un tracé de police déplacent le bord sans prévenir. Trois attentes selon la famille : le signe et les lockups touchent leurs quatre bords, les tuiles ont des marges opposées égales, un signe circulaire garde au plus 4 % de marge du côté de sa fente. **Tout doit sortir dans la tolérance.**
 
 ### Règles d'usage
 
-- **Zone de protection** : un vide égal à la moitié de la hauteur du monogramme sur les quatre côtés. Aucun texte, aucune photo, aucun bord de page à l'intérieur.
-- **Taille minimale imprimée** : 9 mm de haut pour le monogramme seul, 22 mm de large pour le logo horizontal.
-- **Taille minimale écran** : 32 px pour le monogramme, 120 px pour le logo horizontal.
+- **Zone de protection** : un vide égal à la moitié de la hauteur du signe sur les quatre côtés. Aucun texte, aucune photo, aucun bord de page à l'intérieur.
+- **Taille minimale imprimée** : 9 mm de haut pour le signe seul, 22 mm de large pour le logo horizontal.
+- **Taille minimale écran** : 32 px pour le signe, 120 px pour le logo horizontal, 128 px pour une tuile au mot.
 - **Sur photo** : uniquement en crème, sur une zone sombre et calme, jamais sur un feuillage détaillé.
 
 ### Interdits
 
-Déformer, étirer, incliner. Changer la couleur hors palette ou appliquer un dégradé. Ajouter ombre portée, contour, reflet, relief. Réécrire le mot dans une autre police. Poser le vert sur du vert ou le crème sur du crème. **Ajouter un point après le mot**, coloré ou non, dans un logo, une signature, un titre de page ou un document.
+Déformer, étirer, incliner. Changer la couleur hors palette ou appliquer un dégradé. Ajouter ombre portée, contour, reflet, relief. Réécrire le mot dans une autre police. Poser le vert sur du vert ou le crème sur du crème. Remplir l'écran d'un dessin : il reste vide, la Pousse en a été retirée le 7 septembre 2026. **Ajouter un point après le mot**, coloré ou non, dans un logo, une signature, un titre de page ou un document.
 
-### Point tranché le 12/08/2026
+### Une seule valeur de crème, point tranché le 12/08/2026
 
-La tuile du favicon utilisait `#F4F2EC`, seul îlot de cette valeur : les onze autres visuels de l'identité sont sur `#FCFBF8` ou sur le vert forêt. L'écart valait 8, 9 et 12 points par canal, invisible isolément, mais posée sur une page du site la tuile se détachait en carré gris au lieu de disparaître. **Tout est désormais sur `#FCFBF8`**, favicons et icônes d'application compris. Une seule valeur de crème dans toute la marque.
+La tuile du favicon utilisait `#F4F2EC`, seul îlot de cette valeur : les autres visuels de l'identité sont sur `#FCFBF8` ou sur le vert forêt. L'écart valait 8, 9 et 12 points par canal, invisible isolément, mais posée sur une page du site la tuile se détachait en carré gris au lieu de disparaître. **Tout est sur `#FCFBF8`**, favicons et icônes d'application compris.
 
 Le point final a été supprimé le 02/08/2026, sur le site comme dans les fichiers de logo. La question de sa couleur ne se pose plus.
+
+### Le signe retenu le 7 septembre 2026
+
+L'Écran planté succède au monogramme en C, un arc de cercle ouvert à droite qui a porté la marque jusqu'à cette date. Le C disait le nom, il ne disait pas le métier. Neuf séries de recherche ont mené à ce signe. Elles sont sorties du dépôt le même jour : `identite/RECHERCHE.md` garde ce qui a été essayé et pourquoi c'est écarté, avec la commande pour ressortir les fichiers de l'historique git.
+
+⚠️ **Le site sert encore le monogramme.** Les fichiers de `public/` datent du C et le basculement est un geste à part, à faire quand la décision est prise. Tant qu'il n'a pas eu lieu, la marque a deux visages : l'Écran planté sur les supports fabriqués depuis `identite/marque/`, le C sur caelestis.fr.
 
 ## 5. Carte de visite
 
@@ -133,14 +149,22 @@ Format français **85 × 55 mm**, fond perdu 3 mm (fichier 91 × 61 mm), zone de
 - **Pelliculage** : mat. Le brillant contredit le registre artisanal.
 - **Canva** : format personnalisé 91 × 61 mm, repère de fond perdu activé, export PDF pour impression avec repères et fond perdu cochés.
 
-Deux pistes rendues à l'échelle réelle dans `charte-caelestis.html` :
+Les deux pistes sont redessinées pour l'Écran planté, recto et verso. Les fichiers vivent dans `identite/marque/exports/impression/`, un PDF vectoriel par face pour l'imprimeur, un PNG à 300 points par pouce pour Canva, et une vue au format fini pour montrer à l'écran. `identite/marque/planche-cartes.html` les présente à l'échelle réelle.
 
-- **Piste A** : recto vert forêt plein, monogramme crème en haut, nom et fonction en bas. Verso crème, coordonnées sur filet mousse.
-- **Piste B** : recto crème avec logo horizontal et une ligne de spécialité en capitales espacées. Verso vert forêt avec les coordonnées.
+| Piste | Recto | Verso |
+|---|---|---|
+| **A**, le signe seul | Vert forêt plein, le signe en crème calé sur la marge haute, le nom et la fonction sur la marge basse | Crème, le logo horizontal, le métier, les coordonnées |
+| **B**, le logo et la spécialité | Crème, le logo horizontal et la ligne de spécialité en capitales espacées, calés sur la même largeur | Vert forêt, le nom, la fonction, les coordonnées |
+
+La piste A présente une personne, la piste B une activité. Les deux partagent leur marge, 8 mm depuis le trait de coupe, et la même famille de corps : posées côte à côte, elles se lisent comme deux cartes d'une même maison. **La piste reste à choisir**, et une seule part à l'impression.
+
+Aucun filet ne sépare les blocs : la règle d'écriture bannit le tiret décoratif, un filet posé avant un label en est un. La composition tient par l'espace et par les corps.
+
+Le logo n'y est jamais redessiné, il est posé depuis `signe/`. Un export qui recomposerait le signe et le mot donnerait un centrage différent de celui que reçoit l'imprimeur.
 
 ## 6. Applications
 
-- **Signature de courriel** : nom en 700, fonction en mousse foncée capitales, filet mousse de 34 px, coordonnées en 400. Aucune image de fond, monogramme en 64 px maximum.
+- **Signature de courriel** : nom en 700, fonction en mousse foncée capitales, filet mousse de 34 px, coordonnées en 400. Aucune image de fond, signe en 64 px maximum.
 - **Réseaux sociaux** : carré 1080 × 1080 pour un conseil ou un chiffre, portrait 1080 × 1350 pour une réalisation (photo en haut, texte en bas sur aplat crème). Une idée par visuel, titre de six mots au plus, logo en bas à droite. Vert forêt en aplat plein, jamais en filtre sur une photo.
 - **Devis et facture** : logo horizontal en haut à gauche sur 34 mm, texte Satoshi 400 en 10 points, titres de colonnes en 500 capitales mousse foncée, filets en parchemin. Mention de franchise de TVA en pied (article 293 B du code général des impôts).
 - **Fiche d'audit A4** : fond crème, bandeau vert de 28 mm en tête avec logo crème, constats numérotés, coordonnées en pied sur filet mousse.
@@ -156,7 +180,7 @@ Deux pistes rendues à l'échelle réelle dans `charte-caelestis.html` :
 1. Créer le kit de marque (rubrique Marque).
 2. Coller les neuf codes hexadécimaux de la section 2, dans l'ordre du tableau.
 3. Importer les quatre fichiers Satoshi, affecter 700 aux titres et 400 au texte.
-4. Téléverser `identite/logo/` dans les logos de la marque.
+4. Téléverser `identite/marque/signe/` et `identite/marque/mot/` dans les logos de la marque.
 5. Créer un format personnalisé 91 × 61 mm pour les cartes, l'enregistrer comme modèle.
 6. Avant export, vérifier trois points : aucune italique, aucun tiret long, aucun texte posé sur la mousse claire.
 
@@ -165,16 +189,18 @@ Canva ne peut plus substituer la police à l'import d'un logo : le mot y est en 
 ## Régénérer les fichiers
 
 ```bash
-node identite/build-logos.mjs
-node identite/build-exports.mjs
-node identite/build-cartes.mjs
-node identite/build-reseaux.mjs
-node identite/build-og.mjs
-node identite/build-favicon.mjs
-node identite/build-charte.mjs
-node identite/audit-visuels.mjs
+node identite/marque/build-signe.mjs      # les 16 SVG, puis le contrôle de cadrage
+node identite/marque/build-exports.mjs    # les PNG, JPG, favicons, Google, réseaux, partage
+node identite/marque/build-planche.mjs    # la planche du signe
+node identite/marque/build-cartes.mjs     # les cartes de visite, puis leur cadrage
+node identite/build-charte.mjs            # cette charte en planche visuelle
+node identite/build-index.mjs             # la page d'accueil de l'identité
 ```
 
-`build-logos.mjs` écrit les SVG de référence, texte converti en tracés par fontkit. `build-exports.mjs` en tire les PNG, les JPG et le pack de la fiche Google. `build-cartes.mjs` compose les quatre faces des cartes de visite en PDF vectoriel et en PNG 300 dpi. `build-reseaux.mjs` et `build-og.mjs` produisent les visuels sociaux et l'image de partage. `build-favicon.mjs` régénère les favicons et les icônes d'application. `build-charte.mjs` recompose `charte-caelestis.html` en incorporant polices et logos, à partir de `charte.template.html`, et doit passer avant l'audit, qui conclut.
+`build-signe.mjs` écrit les SVG de référence, texte converti en tracés par fontkit, puis rasterise chaque fichier écrit pour comparer ses quatre marges. `build-cartes.mjs` fait de même sur les cartes, et y ajoute un second contrôle : il relit le flux de chaque PDF, suit ses matrices et mesure la boîte de ses tracés, le PDF étant le seul des trois fichiers qu'aucun œil ne vérifie ici. `build-exports.mjs` en tire tout le reste : PNG à fond transparent, aplats en PNG et JPG, jeu de favicons avec son `.ico`, visuels de la fiche Google, des réseaux sociaux et l'image de partage. `build-charte.mjs` recompose `charte-caelestis.html` en incorporant polices et logos, à partir de `charte.template.html`.
 
-Les icônes de `public/` se déclinent en deux familles : les favicons d'onglet gardent la tuile arrondie et le C à sa taille normale, tandis que `apple-touch-icon.png` et les icônes du manifeste sont sur carré plein, sans transparence, avec le C ramené à 47 % de la hauteur. Le système applique son propre masque, parfois circulaire pour une icône `maskable` : une tuile arrondie y ferait apparaître des coins vides, et un dessin trop grand serait rogné. Après toute modification, incrémenter `?v=` sur les liens d'icônes dans `src/layouts/BaseLayout.astro`, sinon les navigateurs gardent l'ancienne.
+**Tous ces scripts résolvent leurs chemins depuis `import.meta.url`.** Les scripts du monogramme portaient `C:/dev/sites/caelestis` en dur et ne tournaient donc que sur un poste, depuis ce chemin exact ; ils ont été retirés avec le C.
+
+⚠️ **Rien n'écrit dans `public/`.** Le jeu de favicons sort dans `identite/marque/exports/favicon/` et attend d'être copié. Quand le basculement sera décidé, copier ce dossier dans `public/`, régénérer l'image de partage au même moment, et **incrémenter `?v=` sur les liens d'icônes dans `src/layouts/BaseLayout.astro`**, sinon les navigateurs gardent l'ancienne.
+
+Les icônes se déclinent en deux familles : les favicons d'onglet gardent la tuile arrondie, tandis que `apple-touch-icon.png` et les icônes du manifeste sont destinées à un masque appliqué par le système, parfois circulaire pour une icône `maskable`. Le signe y est posé assez petit pour survivre au rognage.

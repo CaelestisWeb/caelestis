@@ -1,0 +1,63 @@
+---
+/* ─── Le logotype : l'Écran planté suivi du mot ───
+   Reprend au pixel les proportions du lockup horizontal de la charte
+   (identite/marque/signe/lockup-horizontal-vert.svg, septembre 2026) :
+   un écran 16/10 en contour, un col fuselé, une ligne de sol de 68 unités.
+
+   Le signe est en SVG, le mot reste du texte : il se sélectionne, se lit à la
+   voix, hérite de la couleur du contexte et du survol du lien. Un seul mot
+   dans le DOM, donc, et pas de doublon caché pour l'accessibilité.
+
+   Les trois ratios viennent de identite/marque/commun/artefacts.mjs et sont
+   ramenés en em du mot, pour que le signe suive n'importe quelle taille :
+     hauteur du signe  = hauteur de la bosse du mot / 0,54     (ratioMot)
+     écart signe ↔ mot = 0,24 × hauteur du signe               (ecartH)
+     mot centré verticalement sur le signe, d'où le plongeon du signe
+     sous la ligne de base que le mot et lui partagent.
+   Ils dépendent du dessin de la fonte : Satoshi 500 pour le site, 700 pour le
+   moniteur du hero où le mot est plus petit. Si la fonte ou le signe changent,
+   les recalculer avec `trace()` de identite/marque/commun/base.mjs. */
+interface Props {
+  /** Graisse du mot dans le contexte d'accueil. Ne fixe pas la graisse, la lit. */
+  poids?: 500 | 700;
+  class?: string;
+}
+const { poids = 500, class: classe = '' } = Astro.props;
+
+const RATIOS = {
+  500: { h: 1.38519, l: 1.45032, top: 0.33059, ecart: 0.29144 },
+  700: { h: 1.40185, l: 1.46777, top: 0.32943, ecart: 0.29744 },
+} as const;
+const r = RATIOS[poids];
+const styleVars = `--signe-h:${r.h}em;--signe-l:${r.l}em;--signe-bas:-${r.top}em;--signe-ecart:${r.ecart}em`;
+---
+<span class:list={['logo', classe]} style={styleVars}>
+  <svg class="logo-signe" viewBox="8.25 4.25 83.5 79.75" aria-hidden="true" focusable="false"
+    ><path d="M12 15A7 7 0 0 1 19 8L81 8A7 7 0 0 1 88 15L88 49A7 7 0 0 1 81 56L19 56A7 7 0 0 1 12 49Z" fill="none" stroke="currentColor" stroke-width="7.5"/
+    ><path d="M44.5 56L40.5 80L59.5 80L55.5 56Z" fill="currentColor"/
+    ><rect x="16" y="76" width="68" height="8" rx="4" fill="currentColor"/
+  ></svg
+  ><span class="logo-mot">Caelestis</span>
+</span>
+
+<style>
+  /* `line-height:1` évite qu'une interligne héritée écarte la ligne de base ;
+     l'alignement du signe est calé dessus. */
+  .logo { display: inline-block; white-space: nowrap; line-height: 1; }
+
+  /* Le signe se cale sur la ligne de base du mot, puis plonge dessous de
+     `--signe-bas` : c'est le seul repère que le navigateur place à l'identique
+     pour du texte et pour une boîte en ligne, quelles que soient les métriques
+     verticales de la fonte. Centrer les deux boîtes l'une sur l'autre à la
+     place ferait dériver le signe d'un navigateur à l'autre.
+     Le décalage passe par `vertical-align` et non par un calage relatif :
+     lui seul agrandit la ligne, donc la boîte du logotype épouse son encre et
+     le centrage dans la barre reste juste. */
+  .logo-signe {
+    display: inline-block;
+    vertical-align: var(--signe-bas);
+    width: var(--signe-l);
+    height: var(--signe-h);
+    margin-right: var(--signe-ecart);
+  }
+</style>
