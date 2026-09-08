@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
 import sharp from 'sharp';
 import PDFDocument from 'pdfkit';
-import { police, trace, VERT, CREME, LIN, PIERRE, MOUSSE_TEXTE, ENCRE } from './commun/base.mjs';
+import { police, trace, VERT, CREME, LIN, PIERRE, MOUSSE, MOUSSE_TEXTE, ENCRE } from './commun/base.mjs';
 import { lireLivre, poserSVG, poserPDF, dimensions } from './commun/poser.mjs';
 import { FACES } from './commun/fabrique.mjs';
 
@@ -127,6 +127,36 @@ const centrer = (elements) => {
   return decaler(elements, (H - b.hauteur) / 2 - b.haut);
 };
 
+/* Meme mesure, mais sur la largeur, et meme decalage : le bloc est centre sur
+   la largeur du fichier, fond perdu compris, donc sur celle de la carte finie.
+   Le recto de la piste B s'en sert pour poser sa colonne, lockup et specialite
+   calees a la meme largeur, a egale distance des deux bords. */
+function boiteX(elements) {
+  let gauche = Infinity, droite = -Infinity;
+  for (const e of elements) {
+    if (e.type === 'fond') continue;
+    gauche = Math.min(gauche, e.x);
+    droite = Math.max(droite, e.x + e.l);
+  }
+  return { gauche, droite, largeur: droite - gauche };
+}
+
+const decalerX = (elements, dx) => elements.map((e) => (e.type === 'fond' ? e
+  : { ...e, x: +(e.x + dx).toFixed(4), ...(e.plume === undefined ? {} : { plume: +(e.plume + dx).toFixed(4) }) }));
+
+const centrerX = (elements) => {
+  const b = boiteX(elements);
+  return decalerX(elements, (L - b.largeur) / 2 - b.gauche);
+};
+
+/* Bloc centre dans une hauteur donnee plutot que dans la carte entiere. Le
+   verso de la piste B cale sa signature d'agence sur la marge basse et centre
+   le reste, identite et coordonnees, dans l'espace laisse au-dessus. */
+function centrerEntre(elements, haut, bas) {
+  const b = boiteY(elements);
+  return decaler(elements, haut + (bas - haut - b.hauteur) / 2 - b.haut);
+}
+
 /* Les deux pistes de la charte, section 5. Elles presentent deux choses
    differentes, et c'est ce qui justifie d'en garder deux plutot qu'une.
 
@@ -145,7 +175,10 @@ const centrer = (elements) => {
 const ROLE = { poids: 500, ls: 0.13, capitales: true };
 const NOM = { taille: 6, poids: 700, ls: 6 * -0.035 };
 const METIER = 'Création de sites internet et référencement, Drôme';
-const SPECIALITE = 'Sites internet et référencement';
+const SPECIALITE = 'Sites internet, fiche Google et référencement';
+const REGION = 'Auvergne-Rhône-Alpes';
+const SIGNATURE = 'Agence web au service du vivant et des métiers de passion';
+const NOM_COMPLET = 'Célestin Fruleux';
 
 /* Taille qui donne a un texte une largeur d'encre voulue. Mesuree sur un essai
    puis mise a l'echelle : l'interlettrage etant proportionnel a la taille, le
@@ -167,7 +200,7 @@ function ligneCalee(contenu, x, y, largeur, { poids = 500, ls = 0.13, couleur, a
 
 /* Trois lignes de coordonnees, interligne 1,75. Le numero porte le poids 500,
    c'est la ligne qu'on cherche en premier sur une carte. */
-function coordonnees(x, y, { couleur, accent = couleur, taille = 3, ancre = 'haut' } = {}) {
+function coordonnees(x, y, { couleur, accent = couleur, taille = 3, ancre = 'haut', align = 'gauche' } = {}) {
   const inter = taille * 1.75;
   const lignes = [
     ['07 69 36 27 27', 500, accent],
@@ -177,7 +210,7 @@ function coordonnees(x, y, { couleur, accent = couleur, taille = 3, ancre = 'hau
   /* Avec ancre 'bas', `y` est le pied de la derniere ligne : le bloc remonte,
      et sa hauteur reste sans effet sur la marge basse. */
   const rang = (i) => (ancre === 'bas' ? y + (i - 2) * inter : y + i * inter);
-  return lignes.map(([v, poids, c], i) => texte(v, x, rang(i), { taille, poids, couleur: c, ancre }));
+  return lignes.map(([v, poids, c], i) => texte(v, x, rang(i), { taille, poids, couleur: c, ancre, align }));
 }
 
 /* Piste A, composition en vis-a-vis : le signe cale sur la marge haute, le
@@ -193,7 +226,7 @@ const SIGNE_H = 16;
 function pisteARecto() {
   const signe = logo('signe-creme', PAD, PAD, { hauteur: SIGNE_H });
   const role = texte('Fondateur', PAD, BAS, { ...ROLE, taille: 2.7, ls: 2.7 * 0.13, couleur: LIN, ancre: 'bas' });
-  const nom = texte('Célestin', PAD, sommet(role) - 1.8, { ...NOM, couleur: CREME, ancre: 'bas' });
+  const nom = texte(NOM_COMPLET, PAD, sommet(role) - 1.8, { ...NOM, couleur: CREME, ancre: 'bas' });
   return [fond(VERT), signe, nom, role];
 }
 
@@ -212,14 +245,33 @@ const LOCKUP_L = 52;
 function pisteBRecto() {
   const marque = logo('lockup-horizontal-vert', PAD, 0, { largeur: LOCKUP_L });
   const spec = ligneCalee(SPECIALITE, PAD, pied(marque) + marque.h / 2, LOCKUP_L, { couleur: MOUSSE_TEXTE });
-  return centrer([fond(CREME), marque, spec]);
+  return centrerX(centrer([fond(CREME), marque, spec]));
 }
 
+/* Verso de la piste B, composition sur toute la hauteur et toute la largeur.
+   Trois bandes qui se partagent la carte : le nom et le role cales sur la marge
+   haute, la region et les coordonnees au centre, la signature d'agence sur la
+   marge basse. La region a gauche et le numero a droite partagent la meme ligne,
+   si bien que la bande centrale occupe elle aussi les deux bords. */
 function pisteBVerso() {
-  const nom = texte('Célestin', PAD, 0, { ...NOM, couleur: CREME });
+  const DROITE = L - PAD;
+
+  /* Bande haute : nom et role, cales sur la marge haute. */
+  const nom = texte(NOM_COMPLET, PAD, PAD, { ...NOM, couleur: CREME });
   const role = texte('Fondateur', PAD, pied(nom) + 1.8, { ...ROLE, taille: 2.7, ls: 2.7 * 0.13, couleur: LIN });
-  const coord = coordonnees(PAD, pied(role) + 6, { couleur: LIN, accent: CREME });
-  return centrer([fond(VERT), nom, role, ...coord]);
+
+  /* Bande basse : signature d'agence sur la marge basse, pleine largeur. Sa
+     taille suit la largeur de composition sans depasser un corps discret. */
+  const sigTaille = Math.min(2.6, tailleAjustee(SIGNATURE, 400, L - 2 * PAD, 0, false));
+  const signature = texte(SIGNATURE, PAD, BAS, { taille: sigTaille, poids: 400, couleur: MOUSSE, ancre: 'bas' });
+
+  /* Bande centrale : coordonnees a droite, region a gauche sur la ligne du
+     numero, centree dans l'espace laisse entre le role et la signature. */
+  const coord = coordonnees(DROITE, 0, { couleur: LIN, accent: CREME, align: 'droite' });
+  const region = texte(REGION, PAD, sommet(coord[0]), { taille: 2.7, poids: 500, couleur: MOUSSE });
+  const centre = centrerEntre([region, ...coord], pied(role), sommet(signature));
+
+  return [fond(VERT), nom, role, ...centre, signature];
 }
 
 const CARTES = {
