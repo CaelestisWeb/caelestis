@@ -166,7 +166,7 @@ Dix pistes sont dessinées pour l'Écran planté, recto et verso. Les fichiers v
 
 Les dix partagent leur marge, 8 mm depuis le trait de coupe, la palette et la famille de corps : posées côte à côte, elles se lisent comme dix cartes d'une même maison. Aucun verso ne répète son recto. **La piste reste à choisir**, et une seule part à l'impression.
 
-**Corps minimum : 7 points** pour un libellé, **8,5 pour les coordonnées**. La règle a une histoire : la ligne de spécialité était d'abord calée sur la largeur du logo, corps calculé, ce qui la faisait tomber à 3 points sur la piste C et 4,7 sur la piste B. C'est le corps qui commande désormais, et la largeur du logo qui suit celle du texte. En capitales espacées, la spécialité complète demande 84 mm quand la carte en offre 63 : elle passe en version courte, et la complète revient en bas de casse là où la place existe.
+**Corps minimum : 7 points** pour un libellé, **8,5 pour les coordonnées**. La règle a une histoire : la ligne de spécialité était d'abord calée sur la largeur du logo, corps calculé, ce qui la faisait tomber à 3 points sur la piste C et 4,7 sur la piste B. C'est le corps qui commande désormais, et la largeur du logo qui suit celle du texte. La spécialité s'écrit en entier, fiche Google comprise, sur les dix pistes. En bas de casse elle tient sur une ligne, où elle mesure 51 mm ; en capitales espacées elle en demanderait 84 quand la carte en offre 63, elle se coupe alors sur sa virgule et tient sur deux lignes. C'est la longueur qui plie, jamais le corps.
 
 Aucun filet ne sépare les blocs : la règle d'écriture bannit le tiret décoratif, un filet posé avant un label en est un. La composition tient par l'espace et par les corps.
 

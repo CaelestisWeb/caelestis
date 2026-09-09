@@ -187,12 +187,14 @@ function centrerEntre(elements, haut, bas) {
 const NOM_COMPLET = 'Célestin Fruleux';
 const ROLE = 'Fondateur';
 const METIER = 'Création de sites internet et référencement';
-/* Deux longueurs, et le choix se fait sur la mesure, jamais sur le gout : en
-   capitales espacees, la ligne complete demande 84 mm quand la carte en offre
-   63. La version courte tient en 58, la complete revient en bas de casse la ou
-   la place existe, ou elle mesure 51. */
-const SPECIALITE = 'Sites internet et référencement';
-const DETAIL = 'Sites internet, fiche Google et référencement';
+/* La specialite complete, fiche Google comprise : c'est une offre reelle, elle
+   reste ecrite. Deux formes, et le choix se fait sur la mesure, jamais sur le
+   gout : en bas de casse elle tient sur une ligne, ou elle mesure 51 mm ; en
+   capitales espacees elle en demanderait 84 quand la carte en offre 63, elle
+   se coupe alors sur sa virgule. Aucune des deux ne descend sous le corps
+   minimum, c'est la longueur qui plie, jamais le corps. */
+const SPECIALITE = 'Sites internet, fiche Google et référencement';
+const SPEC_LIGNES = ['Sites internet, fiche Google', 'et référencement'];
 const SIGNATURE = ['Agence web au service du vivant', 'et des métiers de passion'];
 const LIEU = 'Crest, Drôme';
 const PORTEE = 'Partout en France';
@@ -226,8 +228,12 @@ const ETIQUETTE = 2.5; // 7,1 pt, le plancher, reserve aux libelles et aux roles
 const capitalesEspacees = (contenu, x, y, { taille = 2.7, poids = 500, ls = 0.13, couleur, ancre = 'haut', align = 'gauche' } = {}) =>
   texte(contenu, x, y, { taille, poids, ls: taille * ls, couleur, capitales: true, ancre, align });
 
-const largeurCapitales = (contenu, { taille = 2.7, poids = 500, ls = 0.13 } = {}) =>
-  trace(fonte(poids), contenu.toLocaleUpperCase('fr-FR'), taille, { ls: taille * ls }).largeur;
+/* Le meme bloc sur deux lignes, coupe sur la virgule de la specialite. Chaque
+   ligne est alignee pour son propre compte, ce qui donne un drapeau et non un
+   pave : deux lignes de capitales espacees justifiees se liraient comme un
+   tableau. */
+const capitalesBloc = (lignes, x, y, { taille = 2.7, poids = 500, ls = 0.13, couleur, ancre = 'haut', align = 'gauche', interligne = 1.9 } = {}) =>
+  paragraphe(lignes, x, y, { taille, poids, ls: taille * ls, couleur, capitales: true, ancre, align, interligne });
 
 /* Plusieurs lignes d'un meme bloc. L'interligne se compte de ligne de base a
    ligne de base et non de sommet d'encre a sommet d'encre : sans cela, une
@@ -305,10 +311,10 @@ function bRecto() {
   /* La ligne est composee d'abord, a son corps, et le lockup prend ensuite sa
      largeur : les deux bords droits tombent alors exactement l'un sur l'autre
      sans qu'aucun texte ait ete retreci pour cela. */
-  const large = largeurCapitales(SPECIALITE);
-  const marque = logo('lockup-horizontal-vert', PAD, 0, { largeur: large });
-  const spec = capitalesEspacees(SPECIALITE, PAD, pied(marque) + marque.h / 2, { couleur: MOUSSE_TEXTE });
-  return centrerX(centrer([fond(CREME), marque, spec]));
+  const sonde = capitalesBloc(SPEC_LIGNES, PAD, 0, { couleur: MOUSSE_TEXTE });
+  const marque = logo('lockup-horizontal-vert', PAD, 0, { largeur: boiteX(sonde).largeur });
+  const spec = capitalesBloc(SPEC_LIGNES, PAD, pied(marque) + marque.h / 2, { couleur: MOUSSE_TEXTE });
+  return centrerX(centrer([fond(CREME), marque, ...spec]));
 }
 
 /* Verso sur toute la hauteur et toute la largeur. Trois bandes se partagent la
@@ -354,7 +360,7 @@ function cVerso() {
   const marque = mot('wordmark-vert', PAD, PAD, { largeur: MOT_L });
   /* En bas de casse et non en capitales : la ligne complete y tient en 51 mm
      la ou les capitales espacees en reclament 84. */
-  const spec = texte(DETAIL, PAD, pied(marque) + marque.h, { taille: MENTION, couleur: MOUSSE_TEXTE });
+  const spec = texte(SPECIALITE, PAD, pied(marque) + marque.h, { taille: MENTION, couleur: MOUSSE_TEXTE });
   const role = texte(ROLE, PAD, BAS, { ...CAPITALES, taille: ETIQUETTE, ls: ETIQUETTE * 0.13, couleur: MOUSSE_TEXTE, ancre: 'bas' });
   const nom = texte(NOM_COMPLET, PAD, sommet(role) - 1.6, { ...NOM_PETIT, couleur: ENCRE, ancre: 'bas' });
   return [fond(CREME), marque, spec, nom, role,
@@ -367,11 +373,11 @@ function cVerso() {
    Aucun signe : la carte parie sur le nom. C'est la composition editoriale,
    celle qui se lit comme une couverture. */
 function dRecto() {
-  const spec = capitalesEspacees(SPECIALITE, PAD, PAD, { couleur: MOUSSE_TEXTE });
-  /* Le mot prend la largeur de la ligne : les deux bords droits se repondent,
-     et le vide du milieu devient un intervalle voulu. */
-  const marque = mot('wordmark-vert', PAD, 0, { largeur: spec.l });
-  return [fond(CREME), spec, ...decaler([marque], BAS - marque.h - marque.y)];
+  const spec = capitalesBloc(SPEC_LIGNES, PAD, PAD, { couleur: MOUSSE_TEXTE });
+  /* Le mot prend la largeur du bloc : les bords droits se repondent, et le
+     vide du milieu devient un intervalle voulu. */
+  const marque = mot('wordmark-vert', PAD, 0, { largeur: boiteX(spec).largeur });
+  return [fond(CREME), ...spec, ...decaler([marque], BAS - marque.h - marque.y)];
 }
 
 function dVerso() {
@@ -402,11 +408,11 @@ function eRecto() {
 
   const nom = texte(NOM_COMPLET, COLONNE_TEXTE, PAD, { ...NOM_PETIT, couleur: ENCRE });
   const role = texte(ROLE, COLONNE_TEXTE, pied(nom) + 1.6, { ...CAPITALES, taille: ETIQUETTE, ls: ETIQUETTE * 0.13, couleur: MOUSSE_TEXTE });
-  /* La specialite courte, et non la complete : la colonne de droite mesure
-     38 mm, la ligne complete en demanderait 51. Elle habite aussi le vide qui
+  /* Deux lignes et non une : la colonne de droite mesure 38 mm, la specialite
+     complete en demande 51 sur une seule. Elle habite aussi le vide qui
      s'ouvrait entre le nom et les coordonnees. */
-  const spec = texte(SPECIALITE, COLONNE_TEXTE, pied(role) + 4.2, { taille: MENTION, couleur: PIERRE });
-  return [fond(CREME), bloc(0, 0, COLONNE_X, H, VERT), ...pose, nom, role, spec,
+  const spec = paragraphe(SPEC_LIGNES, COLONNE_TEXTE, pied(role) + 4.2, { taille: MENTION, couleur: PIERRE, interligne: 1.5 });
+  return [fond(CREME), bloc(0, 0, COLONNE_X, H, VERT), ...pose, nom, role, ...spec,
     ...coordonnees(COLONNE_TEXTE, BAS, { couleur: PIERRE, accent: ENCRE, ancre: 'bas' })];
 }
 
@@ -417,7 +423,7 @@ const BANDE_H = 17;
 function eVerso() {
   const bandeHaut = H - FOND_PERDU - BANDE_H;
   const marque = logo('lockup-horizontal-vert', PAD, 0, { largeur: 42 });
-  const spec = texte(DETAIL, PAD, pied(marque) + marque.h / 2, { taille: MENTION, couleur: MOUSSE_TEXTE });
+  const spec = texte(SPECIALITE, PAD, pied(marque) + marque.h / 2, { taille: MENTION, couleur: MOUSSE_TEXTE });
   const haut = centrerEntre([marque, spec], FOND_PERDU, bandeHaut);
   const ligne = coordonneesEnLigne(PAD, bandeHaut + BANDE_H / 2, { couleur: LIN, accent: CREME, ancre: 'milieu', taille: 2.7 });
   return [fond(CREME), bloc(0, bandeHaut, L, H - bandeHaut, VERT), ...haut, ...ligne];
@@ -453,18 +459,18 @@ function fRecto() {
   /* La ligne de metier sous le logo, a la zone de protection : sans elle, la
      grille ouvrait au milieu de la carte un vide de 25 mm que rien ne
      justifiait, et le haut penchait a gauche. */
-  const detail = texte(DETAIL, PAD, pied(marque) + marque.h / 2, { taille: MENTION, couleur: PIERRE });
+  const detail = texte(SPECIALITE, PAD, pied(marque) + marque.h / 2, { taille: MENTION, couleur: PIERRE });
   return [fond(CREME), marque, nom, role, detail, ...lignes];
 }
 
 function fVerso() {
   const signe = logo('signe-creme', 0, 0, { hauteur: 11 });
-  const spec = capitalesEspacees(SPECIALITE, 0, pied(signe) + signe.h, { couleur: LIN });
-  const bloc0 = centrerX(centrer([signe, spec]));
-  /* Le signe se recentre seul : centrerX cale la boite entiere, or la ligne
-     de specialite est plus large que lui. */
-  const [s, sp] = bloc0;
-  return [fond(VERT), decalerX([s], (L - s.l) / 2 - s.x)[0], sp];
+  const spec = capitalesBloc(SPEC_LIGNES, L / 2, pied(signe) + signe.h, { couleur: LIN, align: 'centre' });
+  /* Les lignes se centrent chacune sur l'axe de la carte, le signe se recentre
+     seul, et l'ensemble ne recoit qu'un calage vertical : centrerX decalerait
+     le tout de la meme quantite et sortirait les lignes de l'axe. */
+  const [s, ...lignes] = centrer([signe, ...spec]);
+  return [fond(VERT), decalerX([s], (L - s.l) / 2 - s.x)[0], ...lignes];
 }
 
 /* ── G. Le propos ────────────────────────────────────────────────────────
@@ -493,9 +499,9 @@ function gVerso() {
    support : sur un papier ordinaire, le vide se lit comme un oubli. */
 
 function hRecto() {
-  const spec = capitalesEspacees(SPECIALITE, DROITE, PAD, { couleur: MOUSSE_TEXTE, align: 'droite' });
+  const spec = capitalesBloc(SPEC_LIGNES, DROITE, PAD, { couleur: MOUSSE_TEXTE, align: 'droite' });
   const marque = logo('lockup-horizontal-vert', PAD, 0, { largeur: 46 });
-  return [fond(CREME), spec, ...decaler([marque], BAS - marque.h - marque.y)];
+  return [fond(CREME), ...spec, ...decaler([marque], BAS - marque.h - marque.y)];
 }
 
 function hVerso() {
@@ -555,9 +561,9 @@ function jRecto() {
 
 function jVerso() {
   const signe = logo('signe-vert', 0, 0, { hauteur: 11 });
-  const spec = capitalesEspacees(SPECIALITE, 0, pied(signe) + signe.h, { couleur: MOUSSE_TEXTE });
-  const [s, sp] = centrerX(centrer([signe, spec]));
-  return [fond(LIN), decalerX([s], (L - s.l) / 2 - s.x)[0], sp];
+  const spec = capitalesBloc(SPEC_LIGNES, L / 2, pied(signe) + signe.h, { couleur: MOUSSE_TEXTE, align: 'centre' });
+  const [s, ...lignes] = centrer([signe, ...spec]);
+  return [fond(LIN), decalerX([s], (L - s.l) / 2 - s.x)[0], ...lignes];
 }
 
 /* ══ Le catalogue ═══════════════════════════════════════════════════════ */
