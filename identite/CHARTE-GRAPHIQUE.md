@@ -149,14 +149,24 @@ Format français **85 × 55 mm**, fond perdu 3 mm (fichier 91 × 61 mm), zone de
 - **Pelliculage** : mat. Le brillant contredit le registre artisanal.
 - **Canva** : format personnalisé 91 × 61 mm, repère de fond perdu activé, export PDF pour impression avec repères et fond perdu cochés.
 
-Les deux pistes sont redessinées pour l'Écran planté, recto et verso. Les fichiers vivent dans `identite/marque/exports/impression/`, un PDF vectoriel par face pour l'imprimeur, un PNG à 300 points par pouce pour Canva, et une vue au format fini pour montrer à l'écran. `identite/marque/planche-cartes.html` les présente à l'échelle réelle.
+Dix pistes sont dessinées pour l'Écran planté, recto et verso. Les fichiers vivent dans `identite/marque/exports/impression/`, un PDF vectoriel par face pour l'imprimeur, un PNG à 300 points par pouce pour Canva, et une vue au format fini pour montrer à l'écran. `identite/marque/planche-cartes.html` les présente à l'échelle réelle.
 
-| Piste | Recto | Verso |
+| Piste | Elle présente | Recto |
 |---|---|---|
-| **A**, le signe seul | Vert forêt plein, le signe en crème calé sur la marge haute, le nom et la fonction sur la marge basse | Crème, le logo horizontal, le métier, les coordonnées |
-| **B**, le logo et la spécialité | Crème, le logo horizontal et la ligne de spécialité en capitales espacées, calés sur la même largeur | Vert forêt, le nom, la fonction, les coordonnées |
+| **A**, le signe seul | une personne | Vert plein, le signe en crème sur la marge haute, le nom sur la marge basse |
+| **B**, le logo et la spécialité | une activité | Crème, le logo et la ligne de spécialité, calés sur la même largeur |
+| **C**, la médaille | une marque | Vert plein, le signe seul en grand, centré, plafonné à 26 mm par la zone de protection |
+| **D**, le mot | un nom | Crème, le mot en grand sur la marge basse, la spécialité sur la marge haute, aucun signe |
+| **E**, la colonne | une personne et son agence | Bande verte de 30 mm sur toute la hauteur, le signe dedans, le reste en crème |
+| **F**, la fiche technique | des coordonnées | Grille stricte, logo et nom en tête, coordonnées en libellés et valeurs en pied |
+| **G**, le propos | une raison de rappeler | Crème, le logo vertical centré. Le verso porte la phrase de l'agence en grand |
+| **H**, l'écart | un niveau de gamme | Spécialité en haut à droite, logo en bas à gauche, un grand vide en diagonale |
+| **I**, la question | une conversation | Vert plein, une question en trois lignes, le signe en pied |
+| **J**, le bandeau | un artisan joignable | Bandeau vert en tête, logo en crème, nom et coordonnées sur le crème |
 
-La piste A présente une personne, la piste B une activité. Les deux partagent leur marge, 8 mm depuis le trait de coupe, et la même famille de corps : posées côte à côte, elles se lisent comme deux cartes d'une même maison. **La piste reste à choisir**, et une seule part à l'impression.
+Les dix partagent leur marge, 8 mm depuis le trait de coupe, la palette et la famille de corps : posées côte à côte, elles se lisent comme dix cartes d'une même maison. Aucun verso ne répète son recto. **La piste reste à choisir**, et une seule part à l'impression.
+
+**Corps minimum : 7 points** pour un libellé, **8,5 pour les coordonnées**. La règle a une histoire : la ligne de spécialité était d'abord calée sur la largeur du logo, corps calculé, ce qui la faisait tomber à 3 points sur la piste C et 4,7 sur la piste B. C'est le corps qui commande désormais, et la largeur du logo qui suit celle du texte. En capitales espacées, la spécialité complète demande 84 mm quand la carte en offre 63 : elle passe en version courte, et la complète revient en bas de casse là où la place existe.
 
 Aucun filet ne sépare les blocs : la règle d'écriture bannit le tiret décoratif, un filet posé avant un label en est un. La composition tient par l'espace et par les corps.
 
