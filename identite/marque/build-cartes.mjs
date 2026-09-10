@@ -321,26 +321,38 @@ function bRecto() {
   return centrer([fond(CREME), marque, ...spec]);
 }
 
-/* Verso sur toute la hauteur et toute la largeur. Trois bandes se partagent la
-   carte : le nom et le role sur la marge haute, le lieu et les coordonnees au
-   centre, la signature d'agence sur la marge basse. Le lieu a gauche et le
-   numero a droite partagent la meme ligne, si bien que la bande centrale
-   occupe elle aussi les deux bords. */
+/* Verso en trois zones. En tete, le nom a gauche et les coordonnees a droite,
+   la premiere ligne des coordonnees calee sur la ligne de base du nom, si bien
+   qu'elles partagent vraiment sa ligne. Au centre, un embleme : le signe seul,
+   sans le mot, et la region juste en dessous, assez pres pour se lire d'un
+   bloc. En pied, la phrase de l'agence, centree. Chaque zone occupe la carte
+   sur toute sa largeur. */
 function bVerso() {
-  const nom = texte(NOM_COMPLET, PAD, PAD, { ...NOM, couleur: CREME });
-  const role = texte(ROLE, PAD, pied(nom) + 1.8, { ...CAPITALES, taille: 2.7, ls: 2.7 * 0.13, couleur: LIN });
+  /* Un seul axe, celui du recto. La version d'avant melangeait trois calages,
+     le nom a gauche, les coordonnees a droite, l'embleme au centre : ce sont
+     les coordonnees alignees a droite, en escalier, qui paraissaient mal
+     posees. Ici tout se centre, et la face se lit d'aplomb du haut au bas.
 
-  /* La signature tient sur deux lignes plutot que sur une : sur une seule,
-     elle demanderait 67 mm quand la carte en offre 63, et la retrecir la
-     ferait passer sous le corps minimum. */
-  const signature = paragraphe(SIGNATURE, PAD, BAS, { taille: 2.7, poids: 400, couleur: LIN, interligne: 1.5 });
-  const remonte = decaler(signature, BAS - (signature[1].y + signature[1].h));
+     Tete : le nom et la fonction, centres sur la marge haute. */
+  const nom = texte(NOM_COMPLET, L / 2, PAD, { ...NOM, couleur: CREME, align: 'centre' });
+  const role = texte(ROLE, L / 2, pied(nom) + 1.8, { ...CAPITALES, taille: 2.7, ls: 2.7 * 0.13, couleur: LIN, align: 'centre' });
 
-  const coord = coordonnees(DROITE, 0, { couleur: LIN, accent: CREME, align: 'droite' });
-  const lieu = texte(LIEU, PAD, sommet(coord[0]), { taille: 2.7, poids: 500, couleur: LIN });
-  const centre = centrerEntre([lieu, ...coord], pied(role), sommet(remonte[0]));
+  /* Pied : les coordonnees, centrees et calees sur la marge basse. Chaque
+     ligne se centre sur l'axe, d'ou un bloc symetrique et non un escalier. Le
+     numero garde son poids, c'est la ligne qu'on cherche en premier. */
+  const coordBrut = coordonnees(L / 2, 0, { couleur: LIN, accent: CREME, align: 'centre', taille: 3 });
+  const coord = decaler(coordBrut, BAS - pied(coordBrut[coordBrut.length - 1]));
 
-  return [fond(VERT), nom, role, ...centre, ...remonte];
+  /* Embleme central : le signe seul, sans le mot, centre, la region juste
+     dessous. Region en creme, plus vive que le lin, parce que c'est le sujet
+     de cette face. Le couple est centre dans le vide entre la tete et les
+     coordonnees, au coeur de la carte. */
+  const signe = logo('signe-creme', 0, 0, { hauteur: 9 });
+  const signeCentre = decalerX([signe], (L - signe.l) / 2 - signe.x)[0];
+  const region = texte(LIEU, L / 2, pied(signeCentre) + 2.6, { taille: 3.4, poids: 500, couleur: CREME, align: 'centre' });
+  const embleme = centrerEntre([signeCentre, region], pied(role), sommet(coord[0]));
+
+  return [fond(VERT), nom, role, ...embleme, ...coord];
 }
 
 /* ── C. La medaille ──────────────────────────────────────────────────────
