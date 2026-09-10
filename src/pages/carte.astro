@@ -23,14 +23,21 @@
  * retirés, ils encombraient la seule chose qui compte ici.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { CONTACT, FICHE_GOOGLE } from '../data/entite';
+import { CONTACT, KGMID } from '../data/entite';
+
+/* La fiche Google dans la RECHERCHE, pas dans Maps. L'URL `search?kgmid=` ouvre
+   google.com dans le navigateur (Safari compris) sur le panneau de l'établissement,
+   là où une adresse Maps `?cid=` lancerait l'application Maps sur mobile, ce que
+   Célestin ne veut pas. Le kgmid vient de entite.ts, seule source, et vise
+   l'entité sans dépendre du nom, que le domaine partage avec un ancien usage. */
+const ficheGoogle = `https://www.google.com/search?kgmid=${encodeURIComponent(KGMID)}`;
 
 const actions = [
   { href: `tel:${CONTACT.telephone}`, label: 'Appeler', detail: CONTACT.telephoneAffiche, primaire: true, externe: false, icone: 'telephone' },
   { href: `sms:${CONTACT.telephone}`, label: 'Envoyer un message', detail: CONTACT.telephoneAffiche, primaire: false, externe: false, icone: 'message' },
   { href: `mailto:${CONTACT.email}`, label: 'Envoyer un courriel', detail: CONTACT.email, primaire: false, externe: false, icone: 'courriel' },
   { href: '/', label: 'Visiter le site', detail: 'caelestis.fr', primaire: false, externe: false, icone: 'site' },
-  { href: FICHE_GOOGLE, label: 'Fiche Google', detail: 'Mon établissement', primaire: false, externe: true, icone: 'lieu' },
+  { href: ficheGoogle, label: 'Fiche Google', detail: 'Mon établissement', primaire: false, externe: true, icone: 'lieu' },
 ];
 
 ---
