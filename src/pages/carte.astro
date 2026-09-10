@@ -23,7 +23,7 @@
  * retirés, ils encombraient la seule chose qui compte ici.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { CONTACT, KGMID } from '../data/entite';
+import { CONTACT, KGMID, PROFILS } from '../data/entite';
 
 /* La fiche Google dans la RECHERCHE, pas dans Maps. L'URL `search?kgmid=` ouvre
    google.com dans le navigateur (Safari compris) sur le panneau de l'établissement,
@@ -32,15 +32,20 @@ import { CONTACT, KGMID } from '../data/entite';
    l'entité sans dépendre du nom, que le domaine partage avec un ancien usage. */
 const ficheGoogle = `https://www.google.com/search?kgmid=${encodeURIComponent(KGMID)}`;
 
-/* Les réseaux proposés par la carte dépliante « Réseaux sociaux ». On ne liste
-   que des comptes réels : Instagram et Facebook viennent de src/data/entite.ts
-   (PROFILS, la même source que le schema.org du site). TikTok et LinkedIn
-   restent à ajouter dès que leurs adresses sont confirmées, sans jamais inventer
-   d'URL qui pointerait dans le vide. */
-const reseaux = [
-  { nom: 'Instagram', href: 'https://www.instagram.com/caelestis_web/' },
-  { nom: 'Facebook', href: 'https://www.facebook.com/CaelestisWeb' },
+/* Les réseaux proposés par la carte dépliante « Réseaux sociaux » sont ceux de
+   src/data/entite.ts (PROFILS), la même liste que le schema.org du site : une
+   seule source, aucun compte inventé. On y attache le nom et l'ordre d'affichage
+   en repérant le domaine ; ajouter un réseau, c'est ajouter son URL à PROFILS.
+   LinkedIn apparaîtra dès que son adresse y sera. */
+const RESEAUX_CONNUS = [
+  { cle: 'instagram.com', nom: 'Instagram' },
+  { cle: 'facebook.com', nom: 'Facebook' },
+  { cle: 'tiktok.com', nom: 'TikTok' },
+  { cle: 'linkedin.com', nom: 'LinkedIn' },
 ];
+const reseaux = RESEAUX_CONNUS
+  .map((r) => ({ nom: r.nom, href: PROFILS.find((u) => u.includes(r.cle)) }))
+  .filter((r) => r.href);
 
 const actions = [
   { href: `tel:${CONTACT.telephone}`, label: 'Appeler', detail: CONTACT.telephoneAffiche, primaire: true, externe: false, icone: 'telephone' },
@@ -175,6 +180,11 @@ const actions = [
                     {r.nom === 'LinkedIn' && (
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M5.4 3.5a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8ZM3.8 8.9h3.2V21H3.8V8.9Zm5.3 0h3.06v1.65h.05c.43-.77 1.47-1.58 3.02-1.58 3.23 0 3.83 2.02 3.83 4.65V21h-3.2v-5.35c0-1.28-.02-2.92-1.9-2.92-1.9 0-2.19 1.4-2.19 2.83V21H9.1V8.9Z"/>
+                      </svg>
+                    )}
+                    {r.nom === 'TikTok' && (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M16.5 3c.32 2.02 1.5 3.4 3.5 3.6v2.53c-1.28 0-2.48-.4-3.5-1.1v5.87c0 2.9-2.1 5.1-5 5.1s-5-2.2-5-5c0-2.83 2.3-5.1 5.2-4.94v2.6a2.32 2.32 0 1 0 2.3 2.3V3h2.5Z"/>
                       </svg>
                     )}
                   </span>

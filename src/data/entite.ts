@@ -108,6 +108,7 @@ export const FICHE_GOOGLE = 'https://www.google.com/maps?cid=4976660435782760136
 export const PROFILS: string[] = [
   'https://www.facebook.com/CaelestisWeb',
   'https://www.instagram.com/caelestis_web/',
+  'https://www.tiktok.com/@caelestisweb',
 ];
 
 /** Les horaires réels, du lundi au samedi. */
