@@ -337,19 +337,25 @@ function bVerso() {
   const nom = texte(NOM_COMPLET, L / 2, PAD, { ...NOM, couleur: CREME, align: 'centre' });
   const role = texte(ROLE, L / 2, pied(nom) + 1.8, { ...CAPITALES, taille: 2.7, ls: 2.7 * 0.13, couleur: LIN, align: 'centre' });
 
-  /* Pied : les coordonnees, centrees et calees sur la marge basse. Chaque
-     ligne se centre sur l'axe, d'ou un bloc symetrique et non un escalier. Le
-     numero garde son poids, c'est la ligne qu'on cherche en premier. */
-  const coordBrut = coordonnees(L / 2, 0, { couleur: LIN, accent: CREME, align: 'centre', taille: 3 });
-  const coord = decaler(coordBrut, BAS - pied(coordBrut[coordBrut.length - 1]));
+  /* Pied : les coordonnees sur une seule ligne horizontale, centree et calee
+     sur la marge basse. Telephone, courriel, site se suivent, separes par un
+     blanc large plutot que par un point median, que la charte bannit. La ligne
+     mesure 63 mm et laisse 3 mm de chaque cote. Le numero garde son poids,
+     c'est ce qu'on cherche en premier. */
+  const ligne = coordonneesEnLigne(0, 0, { couleur: LIN, accent: CREME, taille: 2.7, ecart: 4.5 });
+  const largeurLigne = bord(ligne[ligne.length - 1]) - ligne[0].x;
+  const ligneCentree = decalerX(ligne, (L - largeurLigne) / 2 - ligne[0].x);
+  const coord = decaler(ligneCentree, BAS - pied(ligneCentree[0]));
 
   /* Embleme central : le signe seul, sans le mot, centre, la region juste
      dessous. Region en creme, plus vive que le lin, parce que c'est le sujet
      de cette face. Le couple est centre dans le vide entre la tete et les
-     coordonnees, au coeur de la carte. */
+     coordonnees. Ce vide est plus large qu'avant, les deux lignes de
+     coordonnees supprimees l'ayant rendu a l'air : c'est cet espace qui aere
+     la face du haut en bas. */
   const signe = logo('signe-creme', 0, 0, { hauteur: 9 });
   const signeCentre = decalerX([signe], (L - signe.l) / 2 - signe.x)[0];
-  const region = texte(LIEU, L / 2, pied(signeCentre) + 2.6, { taille: 3.4, poids: 500, couleur: CREME, align: 'centre' });
+  const region = texte(LIEU, L / 2, pied(signeCentre) + 3, { taille: 3.4, poids: 500, couleur: CREME, align: 'centre' });
   const embleme = centrerEntre([signeCentre, region], pied(role), sommet(coord[0]));
 
   return [fond(VERT), nom, role, ...embleme, ...coord];
