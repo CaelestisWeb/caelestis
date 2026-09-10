@@ -1,5 +1,9 @@
-/* Cartes de visite de l'Ecran plante, dix pistes a arbitrer.
+/* Carte de visite de l'Ecran plante, la piste retenue.
    node identite/marque/build-cartes.mjs
+
+   Une seule carte, recto et verso. Neuf autres pistes ont ete dessinees puis
+   comparees a l'echelle reelle, et sont sorties du fichier le 10 septembre
+   2026 : leur raisonnement tient dans le commentaire de la carte, plus bas.
 
    Format francais 85 x 55 mm, 3 mm de fond perdu sur chaque bord, soit un
    fichier de 91 x 61 mm. Trois sorties par face :
@@ -24,7 +28,7 @@
                      de ses traces comparee a celle de l'image
      3. protection   un logo pose garde un vide egal a la moitie de sa hauteur
                      jusqu'au trait de coupe, comme la charte le demande
-     4. lisibilite   corps minimum de 6 points, et contraste WCAG de chaque
+     4. lisibilite   corps minimum de 7 points, et contraste WCAG de chaque
                      texte sur le fond qui se trouve reellement dessous */
 
 import { createWriteStream, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -48,10 +52,10 @@ const CARTE_H = 55;
 const L = CARTE_L + FOND_PERDU * 2;   // 91
 const H = CARTE_H + FOND_PERDU * 2;   // 61
 
-/* Marge de composition : 8 mm depuis le trait de coupe, partagee par les dix
-   pistes. Elle vaut aussi zone de protection du logo pour les tailles
-   employees ici, la charte demandant un vide egal a la moitie de sa hauteur :
-   le signe de 16 mm en reclame 8, le lockup de 52 mm en reclame 6,5. */
+/* Marge de composition : 8 mm depuis le trait de coupe. Elle vaut aussi zone
+   de protection du logo pour les tailles employees ici, la charte demandant un
+   vide egal a la moitie de sa hauteur : le lockup de 46 mm de large en reclame
+   environ 5,7. */
 const PAD = FOND_PERDU + 8;
 const BAS = H - PAD;
 const DROITE = L - PAD;
@@ -186,20 +190,15 @@ function centrerEntre(elements, haut, bas) {
 
 const NOM_COMPLET = 'Célestin Fruleux';
 const ROLE = 'Fondateur';
-const METIER = 'Création de sites internet et référencement';
-/* La specialite complete, fiche Google comprise : c'est une offre reelle, elle
-   reste ecrite. Deux formes, et le choix se fait sur la mesure, jamais sur le
-   gout : en bas de casse elle tient sur une ligne, ou elle mesure 51 mm ; en
-   capitales espacees elle en demanderait 84 quand la carte en offre 63, elle
-   se coupe alors sur sa virgule. Aucune des deux ne descend sous le corps
-   minimum, c'est la longueur qui plie, jamais le corps. */
-const SPECIALITE = 'Sites internet, fiche Google et référencement';
-const SPEC_LIGNES = ['Sites internet, fiche Google', 'et référencement'];
-const SIGNATURE = ['Agence web au service du vivant', 'et des métiers de passion'];
+/* La specialite, fiches Google comprises : c'est une offre reelle, elle reste
+   ecrite en entier. En capitales espacees, la ligne complete demanderait 84 mm
+   quand la carte en offre 63 : elle se coupe donc sur sa virgule et tient sur
+   deux lignes, sans jamais descendre sous le corps minimum. C'est la longueur
+   qui plie, jamais le corps. `SPECIALITE` garde la forme d'une seule ligne,
+   pour un support qui aurait la largeur. */
+const SPECIALITE = 'Sites internet, fiches Google et référencement';
+const SPEC_LIGNES = ['Sites internet, fiches Google', 'et référencement'];
 const LIEU = 'Auvergne-Rhône-Alpes';
-const PORTEE = 'Partout en France';
-const QUESTION = ['Votre site', 'travaille-t-il', 'pour vous ?'];
-const REPONSE = ['Un appel de quinze minutes,', 'vous décidez ensuite.'];
 
 const TEL = '07 69 36 27 27';
 const MAIL = 'contact@caelestis.fr';
@@ -209,10 +208,7 @@ const SITE = 'caelestis.fr';
    l'imprimeur : la conversion est rappelee en commentaire. */
 const CAPITALES = { poids: 500, ls: 0.13, capitales: true };
 const NOM = { taille: 5.2, poids: 700, ls: 5.2 * -0.035 };   // 14,7 pt
-const NOM_PETIT = { taille: 4.4, poids: 700, ls: 4.4 * -0.035 };   // 12,5 pt
 const COORD = 3;     // 8,5 pt, la ligne qu'on veut lue sans lunettes
-const MENTION = 2.6; // 7,4 pt
-const ETIQUETTE = 2.5; // 7,1 pt, le plancher, reserve aux libelles et aux roles
 
 /* Une ligne de capitales espacees, a corps fixe.
 
@@ -269,56 +265,28 @@ function coordonneesEnLigne(x, y, { couleur, accent = couleur, taille = COORD, a
   return [tel, mail, site];
 }
 
-/* ══ Les dix pistes ═════════════════════════════════════════════════════
+/* ══ La carte, une seule ════════════════════════════════════════════════
 
-   Elles ne sont pas dix variantes d'une meme carte : chacune presente une
-   chose differente, et c'est ce qui les rend comparables. Toutes gardent la
-   meme marge, la meme famille de corps et la meme palette : posees cote a
-   cote, elles se lisent comme dix cartes d'une meme maison. */
+   Le logo et la specialite. Neuf autres pistes ont ete dessinees puis
+   comparees a l'echelle reelle, elles sont sorties du fichier le 10 septembre
+   2026, celle-ci retenue. Leur raisonnement tient en une phrase : chacune
+   presentait une chose differente, un signe, un nom, une question, une region.
+   Celle-ci presente une activite, et c'est ce que la carte doit dire en
+   premier a qui la recoit. Le nom passe au verso.
 
-/* ── A. Le signe seul ────────────────────────────────────────────────────
-   Recto vert plein, le signe en creme cale sur la marge haute, le nom sur la
-   marge basse. Les deux marges sont egales par construction, quelle que soit
-   la hauteur des textes, et la colonne de gauche est habitee sur toute la
-   hauteur de la carte. Elle presente une personne, et le vert plein la fait
-   reconnaitre de loin dans une pile de cartes.
-
-   Une version posant le nom a cote du signe a ete essayee puis ecartee : la
-   zone de protection, la moitie de la hauteur du signe, ouvrait entre eux un
-   ecart de 8 mm qui scindait le bloc en deux. */
-const SIGNE_H = 16;
-
-function aRecto() {
-  const signe = logo('signe-creme', PAD, PAD, { hauteur: SIGNE_H });
-  const role = texte(ROLE, PAD, BAS, { ...CAPITALES, taille: 2.7, ls: 2.7 * 0.13, couleur: LIN, ancre: 'bas' });
-  const nom = texte(NOM_COMPLET, PAD, sommet(role) - 1.8, { ...NOM, taille: 6, ls: 6 * -0.035, couleur: CREME, ancre: 'bas' });
-  return [fond(VERT), signe, nom, role];
-}
-
-function aVerso() {
-  const marque = logo('lockup-horizontal-vert', PAD, PAD, { largeur: 26 });
-  /* Zone de protection du lockup : la moitie de sa hauteur. */
-  const metier = texte(METIER, PAD, pied(marque) + marque.h / 2, { taille: MENTION, couleur: PIERRE });
-  return [fond(CREME), marque, metier, ...coordonnees(PAD, BAS, { couleur: PIERRE, accent: ENCRE, ancre: 'bas' })];
-}
-
-/* ── B. Le logo et la specialite ─────────────────────────────────────────
-   Recto creme, le lockup horizontal centre, la specialite en capitales
-   espacees juste en dessous, chaque ligne centree sur l'axe de la carte. Elle
-   presente une activite, le nom passant au verso. */
+   ── Recto : composition en diagonale. La specialite en capitales espacees en
+   haut a droite, le logo en bas a gauche, un grand vide entre les deux. Moins
+   centree que le bloc empile, elle laisse le papier respirer et donne du
+   mouvement a la face. */
 const B_LOGO_L = 46;
 
 function bRecto() {
-  /* Tout est centre sur l'axe de la carte. La specialite descend d'un cran,
-     de 2,7 a 2,5 mm, soit 7,1 points, juste au-dessus du plancher : elle se
-     pose sous le logo sans lui disputer l'oeil. `align: 'centre'` centre
-     chaque ligne sur le meme axe, d'ou un drapeau symetrique et non un bloc
-     cale a gauche. */
-  const marque = logo('lockup-horizontal-vert', (L - B_LOGO_L) / 2, 0, { largeur: B_LOGO_L });
-  const spec = capitalesBloc(SPEC_LIGNES, L / 2, pied(marque) + marque.h / 2, {
-    taille: 2.5, couleur: MOUSSE_TEXTE, align: 'centre',
-  });
-  return centrer([fond(CREME), marque, ...spec]);
+  /* La specialite calee a droite sur la marge haute, le logo cale a gauche sur
+     la marge basse : les deux angles opposes sont habites, la diagonale reste
+     vide, et c'est ce vide qui fait la carte. */
+  const spec = capitalesBloc(SPEC_LIGNES, DROITE, PAD, { couleur: MOUSSE_TEXTE, align: 'droite' });
+  const marque = logo('lockup-horizontal-vert', PAD, 0, { largeur: B_LOGO_L });
+  return [fond(CREME), ...spec, ...decaler([marque], BAS - marque.h - marque.y)];
 }
 
 /* Verso en trois zones. En tete, le nom a gauche et les coordonnees a droite,
@@ -366,293 +334,14 @@ function bVerso() {
   return [fond(VERT), nom, role, ...embleme, ...coord];
 }
 
-/* ── C. La medaille ──────────────────────────────────────────────────────
-   Recto vert plein, le signe seul, en grand, centre, et rien d'autre. C'est
-   la carte qui fait le plus confiance a la marque : elle ne dit rien, elle se
-   reconnait. Le verso porte toute l'information.
+/* ══ Les deux faces ═════════════════════════════════════════════════════
+   Une seule carte desormais. Les cles nomment les fichiers de sortie :
+   carte-recto et carte-verso, sans plus de mention de piste. */
 
-   La taille du signe est plafonnee par la charte et non par le gout : la zone
-   de protection reclame un vide egal a la moitie de sa hauteur jusqu'au trait
-   de coupe, ce qui donne au plus 27,5 mm sur une carte de 55. Vingt-six laisse
-   la tolerance du massicot tranquille. */
-const MEDAILLE_H = 26;
-
-function cRecto() {
-  const signe = logo('signe-creme', 0, 0, { hauteur: MEDAILLE_H });
-  return centrerX(centrer([fond(VERT), signe]));
-}
-
-function cVerso() {
-  const MOT_L = 34;
-  const marque = mot('wordmark-vert', PAD, PAD, { largeur: MOT_L });
-  /* En bas de casse et non en capitales : la ligne complete y tient en 51 mm
-     la ou les capitales espacees en reclament 84. */
-  const spec = texte(SPECIALITE, PAD, pied(marque) + marque.h, { taille: MENTION, couleur: MOUSSE_TEXTE });
-  const role = texte(ROLE, PAD, BAS, { ...CAPITALES, taille: ETIQUETTE, ls: ETIQUETTE * 0.13, couleur: MOUSSE_TEXTE, ancre: 'bas' });
-  const nom = texte(NOM_COMPLET, PAD, sommet(role) - 1.6, { ...NOM_PETIT, couleur: ENCRE, ancre: 'bas' });
-  return [fond(CREME), marque, spec, nom, role,
-    ...coordonnees(DROITE, BAS, { couleur: PIERRE, accent: ENCRE, ancre: 'bas', align: 'droite' })];
-}
-
-/* ── D. Le mot ───────────────────────────────────────────────────────────
-   Recto creme, le mot en grand cale sur la marge basse, la specialite en
-   capitales espacees sur la marge haute, et entre les deux un vide franc.
-   Aucun signe : la carte parie sur le nom. C'est la composition editoriale,
-   celle qui se lit comme une couverture. */
-function dRecto() {
-  const spec = capitalesBloc(SPEC_LIGNES, PAD, PAD, { couleur: MOUSSE_TEXTE });
-  /* Le mot prend la largeur du bloc : les bords droits se repondent, et le
-     vide du milieu devient un intervalle voulu. */
-  const marque = mot('wordmark-vert', PAD, 0, { largeur: boiteX(spec).largeur });
-  return [fond(CREME), ...spec, ...decaler([marque], BAS - marque.h - marque.y)];
-}
-
-function dVerso() {
-  const nom = texte(NOM_COMPLET, PAD, PAD, { ...NOM_PETIT, couleur: CREME });
-  const role = texte(ROLE, PAD, pied(nom) + 1.6, { ...CAPITALES, taille: ETIQUETTE, ls: ETIQUETTE * 0.13, couleur: LIN });
-  const signe = logo('signe-creme', 0, 0, { hauteur: 12 });
-  const pose = decalerX(decaler([signe], BAS - signe.h), DROITE - signe.l);
-  return [fond(VERT), nom, role, ...pose,
-    ...coordonnees(PAD, BAS, { couleur: LIN, accent: CREME, ancre: 'bas' })];
-}
-
-/* ── E. La colonne ───────────────────────────────────────────────────────
-   Une bande verte de 30 mm court sur toute la hauteur du bord gauche, le
-   signe en creme au milieu ; le reste de la carte est en creme et porte le
-   nom, la fonction et les coordonnees. Les deux couleurs se partagent la
-   carte au lieu de se succeder d'une face a l'autre : la piste se reconnait
-   de profil, dans un porte-cartes.
-
-   Le signe garde son vide de protection des deux cotes, ce qui plafonne sa
-   hauteur a 14 mm dans une bande de 30. */
-const COLONNE_L = 30;
-const COLONNE_X = FOND_PERDU + COLONNE_L;   // bord droit de la bande, en coordonnees fichier
-const COLONNE_TEXTE = COLONNE_X + 9;
-
-function eRecto() {
-  const signe = logo('signe-creme', 0, 0, { hauteur: 14 });
-  const pose = centrer(decalerX([signe], FOND_PERDU + (COLONNE_L - signe.l) / 2));
-
-  const nom = texte(NOM_COMPLET, COLONNE_TEXTE, PAD, { ...NOM_PETIT, couleur: ENCRE });
-  const role = texte(ROLE, COLONNE_TEXTE, pied(nom) + 1.6, { ...CAPITALES, taille: ETIQUETTE, ls: ETIQUETTE * 0.13, couleur: MOUSSE_TEXTE });
-  /* Deux lignes et non une : la colonne de droite mesure 38 mm, la specialite
-     complete en demande 51 sur une seule. Elle habite aussi le vide qui
-     s'ouvrait entre le nom et les coordonnees. */
-  const spec = paragraphe(SPEC_LIGNES, COLONNE_TEXTE, pied(role) + 4.2, { taille: MENTION, couleur: PIERRE, interligne: 1.5 });
-  return [fond(CREME), bloc(0, 0, COLONNE_X, H, VERT), ...pose, nom, role, ...spec,
-    ...coordonnees(COLONNE_TEXTE, BAS, { couleur: PIERRE, accent: ENCRE, ancre: 'bas' })];
-}
-
-/* Verso bati sur le meme partage, tourne d'un quart de tour : la bande passe
-   en bas et porte les coordonnees en creme, le logo reste sur le creme. */
-const BANDE_H = 17;
-
-function eVerso() {
-  const bandeHaut = H - FOND_PERDU - BANDE_H;
-  const marque = logo('lockup-horizontal-vert', PAD, 0, { largeur: 42 });
-  const spec = texte(SPECIALITE, PAD, pied(marque) + marque.h / 2, { taille: MENTION, couleur: MOUSSE_TEXTE });
-  const haut = centrerEntre([marque, spec], FOND_PERDU, bandeHaut);
-  const ligne = coordonneesEnLigne(PAD, bandeHaut + BANDE_H / 2, { couleur: LIN, accent: CREME, ancre: 'milieu', taille: 2.7 });
-  return [fond(CREME), bloc(0, bandeHaut, L, H - bandeHaut, VERT), ...haut, ...ligne];
-}
-
-/* ── F. La fiche technique ───────────────────────────────────────────────
-   Grille stricte : le logo en tete a gauche, le nom en tete a droite, et en
-   pied les coordonnees rangees en libelles et valeurs, comme une fiche. Rien
-   n'est centre, tout est aligne sur deux colonnes. Elle presente un metier
-   precis, et elle se lit sans chercher.
-
-   Aucun filet ne separe les colonnes : la regle d'ecriture bannit le tiret
-   decoratif, et un filet pose avant un libelle en est un. L'alignement suffit
-   a tenir la grille. */
-function fRecto() {
-  const marque = logo('lockup-horizontal-vert', PAD, PAD, { largeur: 34 });
-  const nom = texte(NOM_COMPLET, DROITE, PAD + 0.4, { ...NOM_PETIT, taille: 4.2, ls: 4.2 * -0.035, couleur: ENCRE, align: 'droite' });
-  const role = texte(ROLE, DROITE, pied(nom) + 1.4, { ...CAPITALES, taille: ETIQUETTE, ls: ETIQUETTE * 0.13, couleur: MOUSSE_TEXTE, align: 'droite' });
-
-  /* Trois paires libelle et valeur, en pied. Chaque colonne a son bord gauche,
-     et les lignes de base se repondent d'une colonne a l'autre : un libelle
-     cale sur le sommet de son encre remonterait des que la valeur perd ses
-     jambages, et la grille se mettrait a boiter d'une ligne sur deux. */
-  const COL = PAD + 21;
-  const paires = [['Téléphone', TEL, 500], ['Courriel', MAIL, 400], ['Site', SITE, 400]];
-  const pas = 4.8;
-  const pied0 = BAS - pas * 2;
-  const lignes = paires.flatMap(([libelle, valeur, poids], i) => {
-    const v = texte(valeur, COL, pied0 + i * pas, { taille: COORD, poids, couleur: ENCRE, ancre: 'bas' });
-    const l = texte(libelle, PAD, 0, { taille: ETIQUETTE, poids: 500, ls: ETIQUETTE * 0.12, couleur: MOUSSE_TEXTE, capitales: true });
-    return [v, decaler([l], v.base - l.base)[0]];
-  });
-  /* La ligne de metier sous le logo, a la zone de protection : sans elle, la
-     grille ouvrait au milieu de la carte un vide de 25 mm que rien ne
-     justifiait, et le haut penchait a gauche. */
-  const detail = texte(SPECIALITE, PAD, pied(marque) + marque.h / 2, { taille: MENTION, couleur: PIERRE });
-  return [fond(CREME), marque, nom, role, detail, ...lignes];
-}
-
-function fVerso() {
-  const signe = logo('signe-creme', 0, 0, { hauteur: 11 });
-  const spec = capitalesBloc(SPEC_LIGNES, L / 2, pied(signe) + signe.h, { couleur: LIN, align: 'centre' });
-  /* Les lignes se centrent chacune sur l'axe de la carte, le signe se recentre
-     seul, et l'ensemble ne recoit qu'un calage vertical : centrerX decalerait
-     le tout de la meme quantite et sortirait les lignes de l'axe. */
-  const [s, ...lignes] = centrer([signe, ...spec]);
-  return [fond(VERT), decalerX([s], (L - s.l) / 2 - s.x)[0], ...lignes];
-}
-
-/* ── G. Le propos ────────────────────────────────────────────────────────
-   Recto creme, le lockup vertical centre, rien d'autre. Verso vert, une seule
-   phrase en grand, celle qui dit pour qui l'agence travaille, et les
-   coordonnees en pied. La carte se retourne pour etre lue : c'est ce qui la
-   fait garder. */
-
-function gRecto() {
-  const marque = logo('lockup-vertical-vert', 0, 0, { hauteur: 24 });
-  return centrerX(centrer([fond(CREME), marque]));
-}
-
-function gVerso() {
-  const phrase = paragraphe(['Agence web au service', 'du vivant et des', 'métiers de passion'], PAD, PAD, {
-    taille: 5, poids: 700, ls: 5 * -0.035, couleur: CREME, interligne: 1.26,
-  });
-  const coord = coordonneesEnLigne(PAD, BAS, { couleur: LIN, accent: CREME, ancre: 'bas', taille: 2.7, ecart: 4.5 });
-  return [fond(VERT), ...phrase, ...coord];
-}
-
-/* ── H. L'ecart ──────────────────────────────────────────────────────────
-   Composition en diagonale : la specialite en haut a droite, le logo en bas a
-   gauche, et un grand vide entre les deux. C'est la piste la plus silencieuse,
-   celle qui laisse le papier faire la moitie du travail. Elle demande un beau
-   support : sur un papier ordinaire, le vide se lit comme un oubli. */
-
-function hRecto() {
-  const spec = capitalesBloc(SPEC_LIGNES, DROITE, PAD, { couleur: MOUSSE_TEXTE, align: 'droite' });
-  const marque = logo('lockup-horizontal-vert', PAD, 0, { largeur: 46 });
-  return [fond(CREME), ...spec, ...decaler([marque], BAS - marque.h - marque.y)];
-}
-
-function hVerso() {
-  const nom = texte(NOM_COMPLET, DROITE, PAD, { ...NOM_PETIT, couleur: CREME, align: 'droite' });
-  const role = texte(ROLE, DROITE, pied(nom) + 1.6, { ...CAPITALES, taille: ETIQUETTE, ls: ETIQUETTE * 0.13, couleur: LIN, align: 'droite' });
-  const portee = texte(PORTEE, PAD, PAD, { taille: MENTION, poids: 500, couleur: LIN });
-  return [fond(VERT), nom, role, portee,
-    ...coordonnees(PAD, BAS, { couleur: LIN, accent: CREME, ancre: 'bas' })];
-}
-
-/* ── I. La question ──────────────────────────────────────────────────────
-   Recto vert, une question en trois lignes et le signe en pied. Verso creme,
-   la reponse, le logo et les coordonnees. C'est la seule piste qui parle la
-   premiere : elle ouvre une conversation au lieu de se presenter.
-
-   La question reste un constat et non une promesse : elle demande, elle
-   n'affirme rien qui ne se verifie. */
-
-function iRecto() {
-  const q = paragraphe(QUESTION, PAD, PAD, {
-    taille: 6.4, poids: 700, ls: 6.4 * -0.038, couleur: CREME, interligne: 1.18,
-  });
-  const signe = logo('signe-creme', 0, 0, { hauteur: 11 });
-  const pose = decalerX(decaler([signe], BAS - signe.h), DROITE - signe.l);
-  return [fond(VERT), ...q, ...pose];
-}
-
-function iVerso() {
-  const marque = logo('lockup-horizontal-vert', PAD, PAD, { largeur: 34 });
-  const rep = paragraphe(REPONSE, PAD, pied(marque) + marque.h, {
-    taille: 3.4, poids: 500, couleur: ENCRE, interligne: 1.4,
-  });
-  return [fond(CREME), marque, ...rep,
-    ...coordonnees(PAD, BAS, { couleur: PIERRE, accent: ENCRE, ancre: 'bas' })];
-}
-
-/* ── J. Le bandeau ───────────────────────────────────────────────────────
-   Un bandeau vert en tete porte le logo en creme, le reste de la carte est en
-   creme et porte le nom puis les coordonnees. C'est la composition la plus
-   ordinaire des trois familles employees dans le batiment et l'artisanat, et
-   c'est ce qui la rend lisible sans effort : elle est deja connue de qui la
-   recoit. Tout tient sur une face, le verso ne sert qu'a la specialite. */
-const BANDEAU_H = 22;   // depuis le bord du fichier, soit 19 mm de carte finie
-
-function jRecto() {
-  const marque = logo('lockup-horizontal-creme', PAD, 0, { largeur: 34 });
-  const pose = centrerEntre([marque], FOND_PERDU, BANDEAU_H);
-  const nom = texte(NOM_COMPLET, PAD, BANDEAU_H + 7, { ...NOM_PETIT, couleur: ENCRE });
-  const role = texte(ROLE, PAD, pied(nom) + 1.6, { ...CAPITALES, taille: ETIQUETTE, ls: ETIQUETTE * 0.13, couleur: MOUSSE_TEXTE });
-  /* Tout au fer a gauche sous le bandeau, coordonnees comprises. Les avoir
-     mises a droite laissait deux demi-lignes vides face a face, le nom sans
-     rien a sa droite et les coordonnees sans rien a leur gauche : deux
-     alignements sur une meme face se lisent comme une hesitation. */
-  return [fond(CREME), bloc(0, 0, L, BANDEAU_H, VERT), ...pose, nom, role,
-    ...coordonnees(PAD, BAS, { couleur: PIERRE, accent: ENCRE, ancre: 'bas' })];
-}
-
-function jVerso() {
-  const signe = logo('signe-vert', 0, 0, { hauteur: 11 });
-  const spec = capitalesBloc(SPEC_LIGNES, L / 2, pied(signe) + signe.h, { couleur: MOUSSE_TEXTE, align: 'centre' });
-  const [s, ...lignes] = centrer([signe, ...spec]);
-  return [fond(LIN), decalerX([s], (L - s.l) / 2 - s.x)[0], ...lignes];
-}
-
-/* ══ Le catalogue ═══════════════════════════════════════════════════════ */
-
-const PISTES = [
-  {
-    cle: 'A', titre: 'Le signe seul', recto: aRecto, verso: aVerso,
-    presente: 'une personne',
-    propos: 'Recto vert plein, le signe en crème sur la marge haute, le nom sur la marge basse. Le vert plein la fait reconnaître de loin, dans une pile de cartes posées sur un coin de bureau.',
-  },
-  {
-    cle: 'B', titre: 'Le logo et la spécialité', recto: bRecto, verso: bVerso,
-    presente: 'une activité',
-    propos: 'Le logo complet et ce que fait l\'agence, les deux lignes calées sur la même largeur. Elle répond avant qu\'on demande, le nom passant au verso.',
-  },
-  {
-    cle: 'C', titre: 'La médaille', recto: cRecto, verso: cVerso,
-    presente: 'une marque',
-    propos: 'Le signe seul, en grand, centré sur le vert, et rien d\'autre. Sa taille est plafonnée par la zone de protection de la charte, 26 mm sur une carte de 55. Tout se lit au verso.',
-  },
-  {
-    cle: 'D', titre: 'Le mot', recto: dRecto, verso: dVerso,
-    presente: 'un nom',
-    propos: 'Le mot en grand sur la marge basse, la spécialité en capitales sur la marge haute, un vide franc entre les deux. Aucun signe : la carte parie sur le nom et se lit comme une couverture.',
-  },
-  {
-    cle: 'E', titre: 'La colonne', recto: eRecto, verso: eVerso,
-    presente: 'une personne et son agence',
-    propos: 'Une bande verte de 30 mm sur toute la hauteur, le signe au milieu, le nom et les coordonnées sur le crème. Les deux couleurs se partagent la carte au lieu de se succéder : elle se reconnaît de profil, dans un porte-cartes.',
-  },
-  {
-    cle: 'F', titre: 'La fiche technique', recto: fRecto, verso: fVerso,
-    presente: 'des coordonnées',
-    propos: 'Grille stricte, logo en tête à gauche, nom en tête à droite, coordonnées rangées en libellés et valeurs. Rien n\'est centré, tout est aligné : elle se lit sans chercher, et le numéro se trouve du premier coup d\'œil.',
-  },
-  {
-    cle: 'G', titre: 'Le propos', recto: gRecto, verso: gVerso,
-    presente: 'une raison de rappeler',
-    propos: 'Recto silencieux, le logo vertical centré. Verso vert, une phrase en grand, celle qui dit pour qui l\'agence travaille. La carte se retourne pour être lue, et c\'est ce qui la fait garder.',
-  },
-  {
-    cle: 'H', titre: 'L\'écart', recto: hRecto, verso: hVerso,
-    presente: 'un niveau de gamme',
-    propos: 'La spécialité en haut à droite, le logo en bas à gauche, un grand vide en diagonale. La plus silencieuse des dix. Elle demande un beau papier : sur un support ordinaire, le vide se lit comme un oubli.',
-  },
-  {
-    cle: 'I', titre: 'La question', recto: iRecto, verso: iVerso,
-    presente: 'une conversation',
-    propos: 'La seule qui parle la première. Une question au recto, la réponse et les coordonnées au verso. Elle ouvre un échange au lieu de se présenter, et reste un constat : elle demande, elle ne promet rien.',
-  },
-  {
-    cle: 'J', titre: 'Le bandeau', recto: jRecto, verso: jVerso,
-    presente: 'un artisan joignable',
-    propos: 'Bandeau vert en tête, logo en crème, nom et coordonnées sur le crème. La composition la plus connue de qui la reçoit, donc la plus rapide à lire. Tout tient sur une face.',
-  },
-];
-
-const CARTES = {};
-for (const p of PISTES) {
-  CARTES[`piste-${p.cle}-recto`] = p.recto();
-  CARTES[`piste-${p.cle}-verso`] = p.verso();
-}
+const CARTES = {
+  recto: bRecto(),
+  verso: bVerso(),
+};
 
 /* ══ Moteur SVG ═════════════════════════════════════════════════════════ */
 
@@ -761,7 +450,7 @@ const planche = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Caelestis, dix cartes de visite</title>
+<title>Caelestis, carte de visite</title>
 <style>
 ${FACES()}
 :root {
@@ -777,23 +466,15 @@ h1 { font-size: 40px; font-weight: 700; letter-spacing: -0.038em; line-height: 1
 h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.028em; margin: 0 0 6px; }
 .surtitre { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mousse); margin: 0 0 16px; }
 .chapo { color: var(--pierre); max-width: 64ch; margin: 0 0 10px; font-size: 17px; }
-.sommaire { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 8px; padding: 0; list-style: none; }
-.sommaire a { display: inline-block; padding: 7px 13px; border-radius: 999px; background: var(--lin);
-  color: var(--vert); text-decoration: none; font-size: 14px; font-weight: 500; }
-.sommaire a:hover { background: var(--vert); color: var(--creme); }
-.piste { padding: 52px 0 8px; border-top: 1px solid var(--parchemin); margin-top: 44px; }
-.entete { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
-.cle { font-size: 13px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mousse); }
-.presente { margin: 0 0 20px; font-size: 14px; color: var(--mousse); font-weight: 500; }
-.paire { display: flex; flex-wrap: wrap; gap: 30px; margin-top: 26px;
+.paire { display: flex; flex-wrap: wrap; gap: 30px; margin-top: 30px;
   padding: 34px 30px; background: var(--parchemin); border-radius: 12px; }
 .carte { margin: 0; }
 .carte img { display: block; width: 85mm; height: 55mm; border-radius: 2.4mm;
   box-shadow: 0 1px 2px rgba(18,22,15,.12), 0 18px 40px -18px rgba(18,22,15,.42); }
 .carte figcaption { margin-top: 11px; font-size: 13px; color: var(--pierre); }
-.fichiers { margin-top: 14px; font-size: 13px; color: var(--pierre); }
+.fichiers { margin-top: 16px; font-size: 13px; color: var(--pierre); }
 .fichiers a { color: var(--vert); }
-.impression { margin-top: 64px; padding: 32px 34px; background: var(--lin); border-radius: 12px; }
+.impression { margin-top: 56px; padding: 32px 34px; background: var(--lin); border-radius: 12px; }
 .impression h2 { font-size: 18px; margin-bottom: 16px; }
 dl { display: grid; grid-template-columns: max-content 1fr; gap: 9px 26px; margin: 0; font-size: 14.5px; }
 dt { font-weight: 500; color: var(--mousse); }
@@ -808,25 +489,16 @@ dd { margin: 0; color: var(--pierre); }
 <body>
 <main>
   <p class="surtitre">Caelestis, identité</p>
-  <h1>Dix cartes de visite</h1>
-  <p class="chapo">${typo('Dix compositions à l\'échelle réelle, recto et verso, à comparer pour en retenir une. Elles partagent la marge, la palette et la famille de corps : ce qui les sépare, c\'est ce qu\'elles présentent en premier.')}</p>
+  <h1>Carte de visite</h1>
+  <p class="chapo">${typo('La carte retenue, recto et verso, à l\'échelle réelle. Le logo et la spécialité au recto, le nom et les contacts au verso. C\'est la face qui dit une activité que l\'on voit en premier.')}</p>
   <p class="chapo">${typo('Les fichiers d\'impression sont dans <code>identite/marque/exports/impression/</code>, un PDF vectoriel par face.')}</p>
-  <ul class="sommaire">
-${PISTES.map((p) => `    <li><a href="#piste-${p.cle}">${p.cle}, ${p.titre.toLowerCase()}</a></li>`).join('\n')}
-  </ul>
-${PISTES.map((p) => `
-  <section class="piste" id="piste-${p.cle}">
-    <div class="entete"><span class="cle">Piste ${p.cle}</span><h2>${typo(p.titre)}</h2></div>
-    <p class="presente">Elle présente ${typo(p.presente)}</p>
-    <p class="chapo">${typo(p.propos)}</p>
-    <div class="paire">
-${face(`piste-${p.cle}-recto`, 'Recto')}
-${face(`piste-${p.cle}-verso`, 'Verso')}
-    </div>
-    <p class="fichiers">Impression :
-      <a href="exports/impression/carte-piste-${p.cle}-recto.pdf">recto.pdf</a>,
-      <a href="exports/impression/carte-piste-${p.cle}-verso.pdf">verso.pdf</a></p>
-  </section>`).join('')}
+  <div class="paire">
+${face('recto', 'Recto')}
+${face('verso', 'Verso')}
+  </div>
+  <p class="fichiers">Impression :
+    <a href="exports/impression/carte-recto.pdf">carte-recto.pdf</a>,
+    <a href="exports/impression/carte-verso.pdf">carte-verso.pdf</a></p>
   <section class="impression">
     <h2>Ce que reçoit l'imprimeur</h2>
     <dl>
@@ -842,21 +514,20 @@ ${face(`piste-${p.cle}-verso`, 'Verso')}
   </section>
   <section class="impression">
     <h2>Ce qui décide de la carte gardée</h2>
-    <p class="chapo">${typo('Une carte se joue le soir même, au moment du tri des poches. Cinq points relevés dans les retours d\'imprimeurs et de studios, dans l\'ordre où ils pèsent.')}</p>
     <dl>
       <dt>La spécialité</dt><dd>elle se retient mieux que la fonction. On retrouve une carte trois semaines plus tard en cherchant un métier, rarement en cherchant un nom</dd>
       <dt>La matière</dt><dd>la main décide avant l'œil. Un non couché texturé ou un soft touch coûtent peu et se remarquent aussitôt</dd>
-      <dt>Le verso</dt><dd>il ajoute quelque chose ou il perd la moitié de la surface payée. Aucune des dix pistes ne répète son recto</dd>
-      <dt>La place pour écrire</dt><dd>garder au verso une zone crème sans pelliculage brillant : on y note où l'on s'est rencontré, et c'est cette note qui rappelle la carte</dd>
-      <dt>Le code QR</dt><dd>il se greffe sur n'importe laquelle des dix, au verso, en 22 à 25 mm avec un vide de quatre modules autour. Il reste à décider vers quoi il pointe, la page de contact ou une fiche à enregistrer d'un geste</dd>
+      <dt>Le verso</dt><dd>il ajoute au lieu de répéter le recto : le nom, la région et les contacts, que le recto ne porte pas</dd>
+      <dt>La place pour écrire</dt><dd>garder une zone sans pelliculage brillant : on y note où l'on s'est rencontré, et c'est cette note qui rappelle la carte</dd>
+      <dt>Le code QR</dt><dd>il se grefferait au verso, en 22 à 25 mm avec un vide de quatre modules autour. Il reste à décider vers quoi il pointe, la page de contact ou une fiche à enregistrer d'un geste</dd>
     </dl>
   </section>
   <section class="impression">
     <h2>Trois finitions qui valent leur prix</h2>
     <dl>
-      <dt>Le duplex</dt><dd>deux papiers contrecollés, vert forêt et crème, la tranche montrant la ligne des deux couleurs. La piste E est dessinée pour cela</dd>
-      <dt>Le gaufrage à sec</dt><dd>le signe en relief, sans encre, sur un papier épais et non couché. C'est le luxe le plus discret, et il va au signe seul de la piste C</dd>
+      <dt>Le gaufrage à sec</dt><dd>le signe en relief, sans encre, sur un papier épais et non couché. C'est le luxe le plus discret</dd>
       <dt>La tranche colorée</dt><dd>vert forêt sur la tranche : la carte se voit dans une pile et posée sur une table, ce qui fait quatre faces au lieu de deux</dd>
+      <dt>Le pelliculage soft touch</dt><dd>il change la carte en main pour presque rien, et masque les traces de doigts sur le vert</dd>
     </dl>
     <p class="chapo" style="margin-top:18px">${typo('Écartés : la dorure brillante, le vernis en relief, la découpe compliquée. Aucune finition ne rattrape une composition ratée, elles rendent seulement mémorable une composition déjà juste.')}</p>
   </section>
