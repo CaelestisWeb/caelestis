@@ -439,13 +439,14 @@ const menu = [
        et la réassurance (ancrée en bas). L'air se joue dans les deux rangées
        vides, et non plus en space-between : celui-ci partageait le vide à
        parts égales, ce qui posait le cœur trop haut (113 px au-dessus contre
-       144 px en dessous, mesuré sur 390 × 844). Les rangées valent 1,55 pour
-       une : le bloc central tombe juste sous le milieu de l'écran, là où le
-       pouce et le regard arrivent. Les minmax gardent de l'air sur les petits
-       écrans, où les fractions se réduisent presque à rien. */
+       144 px en dessous, mesuré sur 390 × 844). Les rangées valent 1,35 pour
+       une (remonté de 1,55 le 10/09/2026) : le bloc central se pose juste
+       au-dessus du milieu de l'écran, là où le pouce et le regard arrivent.
+       Les minmax gardent de l'air sur les petits écrans, où les fractions se
+       réduisent presque à rien. */
     .rig{display:none}
     .hero-ecran{display:flex;flex-direction:column;align-items:center}
-    .he-mobile{display:grid;grid-template-rows:auto minmax(1.4rem,1.55fr) auto minmax(1.1rem,1fr) auto;
+    .he-mobile{display:grid;grid-template-rows:auto minmax(1.4rem,1.35fr) auto minmax(1.1rem,1fr) auto;
       justify-items:center;text-align:center;width:100%;max-width:24rem;flex:1;padding:2rem .5rem 2.4rem}
     .hm-eyebrow{grid-row:1}
     .hm-core{grid-row:3;display:flex;flex-direction:column;align-items:center}
