@@ -23,14 +23,15 @@
  * retirés, ils encombraient la seule chose qui compte ici.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { CONTACT, KGMID, PROFILS } from '../data/entite';
+import { CONTACT, CID, PROFILS } from '../data/entite';
 
-/* La fiche Google dans la RECHERCHE, pas dans Maps. L'URL `search?kgmid=` ouvre
-   google.com dans le navigateur (Safari compris) sur le panneau de l'établissement,
-   là où une adresse Maps `?cid=` lancerait l'application Maps sur mobile, ce que
-   Célestin ne veut pas. Le kgmid vient de entite.ts, seule source, et vise
-   l'entité sans dépendre du nom, que le domaine partage avec un ancien usage. */
-const ficheGoogle = `https://www.google.com/search?kgmid=${encodeURIComponent(KGMID)}`;
+/* La fiche Google dans la RECHERCHE, pas dans l'appli Maps. `search?ludocid=CID`
+   fait remonter le panneau de l'établissement dans google.com au navigateur,
+   mobile compris. La version `search?kgmid=` marchait sur ordinateur mais pas
+   sur téléphone, où elle tombait sur une recherche sans panneau ; le ludocid,
+   l'identifiant de lieu, est le paramètre fait pour ce panneau local. Il vient
+   de entite.ts, seule source. */
+const ficheGoogle = `https://www.google.com/search?ludocid=${CID}`;
 
 /* Les réseaux proposés par la carte dépliante « Réseaux sociaux » sont ceux de
    src/data/entite.ts (PROFILS), la même liste que le schema.org du site : une
