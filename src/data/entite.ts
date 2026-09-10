@@ -109,6 +109,7 @@ export const PROFILS: string[] = [
   'https://www.facebook.com/CaelestisWeb',
   'https://www.instagram.com/caelestis_web/',
   'https://www.tiktok.com/@caelestisweb',
+  'https://www.linkedin.com/in/c%C3%A9lestin-fruleux-4839a92b0',
 ];
 
 /** Les horaires réels, du lundi au samedi. */
