@@ -93,6 +93,16 @@ export const KGMID = '/g/11zdrv5m9q';
 export const FICHE_GOOGLE = 'https://www.google.com/maps?cid=4976660435782760136';
 
 /**
+ * Le CID seul (alias « ludocid »), l'identifiant public du lieu. Sert à ouvrir
+ * la fiche dans la RECHERCHE Google, `search?ludocid=CID` : le panneau de
+ * l'établissement s'affiche alors dans le navigateur, mobile compris. C'est le
+ * paramètre fait pour le panneau local, là où `search?kgmid=` remonte la fiche
+ * sur ordinateur mais tombe sur une recherche sans panneau sur téléphone, et où
+ * `maps?cid=` lancerait l'application Maps. Même valeur que dans FICHE_GOOGLE.
+ */
+export const CID = '4976660435782760136';
+
+/**
  * Les profils officiels, pour `sameAs`.
  *
  * Deux règles. D'abord, uniquement des profils que l'entreprise contrôle et qui
