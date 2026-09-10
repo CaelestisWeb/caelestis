@@ -149,14 +149,16 @@ Format français **85 × 55 mm**, fond perdu 3 mm (fichier 91 × 61 mm), zone de
 - **Pelliculage** : mat. Le brillant contredit le registre artisanal.
 - **Canva** : format personnalisé 91 × 61 mm, repère de fond perdu activé, export PDF pour impression avec repères et fond perdu cochés.
 
-Les deux pistes sont redessinées pour l'Écran planté, recto et verso. Les fichiers vivent dans `identite/marque/exports/impression/`, un PDF vectoriel par face pour l'imprimeur, un PNG à 300 points par pouce pour Canva, et une vue au format fini pour montrer à l'écran. `identite/marque/planche-cartes.html` les présente à l'échelle réelle.
+La carte retenue est **le logo et la spécialité**, recto et verso. Dix pistes ont été dessinées et comparées à l'échelle réelle, celle-ci retenue le 10 septembre 2026, les neuf autres sorties du fichier le même jour. Les fichiers vivent dans `identite/marque/exports/impression/` : `carte-recto` et `carte-verso`, un PDF vectoriel par face pour l'imprimeur, un PNG à 300 points par pouce pour Canva, et une vue au format fini pour montrer à l'écran. `identite/marque/planche-cartes.html` les présente à l'échelle réelle.
 
-| Piste | Recto | Verso |
-|---|---|---|
-| **A**, le signe seul | Vert forêt plein, le signe en crème calé sur la marge haute, le nom et la fonction sur la marge basse | Crème, le logo horizontal, le métier, les coordonnées |
-| **B**, le logo et la spécialité | Crème, le logo horizontal et la ligne de spécialité en capitales espacées, calés sur la même largeur | Vert forêt, le nom, la fonction, les coordonnées |
+| Face | Composition |
+|---|---|
+| **Recto** | Crème. La spécialité en capitales espacées en haut à droite, le logo horizontal en bas à gauche, un grand vide en diagonale entre les deux |
+| **Verso** | Vert forêt. Le nom et la fonction centrés en tête, l'emblème (signe seul, sans le mot) et la région au centre, les coordonnées sur une ligne en pied |
 
-La piste A présente une personne, la piste B une activité. Les deux partagent leur marge, 8 mm depuis le trait de coupe, et la même famille de corps : posées côte à côte, elles se lisent comme deux cartes d'une même maison. **La piste reste à choisir**, et une seule part à l'impression.
+Elle présente une activité, ce que la carte doit dire en premier à qui la reçoit, le nom passant au verso. Le verso ajoute au recto plutôt que de le répéter : nom, région et coordonnées, que le recto ne porte pas.
+
+**Corps minimum : 7 points** pour un libellé, **8,5 pour les coordonnées**. La règle a une histoire : la ligne de spécialité était d'abord calée sur la largeur du logo, corps calculé, ce qui la faisait tomber à 3 points sur une piste et 4,7 sur une autre. C'est le corps qui commande désormais, la largeur du logo suivant celle du texte. La spécialité s'écrit en entier, fiches Google comprises. En capitales espacées, la ligne complète demanderait 84 mm quand la carte en offre 63 : elle se coupe donc sur sa virgule et tient sur deux lignes. C'est la longueur qui plie, jamais le corps.
 
 Aucun filet ne sépare les blocs : la règle d'écriture bannit le tiret décoratif, un filet posé avant un label en est un. La composition tient par l'espace et par les corps.
 

@@ -1,0 +1,127 @@
+---
+/**
+ * /carte : la page que vise le code QR de la carte de visite.
+ *
+ * Un geste, une action. Qui scanne la carte tombe sur des boutons pleine
+ * largeur, taillés pour le pouce : appeler, envoyer un message, écrire un
+ * courriel, ouvrir le site, voir la fiche Google. Aucune saisie, aucun compte.
+ *
+ * L'adresse est FIGÉE : une carte imprimée ne se met pas à jour. Tant qu'il
+ * reste des cartes en circulation, cette page garde son chemin `/carte`. On
+ * peut la réhabiller, jamais la déplacer. C'est ce qui la rend préférable à un
+ * QR qui pointerait droit sur la fiche Google : ici, ce que fait la carte se
+ * change sans réimprimer, et le SMS comme le courriel restent possibles.
+ *
+ * noindex : ce n'est pas une page de site, c'est la destination d'un objet
+ * imprimé. Elle n'a rien à faire dans les résultats de recherche.
+ *
+ * Coordonnées : src/data/entite.ts, source unique. Le numéro, le courriel et la
+ * fiche de la carte, de la page et des schémas sortent du même endroit.
+ *
+ * Volontairement dépouillée : une seule colonne, les actions et rien d'autre.
+ * Qui scanne veut joindre, pas lire. Les modules latéraux essayés ont été
+ * retirés, ils encombraient la seule chose qui compte ici.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CONTACT, KGMID } from '../data/entite';
+
+/* La fiche Google dans la RECHERCHE, pas dans Maps. L'URL `search?kgmid=` ouvre
+   google.com dans le navigateur (Safari compris) sur le panneau de l'établissement,
+   là où une adresse Maps `?cid=` lancerait l'application Maps sur mobile, ce que
+   Célestin ne veut pas. Le kgmid vient de entite.ts, seule source, et vise
+   l'entité sans dépendre du nom, que le domaine partage avec un ancien usage. */
+const ficheGoogle = `https://www.google.com/search?kgmid=${encodeURIComponent(KGMID)}`;
+
+const actions = [
+  { href: `tel:${CONTACT.telephone}`, label: 'Appeler', detail: CONTACT.telephoneAffiche, primaire: true, externe: false, icone: 'telephone' },
+  { href: `sms:${CONTACT.telephone}`, label: 'Envoyer un message', detail: CONTACT.telephoneAffiche, primaire: false, externe: false, icone: 'message' },
+  { href: `mailto:${CONTACT.email}`, label: 'Envoyer un courriel', detail: CONTACT.email, primaire: false, externe: false, icone: 'courriel' },
+  { href: '/', label: 'Visiter le site', detail: 'caelestis.fr', primaire: false, externe: false, icone: 'site' },
+  { href: ficheGoogle, label: 'Fiche Google', detail: 'Mon établissement', primaire: false, externe: true, icone: 'lieu' },
+];
+
+---
+<BaseLayout
+  title="Contact, Caelestis"
+  description="Joindre Caelestis en un geste : appeler, envoyer un message, écrire un courriel, ouvrir le site ou voir la fiche Google."
+  noindex={true}
+>
+  <section class="min-h-[86vh] flex items-center justify-center px-6 py-16">
+    <div class="w-full max-w-md mx-auto text-center">
+
+        <svg aria-hidden="true" class="mx-auto mb-6" width="52" height="46" viewBox="0 0 52 46" fill="none">
+          <rect x="8" y="3" width="36" height="24" rx="4.5" stroke="#255C41" stroke-width="3.4"/>
+          <path d="M26 27 V34" stroke="#255C41" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M17 42 H35" stroke="#255C41" stroke-width="3.4" stroke-linecap="round"/>
+        </svg>
+
+        <p class="font-body text-[11px] tracking-[0.22em] uppercase text-sauge-text mb-3">Caelestis</p>
+        <h1 class="font-display font-bold text-brun leading-[1.1] tracking-tight mb-2" style="font-size: clamp(1.9rem, 6vw, 2.5rem);">
+          Célestin Fruleux
+        </h1>
+        <p class="font-body text-base text-brun-mid mb-9">
+          Création de sites internet, fiches Google et référencement
+        </p>
+
+        <nav aria-label="Moyens de contact" class="flex flex-col gap-3 text-left">
+          {actions.map((a) => (
+            <a
+              href={a.href}
+              target={a.externe ? '_blank' : undefined}
+              rel={a.externe ? 'noopener noreferrer' : undefined}
+              class={`carte-action group flex items-center gap-4 rounded-2xl px-5 py-4 min-h-[68px] transition-all duration-300 ${
+                a.primaire
+                  ? 'bg-[#255C41] text-cream hover:bg-[#1B4733]'
+                  : 'bg-cream border border-sauge/60 text-brun hover:border-[#255C41]'
+              }`}
+            >
+              <span class={`shrink-0 ${a.primaire ? 'text-cream' : 'text-ocre'}`}>
+                {a.icone === 'telephone' && (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M6.5 3.5h3l1.4 4-2 1.4a11 11 0 0 0 5.2 5.2l1.4-2 4 1.4v3a2 2 0 0 1-2.2 2A16 16 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5Z"/>
+                  </svg>
+                )}
+                {a.icone === 'message' && (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 5.5h16v10H8l-4 3.5V5.5Z"/>
+                    <path d="M8.5 10.2h7M8.5 12.8h4.5"/>
+                  </svg>
+                )}
+                {a.icone === 'courriel' && (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3.5" y="5" width="17" height="14" rx="2.2"/>
+                    <path d="M4 6.5 12 12l8-5.5"/>
+                  </svg>
+                )}
+                {a.icone === 'site' && (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="8.5"/>
+                    <path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.3 3.6 8.5s-1.2 6.2-3.6 8.5c-2.4-2.3-3.6-5.3-3.6-8.5S9.6 5.8 12 3.5Z"/>
+                  </svg>
+                )}
+                {a.icone === 'lieu' && (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 21s6.5-5.4 6.5-10.5A6.5 6.5 0 0 0 5.5 10.5C5.5 15.6 12 21 12 21Z"/>
+                    <circle cx="12" cy="10.3" r="2.4"/>
+                  </svg>
+                )}
+              </span>
+              <span class="flex flex-col leading-tight">
+                <span class="font-display font-bold text-[17px] tracking-tight">{a.label}</span>
+                <span class={`font-body text-[13px] ${a.primaire ? 'text-cream/80' : 'text-brun-mid'}`}>{a.detail}</span>
+              </span>
+              <span class={`ml-auto shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 ${a.primaire ? 'text-cream/70' : 'text-sauge-text'}`} aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 6l6 6-6 6"/>
+                </svg>
+              </span>
+            </a>
+          ))}
+        </nav>
+
+        <p class="font-body text-[12px] text-brun-mid mt-8">
+          Agence web au service du vivant et des métiers de passion, en Auvergne-Rhône-Alpes.
+        </p>
+    </div>
+  </section>
+</BaseLayout>
