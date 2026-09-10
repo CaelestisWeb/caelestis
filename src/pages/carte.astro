@@ -25,13 +25,14 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { CONTACT, CID, PROFILS } from '../data/entite';
 
-/* La fiche Google dans la RECHERCHE, pas dans l'appli Maps. `search?ludocid=CID`
-   fait remonter le panneau de l'établissement dans google.com au navigateur,
-   mobile compris. La version `search?kgmid=` marchait sur ordinateur mais pas
-   sur téléphone, où elle tombait sur une recherche sans panneau ; le ludocid,
-   l'identifiant de lieu, est le paramètre fait pour ce panneau local. Il vient
-   de entite.ts, seule source. */
-const ficheGoogle = `https://www.google.com/search?ludocid=${CID}`;
+/* La fiche Google dans la RECHERCHE, pas dans l'appli Maps. Sur mobile, ni
+   `kgmid` seul ni `ludocid` seul ne faisaient remonter le panneau : le premier
+   tombait sur une recherche vide, le second aussi. La forme fiable est la
+   REQUÊTE et le ludocid ENSEMBLE, `q=<nom>&ludocid=<CID>` : la requête donne à
+   Google le contexte pour dessiner le panneau, le ludocid désigne l'exact
+   établissement. C'est ce que produisent les générateurs de liens de fiche. Le
+   CID vient de entite.ts, seule source. */
+const ficheGoogle = `https://www.google.com/search?q=${encodeURIComponent('Caelestis Crest')}&ludocid=${CID}`;
 
 /* Les réseaux proposés par la carte dépliante « Réseaux sociaux » sont ceux de
    src/data/entite.ts (PROFILS), la même liste que le schema.org du site : une
