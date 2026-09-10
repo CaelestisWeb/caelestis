@@ -4,8 +4,10 @@ Deux variantes, toutes deux construites en tableaux HTML avec styles en ligne, l
 
 | Fichier | Quand l'utiliser |
 |---|---|
-| `signature-avec-monogramme.html` | Usage courant. Le signe est chargé depuis `caelestis.fr/apple-touch-icon.png`, donc aucune pièce jointe n'apparaît dans vos messages. ⚠️ **Cette adresse sert encore le monogramme en C** : la signature portera le nouveau signe le jour où `public/` bascule. |
-| `signature-typographique.html` | Prospection et premiers contacts. Aucune image, donc rien à débloquer côté destinataire et aucun signal de courrier commercial pour les filtres. |
+| `signature-avec-monogramme.html` | Usage courant. Le signe (l'Écran planté) est chargé depuis `caelestis.fr/signe-caelestis.png`, une image hébergée exprès pour la signature, donc aucune pièce jointe n'apparaît dans vos messages. |
+| `signature-typographique.html` | **Prospection et premiers contacts (recommandée).** Aucune image, donc rien à débloquer côté destinataire et aucun signal de courrier commercial pour les filtres. |
+
+Les deux portent le nom complet, la spécialité à jour (« Sites internet, fiches Google et référencement ») et le lien vers la carte numérique `caelestis.fr/carte`.
 
 ## Installer dans Outlook
 
@@ -29,7 +31,3 @@ Ce qui porte l'identité dans ce contexte : le vert forêt `#255C41`, la mousse 
 - Aucune citation, aucun proverbe.
 - Aucune mention légale à rallonge : elle alourdit tous les échanges et n'est pas obligatoire pour un courriel commercial de ce type.
 - Aucun logo de réseau social tant que la page Facebook professionnelle n'est pas en ligne.
-
-## À compléter
-
-Les deux fichiers portent `Célestin` sans nom de famille. Remplacez-le dans le fichier, ou directement dans Outlook après le collage.
