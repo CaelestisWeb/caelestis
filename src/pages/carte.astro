@@ -46,30 +46,30 @@ const actions = [
   description="Joindre Caelestis en un geste : appeler, envoyer un message, écrire un courriel, ouvrir le site ou voir la fiche Google."
   noindex={true}
 >
-  <section class="flex justify-center px-6 pt-8 pb-16">
+  <section class="flex justify-center px-6 pt-5 pb-10">
     <div class="w-full max-w-md mx-auto text-center">
 
         <!-- L'Écran planté, la géométrie exacte du signe (identite/marque/signe/
              signe-vert.svg) : écran en contour, col fuselé plein qui plonge de
              quatre unités dans la ligne de sol, sans le trou de l'ancien dessin. -->
-        <svg aria-hidden="true" class="mx-auto mb-6" width="50" height="48" viewBox="8.25 4.25 83.5 79.75" fill="none">
+        <svg aria-hidden="true" class="mx-auto mb-4" width="46" height="44" viewBox="8.25 4.25 83.5 79.75" fill="none">
           <path d="M12 15A7 7 0 0 1 19 8L81 8A7 7 0 0 1 88 15L88 49A7 7 0 0 1 81 56L19 56A7 7 0 0 1 12 49Z" fill="none" stroke="#255C41" stroke-width="7.5"/>
           <path d="M44.5 56L40.5 80L59.5 80L55.5 56Z" fill="#255C41"/>
           <rect x="16" y="76" width="68" height="8" rx="4" fill="#255C41"/>
         </svg>
 
-        <p class="font-body text-[11px] tracking-[0.22em] uppercase text-sauge-text mb-3">Caelestis</p>
-        <p class="font-body text-base text-brun-mid mb-9">
+        <p class="font-body text-[11px] tracking-[0.22em] uppercase text-sauge-text mb-2">Caelestis</p>
+        <p class="font-body text-base text-brun-mid mb-6">
           Création de sites internet, fiches Google et référencement
         </p>
 
-        <nav aria-label="Moyens de contact" class="flex flex-col gap-3 text-left">
+        <nav aria-label="Moyens de contact" class="flex flex-col gap-2.5 text-left">
           {actions.map((a) => (
             <a
               href={a.href}
               target={a.externe ? '_blank' : undefined}
               rel={a.externe ? 'noopener noreferrer' : undefined}
-              class={`carte-action group flex items-center gap-4 rounded-2xl px-5 py-4 min-h-[68px] transition-all duration-300 ${
+              class={`carte-action group flex items-center gap-4 rounded-2xl px-5 py-3 min-h-[56px] transition-all duration-300 ${
                 a.primaire
                   ? 'bg-[#255C41] text-cream hover:bg-[#1B4733]'
                   : 'bg-cream border border-sauge/60 text-brun hover:border-[#255C41]'
@@ -119,7 +119,7 @@ const actions = [
           ))}
         </nav>
 
-        <p class="font-body text-base text-brun-mid mt-12 mb-2">
+        <p class="font-body text-base text-brun-mid mt-7 mb-2">
           Agence web au service du vivant et des métiers de passion, en Auvergne-Rhône-Alpes.
         </p>
         <h1 class="font-display font-bold text-brun leading-[1.1] tracking-tight" style="font-size: clamp(1.9rem, 6vw, 2.5rem);">
