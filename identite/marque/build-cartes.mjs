@@ -342,7 +342,10 @@ function bVerso() {
      blanc large plutot que par un point median, que la charte bannit. La ligne
      mesure 63 mm et laisse 3 mm de chaque cote. Le numero garde son poids,
      c'est ce qu'on cherche en premier. */
-  const ligne = coordonneesEnLigne(0, 0, { couleur: LIN, accent: CREME, taille: 2.7, ecart: 4.5 });
+  /* Les trois valeurs en creme, la meme blancheur : le lin de #E3EFE8, plus
+     terne, faisait paraitre le courriel et le site delaves a cote du numero.
+     Le numero garde son poids 500, seule difference conservee, discrete. */
+  const ligne = coordonneesEnLigne(0, 0, { couleur: CREME, accent: CREME, taille: 2.7, ecart: 4.5 });
   const largeurLigne = bord(ligne[ligne.length - 1]) - ligne[0].x;
   const ligneCentree = decalerX(ligne, (L - largeurLigne) / 2 - ligne[0].x);
   const coord = decaler(ligneCentree, BAS - pied(ligneCentree[0]));
