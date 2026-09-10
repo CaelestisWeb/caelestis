@@ -303,18 +303,22 @@ function aVerso() {
 }
 
 /* ── B. Le logo et la specialite ─────────────────────────────────────────
-   Recto creme, le lockup horizontal et une ligne de specialite en capitales
-   espacees, les deux calees sur la meme largeur : le bloc est net et le blanc
-   de droite devient une marge voulue au lieu d'un reste. Elle presente une
-   activite, le nom passant au verso. */
+   Recto creme, le lockup horizontal centre, la specialite en capitales
+   espacees juste en dessous, chaque ligne centree sur l'axe de la carte. Elle
+   presente une activite, le nom passant au verso. */
+const B_LOGO_L = 46;
+
 function bRecto() {
-  /* La ligne est composee d'abord, a son corps, et le lockup prend ensuite sa
-     largeur : les deux bords droits tombent alors exactement l'un sur l'autre
-     sans qu'aucun texte ait ete retreci pour cela. */
-  const sonde = capitalesBloc(SPEC_LIGNES, PAD, 0, { couleur: MOUSSE_TEXTE });
-  const marque = logo('lockup-horizontal-vert', PAD, 0, { largeur: boiteX(sonde).largeur });
-  const spec = capitalesBloc(SPEC_LIGNES, PAD, pied(marque) + marque.h / 2, { couleur: MOUSSE_TEXTE });
-  return centrerX(centrer([fond(CREME), marque, ...spec]));
+  /* Tout est centre sur l'axe de la carte. La specialite descend d'un cran,
+     de 2,7 a 2,5 mm, soit 7,1 points, juste au-dessus du plancher : elle se
+     pose sous le logo sans lui disputer l'oeil. `align: 'centre'` centre
+     chaque ligne sur le meme axe, d'ou un drapeau symetrique et non un bloc
+     cale a gauche. */
+  const marque = logo('lockup-horizontal-vert', (L - B_LOGO_L) / 2, 0, { largeur: B_LOGO_L });
+  const spec = capitalesBloc(SPEC_LIGNES, L / 2, pied(marque) + marque.h / 2, {
+    taille: 2.5, couleur: MOUSSE_TEXTE, align: 'centre',
+  });
+  return centrer([fond(CREME), marque, ...spec]);
 }
 
 /* Verso sur toute la hauteur et toute la largeur. Trois bandes se partagent la
