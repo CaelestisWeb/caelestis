@@ -262,10 +262,10 @@ function coordonnees(x, y, { couleur, accent = couleur, taille = COORD, ancre = 
 /* Coordonnees sur une seule ligne, quand la composition demande une bande
    plutot qu'une colonne. Les trois valeurs sont separees par un blanc large :
    la charte bannit le point median comme separateur decoratif. */
-function coordonneesEnLigne(x, y, { couleur, accent = couleur, taille = COORD, ancre = 'haut', ecart = 4 } = {}) {
+function coordonneesEnLigne(x, y, { couleur, accent = couleur, taille = COORD, ancre = 'haut', ecart = 4, poids = 400 } = {}) {
   const tel = texte(TEL, x, y, { taille, poids: 500, couleur: accent, ancre });
-  const mail = texte(MAIL, bord(tel) + ecart, y, { taille, couleur, ancre });
-  const site = texte(SITE, bord(mail) + ecart, y, { taille, couleur, ancre });
+  const mail = texte(MAIL, bord(tel) + ecart, y, { taille, poids, couleur, ancre });
+  const site = texte(SITE, bord(mail) + ecart, y, { taille, poids, couleur, ancre });
   return [tel, mail, site];
 }
 
@@ -342,10 +342,12 @@ function bVerso() {
      blanc large plutot que par un point median, que la charte bannit. La ligne
      mesure 63 mm et laisse 3 mm de chaque cote. Le numero garde son poids,
      c'est ce qu'on cherche en premier. */
-  /* Les trois valeurs en creme, la meme blancheur : le lin de #E3EFE8, plus
-     terne, faisait paraitre le courriel et le site delaves a cote du numero.
-     Le numero garde son poids 500, seule difference conservee, discrete. */
-  const ligne = coordonneesEnLigne(0, 0, { couleur: CREME, accent: CREME, taille: 2.7, ecart: 4.5 });
+  /* Les trois valeurs en creme et toutes en graisse 500, comme la region, la
+     fonction et le reste de la face. C'etait la finesse du 400 sur le courriel
+     et le site, plus que leur couleur, qui les detachait du numero et du haut
+     de la carte. Un cran plus petites que le reste, 2,6 mm soit 7,4 points,
+     elles lisent alors comme une ligne de pied et non comme un corps etranger. */
+  const ligne = coordonneesEnLigne(0, 0, { couleur: CREME, accent: CREME, taille: 2.6, ecart: 4.5, poids: 500 });
   const largeurLigne = bord(ligne[ligne.length - 1]) - ligne[0].x;
   const ligneCentree = decalerX(ligne, (L - largeurLigne) / 2 - ligne[0].x);
   const coord = decaler(ligneCentree, BAS - pied(ligneCentree[0]));
