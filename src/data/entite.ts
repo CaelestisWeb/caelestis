@@ -103,6 +103,21 @@ export const FICHE_GOOGLE = 'https://www.google.com/maps?cid=4976660435782760136
 export const CID = '4976660435782760136';
 
 /**
+ * Le lien de PARTAGE de la fiche, celui que Google génère depuis le bouton
+ * « Partager » du panneau d'établissement. C'est le seul qui ouvre la fiche de
+ * façon fiable sur mobile : `search?kgmid=`, `search?ludocid=` et
+ * `search?q=…&ludocid=` remontaient la fiche sur ordinateur mais tombaient sur
+ * une recherche sans panneau sur téléphone (constaté par Célestin les 10/09).
+ *
+ * Il vit ici pour le bouton humain de /carte, pas pour le schema.org : `hasMap`
+ * garde FICHE_GOOGLE (l'adresse Maps stable) et `sameAs` n'accepte pas de lien
+ * de partage, qui redirige. Ce lien-là, lui, n'est pas un signal pour les
+ * moteurs mais une commodité pour un pouce sur un téléphone, et c'est ce qui
+ * compte pour ce bouton.
+ */
+export const FICHE_GOOGLE_PARTAGE = 'https://share.google/aLS8M3isUSclD9n5O';
+
+/**
  * Les profils officiels, pour `sameAs`.
  *
  * Deux règles. D'abord, uniquement des profils que l'entreprise contrôle et qui

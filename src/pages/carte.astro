@@ -23,16 +23,13 @@
  * retirés, ils encombraient la seule chose qui compte ici.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { CONTACT, CID, PROFILS } from '../data/entite';
+import { CONTACT, FICHE_GOOGLE_PARTAGE, PROFILS } from '../data/entite';
 
-/* La fiche Google dans la RECHERCHE, pas dans l'appli Maps. Sur mobile, ni
-   `kgmid` seul ni `ludocid` seul ne faisaient remonter le panneau : le premier
-   tombait sur une recherche vide, le second aussi. La forme fiable est la
-   REQUÊTE et le ludocid ENSEMBLE, `q=<nom>&ludocid=<CID>` : la requête donne à
-   Google le contexte pour dessiner le panneau, le ludocid désigne l'exact
-   établissement. C'est ce que produisent les générateurs de liens de fiche. Le
-   CID vient de entite.ts, seule source. */
-const ficheGoogle = `https://www.google.com/search?q=${encodeURIComponent('Caelestis Crest')}&ludocid=${CID}`;
+/* La fiche Google via le lien de PARTAGE officiel (share.google), le seul qui
+   ouvre le panneau de façon fiable sur mobile. Les formes construites à la main
+   (`kgmid`, `ludocid`, `q=…&ludocid=`) marchaient sur ordinateur mais échouaient
+   sur téléphone. Le lien vient de entite.ts (FICHE_GOOGLE_PARTAGE). */
+const ficheGoogle = FICHE_GOOGLE_PARTAGE;
 
 /* Les réseaux proposés par la carte dépliante « Réseaux sociaux » sont ceux de
    src/data/entite.ts (PROFILS), la même liste que le schema.org du site : une
