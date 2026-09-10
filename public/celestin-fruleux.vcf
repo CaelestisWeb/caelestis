@@ -1,0 +1,14 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Fruleux;Célestin;;;
+FN:Célestin Fruleux
+ORG:Caelestis
+TITLE:Fondateur
+TEL;TYPE=CELL,VOICE:+33769362727
+EMAIL;TYPE=INTERNET,WORK:contact@caelestis.fr
+URL:https://caelestis.fr
+URL;TYPE=Carte de contact:https://caelestis.fr/carte
+ADR;TYPE=WORK:;;;Crest;Drôme;26400;France
+NOTE:Création de sites internet, fiches Google et référencement. Agence web au service du vivant et des métiers de passion, en Auvergne-Rhône-Alpes.
+REV:2026-09-10T00:00:00Z
+END:VCARD
