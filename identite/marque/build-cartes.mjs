@@ -37,6 +37,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
 import sharp from 'sharp';
 import PDFDocument from 'pdfkit';
+import qrcode from 'qrcode';
 import { police, trace, VERT, VERT_PROFOND, CREME, LIN, PIERRE, MOUSSE_TEXTE, PARCHEMIN, ENCRE } from './commun/base.mjs';
 import { lireLivre, poserSVG, poserPDF, dimensions } from './commun/poser.mjs';
 import { FACES } from './commun/fabrique.mjs';
@@ -44,6 +45,25 @@ import { FACES } from './commun/fabrique.mjs';
 const ICI = dirname(fileURLToPath(import.meta.url));
 const SORTIE = `${ICI}/exports/impression`;
 mkdirSync(SORTIE, { recursive: true });
+
+/* ══ Code QR ════════════════════════════════════════════════════════════
+   La carte porte un QR qui ouvre caelestis.fr/carte, une page a quatre
+   boutons : appeler, envoyer un message, ecrire un courriel, ouvrir le site.
+
+   L'adresse est FIGEE. Une carte imprimee ne se met pas a jour : tant qu'il en
+   circule, la page garde ce chemin. C'est la seule raison pour laquelle un QR
+   vaut mieux qu'une vCard ici, il pointe vers une page qu'on rehabille sans la
+   deplacer.
+
+   Correction d'erreur M : 25 modules de cote pour cette adresse, une densite
+   faible qui se lit bien meme petit. Le QR est dessine en vecteur, module par
+   module, dans les deux moteurs : il est donc net a n'importe quelle taille, et
+   sort dans le PDF de l'imprimeur comme le reste. */
+const CARTE_URL = 'https://caelestis.fr/carte';
+const QR = qrcode.create(CARTE_URL, { errorCorrectionLevel: 'M' });
+const QR_COTE = QR.modules.size;        // nombre de modules par cote
+const QR_BITS = QR.modules.data;        // un octet par module, 1 = sombre
+const qrSombre = (r, c) => QR_BITS[r * QR_COTE + c] === 1;
 
 /* Geometrie, en millimetres */
 const FOND_PERDU = 3;
@@ -89,6 +109,36 @@ const fond = (couleur) => ({ type: 'fond', couleur });
    compte par le controle du PDF et ignore par celui de l'image, et les deux
    mesures divergeraient sans que rien ne le dise. Le controle la verifie. */
 const bloc = (x, y, l, h, couleur) => ({ type: 'bloc', x, y, l, h, couleur });
+
+/* Le code QR, pose par le coin haut gauche de son encre, cote en millimetres.
+   Ce n'est ni un fond ni un aplat : c'est de l'encre, mesuree par les controles
+   comme le reste. La zone de silence, quatre modules de vide clair tout autour,
+   n'est pas dessinee : c'est au fond de la carte de la porter, d'ou le QR posé
+   uniquement sur le creme, jamais sur le vert. */
+const qr = (x, y, cote, couleur = ENCRE) => ({
+  type: 'qr', x, y, cote, module: cote / QR_COTE, l: cote, h: cote, couleur,
+});
+
+/* Les modules sombres du QR, en rectangles horizontaux : les modules voisins
+   d'une meme ligne fondent en un seul rectangle, ce qui supprime les coutures
+   verticales, et un cheveu de recouvrement en hauteur ferme celles entre
+   lignes. Le meme calcul sert au SVG et au PDF, ils posent donc le meme QR. */
+function dessinerQR(e) {
+  const m = e.module;
+  const rects = [];
+  for (let r = 0; r < QR_COTE; r += 1) {
+    let c = 0;
+    while (c < QR_COTE) {
+      if (qrSombre(r, c)) {
+        let c2 = c;
+        while (c2 < QR_COTE && qrSombre(r, c2)) c2 += 1;
+        rects.push([e.x + c * m, e.y + r * m, (c2 - c) * m, m + 0.02]);
+        c = c2;
+      } else c += 1;
+    }
+  }
+  return rects;
+}
 
 /* `y` designe le sommet de l'encre, jamais la ligne de base : c'est ce que
    l'oeil aligne. Avec ancre 'bas', `y` designe le pied de l'encre, ce qui cale
@@ -275,18 +325,27 @@ function coordonneesEnLigne(x, y, { couleur, accent = couleur, taille = COORD, a
    premier a qui la recoit. Le nom passe au verso.
 
    ── Recto : composition en diagonale. La specialite en capitales espacees en
-   haut a droite, le logo en bas a gauche, un grand vide entre les deux. Moins
-   centree que le bloc empile, elle laisse le papier respirer et donne du
-   mouvement a la face. */
+   haut a droite, le logo en bas a gauche, le code QR en bas a droite, un grand
+   vide au centre. Elle laisse le papier respirer et donne du mouvement a la
+   face. */
 const B_LOGO_L = 46;
+const QR_RECTO = 17;   // cote du QR en mm, sur le creme, la zone de silence etant le creme lui-meme
+const QR_INVITE = 'Scannez-moi';   // libelle court au-dessus du QR, une ligne a changer
 
 function bRecto() {
   /* La specialite calee a droite sur la marge haute, le logo cale a gauche sur
-     la marge basse : les deux angles opposes sont habites, la diagonale reste
-     vide, et c'est ce vide qui fait la carte. */
+     la marge basse : deux angles opposes habites. Le code QR occupe le
+     troisieme, en bas a droite, face au logo : il remplit le vide de la
+     diagonale sans l'ecraser. Pose sur le creme, il n'a pas besoin de plaque,
+     le fond lui tient lieu de zone de silence. Il mene a caelestis.fr/carte
+     (constante CARTE_URL). */
   const spec = capitalesBloc(SPEC_LIGNES, DROITE, PAD, { couleur: MOUSSE_TEXTE, align: 'droite' });
   const marque = logo('lockup-horizontal-vert', PAD, 0, { largeur: B_LOGO_L });
-  return [fond(CREME), ...spec, ...decaler([marque], BAS - marque.h - marque.y)];
+  const code = qr(DROITE - QR_RECTO, BAS - QR_RECTO, QR_RECTO, ENCRE);
+  /* Un libelle court au-dessus du QR, cale a droite sur son bord, ancre par le
+     pied pour garder un vide franc avant le code. */
+  const invite = texte(QR_INVITE, DROITE, sommet(code) - 2.5, { taille: 2.6, poids: 500, ls: 2.6 * 0.06, couleur: MOUSSE_TEXTE, align: 'droite', ancre: 'bas' });
+  return [fond(CREME), ...spec, ...decaler([marque], BAS - marque.h - marque.y), code, invite];
 }
 
 /* Verso en trois zones. En tete, le nom a gauche et les coordonnees a droite,
@@ -358,6 +417,10 @@ function versSVG(elements, { controle = false } = {}) {
       const pose = poserSVG(e.livre, { x: e.x, y: e.y, largeur: e.largeur, hauteur: e.hauteur });
       return controle ? pose.replace(/(fill|stroke)="(?!none)[^"]*"/g, '$1="#000000"') : pose;
     }
+    if (e.type === 'qr') {
+      const couleur = controle ? '#000000' : e.couleur;
+      return dessinerQR(e).map(([x, y, w, h]) => `<rect x="${x.toFixed(3)}" y="${y.toFixed(3)}" width="${w.toFixed(3)}" height="${h.toFixed(3)}" fill="${couleur}"/>`).join('');
+    }
     const couleur = controle ? '#000000' : e.couleur;
     return trace(fonte(e.poids), e.contenu, e.taille, { x: e.plume, y: e.base, couleur, ls: e.ls }).markup;
   }).join('\n  ');
@@ -380,6 +443,9 @@ function versPDF(elements, chemin) {
         doc.rect(mm(e.x), mm(e.y), mm(e.l), mm(e.h)).fillColor(e.couleur).fill();
       } else if (e.type === 'logo') {
         poserPDF(doc, e.livre, { x: e.x, y: e.y, largeur: e.largeur, hauteur: e.hauteur }, mm);
+      } else if (e.type === 'qr') {
+        doc.fillColor(e.couleur);
+        for (const [x, y, w, h] of dessinerQR(e)) doc.rect(mm(x), mm(y), mm(w), mm(h)).fill();
       } else {
         /* Le meme trace que le SVG, glyphe par glyphe : fontkit rend un chemin
            dans un repere ou l'axe y monte, d'ou l'echelle negative. */

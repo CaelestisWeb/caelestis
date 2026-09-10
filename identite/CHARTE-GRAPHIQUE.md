@@ -153,10 +153,12 @@ La carte retenue est **le logo et la spécialité**, recto et verso. Dix pistes 
 
 | Face | Composition |
 |---|---|
-| **Recto** | Crème. La spécialité en capitales espacées en haut à droite, le logo horizontal en bas à gauche, un grand vide en diagonale entre les deux |
+| **Recto** | Crème. La spécialité en capitales espacées en haut à droite, le logo horizontal en bas à gauche, le code QR en bas à droite, un grand vide au centre |
 | **Verso** | Vert forêt. Le nom et la fonction centrés en tête, l'emblème (signe seul, sans le mot) et la région au centre, les coordonnées sur une ligne en pied |
 
 Elle présente une activité, ce que la carte doit dire en premier à qui la reçoit, le nom passant au verso. Le verso ajoute au recto plutôt que de le répéter : nom, région et coordonnées, que le recto ne porte pas.
+
+**Le code QR** occupe le bas à droite du recto, sur le crème, 17 mm de côté, surmonté d'un « Scannez-moi » discret. Il mène à `caelestis.fr/carte`, une page à cinq actions (appeler, message, courriel, site, fiche Google), volontairement en noindex, dont le chemin est figé tant que des cartes circulent. Il est dessiné en vecteur module par module, correction d'erreur M, 25 modules de côté : net à l'impression, et le crème lui tient lieu de zone de silence. La bibliothèque `qrcode` le génère au build, à partir de la constante `CARTE_URL`.
 
 **Corps minimum : 7 points** pour un libellé, **8,5 pour les coordonnées**. La règle a une histoire : la ligne de spécialité était d'abord calée sur la largeur du logo, corps calculé, ce qui la faisait tomber à 3 points sur une piste et 4,7 sur une autre. C'est le corps qui commande désormais, la largeur du logo suivant celle du texte. La spécialité s'écrit en entier, fiches Google comprises. En capitales espacées, la ligne complète demanderait 84 mm quand la carte en offre 63 : elle se coupe donc sur sa virgule et tient sur deux lignes. C'est la longueur qui plie, jamais le corps.
 

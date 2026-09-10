@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "qrcode": "^1.5.4",
     "typescript": "^6.0.3"
   },
   "overrides": {
