@@ -330,6 +330,7 @@ function coordonneesEnLigne(x, y, { couleur, accent = couleur, taille = COORD, a
    face. */
 const B_LOGO_L = 46;
 const QR_RECTO = 17;   // cote du QR en mm, sur le creme, la zone de silence etant le creme lui-meme
+const QR_INVITE = 'Scannez-moi';   // libelle court au-dessus du QR, une ligne a changer
 
 function bRecto() {
   /* La specialite calee a droite sur la marge haute, le logo cale a gauche sur
@@ -341,7 +342,10 @@ function bRecto() {
   const spec = capitalesBloc(SPEC_LIGNES, DROITE, PAD, { couleur: MOUSSE_TEXTE, align: 'droite' });
   const marque = logo('lockup-horizontal-vert', PAD, 0, { largeur: B_LOGO_L });
   const code = qr(DROITE - QR_RECTO, BAS - QR_RECTO, QR_RECTO, ENCRE);
-  return [fond(CREME), ...spec, ...decaler([marque], BAS - marque.h - marque.y), code];
+  /* Un libelle court au-dessus du QR, cale a droite sur son bord, ancre par le
+     pied pour garder un vide franc avant le code. */
+  const invite = texte(QR_INVITE, DROITE, sommet(code) - 2.5, { taille: 2.6, poids: 500, ls: 2.6 * 0.06, couleur: MOUSSE_TEXTE, align: 'droite', ancre: 'bas' });
+  return [fond(CREME), ...spec, ...decaler([marque], BAS - marque.h - marque.y), code, invite];
 }
 
 /* Verso en trois zones. En tete, le nom a gauche et les coordonnees a droite,
